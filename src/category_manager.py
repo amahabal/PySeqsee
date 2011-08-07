@@ -24,3 +24,10 @@ class CategoryManager:
     else:
       raise Exception("Attribute %s missing" % attribute_name)
   
+  def GetBindings(self, ns='global'):
+    if ns is 'global':
+      return dict(self._attribute_store['global'].items())
+    else:
+      l = self._attribute_store['global'].items()
+      l.extend(self._attribute_store[ns].items())
+      return dict(l)
