@@ -47,8 +47,11 @@ def test_is_instance_in_isolation():
 
 def test_describe_as():
   g = Group.QuickCreate([5, 5], [5, 5], [5, 5])
-  g.DescribeAs(CategoryRepeated)
   cm = g.cm
+  
+  assert not cm.IsKnownInstanceOf(CategoryRepeated)
+  g.DescribeAs(CategoryRepeated)
+  assert cm.IsKnownInstanceOf(CategoryRepeated)
   
   b = cm.GetBindings(CategoryRepeated)
   assert 3 == b['length']
@@ -58,3 +61,10 @@ def test_describe_as():
   assert 3 == b['length']
   assert 'each' not in b
   
+  g2 = Group.QuickCreate([5, 5], [5, 5], [5, 6])
+  cm = g2.cm
+  
+  assert not cm.IsKnownInstanceOf(CategoryRepeated)
+  g2.DescribeAs(CategoryRepeated)
+  assert not cm.IsKnownInstanceOf(CategoryRepeated)
+  assert cm.IsKnownNonInstanceOf(CategoryRepeated)
