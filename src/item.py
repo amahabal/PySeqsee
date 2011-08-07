@@ -14,4 +14,6 @@ class Item:
       return self._metonym.TerminalMetonym()
     else:
       return self
-  
+
+  def DescribeAs(self, category):
+    category.CheckIfInstance(self)

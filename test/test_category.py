@@ -4,6 +4,8 @@ from category import Category
 from nose.tools import raises
 
 class CategoryRepeated(Category):
+  global_attributes = ('length', )
+  
   @staticmethod
   def IsInstance(gp):
     if not isinstance(gp, Group):
@@ -42,3 +44,17 @@ def test_is_instance_in_isolation():
   assert b
   assert 3 == b['length']
   assert (5, ) == b['each']
+
+def test_describe_as():
+  g = Group.QuickCreate([5, 5], [5, 5], [5, 5])
+  g.DescribeAs(CategoryRepeated)
+  cm = g.cm
+  
+  b = cm.GetBindings(CategoryRepeated)
+  assert 3 == b['length']
+  assert (5, 5) == b['each']
+
+  b = cm.GetBindings()
+  assert 3 == b['length']
+  assert 'each' not in b
+  
