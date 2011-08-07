@@ -50,3 +50,21 @@ def test_get_bindings():
   assert 3 == b['foo']
   assert 5 == b['bar']
   assert 6 == b['bat']
+  
+def test_can_non_cat():
+  c = CategoryManager()
+  i = (1, )
+  j = (2, )
+  k = (3, )
+  c.MarkAsInstance(i)
+  c.MarkAsNonInstance(j)
+  
+  assert c.IsKnownInstanceOf(i)
+  assert not c.IsKnownNonInstanceOf(i)
+  
+  assert not c.IsKnownInstanceOf(j)
+  assert c.IsKnownNonInstanceOf(j)
+  
+  assert not c.IsKnownInstanceOf(k)
+  assert not c.IsKnownNonInstanceOf(k)
+  
