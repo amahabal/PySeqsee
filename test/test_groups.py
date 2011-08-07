@@ -52,4 +52,12 @@ def test_meto():
   assert g.TerminalMetonym() == t
   assert g[1].TerminalMetonym() == i
   
+def test_Structure():
+  i = Integer(7)
+  assert i.Structure() == 7
   
+  g = Group.QuickCreate(7)
+  assert g.Structure() == (7, )
+  
+  g = Group.QuickCreate(5, [7, 7], 9)
+  assert g.Structure() == (5, (7, 7), 9)

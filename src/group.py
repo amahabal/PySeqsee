@@ -27,6 +27,9 @@ class Group(Item):
   def size(self):
     return len(self.items)
   
+  def Structure(self):
+    return tuple(x.Structure() for x in self.items)
+
   def _subobjects(self):
     yield self
     for item in self.items:

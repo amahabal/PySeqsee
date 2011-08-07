@@ -8,5 +8,8 @@ class Integer(Item):
     Item.__init__(self)
     self.magnitude = magnitude
     
+  def Structure(self):
+    return self.magnitude
+    
   def _subobjects(self):
     yield self
