@@ -5,6 +5,7 @@ class Integer(Item):
   """
 
   def __init__(self, magnitude):
+    Item.__init__(self)
     self.magnitude = magnitude
     
   def _subobjects(self):

@@ -4,6 +4,7 @@ from integer import Integer
 
 class Group(Item):
   def __init__(self, *items):
+    Item.__init__(self)
     self.items = items
     subobjects = list(self._subobjects())
     if len(set(subobjects)) != len(subobjects):

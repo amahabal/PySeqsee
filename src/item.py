@@ -1,4 +1,8 @@
+from category_manager import CategoryManager
 class Item:
+  def __init__(self):
+    self.cm = CategoryManager()
+
   def SetMetonym(self, other):
     self._metonym = other
   def Metonym(self):
