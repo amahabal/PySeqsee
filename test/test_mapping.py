@@ -39,5 +39,20 @@ def test_inverse_mapping():
   m3 = M.Inverse()
   assert m2 == m3
   assert 6 == m2.Apply(Integer(7)).magnitude
-  
   assert m2.Inverse() == M
+  
+class M_no_inv(Mapping):
+  realm = Integer
+  arity = 1
+  
+  @staticmethod
+  def fn(i):
+    return Integer(i.magnitude + 1)
+
+@raises(Exception)
+def test_inverting_non_invertible():
+  M_no_inv.Inverse()
+  
+def test_is_reversible():
+  assert M.IsReversible()
+  assert not M_no_inv.IsReversible()

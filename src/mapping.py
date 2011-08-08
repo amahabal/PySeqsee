@@ -24,3 +24,6 @@ class Mapping(object):
     inv._stored_inverse = cls
     return inv
     
+  @classmethod
+  def IsReversible(cls):
+    return hasattr(cls, 'rev_fn')
