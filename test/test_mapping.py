@@ -56,3 +56,25 @@ def test_inverting_non_invertible():
 def test_is_reversible():
   assert M.IsReversible()
   assert not M_no_inv.IsReversible()
+  
+class M_Fib(Mapping):
+  realm = Integer
+  arity = 2
+  
+  @staticmethod
+  def fn(i, j):
+    return Integer(i.magnitude + j.magnitude)
+  
+  @staticmethod
+  def rev_fn(i, j):
+    return Integer(j.magnitude - i.magnitude)
+
+@raises(Exception)
+def test_wrong_arity2():
+  M_Fib.Apply(Integer(2))
+
+def test_apply2():
+  assert 6 == M_Fib.Apply(Integer(2), Integer(4)).magnitude
+
+def test_reverse_multiarity():
+  assert 2 == M_Fib.Inverse().Apply(Integer(2), Integer(4)).magnitude
