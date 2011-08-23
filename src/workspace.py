@@ -1,6 +1,15 @@
 from group import Group
 from integer import Integer
 
+def Equals(x):
+  return (lambda(y): x == y)
+
+def GreaterThanEq(x):
+  return (lambda(y): y >= x)
+
+def GreaterThan(x):
+  return (lambda(y): y > x)
+
 class Overlay(object):
   def __init__(self, item, start, end):
     self.item = item
@@ -30,7 +39,7 @@ class Workspace(object):
   def ElementsCount(self):
     return len(self.elements)
   
-  def AddOverlay(self, item, start, end):
+  def _AddOverlay(self, item, start, end):
     ov = Overlay(item, start, end)
     #  Error checking?
     self.overlays.append(ov)
@@ -42,3 +51,15 @@ class Workspace(object):
       if self.elements[idx] != item:
         return False
     return True
+  
+  def GetOverlays(self, left_edge_pred, right_edge_pred, item_pred=None):
+    overlays = self.overlays
+    if left_edge_pred:
+      overlays = [x for x in overlays if left_edge_pred(x.start)]
+    if right_edge_pred:
+      overlays = [x for x in overlays if right_edge_pred(x.end)]
+    if item_pred:
+      overlays = [x for x in overlays if item_pred(x)]
+    g = set(x.item for x in overlays)
+    print g
+    return g
