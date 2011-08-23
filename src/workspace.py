@@ -10,6 +10,15 @@ def GreaterThanEq(x):
 def GreaterThan(x):
   return (lambda(y): y > x)
 
+def LessThanEq(x):
+  return (lambda(y): y <= x)
+
+def LessThan(x):
+  return (lambda(y): y < x)
+
+def Between(x, y):
+  return (lambda(z): x <= z and z <= y)
+
 class Overlay(object):
   def __init__(self, item, start, end):
     self.item = item
@@ -60,6 +69,14 @@ class Workspace(object):
       overlays = [x for x in overlays if right_edge_pred(x.end)]
     if item_pred:
       overlays = [x for x in overlays if item_pred(x)]
-    g = set(x.item for x in overlays)
-    print g
-    return g
+    return set(x.item for x in overlays)
+
+  def GetOverlaysOverlapping(self, start, end, item_pred=None):
+    set1 = self.GetOverlays(LessThanEq(start), GreaterThan(start), item_pred)
+    set1.update(self.GetOverlays(LessThan(end), 
+                                 GreaterThanEq(end),
+                                 item_pred))
+    set1.update(self.GetOverlays(GreaterThanEq(start),
+                                 LessThanEq(end),
+                                 item_pred))
+    return set1

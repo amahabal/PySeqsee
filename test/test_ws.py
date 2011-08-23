@@ -41,3 +41,10 @@ def test_get_overlays():
   assert set(['c', 'd1']) == ws.GetOverlays(None, GreaterThan(3))
   assert set(['d1']) == ws.GetOverlays(None, GreaterThan(3),
                                      (lambda (x): x.item.endswith('1')))
+  
+  assert set([]) == ws.GetOverlaysOverlapping(5, 6)
+  assert set([]) == ws.GetOverlaysOverlapping(4, 5)
+  assert set(['c', 'd1']) == ws.GetOverlaysOverlapping(3, 4)
+  assert set(['c', 'd1']) == ws.GetOverlaysOverlapping(3, 6)
+  assert set(['b', 'c', 'd1']) == ws.GetOverlaysOverlapping(2, 6)
+  assert set(['b', 'c']) == ws.GetOverlaysOverlapping(2, 3)
