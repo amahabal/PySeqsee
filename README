@@ -1,0 +1,10 @@
+Seqsee: an Architecture for Sequence Perception
+
+This project reimplements Seqsee in Python (it was originally in Perl). Seqsee 
+is the doctoral work of Abhijit Mahabal (the thesis advisor was Douglas
+Hofstadter).
+
+A short video of the Perl version can be found here: http://www.youtube.com/watch?v=2KWtRUg8kL8
+
+The dissertation is here: http://www.amahabal.com/files/Seqsee--doublesided.pdf
+
