@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from ui.gui import GUI
+from ui.gui.gui import GUI
 
 # Corresponding Perl code in Seqsee.pm
 
