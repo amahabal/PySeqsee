@@ -1,12 +1,24 @@
 from Tkinter import *
+from ui.gui.workspace_view import WorkspaceView
 
 class CentralPane(Canvas):
   def __init__(self, parent, *args, **kwargs):
+    height = kwargs['height']
+    width = kwargs['width']
+
     Canvas.__init__(self, parent, **kwargs)
     self.SetupMenu(parent)
 
+    # Setup appropriate view based on config and commandline options.
+    # Defaulting to full workspace view, for now.
+    self.SetInitialView(width, height)
+
   def ReDraw(self, run_state):
-    pass
+    for viewport in self.viewports:
+      viewport.ReDraw(run_state)
+
+  def SetInitialView(self, width, height):
+    self.viewports = [WorkspaceView(self, 0, 0, width, height, "ws")]
 
   def SetViewCmdFactory(self, view_name):
     # TODO write function 
