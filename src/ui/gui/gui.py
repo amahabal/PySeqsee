@@ -1,7 +1,8 @@
 from Tkinter import Tk, Button, Canvas, Frame, TOP, LEFT
 import sys
-
 import ConfigParser
+
+from ui.gui.conversation import Conversation
 
 class GUI(object):
   """Tkinter-based UI for Seqsee."""
@@ -25,6 +26,10 @@ class GUI(object):
     canvas_config = dict(config.items('Canvas'))
     canvas = self.canvas = Canvas(mw, **canvas_config)
     canvas.pack(side=TOP)
+
+    conversation_config = dict(config.items('Conversation'))
+    conversation = self.conversation = Conversation(mw, **conversation_config)
+    conversation.pack(side=TOP)
 
     self.SetupBindings(mw)
 
