@@ -26,6 +26,8 @@ class GUI(object):
     canvas = self.canvas = Canvas(mw, **canvas_config)
     canvas.pack(side=TOP)
 
+    self.SetupBindings(mw)
+
   def SetupButtons(self, button_frame):
     Button(button_frame, text="Start", command=self.Start).pack(side=LEFT)
     Button(button_frame, text="Pause", command=self.Pause).pack(side=LEFT)
@@ -37,5 +39,8 @@ class GUI(object):
   def Pause(self):
     pass
 
-  def Quit(self):
+  def Quit(self, *ignored):
     sys.exit(1)
+
+  def SetupBindings(self, mw):
+    mw.bind('<KeyPress-q>', self.Quit)
