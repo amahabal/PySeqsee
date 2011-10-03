@@ -1,7 +1,8 @@
-from Tkinter import Tk, Button, Canvas, Frame, TOP, LEFT
+from Tkinter import Tk, Button, Canvas, Frame, Menu, TOP, LEFT
 import sys
 import ConfigParser
 
+from ui.gui.central_pane import CentralPane
 from ui.gui.conversation import Conversation
 
 class GUI(object):
@@ -23,15 +24,20 @@ class GUI(object):
     button_frame.pack(side=TOP)
     self.SetupButtons(button_frame)
 
-    canvas_config = dict(config.items('Canvas'))
-    canvas = self.canvas = Canvas(mw, **canvas_config)
-    canvas.pack(side=TOP)
+    central_pane_config = dict(config.items('CentralPane'))
+    central_pane = self.central_pane = CentralPane(mw, **central_pane_config)
+    central_pane.pack(side=TOP)
 
     conversation_config = dict(config.items('Conversation'))
     conversation = self.conversation = Conversation(mw, **conversation_config)
     conversation.pack(side=TOP)
 
     self.SetupBindings(mw)
+    self.ReDraw(run_state)
+
+  def ReDraw(self, run_state):
+    self.conversation.ReDraw(run_state)
+    self.central_pane.ReDraw(run_state)
 
   def SetupButtons(self, button_frame):
     Button(button_frame, text="Start", command=self.Start).pack(side=LEFT)

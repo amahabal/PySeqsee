@@ -13,3 +13,6 @@ class Conversation(Frame):
       self.buttons.append(
           Button(buttons_frame, text='', width=15, state='disabled'))
       self.buttons[-1].pack(side=TOP)
+
+  def ReDraw(self, run_state):
+    pass
