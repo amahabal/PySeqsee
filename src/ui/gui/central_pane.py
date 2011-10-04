@@ -3,8 +3,8 @@ from ui.gui.workspace_view import WorkspaceView
 
 class CentralPane(Canvas):
   def __init__(self, parent, *args, **kwargs):
-    height = kwargs['height']
-    width = kwargs['width']
+    height = int(kwargs['height'])
+    width = int(kwargs['width'])
 
     Canvas.__init__(self, parent, **kwargs)
     self.SetupMenu(parent)
@@ -14,6 +14,7 @@ class CentralPane(Canvas):
     self.SetInitialView(width, height)
 
   def ReDraw(self, run_state):
+    self.delete(ALL)
     for viewport in self.viewports:
       viewport.ReDraw(run_state)
 

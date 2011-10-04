@@ -22,7 +22,7 @@ def ParseSeqseeArguments():
 
   # Parse
   args = parser.parse_args()
-  
+
   # Validate and Pre-process
   if args.ui is 'gui':
     args.ui = GUI
@@ -30,6 +30,6 @@ def ParseSeqseeArguments():
     print "%s is not a supported UI (yet)" % args.ui
     sys.exit(1)
 
-  args.unrevealed_terms = args.unrevealed_terms.split()
+  args.unrevealed_terms = [int(x) for x in args.unrevealed_terms.split()]
 
   return args

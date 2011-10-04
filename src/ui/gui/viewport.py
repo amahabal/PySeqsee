@@ -11,3 +11,6 @@ class ViewPort(object):
     # Should delete things with identifers. I will let canvas delete, for now.
     print "Will redraw viewport"
     self.ReDrawView(run_state)
+
+  def CanvasCoordinates(self, x, y):
+    return (self.left + x, self.bottom + y)
