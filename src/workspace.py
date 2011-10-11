@@ -2,6 +2,7 @@ from group import Group
 from integer import Integer
 
 def Equals(x):
+  """Returns an equality tester."""
   return (lambda(y): x == y)
 
 def GreaterThanEq(x):

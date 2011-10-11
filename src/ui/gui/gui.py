@@ -45,6 +45,8 @@ class GUI(object):
     Button(button_frame, text="Quit", command=self.Quit).pack(side=LEFT)
 
   def Start(self):
+    """TODO FIXME: write this."""
+    #TODO write this.
     pass
 
   def Pause(self):

@@ -1,7 +1,7 @@
 class Category:
   def __init__(self):
     raise Exception("Cannot create an instance of a category.")
-  
+    #TODO TODO: 
   @classmethod
   def CheckIfInstance(cls, entity):
     bindings = cls.IsInstance(entity)
