@@ -1,36 +1,5 @@
-Seqsee: A Cognitive Architecture for * Perception
-=================================================
+Seqsee: A Cognitive Architecture for High-level Perception
+===========================================================
 
-Some discussion; See :func:`enumerate` below. Minor. :func:`workspace.LessThan`
-
-.. todo::
-
-   Let's get this done!
-
-
-.. note::
-
-  This is important! 
-
-.. todolist::
-
-
-.. function:: enumerate(sequence[, start=0])
-
-   Return an iterator that yields tuples of an index and an item of the
-   *sequence*. (And so on.)
-
-.. sidebar:: Sidebar Title
-   :subtitle: Optional Sidebar Subtitle
-
-   Subsequent indented lines comprise
-   the body of the sidebar, and are
-   interpreted as body elements.
-
-.. automodule:: workspace
-   :members:
-   :undoc-members:
-   :private-members:
-   :special-members:
-
+Seqsee is a computer architecture designed to simulate one view of how the mind works.
 
