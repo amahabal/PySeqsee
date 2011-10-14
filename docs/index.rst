@@ -12,7 +12,7 @@ Contents:
    :maxdepth: 2
 
    intro
-
+   design/controller
 Indices and tables
 ==================
 
