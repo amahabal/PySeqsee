@@ -1,2 +1,8 @@
 *.pyc
+.project
+.pydevproject
+.settings
+docs/_build
+nosetests.xml
+
 
