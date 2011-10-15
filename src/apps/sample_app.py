@@ -7,11 +7,13 @@ import time
 from farg.controller import Controller
 from farg.run_state import RunState
 from farg.ui.gui.gui import GUI
+from farg.exceptions import FargException
 
 class MyController(Controller):
   def Step(self):
     print "Taking a step."
     time.sleep(5)
+    raise FargException()
 
 def main():
   run_state = RunState()

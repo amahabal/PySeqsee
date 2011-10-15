@@ -17,7 +17,11 @@ class RunForNSteps(Thread):
     for _step in xrange(0, self.n_steps):
       if self.gui.stop_stepping:
         break
-      self.gui.controller.Step()
+      try:
+        self.gui.controller.Step()
+      except FargException as e:
+        self.gui.stop_stepping = True
+        self.gui.HandleFargException(e)
     self.gui.stepping_thread = None
 
 class GUI(object):
@@ -71,6 +75,9 @@ class GUI(object):
   def Pause(self):
     print "Pausing"
     self.stop_stepping = True
+
+  def HandleFargException(self, exception):
+    print "Would have handled exception"
 
   def SetupWindows(self):
     """Sets up the three panes in the UI."""
