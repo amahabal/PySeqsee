@@ -14,6 +14,7 @@ Contents:
    intro
    design/run_state
    design/controller
+   design/exceptions
    design/ui
 
    sample_app

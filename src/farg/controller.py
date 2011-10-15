@@ -21,4 +21,7 @@ class Controller(object):
     """
     pass
 
+  def Quit(self):
+    """Gets called when the app is about to quit, in case any cleanup is needed."""
+    pass
 

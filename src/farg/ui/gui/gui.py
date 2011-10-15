@@ -1,4 +1,25 @@
-from Tkinter import Tk, Frame
+from Tkinter import Tk, Button, Frame, LEFT
+from threading import Thread
+
+from farg.exceptions import FargException
+
+class RunForNSteps(Thread):
+  """Runs controller for upto n steps.
+  
+  Checking each time if we have not been asked to pause."""
+
+  def __init__(self, gui, n_steps=10000):
+    Thread.__init__(self)
+    self.gui = gui
+    self.n_steps = n_steps
+
+  def run(self):
+    for _step in xrange(0, self.n_steps):
+      if self.gui.stop_stepping:
+        break
+      self.gui.controller.Step()
+    self.gui.stepping_thread = None
+
 class GUI(object):
   """A tkinter-based interfact for a FARG app.
   
@@ -6,18 +27,55 @@ class GUI(object):
   widget. Subclasses can override specific bits of it as needed."""
 
   def __init__(self, controller, geometry='810x700+0+0'):
+    #: The main-window of the UI.
     self.mw = mw = Tk()
+    #: The controller owned by the UI.
     self.controller = controller
     mw.geometry(geometry)
     self.SetupWindows()
+
+    #: If non-None, the thread that is stepping the controller.
+    self.stepping_thread = None
+
+    #: If true, the stepping will stop after the next iteration.
+    self.stop_stepping = False
 
   def Launch(self):
     """Starts the app by launching the UI."""
     self.mw.mainloop()
 
+  def Redraw(self):
+    """Redraws the UI, flushing any changes that need to be."""
+    for item in self.items_to_refresh:
+      item.Redraw()
+
+  def Quit(self):
+    """Quits the application. Calls quit on the controller as well."""
+    self.Pause()
+    if self.stepping_thread:
+      self.stepping_thread.join()
+    self.controller.Quit()
+    self.mw.quit()
+
+
+
+  def Start(self):
+    """Continually calls Step() on the controller."""
+    if self.stepping_thread:
+      return  # Already running.
+    thread = RunForNSteps(self)
+    self.stop_stepping = False
+    thread.start()
+    self.stepping_thread = thread
+
+  def Pause(self):
+    print "Pausing"
+    self.stop_stepping = True
+
   def SetupWindows(self):
     """Sets up the three panes in the UI."""
     mw = self.mw
+    self.items_to_refresh = []
 
     self.buttons_pane = Frame(mw)
     self.PopulateButtonPane(self.buttons_pane)
@@ -33,10 +91,15 @@ class GUI(object):
 
   def PopulateButtonPane(self, frame):
     """Adds buttons to the top row."""
-    pass
+    Button(frame, text="Start", command=self.Start).pack(side=LEFT)
+    Button(frame, text="Pause", command=self.Pause).pack(side=LEFT)
+    Button(frame, text="Quit", command=self.Quit).pack(side=LEFT)
+
 
   def PopulateCentralPane(self, frame):
-    """Sets up the display in the central part."""
+    """Sets up the display in the central part.
+    
+    If an item must be refreshed, add it to items_to_refresh."""
     pass
 
   def PopulateInteractionPane(self, frame):
