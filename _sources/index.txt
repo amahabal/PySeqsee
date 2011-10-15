@@ -12,7 +12,13 @@ Contents:
    :maxdepth: 2
 
    intro
+   design/run_state
    design/controller
+   design/exceptions
+   design/ui
+
+   sample_app
+
 Indices and tables
 ==================
 

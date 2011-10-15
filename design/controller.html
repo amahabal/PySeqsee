@@ -26,7 +26,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
-    <link rel="prev" title="Seqsee: A Cognitive Architecture for High-level Perception" href="../intro.html" /> 
+    <link rel="next" title="Exceptions" href="exceptions.html" />
+    <link rel="prev" title="The Run State" href="run_state.html" /> 
   </head>
   <body>
     <div class="related">
@@ -36,7 +37,13 @@
           <a href="../genindex.html" title="General Index"
              accesskey="I">index</a></li>
         <li class="right" >
-          <a href="../intro.html" title="Seqsee: A Cognitive Architecture for High-level Perception"
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="Exceptions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="run_state.html" title="The Run State"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
       </ul>
@@ -55,6 +62,12 @@
 <dd><p>The controller of an application sits between the UI layer and the runstate.</p>
 <p>The main job of the controller is to implement the <cite>Step()</cite> method, which takes
 the next action.</p>
+<dl class="method">
+<dt id="farg.controller.Controller.Quit">
+<tt class="descname">Quit</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.controller.Controller.Quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets called when the app is about to quit, in case any cleanup is needed.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="farg.controller.Controller.Step">
 <tt class="descname">Step</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.controller.Controller.Step" title="Permalink to this definition">¶</a></dt>
@@ -79,8 +92,11 @@ stream, assumptions that hold with the standard RunState class.</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../intro.html"
-                        title="previous chapter">Seqsee: A Cognitive Architecture for High-level Perception</a></p>
+  <p class="topless"><a href="run_state.html"
+                        title="previous chapter">The Run State</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="exceptions.html"
+                        title="next chapter">Exceptions</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/design/controller.txt"
@@ -110,7 +126,13 @@ stream, assumptions that hold with the standard RunState class.</p>
           <a href="../genindex.html" title="General Index"
              >index</a></li>
         <li class="right" >
-          <a href="../intro.html" title="Seqsee: A Cognitive Architecture for High-level Perception"
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="exceptions.html" title="Exceptions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="run_state.html" title="The Run State"
              >previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
       </ul>
