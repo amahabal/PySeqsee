@@ -1,7 +1,8 @@
+import tkMessageBox
 from Tkinter import Tk, Button, Frame, LEFT
 from threading import Thread
 
-from farg.exceptions import FargException
+from farg.exceptions import *
 
 class RunForNSteps(Thread):
   """Runs controller for upto n steps.
@@ -73,11 +74,17 @@ class GUI(object):
     self.stepping_thread = thread
 
   def Pause(self):
+    """Pauses the stepping-through of the controller."""
     print "Pausing"
     self.stop_stepping = True
 
   def HandleFargException(self, exception):
-    print "Would have handled exception"
+    """Takes care of the exception thrown by the controller, provided it is the right type."""
+    if isinstance(exception, YesNoException):
+      answer = tkMessageBox.askyesno("Question", exception.question_string)
+      exception.callback(answer)
+      return
+    raise exception
 
   def SetupWindows(self):
     """Sets up the three panes in the UI."""
