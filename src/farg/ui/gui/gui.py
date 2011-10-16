@@ -22,7 +22,10 @@ class RunForNSteps(Thread):
         self.gui.controller.Step()
       except FargException as e:
         self.gui.stop_stepping = True
-        self.gui.HandleFargException(e)
+        try:
+          self.gui.HandleAppSpecificFargException(e)
+        except FargException as f:
+          self.gui.HandleFargException(f)
     self.gui.stepping_thread = None
 
 class GUI(object):
@@ -78,13 +81,22 @@ class GUI(object):
     print "Pausing"
     self.stop_stepping = True
 
+  def HandleAppSpecificFargException(self, exception):
+    """A hook to allow derivative classes a way to handle specific types of exceptions.
+    
+    If unhandled, the exception should be rethrown.
+    
+    By default, this does nothing and rethrows the exception.
+    """
+    raise exception
+
   def HandleFargException(self, exception):
     """Takes care of the exception thrown by the controller, provided it is the right type."""
-    if isinstance(exception, YesNoException):
+    try:
+      raise exception
+    except YesNoException:
       answer = tkMessageBox.askyesno("Question", exception.question_string)
       exception.callback(answer)
-      return
-    raise exception
 
   def SetupWindows(self):
     """Sets up the three panes in the UI."""

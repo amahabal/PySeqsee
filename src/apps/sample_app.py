@@ -3,11 +3,18 @@
 I expect to replace this with something fuller as development progresses.
 """
 import time
+import tkMessageBox
 
 from farg.controller import Controller
 from farg.run_state import RunState
 from farg.ui.gui.gui import GUI
-from farg.exceptions import YesNoException
+from farg.exceptions import *
+
+class FooException(FargException):
+  pass
+
+class BarException(FargException):
+  pass
 
 class MyController(Controller):
   def BlueSkyCallback(self, answer):
@@ -15,12 +22,22 @@ class MyController(Controller):
 
   def Step(self):
     print "Taking a step. I am %s" % self
-    raise YesNoException("Is the sky blue?", self.BlueSkyCallback)
+    # raise YesNoException("Is the sky blue?", self.BlueSkyCallback)
+    raise FooException()
+
+class MyGUI(GUI):
+  def HandleAppSpecificFargException(self, exception):
+    try:
+      raise exception
+    except FooException:
+      tkMessageBox.showinfo("Hi", "Reached a FooException")
+
+
 
 def main():
   run_state = RunState()
   controller = MyController(run_state)
-  gui = GUI(controller)
+  gui = MyGUI(controller)
   gui.Launch()
 
 
