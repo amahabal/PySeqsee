@@ -17,7 +17,10 @@ Contents:
    design/exceptions
    design/ui
 
+   components/coderack
    sample_app
+
+   todo
 
 Indices and tables
 ==================
