@@ -1,5 +1,5 @@
 import unittest
-from components.coderack import Coderack
+from components.coderack import Coderack, CoderackEmptyException
 
 class MockCodelet(object):
   def __init__(self, urgency):
@@ -16,3 +16,6 @@ class TestCoderack(unittest.TestCase):
     c._ExpungeSomeCodelet()
     assert 0 == c._codelet_count
     assert 0 == c._urgency_sum
+
+    self.assertRaises(CoderackEmptyException, c.GetCodelet)
+
