@@ -1,0 +1,138 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>components.coderack &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for components.coderack</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">random</span>
+
+<div class="viewcode-block" id="Coderack"><a class="viewcode-back" href="../../components/coderack.html#components.coderack.Coderack">[docs]</a><span class="k">class</span> <span class="nc">Coderack</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;Implements the coderack --- the collection of codelets waiting to run.</span>
+<span class="sd">  </span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">max_capacity</span><span class="p">):</span>
+    <span class="c">#: Maximum number of codelets that the coderack can hold.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_max_capacity</span> <span class="o">=</span> <span class="n">max_capacity</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_urgency_sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_codelet_count</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_codelets</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Coderack.IsEmpty"><a class="viewcode-back" href="../../components/coderack.html#components.coderack.Coderack.IsEmpty">[docs]</a>  <span class="k">def</span> <span class="nf">IsEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_codelet_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Coderack.GetCodelet"><a class="viewcode-back" href="../../components/coderack.html#components.coderack.Coderack.GetCodelet">[docs]</a>  <span class="k">def</span> <span class="nf">GetCodelet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codelet_count</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span><span class="s">&quot;Coderack empty&quot;</span><span class="p">)</span>
+    <span class="n">random_urgency</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_urgency_sum</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">codelet</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codelets</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">codelet</span><span class="o">.</span><span class="n">urgency</span> <span class="o">&gt;=</span> <span class="n">random_urgency</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_RemoveCodelet</span><span class="p">(</span><span class="n">codelet</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">codelet</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="n">random_urgency</span> <span class="o">-=</span> <span class="n">codelet</span><span class="o">.</span><span class="n">urgency</span>
+</div>
+<div class="viewcode-block" id="Coderack.AddCodelet"><a class="viewcode-back" href="../../components/coderack.html#components.coderack.Coderack.AddCodelet">[docs]</a>  <span class="k">def</span> <span class="nf">AddCodelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codelet</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codelet_count</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">_max_capacity</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_ExpungeSomeCodelet</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_codelets</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">codelet</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_codelet_count</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_urgency_sum</span> <span class="o">+=</span> <span class="n">codelet</span><span class="o">.</span><span class="n">urgency</span>
+</div>
+<div class="viewcode-block" id="Coderack._RemoveCodelet"><a class="viewcode-back" href="../../components/coderack.html#components.coderack.Coderack._RemoveCodelet">[docs]</a>  <span class="k">def</span> <span class="nf">_RemoveCodelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codelet</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_codelets</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">codelet</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_codelet_count</span> <span class="o">-=</span> <span class="mi">1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_urgency_sum</span> <span class="o">-=</span> <span class="n">codelet</span><span class="o">.</span><span class="n">urgency</span>
+</div>
+<div class="viewcode-block" id="Coderack._ExpungeSomeCodelet"><a class="viewcode-back" href="../../components/coderack.html#components.coderack.Coderack._ExpungeSomeCodelet">[docs]</a>  <span class="k">def</span> <span class="nf">_ExpungeSomeCodelet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c"># TODO(amahabal): Which one? Choosing randomly...</span>
+    <span class="n">codelet</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">choice</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_codelets</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_RemoveCodelet</span><span class="p">(</span><span class="n">codelet</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>
