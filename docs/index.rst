@@ -18,6 +18,7 @@ Contents:
    design/ui
 
    components/coderack
+   components/stream
    sample_app
 
    todo
