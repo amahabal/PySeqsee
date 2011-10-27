@@ -45,3 +45,10 @@ class TestStream(unittest.TestCase):
     self.assertTrue(m12 in hits_map)
     self.assertAlmostEqual(0.28, hits_map[m12])
     self.assertAlmostEqual(0.2527, hits_map[m3])
+
+    s.kMaxFocusableCount = 3
+    # So now adding any will remove something (specifically, m3)
+    hits_map = s.FocusOn(MyFocusable(1.5))
+    self.assertEqual(3, s.FociCount())
+    self.assertEqual(0, len(hits_map))
+    self.assertFalse(m3 in s.foci)
