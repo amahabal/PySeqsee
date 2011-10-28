@@ -1,3 +1,7 @@
+class FargError(Exception):
+  """Base class for untrappable errors (indicating bugs)."""
+  pass
+
 class FargException(Exception):
   """Base class for FARG-specific exceptions."""
   pass
