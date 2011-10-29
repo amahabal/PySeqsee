@@ -76,5 +76,20 @@ class SAnchored(SObject):
   .. warning:: This way of doing things differs from the way in Perl, where I was subclassing
     instead of just having an sobject as a member.
   """
-  pass
+  def __init__(self, sobj, start_pos, end_pos, is_sequence_element=False):
+    #: The object which is anchored.
+    self.object = sobj
+    #: The start position. The first element in the workspace has position 0.
+    self.start_pos = start_pos
+    #: The end position. Note that this is the rightmost edge (unlike, say, iterators).
+    #: For an element, left and right edges are identical.
+    self.end_pos = end_pos
+    #: All items in the workspace --- what used to be elements and groups in the Perl version ---
+    #: are SAnchored objects now. This bit distinguishes elements that are elements in the
+    #: sequence.
+    self.is_sequence_element = is_sequence_element
+
+  def SetPosition(self, start_pos, end_pos):
+    self.start_pos = start_pos
+    self.end_pos = end_pos
 
