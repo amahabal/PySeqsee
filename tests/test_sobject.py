@@ -1,5 +1,5 @@
 import unittest
-from apps.seqsee.sobject import SObject
+from apps.seqsee.sobject import SAnchored, SObject
 
 class TestSObject(unittest.TestCase):
   def test_creation(self):
@@ -25,3 +25,8 @@ class TestSObject(unittest.TestCase):
     self.assertTrue(isinstance(o2b, SObject))
     self.assertTrue(o2b.is_group)
     self.assertEqual(4, o2b.items[1].magnitude)
+
+  def test_position(self):
+    o2a = SObject.Create([3, 4])
+    o2a_anchored = SAnchored(o2a, 10, 12)
+    self.assertEqual(10, o2a_anchored.start_pos)

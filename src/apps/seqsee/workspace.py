@@ -3,9 +3,11 @@
 .. warning:: No attempt to optimize is being made. Later, with profiling, we can speed things up.
 """
 
+from apps.seqsee.sobject import SAnchored, SElement, SGroup, SObject
+
 class Workspace(object):
   def __init__(self):
-    #: All elements. Each is a :class:`~apps.seqsee.sobject.SElement` object.
+    #: All elements. Each is a :class:`~apps.seqsee.sobject.SAnchored` object.
     self.elements = []
     #: Number of elements.
     self.num_elements = 0
@@ -15,6 +17,7 @@ class Workspace(object):
 
   def InsertElement(self, element):
     """Insert an element beyond the last element."""
-    element.set_position(self.num_elements)
+    assert isinstance(element, SElement)
+    anchored = SAnchored(element, self.num_elements, self.num_elements, is_sequence_element=True)
     self.num_elements += 1
-    self.elements.append(element)
+    self.elements.append(anchored)
