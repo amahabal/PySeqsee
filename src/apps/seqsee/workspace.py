@@ -4,6 +4,7 @@
 """
 
 from apps.seqsee.sobject import SAnchored, SElement, SGroup, SObject
+from farg.exceptions import FargError, ConflictingGroupException
 
 class Workspace(object):
   def __init__(self):
@@ -13,11 +14,46 @@ class Workspace(object):
     self.num_elements = 0
     #: Groups (excluding single element groups).
     #: Each is a :class:`~apps.seqsee.sobject.SAnchored` object.
-    self.groups = []
+    self.groups = set()
 
   def InsertElement(self, element):
     """Insert an element beyond the last element."""
     assert isinstance(element, SElement)
-    anchored = SAnchored(element, self.num_elements, self.num_elements, is_sequence_element=True)
+    anchored = SAnchored(element, [], self.num_elements,
+                         self.num_elements, is_sequence_element=True)
     self.num_elements += 1
     self.elements.append(anchored)
+
+  def InsertElements(self, *integers):
+    """Utility for adding lots of integers as elements."""
+    for item in integers:
+      self.InsertElement(SElement(item))
+
+  def InsertGroup(self, group):
+    """Inserts a group into the workspace. It must not conflict with an existing group, else a
+    ConflictingGroupException is raised."""
+    conflicting_groups = self.GetConflictingGroups(group)
+    if conflicting_groups:
+      raise ConflictingGroupException(conflicting=conflicting_groups)
+    else:
+      self.groups.add(group)
+
+  def GetConflictingGroups(self, gp):
+    """Get a list of groups conflicting with given group.
+    
+    Groups g1 and g2 conflict if one group is strictly subsumed by the other and yet is
+    not an element of the other. In other words, set(g1.items) overlaps set(g2.items)
+    
+    .. Note:: This can be sped up if I am keeping track of supergroups.
+    """
+    if gp.is_sequence_element: return ()
+    if gp in self.groups: return ()
+    gp_items = set(gp.items)
+    conflicting = []
+    for other_group in self.groups:
+      other_gp_items = set(other_group.items)
+      if gp_items.issubset(other_gp_items) or gp_items.issuperset(other_gp_items):
+        conflicting.append(other_group)
+    return conflicting
+
+
