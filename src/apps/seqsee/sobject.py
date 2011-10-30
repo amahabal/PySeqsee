@@ -140,12 +140,14 @@ class SAnchored(SObject):
       if isinstance(items[0], SAnchored):
         return items[0]
       else:
-        raise FargError("Attempt to SAnchored.Create() from non-anchored parts")
+        raise FargError("Attempt to SAnchored.Create() from non-anchored parts: %s" %
+                        items[0].__repr__())
 
     # So there are multiple items...
     for item in items:
       if not isinstance(item, SAnchored):
-        raise FargError("Attempt to SAnchored.Create() from non-anchored parts")
+        raise FargError("Attempt to SAnchored.Create() from non-anchored parts: %s" %
+                        item.__repr__())
     # .. Note:: This can probably be speeded up and cleaned up.
     left_edge, right_edge = items[0].Span()
     for item in items[1:]:

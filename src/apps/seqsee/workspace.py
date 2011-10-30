@@ -38,6 +38,13 @@ class Workspace(object):
     else:
       self.groups.add(group)
 
+  def GetGroupWithSpan(self, left, right):
+    for gp in self.groups:
+      if gp.start_pos == left and gp.end_pos == right:
+        return gp
+    else:
+      return None
+
   def GetConflictingGroups(self, gp):
     """Get a list of groups conflicting with given group.
     

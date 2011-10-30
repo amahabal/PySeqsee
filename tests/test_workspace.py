@@ -18,6 +18,7 @@ def helper_create_and_insert_group(ws, specification):
     anchored_items = list(helper_create_and_insert_group(ws, x) for x in specification)
     new_group = SAnchored.Create(*anchored_items)
     ws.InsertGroup(new_group)
+    return new_group
 
 def helper_create_and_insert_groups(ws, *specifications):
   """Utility for quickly creating many groups."""
@@ -67,9 +68,40 @@ class TestWorkspace(unittest.TestCase):
     self.assertFalse(
         ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 2, 3, 4)))
 
+    # Subsumed that is not an element is problematic.
     self.assertTrue(
         ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 2, 3)))
 
+    # But if subsumed *is* an element, that is okay.
+    self.assertFalse(
+        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 2)))
+
+  def test_conflicting_groups_more_complex(self):
+    ws = Workspace()
+    ws.InsertElements(*range(0, 10))
+    helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))
+    self.assertEqual(4, len(ws.groups))
+
+    # An overlapping group not subsumed is fine:
+    self.assertFalse(
+        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 0, (1, 3), 4)))
+    self.assertFalse(
+        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 0, (1, 3))))
+
+    # Subsumed that is not an element is problematic.
+    self.assertTrue(
+        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(
+            ws, (1, 3), (4, 6))))
+
+    # But if subsumed *is* an element, that is okay.
+    # Here, the group being tested is an *existing* group.
+    self.assertFalse(
+        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, (1, 3))))
+
+    # Note, however, that if a new group is crafted out of existing parts, such that is aligns
+    # exactly with an existing group, it is still in conflict.
+    self.assertTrue(
+        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 1, 2, 3)))
 
 
 
