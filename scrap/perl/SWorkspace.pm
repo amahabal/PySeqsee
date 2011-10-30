@@ -1,24 +1,3 @@
-#####################################################
-#
-#    Package: SWorkspace
-#
-#####################################################
-#   manages the workspace
-#####################################################
-
-package SWorkspace;
-use 5.10.0;
-use strict;
-use warnings;
-use Carp;
-use Carp::Source qw{source_cluck};
-use Class::Std;
-use Class::Multimethods;
-use List::Util;
-use SUtil;
-
-use Smart::Comments '###';
-use English qw(-no_match_vars);
 
 use Sort::Key qw{rikeysort ikeysort};
 
@@ -44,9 +23,6 @@ my %RightEdge_of;     # Likewise, right edges.
 my %SuperGroups_of;   # Groups whose direct element is this group.
 my %Span_of;          # Span.
 my %LiveAtSomePoint;  # List of all live objects ever.
-
-my @BarLines;
-my $BarLineCount = 0;
 
 our %relations;
 our %relations_by_ends;    # keys: end1;end2 value:1 if a relation present.
@@ -79,53 +55,6 @@ sub __Clear {
   @Elements       = @ElementMagnitudes = %Objects = %NonEltObjects = ();
   %LeftEdge_of    = %RightEdge_of = ();
   %SuperGroups_of = %Span_of = ();
-}
-
-sub __CheckLiveness {
-  return SUtil::all { exists $Objects{$_} } @_;
-}
-
-sub __CheckLivenessAtSomePoint {
-  return SUtil::all { exists $LiveAtSomePoint{$_} } @_;
-}
-
-sub __CheckLivenessAndDiagnose {
-  my $problems_so_far = 0;
-  my $msg;
-  for my $object (@_) {
-    next if exists( $Objects{$object} );
-
-    # So a dead object!
-    $msg .= "NON_LIVE OBJECT: >>" . $object->as_text() . "<<\n";
-
-    if ( not( defined $object ) ) {
-      $msg .= "In fact, IT IS UNDEF!!\n";
-    }
-    else {
-      if ( exists $LiveAtSomePoint{$object} ) {
-        $msg .= "But was live once!\n";
-      }
-      my $unstarred = $object->GetConcreteObject();
-      if ( $unstarred ne $object ) {
-        $msg .= "A METONYM IS BEING CHECKED FOR LIVENESS!\n";
-        if ( exists $Objects{$unstarred} ) {
-          $msg .= "\tIts unstarred *is* live.\n";
-        }
-        else {
-          $msg .= "\tEven its unstarred is non-live.\n";
-        }
-      }
-    }
-    $problems_so_far++;
-  }
-  if ($problems_so_far) {
-    confess("Dying because of liveness issues!\n$msg");
-  }
-  return 1;
-}
-
-sub __GrepLiveness {
-  grep { exists( $Objects{$_} ) } @_;
 }
 
 sub __GetObjectsWithEndsExactly {
@@ -838,72 +767,6 @@ sub __FindSetsOfObjectsWithOverlappingSubgroups {
   }
   return grep { scalar(@$_) >= 2 } ( values %subgroup_to_objects );
 }
-
-#############################################
-# BAR LINES
-#############################################
-sub __ClearBarLines {
-  @BarLines     = ();
-  $BarLineCount = 0;
-}
-
-sub __AddBarLines {
-  my (@indices) = @_;
-  @BarLines = sort { $a <=> $b } ( @BarLines, @indices );
-  $BarLineCount = scalar(@BarLines);
-}
-
-sub GetBarLines {
-  return @BarLines;
-}
-
-sub __ClosestBarLineToLeftGivenIndex {
-  my ($index) = @_;
-  return unless $BarLineCount;
-  return if $BarLines[0] > $index;
-  my $count = 1;
-  while ( $count < $BarLineCount and $BarLines[$count] <= $index ) {
-    $count++;
-  }
-  return $BarLines[ $count - 1 ];
-}
-
-sub __ClosestBarLineToRightGivenIndex {
-  my ($index) = @_;
-  return unless $BarLineCount;
-  return if $BarLines[-1] <= $index;
-  my $count = $BarLineCount - 2;
-  while ( $count > -1 and $BarLines[$count] > $index ) {
-    $count--;
-  }
-  return $BarLines[ $count + 1 ];
-}
-
-sub __RemoveGroupsCrossingBarLines {
-  my @groups = GetGroups();
-  for my $group (@groups) {
-    next unless __CheckLiveness($group);
-    if ( __CheckIfCrossesBarLinesInappropriately($group) ) {
-      __DeleteGroup($group);
-    }
-  }
-}
-
-sub __CheckIfCrossesBarLinesInappropriately {
-  my ($group) = @_;
-  my ( $l, $r ) = ( $LeftEdge_of{$group}, $RightEdge_of{$group} );
-  my $closest_bar_line_before_end = __ClosestBarLineToLeftGivenIndex($r)
-  // return;
-  return if $closest_bar_line_before_end <= $l;    # No crossing!
-
-  # Crossing exists. It is appropriate if there are bar lines at either ends.
-  return 1 unless __ClosestBarLineToLeftGivenIndex($l) == $l;
-  my $rightward_closest = __ClosestBarLineToRightGivenIndex($r) // return;
-  return 1 unless $rightward_closest == $r + 1;
-  return;
-}
-
-##########
 
 sub __UpdateObjectStrengths {
   for ( values(%relations), values(%Objects) ) {

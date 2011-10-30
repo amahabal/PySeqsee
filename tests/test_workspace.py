@@ -14,3 +14,8 @@ class TestWorkspace(unittest.TestCase):
 
     ws.InsertElement(SObject.Create(6))
     self.assertEqual(6, ws.elements[1].object.magnitude)
+    self.assertEqual((1, 1), ws.elements[1].Span())
+
+    gp = SAnchored.Create(ws.elements[:])
+    self.assertEqual((0, 1), gp.Span())
+    #ws.InsertGroup(gp)
