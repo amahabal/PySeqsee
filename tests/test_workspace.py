@@ -1,5 +1,6 @@
 import unittest
 from apps.seqsee.workspace import Workspace
+from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 from apps.seqsee.sobject import SAnchored, SObject
 
 def helper_create_and_insert_group(ws, specification):
@@ -31,7 +32,8 @@ def helper_create_group_given_spans_of_items(ws, *spans):
     if isinstance(span, int):
       anchored_items.append(ws.elements[span])
     else:
-      anchored_items.append(ws.GetGroupWithSpan(*span))
+      matching_groups = ws.GetGroupsWithSpan(Exactly(span[0]), Exactly(span[1]))
+      anchored_items.append(matching_groups[0])
   return SAnchored.Create(*anchored_items)
 
 class TestWorkspace(unittest.TestCase):
@@ -102,6 +104,19 @@ class TestWorkspace(unittest.TestCase):
     # exactly with an existing group, it is still in conflict.
     self.assertTrue(
         ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 1, 2, 3)))
+
+  def test_utility_functions(self):
+    self.assertTrue(LessThan(3)(2), "2 is acceptable for the function LessThan(3)")
+    self.assertTrue(LessThanEq(3)(2), "2 is acceptable for the function LessThanEq(3)")
+    self.assertTrue(LessThanEq(3)(3))
+    self.assertFalse(LessThan(3)(3))
+
+    self.assertTrue(GreaterThan(3)(4))
+    self.assertTrue(GreaterThanEq(3)(4))
+    self.assertFalse(GreaterThan(3)(2))
+
+    self.assertTrue(Exactly(3)(3))
+    self.assertFalse(Exactly(3)(4))
 
 
 
