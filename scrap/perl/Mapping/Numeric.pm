@@ -7,26 +7,6 @@ use Smart::Comments;
 use Memoize;
 
 extends 'Mapping';
-has name => (
-    is         => 'rw',
-    isa        => 'Str',
-    reader     => 'get_name',
-    writer     => 'set_name',
-    init_arg   => 'name',
-    required   => 1,
-    weak_ref   => 0,
-);
-
-has category => (
-    is         => 'rw',
-    reader     => 'get_category',
-    writer     => 'set_category',
-    init_arg   => 'category',
-    required   => 1,
-    weak_ref   => 0,
-);
-
-
 sub create {
   my ( $package, $name, $category ) = @_;
   die "Mapping::Numeric creation attempted without name!" unless $name;
@@ -56,14 +36,6 @@ sub get_memory_dependencies {
 
 sub get_pure {
   return $_[0];
-}
-
-sub FlippedVersion {
-  my ($self) = @_;
-  state $FlipName =
-  {qw{same same pred succ succ pred flip flip no_flip no_flip}};
-  return Mapping::Numeric->create( $FlipName->{ $self->get_name() },
-    $self->get_category() );
 }
 
 sub IsEffectivelyASamenessRelation {

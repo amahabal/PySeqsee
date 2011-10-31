@@ -1,12 +1,3 @@
-package SRelation;
-use 5.010;
-use Moose;
-use English qw( -no_match_vars );
-use Smart::Comments;
-use Try::Tiny;
-
-use Class::Multimethods;
-multimethod 'FindMapping';
 
 has strength => (
   is       => 'rw',
@@ -34,29 +25,6 @@ has second => (
   init_arg => 'second',
 );
 
-has type => (
-  is       => 'rw',
-  isa      => 'Mapping',
-  reader   => 'get_type',
-  writer   => 'set_type',
-  required => 1,
-  weak_ref => 0,
-);
-
-has history_object => (
-  is      => 'rw',
-  isa     => 'SHistory',
-  handles => [
-    qw{ set_history get_history AddHistory search_history UnchangedSince GetAge history_as_text}
-  ]
-);
-
-has direction_reln => (
-  is     => 'rw',
-  reader => 'get_direction_reln',
-  writer => 'set_direction_reln',
-);
-
 has holeyness => (
   is     => 'rw',
   isa    => 'Bool',
@@ -73,21 +41,10 @@ sub BUILD {
   $self->history_object( SHistory->new() );
 }
 
-sub get_ends {
-  my ($self) = @_;
-  return ( $self->get_first(), $self->get_second() );
-}
-
 sub get_extent {
   my ($self) = @_;
   return ( $self->get_first()->get_left_edge(),
     $self->get_second()->get_right_edge() );
-}
-
-sub are_ends_contiguous {
-  my ($self) = @_;
-  return $self->get_first()->get_right_edge() + 1 ==
-  $self->get_second()->get_left_edge() ? 1 :0;
 }
 
 sub insert {
@@ -116,26 +73,6 @@ sub uninsert {
   for ( $self->get_ends ) {
     $_->RemoveRelation($self);
   }
-}
-
-sub get_direction {
-  my ($self) = @_;
-  my ( $la, $lb ) = map { $_->get_left_edge } $self->get_ends;
-  if ( $la < $lb ) {
-    return DIR::RIGHT();
-  }
-  elsif ( $lb < $la ) {
-    return DIR::LEFT();
-  }
-  else {
-    return DIR::UNKNOWN();
-  }
-}
-
-sub get_span {
-  my ($self) = @_;
-  my ( $l, $r ) = $self->get_extent;
-  return $r - $l + 1;
 }
 
 sub get_pure {

@@ -9,6 +9,7 @@ Contents:
    :maxdepth: 2
 
    objects
+   relations
    workspace
    utility_functions
 
