@@ -34,7 +34,7 @@ def helper_create_group_given_spans_of_items(ws, *spans):
       anchored_items.append(ws.elements[span])
     else:
       matching_groups = ws.GetGroupsWithSpan(Exactly(span[0]), Exactly(span[1]))
-      anchored_items.append(matching_groups[0])
+      anchored_items.append(matching_groups.next())
   return SAnchored.Create(*anchored_items)
 
 class TestWorkspace(unittest.TestCase):

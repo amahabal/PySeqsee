@@ -44,14 +44,12 @@ class Workspace(object):
 
   def GetGroupsWithSpan(self, left_fn, right_fn):
     """Get all groups which match the constraints set by the predicate functions for each end."""
-    matching = []
     for gp in self.groups:
       if left_fn(gp.start_pos) and right_fn(gp.end_pos):
-        matching.append(gp)
+        yield gp
     for gp in self.elements:
       if left_fn(gp.start_pos) and right_fn(gp.end_pos):
-        matching.append(gp)
-    return matching
+        yield gp
 
   def GetConflictingGroups(self, gp):
     """Get a list of groups conflicting with given group.
