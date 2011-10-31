@@ -1,6 +1,9 @@
 """Workspace. Modeled after the workspace in the Perl version.
 
 .. warning:: No attempt to optimize is being made. Later, with profiling, we can speed things up.
+
+  Specifically, groups are being kept in a set, supergroups-related bookkeeping is not being
+  maintained, and so forth. If profiling reveals these to be issues, these can later be optimized.
 """
 
 from apps.seqsee.sobject import SAnchored, SElement, SGroup, SObject
@@ -33,9 +36,9 @@ class Workspace(object):
   def InsertGroup(self, group):
     """Inserts a group into the workspace. It must not conflict with an existing group, else a
     ConflictingGroupException is raised."""
-    conflicting_groups = self.GetConflictingGroups(group)
+    conflicting_groups = tuple(self.GetConflictingGroups(group))
     if conflicting_groups:
-      raise ConflictingGroupException(conflicting=conflicting_groups)
+      raise ConflictingGroupException(conflicting_groups=conflicting_groups)
     else:
       self.groups.add(group)
 
@@ -58,14 +61,16 @@ class Workspace(object):
     
     .. Note:: This can be sped up if I am keeping track of supergroups.
     """
-    if gp.is_sequence_element: return ()
-    if gp in self.groups: return ()
+    if gp.is_sequence_element: return
+    if gp in self.groups: return
     gp_items = set(gp.items)
-    conflicting = []
     for other_group in self.groups:
       other_gp_items = set(other_group.items)
       if gp_items.issubset(other_gp_items) or gp_items.issuperset(other_gp_items):
-        conflicting.append(other_group)
-    return conflicting
+        yield other_group
 
-
+  def GetSuperGroups(self, anchored):
+    """Returns those group that contain the given anchored as a direct element."""
+    for gp in self.groups:
+      if anchored in gp.items:
+        yield gp

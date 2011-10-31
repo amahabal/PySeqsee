@@ -2,6 +2,7 @@ import unittest
 from apps.seqsee.workspace import Workspace
 from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 from apps.seqsee.sobject import SAnchored, SObject
+from farg.exceptions import FargError, ConflictingGroupException
 
 def helper_create_and_insert_group(ws, specification):
   """Utility for quickly creating groups.
@@ -68,15 +69,15 @@ class TestWorkspace(unittest.TestCase):
 
     # An overlapping group not subsumed is fine:
     self.assertFalse(
-        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 2, 3, 4)))
+        tuple(ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 2, 3, 4))))
 
     # Subsumed that is not an element is problematic.
     self.assertTrue(
-        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 2, 3)))
+        tuple(ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 2, 3))))
 
     # But if subsumed *is* an element, that is okay.
     self.assertFalse(
-        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 2)))
+        tuple(ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 2))))
 
   def test_conflicting_groups_more_complex(self):
     ws = Workspace()
@@ -86,37 +87,37 @@ class TestWorkspace(unittest.TestCase):
 
     # An overlapping group not subsumed is fine:
     self.assertFalse(
-        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 0, (1, 3), 4)))
+        tuple(ws.GetConflictingGroups(
+                  helper_create_group_given_spans_of_items(ws, 0, (1, 3), 4))))
     self.assertFalse(
-        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 0, (1, 3))))
+        tuple(ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 0, (1, 3)))))
 
     # Subsumed that is not an element is problematic.
     self.assertTrue(
-        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(
-            ws, (1, 3), (4, 6))))
+        tuple(ws.GetConflictingGroups(helper_create_group_given_spans_of_items(
+            ws, (1, 3), (4, 6)))))
 
     # But if subsumed *is* an element, that is okay.
     # Here, the group being tested is an *existing* group.
     self.assertFalse(
-        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, (1, 3))))
+        tuple(ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, (1, 3)))))
 
     # Note, however, that if a new group is crafted out of existing parts, such that is aligns
     # exactly with an existing group, it is still in conflict.
-    self.assertTrue(
-        ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 1, 2, 3)))
+    g1 = helper_create_group_given_spans_of_items(ws, 1, 2, 3)
+    self.assertTrue(ws.GetConflictingGroups(g1))
 
-  def test_utility_functions(self):
-    self.assertTrue(LessThan(3)(2), "2 is acceptable for the function LessThan(3)")
-    self.assertTrue(LessThanEq(3)(2), "2 is acceptable for the function LessThanEq(3)")
-    self.assertTrue(LessThanEq(3)(3))
-    self.assertFalse(LessThan(3)(3))
+    self.assertRaises(ConflictingGroupException, ws.InsertGroup, g1)
 
-    self.assertTrue(GreaterThan(3)(4))
-    self.assertTrue(GreaterThanEq(3)(4))
-    self.assertFalse(GreaterThan(3)(2))
-
-    self.assertTrue(Exactly(3)(3))
-    self.assertFalse(Exactly(3)(4))
-
-
+  def test_supergroups(self):
+    ws = Workspace()
+    ws.InsertElements(*range(0, 10))
+    helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))
+    self.assertEqual(1, len(tuple(ws.GetSuperGroups(ws.elements[1]))))
+    g1 = helper_create_group_given_spans_of_items(ws, (1, 3))
+    self.assertEqual(1, len(tuple(ws.GetSuperGroups(g1))))
+    helper_create_and_insert_groups(ws, (3, 4, 5))
+    g2 = helper_create_group_given_spans_of_items(ws, (3, 5))
+    self.assertEqual(0, len(tuple(ws.GetSuperGroups(g2))))
+    self.assertEqual(2, len(tuple(ws.GetSuperGroups(ws.elements[3]))))
 
