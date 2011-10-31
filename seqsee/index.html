@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Exceptions &mdash; PySeqsee 0.1 documentation</title>
+    <title>The Seqsee App &mdash; PySeqsee 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
-    <link rel="next" title="The Graphic User Interface" href="ui.html" />
-    <link rel="prev" title="Controller" href="controller.html" /> 
+    <link rel="next" title="Elements and Groups in Seqsee" href="objects.html" />
+    <link rel="prev" title="Sample App" href="../sample_app.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,10 +40,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="ui.html" title="The Graphic User Interface"
+          <a href="objects.html" title="Elements and Groups in Seqsee"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="controller.html" title="Controller"
+          <a href="../sample_app.html" title="Sample App"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
       </ul>
@@ -54,40 +54,18 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-farg.exceptions">
-<span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-farg.exceptions" title="Permalink to this headline">¶</a></h1>
-<dl class="exception">
-<dt id="farg.exceptions.ConflictingGroupException">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">ConflictingGroupException</tt><big>(</big><em>conflicting_groups</em><big>)</big><a class="headerlink" href="#farg.exceptions.ConflictingGroupException" title="Permalink to this definition">¶</a></dt>
-<dd><p>If an attempt is made to add a group to the workspace that conflicts some existing group(s),
-this exception is raised.</p>
-<dl class="attribute">
-<dt id="farg.exceptions.ConflictingGroupException.conflicting_groups">
-<tt class="descname">conflicting_groups</tt><em class="property"> = None</em><a class="headerlink" href="#farg.exceptions.ConflictingGroupException.conflicting_groups" title="Permalink to this definition">¶</a></dt>
-<dd><p>The groups that conflict.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="exception">
-<dt id="farg.exceptions.FargError">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">FargError</tt><a class="headerlink" href="#farg.exceptions.FargError" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class for untrappable errors (indicating bugs).</p>
-</dd></dl>
-
-<dl class="exception">
-<dt id="farg.exceptions.FargException">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">FargException</tt><a class="reference internal" href="../_modules/farg/exceptions.html#FargException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.exceptions.FargException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class for FARG-specific exceptions.</p>
-</dd></dl>
-
-<dl class="exception">
-<dt id="farg.exceptions.YesNoException">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">YesNoException</tt><big>(</big><em>question_string</em>, <em>callback</em><big>)</big><a class="headerlink" href="#farg.exceptions.YesNoException" title="Permalink to this definition">¶</a></dt>
-<dd><p>An exception that requests the UI to ask a yes/no question.</p>
-<p>When the user answers, a callback is made to the controller with this info.</p>
-</dd></dl>
-
+  <div class="section" id="the-seqsee-app">
+<h1>The Seqsee App<a class="headerlink" href="#the-seqsee-app" title="Permalink to this headline">¶</a></h1>
+<p>Seqsee is an one app running on the PySeqsee framework.</p>
+<p>Contents:</p>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="objects.html">Elements and Groups in Seqsee</a></li>
+<li class="toctree-l1"><a class="reference internal" href="relations.html">Relations and Mappings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="workspace.html">Workspace</a></li>
+<li class="toctree-l1"><a class="reference internal" href="utility_functions.html">Utility Functions</a></li>
+</ul>
+</div>
 </div>
 
 
@@ -97,14 +75,14 @@ this exception is raised.</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="controller.html"
-                        title="previous chapter">Controller</a></p>
+  <p class="topless"><a href="../sample_app.html"
+                        title="previous chapter">Sample App</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="ui.html"
-                        title="next chapter">The Graphic User Interface</a></p>
+  <p class="topless"><a href="objects.html"
+                        title="next chapter">Elements and Groups in Seqsee</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/design/exceptions.txt"
+    <li><a href="../_sources/seqsee/index.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -134,10 +112,10 @@ this exception is raised.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="ui.html" title="The Graphic User Interface"
+          <a href="objects.html" title="Elements and Groups in Seqsee"
              >next</a> |</li>
         <li class="right" >
-          <a href="controller.html" title="Controller"
+          <a href="../sample_app.html" title="Sample App"
              >previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
       </ul>

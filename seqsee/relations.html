@@ -1,0 +1,230 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Relations and Mappings &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="The Seqsee App" href="index.html" />
+    <link rel="next" title="Workspace" href="workspace.html" />
+    <link rel="prev" title="Elements and Groups in Seqsee" href="objects.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="workspace.html" title="Workspace"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="objects.html" title="Elements and Groups in Seqsee"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">The Seqsee App</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-apps.seqsee.mapping">
+<span id="relations-and-mappings"></span><h1>Relations and Mappings<a class="headerlink" href="#module-apps.seqsee.mapping" title="Permalink to this headline">¶</a></h1>
+<p>A way to specify how two entities are related.</p>
+<dl class="class">
+<dt id="apps.seqsee.mapping.Mapping">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.mapping.</tt><tt class="descname">Mapping</tt><a class="reference internal" href="../_modules/apps/seqsee/mapping.html#Mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.mapping.Mapping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="apps.seqsee.mapping.NumericMapping">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.mapping.</tt><tt class="descname">NumericMapping</tt><big>(</big><em>name</em>, <em>category</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/mapping.html#NumericMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="apps.seqsee.mapping.NumericMapping.FlippedVersion">
+<tt class="descname">FlippedVersion</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/mapping.html#NumericMapping.FlippedVersion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping.FlippedVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.mapping.NumericMapping.category">
+<tt class="descname">category</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping.category" title="Permalink to this definition">¶</a></dt>
+<dd><p>A category (such as &#8220;Prime&#8221;) on which this mapping is based.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.mapping.NumericMapping.name">
+<tt class="descname">name</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>A string such as &#8220;succ&#8221; or &#8220;same&#8221;. There are only 5 distinct values used in the Perl
+version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>noflip</em>.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apps.seqsee.mapping.StructuralMapping">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.mapping.</tt><tt class="descname">StructuralMapping</tt><big>(</big><em>category</em>, <em>bindings_mapping</em>, <em>slippages</em>, <em>metonymy_mode</em>, <em>position_mapping=None</em>, <em>metonymy_mapping=None</em><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="attribute">
+<dt id="apps.seqsee.mapping.StructuralMapping.bindings_mapping">
+<tt class="descname">bindings_mapping</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.bindings_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary of attribute to a mapping: how is the value of each attribute transformed?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.mapping.StructuralMapping.category">
+<tt class="descname">category</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.category" title="Permalink to this definition">¶</a></dt>
+<dd><p>A category, such as ascending, on which mapping is based.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.mapping.StructuralMapping.metonymy_mapping">
+<tt class="descname">metonymy_mapping</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.metonymy_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>If metonymy is relevant, how it changes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.mapping.StructuralMapping.metonymy_mode">
+<tt class="descname">metonymy_mode</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.metonymy_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metonymy mode of each end of the mapping.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.mapping.StructuralMapping.position_mapping">
+<tt class="descname">position_mapping</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.position_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>If position is relevant, how position changes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.mapping.StructuralMapping.slippages">
+<tt class="descname">slippages</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.slippages" title="Permalink to this definition">¶</a></dt>
+<dd><p>If an attribute comes from a different attribute, that information is here.
+Thus, if the new <cite>start</cite> is the successory of the old <cite>end</cite>, then there will be an entry
+start =&gt; end in the slippages dictionary, as well as a start =&gt; succ in the bindings_mapping
+dictionary.</p>
+</dd></dl>
+
+</dd></dl>
+
+<span class="target" id="module-apps.seqsee.relation"></span><p>A relation is a specific instance of a mapping.</p>
+<dl class="class">
+<dt id="apps.seqsee.relation.Relation">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.relation.</tt><tt class="descname">Relation</tt><big>(</big><em>first</em>, <em>second</em>, <em>mapping</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/relation.html#Relation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.relation.Relation" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="apps.seqsee.relation.Relation.AreEndsContiguous">
+<tt class="descname">AreEndsContiguous</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/relation.html#Relation.AreEndsContiguous"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.relation.Relation.AreEndsContiguous" title="Permalink to this definition">¶</a></dt>
+<dd><p>Are the two ends right next to each other (i.e., true if no hole).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.relation.Relation.Ends">
+<tt class="descname">Ends</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/relation.html#Relation.Ends"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.relation.Relation.Ends" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a 2-tuple of the two ends.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.relation.Relation.first">
+<tt class="descname">first</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.relation.Relation.first" title="Permalink to this definition">¶</a></dt>
+<dd><p>The object on the left.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.relation.Relation.mapping">
+<tt class="descname">mapping</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.relation.Relation.mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>The mapping to transform the left object to the right object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.relation.Relation.second">
+<tt class="descname">second</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.relation.Relation.second" title="Permalink to this definition">¶</a></dt>
+<dd><p>The object on the right.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="objects.html"
+                        title="previous chapter">Elements and Groups in Seqsee</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="workspace.html"
+                        title="next chapter">Workspace</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/seqsee/relations.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="workspace.html" title="Workspace"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="objects.html" title="Elements and Groups in Seqsee"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >The Seqsee App</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

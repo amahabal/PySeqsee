@@ -1,0 +1,195 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Workspace &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="The Seqsee App" href="index.html" />
+    <link rel="next" title="Utility Functions" href="utility_functions.html" />
+    <link rel="prev" title="Relations and Mappings" href="relations.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utility_functions.html" title="Utility Functions"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="relations.html" title="Relations and Mappings"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">The Seqsee App</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-apps.seqsee.workspace">
+<span id="workspace"></span><h1>Workspace<a class="headerlink" href="#module-apps.seqsee.workspace" title="Permalink to this headline">¶</a></h1>
+<p>Workspace. Modeled after the workspace in the Perl version.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>No attempt to optimize is being made. Later, with profiling, we can speed things up.</p>
+<p class="last">Specifically, groups are being kept in a set, supergroups-related bookkeeping is not being
+maintained, and so forth. If profiling reveals these to be issues, these can later be optimized.</p>
+</div>
+<dl class="class">
+<dt id="apps.seqsee.workspace.Workspace">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.workspace.</tt><tt class="descname">Workspace</tt><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="apps.seqsee.workspace.Workspace.GetConflictingGroups">
+<tt class="descname">GetConflictingGroups</tt><big>(</big><em>gp</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetConflictingGroups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get a list of groups conflicting with given group.</p>
+<p>Groups g1 and g2 conflict if one group is strictly subsumed by the other and yet is
+not an element of the other. In other words, set(g1.items) overlaps set(g2.items)</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This can be sped up if I am keeping track of supergroups.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.workspace.Workspace.GetGroupsWithSpan">
+<tt class="descname">GetGroupsWithSpan</tt><big>(</big><em>left_fn</em>, <em>right_fn</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetGroupsWithSpan" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get all groups which match the constraints set by the predicate functions for each end.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.workspace.Workspace.GetSuperGroups">
+<tt class="descname">GetSuperGroups</tt><big>(</big><em>anchored</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetSuperGroups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns those group that contain the given anchored as a direct element.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.workspace.Workspace.InsertElement">
+<tt class="descname">InsertElement</tt><big>(</big><em>element</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.InsertElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>Insert an element beyond the last element.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.workspace.Workspace.InsertElements">
+<tt class="descname">InsertElements</tt><big>(</big><em>*integers</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.InsertElements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Utility for adding lots of integers as elements.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.workspace.Workspace.InsertGroup">
+<tt class="descname">InsertGroup</tt><big>(</big><em>group</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.InsertGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Inserts a group into the workspace. It must not conflict with an existing group, else a
+ConflictingGroupException is raised.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.workspace.Workspace.elements">
+<tt class="descname">elements</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.workspace.Workspace.elements" title="Permalink to this definition">¶</a></dt>
+<dd><p>All elements. Each is a <a class="reference internal" href="objects.html#apps.seqsee.sobject.SAnchored" title="apps.seqsee.sobject.SAnchored"><tt class="xref py py-class docutils literal"><span class="pre">SAnchored</span></tt></a> object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.workspace.Workspace.groups">
+<tt class="descname">groups</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.workspace.Workspace.groups" title="Permalink to this definition">¶</a></dt>
+<dd><p>Groups (excluding single element groups).
+Each is a <a class="reference internal" href="objects.html#apps.seqsee.sobject.SAnchored" title="apps.seqsee.sobject.SAnchored"><tt class="xref py py-class docutils literal"><span class="pre">SAnchored</span></tt></a> object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.workspace.Workspace.num_elements">
+<tt class="descname">num_elements</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.workspace.Workspace.num_elements" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of elements.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="relations.html"
+                        title="previous chapter">Relations and Mappings</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="utility_functions.html"
+                        title="next chapter">Utility Functions</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/seqsee/workspace.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="utility_functions.html" title="Utility Functions"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="relations.html" title="Relations and Mappings"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >The Seqsee App</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

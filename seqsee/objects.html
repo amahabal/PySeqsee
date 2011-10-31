@@ -1,0 +1,310 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Elements and Groups in Seqsee &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="The Seqsee App" href="index.html" />
+    <link rel="next" title="Workspace" href="workspace.html" />
+    <link rel="prev" title="The Seqsee App" href="index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="workspace.html" title="Workspace"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The Seqsee App"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" accesskey="U">The Seqsee App</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-apps.seqsee.sobject">
+<span id="elements-and-groups-in-seqsee"></span><h1>Elements and Groups in Seqsee<a class="headerlink" href="#module-apps.seqsee.sobject" title="Permalink to this headline">¶</a></h1>
+<p>Represents a group or a single number in a sequence.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>This is an implementation of the SObject in Perl, but differs significantly in the
+ways described below.</p>
+<ul class="last simple">
+<li>The class hierarchy is different. Whereas previously I had a messed up SElement isa SAnchored
+isa SObject, now positioned stuff merely holds an SObject instance instead of inheriting.</li>
+<li>With this, the responsibility of objects (now SElement and SGroup, both subclasses of
+SObject) is to maintain structure and structure related information (such as categories), and
+not positional or specific use information (such as metonyms).</li>
+</ul>
+</div>
+<dl class="exception">
+<dt id="apps.seqsee.sobject.NonAdjacentGroupElementsException">
+<em class="property">exception </em><tt class="descclassname">apps.seqsee.sobject.</tt><tt class="descname">NonAdjacentGroupElementsException</tt><a class="headerlink" href="#apps.seqsee.sobject.NonAdjacentGroupElementsException" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="apps.seqsee.sobject.SAnchored">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.sobject.</tt><tt class="descname">SAnchored</tt><big>(</big><em>sobj</em>, <em>items</em>, <em>start_pos</em>, <em>end_pos</em>, <em>is_sequence_element=False</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored" title="Permalink to this definition">¶</a></dt>
+<dd><p>An object with position information.</p>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">This way of doing things differs from the way in Perl, where I was subclassing
+instead of just having an sobject as a member.</p>
+</div>
+<dl class="staticmethod">
+<dt id="apps.seqsee.sobject.SAnchored.Create">
+<em class="property">static </em><tt class="descname">Create</tt><big>(</big><em>*items</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.Create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given a list of items, each a SAnchored, creates another SAnchored, provided that the
+items are contiguous. Raises a NonAdjacentGroupElementsException if they are non-adjacent.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SAnchored.SetPosition">
+<tt class="descname">SetPosition</tt><big>(</big><em>start_pos</em>, <em>end_pos</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.SetPosition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets the end-point of the anchored object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SAnchored.Span">
+<tt class="descname">Span</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.Span" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a 2-tuple with start and end points.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SAnchored.Structure">
+<tt class="descname">Structure</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.Structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>The structure of the contained object.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SAnchored.end_pos">
+<tt class="descname">end_pos</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.end_pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>The end position. Note that this is the rightmost edge (unlike, say, iterators).
+For an element, left and right edges are identical.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SAnchored.is_a_metonym_of">
+<tt class="descname">is_a_metonym_of</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.is_a_metonym_of" title="Permalink to this definition">¶</a></dt>
+<dd><p>What is this a metonym of (if anything)?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SAnchored.is_metonym_active">
+<tt class="descname">is_metonym_active</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.is_metonym_active" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is the metonym active?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SAnchored.is_sequence_element">
+<tt class="descname">is_sequence_element</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.is_sequence_element" title="Permalink to this definition">¶</a></dt>
+<dd><p>All items in the workspace &#8212; what used to be elements and groups in the Perl version &#8212;
+are SAnchored objects now. This bit distinguishes elements that are elements in the
+sequence.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SAnchored.items">
+<tt class="descname">items</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>The items &#8212; sub-anchored-objects &#8212; that make up this object. Empty if this has no
+structure (i.e., it holds an SElement.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SAnchored.metonym">
+<tt class="descname">metonym</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.metonym" title="Permalink to this definition">¶</a></dt>
+<dd><p>What metonym does this have?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SAnchored.object">
+<tt class="descname">object</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.object" title="Permalink to this definition">¶</a></dt>
+<dd><p>The object which is anchored.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SAnchored.start_pos">
+<tt class="descname">start_pos</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.start_pos" title="Permalink to this definition">¶</a></dt>
+<dd><p>The start position. The first element in the workspace has position 0.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apps.seqsee.sobject.SElement">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.sobject.</tt><tt class="descname">SElement</tt><big>(</big><em>magnitude</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SElement" title="Permalink to this definition">¶</a></dt>
+<dd><p>A subclass of SObject, where there is a single element, which is a number.</p>
+<dl class="method">
+<dt id="apps.seqsee.sobject.SElement.DeepCopy">
+<tt class="descname">DeepCopy</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SElement.DeepCopy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SElement.Structure">
+<tt class="descname">Structure</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SElement.Structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>The structure is the magnitude.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SElement.magnitude">
+<tt class="descname">magnitude</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SElement.magnitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>An integer representing the number help by the SElement.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apps.seqsee.sobject.SGroup">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.sobject.</tt><tt class="descname">SGroup</tt><big>(</big><em>underlying_mapping=None</em>, <em>items=</em><span class="optional">[</span><span class="optional">]</span><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>A subclass of SObject representing things with an internal structure.</p>
+<dl class="method">
+<dt id="apps.seqsee.sobject.SGroup.DeepCopy">
+<tt class="descname">DeepCopy</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SGroup.DeepCopy" title="Permalink to this definition">¶</a></dt>
+<dd><p>Makes a copy of the group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SGroup.Structure">
+<tt class="descname">Structure</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SGroup.Structure" title="Permalink to this definition">¶</a></dt>
+<dd><p>A tuple representations of the group.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SGroup.items">
+<tt class="descname">items</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SGroup.items" title="Permalink to this definition">¶</a></dt>
+<dd><p>Items in the object</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SGroup.underlying_mapping">
+<tt class="descname">underlying_mapping</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SGroup.underlying_mapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Underlying mapping on which object is based.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="apps.seqsee.sobject.SObject">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.sobject.</tt><tt class="descname">SObject</tt><big>(</big><em>is_group=False</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/sobject.html#SObject"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.sobject.SObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Base class of objects &#8212; groups or elements.</p>
+<p>This is an abstract class. SGroup and SElement are concrete subclasses.</p>
+<dl class="staticmethod">
+<dt id="apps.seqsee.sobject.SObject.Create">
+<em class="property">static </em><tt class="descname">Create</tt><big>(</big><em>*items</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SObject.Create" title="Permalink to this definition">¶</a></dt>
+<dd><p>Creates an SObject given the items, which can be integers, lists, or other SObjects.
+* An integer is converted to an SElement.
+* Create([x, y, z]) is equivalent to Create(x, y, z)
+* Create(x, y, z) forms an SGroup made up of Create(x), Create(y) and Create(z)
+* Create(an Sobject) results in a DeepCopy of the SObject</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SObject.is_group">
+<tt class="descname">is_group</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SObject.is_group" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is this a group? Even SElements can occasionally act like groups.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SObject.strength">
+<tt class="descname">strength</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SObject.strength" title="Permalink to this definition">¶</a></dt>
+<dd><p>A number between 0 and 100.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="index.html"
+                        title="previous chapter">The Seqsee App</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="workspace.html"
+                        title="next chapter">Workspace</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/seqsee/objects.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="workspace.html" title="Workspace"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="index.html" title="The Seqsee App"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="index.html" >The Seqsee App</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

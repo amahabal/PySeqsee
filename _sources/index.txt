@@ -21,6 +21,8 @@ Contents:
    components/stream
    sample_app
 
+   seqsee/index
+
    todo
 
 Indices and tables
