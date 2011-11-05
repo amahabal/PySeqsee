@@ -4,37 +4,19 @@ import tempfile
 
 from farg import ltm
 
-class MockCategory(object):
+class MockCategory(ltm.LTMStorableMixin):
   def __init__(self, foo):
     print "Initializing MockCategory instance ", self
     self.foo = foo
 
-  memos = {}
-  @classmethod
-  def Create(cls, foo):
-    print "Create called with ", foo
-    if foo not in cls.memos:
-      print "New instance generated!!"
-      cls.memos[foo] = cls(foo)
-    return cls.memos[foo]
-
-class MockMapping(object):
+class MockMapping(ltm.LTMStorableMixin):
   def __init__(self, category):
     self.category = category
 
-  memos = {}
-  @classmethod
-  def Create(cls, category):
-    print "Create called with ", category
-    if category not in cls.memos:
-      print "New instance generated!!"
-      cls.memos[category] = cls(category)
-    return cls.memos[category]
-
 class TestLTMNode(unittest.TestCase):
   def test_sanity(self):
-    node = ltm.LTMNode(MockCategory.Create(3))
-    self.assertEqual(MockCategory.Create(3), node.content)
+    node = ltm.LTMNode(MockCategory.Create(foo=3))
+    self.assertEqual(MockCategory.Create(foo=3), node.content)
 
 class TestLTM(unittest.TestCase):
   def setUp(self):
@@ -47,10 +29,10 @@ class TestLTM(unittest.TestCase):
 
   def test_sanity(self):
     myltm = ltm.LTM(self.nodes_filename, self.edges_filename)
-    c1 = MockCategory.Create(7)
-    m1 = MockMapping.Create(c1)
-    c2 = MockCategory.Create(9)
-    m2 = MockMapping.Create(c2)
+    c1 = MockCategory.Create(foo=7)
+    m1 = MockMapping.Create(category=c1)
+    c2 = MockCategory.Create(foo=9)
+    m2 = MockMapping.Create(category=c2)
 
     myltm.AddNode(ltm.LTMNode(c1))
     myltm.AddNode(ltm.LTMNode(m1))
@@ -73,10 +55,10 @@ class TestLTM(unittest.TestCase):
     self.assertEqual(c1p, m1p.category)
     self.assertEqual(c2p, m2p.category)
 
-    c3 = MockCategory.Create(9)
+    c3 = MockCategory.Create(foo=9)
     self.assertEqual(c3, c2p)
 
-    m3 = MockMapping.Create(c3)
+    m3 = MockMapping.Create(category=c3)
     self.assertEqual(m3, m2p)
 
   def test_dependencies_are_after_nodes(self):
@@ -84,10 +66,10 @@ class TestLTM(unittest.TestCase):
     MockCategory.memos = {}
 
     myltm = ltm.LTM(self.nodes_filename, self.edges_filename)
-    c1 = MockCategory.Create(7)
-    m1 = MockMapping.Create(c1)
-    c2 = MockCategory.Create(9)
-    m2 = MockMapping.Create(c2)
+    c1 = MockCategory.Create(foo=7)
+    m1 = MockMapping.Create(category=c1)
+    c2 = MockCategory.Create(foo=9)
+    m2 = MockMapping.Create(category=c2)
 
     # Add in a strange order...
     myltm.AddNode(ltm.LTMNode(m1))
@@ -109,8 +91,8 @@ class TestLTM(unittest.TestCase):
     self.assertEqual(c1p, m1p.category)
     self.assertEqual(c2p, m2p.category)
 
-    c3 = MockCategory.Create(9)
+    c3 = MockCategory.Create(foo=9)
     self.assertEqual(c3, c2p)
 
-    m3 = MockMapping.Create(c3)
+    m3 = MockMapping.Create(category=c3)
     self.assertEqual(m3, m2p)

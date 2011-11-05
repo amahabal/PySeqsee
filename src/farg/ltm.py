@@ -2,6 +2,18 @@
 
 import cPickle as pickle
 
+class LTMStorableMixin(object):
+  memos = {}
+
+  @classmethod
+  def Create(cls, **kwargs):
+    key = frozenset(kwargs.items())
+    if key not in cls.memos:
+      new_instance = cls(**kwargs)
+      cls.memos[key] = new_instance
+      return new_instance
+    return cls.memos[key]
+
 class LTMNode(object):
   """Represents a node in the graph of LTM.
   
