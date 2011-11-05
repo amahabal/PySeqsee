@@ -19,6 +19,7 @@ Contents:
 
    components/coderack
    components/stream
+   components/ltm
    sample_app
 
    seqsee/index

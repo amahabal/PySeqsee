@@ -263,21 +263,6 @@ sub Dump {
 }
 
 # method Load( $package: Str $filename )
-sub Load { # Safe, non-throwing.
-  my ( $package, $filename ) = @_;
-  eval { $package->Load_Helper($filename) };
-
-  my $e;
-  if ( $e = Exception::Class->caught('SErr::LTM_LoadFailure') ) {
-      warn "Failure loading LTM: ", $e->what, "\n", $e->trace->as_string, "\n";
-      exit;
-  }
-  else {
-      $e = Exception::Class->caught();
-      ref $e ? $e->rethrow : die $e;
-  }
-}
-
 sub Load_Helper { # May throw SErr::LTM_LoadFailure
   my ( $package, $filename ) = @_;
 
@@ -347,60 +332,6 @@ sub Load_Helper { # May throw SErr::LTM_LoadFailure
   ## links: $links
 
   # print "Would have loaded the file\n";
-}
-
-{
-  my ( $sep1, $sep2, $char1, $char2, $char3 ) = map { chr($_) } ( 129 .. 133 );
-  my $rx1 = qr{^$char1(.*)};
-  my $rx2 = qr{^$char2(.*)};
-  my $rx3 = qr{^$char3(.*)};
-
-  sub encode {
-    return join(
-      $sep1,
-      map {
-        my $class = ref($_);
-         $class eq 'HASH' ? encode_hash($_)
-        :$class eq 'SInt' ? $char3 . $_->[0]
-        :$class ? $char1 . $MEMORY{$_}
-        :$_
-      } @_
-    );
-  }
-
-  sub encode_hash {
-    my ($hash_ref) = @_;
-    return $char2 . join(
-      $sep2,
-      map {
-        my $class = ref($_);
-        $class  eq 'HASH' ? confess('Recursive hash cannot be encoded')
-        :$class eq 'SInt' ? $char3 . $_->[0]
-        :$class
-        ? $char1 . ( $MEMORY{$_} || confess "unrecognized reference to '$_'" )
-        :$_
-      } %$hash_ref
-    );
-  }
-
-  sub decode {
-    my ($str) = @_;
-    return map {
-       $_ =~ $rx1 ? $MEMORY[$1]
-      :$_ =~ $rx2 ? { decode_hash($1) }
-      :$_ =~ $rx3 ? SInt->new($1)
-      :$_
-    }
-    split( $sep1, $str );
-  }
-
-  sub decode_hash {
-    my ($str) = @_;
-    ## decode_hash called on: $str
-    $str =~ s#$sep2#$sep1#g;
-    ## string now: $str
-    return decode($str);
-  }
 }
 
 sub SetSignificanceAndStabilityForIndex {

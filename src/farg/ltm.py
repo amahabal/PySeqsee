@@ -18,9 +18,9 @@ class LTMNode(object):
   """Represents a node in the graph of LTM.
   
   Each node has a content --- an instance of some python class that implements Caching by using a
-  Create() method where the following is guarenteed for any instance inst:
+  Create() method where the following is guarenteed for any instance inst::
 
-  inst == inst.__class__.Create(**inst.__dict__)
+    inst == inst.__class__.Create(**inst.__dict__)
   """
 
   def __init__(self, content):
