@@ -15,16 +15,29 @@ class LTMNode(object):
     self.content = content
 
   def __getstate__(self):
+    """This saves the class name of content and (mangled) __dict__, to be reconstructed
+    using Create().
+    
+    Mangling consists of replacing any value with the node of which that value is the content.
+    
+    This is needed since we wish to pass everything we are reviving through Create() of appropriate
+    classes, and pickle has its own ideas of how to recreate. I wish to limit complexity to this
+    class (rather than spreading to many), hence modifying how other classes get pickled is not
+    an option.
+    """
     content = self.content
     return (content.__class__, content.__dict__)
 
   def __setstate__(self, state):
+    """This vivifies the object, using Create() and unmangling any values: that is, values that are
+    nodes are replaced by their contents."""
     clsname, instance_dict = state
     LTM.Unmangle(instance_dict)
     self.content = clsname.Create(**instance_dict)
 
 class LTM(object):
   def __init__(self, nodes_filename, edges_filename):
+    """Initialization loads up the nodes and edges of the graph."""
     self.nodes = []
     self.edges = []
     self.nodes_filename = nodes_filename
@@ -45,6 +58,7 @@ class LTM(object):
 
   @staticmethod
   def Unmangle(content_dict):
+    """Replaces values that are nodes with contents of those nodes."""
     for k, v in content_dict.iteritems():
       if isinstance(v, LTMNode):
         content_dict[k] = v.content
@@ -53,13 +67,9 @@ class LTM(object):
     while True:
       try:
         node = unpickler.load()
-        print "Loaded node content=", node.content
         self.AddNode(node)
       except EOFError:
-        print "Done reading"
         break
-    for node in self.nodes:
-      LTM.Unmangle(node.content.__dict__)
 
 
   def LoadEdges(self, unpickler):
@@ -68,7 +78,6 @@ class LTM(object):
         edge = unpickler.load()
         self.AddEdge(edge)
       except EOFError:
-        print "Done reading"
         break
 
   def Dump(self):
