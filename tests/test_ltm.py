@@ -13,6 +13,7 @@ class MockMapping(ltm.LTMStorableMixin):
   def __init__(self, category):
     self.category = category
 
+
 class TestLTMNode(unittest.TestCase):
   def test_sanity(self):
     node = ltm.LTMNode(MockCategory.Create(foo=3))
@@ -41,15 +42,14 @@ class TestLTM(unittest.TestCase):
 
     myltm.Dump()
 
-    # I'll remove the memos os MockMapping but not MockCategory, thereby testing the creation
+    # I'll remove the memos for MockMapping but not MockCategory, thereby testing the creation
     # mechanism.
     MockMapping.memos = {}
     # MockCategory.memos = {}
-    print "==========================="
+
     myltm2 = ltm.LTM(self.nodes_filename, self.edges_filename)
     self.assertEqual(4, len(myltm2.nodes))
     c1p, m1p, c2p, m2p = (x.content for x in myltm2.nodes)
-    print 'c1p=', c1p
     self.assertEqual(7, c1p.foo)
     self.assertEqual(9, c2p.foo)
     self.assertEqual(c1p, m1p.category)
@@ -81,7 +81,6 @@ class TestLTM(unittest.TestCase):
 
     MockMapping.memos = {}
 
-    print "==========================="
     myltm2 = ltm.LTM(self.nodes_filename, self.edges_filename)
     self.assertEqual(4, len(myltm2.nodes))
     m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
