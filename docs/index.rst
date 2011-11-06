@@ -15,6 +15,7 @@ Contents:
    design/run_state
    design/controller
    design/exceptions
+   design/categories
    design/ui
 
    components/coderack

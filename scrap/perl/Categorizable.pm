@@ -2,47 +2,9 @@ package Categorizable;
 use 5.010;
 use Moose::Role;
 
-has categories => (
-  traits  => ['Hash'],
-  is      => 'ro',
-  isa     => 'HashRef',
-  default => sub { {} },
-  reader  => 'get_cats_hash',
-  handles => {
-    'add_category'             => 'set',
-    'remove_category'          => 'delete',
-    'GetBindingForCategory'    => 'get',
-    'is_of_category_p'         => 'get',
-    'category_list_as_strings' => 'keys',
-  }
-);
-
-my %category_registry;
-
-sub RegisterCategory {
-  my ( $package, $cat ) = @_;
-  $category_registry{$cat} = $cat;
-  return;
-}
-
-after 'add_category' => sub {
-  my ( $self, $cat, $bindings ) = @_;
-  $self->AddHistory( "Added category " . $cat->get_name );
-};
-
-before 'remove_category' => sub {
-  my ( $self, $cat ) = @_;
-  $self->AddHistory( "Removed category " . $cat->get_name );
-};
-
 sub get_categories {
   my ($self) = @_;
   return [ map { $category_registry{$_} } $self->category_list_as_strings ];
-}
-
-sub get_categories_as_string {
-  my ($self) = @_;
-  return join( ', ', $self->category_list_as_strings );
 }
 
 sub get_common_categories {
