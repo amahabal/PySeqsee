@@ -17,6 +17,9 @@ class NumericMapping(Mapping):
   def FlippedVersion(self):
     return NumericMapping(NumericMapping._flipmap_[self.name], self.category)
 
+  def Apply(self, item):
+    return self.category.ApplyMapping(self, item)
+
 class StructuralMapping(Mapping):
   def __init__(self, category, bindings_mapping, slippages, metonymy_mode,
                position_mapping=None, metonymy_mapping=None):

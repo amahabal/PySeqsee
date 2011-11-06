@@ -42,6 +42,10 @@ class CategorizableMixin(object):
     return self.categories.has_key(category)
 
   def DescribeAs(self, category):
+    """Describes item as instance of category, and remembers the binding if one is found.
+    
+    Returns the binding.
+    """
     if self.categories.has_key(category):
       return self.categories[category]
     binding = category.IsInstance(self)

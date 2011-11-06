@@ -2,7 +2,7 @@
 
 from farg.category import Binding, Category
 from apps.seqsee.sobject import SAnchored, SElement, SObject
-
+from apps.seqsee.mapping import NumericMapping
 
 class NumericCategory(Category):
   """Base class for categories whose instances are SElements, and membership depends only on the
@@ -14,6 +14,7 @@ class NumericCategory(Category):
       return None
     magnitude = item.magnitude
     return cls.NumericIsInstance(magnitude)
+
 
 class Prime(NumericCategory):
   primes_list = [int(x) for x in
@@ -40,3 +41,38 @@ class Prime(NumericCategory):
       return None
     return Prime.primes_list[Prime.primes_list.index(val) - 1]
 
+  @classmethod
+  def GetMapping(cls, item1, item2):
+    binding1 = item1.DescribeAs(cls)
+    if not binding1: return None
+    binding2 = item2.DescribeAs(cls)
+    if not binding2: return None
+
+    index1, index2 = binding1.GetBindingsForAttribute('index'), binding2.GetBindingsForAttribute('index')
+    diff = index2 - index1
+    if diff == 1:
+      return NumericMapping("succ", Prime)
+    elif diff == 0:
+      return NumericMapping("same", Prime)
+    elif diff == -1:
+      return NumericMapping("pred", Prime)
+    else:
+      return None
+
+  @classmethod
+  def ApplyMapping(cls, mapping, item):
+    name = mapping.name
+    if name == 'same':
+      return item.DeepCopy()
+    if name == 'pred':
+      val = Prime._PrevPrime(item.magnitude)
+      if val:
+        return SObject.Create(val)
+      else:
+        return None
+    if name == 'succ':
+      val = Prime._NextPrime(item.magnitude)
+      if val:
+        return SObject.Create(val)
+      else:
+        return None

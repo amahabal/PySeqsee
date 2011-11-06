@@ -1,6 +1,7 @@
 import unittest
 from farg.category import Binding, CategorizableMixin, Category
 from apps.seqsee.categories import Prime
+from apps.seqsee.mapping import NumericMapping
 from apps.seqsee.sobject import SAnchored, SElement, SObject
 
 class TestSeqseeCategories(unittest.TestCase):
@@ -27,3 +28,13 @@ class TestSeqseeCategories(unittest.TestCase):
     # Same (stored) binding returned.
     binding3 = element.DescribeAs(Prime)
     self.assertEqual(binding3, binding2)
+
+    element5 = SObject.Create(5)
+    element7 = SObject.Create(7)
+    element11 = SObject.Create(11)
+    mapping = Prime.GetMapping(element5, element7)
+    self.assertTrue(isinstance(mapping, NumericMapping))
+    self.assertEqual(Prime, mapping.category)
+    self.assertEqual("succ", mapping.name)
+
+    self.assertEqual(11, mapping.Apply(element7).magnitude)
