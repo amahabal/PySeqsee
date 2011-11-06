@@ -85,22 +85,4 @@ sub create {
   );
 }
 
-sub TellDirectedStory {
 
-  # NO-OP
-}
-
-sub tell_backward_story {
-
-  # NO-OP
-}
-
-sub tell_forward_story {
-
-  # NO-OP
-}
-
-__PACKAGE__->meta->make_immutable;
-1;
-
-1;

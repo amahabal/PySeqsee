@@ -10,14 +10,16 @@
      not positional or specific use information (such as metonyms).
 """
 
+from farg.category import CategorizableMixin
 from farg.exceptions import FargError, FargException
 
-class SObject(object):
+class SObject(CategorizableMixin):
   """Base class of objects --- groups or elements.
   
   This is an abstract class. SGroup and SElement are concrete subclasses.
   """
   def __init__(self, is_group=False):
+    CategorizableMixin.__init__(self)
     #: A number between 0 and 100.
     self.strength = 0
     #: Is this a group? Even SElements can occasionally act like groups.
