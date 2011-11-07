@@ -13,7 +13,7 @@ class Binding(object):
     This also means that the caller of the constructor needs to do all the work, unlike in Perl,
     where some bits were calculated by the constructor. 
   """
-  def __init__(self, bindings):
+  def __init__(self, **bindings):
     self.bindings = dict(bindings)
 
   def GetBindingsForAttribute(self, attribute_name):

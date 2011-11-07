@@ -41,6 +41,8 @@ class SObject(CategorizableMixin):
         return SElement(item)
       elif isinstance(item, list):
         return SObject.Create(*item)
+      elif isinstance(item, tuple):
+        return SObject.Create(*item)
       elif isinstance(item, SObject):
         return item.DeepCopy()
       else:

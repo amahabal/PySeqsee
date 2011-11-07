@@ -3,6 +3,7 @@
 from farg.category import Binding, Category
 from apps.seqsee.sobject import SAnchored, SElement, SObject
 from apps.seqsee.mapping import NumericMapping
+from apps.seqsee.structure_utils import StructureDepth
 
 class NumericCategory(Category):
   """Base class for categories whose instances are SElements, and membership depends only on the
@@ -15,6 +16,11 @@ class NumericCategory(Category):
     magnitude = item.magnitude
     return cls.NumericIsInstance(magnitude)
 
+class StructuralCategory(Category):
+  """Base class whose membership depends on the structure (e.g., ascending, mountain)."""
+  @classmethod
+  def IsInstance(cls, item):
+    return cls.StructuralIsInstance(item.Structure())
 
 class Prime(NumericCategory):
   primes_list = [int(x) for x in
@@ -25,7 +31,7 @@ class Prime(NumericCategory):
   def NumericIsInstance(cls, val):
     try:
       index = Prime.primes_list.index(val)
-      return Binding({'index': index})
+      return Binding(index=index)
     except ValueError:
       return None
 
@@ -76,3 +82,17 @@ class Prime(NumericCategory):
         return SObject.Create(val)
       else:
         return None
+
+class Ascending(StructuralCategory):
+
+  @classmethod
+  def StructuralIsInstance(cls, structure):
+    depth = StructureDepth(structure)
+    if depth >= 2: return None
+    if depth == 0:
+      return Binding(start=structure, end=structure, length=1)
+    # So depth = 1
+    for idx, v in enumerate(structure[1:], 1):
+      if v != structure[idx - 1] + 1:
+        return None
+    return Binding(start=structure[0], end=structure[-1])
