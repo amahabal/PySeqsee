@@ -20,9 +20,21 @@ class NumericMapping(Mapping):
   def Apply(self, item):
     return self.category.ApplyMapping(self, item)
 
+  @classmethod
+  def DifferenceString(cls, old_val, new_val):
+    diff = new_val - old_val
+    if diff == 1:
+      return "succ"
+    elif diff == 0:
+      return "same"
+    elif diff == -1:
+      return "pred"
+    else:
+      return None
+
+
 class StructuralMapping(Mapping):
-  def __init__(self, category, bindings_mapping, slippages, metonymy_mode,
-               position_mapping=None, metonymy_mapping=None):
+  def __init__(self, category, bindings_mapping, slippages=None):
     #: A category, such as ascending, on which mapping is based.
     self.category = category
     #: A dictionary of attribute to a mapping: how is the value of each attribute transformed?
@@ -32,9 +44,4 @@ class StructuralMapping(Mapping):
     #: start => end in the slippages dictionary, as well as a start => succ in the bindings_mapping
     #: dictionary.
     self.slippages = slippages
-    #: Metonymy mode of each end of the mapping.
-    self.metonymy_mode = metonymy_mode
-    #: If position is relevant, how position changes.
-    self.position_mapping = position_mapping
-    #: If metonymy is relevant, how it changes.
-    self.metonymy_mapping = metonymy_mapping
+

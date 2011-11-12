@@ -1,7 +1,7 @@
 import unittest
 from farg.category import Binding, CategorizableMixin, Category
 from apps.seqsee.categories import Ascending, Prime
-from apps.seqsee.mapping import NumericMapping
+from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.sobject import SAnchored, SElement, SObject
 
 class TestSeqseeCategories(unittest.TestCase):
@@ -63,11 +63,11 @@ class TestSeqseeCategories(unittest.TestCase):
     binding3 = group.DescribeAs(Ascending)
     self.assertEqual(binding3, binding2)
 
-#    element5 = SObject.Create(3, 4, 5)
-#    element7 = SObject.Create(3, 4, 5, 6)
-#    mapping = Ascending.GetMapping(element5, element7)
-#    self.assertTrue(isinstance(mapping, StructureMapping))
-#    self.assertEqual(Ascending, mapping.category)
+    element5 = SObject.Create(3, 4, 5)
+    element7 = SObject.Create(3, 4, 5, 6)
+    mapping = Ascending.GetMapping(element5, element7)
+    self.assertTrue(isinstance(mapping, StructuralMapping))
+    self.assertEqual(Ascending, mapping.category)
 #
 #    self.assertEqual((3, 4, 5, 6, 7), mapping.Apply(element7).GetStructure())
 
