@@ -50,13 +50,13 @@ class TestSeqseeCategories(unittest.TestCase):
     binding = Ascending.IsInstance(group)
     self.assertFalse(group.IsKnownAsInstanceOf(Ascending))
     self.assertTrue(binding)
-    self.assertEqual(3, binding.GetBindingsForAttribute('start'))
-    self.assertEqual(5, binding.GetBindingsForAttribute('end'))
+    self.assertEqual(3, binding.GetBindingsForAttribute('start').magnitude)
+    self.assertEqual(5, binding.GetBindingsForAttribute('end').magnitude)
 
     binding2 = group.DescribeAs(Ascending)
     self.assertTrue(group.IsKnownAsInstanceOf(Ascending))
     self.assertTrue(binding2)
-    self.assertEqual(3, binding2.GetBindingsForAttribute('start'))
+    self.assertEqual(3, binding2.GetBindingsForAttribute('start').magnitude)
     self.assertNotEqual(binding, binding2)
 
     # Same (stored) binding returned.
@@ -68,6 +68,6 @@ class TestSeqseeCategories(unittest.TestCase):
     mapping = Ascending.GetMapping(element5, element7)
     self.assertTrue(isinstance(mapping, StructuralMapping))
     self.assertEqual(Ascending, mapping.category)
-#
-#    self.assertEqual((3, 4, 5, 6, 7), mapping.Apply(element7).GetStructure())
+
+    self.assertEqual((3, 4, 5, 6, 7), mapping.Apply(element7).Structure())
 

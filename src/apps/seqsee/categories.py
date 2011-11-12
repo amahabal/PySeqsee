@@ -4,6 +4,7 @@ from farg.category import Binding, Category
 from apps.seqsee.sobject import SAnchored, SElement, SObject
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.structure_utils import StructureDepth
+from farg.exceptions import FargError
 
 class NumericCategory(Category):
   """Base class for categories whose instances are SElements, and membership depends only on the
@@ -137,7 +138,25 @@ class Ascending(StructuralCategory):
     for idx, v in enumerate(structure[1:], 1):
       if v != structure[idx - 1] + 1:
         return None
-    return Binding(start=structure[0], end=structure[-1])
+    return Binding(start=SObject.Create(structure[0]),
+                   end=SObject.Create(structure[-1]))
+
+  @classmethod
+  def Create(cls, bindings):
+    start = bindings.get('start', None)
+    end = bindings.get('end', None)
+    length = bindings.get('length', None)
+    if not start:
+      if not end or not length:
+        raise FargError("Create called when attributes insufficient to build.")
+      start_mag = end.magnitude - length.magnitude + 1
+      return SObject.Create(list(range(start_mag, end.magnitude + 1)))
+    if not end:
+      if not start or not length:
+        raise FargError("Create called when attributes insufficient to build.")
+      end_mag = start.magnitude + length.magnitude - 1
+      return SObject.Create(list(range(start.magnitude, end_mag + 1)))
+    return SObject.Create(list(range(start.magnitude, end.magnitude + 1)))
 
   @classmethod
   def AreAttributesSufficientToBuild(cls, attributes):
@@ -150,4 +169,11 @@ def GetMapping(v1, v2):
       return NumericMapping(diff_string, Number)
     else:
       return None
+  common_categories = v1.GetCommonCategoriesSet(v2)
+  if common_categories:
+    # ... ToDo: Don't merely use the first category!
+    cat = list(common_categories)[0]
+    return cat.GetMapping(v1, v2)
+  if isinstance(v1, SElement) and isinstance(v2, SElement):
+    return GetMapping(v1.magnitude, v2.magnitude)
   return None

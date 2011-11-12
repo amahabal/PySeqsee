@@ -54,6 +54,10 @@ class CategorizableMixin(object):
       return binding
     return None
 
+  def GetCommonCategoriesSet(self, other):
+    return set(self.categories.keys()).intersection(other.categories.keys())
+
+
 class Category(object):
 
   @classmethod

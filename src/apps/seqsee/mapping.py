@@ -45,3 +45,10 @@ class StructuralMapping(Mapping):
     #: dictionary.
     self.slippages = slippages
 
+  def Apply(self, item):
+    bindings = item.GetBindingsForCategory(self.category)
+    new_bindings = {}
+    for attribute, v in self.bindings_mapping.iteritems():
+      new_binding_for_attribute = v.Apply(bindings.GetBindingsForAttribute(attribute))
+      new_bindings[attribute] = new_binding_for_attribute
+    return self.category.Create(new_bindings)
