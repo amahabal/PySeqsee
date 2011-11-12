@@ -177,3 +177,45 @@ def GetMapping(v1, v2):
   if isinstance(v1, SElement) and isinstance(v2, SElement):
     return GetMapping(v1.magnitude, v2.magnitude)
   return None
+
+class CategoryFactory(object):
+  memos = {}
+
+  @classmethod
+  def Create(cls, **kwargs):
+    key = frozenset(kwargs.items())
+    if key not in cls.memos:
+      new_category = cls.Construct(**kwargs)
+      cls.memos[key] = new_category
+      return new_category
+    return cls.memos[key]
+
+class SizeNCategory(CategoryFactory):
+  @classmethod
+  def Construct(cls, size):
+    if size == 1:
+      raise FargError("Attempt to create a SizeN category with size=1")
+    class SizeN(StructuralCategory):
+      @classmethod
+      def StructuralIsInstance(cls, structure):
+        if isinstance(structure, int):
+          return None
+        if len(structure) != size:
+          return None
+        bindings = {}
+        for idx, item in enumerate(structure, 1):
+          bindings['pos_%d' % idx] = SObject.Create(item)
+        return Binding(**bindings)
+
+      @classmethod
+      def AreAttributesSufficientToBuild(cls, attributes):
+        for idx in range(1, size + 1):
+          if 'pos_%d' % idx not in attributes:
+            return False
+        return True
+
+      @classmethod
+      def Create(cls, bindings):
+        structure = [bindings['pos_%d' % x] for x in range(1, size + 1)]
+        return SObject.Create(structure)
+    return SizeN
