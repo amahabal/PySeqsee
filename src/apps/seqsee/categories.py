@@ -50,7 +50,7 @@ from farg.category import Binding, Category
 from apps.seqsee.sobject import SAnchored, SElement, SObject
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.structure_utils import StructureDepth
-from farg.exceptions import FargError
+from farg.exceptions import FargError, FargException
 
 class NumericCategory(Category):
   """Base class for categories whose instances are SElements, and membership depends only on the
@@ -271,3 +271,46 @@ class SizeNCategory(ParametrizedCategory):
         structure = [bindings['pos_%d' % x] for x in range(1, size + 1)]
         return SObject.Create(structure)
     return SizeN
+
+class MappingBasedCategory(ParametrizedCategory):
+  @classmethod
+  def Construct(cls, mapping):
+    class MBC(StructuralCategory):
+
+      @classmethod
+      def IsInstance(cls, item):
+        if isinstance(item, SElement):
+          # Probably the wrong thing to do.
+          return None
+        for item_part in item.items:
+          if not item_part.DescribeAs(mapping.category):
+            return cls.IsDegenerateInstance(item)
+        # So all items can be described as members of category...
+        for idx, itempart in enumerate(item.items[1:], 1):
+          if not mapping.IsPairConsistent(item.items[idx - 1], itempart):
+            return cls.IsDegenerateInstance(item)
+        # Okay, so valid.
+        return Binding(start=item.items[0], length=SObject.Create(len(item.items)))
+
+      @classmethod
+      def IsDegenerateInstance(cls, item):
+        if not item.DescribeAs(mapping.category):
+          return None
+        return Binding(start=item, length=SObject.Create(1))
+
+      @classmethod
+      def AreAttributesSufficientToBuild(cls, attributes):
+        return 'start' in attributes and 'length' in attributes
+
+      @classmethod
+      def Create(cls, bindings):
+        items = [SObject.Create(bindings['start'])]
+        for i in range(1, bindings['length'].magnitude):
+          if not items[-1].DescribeAs(mapping.category):
+            raise FargException("Unable to create object")
+          next_item = mapping.Apply(items[-1])
+          if not next_item:
+            raise FargException("Unable to create object")
+          items.append(next_item)
+        return SObject.Create(items)
+    return MBC

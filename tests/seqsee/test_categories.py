@@ -1,6 +1,6 @@
 import unittest
 from farg.category import Binding, CategorizableMixin, Category
-from apps.seqsee.categories import Ascending, Prime, SizeNCategory
+from apps.seqsee.categories import Ascending, MappingBasedCategory, Number, Prime, SizeNCategory
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.sobject import SAnchored, SElement, SObject
 
@@ -108,3 +108,52 @@ class TestSeqseeCategories(unittest.TestCase):
     self.assertEqual(Size2, mapping.category)
 
     self.assertEqual((3, 7), mapping.Apply(element6).Structure())
+
+  def test_mapping_based(self):
+    Size2 = SizeNCategory.Create(size=2)
+    numeric_sameness = NumericMapping("same", Number)
+    numeric_successor = NumericMapping("succ", Number)
+    mapping_second_succ = StructuralMapping(Size2,
+                                            {'pos_1': numeric_sameness,
+                                             'pos_2': numeric_successor})
+    mapping_first_succ = StructuralMapping(Size2,
+                                           {'pos_2': numeric_sameness,
+                                            'pos_1': numeric_successor})
+    SecondSucc = MappingBasedCategory.Create(mapping=mapping_second_succ)
+    SecondSuccp = MappingBasedCategory.Create(mapping=mapping_second_succ)
+    FirstSucc = MappingBasedCategory.Create(mapping=mapping_first_succ)
+
+    self.assertEqual(SecondSucc, SecondSuccp)
+    self.assertNotEqual(SecondSucc, FirstSucc)
+
+    self.assertTrue(SecondSucc.IsInstance(SObject.Create((3, 4), (3, 5))))
+    self.assertTrue(SecondSucc.IsInstance(SObject.Create(3, 5)))
+    self.assertTrue(SecondSucc.IsInstance(SObject.Create((3, 4), (3, 5), (3, 6))))
+    self.assertFalse(SecondSucc.IsInstance(SObject.Create(3, 4, 6)))
+    self.assertFalse(SecondSucc.IsInstance(SObject.Create((3, 4), (3, 6), (3, 7))))
+
+    group = SObject.Create((3, 5), (3, 6))
+    binding = SecondSucc.IsInstance(group)
+    self.assertFalse(group.IsKnownAsInstanceOf(SecondSucc))
+    self.assertTrue(binding)
+    self.assertEqual((3, 5), binding.GetBindingsForAttribute('start').Structure())
+    self.assertEqual(2, binding.GetBindingsForAttribute('length').magnitude)
+
+    binding2 = group.DescribeAs(SecondSucc)
+    self.assertTrue(group.IsKnownAsInstanceOf(SecondSucc))
+    self.assertTrue(binding2)
+    self.assertEqual((3, 5), binding.GetBindingsForAttribute('start').Structure())
+    self.assertEqual(2, binding.GetBindingsForAttribute('length').magnitude)
+    self.assertNotEqual(binding, binding2)
+
+    # Same (stored) binding returned.
+    binding3 = group.DescribeAs(SecondSucc)
+    self.assertEqual(binding3, binding2)
+
+    element5 = SObject.Create((3, 5), (3, 6))
+    element6 = SObject.Create((4, 6), (4, 7), (4, 8))
+    mapping = SecondSucc.GetMapping(element5, element6)
+    self.assertTrue(isinstance(mapping, StructuralMapping))
+    self.assertEqual(SecondSucc, mapping.category)
+
+    self.assertEqual(((5, 7), (5, 8), (5, 9), (5, 10)), mapping.Apply(element6).Structure())

@@ -52,3 +52,10 @@ class StructuralMapping(Mapping):
       new_binding_for_attribute = v.Apply(bindings.GetBindingsForAttribute(attribute))
       new_bindings[attribute] = new_binding_for_attribute
     return self.category.Create(new_bindings)
+
+  def IsPairConsistent(self, item1, item2):
+    """Is the pair of items consistent with this mapping?
+    
+    .. ToDo:: This is a cop-out, currently; when extending Seqsee, I should revisit this.
+    """
+    return self.Apply(item1).Structure() == item2.Structure()
