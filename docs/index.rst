@@ -13,6 +13,7 @@ Contents:
 
    intro
    design/run_state
+   design/codelets
    design/controller
    design/exceptions
    design/categories
