@@ -68,6 +68,16 @@
 <dt id="apps.seqsee.mapping.NumericMapping">
 <em class="property">class </em><tt class="descclassname">apps.seqsee.mapping.</tt><tt class="descname">NumericMapping</tt><big>(</big><em>name</em>, <em>category</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/mapping.html#NumericMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
+<dt id="apps.seqsee.mapping.NumericMapping.Apply">
+<tt class="descname">Apply</tt><big>(</big><em>item</em><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping.Apply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="apps.seqsee.mapping.NumericMapping.DifferenceString">
+<em class="property">classmethod </em><tt class="descname">DifferenceString</tt><big>(</big><em>old_val</em>, <em>new_val</em><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping.DifferenceString" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="apps.seqsee.mapping.NumericMapping.FlippedVersion">
 <tt class="descname">FlippedVersion</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/mapping.html#NumericMapping.FlippedVersion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping.FlippedVersion" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -89,8 +99,13 @@ version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>nof
 
 <dl class="class">
 <dt id="apps.seqsee.mapping.StructuralMapping">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.mapping.</tt><tt class="descname">StructuralMapping</tt><big>(</big><em>category</em>, <em>bindings_mapping</em>, <em>slippages</em>, <em>metonymy_mode</em>, <em>position_mapping=None</em>, <em>metonymy_mapping=None</em><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="attribute">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.mapping.</tt><tt class="descname">StructuralMapping</tt><big>(</big><em>category</em>, <em>bindings_mapping</em>, <em>slippages=None</em><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="apps.seqsee.mapping.StructuralMapping.Apply">
+<tt class="descname">Apply</tt><big>(</big><em>item</em><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.Apply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
 <dt id="apps.seqsee.mapping.StructuralMapping.bindings_mapping">
 <tt class="descname">bindings_mapping</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.bindings_mapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>A dictionary of attribute to a mapping: how is the value of each attribute transformed?</p>
@@ -100,24 +115,6 @@ version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>nof
 <dt id="apps.seqsee.mapping.StructuralMapping.category">
 <tt class="descname">category</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.category" title="Permalink to this definition">¶</a></dt>
 <dd><p>A category, such as ascending, on which mapping is based.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="apps.seqsee.mapping.StructuralMapping.metonymy_mapping">
-<tt class="descname">metonymy_mapping</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.metonymy_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>If metonymy is relevant, how it changes.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="apps.seqsee.mapping.StructuralMapping.metonymy_mode">
-<tt class="descname">metonymy_mode</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.metonymy_mode" title="Permalink to this definition">¶</a></dt>
-<dd><p>Metonymy mode of each end of the mapping.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="apps.seqsee.mapping.StructuralMapping.position_mapping">
-<tt class="descname">position_mapping</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.position_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>If position is relevant, how position changes.</p>
 </dd></dl>
 
 <dl class="attribute">

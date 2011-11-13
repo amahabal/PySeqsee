@@ -1,0 +1,206 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>farg.ltm &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../../index.html" />
+    <link rel="up" title="Module code" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for farg.ltm</h1><div class="highlight"><pre>
+<span class="sd">&quot;&quot;&quot;Long term memory.&quot;&quot;&quot;</span>
+
+<span class="kn">import</span> <span class="nn">cPickle</span> <span class="kn">as</span> <span class="nn">pickle</span>
+
+<div class="viewcode-block" id="LTMStorableMixin"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTMStorableMixin">[docs]</a><span class="k">class</span> <span class="nc">LTMStorableMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="n">memos</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="LTMStorableMixin.Create"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTMStorableMixin.Create">[docs]</a>  <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">memos</span><span class="p">:</span>
+      <span class="n">new_instance</span> <span class="o">=</span> <span class="n">cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">cls</span><span class="o">.</span><span class="n">memos</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_instance</span>
+      <span class="k">return</span> <span class="n">new_instance</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">memos</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+</div></div>
+<div class="viewcode-block" id="LTMNode"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTMNode">[docs]</a><span class="k">class</span> <span class="nc">LTMNode</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Represents a node in the graph of LTM.</span>
+<span class="sd">  </span>
+<span class="sd">  Each node has a content --- an instance of some python class that implements Caching by using a</span>
+<span class="sd">  Create() method where the following is guarenteed for any instance inst:</span>
+
+<span class="sd">  inst == inst.__class__.Create(**inst.__dict__)</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>
+
+  <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This saves the class name of content and (mangled) __dict__, to be reconstructed</span>
+<span class="sd">    using Create().</span>
+<span class="sd">    </span>
+<span class="sd">    Mangling consists of replacing any value with the node of which that value is the content.</span>
+<span class="sd">    </span>
+<span class="sd">    This is needed since we wish to pass everything we are reviving through Create() of appropriate</span>
+<span class="sd">    classes, and pickle has its own ideas of how to recreate. I wish to limit complexity to this</span>
+<span class="sd">    class (rather than spreading to many), hence modifying how other classes get pickled is not</span>
+<span class="sd">    an option.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">content</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This vivifies the object, using Create() and unmangling any values: that is, values that are</span>
+<span class="sd">    nodes are replaced by their contents.&quot;&quot;&quot;</span>
+    <span class="n">clsname</span><span class="p">,</span> <span class="n">instance_dict</span> <span class="o">=</span> <span class="n">state</span>
+    <span class="n">LTM</span><span class="o">.</span><span class="n">Unmangle</span><span class="p">(</span><span class="n">instance_dict</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">clsname</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="o">**</span><span class="n">instance_dict</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="LTM"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTM">[docs]</a><span class="k">class</span> <span class="nc">LTM</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nodes_filename</span><span class="p">,</span> <span class="n">edges_filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initialization loads up the nodes and edges of the graph.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">edges</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">nodes_filename</span> <span class="o">=</span> <span class="n">nodes_filename</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">edges_filename</span> <span class="o">=</span> <span class="n">edges_filename</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">nodes_filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="n">up</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">Unpickler</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">LoadNodes</span><span class="p">(</span><span class="n">up</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">edges_filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="n">up</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">Unpickler</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">LoadEdges</span><span class="p">(</span><span class="n">up</span><span class="p">)</span>
+
+  <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="LTM.Mangle"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTM.Mangle">[docs]</a>  <span class="k">def</span> <span class="nf">Mangle</span><span class="p">(</span><span class="n">content_dict</span><span class="p">,</span> <span class="n">content_to_node_map</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Replaces references to nodes with the nodes themselves.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">content_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+      <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">content_to_node_map</span><span class="p">:</span>
+        <span class="n">content_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">content_to_node_map</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+</div>
+  <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="LTM.Unmangle"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTM.Unmangle">[docs]</a>  <span class="k">def</span> <span class="nf">Unmangle</span><span class="p">(</span><span class="n">content_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Replaces values that are nodes with contents of those nodes.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">content_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">LTMNode</span><span class="p">):</span>
+        <span class="n">content_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">content</span>
+</div>
+<div class="viewcode-block" id="LTM.LoadNodes"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTM.LoadNodes">[docs]</a>  <span class="k">def</span> <span class="nf">LoadNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unpickler</span><span class="p">):</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">unpickler</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AddNode</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
+        <span class="k">break</span>
+
+</div>
+<div class="viewcode-block" id="LTM.LoadEdges"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTM.LoadEdges">[docs]</a>  <span class="k">def</span> <span class="nf">LoadEdges</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unpickler</span><span class="p">):</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">edge</span> <span class="o">=</span> <span class="n">unpickler</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AddEdge</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
+        <span class="k">break</span>
+</div>
+<div class="viewcode-block" id="LTM.Dump"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTM.Dump">[docs]</a>  <span class="k">def</span> <span class="nf">Dump</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">content_to_node_map</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">x</span><span class="o">.</span><span class="n">content</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes_filename</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="n">pickler</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">Pickler</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="n">LTM</span><span class="o">.</span><span class="n">Mangle</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="n">content_to_node_map</span><span class="p">)</span>
+        <span class="n">pickler</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">edges_filename</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="n">pickler</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">Pickler</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="p">:</span>
+        <span class="n">pickler</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="LTM.AddNode"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTM.AddNode">[docs]</a>  <span class="k">def</span> <span class="nf">AddNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">LTMNode</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="LTM.AddEdge"><a class="viewcode-back" href="../../components/ltm.html#farg.ltm.LTM.AddEdge">[docs]</a>  <span class="k">def</span> <span class="nf">AddEdge</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

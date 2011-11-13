@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Long-term Memory &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="next" title="Sample App" href="../sample_app.html" />
+    <link rel="prev" title="Stream of Thought" href="stream.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../sample_app.html" title="Sample App"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="stream.html" title="Stream of Thought"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-farg.ltm">
+<span id="long-term-memory"></span><h1>Long-term Memory<a class="headerlink" href="#module-farg.ltm" title="Permalink to this headline">¶</a></h1>
+<p>Long term memory.</p>
+<dl class="class">
+<dt id="farg.ltm.LTM">
+<em class="property">class </em><tt class="descclassname">farg.ltm.</tt><tt class="descname">LTM</tt><big>(</big><em>nodes_filename</em>, <em>edges_filename</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm.html#LTM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTM" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.ltm.LTM.AddEdge">
+<tt class="descname">AddEdge</tt><big>(</big><em>edge</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm.html#LTM.AddEdge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTM.AddEdge" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.ltm.LTM.AddNode">
+<tt class="descname">AddNode</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm.html#LTM.AddNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTM.AddNode" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.ltm.LTM.Dump">
+<tt class="descname">Dump</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm.html#LTM.Dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTM.Dump" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.ltm.LTM.LoadEdges">
+<tt class="descname">LoadEdges</tt><big>(</big><em>unpickler</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm.html#LTM.LoadEdges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTM.LoadEdges" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.ltm.LTM.LoadNodes">
+<tt class="descname">LoadNodes</tt><big>(</big><em>unpickler</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm.html#LTM.LoadNodes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTM.LoadNodes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="farg.ltm.LTM.Mangle">
+<em class="property">static </em><tt class="descname">Mangle</tt><big>(</big><em>content_dict</em>, <em>content_to_node_map</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm.html#LTM.Mangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTM.Mangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces references to nodes with the nodes themselves.</p>
+</dd></dl>
+
+<dl class="staticmethod">
+<dt id="farg.ltm.LTM.Unmangle">
+<em class="property">static </em><tt class="descname">Unmangle</tt><big>(</big><em>content_dict</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm.html#LTM.Unmangle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTM.Unmangle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Replaces values that are nodes with contents of those nodes.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.ltm.LTMNode">
+<em class="property">class </em><tt class="descclassname">farg.ltm.</tt><tt class="descname">LTMNode</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm.html#LTMNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTMNode" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents a node in the graph of LTM.</p>
+<p>Each node has a content &#8212; an instance of some python class that implements Caching by using a
+Create() method where the following is guarenteed for any instance inst:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">inst</span> <span class="o">==</span> <span class="n">inst</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="o">**</span><span class="n">inst</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.ltm.LTMStorableMixin">
+<em class="property">class </em><tt class="descclassname">farg.ltm.</tt><tt class="descname">LTMStorableMixin</tt><a class="reference internal" href="../_modules/farg/ltm.html#LTMStorableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTMStorableMixin" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="classmethod">
+<dt id="farg.ltm.LTMStorableMixin.Create">
+<em class="property">classmethod </em><tt class="descname">Create</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm.html#LTMStorableMixin.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.LTMStorableMixin.Create" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="farg.ltm.LTMStorableMixin.memos">
+<tt class="descname">memos</tt><em class="property"> = {}</em><a class="headerlink" href="#farg.ltm.LTMStorableMixin.memos" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="stream.html"
+                        title="previous chapter">Stream of Thought</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../sample_app.html"
+                        title="next chapter">Sample App</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/components/ltm.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../sample_app.html" title="Sample App"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="stream.html" title="Stream of Thought"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>
