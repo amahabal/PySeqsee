@@ -97,14 +97,10 @@ class Category(object):
   def FindMapping(cls, categorizable1, categorizable2):
     """Finds a mapping between two objects based on a particular category.
     """
-    if not categorizable1.IsKnownAsInstanceOf(cls): return None
-    if not categorizable2.IsKnownAsInstanceOf(cls): return None
+    raise FargError("IsInstance makes no sense on base category.")
 
   @classmethod
   def ApplyMapping(cls, categorizable, mapping):
     """Apply a mapping to a categorizable to obtain a different categorizable.
     """
-    if mapping.category is not cls:
-      raise FargError("Apply mapping called on wrong category.")
-    if not categorizable.IsKnownAsInstanceOf(cls):
-      raise FargError("Apply mapping called on wrong object not an instance of category.")
+    raise FargError("IsInstance makes no sense on base category.")
