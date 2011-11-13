@@ -9,25 +9,6 @@ requires 'get_name';
 requires 'as_text';
 requires 'AreAttributesSufficientToBuild';
 
-use Class::Multimethods;
-multimethod 'FindMapping';
-multimethod 'ApplyMapping';
-
-use SUtil;
-use List::Util qw(sum shuffle);
-
-use overload
-'~~'     => 'literal_comparison_hack_for_smart_match',
-fallback => 1;
-
-sub literal_comparison_hack_for_smart_match {
-  return $_[0] eq $_[1];
-}
-
-sub BUILD {
-}
-after 'BUILD' => sub { Categorizable->RegisterCategory( $_[0] ) };
-
 sub is_instance {
   my ( $cat, $object ) = @_;
   my $bindings = $cat->Instancer($object) or return;
