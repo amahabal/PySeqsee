@@ -1,4 +1,21 @@
-"""Base class for a category."""
+"""Classes to deal with categories and their instances, including the base class for categories.
+
+An example will help describe all that happens here. We will use the category 'Ascending' from
+Seqsee. Instances of this category are objects such as '(1 2 3)' and '(7 8 9 10)'. Objects need to
+have CategorizableMixin in their class hierarchy: it provides methods to store the discovered
+categories and their bindings.
+
+A category is a class (deriving from Category).
+
+Adding a category to an instance::
+
+  bindings = item.DescribeAs(category)
+
+The following also returns a binding, but does not store the membership information::
+
+  bindings = category.IsInstance(item)
+
+"""
 
 from farg.exceptions import FargError
 
@@ -55,11 +72,19 @@ class CategorizableMixin(object):
     return None
 
   def GetCommonCategoriesSet(self, other):
+    """Returns a list of discovered categories common to this and the other categorizable."""
     return set(self.categories.keys()).intersection(other.categories.keys())
 
 
 class Category(object):
-
+  """The base class of any category in the FARG system.
+  
+  Any derivative class must define the following class methods:
+  
+  * IsInstance (which would return a binding),
+  * FindMapping (given two categorizables, returns a mapping between the two)
+  * ApplyMapping (given a mapping and a categorizable, returns a new item). 
+  """
   @classmethod
   def IsInstance(cls, object):
     """Is object an instance of this category?
@@ -71,16 +96,13 @@ class Category(object):
   @classmethod
   def FindMapping(cls, categorizable1, categorizable2):
     """Finds a mapping between two objects based on a particular category.
-    
-     .. ToDo:: This is incomplete, since I have not fleshed out mappings yet.
     """
     if not categorizable1.IsKnownAsInstanceOf(cls): return None
     if not categorizable2.IsKnownAsInstanceOf(cls): return None
 
+  @classmethod
   def ApplyMapping(cls, categorizable, mapping):
     """Apply a mapping to a categorizable to obtain a different categorizable.
-    
-     .. ToDo:: This is incomplete, since I have not fleshed out mappings yet.
     """
     if mapping.category is not cls:
       raise FargError("Apply mapping called on wrong category.")

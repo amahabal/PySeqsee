@@ -1,4 +1,50 @@
-"""Seqsee-specific categories."""
+"""Seqsee-specific categories.
+
+These will include (not all implemented yet):
+
+* Numeric Categories:
+
+  * Number
+  * Prime
+  * Even and Odd
+  
+* Structural Categories:
+
+  * Ascending
+  * Descending
+  * Mountain
+  * Size2, Size3, etc.
+  
+* Mapping Based Categories:
+
+  * Given a mapping, a category can be defined whose elements are such that successive elements are
+    associated by this mapping.
+
+Numeric Categories
+--------------------
+
+Members may only be SElements, and membership depends only on the magnitude of the SElement. These
+derive from NumericCategory, and must define the class method NumericIsInstance.
+
+Structural Categories
+-----------------------
+
+Members are SObjects (may be groups or elements), and membership depends only on the structure.
+These derive from StructuralCategory, and must define class method StructuralIsInstance.
+
+Parametrized Categories
+-------------------------
+
+This is a category "factory": subclasses of ParametrizedCategory must define a classmethod
+Construct that returns a category (i.e., a subclass of Category).
+
+If FooCategory is a subclass of ParametrizedCategory, we could say::
+
+  cat1 = FooCategory.Create(x=3)
+  # cat1 is subclass of Category.
+  cat2 = FooCategory.Create(x=3)  # Returns the same cached class.
+
+"""
 
 from farg.category import Binding, Category
 from apps.seqsee.sobject import SAnchored, SElement, SObject
@@ -45,6 +91,23 @@ class StructuralCategory(Category):
     if cls.AreAttributesSufficientToBuild(bindings_mapping.keys()):
       return StructuralMapping(category=cls, bindings_mapping=bindings_mapping)
     return None
+
+class ParametrizedCategory(object):
+  """Base class for a family of related categories. To create one member of the family, call
+  Create. If the arguments to Create are novel, "Construct" will be called on the base class, and
+  it should return the category (i.e., a subclass of Category).
+  """
+  memos = {}
+
+  @classmethod
+  def Create(cls, **kwargs):
+    key = frozenset(kwargs.items())
+    if key not in cls.memos:
+      new_category = cls.Construct(**kwargs)
+      cls.memos[key] = new_category
+      return new_category
+    return cls.memos[key]
+
 
 class Number(NumericCategory):
   def NumericIsInstance(cls, val):
@@ -178,19 +241,8 @@ def GetMapping(v1, v2):
     return GetMapping(v1.magnitude, v2.magnitude)
   return None
 
-class CategoryFactory(object):
-  memos = {}
 
-  @classmethod
-  def Create(cls, **kwargs):
-    key = frozenset(kwargs.items())
-    if key not in cls.memos:
-      new_category = cls.Construct(**kwargs)
-      cls.memos[key] = new_category
-      return new_category
-    return cls.memos[key]
-
-class SizeNCategory(CategoryFactory):
+class SizeNCategory(ParametrizedCategory):
   @classmethod
   def Construct(cls, size):
     if size == 1:
