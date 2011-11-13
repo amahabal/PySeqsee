@@ -18,4 +18,5 @@ class Test(unittest.TestCase):
     c = Codelet(Foo, runstate, 50, x=3)
     self.assertEqual(50, c.urgency)
     self.assertEqual(18, c.Run())
+    self.assertEqual(c, runstate.most_recent_codelet)
     self.assertEqual(48, c.Run())
