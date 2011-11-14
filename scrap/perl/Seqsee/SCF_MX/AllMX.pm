@@ -1,38 +1,3 @@
-package Seqsee::SCF::CheckIfInstance;
-use 5.010;
-use MooseX::SCF;
-Codelet_Family(
-  attributes => [ obj => {}, cat => {} ],
-  body       => sub {
-    my ( $obj, $cat ) = @_;
-    if ( $obj->describe_as($cat) and $Global::Feature{LTM} ) {
-      $cat->SpikeBy( 10 );
-      $obj->InsertISALink( $cat )->Spike(5);
-    }
-  }
-);
-
-package Seqsee::SCF::FocusOn;
-use MooseX::SCF;
-use Seqsee::SCF;
-Codelet_Family(
-  attributes => [ what => { optional => 1 } ],
-  body       => sub {
-    my ($what) = @_;
-    if ($what) {
-      ContinueWith( SThought->create($what) );
-    } else {
-      # Equivalent to Reader
-      if ( SUtil::toss(0.3) ) {
-        SWorkspace::__CreateSamenessGroupAround($SWorkspace::ReadHead);
-        return;
-      }
-      my $object = SWorkspace::__ReadObjectOrRelation() // return;
-      main::message( "Focusing on: " . $object->as_text() ) if $Global::debugMAX;
-      ContinueWith( SThought->create($object) );
-    }
-  }
-);
 
 package Seqsee::SCF::ActOnOverlappingThoughts;
 use MooseX::SCF;

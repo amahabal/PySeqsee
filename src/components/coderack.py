@@ -1,10 +1,11 @@
 import random
+from farg.exceptions import FargError, FargException
 
-class CoderackEmptyException(Exception):
+class CoderackEmptyException(FargException):
   """Raised if :func:`~Coderack.GetCodelet` called on an empty coderack."""
   pass
 
-class Coderack:
+class Coderack(object):
   """Implements the coderack --- the collection of codelets waiting to run.
   
   .. todo:: Choose the codelet to expunge based on a better criteria than uniformly randomly.
@@ -19,6 +20,8 @@ class Coderack:
     self._codelet_count = 0
     #: The set of codelets.
     self._codelets = set()
+    #: For testing, it is useful to be able to force next codelet to return.
+    self._forced_next_codelet = None
 
   def IsEmpty(self):
     """True if contains no codelets."""
@@ -26,6 +29,11 @@ class Coderack:
 
   def GetCodelet(self):
     """Randomly selects a codelet (biased by urgency). Requires the coderack to be nonempty."""
+    if self._forced_next_codelet:
+      codelet = self._forced_next_codelet
+      self._RemoveCodelet(codelet)
+      self._forced_next_codelet = None
+      return codelet
     if self._codelet_count == 0:
       raise CoderackEmptyException()
     random_urgency = random.uniform(0, self._urgency_sum)
@@ -44,6 +52,19 @@ class Coderack:
     self._codelets.add(codelet)
     self._codelet_count += 1
     self._urgency_sum += codelet.urgency
+
+  def ForceNextCodelet(self, codelet):
+    """Force codelet to be the next one retrieved by GetCodelet.
+    
+     .. Note::
+    
+        This mechanism should only be used during testing. It is unsafe in that if the codelet is
+        expunged (because of new codelets being added), the program can crash. This will never
+        happen if the next codelet is marked and GetCodelet called soon thereafter.
+    """
+    if codelet not in self._codelets:
+      raise FargError("Cannot mark a non-existant codelet as the next to retrieve.")
+    self._forced_next_codelet = codelet
 
   def _RemoveCodelet(self, codelet):
     """Removes named codelet from coderack."""
