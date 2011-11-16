@@ -103,7 +103,7 @@ class SAnchored(SObject):
     #: The object which is anchored.
     self.object = sobj
     #: The items --- sub-anchored-objects --- that make up this object. Empty if this has no
-    #: structure (i.e., it holds an SElement.
+    #: structure (i.e., it holds an SElement).
     self.items = items
     #: The start position. The first element in the workspace has position 0.
     self.start_pos = start_pos
