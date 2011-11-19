@@ -115,3 +115,15 @@ class TestLTM(unittest.TestCase):
     edges = myltm.GetNode(m1).GetOutgoingEdges()
     self.assertEqual(c1, edges[0].to_node.content)
     self.assertEqual(ltm.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
+
+    myltm.Dump()
+
+    MockMapping.memos = {}
+    MockCategory.memos = {}
+
+    myltm2 = ltm.LTM(self.nodes_filename, self.edges_filename)
+    self.assertEqual(4, len(myltm2.nodes))
+    m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
+    edges = myltm2.GetNode(m1p).GetOutgoingEdges()
+    self.assertEqual(c1p, edges[0].to_node.content)
+    self.assertEqual(ltm.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)

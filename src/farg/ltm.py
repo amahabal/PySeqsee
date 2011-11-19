@@ -52,15 +52,15 @@ class LTMNode(object):
     an option.
     """
     content = self.content
-    return (content.__class__, content.__dict__)
+    return (content.__class__, content.__dict__, self.outgoing_edges)
 
   def __setstate__(self, state):
     """This vivifies the object, using Create() and unmangling any values: that is, values that are
     nodes are replaced by their contents."""
-    clsname, instance_dict = state
+    clsname, instance_dict, outgoing_edges = state
     LTM.Unmangle(instance_dict)
     self.content = clsname.Create(**instance_dict)
-
+    self.outgoing_edges = outgoing_edges
 
 class LTMEdge(object):
   def __init__(self, to_node, edge_type):
