@@ -95,3 +95,23 @@ class TestLTM(unittest.TestCase):
 
     m3 = MockMapping.Create(category=c3)
     self.assertEqual(m3, m2p)
+
+  def test_store_edges(self):
+    MockMapping.memos = {}
+    MockCategory.memos = {}
+
+    myltm = ltm.LTM(self.nodes_filename, self.edges_filename)
+    c1 = MockCategory.Create(foo=7)
+    m1 = MockMapping.Create(category=c1)
+    c2 = MockCategory.Create(foo=9)
+    m2 = MockMapping.Create(category=c2)
+
+    myltm.AddNode(ltm.LTMNode(m1))
+    myltm.AddNode(ltm.LTMNode(m2))
+    myltm.AddNode(ltm.LTMNode(c1))
+    myltm.AddNode(ltm.LTMNode(c2))
+
+    myltm.AddEdge(m1, c1)
+    edges = myltm.GetNode(m1).GetOutgoingEdges()
+    self.assertEqual(c1, edges[0].to_node.content)
+    self.assertEqual(ltm.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)

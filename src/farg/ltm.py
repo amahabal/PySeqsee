@@ -2,7 +2,17 @@
 
 import cPickle as pickle
 
+LTM_EDGE_TYPE_RELATED = 1
+LTM_EDGE_TYPE_FOLLOWS = 2
+LTM_EDGE_TYPE_ISA = 3
+LTM_EDGE_CAN_BE_SEEN_AS = 4
+
 class LTMStorableMixin(object):
+  """Any class whose instances should be stored in LTM must adhere to certain semantics, and
+  subclass from this class.
+  
+  For a given set of arguments, this class ensures that only a single object is created.
+  """
   memos = {}
 
   @classmethod
@@ -25,6 +35,10 @@ class LTMNode(object):
 
   def __init__(self, content):
     self.content = content
+    self.outgoing_edges = []
+
+  def GetOutgoingEdges(self):
+    return self.outgoing_edges
 
   def __getstate__(self):
     """This saves the class name of content and (mangled) __dict__, to be reconstructed
@@ -47,11 +61,18 @@ class LTMNode(object):
     LTM.Unmangle(instance_dict)
     self.content = clsname.Create(**instance_dict)
 
+
+class LTMEdge(object):
+  def __init__(self, to_node, edge_type):
+    self.to_node = to_node
+    self.edge_type = edge_type
+
 class LTM(object):
   def __init__(self, nodes_filename, edges_filename):
     """Initialization loads up the nodes and edges of the graph."""
     self.nodes = []
     self.edges = []
+    self.content_to_node = {}
     self.nodes_filename = nodes_filename
     self.edges_filename = edges_filename
     with open(nodes_filename) as f:
@@ -106,7 +127,13 @@ class LTM(object):
 
   def AddNode(self, node):
     assert(isinstance(node, LTMNode))
-    self.nodes.append(node)
+    if not node.content in self.content_to_node:
+      self.content_to_node[node.content] = node
+      self.nodes.append(node)
 
-  def AddEdge(self, edge):
-    self.edges.append(edge)
+  def GetNode(self, content):
+    return self.content_to_node[content]
+
+  def AddEdge(self, from_content, to_content, edge_type=LTM_EDGE_TYPE_RELATED):
+    edge = LTMEdge(self.GetNode(to_content), edge_type)
+    self.GetNode(from_content).outgoing_edges.append(edge)
