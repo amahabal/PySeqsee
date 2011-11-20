@@ -6,6 +6,11 @@ class FargException(Exception):
   """Base class for FARG-specific exceptions."""
   pass
 
+class AnswerFoundException(FargException):
+  """Raised by a subspace when it believes that an answer has been found."""
+  def __init__(self, answer):
+    self.answer = answer
+
 class ConflictingGroupException(FargException):
   """If an attempt is made to add a group to the workspace that conflicts some existing group(s),
   this exception is raised."""
