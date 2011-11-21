@@ -202,7 +202,8 @@ class Ascending(StructuralCategory):
       if v != structure[idx - 1] + 1:
         return None
     return Binding(start=SObject.Create(structure[0]),
-                   end=SObject.Create(structure[-1]))
+                   end=SObject.Create(structure[-1]),
+                   length=SObject.Create(structure[-1] - structure[0] + 1))
 
   @classmethod
   def Create(cls, bindings):

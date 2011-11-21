@@ -1,6 +1,10 @@
 import random
 from farg.exceptions import FargError, FargException
 
+import logging
+logger = logging.getLogger(__name__)
+
+
 class CoderackEmptyException(FargException):
   """Raised if :func:`~Coderack.GetCodelet` called on an empty coderack."""
   pass
@@ -47,7 +51,9 @@ class Coderack(object):
 
   def AddCodelet(self, codelet):
     """Adds codelet to coderack. Removes some existing codelet if needed."""
+    logger.info('Codelet added: %s', str(codelet.family))
     if self._codelet_count == self._max_capacity:
+      logger.info('Over capacity: expunging some codelet.')
       self._ExpungeSomeCodelet()
     self._codelets.add(codelet)
     self._codelet_count += 1

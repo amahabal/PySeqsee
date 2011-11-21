@@ -11,6 +11,9 @@ class AnswerFoundException(FargException):
   def __init__(self, answer):
     self.answer = answer
 
+class NoAnswerException(FargException):
+  pass
+
 class ConflictingGroupException(FargException):
   """If an attempt is made to add a group to the workspace that conflicts some existing group(s),
   this exception is raised."""

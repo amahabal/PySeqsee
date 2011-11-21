@@ -1,3 +1,5 @@
+from farg.codelet import Codelet
+
 class RunState(object):
   """Maintains the state of the current run.
   What is known, what we have asked the user, how many steps have we taken and
@@ -7,4 +9,7 @@ class RunState(object):
   
   * most_recent_codelet
   """
-  pass
+
+  def AddCodelet(self, family, urgency, **arguments):
+    codelet = Codelet(family, self, urgency, **arguments)
+    self.coderack.AddCodelet(codelet)

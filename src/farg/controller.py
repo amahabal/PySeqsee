@@ -3,6 +3,9 @@ from components.stream import Stream
 from farg.codelet import Codelet
 from apps.seqsee.util import Toss
 
+import logging
+logger = logging.getLogger(__name__)
+
 class Controller(object):
   """The controller of an application sits between the UI layer and the runstate.
 
@@ -13,7 +16,7 @@ class Controller(object):
   def __init__(self, runstate):
     """The controller expects a runstate to be passed to it, which it will own."""
     self.runstate = runstate
-    self.coderack = Coderack(10)
+    self.coderack = self.runstate.coderack = Coderack(10)
     self.stream = Stream()
     #: An iterable of three-tuples that names a family, urgency, and probability of addition.
     #: At each step, a codelet is added with the said probability, and with this urgency.
@@ -35,7 +38,11 @@ class Controller(object):
           self.coderack.AddCodelet(Codelet(family, self.runstate, urgency))
     if not self.coderack.IsEmpty():
       codelet = self.coderack.GetCodelet()
+      logger.info("Running codelet of family %s", codelet.family)
       codelet.Run()
+    else:
+      logger.info("Empty coderack, step is a no-op.")
+
 
   def RunUptoNSteps(self, n_steps):
     """Takes upto N steps. In these, it is possible that an answer is found and an exception
