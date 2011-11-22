@@ -4,5 +4,6 @@
 .settings
 docs/_build
 nosetests.xml
-
+.coverage
+cover
 
