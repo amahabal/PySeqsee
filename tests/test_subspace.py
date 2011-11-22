@@ -30,8 +30,8 @@ class Subspace(object):
     return NeedDeeperExploration()
 
   def __init__(self):
-    self.run_state = RunState()
-    self.controller = Controller(self.run_state)
+    self.runstate = RunState()
+    self.controller = Controller(self.runstate)
 
 
 class CF_NumericCase(CodeletFamily):
@@ -133,9 +133,9 @@ class SubspaceFindMapping(Subspace):
       self.category = category
 
   def Initialize(self, arguments):
-    self.workspace = self.run_state.workspace = self.Workspace(**arguments)
+    self.workspace = self.runstate.workspace = self.Workspace(**arguments)
     logger.info('Initialized new subspace')
-    self.run_state.AddCodelet(CF_NumericCase, 100)
+    self.runstate.AddCodelet(CF_NumericCase, 100)
 
   @classmethod
   def QuickReconnaisance(cls, arguments):

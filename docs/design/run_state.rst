@@ -1,6 +1,6 @@
 The Run State
 ==============
 
-.. autoclass:: farg.run_state.RunState
+.. automodule:: farg.runstate
   :members:
 

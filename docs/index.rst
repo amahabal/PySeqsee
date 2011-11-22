@@ -3,8 +3,8 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to PySeqsee's documentation!
-====================================
+Seqsee: A Cognitive Architecture for High-level Perception
+===========================================================
 
 Contents:
 
@@ -12,16 +12,7 @@ Contents:
    :maxdepth: 2
 
    intro
-   design/run_state
-   design/codelets
-   design/controller
-   design/exceptions
-   design/categories
-   design/ui
-
-   components/coderack
-   components/stream
-   components/ltm
+   design
    sample_app
 
    seqsee/index
