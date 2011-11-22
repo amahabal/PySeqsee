@@ -8,7 +8,7 @@ from ui.gui.conversation import Conversation
 class GUI(object):
   """Tkinter-based UI for Seqsee."""
 
-  def __init__(self, run_state):
+  def __init__(self, runstate):
     print "Will run GUI"
     config = ConfigParser.SafeConfigParser()
     config.read('config/gui.config')
@@ -16,10 +16,10 @@ class GUI(object):
     geometry = config.get('App', 'geometry')
     mw = Tk()
     mw.geometry(geometry)
-    self.SetupWindows(mw, config, run_state)
+    self.SetupWindows(mw, config, runstate)
     mw.mainloop()
 
-  def SetupWindows(self, mw, config, run_state):
+  def SetupWindows(self, mw, config, runstate):
     button_frame = Frame(mw)
     button_frame.pack(side=TOP)
     self.SetupButtons(button_frame)
@@ -33,11 +33,11 @@ class GUI(object):
     conversation.pack(side=TOP)
 
     self.SetupBindings(mw)
-    self.ReDraw(run_state)
+    self.ReDraw(runstate)
 
-  def ReDraw(self, run_state):
-    self.conversation.ReDraw(run_state)
-    self.central_pane.ReDraw(run_state)
+  def ReDraw(self, runstate):
+    self.conversation.ReDraw(runstate)
+    self.central_pane.ReDraw(runstate)
 
   def SetupButtons(self, button_frame):
     Button(button_frame, text="Start", command=self.Start).pack(side=LEFT)

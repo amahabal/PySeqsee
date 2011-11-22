@@ -13,10 +13,10 @@ class CentralPane(Canvas):
     # Defaulting to full workspace view, for now.
     self.SetInitialView(width, height)
 
-  def ReDraw(self, run_state):
+  def ReDraw(self, runstate):
     self.delete(ALL)
     for viewport in self.viewports:
-      viewport.ReDraw(run_state)
+      viewport.ReDraw(runstate)
 
   def SetInitialView(self, width, height):
     self.viewports = [WorkspaceView(self, 0, 0, width, height, "ws")]

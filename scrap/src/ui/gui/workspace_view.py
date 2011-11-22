@@ -7,8 +7,8 @@ class WorkspaceView(ViewPort):
     self.min_gp_height = height * 0.2
     self.max_gp_height = height * 0.4
 
-  def ReDrawView(self, run_state):
-    revealed_terms = run_state.revealed_terms
+  def ReDrawView(self, runstate):
+    revealed_terms = runstate.revealed_terms
     space_per_element = self.width / (len(revealed_terms) + 1)
     for idx, term in enumerate(revealed_terms):
       x, y = self.CanvasCoordinates((idx + 0.5) * space_per_element,

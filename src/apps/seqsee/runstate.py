@@ -1,4 +1,4 @@
-from farg.run_state import RunState
+from farg.runstate import RunState
 from apps.seqsee.workspace import Workspace
 from components.coderack import Coderack
 from components.stream import Stream

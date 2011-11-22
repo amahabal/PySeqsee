@@ -8,7 +8,7 @@ from apps.seqsee.util import WeightedShuffle
 from farg.codelet import Codelet, CodeletFamily
 from farg.controller import Controller
 from farg.exceptions import FargException, AnswerFoundException, NoAnswerException
-from farg.run_state import RunState
+from farg.runstate import RunState
 
 import logging
 logger = logging.getLogger(__name__)
