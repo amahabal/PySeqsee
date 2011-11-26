@@ -24,6 +24,10 @@ class LTMStorableMixin(object):
       return new_instance
     return cls.memos[key]
 
+  @classmethod
+  def ClearMemos(cls):
+    memos = {}
+
 class LTMNode(object):
   """Represents a node in the graph of LTM.
   
@@ -131,9 +135,16 @@ class LTM(object):
       self.content_to_node[node.content] = node
       self.nodes.append(node)
 
-  def GetNode(self, content):
-    return self.content_to_node[content]
+  def GetNodeForContent(self, content):
+    """Returns node for content; creates one if it does not exist."""
+    assert(isinstance(content, LTMStorableMixin))
+    if content in self.content_to_node:
+      return self.content_to_node[content]
+    new_node = LTMNode(content)
+    self.nodes.append(new_node)
+    self.content_to_node[content] = new_node
+    return new_node
 
-  def AddEdge(self, from_content, to_content, edge_type=LTM_EDGE_TYPE_RELATED):
-    edge = LTMEdge(self.GetNode(to_content), edge_type)
-    self.GetNode(from_content).outgoing_edges.append(edge)
+  def AddEdgeBetweenContent(self, from_content, to_content, edge_type=LTM_EDGE_TYPE_RELATED):
+    edge = LTMEdge(self.GetNodeForContent(to_content), edge_type)
+    self.GetNodeForContent(from_content).outgoing_edges.append(edge)

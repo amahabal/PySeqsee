@@ -19,7 +19,7 @@ class TestLTMNode(unittest.TestCase):
     node = ltm.LTMNode(MockCategory.Create(foo=3))
     self.assertEqual(MockCategory.Create(foo=3), node.content)
 
-class TestLTM(unittest.TestCase):
+class LTMTestBase(unittest.TestCase):
   def setUp(self):
     filehandle, self.nodes_filename = tempfile.mkstemp()
     filehandle, self.edges_filename = tempfile.mkstemp()
@@ -28,6 +28,7 @@ class TestLTM(unittest.TestCase):
     os.remove(self.nodes_filename)
     os.remove(self.edges_filename)
 
+class TestLTM(LTMTestBase):
   def test_sanity(self):
     myltm = ltm.LTM(self.nodes_filename, self.edges_filename)
     c1 = MockCategory.Create(foo=7)
@@ -35,10 +36,8 @@ class TestLTM(unittest.TestCase):
     c2 = MockCategory.Create(foo=9)
     m2 = MockMapping.Create(category=c2)
 
-    myltm.AddNode(ltm.LTMNode(c1))
-    myltm.AddNode(ltm.LTMNode(m1))
-    myltm.AddNode(ltm.LTMNode(c2))
-    myltm.AddNode(ltm.LTMNode(m2))
+    for content in (c1, m1, c2, m2):
+      myltm.GetNodeForContent(content)
 
     myltm.Dump()
 
@@ -72,10 +71,8 @@ class TestLTM(unittest.TestCase):
     m2 = MockMapping.Create(category=c2)
 
     # Add in a strange order...
-    myltm.AddNode(ltm.LTMNode(m1))
-    myltm.AddNode(ltm.LTMNode(m2))
-    myltm.AddNode(ltm.LTMNode(c1))
-    myltm.AddNode(ltm.LTMNode(c2))
+    for content in (m1, m2, c1, c2):
+      myltm.GetNodeForContent(content)
 
     myltm.Dump()
 
@@ -106,13 +103,11 @@ class TestLTM(unittest.TestCase):
     c2 = MockCategory.Create(foo=9)
     m2 = MockMapping.Create(category=c2)
 
-    myltm.AddNode(ltm.LTMNode(m1))
-    myltm.AddNode(ltm.LTMNode(m2))
-    myltm.AddNode(ltm.LTMNode(c1))
-    myltm.AddNode(ltm.LTMNode(c2))
+    for content in (m1, m2, c1, c2):
+      myltm.GetNodeForContent(content)
 
-    myltm.AddEdge(m1, c1)
-    edges = myltm.GetNode(m1).GetOutgoingEdges()
+    myltm.AddEdgeBetweenContent(m1, c1)
+    edges = myltm.GetNodeForContent(m1).GetOutgoingEdges()
     self.assertEqual(c1, edges[0].to_node.content)
     self.assertEqual(ltm.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
 
@@ -124,6 +119,18 @@ class TestLTM(unittest.TestCase):
     myltm2 = ltm.LTM(self.nodes_filename, self.edges_filename)
     self.assertEqual(4, len(myltm2.nodes))
     m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
-    edges = myltm2.GetNode(m1p).GetOutgoingEdges()
+    edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
     self.assertEqual(c1p, edges[0].to_node.content)
     self.assertEqual(ltm.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
+
+class TestLTM2(LTMTestBase):
+  def test_activation(self):
+    ltm.LTMStorableMixin.ClearMemos()
+
+    myltm = ltm.LTM(self.nodes_filename, self.edges_filename)
+    c1 = MockCategory.Create(foo=7)
+    m1 = MockMapping.Create(category=c1)
+    for content in (m1, c1):
+      myltm.GetNodeForContent(content)
+    myltm.AddEdgeBetweenContent(m1, c1)
+
