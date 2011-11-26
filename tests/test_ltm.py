@@ -134,3 +134,37 @@ class TestLTM2(LTMTestBase):
       myltm.GetNodeForContent(content)
     myltm.AddEdgeBetweenContent(m1, c1)
 
+    node_m1 = myltm.GetNodeForContent(m1)
+    node_c1 = myltm.GetNodeForContent(c1)
+    self.assertEqual(0, node_m1.GetRawActivation(current_time=0))
+    self.assertEqual(0, node_c1.GetRawActivation(current_time=0))
+
+    # Spiking c1 does not send activation back to m1 (edge is unidirectional).
+    node_c1.Spike(10, current_time=0)
+    self.assertEqual(0, node_m1.GetRawActivation(current_time=0))
+    self.assertEqual(10, node_c1.GetRawActivation(current_time=0))
+
+    # Spiking m1, though, sends activation to c1 as well.
+    node_m1.Spike(10, current_time=0)
+    self.assertEqual(10, node_m1.GetRawActivation(current_time=0))
+    self.assertTrue(10 < node_c1.GetRawActivation(current_time=0))
+
+    self.assertAlmostEqual(0.2, node_c1.depth_reciprocal)
+    node_c1.IncrementDepth()
+    self.assertAlmostEqual(0.16666666666, node_c1.depth_reciprocal)
+
+    myltm.Dump()
+    ltm.LTMStorableMixin.ClearMemos()
+    myltm2 = ltm.LTM(self.nodes_filename, self.edges_filename)
+    node_m1p, node_c1p = myltm2.nodes
+    m1p, c1p = (x.content for x in myltm2.nodes)
+    edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
+    self.assertEqual(c1p, edges[0].to_node.content)
+
+    #: Activations reset on loading...
+    self.assertEqual(0, node_m1p.GetRawActivation(current_time=0))
+    self.assertEqual(0, node_c1p.GetRawActivation(current_time=0))
+
+    #: But depths are maintained.
+    self.assertAlmostEqual(0.2, node_m1p.depth_reciprocal)
+    self.assertAlmostEqual(0.166666666, node_c1p.depth_reciprocal)

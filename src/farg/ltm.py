@@ -1,6 +1,7 @@
 """Long term memory."""
 
 import cPickle as pickle
+import math
 
 LTM_EDGE_TYPE_RELATED = 1
 LTM_EDGE_TYPE_FOLLOWS = 2
@@ -28,6 +29,11 @@ class LTMStorableMixin(object):
   def ClearMemos(cls):
     memos = {}
 
+#: Maps raw activation (an integer) to real activation.
+_raw_activation_to_real_activation = [
+    0.4815 + 0.342 * math.atan2(12 * (0.01 * x - 0.5), 1)
+    for x in range(2, 203)]
+
 class LTMNode(object):
   """Represents a node in the graph of LTM.
   
@@ -39,10 +45,59 @@ class LTMNode(object):
 
   def __init__(self, content):
     self.content = content
-    self.outgoing_edges = []
+    self._outgoing_edges = []
+    #: An easy-to-update measure of activation. The real activation is a continuous function of
+    #: this. Starts out at (and never falls below) 0.
+    self._raw_activation = 0
+    #: Depth of a node controls how quickly it accumulates or decays activation. The greater the
+    #: depth, the slower this happens. Starts out at 5 and can go up from there.
+    #: What is stored here is the reciprocal of depth, as that is what is needed in calculations.
+    self.depth_reciprocal = 1.0 / 5
+    #: When was activation last updated? This is used so that activation can be calculated only
+    #: when needed (not whenever decays happen, for instance!)
+    self._time_of_activation_update = 0
+
+  def IncrementDepth(self):
+    depth = 1.0 / self.depth_reciprocal
+    self.depth_reciprocal = 1.0 / (depth + 1)
+
+  def _ProcessDecays(self, current_time):
+    """Process any pending decays."""
+    timesteps_passed = current_time - self._time_of_activation_update
+    if timesteps_passed:
+      self._raw_activation -= timesteps_passed
+      if self._raw_activation < 0:
+        self._raw_activation = 0
+    self._time_of_activation_update = current_time
+
+  def _SpikeNonSpreading(self, amount, current_time):
+    """Update activation by this amount (after processing any pending decays, but do not
+       propagate further."""
+    self._ProcessDecays(current_time)
+    self._raw_activation += amount
+    if self._raw_activation > 100:
+      self.IncrementDepth()
+      self._raw_activation = 90
+
+  def Spike(self, amount, current_time):
+    """Update activation by this amount (after processing any pending decays."""
+    self._SpikeNonSpreading(amount, current_time)
+    for edge in self._outgoing_edges:
+      to_node = edge.to_node
+      to_node._SpikeNonSpreading(0.25 * amount, current_time)
+    return self.GetActivation(current_time)
+
+  def GetRawActivation(self, current_time):
+    """Get raw activation. Time is needed to calculate decay, if any, since the stored activation."""
+    self._ProcessDecays(current_time)
+    return self._raw_activation
+
+  def GetActivation(self, current_time):
+    """Get activation. This is f(raw_activation), where f is a predefined mapping."""
+    return _raw_activation_to_real_activation[self.GetRawActivation(current_time)]
 
   def GetOutgoingEdges(self):
-    return self.outgoing_edges
+    return self._outgoing_edges
 
   def __getstate__(self):
     """This saves the class name of content and (mangled) __dict__, to be reconstructed
@@ -56,15 +111,18 @@ class LTMNode(object):
     an option.
     """
     content = self.content
-    return (content.__class__, content.__dict__, self.outgoing_edges)
+    return (content.__class__, content.__dict__, self._outgoing_edges, self.depth_reciprocal)
 
   def __setstate__(self, state):
     """This vivifies the object, using Create() and unmangling any values: that is, values that are
     nodes are replaced by their contents."""
-    clsname, instance_dict, outgoing_edges = state
+    clsname, instance_dict, outgoing_edges, depth_reciprocal = state
     LTM.Unmangle(instance_dict)
     self.content = clsname.Create(**instance_dict)
-    self.outgoing_edges = outgoing_edges
+    self._outgoing_edges = outgoing_edges
+    self._raw_activation = 0
+    self._time_of_activation_update = 0
+    self.depth_reciprocal = depth_reciprocal
 
 class LTMEdge(object):
   def __init__(self, to_node, edge_type):
@@ -147,4 +205,4 @@ class LTM(object):
 
   def AddEdgeBetweenContent(self, from_content, to_content, edge_type=LTM_EDGE_TYPE_RELATED):
     edge = LTMEdge(self.GetNodeForContent(to_content), edge_type)
-    self.GetNodeForContent(from_content).outgoing_edges.append(edge)
+    self.GetNodeForContent(from_content)._outgoing_edges.append(edge)
