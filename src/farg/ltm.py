@@ -65,7 +65,7 @@ class LTMNode(object):
     """Process any pending decays."""
     timesteps_passed = current_time - self._time_of_activation_update
     if timesteps_passed:
-      self._raw_activation -= timesteps_passed
+      self._raw_activation -= timesteps_passed * depth_reciprocal
       if self._raw_activation < 0:
         self._raw_activation = 0
     self._time_of_activation_update = current_time
@@ -74,7 +74,7 @@ class LTMNode(object):
     """Update activation by this amount (after processing any pending decays, but do not
        propagate further."""
     self._ProcessDecays(current_time)
-    self._raw_activation += amount
+    self._raw_activation += amount * self.depth_reciprocal
     if self._raw_activation > 100:
       self.IncrementDepth()
       self._raw_activation = 90
@@ -94,7 +94,7 @@ class LTMNode(object):
 
   def GetActivation(self, current_time):
     """Get activation. This is f(raw_activation), where f is a predefined mapping."""
-    return _raw_activation_to_real_activation[self.GetRawActivation(current_time)]
+    return _raw_activation_to_real_activation[int(self.GetRawActivation(current_time))]
 
   def GetOutgoingEdges(self):
     return self._outgoing_edges
