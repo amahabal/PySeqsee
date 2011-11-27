@@ -76,7 +76,7 @@ class LTMNode(object):
     """This vivifies the object, using Create() and unmangling any values: that is, values that are
     nodes are replaced by their contents."""
     clsname, instance_dict, outgoing_edges, depth_reciprocal = state
-    LTMNode.Unmangle(instance_dict)
+    LTMNode._Unmangle(instance_dict)
     self.content = clsname.Create(**instance_dict)
     self._outgoing_edges = outgoing_edges
     self._raw_activation = 0
@@ -84,7 +84,7 @@ class LTMNode(object):
     self.depth_reciprocal = depth_reciprocal
 
   @staticmethod
-  def Unmangle(content_dict):
+  def _Unmangle(content_dict):
     """Replaces values that are nodes with contents of those nodes."""
     for k, v in content_dict.iteritems():
       if isinstance(v, LTMNode):
