@@ -29,19 +29,14 @@ class LTMStorableMixin(object):
 
 
 class LTM(object):
-  def __init__(self, nodes_filename, edges_filename):
+  def __init__(self, filename):
     """Initialization loads up the nodes and edges of the graph."""
     self.nodes = []
-    self.edges = []
     self.content_to_node = {}
-    self.nodes_filename = nodes_filename
-    self.edges_filename = edges_filename
-    with open(nodes_filename) as f:
+    self.filename = filename
+    with open(filename) as f:
       up = pickle.Unpickler(f)
       self.LoadNodes(up)
-    with open(edges_filename) as f:
-      up = pickle.Unpickler(f)
-      self.LoadEdges(up)
 
   @staticmethod
   def Mangle(content_dict, content_to_node_map):
@@ -58,26 +53,13 @@ class LTM(object):
       except EOFError:
         break
 
-
-  def LoadEdges(self, unpickler):
-    while True:
-      try:
-        edge = unpickler.load()
-        self.AddEdge(edge)
-      except EOFError:
-        break
-
   def Dump(self):
     content_to_node_map = dict((x.content, x) for x in self.nodes)
-    with open(self.nodes_filename, "w") as f:
+    with open(self.filename, "w") as f:
       pickler = pickle.Pickler(f, 2)
       for node in self.nodes:
         LTM.Mangle(node.content.__dict__, content_to_node_map)
         pickler.dump(node)
-    with open(self.edges_filename, "w") as f:
-      pickler = pickle.Pickler(f, 2)
-      for edge in self.edges:
-        pickler.dump(edge)
 
   def AddNode(self, node):
     assert(isinstance(node, LTMNode))
