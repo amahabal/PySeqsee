@@ -5,7 +5,6 @@ Design
    :maxdepth: 2
 
    design/subspaces
-   design/run_state
    design/codelets
    design/controller
    design/exceptions

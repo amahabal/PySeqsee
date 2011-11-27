@@ -1,8 +1,8 @@
 from Tkinter import *
 
 class Conversation(Frame):
-  def __init__(self, parent, *args, **kwargs):
-    Frame.__init__(self, parent)
+  def __init__(self, master, *args, **kwargs):
+    Frame.__init__(self, master)
     text = self.text = Text(self, **kwargs)
     text.pack(side=LEFT)
     buttons_frame = Frame(self)

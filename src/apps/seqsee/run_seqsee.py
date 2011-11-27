@@ -6,7 +6,7 @@ from apps.seqsee.controller import SeqseeController
 args = ParseSeqseeArguments()
 print args
 
-controller = SeqseeController()
+controller = SeqseeController(args)
 # The following line takes control of the rest of the run(s):
 ui = args.ui(controller)
 ui.Launch()

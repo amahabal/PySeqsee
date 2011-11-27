@@ -7,10 +7,10 @@ class ViewPort(object):
     self.canvas = canvas
     self.identifier = identifier
 
-  def ReDraw(self, runstate):
+  def ReDraw(self, controller):
     # Should delete things with identifers. I will let canvas delete, for now.
     print "Will redraw viewport"
-    self.ReDrawView(runstate)
+    self.ReDrawView(controller)
 
   def CanvasCoordinates(self, x, y):
     return (self.left + x, self.bottom + y)

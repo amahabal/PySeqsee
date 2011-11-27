@@ -1,4 +1,4 @@
-from ui.gui.viewport import ViewPort
+from apps.seqsee.gui.viewport import ViewPort
 
 class WorkspaceView(ViewPort):
   def __init__(self, canvas, left, bottom, width, height, identifier):
@@ -7,8 +7,9 @@ class WorkspaceView(ViewPort):
     self.min_gp_height = height * 0.2
     self.max_gp_height = height * 0.4
 
-  def ReDrawView(self, runstate):
-    revealed_terms = runstate.revealed_terms
+  def ReDrawView(self, controller):
+    ws = controller.ws
+    revealed_terms = [x.object.magnitude for x in ws.elements]
     space_per_element = self.width / (len(revealed_terms) + 1)
     for idx, term in enumerate(revealed_terms):
       x, y = self.CanvasCoordinates((idx + 0.5) * space_per_element,

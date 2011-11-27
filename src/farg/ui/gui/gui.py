@@ -1,5 +1,5 @@
 import tkMessageBox
-from Tkinter import Tk, Button, Frame, LEFT
+from Tkinter import Tk, Button, Frame, LEFT, SUNKEN
 from threading import Thread
 
 from farg.exceptions import *
@@ -57,7 +57,7 @@ class GUI(object):
     for item in self.items_to_refresh:
       item.Redraw()
 
-  def Quit(self):
+  def Quit(self, *ignored):
     """Quits the application. Calls quit on the controller as well."""
     self.Pause()
     if self.stepping_thread:
@@ -107,13 +107,8 @@ class GUI(object):
     self.PopulateButtonPane(self.buttons_pane)
     self.buttons_pane.grid()
 
-    self.central_pane = Frame(mw)
-    self.PopulateCentralPane(self.central_pane)
-    self.central_pane.grid();
-
-    self.interaction_pane = Frame(mw)
-    self.PopulateInteractionPane(self.interaction_pane)
-    self.interaction_pane.grid();
+    self.PopulateCentralPane()
+    self.PopulateInteractionPane()
 
   def PopulateButtonPane(self, frame):
     """Adds buttons to the top row."""
@@ -122,12 +117,12 @@ class GUI(object):
     Button(frame, text="Quit", command=self.Quit).pack(side=LEFT)
 
 
-  def PopulateCentralPane(self, frame):
+  def PopulateCentralPane(self):
     """Sets up the display in the central part.
     
     If an item must be refreshed, add it to items_to_refresh."""
     pass
 
-  def PopulateInteractionPane(self, frame):
+  def PopulateInteractionPane(self):
     """Sets up the interaction pane at the bottom."""
     pass
