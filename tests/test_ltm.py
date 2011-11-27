@@ -2,21 +2,22 @@ import unittest
 import os
 import tempfile
 
-from farg import ltm
+from farg import ltm_old
+from farg.ltm.node import LTMNode
 
-class MockCategory(ltm.LTMStorableMixin):
+class MockCategory(ltm_old.LTMStorableMixin):
   def __init__(self, foo):
     print "Initializing MockCategory instance ", self
     self.foo = foo
 
-class MockMapping(ltm.LTMStorableMixin):
+class MockMapping(ltm_old.LTMStorableMixin):
   def __init__(self, category):
     self.category = category
 
 
 class TestLTMNode(unittest.TestCase):
   def test_sanity(self):
-    node = ltm.LTMNode(MockCategory.Create(foo=3))
+    node = LTMNode(MockCategory.Create(foo=3))
     self.assertEqual(MockCategory.Create(foo=3), node.content)
 
 class LTMTestBase(unittest.TestCase):
@@ -30,7 +31,7 @@ class LTMTestBase(unittest.TestCase):
 
 class TestLTM(LTMTestBase):
   def test_sanity(self):
-    myltm = ltm.LTM(self.nodes_filename, self.edges_filename)
+    myltm = ltm_old.LTM(self.nodes_filename, self.edges_filename)
     c1 = MockCategory.Create(foo=7)
     m1 = MockMapping.Create(category=c1)
     c2 = MockCategory.Create(foo=9)
@@ -46,7 +47,7 @@ class TestLTM(LTMTestBase):
     MockMapping.memos = {}
     # MockCategory.memos = {}
 
-    myltm2 = ltm.LTM(self.nodes_filename, self.edges_filename)
+    myltm2 = ltm_old.LTM(self.nodes_filename, self.edges_filename)
     self.assertEqual(4, len(myltm2.nodes))
     c1p, m1p, c2p, m2p = (x.content for x in myltm2.nodes)
     self.assertEqual(7, c1p.foo)
@@ -64,7 +65,7 @@ class TestLTM(LTMTestBase):
     MockMapping.memos = {}
     MockCategory.memos = {}
 
-    myltm = ltm.LTM(self.nodes_filename, self.edges_filename)
+    myltm = ltm_old.LTM(self.nodes_filename, self.edges_filename)
     c1 = MockCategory.Create(foo=7)
     m1 = MockMapping.Create(category=c1)
     c2 = MockCategory.Create(foo=9)
@@ -78,7 +79,7 @@ class TestLTM(LTMTestBase):
 
     MockMapping.memos = {}
 
-    myltm2 = ltm.LTM(self.nodes_filename, self.edges_filename)
+    myltm2 = ltm_old.LTM(self.nodes_filename, self.edges_filename)
     self.assertEqual(4, len(myltm2.nodes))
     m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
 
@@ -97,7 +98,7 @@ class TestLTM(LTMTestBase):
     MockMapping.memos = {}
     MockCategory.memos = {}
 
-    myltm = ltm.LTM(self.nodes_filename, self.edges_filename)
+    myltm = ltm_old.LTM(self.nodes_filename, self.edges_filename)
     c1 = MockCategory.Create(foo=7)
     m1 = MockMapping.Create(category=c1)
     c2 = MockCategory.Create(foo=9)
@@ -109,25 +110,25 @@ class TestLTM(LTMTestBase):
     myltm.AddEdgeBetweenContent(m1, c1)
     edges = myltm.GetNodeForContent(m1).GetOutgoingEdges()
     self.assertEqual(c1, edges[0].to_node.content)
-    self.assertEqual(ltm.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
+    self.assertEqual(ltm_old.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
 
     myltm.Dump()
 
     MockMapping.memos = {}
     MockCategory.memos = {}
 
-    myltm2 = ltm.LTM(self.nodes_filename, self.edges_filename)
+    myltm2 = ltm_old.LTM(self.nodes_filename, self.edges_filename)
     self.assertEqual(4, len(myltm2.nodes))
     m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
     edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
     self.assertEqual(c1p, edges[0].to_node.content)
-    self.assertEqual(ltm.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
+    self.assertEqual(ltm_old.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
 
 class TestLTM2(LTMTestBase):
   def test_activation(self):
-    ltm.LTMStorableMixin.ClearMemos()
+    ltm_old.LTMStorableMixin.ClearMemos()
 
-    myltm = ltm.LTM(self.nodes_filename, self.edges_filename)
+    myltm = ltm_old.LTM(self.nodes_filename, self.edges_filename)
     c1 = MockCategory.Create(foo=7)
     m1 = MockMapping.Create(category=c1)
     for content in (m1, c1):
@@ -154,8 +155,8 @@ class TestLTM2(LTMTestBase):
     self.assertAlmostEqual(0.16666666666, node_c1.depth_reciprocal)
 
     myltm.Dump()
-    ltm.LTMStorableMixin.ClearMemos()
-    myltm2 = ltm.LTM(self.nodes_filename, self.edges_filename)
+    ltm_old.LTMStorableMixin.ClearMemos()
+    myltm2 = ltm_old.LTM(self.nodes_filename, self.edges_filename)
     node_m1p, node_c1p = myltm2.nodes
     m1p, c1p = (x.content for x in myltm2.nodes)
     edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
