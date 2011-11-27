@@ -3,8 +3,9 @@ import os
 import tempfile
 
 from farg import ltm_old
-from farg.ltm.node import LTMNode
 from farg.ltm.edge import LTMEdge
+from farg.ltm.graph import LTMGraph
+from farg.ltm.node import LTMNode
 
 class MockCategory(ltm_old.LTMStorableMixin):
   def __init__(self, foo):
@@ -30,7 +31,7 @@ class LTMTestBase(unittest.TestCase):
 
 class TestLTM(LTMTestBase):
   def test_sanity(self):
-    myltm = ltm_old.LTM(self.filename)
+    myltm = LTMGraph(self.filename)
     c1 = MockCategory.Create(foo=7)
     m1 = MockMapping.Create(category=c1)
     c2 = MockCategory.Create(foo=9)
@@ -46,7 +47,7 @@ class TestLTM(LTMTestBase):
     MockMapping.memos = {}
     # MockCategory.memos = {}
 
-    myltm2 = ltm_old.LTM(self.filename)
+    myltm2 = LTMGraph(self.filename)
     self.assertEqual(4, len(myltm2.nodes))
     c1p, m1p, c2p, m2p = (x.content for x in myltm2.nodes)
     self.assertEqual(7, c1p.foo)
@@ -64,7 +65,7 @@ class TestLTM(LTMTestBase):
     MockMapping.memos = {}
     MockCategory.memos = {}
 
-    myltm = ltm_old.LTM(self.filename)
+    myltm = LTMGraph(self.filename)
     c1 = MockCategory.Create(foo=7)
     m1 = MockMapping.Create(category=c1)
     c2 = MockCategory.Create(foo=9)
@@ -78,7 +79,7 @@ class TestLTM(LTMTestBase):
 
     MockMapping.memos = {}
 
-    myltm2 = ltm_old.LTM(self.filename)
+    myltm2 = LTMGraph(self.filename)
     self.assertEqual(4, len(myltm2.nodes))
     m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
 
@@ -97,7 +98,7 @@ class TestLTM(LTMTestBase):
     MockMapping.memos = {}
     MockCategory.memos = {}
 
-    myltm = ltm_old.LTM(self.filename)
+    myltm = LTMGraph(self.filename)
     c1 = MockCategory.Create(foo=7)
     m1 = MockMapping.Create(category=c1)
     c2 = MockCategory.Create(foo=9)
@@ -116,7 +117,7 @@ class TestLTM(LTMTestBase):
     MockMapping.memos = {}
     MockCategory.memos = {}
 
-    myltm2 = ltm_old.LTM(self.filename)
+    myltm2 = LTMGraph(self.filename)
     self.assertEqual(4, len(myltm2.nodes))
     m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
     edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
@@ -127,7 +128,7 @@ class TestLTM2(LTMTestBase):
   def test_activation(self):
     ltm_old.LTMStorableMixin.ClearMemos()
 
-    myltm = ltm_old.LTM(self.filename)
+    myltm = LTMGraph(self.filename)
     c1 = MockCategory.Create(foo=7)
     m1 = MockMapping.Create(category=c1)
     for content in (m1, c1):
@@ -155,7 +156,7 @@ class TestLTM2(LTMTestBase):
 
     myltm.Dump()
     ltm_old.LTMStorableMixin.ClearMemos()
-    myltm2 = ltm_old.LTM(self.filename)
+    myltm2 = LTMGraph(self.filename)
     node_m1p, node_c1p = myltm2.nodes
     m1p, c1p = (x.content for x in myltm2.nodes)
     edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
