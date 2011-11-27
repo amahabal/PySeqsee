@@ -16,8 +16,12 @@ class Controller(object):
   def __init__(self, runstate):
     """The controller expects a runstate to be passed to it, which it will own."""
     self.runstate = runstate
-    self.coderack = self.runstate.coderack = Coderack(10)
-    self.stream = Stream()
+    if not self.runstate.coderack:
+      self.runstate.coderack = Coderack(10)
+    self.coderack = self.runstate.coderack
+    if not self.runstate.stream:
+      self.runstate.stream = Stream()
+    self.stream = self.runstate.stream
     #: An iterable of three-tuples that names a family, urgency, and probability of addition.
     #: At each step, a codelet is added with the said probability, and with this urgency.
     self.routine_codelets_to_add = None

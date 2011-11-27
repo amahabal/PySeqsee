@@ -1,7 +1,8 @@
+"""Argument processing for Seqsee."""
 import argparse
 import sys
 
-from ui.gui.gui import GUI
+from apps.seqsee.gui.gui import SeqseeGUI
 
 # Corresponding Perl code in Seqsee.pm
 
@@ -25,7 +26,7 @@ def ParseSeqseeArguments():
 
   # Validate and Pre-process
   if args.ui is 'gui':
-    args.ui = GUI
+    args.ui = SeqseeGUI
   else:
     print "%s is not a supported UI (yet)" % args.ui
     sys.exit(1)

@@ -4,7 +4,7 @@ from components.coderack import Coderack
 from components.stream import Stream
 
 class SeqseeRunState(RunState):
-  def __init__(self):
+  def __init__(self, args):
     RunState.__init__(self)
     self.ws = Workspace()
     self.coderack = Coderack(20)

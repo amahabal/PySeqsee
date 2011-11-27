@@ -12,15 +12,29 @@ class MockCategory(LTMStorableMixin):
     print "Initializing MockCategory instance ", self
     self.foo = foo
 
+class MockCategory2(LTMStorableMixin):
+  def __init__(self, foo):
+    print "Initializing MockCategory2 instance ", self
+    self.foo = foo
+
 class MockMapping(LTMStorableMixin):
   def __init__(self, category):
     self.category = category
-
 
 class TestLTMNode(unittest.TestCase):
   def test_sanity(self):
     node = LTMNode(MockCategory.Create(foo=3))
     self.assertEqual(MockCategory.Create(foo=3), node.content)
+
+  def test_each_class_separate_memo(self):
+    node1 = MockCategory.Create(foo=5)
+    node1a = MockCategory.Create(foo=5)
+    node2 = MockCategory2.Create(foo=5)
+    node2a = MockCategory2.Create(foo=5)
+    self.assertEqual(node1, node1a)
+    self.assertEqual(node2, node2a)
+    self.assertNotEqual(node1, node2)
+
 
 class LTMTestBase(unittest.TestCase):
   def setUp(self):
@@ -50,6 +64,8 @@ class TestLTM(LTMTestBase):
     myltm2 = LTMGraph(self.filename)
     self.assertEqual(4, len(myltm2._nodes))
     c1p, m1p, c2p, m2p = (x.content for x in myltm2._nodes)
+    self.assertEqual(c1p, c1)
+    self.assertNotEqual(m1p, m1)
     self.assertEqual(7, c1p.foo)
     self.assertEqual(9, c2p.foo)
     self.assertEqual(c1p, m1p.category)
