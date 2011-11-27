@@ -4,11 +4,7 @@ import cPickle as pickle
 import math
 
 from farg.ltm.node import LTMNode
-
-LTM_EDGE_TYPE_RELATED = 1
-LTM_EDGE_TYPE_FOLLOWS = 2
-LTM_EDGE_TYPE_ISA = 3
-LTM_EDGE_CAN_BE_SEEN_AS = 4
+from farg.ltm.edge import LTMEdge
 
 class LTMStorableMixin(object):
   """Any class whose instances should be stored in LTM must adhere to certain semantics, and
@@ -31,20 +27,6 @@ class LTMStorableMixin(object):
   def ClearMemos(cls):
     memos = {}
 
-#: Maps raw activation (an integer) to real activation.
-#: The values, in steps of 10, are as follows:
-#: ['0.003', '0.018', '0.043', '0.093', # For 0, 10, 20, 30
-#:  '0.220', '0.562', '0.811', '0.895', # For 40, 50, 60, 70
-#:  '0.932', '0.952', '0.964']  # For 80, 90, 100
-_raw_activation_to_real_activation = [
-    0.4815 + 0.342 * math.atan2(12 * (0.01 * x - 0.5), 1)
-    for x in range(2, 203)]
-
-
-class LTMEdge(object):
-  def __init__(self, to_node, edge_type):
-    self.to_node = to_node
-    self.edge_type = edge_type
 
 class LTM(object):
   def __init__(self, nodes_filename, edges_filename):
@@ -113,6 +95,6 @@ class LTM(object):
     self.content_to_node[content] = new_node
     return new_node
 
-  def AddEdgeBetweenContent(self, from_content, to_content, edge_type=LTM_EDGE_TYPE_RELATED):
+  def AddEdgeBetweenContent(self, from_content, to_content, edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
     edge = LTMEdge(self.GetNodeForContent(to_content), edge_type)
     self.GetNodeForContent(from_content)._outgoing_edges.append(edge)

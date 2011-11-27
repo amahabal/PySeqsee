@@ -4,6 +4,7 @@ import tempfile
 
 from farg import ltm_old
 from farg.ltm.node import LTMNode
+from farg.ltm.edge import LTMEdge
 
 class MockCategory(ltm_old.LTMStorableMixin):
   def __init__(self, foo):
@@ -110,7 +111,7 @@ class TestLTM(LTMTestBase):
     myltm.AddEdgeBetweenContent(m1, c1)
     edges = myltm.GetNodeForContent(m1).GetOutgoingEdges()
     self.assertEqual(c1, edges[0].to_node.content)
-    self.assertEqual(ltm_old.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
+    self.assertEqual(LTMEdge.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
 
     myltm.Dump()
 
@@ -122,7 +123,7 @@ class TestLTM(LTMTestBase):
     m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
     edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
     self.assertEqual(c1p, edges[0].to_node.content)
-    self.assertEqual(ltm_old.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
+    self.assertEqual(LTMEdge.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
 
 class TestLTM2(LTMTestBase):
   def test_activation(self):
