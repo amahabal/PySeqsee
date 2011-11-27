@@ -61,7 +61,7 @@ class LTMNode(object):
     
     .. Note::
     
-      Mangling may not be done by the node. It is a graph-wide calculation. The mangling happens
+      Mangling cannot be done by the node. It is a graph-wide calculation. The mangling happens
       prior to calling dump() by the ltm.LTM pickler.
     
     This is needed since we wish to pass everything we are reviving through Create() of appropriate

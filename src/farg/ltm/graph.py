@@ -2,7 +2,7 @@ import cPickle as pickle
 from farg.ltm.node import LTMNode
 from farg.ltm.edge import LTMEdge
 
-from farg.ltm_old import LTMStorableMixin
+from farg.ltm.storable import LTMStorableMixin
 
 class LTMGraph(object):
   """Represents a full LTM graph (consisting of nodes and edges)."""
@@ -46,12 +46,19 @@ class LTMGraph(object):
       for node in self.nodes:
         self.Mangle(node.content.__dict__)
         pickler.dump(node)
+        self.Unmangle(node.content.__dict__)
 
   def Mangle(self, content_dict):
     """Replaces references to nodes with the nodes themselves."""
     for k, v in content_dict.iteritems():
       if v in self.content_to_node:
         content_dict[k] = self.content_to_node[v]
+
+  def Unmangle(self, content_dict):
+    """Replaces values that are nodes with contents of those nodes."""
+    for k, v in content_dict.iteritems():
+      if isinstance(v, LTMNode):
+        content_dict[k] = v.content
 
 
   def AddNode(self, node):

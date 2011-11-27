@@ -1,8 +1,3 @@
-"""Long term memory."""
-
-import math
-
-
 class LTMStorableMixin(object):
   """Any class whose instances should be stored in LTM must adhere to certain semantics, and
   subclass from this class.
@@ -23,5 +18,3 @@ class LTMStorableMixin(object):
   @classmethod
   def ClearMemos(cls):
     memos = {}
-
-

@@ -2,17 +2,17 @@ import unittest
 import os
 import tempfile
 
-from farg import ltm_old
 from farg.ltm.edge import LTMEdge
 from farg.ltm.graph import LTMGraph
 from farg.ltm.node import LTMNode
+from farg.ltm.storable import LTMStorableMixin
 
-class MockCategory(ltm_old.LTMStorableMixin):
+class MockCategory(LTMStorableMixin):
   def __init__(self, foo):
     print "Initializing MockCategory instance ", self
     self.foo = foo
 
-class MockMapping(ltm_old.LTMStorableMixin):
+class MockMapping(LTMStorableMixin):
   def __init__(self, category):
     self.category = category
 
@@ -126,7 +126,7 @@ class TestLTM(LTMTestBase):
 
 class TestLTM2(LTMTestBase):
   def test_activation(self):
-    ltm_old.LTMStorableMixin.ClearMemos()
+    LTMStorableMixin.ClearMemos()
 
     myltm = LTMGraph(self.filename)
     c1 = MockCategory.Create(foo=7)
@@ -155,7 +155,7 @@ class TestLTM2(LTMTestBase):
     self.assertAlmostEqual(0.16666666666, node_c1.depth_reciprocal)
 
     myltm.Dump()
-    ltm_old.LTMStorableMixin.ClearMemos()
+    LTMStorableMixin.ClearMemos()
     myltm2 = LTMGraph(self.filename)
     node_m1p, node_c1p = myltm2.nodes
     m1p, c1p = (x.content for x in myltm2.nodes)
