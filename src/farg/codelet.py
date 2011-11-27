@@ -7,12 +7,12 @@ class CodeletFamily(object):
   pass
 
 class Codelet(object):
-  def __init__(self, family, runstate, urgency, **args):
+  def __init__(self, family, controller, urgency, **args):
     self.family = family
     self.urgency = urgency
     self.args = args
-    self.runstate = runstate
+    self.controller = controller
 
   def Run(self):
-    self.runstate.most_recent_codelet = self
-    return self.family.Run(self.runstate, **self.args)
+    self.controller.most_recent_codelet = self
+    return self.family.Run(self.controller, **self.args)

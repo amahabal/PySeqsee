@@ -13,8 +13,8 @@ logger = logging.getLogger(__name__)
 
 class CF_NumericCase(CodeletFamily):
   @classmethod
-  def Run(cls, runstate):
-    ws = runstate.workspace
+  def Run(cls, controller):
+    ws = controller.workspace
     v1 = ws.left
     v2 = ws.right
     if isinstance(v1, int) and isinstance(v2, int):
@@ -23,12 +23,12 @@ class CF_NumericCase(CodeletFamily):
         return NumericMapping(diff_string, Number)
       else:
         raise NoAnswerException()
-    runstate.AddCodelet(CF_ChooseCategory, 100)
+    controller.AddCodelet(CF_ChooseCategory, 100)
 
 class CF_ChooseCategory(CodeletFamily):
   @classmethod
-  def Run(cls, runstate):
-    ws = runstate.workspace
+  def Run(cls, controller):
+    ws = controller.workspace
     v1 = ws.left
     v2 = ws.right
     if not ws.category:
@@ -39,12 +39,12 @@ class CF_ChooseCategory(CodeletFamily):
         ws.category = cat
       else:
         raise NoAnswerException()
-    runstate.AddCodelet(CF_GetBindings, 100)
+    controller.AddCodelet(CF_GetBindings, 100)
 
 class CF_GetBindings(CodeletFamily):
   @classmethod
-  def Run(cls, runstate):
-    ws = runstate.workspace
+  def Run(cls, controller):
+    ws = controller.workspace
     v1 = ws.left
     v2 = ws.right
     category = ws.category
@@ -57,7 +57,7 @@ class CF_GetBindings(CodeletFamily):
       raise NoAnswerException()
     ws.b2 = b2
     ws.attribute_explanations = {}
-    runstate.AddCodelet(CF_ExplainValues, 100)
+    controller.AddCodelet(CF_ExplainValues, 100)
 
 class CF_ExplainValues(CodeletFamily):
   @staticmethod
@@ -72,8 +72,8 @@ class CF_ExplainValues(CodeletFamily):
     return StructuralMapping(category, mappings, slippages)
 
   @classmethod
-  def Run(cls, runstate):
-    ws = runstate.workspace
+  def Run(cls, controller):
+    ws = controller.workspace
     attribute_explanations = ws.attribute_explanations
     b2 = ws.b2
     b2_dict = b2.bindings
@@ -99,7 +99,7 @@ class CF_ExplainValues(CodeletFamily):
           full_mapping = CF_ExplainValues.CreateStructuralMappingFromExplanation(
               ws.category, attribute_explanations)
           raise AnswerFoundException(full_mapping)
-    runstate.AddCodelet(CF_ExplainValues, 100)
+    controller.AddCodelet(CF_ExplainValues, 100)
 
 
 class SubspaceFindMapping(Subspace):
@@ -110,9 +110,9 @@ class SubspaceFindMapping(Subspace):
       self.category = category
 
   def Initialize(self, arguments):
-    self.workspace = self.runstate.workspace = self.Workspace(**arguments)
+    self.workspace = self.controller.workspace = self.Workspace(**arguments)
     logger.info('Initialized new subspace')
-    self.runstate.AddCodelet(CF_NumericCase, 100)
+    self.controller.AddCodelet(CF_NumericCase, 100)
 
   @classmethod
   def QuickReconnaisance(cls, arguments):

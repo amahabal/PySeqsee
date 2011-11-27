@@ -6,7 +6,6 @@ import time
 import tkMessageBox
 
 from farg.controller import Controller
-from farg.runstate import RunState
 from farg.ui.gui.gui import GUI
 from farg.exceptions import *
 
@@ -35,8 +34,7 @@ class MyGUI(GUI):
 
 
 def main():
-  runstate = RunState()
-  controller = MyController(runstate)
+  controller = MyController()
   gui = MyGUI(controller)
   gui.Launch()
 

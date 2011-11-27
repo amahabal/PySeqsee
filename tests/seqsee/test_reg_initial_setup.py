@@ -1,24 +1,24 @@
 import unittest
 
 from apps.seqsee.sobject import SAnchored, SElement, SGroup
-from apps.seqsee.runstate import SeqseeRunState
+from apps.seqsee.controller import SeqseeController
 from apps.seqsee.workspace import Workspace
 from components.coderack import Coderack
 from components.stream import Stream
 
 class TestRegtestInitialSetup(unittest.TestCase):
   def test_sanity(self):
-    runstate = SeqseeRunState()
-    self.assertTrue(isinstance(runstate.ws, Workspace))
-    self.assertTrue(isinstance(runstate.coderack, Coderack))
-    self.assertTrue(isinstance(runstate.stream, Stream))
+    controller = SeqseeController()
+    self.assertTrue(isinstance(controller.ws, Workspace))
+    self.assertTrue(isinstance(controller.coderack, Coderack))
+    self.assertTrue(isinstance(controller.stream, Stream))
 
-    self.assertEqual(0, runstate.coderack._codelet_count)
+    self.assertEqual(0, controller.coderack._codelet_count)
 
   def test_ws(self):
-    runstate = SeqseeRunState()
-    ws = runstate.ws
-    cr = runstate.coderack
+    controller = SeqseeController()
+    ws = controller.ws
+    cr = controller.coderack
     ws.InsertElements(1, 1, 2, 1, 2, 3)
     self.assertEqual(6, ws.num_elements)
 

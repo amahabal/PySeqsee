@@ -8,4 +8,4 @@ class SeqseeGUI(gui.GUI):
     canvas = Canvas(frame, height=300, width=500, background='#F00')
     canvas.pack(side=TOP)
     self.ws_canvas = canvas
-    self.items_to_refresh.append(self.controller.runstate.ws)
+    self.items_to_refresh.append(self.controller.ws)

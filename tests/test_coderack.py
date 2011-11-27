@@ -4,21 +4,21 @@ from components.coderack import Coderack, CoderackEmptyException
 from farg.codelet import Codelet, CodeletFamily
 from farg.exceptions import FargError
 
-class RunState(object):
+class Controller(object):
   def __init__(self):
     self.x = 5
 
 class Foo(CodeletFamily):
   @classmethod
-  def Run(cls, runstate, x):
-    runstate.x *= 3
-    return x + runstate.x
+  def Run(cls, controller, x):
+    controller.x *= 3
+    return x + controller.x
 
 class TestCoderack(unittest.TestCase):
   def test_basic(self):
     c = Coderack(10)
-    runstate = RunState()
-    codelet = Codelet(Foo, runstate, 20, x=3)
+    controller = Controller()
+    codelet = Codelet(Foo, controller, 20, x=3)
 
     assert 10 == c._max_capacity
     c.AddCodelet(codelet)
@@ -34,10 +34,10 @@ class TestCoderack(unittest.TestCase):
   def test_force_next_codelet(self):
     """For testing, it is useful to mark the next codelet that GetCodelet() returns."""
     c = Coderack(10)
-    runstate = RunState()
-    codelet = Codelet(Foo, runstate, 20, x=3)
-    codelet2 = Codelet(Foo, runstate, 30, x=4)
-    codelet3 = Codelet(Foo, runstate, 30, x=4)
+    controller = Controller()
+    codelet = Codelet(Foo, controller, 20, x=3)
+    codelet2 = Codelet(Foo, controller, 30, x=4)
+    codelet3 = Codelet(Foo, controller, 30, x=4)
 
     c.AddCodelet(codelet)
     c.AddCodelet(codelet2)

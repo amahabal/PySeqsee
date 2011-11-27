@@ -1,6 +1,5 @@
 from farg.controller import Controller
 from farg.exceptions import FargException, AnswerFoundException, NoAnswerException
-from farg.runstate import RunState
 
 def AnswerFound(answer):
   return { 'answer_found': True, 'answer': answer}
@@ -19,8 +18,7 @@ class Subspace(object):
     return NeedDeeperExploration()
 
   def __init__(self):
-    self.runstate = RunState()
-    self.controller = Controller(self.runstate)
+    self.controller = Controller()
 
 def Subtask(subspace_class, max_number_of_steps, arguments):
   """The driver for subtask calculations: creates a subspace based on class and arguments, and
