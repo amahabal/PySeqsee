@@ -6,9 +6,14 @@ from apps.seqsee.workspace import Workspace
 from components.coderack import Coderack
 from components.stream import Stream
 
+class Args(object): pass
+args = Args()
+args.sequence = []
+args.unrevealed_terms = []
+
 class TestRegtestInitialSetup(unittest.TestCase):
   def test_sanity(self):
-    controller = SeqseeController()
+    controller = SeqseeController(args)
     self.assertTrue(isinstance(controller.ws, Workspace))
     self.assertTrue(isinstance(controller.coderack, Coderack))
     self.assertTrue(isinstance(controller.stream, Stream))
@@ -16,7 +21,7 @@ class TestRegtestInitialSetup(unittest.TestCase):
     self.assertEqual(0, controller.coderack._codelet_count)
 
   def test_ws(self):
-    controller = SeqseeController()
+    controller = SeqseeController(args)
     ws = controller.ws
     cr = controller.coderack
     ws.InsertElements(1, 1, 2, 1, 2, 3)
