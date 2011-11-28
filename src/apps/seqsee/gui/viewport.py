@@ -8,8 +8,7 @@ class ViewPort(object):
     self.identifier = identifier
 
   def ReDraw(self, controller):
-    # Should delete things with identifers. I will let canvas delete, for now.
-    print "Will redraw viewport"
+    # Should delete things with particular identifiers. I will let canvas delete, for now.
     self.ReDrawView(controller)
 
   def CanvasCoordinates(self, x, y):

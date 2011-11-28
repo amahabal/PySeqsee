@@ -1,8 +1,9 @@
 from Tkinter import *
 
 class Conversation(Frame):
-  def __init__(self, master, *args, **kwargs):
+  def __init__(self, master, controller, *args, **kwargs):
     Frame.__init__(self, master)
+    self.controller = controller
     text = self.text = Text(self, **kwargs)
     text.pack(side=LEFT)
     buttons_frame = Frame(self)
@@ -14,5 +15,5 @@ class Conversation(Frame):
           Button(buttons_frame, text='', width=15, state='disabled'))
       self.buttons[-1].pack(side=TOP)
 
-  def ReDraw(self, runstate):
+  def ReDraw(self):
     pass

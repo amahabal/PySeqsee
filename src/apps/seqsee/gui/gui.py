@@ -11,14 +11,15 @@ class SeqseeGUI(gui.GUI):
     self.mw.bind('<KeyPress-q>', self.Quit)
 
   def PopulateCentralPane(self):
-    canvas = CentralPane(self.mw, height=400, width=800, background='#FEE')
+    canvas = CentralPane(self.mw, self.controller, height=400, width=800, background='#FEE')
     canvas.grid()
     self.central_pane = canvas
     self.items_to_refresh.append(canvas)
-    canvas.ReDraw(self.controller)
+    canvas.ReDraw()
 
   def PopulateInteractionPane(self):
-    conversation = Conversation(self.mw, height=10)
+    conversation = Conversation(self.mw, self.controller, height=10)
     conversation.grid()
     self.conversation = conversation
     self.items_to_refresh.append(conversation)
+    conversation.ReDraw()

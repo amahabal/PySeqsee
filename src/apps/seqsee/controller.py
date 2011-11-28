@@ -1,5 +1,5 @@
-from farg.controller import Controller
 from apps.seqsee.workspace import Workspace
+from farg.controller import Controller
 
 class SeqseeController(Controller):
   def __init__(self, args):
