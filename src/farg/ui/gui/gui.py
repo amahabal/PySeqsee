@@ -1,8 +1,7 @@
-import tkMessageBox
 from Tkinter import Tk, Button, Frame, LEFT, SUNKEN
-from threading import Thread
-
 from farg.exceptions import *
+from threading import Thread
+import tkMessageBox
 
 class RunForNSteps(Thread):
   """Runs controller for upto n steps.
@@ -57,15 +56,13 @@ class GUI(object):
     for item in self.items_to_refresh:
       item.Redraw()
 
-  def Quit(self, *ignored):
+  def Quit(self):
     """Quits the application. Calls quit on the controller as well."""
     self.Pause()
     if self.stepping_thread:
       self.stepping_thread.join()
     self.controller.Quit()
     self.mw.quit()
-
-
 
   def Start(self):
     """Continually calls Step() on the controller."""

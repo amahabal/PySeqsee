@@ -22,9 +22,12 @@ class Controller(object):
     #: An iterable of three-tuples that names a family, urgency, and probability of addition.
     #: At each step, a codelet is added with the said probability, and with this urgency.
     self.routine_codelets_to_add = None
+    #: Number of steps taken
+    self.steps_taken = 0
 
   def Step(self):
     """Executes the next (stochastically chosen) step in the model."""
+    self.steps_taken += 1
     if self.routine_codelets_to_add:
       for family, urgency, probability in self.routine_codelets_to_add:
         if Toss(probability):

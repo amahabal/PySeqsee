@@ -6,9 +6,11 @@ from apps.seqsee.gui.central_pane import CentralPane
 from apps.seqsee.gui.conversation import Conversation
 
 class SeqseeGUI(gui.GUI):
-  def __init__(self, controller, geometry='810x700+0+0'):
+  def __init__(self, controller, geometry='810x700-0+0'):
     gui.GUI.__init__(self, controller, geometry)
-    self.mw.bind('<KeyPress-q>', self.Quit)
+    self.mw.bind('<KeyPress-q>', lambda e: self.Quit())
+    self.mw.bind('<KeyPress-s>', lambda e: self.Start())
+    self.mw.bind('<KeyPress-p>', lambda e: self.Pause())
 
   def PopulateCentralPane(self):
     canvas = CentralPane(self.mw, self.controller, height=400, width=800, background='#FEE')
