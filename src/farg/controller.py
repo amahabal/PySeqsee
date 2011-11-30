@@ -1,9 +1,9 @@
+from apps.seqsee.util import Toss
 from components.coderack import Coderack, CoderackEmptyException
 from components.stream import Stream
 from farg.codelet import Codelet
-from apps.seqsee.util import Toss
-
 import logging
+
 logger = logging.getLogger(__name__)
 
 class Controller(object):

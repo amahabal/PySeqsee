@@ -18,3 +18,31 @@ class LTMStorableMixin(object):
   @classmethod
   def ClearMemos(cls):
     memos = {}
+
+class LTMMadeStorable(object):
+  def __init__(self, cls, storable):
+    self.cls = cls
+    self.storable = storable
+
+  memos_ltm_madestorable = {}
+
+  @staticmethod
+  def Create(cls, storable):
+    key = (cls, storable)
+    if key not in LTMMadeStorable.memos_ltm_madestorable:
+      new_instance = LTMMadeStorable(cls, storable)
+      LTMMadeStorable.memos_ltm_madestorable[key] = new_instance
+      return new_instance
+    return LTMMadeStorable.memos_ltm_madestorable[key]
+
+class LTMMakeStorableMixin(object):
+  """Some classes may not be storable in an LTM, but they may define a way to obtain unique LTM
+  nodes corresponding to them. An example is SObject: each time an SObject is created, it must 
+  produce a different object, but they should map to the same LTM node.
+  
+  Such classes may use this mixin and add a GetStorable method instead."""
+
+  @classmethod
+  def CreateLTMStorable(cls, item):
+    return LTMMadeStorable.Create(cls, item.GetStorable())
+

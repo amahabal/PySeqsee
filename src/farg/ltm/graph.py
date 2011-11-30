@@ -2,7 +2,7 @@ import cPickle as pickle
 from farg.ltm.node import LTMNode
 from farg.ltm.edge import LTMEdge
 
-from farg.ltm.storable import LTMStorableMixin
+from farg.ltm.storable import LTMStorableMixin, LTMMakeStorableMixin
 
 class LTMGraph(object):
   """Represents a full LTM graph (consisting of nodes and edges)."""
@@ -69,7 +69,10 @@ class LTMGraph(object):
 
   def GetNodeForContent(self, content):
     """Returns node for content; creates one if it does not exist."""
-    assert(isinstance(content, LTMStorableMixin))
+    if isinstance(content, LTMMakeStorableMixin):
+      content = content.CreateLTMStorable(content)
+    else:
+      assert(isinstance(content, LTMStorableMixin))
     if content in self._content_to_node:
       return self._content_to_node[content]
     new_node = LTMNode(content)

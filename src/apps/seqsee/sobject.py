@@ -12,8 +12,9 @@
 
 from farg.category import CategorizableMixin
 from farg.exceptions import FargError, FargException
+from farg.ltm.storable import LTMMakeStorableMixin
 
-class SObject(CategorizableMixin):
+class SObject(CategorizableMixin, LTMMakeStorableMixin):
   """Base class of objects --- groups or elements.
   
   This is an abstract class. SGroup and SElement are concrete subclasses.
@@ -50,6 +51,9 @@ class SObject(CategorizableMixin):
     # So there are multiple items...
     new_items = [SObject.Create(x) for x in items]
     return SGroup(items=new_items)
+
+  def GetStorable(self):
+    return self.Structure()
 
 class SGroup(SObject):
   """A subclass of SObject representing things with an internal structure."""
@@ -93,7 +97,7 @@ class SElement(SObject):
 class NonAdjacentGroupElementsException(FargException):
   pass
 
-class SAnchored(SObject):
+class SAnchored(LTMMakeStorableMixin):
   """An object with position information.
   
   .. warning:: This way of doing things differs from the way in Perl, where I was subclassing
@@ -114,12 +118,10 @@ class SAnchored(SObject):
     #: are SAnchored objects now. This bit distinguishes elements that are elements in the
     #: sequence.
     self.is_sequence_element = is_sequence_element
-    #: What metonym does this have?
+    #: What metonym does this have? Metonym, if present, is a SObject.
     self.metonym = None
     #: Is the metonym active?
     self.is_metonym_active = False
-    #: What is this a metonym of (if anything)?
-    self.is_a_metonym_of = None
 
   def SetPosition(self, start_pos, end_pos):
     """Sets the end-point of the anchored object."""
@@ -133,6 +135,9 @@ class SAnchored(SObject):
   def Structure(self):
     """The structure of the contained object."""
     return self.object.Structure()
+
+  def GetStorable(self):
+    return self.Structure()
 
   @staticmethod
   def Create(*items):
