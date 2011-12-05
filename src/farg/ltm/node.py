@@ -140,3 +140,12 @@ class LTMNode(object):
     """Get outgoing edges from the node."""
     return self._outgoing_edges
 
+  def GetXDot(self, idx, is_center=False):
+    attributes = ['color="#00ff00"', 'style="filled"']
+    label = self.content.BriefLabel()
+    attributes.append('label="%s"' % label)
+    if is_center:
+      attributes.append('shape="doublecircle"')
+    else:
+      attributes.append('URL="%d"' % idx)
+    return 'node_%d [%s];' % (idx, ' '.join(attributes))

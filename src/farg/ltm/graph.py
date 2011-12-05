@@ -89,7 +89,7 @@ class LTMGraph(object):
     lines = []
     node_to_pos = dict((y, x) for x, y in enumerate(self._nodes))
     for node in self._nodes:
-      lines.append('node_%d [URL="%d"];' % (node_to_pos[node], node_to_pos[node]))
+      lines.append(node.GetXDot(node_to_pos[node]))
       for edge in node._outgoing_edges:
         other_node = edge.to_node
         lines.append('node_%d -> node_%d' % (node_to_pos[node], node_to_pos[other_node]))
@@ -103,7 +103,7 @@ class LTMGraph(object):
     """Get XDot of node outward from given node position upto given depth."""
     nodes = self._nodes
     node_to_pos = dict((y, x) for x, y in enumerate(self._nodes))
-    lines = ['node_%d [color="#00ff00" style="filled"];' % node_position]
+    lines = [nodes[node_position].GetXDot(node_position, is_center=True)]
     nodes_to_depth = { node_position: 0 }
     nodes_at_depth = [[node_position]]
     for depth in range(1, depth):
@@ -115,7 +115,7 @@ class LTMGraph(object):
           if other_node not in nodes_to_depth:
             nodes_to_depth[other_node] = depth
             nodes_at_this_depth.append(other_node)
-            lines.append('node_%d [URL="%d"];' % (other_node, other_node))
+            lines.append(nodes[other_node].GetXDot(other_node))
           lines.append('node_%d -> node_%d;' % (node_at_previous_depth, other_node))
       nodes_at_depth.append(nodes_at_this_depth)
     # For the "leaf" nodes, add edges (without adding nodes)

@@ -19,6 +19,10 @@ class LTMStorableMixin(object):
   def ClearMemos(cls):
     memos = {}
 
+  def BriefLabel(self):
+    """A brief label useful for, for instance, display in LTM viewer."""
+    return '%s: ???' % self.__class__.__name__
+
 class LTMMadeStorable(object):
   def __init__(self, cls, storable):
     self.cls = cls
