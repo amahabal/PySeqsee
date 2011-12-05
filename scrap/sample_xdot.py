@@ -5,10 +5,11 @@ import gtk.gdk
 
 from third_party import xdot
 
-graph = { 'a': ('b', 'c', 'd'),
+graph = { 'a': ('b', 'c', 'd', 'f'),
           'b': ('a', 'd'),
           'c': (),
-          'd': ('b', 'a') }
+          'd': ('b', 'a'),
+          'f': ('d') }
 
 def GetGraph(startnode=None):
   if not startnode or startnode == '---':
@@ -24,12 +25,28 @@ def GetGraph(startnode=None):
     """ % ('\n'.join(lines))
   else:
     lines = ['%s [URL="%s" color="#ff0000" style="filled"];' % (startnode, startnode)]
-    nodes_added = set(startnode)
-    for other_node in graph[startnode]:
-      if other_node not in nodes_added:
-        nodes_added.add(other_node)
-        lines.append('%s [URL="%s"];' % (other_node, other_node))
-      lines.append('%s -> %s;' % (startnode, other_node))
+    nodes_to_depth = { startnode: 0 }
+    nodes_at_depth = [[startnode]]
+    print nodes_at_depth
+    for depth in (1, 2):
+      nodes_at_this_depth = []
+      for node_at_previous_depth in nodes_at_depth[depth - 1]:
+        for other_node in graph[node_at_previous_depth]:
+          if other_node not in nodes_to_depth:
+            nodes_to_depth[other_node] = depth
+            nodes_at_this_depth.append(other_node)
+            lines.append('%s [URL="%s"];' % (other_node, other_node))
+          lines.append('%s -> %s;' % (node_at_previous_depth, other_node))
+      nodes_at_depth.append(nodes_at_this_depth)
+    # For the "leaf" nodes, add edges (without adding nodes
+    print nodes_at_depth
+    print lines
+    for node_at_previous_depth in nodes_at_depth[2]:
+      for other_node in graph[node_at_previous_depth]:
+        if other_node in nodes_to_depth:
+          lines.append('%s -> %s;' % (node_at_previous_depth, other_node))
+    print nodes_at_depth
+    print lines
     return """
     digraph G {
     %s
