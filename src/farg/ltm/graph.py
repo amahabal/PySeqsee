@@ -84,3 +84,51 @@ class LTMGraph(object):
     edge = LTMEdge(self.GetNodeForContent(to_content), edge_type)
     self.GetNodeForContent(from_content)._outgoing_edges.append(edge)
 
+  def GetGraphXDOT(self):
+    """Generates XDOT for entire graph."""
+    lines = []
+    node_to_pos = dict((y, x) for x, y in enumerate(self._nodes))
+    for node in self._nodes:
+      lines.append('node_%d [URL="%d"];' % (node_to_pos[node], node_to_pos[node]))
+      for edge in node._outgoing_edges:
+        other_node = edge.to_node
+        lines.append('node_%d -> node_%d' % (node_to_pos[node], node_to_pos[other_node]))
+    return """
+      digraph G {
+      %s
+      }
+      """ % ('\n'.join(lines))
+
+  def GetGraphAroundNodeXDot(self, node_position, depth=3):
+    """Get XDot of node outward from given node position upto given depth."""
+    nodes = self._nodes
+    node_to_pos = dict((y, x) for x, y in enumerate(self._nodes))
+    lines = ['node_%d [color="#00ff00" style="filled"];' % node_position]
+    nodes_to_depth = { node_position: 0 }
+    nodes_at_depth = [[node_position]]
+    for depth in range(1, depth):
+      nodes_at_this_depth = []
+      for node_at_previous_depth in nodes_at_depth[depth - 1]:
+        edges = nodes[node_at_previous_depth]._outgoing_edges
+        for edge in edges:
+          other_node = node_to_pos[edge.to_node]
+          if other_node not in nodes_to_depth:
+            nodes_to_depth[other_node] = depth
+            nodes_at_this_depth.append(other_node)
+            lines.append('node_%d [URL="%d"];' % (other_node, other_node))
+          lines.append('node_%d -> node_%d;' % (node_at_previous_depth, other_node))
+      nodes_at_depth.append(nodes_at_this_depth)
+    # For the "leaf" nodes, add edges (without adding nodes)
+    print lines
+    for node_at_previous_depth in nodes_at_depth[depth]:
+      edges = nodes[node_at_previous_depth]._outgoing_edges
+      for edge in edges:
+        other_node = node_to_pos[edge.to_node]
+        if other_node in nodes_to_depth:
+          lines.append('node_%d -> node_%d;' % (node_at_previous_depth, other_node))
+    print lines
+    return """
+      digraph G {
+      %s
+      }
+      """ % ('\n'.join(lines))
