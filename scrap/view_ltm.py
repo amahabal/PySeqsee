@@ -39,6 +39,11 @@ myltm.AddEdgeBetweenContent(c1, m2)
 myltm.AddEdgeBetweenContent(c1, c2)
 myltm.AddEdgeBetweenContent(c2, m1)
 
+for content in (c1, m1, c2, m2):
+  myltm.SpikeForContent(content, 50)
+for content in (c1, m1):
+  myltm.SpikeForContent(content, 100)
+
 
 def GetGraph(startnode=None):
   if not startnode:

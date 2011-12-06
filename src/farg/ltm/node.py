@@ -98,7 +98,7 @@ class LTMNode(object):
   def _ProcessDecays(self, current_time):
     """Process any pending decays. This helps keep activation calculation lazy."""
     timesteps_passed = current_time - self._time_of_activation_update
-    if timesteps_passed:
+    if timesteps_passed > 0:
       self._raw_activation -= timesteps_passed * self.depth_reciprocal
       if self._raw_activation < 0:
         self._raw_activation = 0
@@ -141,11 +141,11 @@ class LTMNode(object):
     return self._outgoing_edges
 
   def GetXDot(self, idx, is_center=False):
-    attributes = ['color="#00ff00"', 'style="filled"']
     label = self.content.BriefLabel()
+    attributes = ['fillcolor="0.2 %0.3f 1.0"' % self.GetActivation(0), 'style="filled"']
     attributes.append('label="%s"' % label)
     if is_center:
-      attributes.append('shape="doublecircle"')
+      attributes.append('shape="box"')
     else:
       attributes.append('URL="%d"' % idx)
     return 'node_%d [%s];' % (idx, ' '.join(attributes))

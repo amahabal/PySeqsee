@@ -80,6 +80,10 @@ class LTMGraph(object):
     self._content_to_node[content] = new_node
     return new_node
 
+  def SpikeForContent(self, content, amount):
+    """Spike node indicated by content by amount."""
+    self.GetNodeForContent(content).Spike(amount, self._timesteps)
+
   def AddEdgeBetweenContent(self, from_content, to_content, edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
     edge = LTMEdge(self.GetNodeForContent(to_content), edge_type)
     self.GetNodeForContent(from_content)._outgoing_edges.append(edge)
