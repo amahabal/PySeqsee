@@ -18,7 +18,7 @@ class Controller(object):
     #: The stream. This is a generic structure, and should not need to be subclassed. If
     #: subclassing turns out to be a big need, then this way of initialization will need to be
     #: diddled.
-    self.stream = Stream()
+    self.stream = Stream(self)
     #: An iterable of three-tuples that names a family, urgency, and probability of addition.
     #: At each step, a codelet is added with the said probability, and with this urgency.
     self.routine_codelets_to_add = None

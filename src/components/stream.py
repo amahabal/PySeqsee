@@ -1,22 +1,28 @@
 from collections import defaultdict
+from apps.seqsee.util import WeightedChoice
+
 class Stream(object):
   """Implements the Stream of Thought.
   
-  Each episode of focusing on an object results in a fringe of it being remembered, and subsequent
-  episodes may remind of prior episodes based on the degree of overlap of the fringes.
+  Each episode of focusing on an object results in a fringe of it being remembered, and
+  subsequent episodes may remind of prior episodes based on the degree of overlap of the
+  fringes.
   """
 
   #: Minimum level of similarity to consider two episodes as potentially related.
   kRelatedItemThreshold = 0.01
-  #: The factor by which the strength of a prior episode goes down each time a new episode is seen.
+  #: The factor by which the strength of a prior episode goes down each time a new episode
+  #: is seen.
   kDecayRatio = 0.95
   #: Maximum number of focusables to keep around.
   kMaxFocusableCount = 10
-  def __init__(self):
+  def __init__(self, controller):
     #: Maps foci (i.e., things focused upon recently) to strength.
     self.foci = defaultdict(float)
     #: Maps fringe elements to a dict (which is a dict from focus to strength).
     self.stored_fringes = defaultdict(lambda: defaultdict(float))
+    #: Controller for the stream (needed to take fringe-hit based actions)
+    self.controller = controller
 
   def FociCount(self):
     """Counts the number of recent items focused upon."""
@@ -37,12 +43,12 @@ class Stream(object):
       self.stored_fringes.__delitem__(deletable)
 
   def _RemoveMostAncientFocus(self):
-    """Remove the focus that was added the most time ago --- it will have the least strength."""
+    """Remove the focus with the least strength."""
     most_ancient_focus = min(self.foci, key=self.foci.get)
     self._RemovePriorFocus(most_ancient_focus)
 
-  def FocusOn(self, focusable):
-    """Focus on focusable, returning a hitmap: a map from previous focus to strength."""
+  def _PrepareForFocusing(self, focusable):
+    """Does legwork for focusing; if focusable is a recent focus, removes it."""
     # If already stored, delete it. 
     if focusable in self.foci:
       self._RemovePriorFocus(focusable)
@@ -50,6 +56,28 @@ class Stream(object):
     if self.FociCount() == self.kMaxFocusableCount:
       self._RemoveMostAncientFocus()
 
+  def FocusOn(self, focusable):
+    """Focus on focusable, and act on a fringe-hit."""
+    self._PrepareForFocusing(focusable)
+    hit_map = self._CalculateFringeOverlap(focusable)
+    if not hit_map:
+      return
+
+    # Possibly add codelets based on the fringe hit.
+    potential_codelets = []
+    for k, v in hit_map.iteritems():
+      if v < 0.1:
+        continue
+      potential_codelets.append(k.GetActionsOnFringeHit(
+          focusable,
+          other_fringe=self.stored_fringes[focusable],
+          my_fringe=self.stored_fringes[k]))
+    if potential_codelets:
+      one_codelet = WeightedChoice([(x, x.urgency()) for x in potential_codelets])
+      self.controller.coderack.AddCodelet(one_codelet)
+
+  def _CalculateFringeOverlap(self, focusable):
+    """Calculates a hit map: from prior focusable to strength."""
     fringe = focusable.GetFringe()
     stored_fringe_map = self.stored_fringes
     hits_map = defaultdict(float)
