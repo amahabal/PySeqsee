@@ -6,4 +6,5 @@ docs/_build
 nosetests.xml
 .coverage
 cover
+ltms
 

@@ -2,6 +2,7 @@ from apps.seqsee.util import Toss
 from components.coderack import Coderack, CoderackEmptyException
 from components.stream import Stream
 from farg.codelet import Codelet
+from farg.ltm.manager import LTMManager
 import logging
 
 logger = logging.getLogger(__name__)
@@ -11,7 +12,7 @@ class Controller(object):
   takes the next action. It marshals the various pieces --- coderack, stream, workspace, and so
   forth.
   """
-  def __init__(self, stream_class=Stream, routine_codelets_to_add=None):
+  def __init__(self, stream_class=Stream, routine_codelets_to_add=None, ltm_name=None):
     """This class provides a generic controller. Applications will usually subclass this."""
     #: The coderack. Currently, this always has capacity 10.
     self.coderack = Coderack(10)
@@ -22,6 +23,9 @@ class Controller(object):
     self.routine_codelets_to_add = routine_codelets_to_add
     #: Number of steps taken
     self.steps_taken = 0
+    if ltm_name:
+      #: The LTM (if any)
+      self.ltm = LTMManager.GetLTM(ltm_name)
 
     # Add any routine codelets...
     self._AddRoutineCodelets()
@@ -60,7 +64,7 @@ class Controller(object):
 
   def Quit(self):
     """Gets called when the app is about to quit, in case any cleanup is needed."""
-    pass
+    LTMManager.SaveAllOpenLTMS()
 
   def AddCodelet(self, family, urgency, **arguments):
     """Adds a codelet to the coderack."""
