@@ -7,8 +7,9 @@
 """
 
 from apps.seqsee.sobject import SAnchored, SElement, SGroup, SObject
+from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly, \
+  WeightedChoice
 from farg.exceptions import FargError, ConflictingGroupException
-from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 
 class Workspace(object):
   def __init__(self):
@@ -72,3 +73,16 @@ class Workspace(object):
     for gp in self.groups:
       if anchored in gp.items:
         yield gp
+
+  def ChooseItemToFocusOn(self):
+    """Choose an item from the WS to focus on.
+    
+    Will currently be elements or groups."""
+    def ThingsToChooseFrom(ws):
+      """Yields two-tuples of things to choose from, the second being weight."""
+      for element in ws.elements:
+        yield (element, 1.0)
+      for gp in ws.groups:
+        yield (gp, 1.0)
+
+    return WeightedChoice(ThingsToChooseFrom(self))

@@ -76,6 +76,13 @@ class SGroup(SObject):
     """A tuple representations of the group."""
     return tuple(x.Structure() for x in self.items)
 
+  def GetFringe(self):
+    """Fringe for the group."""
+    fringe = {}
+    if self.underlying_mapping:
+      fringe[self.underlying_mapping] = 1.0
+    return fringe
+
 class SElement(SObject):
   """A subclass of SObject, where there is a single element, which is a number."""
   def __init__(self, magnitude):
@@ -93,6 +100,15 @@ class SElement(SObject):
   def Structure(self):
     """The structure is the magnitude."""
     return self.magnitude
+
+  def GetFringe(self):
+    """Fringe for the element."""
+    fringe = {'mag:%d' % self.magnitude: 1.0,
+              'mag:%d' % (self.magnitude - 1): 0.8,
+              'mag:%d' % (self.magnitude + 1): 0.8,
+              }
+    return fringe
+
 
 class NonAdjacentGroupElementsException(FargException):
   pass
@@ -166,3 +182,14 @@ class SAnchored(LTMMakeStorableMixin):
       right_edge = right
     return SAnchored(SObject.Create(list(x.object for x in items)), items,
                      left_edge, right_edge)
+
+
+  def GetFringe(self):
+    """Gets the fringe (needed for stream-related activities)."""
+    fringe = { 'pos:%d' % self.start_pos: 0.6,
+               'pos:%d' % self.end_pos: 0.6,
+               'pos:%d' % (self.end_pos + 1): 0.3,
+               'pos:%d' % (self.start_pos - 1): 0.3}
+    for k, v in self.object.GetFringe().iteritems():
+      fringe[k] = v
+    return fringe

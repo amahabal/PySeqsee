@@ -11,27 +11,39 @@ class Controller(object):
   takes the next action. It marshals the various pieces --- coderack, stream, workspace, and so
   forth.
   """
-  def __init__(self):
+  def __init__(self, stream_class=Stream, routine_codelets_to_add=None):
     """This class provides a generic controller. Applications will usually subclass this."""
     #: The coderack. Currently, this always has capacity 10.
     self.coderack = Coderack(10)
-    #: The stream. This is a generic structure, and should not need to be subclassed. If
-    #: subclassing turns out to be a big need, then this way of initialization will need to be
-    #: diddled.
-    self.stream = Stream(self)
+    #: The stream.
+    self.stream = stream_class(self)
     #: An iterable of three-tuples that names a family, urgency, and probability of addition.
     #: At each step, a codelet is added with the said probability, and with this urgency.
-    self.routine_codelets_to_add = None
+    self.routine_codelets_to_add = routine_codelets_to_add
     #: Number of steps taken
     self.steps_taken = 0
 
-  def Step(self):
-    """Executes the next (stochastically chosen) step in the model."""
-    self.steps_taken += 1
+    # Add any routine codelets...
+    self._AddRoutineCodelets()
+
+  def _AddRoutineCodelets(self):
+    """Add routine codelets to the coderack.
+    
+    In the Perl version, this was called 'background codelets'.
+    """
     if self.routine_codelets_to_add:
       for family, urgency, probability in self.routine_codelets_to_add:
         if Toss(probability):
           self.coderack.AddCodelet(Codelet(family, self, urgency))
+        else:
+          logging.debug('Skipped adding routine codelet')
+
+
+  def Step(self):
+    """Executes the next (stochastically chosen) step in the model."""
+    self.steps_taken += 1
+    logger.debug('Started Step #%d', self.steps_taken)
+    self._AddRoutineCodelets()
     if not self.coderack.IsEmpty():
       codelet = self.coderack.GetCodelet()
       logger.debug("Running codelet of family %s", codelet.family)

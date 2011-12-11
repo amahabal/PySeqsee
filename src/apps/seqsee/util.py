@@ -35,6 +35,7 @@ def Toss(x):
 
 def WeightedChoice(choices):
   """Choices is an iterable of 2-tuples, where the second value is the weight. Chooses one."""
+  choices = list(choices)  # Needed since we iterate twice over the iterable.
   total = sum(w for c, w in choices)
   r = random.uniform(0, total)
   upto = 0

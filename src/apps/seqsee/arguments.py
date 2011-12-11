@@ -1,5 +1,6 @@
 """Argument processing for Seqsee."""
 import argparse
+import logging
 import sys
 
 from apps.seqsee.gui.gui import SeqseeGUI
@@ -20,6 +21,7 @@ def ParseSeqseeArguments():
   parser.add_argument('--unrevealed_terms',
                       help='Extra terms (which Seqsee will ignore expcept in batch mode)',
                       default='')
+  parser.add_argument('--debug', default='', help='Logging level')
 
   # Parse
   args = parser.parse_args()
@@ -32,5 +34,11 @@ def ParseSeqseeArguments():
     sys.exit(1)
 
   args.unrevealed_terms = [int(x) for x in args.unrevealed_terms.split()]
+
+  if args.debug:
+    numeric_level = getattr(logging, args.debug.upper(), None)
+    if not isinstance(numeric_level, int):
+      raise ValueError('Invalid log level: %s' % args.debug)
+    logging.basicConfig(level=numeric_level)
 
   return args
