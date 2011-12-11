@@ -1,5 +1,5 @@
 from collections import defaultdict
-from apps.seqsee.util import WeightedChoice
+from apps.seqsee.util import WeightedChoice, ChooseAboutN
 
 class Stream(object):
   """Implements the Stream of Thought.
@@ -68,13 +68,17 @@ class Stream(object):
     for k, v in hit_map.iteritems():
       if v < 0.1:
         continue
-      potential_codelets.append(k.GetActionsOnFringeHit(
+      potential_codelets.extend(k.GetSimilarityAffordances(
           focusable,
           other_fringe=self.stored_fringes[focusable],
           my_fringe=self.stored_fringes[k]))
+
+    potential_codelets.extend(focusable.GetAffordances())
     if potential_codelets:
-      one_codelet = WeightedChoice([(x, x.urgency()) for x in potential_codelets])
-      self.controller.coderack.AddCodelet(one_codelet)
+      print potential_codelets
+      selected_codelets = ChooseAboutN(2, [(x, x.urgency()) for x in potential_codelets])
+      for one_codelet in selected_codelets:
+        self.controller.coderack.AddCodelet(one_codelet)
 
   def _CalculateFringeOverlap(self, focusable):
     """Calculates a hit map: from prior focusable to strength."""

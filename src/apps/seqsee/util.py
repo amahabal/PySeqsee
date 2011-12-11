@@ -33,6 +33,20 @@ def Toss(x):
   """x is a number between 0 and 1. Returns true with probability x."""
   return random.uniform(0, 1) <= x
 
+
+def ChooseAboutN(n, choices):
+  """Choose in a way that the expected number of choices is n.
+  
+  Choices is an iterable of 2-tuples, where the second value is the weight.
+  
+  An example to show how it works: let choices contain 5 things with weights 10, 20, 30
+  40, and 50 (thus summing to 150), and let n=3. Then we will keep the first item in the
+  output with probability 3 * 10/150 (i.e., 20%).
+  """
+  choices = list(choices)  # Needed since we iterate twice over the iterable.
+  total = sum(w for c, w in choices)
+  return [x[0] for x in choices if Toss(1.0 * n * x[1] / total)]
+
 def WeightedChoice(choices):
   """Choices is an iterable of 2-tuples, where the second value is the weight. Chooses one."""
   choices = list(choices)  # Needed since we iterate twice over the iterable.

@@ -13,6 +13,9 @@
 from farg.category import CategorizableMixin
 from farg.exceptions import FargError, FargException
 from farg.ltm.storable import LTMMakeStorableMixin
+import logging
+
+logger = logging.getLogger(__name__)
 
 class SObject(CategorizableMixin, LTMMakeStorableMixin):
   """Base class of objects --- groups or elements.
@@ -193,3 +196,11 @@ class SAnchored(LTMMakeStorableMixin):
     for k, v in self.object.GetFringe().iteritems():
       fringe[k] = v
     return fringe
+
+  def GetAffordances(self):
+    logging.debug('GetAffordances called for %s', self)
+    return ()
+
+  def GetSimilarityAffordances(self, other, other_fringe, my_fringe):
+    logging.debug('GetSimilarityAffordances called: [%s] and [%s] ', self, other)
+    return ()

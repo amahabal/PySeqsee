@@ -73,11 +73,11 @@ class GUI(object):
     thread.start()
     self.stepping_thread = thread
 
-  def Step(self):
+  def Steps(self, steps):
     """Takes a single step of the controller."""
     if self.stepping_thread:
       return  # Already running.
-    thread = RunForNSteps(self, n_steps=1)
+    thread = RunForNSteps(self, n_steps=steps)
     self.stop_stepping = False
     thread.start()
     self.stepping_thread = thread
