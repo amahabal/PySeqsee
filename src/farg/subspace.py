@@ -17,8 +17,13 @@ class Subspace(object):
   def QuickReconnaisance(cls, arguments):
     return NeedDeeperExploration()
 
+  @classmethod
+  def RoutineCodeletsToAdd(cls):
+    return None
+
   def __init__(self):
-    self.controller = Controller()
+    routine_codelets_to_add = self.RoutineCodeletsToAdd()
+    self.controller = Controller(routine_codelets_to_add=routine_codelets_to_add)
 
 def Subtask(subspace_class, max_number_of_steps, arguments):
   """The driver for subtask calculations: creates a subspace based on class and arguments, and
@@ -36,4 +41,6 @@ def Subtask(subspace_class, max_number_of_steps, arguments):
     subspace.controller.RunUptoNSteps(max_number_of_steps)
   except AnswerFoundException as e:
     return e.answer
+  except NoAnswerException:
+    return None
   return None

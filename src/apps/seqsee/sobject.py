@@ -11,8 +11,10 @@
 """
 
 from farg.category import CategorizableMixin
-from farg.exceptions import FargError, FargException
+from farg.exceptions import FargError, FargException, AnswerFoundException, NoAnswerException
 from farg.ltm.storable import LTMMakeStorableMixin
+from farg.codelet import Codelet, CodeletFamily
+from farg.controller import Controller
 import logging
 
 logger = logging.getLogger(__name__)
@@ -119,8 +121,8 @@ class NonAdjacentGroupElementsException(FargException):
 class SAnchored(LTMMakeStorableMixin):
   """An object with position information.
   
-  .. warning:: This way of doing things differs from the way in Perl, where I was subclassing
-    instead of just having an sobject as a member.
+  .. warning:: This way of doing things differs from the way in Perl, where I was
+    subclassing instead of just having an sobject as a member.
   """
   def __init__(self, sobj, items, start_pos, end_pos, is_sequence_element=False):
     #: The object which is anchored.
@@ -197,10 +199,16 @@ class SAnchored(LTMMakeStorableMixin):
       fringe[k] = v
     return fringe
 
-  def GetAffordances(self):
+  def GetAffordances(self, controller):
     logging.debug('GetAffordances called for %s', self)
     return ()
 
-  def GetSimilarityAffordances(self, other, other_fringe, my_fringe):
+  def GetSimilarityAffordances(self, other, other_fringe, my_fringe, controller):
+    from apps.seqsee.get_mapping import CF_FindAnchoredSimilarity
     logging.debug('GetSimilarityAffordances called: [%s] and [%s] ', self, other)
-    return ()
+    if not isinstance(other, SAnchored):
+      return ()
+    sorted_items = sorted((self, other), key=lambda x: x.start_pos)
+    # So both are anchored, and have overlapping fringes. Time for subspaces!
+    return [Codelet(CF_FindAnchoredSimilarity, controller, 100,
+                    left=sorted_items[0], right=sorted_items[1])]

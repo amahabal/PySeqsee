@@ -71,12 +71,13 @@ class Stream(object):
       potential_codelets.extend(k.GetSimilarityAffordances(
           focusable,
           other_fringe=self.stored_fringes[focusable],
-          my_fringe=self.stored_fringes[k]))
+          my_fringe=self.stored_fringes[k],
+          controller=self.controller))
 
-    potential_codelets.extend(focusable.GetAffordances())
+    potential_codelets.extend(focusable.GetAffordances(controller=self.controller))
     if potential_codelets:
       print potential_codelets
-      selected_codelets = ChooseAboutN(2, [(x, x.urgency()) for x in potential_codelets])
+      selected_codelets = ChooseAboutN(2, [(x, x.urgency) for x in potential_codelets])
       for one_codelet in selected_codelets:
         self.controller.coderack.AddCodelet(one_codelet)
 

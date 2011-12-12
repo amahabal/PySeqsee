@@ -12,6 +12,7 @@ class AnswerFoundException(FargException):
     self.answer = answer
 
 class NoAnswerException(FargException):
+  """Raised by a subspace when it is realized that no answer is forthcoming."""
   pass
 
 class ConflictingGroupException(FargException):

@@ -1,6 +1,6 @@
 class LTMStorableMixin(object):
-  """Any class whose instances should be stored in LTM must adhere to certain semantics, and
-  subclass from this class.
+  """Any class whose instances should be stored in LTM must adhere to certain semantics,
+  and subclass from this class.
   
   For a given set of arguments, this class ensures that only a single object is created.
   """

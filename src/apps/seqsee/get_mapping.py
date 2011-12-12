@@ -5,7 +5,7 @@ from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.util import WeightedShuffle
 from farg.codelet import Codelet, CodeletFamily
 from farg.exceptions import FargException, AnswerFoundException, NoAnswerException
-from farg.subspace import Subspace, AnswerFound, NeedDeeperExploration, NoAnswerLikely
+from farg.subspace import Subspace, AnswerFound, NeedDeeperExploration, NoAnswerLikely, Subtask
 
 import logging
 logger = logging.getLogger(__name__)
@@ -104,7 +104,7 @@ class CF_ExplainValues(CodeletFamily):
 
 class SubspaceFindMapping(Subspace):
   class Workspace():
-    def __init__(self, left, right, category):
+    def __init__(self, left, right, category=None):
       self.left = left
       self.right = right
       self.category = category
@@ -123,3 +123,14 @@ class SubspaceFindMapping(Subspace):
     if mapping:
       return AnswerFound(mapping)
     return NeedDeeperExploration()
+
+
+class CF_FindAnchoredSimilarity(CodeletFamily):
+  @classmethod
+  def Run(cls, controller, left, right):
+    mapping = Subtask(SubspaceFindMapping, 4,
+                      {'left': left.object, 'right': right.object})
+    if mapping:
+      logging.warning("Great, will create a mapping %s", mapping)
+
+
