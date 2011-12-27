@@ -143,6 +143,8 @@ class SAnchored(LTMMakeStorableMixin):
     self.metonym = None
     #: Is the metonym active?
     self.is_metonym_active = False
+    #: Relations.
+    self.relations = set()
 
   def SetPosition(self, start_pos, end_pos):
     """Sets the end-point of the anchored object."""
@@ -212,3 +214,13 @@ class SAnchored(LTMMakeStorableMixin):
     # So both are anchored, and have overlapping fringes. Time for subspaces!
     return [Codelet(CF_FindAnchoredSimilarity, controller, 100,
                     left=sorted_items[0], right=sorted_items[1])]
+
+  def AddRelation(self, relation):
+    self.relations.add(relation)
+
+  def GetRelationTo(self, other):
+    return [x for x in self.relations if (x.left == other or x.right == other)]
+
+  def GetRightwardRelations(self):
+    return [x for x in self.relations if x.left == self]
+

@@ -1,13 +1,15 @@
-import random
-
 from apps.seqsee.categories import GetMapping, Number
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
+from apps.seqsee.relation import Relation
 from apps.seqsee.util import WeightedShuffle
 from farg.codelet import Codelet, CodeletFamily
 from farg.exceptions import FargException, AnswerFoundException, NoAnswerException
-from farg.subspace import Subspace, AnswerFound, NeedDeeperExploration, NoAnswerLikely, Subtask
-
+from farg.subspace import Subspace, AnswerFound, NeedDeeperExploration, NoAnswerLikely, \
+  Subtask
 import logging
+import random
+
+
 logger = logging.getLogger(__name__)
 
 
@@ -131,6 +133,7 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
     mapping = Subtask(SubspaceFindMapping, 4,
                       {'left': left.object, 'right': right.object})
     if mapping:
-      logging.warning("Great, will create a mapping %s", mapping)
+      relation = Relation(left, right, mapping)
+      logging.warning("Great, will create a relation %s", relation)
 
 
