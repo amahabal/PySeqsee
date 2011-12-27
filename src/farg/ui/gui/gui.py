@@ -19,6 +19,7 @@ class RunForNSteps(Thread):
         break
       try:
         self.gui.controller.Step()
+        self.gui.ReDraw()
       except FargException as e:
         self.gui.stop_stepping = True
         try:
@@ -51,10 +52,10 @@ class GUI(object):
     """Starts the app by launching the UI."""
     self.mw.mainloop()
 
-  def Redraw(self):
+  def ReDraw(self):
     """Redraws the UI, flushing any changes that need to be."""
     for item in self.items_to_refresh:
-      item.Redraw()
+      item.ReDraw()
 
   def Quit(self):
     """Quits the application. Calls quit on the controller as well."""

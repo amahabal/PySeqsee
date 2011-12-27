@@ -1,5 +1,6 @@
 from Tkinter import *
 from apps.seqsee.gui.workspace_view import WorkspaceView
+from apps.seqsee.gui.coderack_view import CoderackView
 
 class CentralPane(Canvas):
   """The central pane of the Tk-based UI. This can hold several displays."""
@@ -31,8 +32,8 @@ class CentralPane(Canvas):
     self.ReDraw()
 
   def SetInitialView(self):
-    self.SetFullView(WorkspaceView, "ws")
-
+    self.SetVerticallySplitView(WorkspaceView, CoderackView,
+                                "ws", "cr")
 
   def SetupMenu(self, parent):
     menubar = Menu(self)
@@ -41,10 +42,11 @@ class CentralPane(Canvas):
     view_menu.add_command(label='workspace',
                           command=lambda: self.SetFullView(WorkspaceView, "ws"))
     view_menu.add_command(label='codelets',
-                          command=lambda: self.SetFullView(WorkspaceView, "ws"))
+                          command=lambda: self.SetFullView(CoderackView, "cr"))
     view_menu.add_command(label='ws/codelets',
-                          command=lambda: self.SetVerticallySplitView(WorkspaceView, WorkspaceView,
-                                                                      "ws1", "ws2"))
+                          command=lambda: self.SetVerticallySplitView(WorkspaceView,
+                                                                      CoderackView,
+                                                                      "ws", "cr"))
     menubar.add_cascade(label="View", menu=view_menu)
 
     parent.config(menu=menubar)
