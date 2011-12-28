@@ -16,8 +16,9 @@ class NoAnswerException(FargException):
   pass
 
 class ConflictingGroupException(FargException):
-  """If an attempt is made to add a group to the workspace that conflicts some existing group(s),
-  this exception is raised."""
+  """If an attempt is made to add a group to the workspace that conflicts some existing
+     group(s), this exception is raised.
+  """
   def __init__(self, conflicting_groups):
     #: The groups that conflict.
     self.conflicting_groups = conflicting_groups

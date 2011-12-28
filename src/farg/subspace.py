@@ -22,12 +22,14 @@ class Subspace(object):
     return None
 
   def __init__(self):
-    routine_codelets_to_add = self.RoutineCodeletsToAdd()
-    self.controller = Controller(routine_codelets_to_add=routine_codelets_to_add)
+    self.controller = Controller(routine_codelets_to_add=self.RoutineCodeletsToAdd())
 
 def Subtask(subspace_class, max_number_of_steps, arguments):
-  """The driver for subtask calculations: creates a subspace based on class and arguments, and
-  runs it to a maximum of max_number_of_steps, returning None or an appropriate result."""
+  """The driver for subtask calculations: creates a subspace based on class and arguments,
+     and runs it to a maximum of max_number_of_steps, returning None or an appropriate
+     result.
+  """
+  # TODO(#17 --- Dec 28, 2011): Better documentation with examples.
   quick_result = subspace_class.QuickReconnaisance(arguments)
   if not quick_result:
     return None

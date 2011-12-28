@@ -18,7 +18,7 @@ class TestRegtestInitialSetup(unittest.TestCase):
     self.assertTrue(isinstance(controller.coderack, Coderack))
     self.assertTrue(isinstance(controller.stream, Stream))
 
-    self.assertEqual(0, controller.coderack._codelet_count)
+    self.assertTrue(controller.coderack._codelet_count > 0)
 
   def test_ws(self):
     controller = SeqseeController(args)

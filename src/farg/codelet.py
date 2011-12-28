@@ -4,9 +4,11 @@
 """
 
 class CodeletFamily(object):
+  # TODO(#9 --- Dec 28, 2011): Add documentation.
   pass
 
 class Codelet(object):
+  # TODO(#10 --- Dec 28, 2011): Add documentation.
   def __init__(self, family, controller, urgency, **args):
     self.family = family
     self.urgency = urgency

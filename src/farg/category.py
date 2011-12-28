@@ -1,9 +1,10 @@
-"""Classes to deal with categories and their instances, including the base class for categories.
+"""Classes to deal with categories and their instances, including the base class for
+categories.
 
-An example will help describe all that happens here. We will use the category 'Ascending' from
-Seqsee. Instances of this category are objects such as '(1 2 3)' and '(7 8 9 10)'. Objects need to
-have CategorizableMixin in their class hierarchy: it provides methods to store the discovered
-categories and their bindings.
+An example will help describe all that happens here. We will use the category 'Ascending'
+from Seqsee. Instances of this category are objects such as '(1 2 3)' and '(7 8 9 10)'.
+Objects need to have CategorizableMixin in their class hierarchy: it provides methods to
+store the discovered categories and their bindings.
 
 A category is a class (deriving from Category).
 
@@ -24,11 +25,11 @@ class Binding(object):
   
   .. Note::
   
-    In the Perl version, the bindings had special slots for squinting, position, metotype etc. Here,
-    all are part of the same hash, along with "regular" attributes such as length.
+    In the Perl version, the bindings had special slots for squinting, position, metotype
+    etc. Here, all are part of the same hash, along with "regular" attributes such as length.
   
-    This also means that the caller of the constructor needs to do all the work, unlike in Perl,
-    where some bits were calculated by the constructor. 
+    This also means that the caller of the constructor needs to do all the work, unlike in
+    Perl, where some bits were calculated by the constructor. 
   """
   def __init__(self, **bindings):
     self.bindings = dict(bindings)
@@ -47,7 +48,9 @@ class CategorizableMixin(object):
     self.categories[category] = binding
 
   def RemoveCategory(self, category):
-    """Removes the category: the item will not (currently) be considered a member of that category."""
+    """Removes the category: the item will not (currently) be considered a member of that
+       category.
+    """
     self.categories.pop(category)
 
   def GetBindingsForCategory(self, category):
@@ -95,12 +98,10 @@ class Category(object):
 
   @classmethod
   def FindMapping(cls, categorizable1, categorizable2):
-    """Finds a mapping between two objects based on a particular category.
-    """
+    """Finds a mapping between two objects based on a particular category."""
     raise FargError("IsInstance makes no sense on base category.")
 
   @classmethod
   def ApplyMapping(cls, categorizable, mapping):
-    """Apply a mapping to a categorizable to obtain a different categorizable.
-    """
+    """Apply a mapping to a categorizable to obtain a different categorizable."""
     raise FargError("IsInstance makes no sense on base category.")
