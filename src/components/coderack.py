@@ -1,3 +1,4 @@
+# TODO(#1 --- Dec 28, 2011): Move to src/farg.
 import random
 from farg.exceptions import FargError, FargException
 
@@ -32,7 +33,9 @@ class Coderack(object):
     return (self._codelet_count == 0)
 
   def GetCodelet(self):
-    """Randomly selects a codelet (biased by urgency). Requires the coderack to be nonempty."""
+    """Randomly selects a codelet (biased by urgency).
+       Requires the coderack to be nonempty.
+    """
     if self._forced_next_codelet:
       codelet = self._forced_next_codelet
       self._RemoveCodelet(codelet)
@@ -64,9 +67,10 @@ class Coderack(object):
     
      .. Note::
     
-        This mechanism should only be used during testing. It is unsafe in that if the codelet is
-        expunged (because of new codelets being added), the program can crash. This will never
-        happen if the next codelet is marked and GetCodelet called soon thereafter.
+        This mechanism should only be used during testing. It is unsafe in that if the
+        codelet is expunged (because of new codelets being added), the program can crash.
+        This will never happen if the next codelet is marked and GetCodelet called soon
+        thereafter.
     """
     if codelet not in self._codelets:
       raise FargError("Cannot mark a non-existant codelet as the next to retrieve.")

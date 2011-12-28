@@ -1,3 +1,4 @@
+# TODO(#4 --- Dec 28, 2011): Move to src/farg.
 from collections import defaultdict
 from apps.seqsee.util import WeightedChoice, ChooseAboutN
 
@@ -65,18 +66,17 @@ class Stream(object):
 
     # Possibly add codelets based on the fringe hit.
     potential_codelets = []
-    for k, v in hit_map.iteritems():
-      if v < 0.1:
+    for prior_focusable, overlap_amount in hit_map.iteritems():
+      if overlap_amount < 0.1:
         continue
-      potential_codelets.extend(k.GetSimilarityAffordances(
+      potential_codelets.extend(prior_focusable.GetSimilarityAffordances(
           focusable,
           other_fringe=self.stored_fringes[focusable],
-          my_fringe=self.stored_fringes[k],
+          my_fringe=self.stored_fringes[prior_focusable],
           controller=self.controller))
 
     potential_codelets.extend(focusable.GetAffordances(controller=self.controller))
     if potential_codelets:
-      print potential_codelets
       selected_codelets = ChooseAboutN(2, [(x, x.urgency) for x in potential_codelets])
       for one_codelet in selected_codelets:
         self.controller.coderack.AddCodelet(one_codelet)
@@ -86,13 +86,13 @@ class Stream(object):
     fringe = focusable.GetFringe()
     stored_fringe_map = self.stored_fringes
     hits_map = defaultdict(float)
-    for k, v in fringe.iteritems():
-      if k in stored_fringe_map:
-        for related_focusable, strength in stored_fringe_map[k].iteritems():
-          extra_strength = strength * self.foci[related_focusable] * v
+    for fringe_element, intensity in fringe.iteritems():
+      if fringe_element in stored_fringe_map:
+        for related_focusable, strength in stored_fringe_map[fringe_element].iteritems():
+          extra_strength = strength * self.foci[related_focusable] * intensity
           if extra_strength > self.kRelatedItemThreshold:
             hits_map[related_focusable] += extra_strength
-      stored_fringe_map[k][focusable] = v
+      stored_fringe_map[fringe_element][focusable] = intensity
     for focus in self.foci.keys():
       self.foci[focus] *= self.kDecayRatio
     self.foci[focusable] = 1
