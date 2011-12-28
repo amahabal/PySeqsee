@@ -9,19 +9,24 @@ from apps.seqsee.gui.gui import SeqseeGUI
 
 def ParseSeqseeArguments():
   parser = argparse.ArgumentParser(
-      description="Seqsee: A cognitive architecture for integer sequence "
-                  "perception")
+      description="Seqsee: A cognitive architecture for integer sequence perception")
   parser.add_argument('sequence', metavar='N', type=int, nargs='+',
                       help='terms of the sequence')
-  parser.add_argument('--coderack_size', default=10, type=int)
   parser.add_argument('--ui',
-                      help='Type of ui (cmdline, gui, batch)',
-                      choices=['cmdline', 'gui', 'batch'],
+                      help='Type of ui (cmdline, gui, batch, web). Only gui implemented',
+                      choices=['cmdline', 'gui', 'batch', 'web'],
                       default='gui')
   parser.add_argument('--unrevealed_terms',
                       help='Extra terms (which Seqsee will ignore expcept in batch mode)',
                       default='')
   parser.add_argument('--debug', default='', help='Logging level')
+
+  parser.add_argument('--gui_initial_view', default='ws',
+                      help='In GUI mode, this is the initial view to show.')
+  parser.add_argument('--gui_canvas_height', default=400, type=int,
+                      help='In GUI mode, height of the ws canvas.')
+  parser.add_argument('--gui_canvas_width', default=800, type=int,
+                      help='In GUI mode, width of the ws canvas.')
 
   # Parse
   args = parser.parse_args()
@@ -30,6 +35,8 @@ def ParseSeqseeArguments():
   if args.ui is 'gui':
     args.ui = SeqseeGUI
   else:
+    # TODO(#20 --- Dec 28, 2011): Add support for cmdline mode.
+    # TODO(#21 --- Dec 28, 2011): Add support for web mode.
     print "%s is not a supported UI (yet)" % args.ui
     sys.exit(1)
 
