@@ -34,13 +34,13 @@ class GUI(object):
   It sets up three frames: a buttons frame, a central pane, and an interaction
   widget. Subclasses can override specific bits of it as needed."""
 
-  def __init__(self, controller, geometry='810x700+0+0'):
+  def __init__(self, controller, args, geometry='810x700+0+0'):
     #: The main-window of the UI.
     self.mw = mw = Tk()
     #: The controller owned by the UI.
     self.controller = controller
     mw.geometry(geometry)
-    self.SetupWindows()
+    self.SetupWindows(args)
 
     #: If non-None, the thread that is stepping the controller.
     self.stepping_thread = None
@@ -105,7 +105,7 @@ class GUI(object):
       answer = tkMessageBox.askyesno("Question", exception.question_string)
       exception.callback(answer)
 
-  def SetupWindows(self):
+  def SetupWindows(self, args):
     """Sets up the three panes in the UI."""
     mw = self.mw
     self.items_to_refresh = []
@@ -114,8 +114,8 @@ class GUI(object):
     self.PopulateButtonPane(self.buttons_pane)
     self.buttons_pane.grid()
 
-    self.PopulateCentralPane()
-    self.PopulateInteractionPane()
+    self.PopulateCentralPane(args)
+    self.PopulateInteractionPane(args)
 
   def PopulateButtonPane(self, frame):
     """Adds buttons to the top row."""

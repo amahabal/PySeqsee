@@ -4,7 +4,7 @@ from apps.seqsee.gui.coderack_view import CoderackView
 
 class CentralPane(Canvas):
   """The central pane of the Tk-based UI. This can hold several displays."""
-  def __init__(self, master, controller, *args, **kwargs):
+  def __init__(self, master, controller, seqsee_args, *args, **kwargs):
     self.height = int(kwargs['height'])
     self.width = int(kwargs['width'])
     self.controller = controller
@@ -14,7 +14,7 @@ class CentralPane(Canvas):
 
     # Setup appropriate view based on config and commandline options.
     # Defaulting to full workspace view, for now.
-    self.SetInitialView()
+    self.SetNamedView(seqsee_args.gui_initial_view)
 
   def ReDraw(self):
     self.delete(ALL)
@@ -30,9 +30,6 @@ class CentralPane(Canvas):
                       view_class2(self, 0, self.height / 2 + 2,
                                   self.width, self.height / 2 - 2)]
     self.ReDraw()
-
-  def SetInitialView(self):
-    self.SetVerticallySplitView(WorkspaceView, CoderackView)
 
   named_views = { 'ws': lambda pane: pane.SetFullView(WorkspaceView),
                   'cr': lambda pane: pane.SetFullView(CoderackView),

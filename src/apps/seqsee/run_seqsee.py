@@ -8,5 +8,5 @@ print args
 
 controller = SeqseeController(args)
 # The following line takes control of the rest of the run(s):
-ui = args.ui(controller)
+ui = args.ui(controller, args)
 ui.Launch()
