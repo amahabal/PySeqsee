@@ -105,10 +105,21 @@ version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>nof
 <tt class="descname">Apply</tt><big>(</big><em>item</em><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.Apply" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="apps.seqsee.mapping.StructuralMapping.IsPairConsistent">
+<tt class="descname">IsPairConsistent</tt><big>(</big><em>item1</em>, <em>item2</em><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.IsPairConsistent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Is the pair of items consistent with this mapping?</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">This is a cop-out, currently; when extending Seqsee, I should revisit this.</p>
+</div>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="apps.seqsee.mapping.StructuralMapping.bindings_mapping">
 <tt class="descname">bindings_mapping</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.bindings_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dictionary of attribute to a mapping: how is the value of each attribute transformed?</p>
+<dd><p>A dictionary of attribute to a mapping: how is the value of each attribute
+transformed?</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -121,9 +132,9 @@ version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>nof
 <dt id="apps.seqsee.mapping.StructuralMapping.slippages">
 <tt class="descname">slippages</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.slippages" title="Permalink to this definition">¶</a></dt>
 <dd><p>If an attribute comes from a different attribute, that information is here.
-Thus, if the new <cite>start</cite> is the successory of the old <cite>end</cite>, then there will be an entry
-start =&gt; end in the slippages dictionary, as well as a start =&gt; succ in the bindings_mapping
-dictionary.</p>
+Thus, if the new <cite>start</cite> is the successory of the old <cite>end</cite>, then there will be an
+entry start =&gt; end in the slippages dictionary, as well as a start =&gt; succ in the
+bindings_mapping dictionary.</p>
 </dd></dl>
 
 </dd></dl>

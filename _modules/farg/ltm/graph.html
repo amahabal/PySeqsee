@@ -1,0 +1,178 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>farg.ltm.graph &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../../../index.html" />
+    <link rel="up" title="farg.ltm" href="../ltm.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../ltm.html" accesskey="U">farg.ltm</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for farg.ltm.graph</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">cPickle</span> <span class="kn">as</span> <span class="nn">pickle</span>
+<span class="kn">from</span> <span class="nn">farg.ltm.node</span> <span class="kn">import</span> <span class="n">LTMNode</span>
+<span class="kn">from</span> <span class="nn">farg.ltm.edge</span> <span class="kn">import</span> <span class="n">LTMEdge</span>
+
+<span class="kn">from</span> <span class="nn">farg.ltm.storable</span> <span class="kn">import</span> <span class="n">LTMStorableMixin</span>
+
+<div class="viewcode-block" id="LTMGraph"><a class="viewcode-back" href="../../../components/ltm.html#farg.ltm.graph.LTMGraph">[docs]</a><span class="k">class</span> <span class="nc">LTMGraph</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Represents a full LTM graph (consisting of nodes and edges).&quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Initialization loads up the nodes and edges of the graph.&quot;&quot;&quot;</span>
+    <span class="c">#: Nodes in the graph. Each is a LTMNode.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="c">#: A utility data-structure mapping content to nodes. A particular piece of content should</span>
+    <span class="c">#: have at most one node.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">content_to_node</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="c">#: The filename for reading the graph from and for dumping the graph to. Must exist.</span>
+    <span class="c">#: .. todo:: we need to be able to create this if missing.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">filename</span> <span class="o">=</span> <span class="n">filename</span>
+    <span class="c">#: Elapsed time-steps. Activation is time dependent since it decays at each time step. A</span>
+    <span class="c">#: notion of time is therefore relevant.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">timesteps</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="n">up</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">Unpickler</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">LoadNodes</span><span class="p">(</span><span class="n">up</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LTMGraph.LoadNodes"><a class="viewcode-back" href="../../../components/ltm.html#farg.ltm.graph.LTMGraph.LoadNodes">[docs]</a>  <span class="k">def</span> <span class="nf">LoadNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unpickler</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Load all nodes from the unpickler.</span>
+<span class="sd">    </span>
+<span class="sd">    Each thing unpickled is a LTMNode. Because that class defines a __setstate__, it is used to</span>
+<span class="sd">    setup the state of the created node.</span>
+<span class="sd">    </span>
+<span class="sd">    While pickling, the content of that node (in a mangled state, see below) and its class is</span>
+<span class="sd">    stored. When unpickling (this method), __setstate__ of LTMNode calls Create on this class</span>
+<span class="sd">    (defined in LTMStorableMixin), and it ensures a proper non-duplicate initialization.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">while</span> <span class="bp">True</span><span class="p">:</span>
+      <span class="k">try</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">unpickler</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">AddNode</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+      <span class="k">except</span> <span class="ne">EOFError</span><span class="p">:</span>
+        <span class="k">break</span>
+</div>
+<div class="viewcode-block" id="LTMGraph.Dump"><a class="viewcode-back" href="../../../components/ltm.html#farg.ltm.graph.LTMGraph.Dump">[docs]</a>  <span class="k">def</span> <span class="nf">Dump</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">filename</span><span class="p">,</span> <span class="s">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+      <span class="n">pickler</span> <span class="o">=</span> <span class="n">pickle</span><span class="o">.</span><span class="n">Pickler</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Mangle</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+        <span class="n">pickler</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Unmangle</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">__dict__</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="LTMGraph.Mangle"><a class="viewcode-back" href="../../../components/ltm.html#farg.ltm.graph.LTMGraph.Mangle">[docs]</a>  <span class="k">def</span> <span class="nf">Mangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Replaces references to nodes with the nodes themselves.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">content_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+      <span class="k">if</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_to_node</span><span class="p">:</span>
+        <span class="n">content_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_to_node</span><span class="p">[</span><span class="n">v</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="LTMGraph.Unmangle"><a class="viewcode-back" href="../../../components/ltm.html#farg.ltm.graph.LTMGraph.Unmangle">[docs]</a>  <span class="k">def</span> <span class="nf">Unmangle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content_dict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Replaces values that are nodes with contents of those nodes.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">content_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">LTMNode</span><span class="p">):</span>
+        <span class="n">content_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">content</span>
+
+</div>
+<div class="viewcode-block" id="LTMGraph.AddNode"><a class="viewcode-back" href="../../../components/ltm.html#farg.ltm.graph.LTMGraph.AddNode">[docs]</a>  <span class="k">def</span> <span class="nf">AddNode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">):</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">LTMNode</span><span class="p">))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">content</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_to_node</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">content_to_node</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">content</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="LTMGraph.GetNodeForContent"><a class="viewcode-back" href="../../../components/ltm.html#farg.ltm.graph.LTMGraph.GetNodeForContent">[docs]</a>  <span class="k">def</span> <span class="nf">GetNodeForContent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns node for content; creates one if it does not exist.&quot;&quot;&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">LTMStorableMixin</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">content</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_to_node</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">content_to_node</span><span class="p">[</span><span class="n">content</span><span class="p">]</span>
+    <span class="n">new_node</span> <span class="o">=</span> <span class="n">LTMNode</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">new_node</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">content_to_node</span><span class="p">[</span><span class="n">content</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_node</span>
+    <span class="k">return</span> <span class="n">new_node</span>
+</div>
+<div class="viewcode-block" id="LTMGraph.AddEdgeBetweenContent"><a class="viewcode-back" href="../../../components/ltm.html#farg.ltm.graph.LTMGraph.AddEdgeBetweenContent">[docs]</a>  <span class="k">def</span> <span class="nf">AddEdgeBetweenContent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">from_content</span><span class="p">,</span> <span class="n">to_content</span><span class="p">,</span> <span class="n">edge_type</span><span class="o">=</span><span class="n">LTMEdge</span><span class="o">.</span><span class="n">LTM_EDGE_TYPE_RELATED</span><span class="p">):</span>
+    <span class="n">edge</span> <span class="o">=</span> <span class="n">LTMEdge</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="n">to_content</span><span class="p">),</span> <span class="n">edge_type</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="n">from_content</span><span class="p">)</span><span class="o">.</span><span class="n">_outgoing_edges</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">edge</span><span class="p">)</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li>
+          <li><a href="../ltm.html" >farg.ltm</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

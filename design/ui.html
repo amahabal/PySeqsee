@@ -26,6 +26,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Design" href="../design.html" />
     <link rel="next" title="Coderack" href="../components/coderack.html" />
     <link rel="prev" title="Categories" href="categories.html" /> 
   </head>
@@ -45,7 +46,8 @@
         <li class="right" >
           <a href="categories.html" title="Categories"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../design.html" accesskey="U">Design</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -58,7 +60,7 @@
 <h1>The Graphic User Interface<a class="headerlink" href="#the-graphic-user-interface" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="farg.ui.gui.gui.GUI">
-<em class="property">class </em><tt class="descclassname">farg.ui.gui.gui.</tt><tt class="descname">GUI</tt><big>(</big><em>controller</em>, <em>geometry='810x700+0+0'</em><big>)</big><a class="reference internal" href="../_modules/farg/ui/gui/gui.html#GUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ui.gui.gui.GUI" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">farg.ui.gui.gui.</tt><tt class="descname">GUI</tt><big>(</big><em>controller</em>, <em>args</em>, <em>geometry='810x700+0+0'</em><big>)</big><a class="reference internal" href="../_modules/farg/ui/gui/gui.html#GUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ui.gui.gui.GUI" title="Permalink to this definition">¶</a></dt>
 <dd><p>A tkinter-based interfact for a FARG app.</p>
 <p>It sets up three frames: a buttons frame, a central pane, and an interaction
 widget. Subclasses can override specific bits of it as needed.</p>
@@ -96,14 +98,14 @@ widget. Subclasses can override specific bits of it as needed.</p>
 
 <dl class="method">
 <dt id="farg.ui.gui.gui.GUI.PopulateCentralPane">
-<tt class="descname">PopulateCentralPane</tt><big>(</big><em>frame</em><big>)</big><a class="headerlink" href="#farg.ui.gui.gui.GUI.PopulateCentralPane" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">PopulateCentralPane</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.ui.gui.gui.GUI.PopulateCentralPane" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets up the display in the central part.</p>
 <p>If an item must be refreshed, add it to items_to_refresh.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.ui.gui.gui.GUI.PopulateInteractionPane">
-<tt class="descname">PopulateInteractionPane</tt><big>(</big><em>frame</em><big>)</big><a class="headerlink" href="#farg.ui.gui.gui.GUI.PopulateInteractionPane" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">PopulateInteractionPane</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.ui.gui.gui.GUI.PopulateInteractionPane" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets up the interaction pane at the bottom.</p>
 </dd></dl>
 
@@ -114,14 +116,14 @@ widget. Subclasses can override specific bits of it as needed.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ui.gui.gui.GUI.Redraw">
-<tt class="descname">Redraw</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.ui.gui.gui.GUI.Redraw" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.ui.gui.gui.GUI.ReDraw">
+<tt class="descname">ReDraw</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.ui.gui.gui.GUI.ReDraw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Redraws the UI, flushing any changes that need to be.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.ui.gui.gui.GUI.SetupWindows">
-<tt class="descname">SetupWindows</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.ui.gui.gui.GUI.SetupWindows" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">SetupWindows</tt><big>(</big><em>args</em><big>)</big><a class="headerlink" href="#farg.ui.gui.gui.GUI.SetupWindows" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets up the three panes in the UI.</p>
 </dd></dl>
 
@@ -129,6 +131,12 @@ widget. Subclasses can override specific bits of it as needed.</p>
 <dt id="farg.ui.gui.gui.GUI.Start">
 <tt class="descname">Start</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.ui.gui.gui.GUI.Start" title="Permalink to this definition">¶</a></dt>
 <dd><p>Continually calls Step() on the controller.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.ui.gui.gui.GUI.Steps">
+<tt class="descname">Steps</tt><big>(</big><em>steps</em><big>)</big><a class="headerlink" href="#farg.ui.gui.gui.GUI.Steps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes a single step of the controller.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -208,7 +216,8 @@ widget. Subclasses can override specific bits of it as needed.</p>
         <li class="right" >
           <a href="categories.html" title="Categories"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../design.html" >Design</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

@@ -61,14 +61,25 @@
 <p>Workspace. Modeled after the workspace in the Perl version.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p>No attempt to optimize is being made. Later, with profiling, we can speed things up.</p>
+<dl class="docutils">
+<dt>No attempt to optimize is being made. Later, with profiling, we can speed</dt>
+<dd>things up.</dd>
+</dl>
 <p class="last">Specifically, groups are being kept in a set, supergroups-related bookkeeping is not being
-maintained, and so forth. If profiling reveals these to be issues, these can later be optimized.</p>
+maintained, and so forth. If profiling reveals these to be issues, these can later be
+optimized.</p>
 </div>
 <dl class="class">
 <dt id="apps.seqsee.workspace.Workspace">
 <em class="property">class </em><tt class="descclassname">apps.seqsee.workspace.</tt><tt class="descname">Workspace</tt><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
+<dt id="apps.seqsee.workspace.Workspace.ChooseItemToFocusOn">
+<tt class="descname">ChooseItemToFocusOn</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.ChooseItemToFocusOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choose an item from the WS to focus on.</p>
+<p>Will currently be elements or groups.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="apps.seqsee.workspace.Workspace.GetConflictingGroups">
 <tt class="descname">GetConflictingGroups</tt><big>(</big><em>gp</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetConflictingGroups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of groups conflicting with given group.</p>
@@ -83,7 +94,8 @@ not an element of the other. In other words, set(g1.items) overlaps set(g2.items
 <dl class="method">
 <dt id="apps.seqsee.workspace.Workspace.GetGroupsWithSpan">
 <tt class="descname">GetGroupsWithSpan</tt><big>(</big><em>left_fn</em>, <em>right_fn</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetGroupsWithSpan" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get all groups which match the constraints set by the predicate functions for each end.</p>
+<dd><p>Get all groups which match the constraints set by the predicate functions for each
+end.</p>
 </dd></dl>
 
 <dl class="method">
@@ -107,8 +119,8 @@ not an element of the other. In other words, set(g1.items) overlaps set(g2.items
 <dl class="method">
 <dt id="apps.seqsee.workspace.Workspace.InsertGroup">
 <tt class="descname">InsertGroup</tt><big>(</big><em>group</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.InsertGroup" title="Permalink to this definition">¶</a></dt>
-<dd><p>Inserts a group into the workspace. It must not conflict with an existing group, else a
-ConflictingGroupException is raised.</p>
+<dd><p>Inserts a group into the workspace. It must not conflict with an existing group, else
+a ConflictingGroupException is raised.</p>
 </dd></dl>
 
 <dl class="attribute">

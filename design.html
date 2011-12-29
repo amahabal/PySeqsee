@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>ToDos collected from documentation and code: &mdash; PySeqsee 0.1 documentation</title>
+    <title>Design &mdash; PySeqsee 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,7 +26,8 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="index.html" />
-    <link rel="prev" title="Utility Functions" href="seqsee/utility_functions.html" /> 
+    <link rel="next" title="Subspaces" href="design/subspaces.html" />
+    <link rel="prev" title="Introduction" href="intro.html" /> 
   </head>
   <body>
     <div class="related">
@@ -39,7 +40,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="seqsee/utility_functions.html" title="Utility Functions"
+          <a href="design/subspaces.html" title="Subspaces"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
              accesskey="P">previous</a> |</li>
         <li><a href="index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
       </ul>
@@ -50,28 +54,27 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="todos-collected-from-documentation-and-code">
-<h1>ToDos collected from documentation and code:<a class="headerlink" href="#todos-collected-from-documentation-and-code" title="Permalink to this headline">¶</a></h1>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">This is a cop-out, currently; when extending Seqsee, I should revisit this.</p>
+  <div class="section" id="design">
+<h1>Design<a class="headerlink" href="#design" title="Permalink to this headline">¶</a></h1>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="design/subspaces.html">Subspaces</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/codelets.html">Codelets</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/controller.html">Controller</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/exceptions.html">Exceptions</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/categories.html">Categories</a></li>
+<li class="toctree-l1"><a class="reference internal" href="design/categories.html#module-apps.seqsee.categories">Categories in Seqsee</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="design/categories.html#numeric-categories">Numeric Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design/categories.html#structural-categories">Structural Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="design/categories.html#parametrized-categories">Parametrized Categories</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="design/ui.html">The Graphic User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/coderack.html">Coderack</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/stream.html">Stream of Thought</a></li>
+<li class="toctree-l1"><a class="reference internal" href="components/ltm.html">Long-term Memory</a></li>
+</ul>
 </div>
-<p class="todo-source">(The <a class="reference internal" href="seqsee/relations.html#index-0"><em>original entry</em></a> is located in  /home/amahabal/pyseqsee/src/apps/seqsee/mapping.py:docstring of apps.seqsee.mapping.StructuralMapping.IsPairConsistent, line 3.)</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Choose the codelet to expunge based on a better criteria than uniformly randomly.</p>
-</div>
-<p class="todo-source">(The <a class="reference internal" href="components/coderack.html#index-0"><em>original entry</em></a> is located in  /home/amahabal/pyseqsee/src/components/coderack.py:docstring of components.coderack.Coderack, line 3.)</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Should spread to depth 2. Not done correctly. Nor is the amount spread accurate.</p>
-</div>
-<p class="todo-source">(The <a class="reference internal" href="components/ltm.html#index-0"><em>original entry</em></a> is located in  /home/amahabal/pyseqsee/src/farg/ltm/node.py:docstring of farg.ltm.node.LTMNode.Spike, line 4.)</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Keep eyes open for freshness issues; these have not been ported from Perl.</p>
-</div>
-<p class="todo-source">(The <a class="reference internal" href="design/codelets.html#index-0"><em>original entry</em></a> is located in  /home/amahabal/pyseqsee/src/farg/codelet.py:docstring of farg.codelet, line 3.)</p>
 </div>
 
 
@@ -81,11 +84,14 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="seqsee/utility_functions.html"
-                        title="previous chapter">Utility Functions</a></p>
+  <p class="topless"><a href="intro.html"
+                        title="previous chapter">Introduction</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="design/subspaces.html"
+                        title="next chapter">Subspaces</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="_sources/todo.txt"
+    <li><a href="_sources/design.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -115,7 +121,10 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="seqsee/utility_functions.html" title="Utility Functions"
+          <a href="design/subspaces.html" title="Subspaces"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="intro.html" title="Introduction"
              >previous</a> |</li>
         <li><a href="index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
       </ul>

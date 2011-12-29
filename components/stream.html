@@ -26,6 +26,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Design" href="../design.html" />
     <link rel="next" title="Long-term Memory" href="ltm.html" />
     <link rel="prev" title="Coderack" href="coderack.html" /> 
   </head>
@@ -45,7 +46,8 @@
         <li class="right" >
           <a href="coderack.html" title="Coderack"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../design.html" accesskey="U">Design</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -58,10 +60,11 @@
 <span id="stream-of-thought"></span><h1>Stream of Thought<a class="headerlink" href="#module-components.stream" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="components.stream.Stream">
-<em class="property">class </em><tt class="descclassname">components.stream.</tt><tt class="descname">Stream</tt><a class="reference internal" href="../_modules/components/stream.html#Stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.stream.Stream" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">components.stream.</tt><tt class="descname">Stream</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/components/stream.html#Stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.stream.Stream" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the Stream of Thought.</p>
-<p>Each episode of focusing on an object results in a fringe of it being remembered, and subsequent
-episodes may remind of prior episodes based on the degree of overlap of the fringes.</p>
+<p>Each episode of focusing on an object results in a fringe of it being remembered, and
+subsequent episodes may remind of prior episodes based on the degree of overlap of the
+fringes.</p>
 <dl class="method">
 <dt id="components.stream.Stream.FociCount">
 <tt class="descname">FociCount</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/components/stream.html#Stream.FociCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.stream.Stream.FociCount" title="Permalink to this definition">¶</a></dt>
@@ -71,7 +74,13 @@ episodes may remind of prior episodes based on the degree of overlap of the frin
 <dl class="method">
 <dt id="components.stream.Stream.FocusOn">
 <tt class="descname">FocusOn</tt><big>(</big><em>focusable</em><big>)</big><a class="reference internal" href="../_modules/components/stream.html#Stream.FocusOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.stream.Stream.FocusOn" title="Permalink to this definition">¶</a></dt>
-<dd><p>Focus on focusable, returning a hitmap: a map from previous focus to strength.</p>
+<dd><p>Focus on focusable, and act on a fringe-hit.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="components.stream.Stream.controller">
+<tt class="descname">controller</tt><em class="property"> = None</em><a class="headerlink" href="#components.stream.Stream.controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for the stream (needed to take fringe-hit based actions)</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -83,7 +92,8 @@ episodes may remind of prior episodes based on the degree of overlap of the frin
 <dl class="attribute">
 <dt id="components.stream.Stream.kDecayRatio">
 <tt class="descname">kDecayRatio</tt><em class="property"> = 0.94999999999999996</em><a class="headerlink" href="#components.stream.Stream.kDecayRatio" title="Permalink to this definition">¶</a></dt>
-<dd><p>The factor by which the strength of a prior episode goes down each time a new episode is seen.</p>
+<dd><p>The factor by which the strength of a prior episode goes down each time a new episode
+is seen.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -157,7 +167,8 @@ episodes may remind of prior episodes based on the degree of overlap of the frin
         <li class="right" >
           <a href="coderack.html" title="Coderack"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../design.html" >Design</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

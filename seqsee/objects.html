@@ -61,20 +61,24 @@
 <p>Represents a group or a single number in a sequence.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p>This is an implementation of the SObject in Perl, but differs significantly in the
-ways described below.</p>
+<dl class="docutils">
+<dt>This is an implementation of the SObject in Perl, but differs significantly in</dt>
+<dd>the ways described below.</dd>
+</dl>
 <ul class="last simple">
-<li>The class hierarchy is different. Whereas previously I had a messed up SElement isa SAnchored
-isa SObject, now positioned stuff merely holds an SObject instance instead of inheriting.</li>
+<li>The class hierarchy is different. Whereas previously I had a messed up SElement isa
+SAnchored isa SObject, now positioned stuff merely holds an SObject instance instead of
+inheriting.</li>
 <li>With this, the responsibility of objects (now SElement and SGroup, both subclasses of
-SObject) is to maintain structure and structure related information (such as categories), and
-not positional or specific use information (such as metonyms).</li>
+SObject) is to maintain structure and structure related information (such as
+categories), and not positional or specific use information (such as metonyms).</li>
 </ul>
 </div>
 <dl class="exception">
 <dt id="apps.seqsee.sobject.NonAdjacentGroupElementsException">
 <em class="property">exception </em><tt class="descclassname">apps.seqsee.sobject.</tt><tt class="descname">NonAdjacentGroupElementsException</tt><a class="headerlink" href="#apps.seqsee.sobject.NonAdjacentGroupElementsException" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Raised if group creation attempted with non-adjacent parts.</p>
+</dd></dl>
 
 <dl class="class">
 <dt id="apps.seqsee.sobject.SAnchored">
@@ -82,15 +86,52 @@ not positional or specific use information (such as metonyms).</li>
 <dd><p>An object with position information.</p>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">This way of doing things differs from the way in Perl, where I was subclassing
-instead of just having an sobject as a member.</p>
+<p class="last">This way of doing things differs from the way in Perl, where I was
+subclassing instead of just having an sobject as a member.</p>
 </div>
+<dl class="method">
+<dt id="apps.seqsee.sobject.SAnchored.AddRelation">
+<tt class="descname">AddRelation</tt><big>(</big><em>relation</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.AddRelation" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="staticmethod">
 <dt id="apps.seqsee.sobject.SAnchored.Create">
 <em class="property">static </em><tt class="descname">Create</tt><big>(</big><em>*items</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.Create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given a list of items, each a SAnchored, creates another SAnchored, provided that the
-items are contiguous. Raises a NonAdjacentGroupElementsException if they are non-adjacent.</p>
+items are contiguous. Raises a NonAdjacentGroupElementsException if they are
+non-adjacent.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SAnchored.GetAffordances">
+<tt class="descname">GetAffordances</tt><big>(</big><em>controller</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.GetAffordances" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SAnchored.GetFringe">
+<tt class="descname">GetFringe</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.GetFringe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Gets the fringe (needed for stream-related activities).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SAnchored.GetRelationTo">
+<tt class="descname">GetRelationTo</tt><big>(</big><em>other</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.GetRelationTo" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SAnchored.GetRightwardRelations">
+<tt class="descname">GetRightwardRelations</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.GetRightwardRelations" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SAnchored.GetSimilarityAffordances">
+<tt class="descname">GetSimilarityAffordances</tt><big>(</big><em>other</em>, <em>other_fringe</em>, <em>my_fringe</em>, <em>controller</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.GetSimilarityAffordances" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SAnchored.GetStorable">
+<tt class="descname">GetStorable</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.GetStorable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="apps.seqsee.sobject.SAnchored.SetPosition">
@@ -113,14 +154,9 @@ items are contiguous. Raises a NonAdjacentGroupElementsException if they are non
 <dl class="attribute">
 <dt id="apps.seqsee.sobject.SAnchored.end_pos">
 <tt class="descname">end_pos</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.end_pos" title="Permalink to this definition">¶</a></dt>
-<dd><p>The end position. Note that this is the rightmost edge (unlike, say, iterators).
+<dd><p>The end position. Note that this is the rightmost edge (unlike, say, in the case
+of iterators, where end is beyond the rightmost item).
 For an element, left and right edges are identical.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="apps.seqsee.sobject.SAnchored.is_a_metonym_of">
-<tt class="descname">is_a_metonym_of</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.is_a_metonym_of" title="Permalink to this definition">¶</a></dt>
-<dd><p>What is this a metonym of (if anything)?</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -132,28 +168,35 @@ For an element, left and right edges are identical.</p>
 <dl class="attribute">
 <dt id="apps.seqsee.sobject.SAnchored.is_sequence_element">
 <tt class="descname">is_sequence_element</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.is_sequence_element" title="Permalink to this definition">¶</a></dt>
-<dd><p>All items in the workspace &#8212; what used to be elements and groups in the Perl version &#8212;
-are SAnchored objects now. This bit distinguishes elements that are elements in the
-sequence.</p>
+<dd><p>All items in the workspace &#8212; what used to be elements and groups in the Perl
+version &#8212; are SAnchored objects now. This bit distinguishes elements that are</p>
+<blockquote>
+<div>elements in the sequence.</div></blockquote>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apps.seqsee.sobject.SAnchored.items">
 <tt class="descname">items</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.items" title="Permalink to this definition">¶</a></dt>
 <dd><p>The items &#8212; sub-anchored-objects &#8212; that make up this object. Empty if this has no
-structure (i.e., it holds an SElement.</p>
+structure (i.e., it holds an SElement).</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apps.seqsee.sobject.SAnchored.metonym">
 <tt class="descname">metonym</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.metonym" title="Permalink to this definition">¶</a></dt>
-<dd><p>What metonym does this have?</p>
+<dd><p>What metonym does this have? Metonym, if present, is a SObject.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="apps.seqsee.sobject.SAnchored.object">
 <tt class="descname">object</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.object" title="Permalink to this definition">¶</a></dt>
 <dd><p>The object which is anchored.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="apps.seqsee.sobject.SAnchored.relations">
+<tt class="descname">relations</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.sobject.SAnchored.relations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Relations.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -172,6 +215,12 @@ structure (i.e., it holds an SElement.</p>
 <dt id="apps.seqsee.sobject.SElement.DeepCopy">
 <tt class="descname">DeepCopy</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SElement.DeepCopy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes a copy.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SElement.GetFringe">
+<tt class="descname">GetFringe</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SElement.GetFringe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fringe for the element.</p>
 </dd></dl>
 
 <dl class="method">
@@ -196,6 +245,12 @@ structure (i.e., it holds an SElement.</p>
 <dt id="apps.seqsee.sobject.SGroup.DeepCopy">
 <tt class="descname">DeepCopy</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SGroup.DeepCopy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes a copy of the group.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SGroup.GetFringe">
+<tt class="descname">GetFringe</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SGroup.GetFringe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Fringe for the group.</p>
 </dd></dl>
 
 <dl class="method">
@@ -232,6 +287,11 @@ structure (i.e., it holds an SElement.</p>
 * Create(x, y, z) forms an SGroup made up of Create(x), Create(y) and Create(z)
 * Create(an Sobject) results in a DeepCopy of the SObject</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SObject.GetStorable">
+<tt class="descname">GetStorable</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SObject.GetStorable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="apps.seqsee.sobject.SObject.is_group">

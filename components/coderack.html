@@ -26,6 +26,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Design" href="../design.html" />
     <link rel="next" title="Stream of Thought" href="stream.html" />
     <link rel="prev" title="The Graphic User Interface" href="../design/ui.html" /> 
   </head>
@@ -45,7 +46,8 @@
         <li class="right" >
           <a href="../design/ui.html" title="The Graphic User Interface"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../design.html" accesskey="U">Design</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -71,9 +73,23 @@
 </dd></dl>
 
 <dl class="method">
+<dt id="components.coderack.Coderack.ForceNextCodelet">
+<tt class="descname">ForceNextCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="headerlink" href="#components.coderack.Coderack.ForceNextCodelet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Force codelet to be the next one retrieved by GetCodelet.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This mechanism should only be used during testing. It is unsafe in that if the
+codelet is expunged (because of new codelets being added), the program can crash.
+This will never happen if the next codelet is marked and GetCodelet called soon
+thereafter.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
 <dt id="components.coderack.Coderack.GetCodelet">
 <tt class="descname">GetCodelet</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/components/coderack.html#Coderack.GetCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.coderack.Coderack.GetCodelet" title="Permalink to this definition">¶</a></dt>
-<dd><p>Randomly selects a codelet (biased by urgency). Requires the coderack to be nonempty.</p>
+<dd><p>Randomly selects a codelet (biased by urgency).
+Requires the coderack to be nonempty.</p>
 </dd></dl>
 
 <dl class="method">
@@ -141,7 +157,8 @@
         <li class="right" >
           <a href="../design/ui.html" title="The Graphic User Interface"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../design.html" >Design</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

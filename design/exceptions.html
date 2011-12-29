@@ -26,6 +26,7 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Design" href="../design.html" />
     <link rel="next" title="Categories" href="categories.html" />
     <link rel="prev" title="Controller" href="controller.html" /> 
   </head>
@@ -45,7 +46,8 @@
         <li class="right" >
           <a href="controller.html" title="Controller"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../design.html" accesskey="U">Design</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -57,10 +59,16 @@
   <div class="section" id="module-farg.exceptions">
 <span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-farg.exceptions" title="Permalink to this headline">¶</a></h1>
 <dl class="exception">
+<dt id="farg.exceptions.AnswerFoundException">
+<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">AnswerFoundException</tt><big>(</big><em>answer</em><big>)</big><a class="headerlink" href="#farg.exceptions.AnswerFoundException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised by a subspace when it believes that an answer has been found.</p>
+</dd></dl>
+
+<dl class="exception">
 <dt id="farg.exceptions.ConflictingGroupException">
 <em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">ConflictingGroupException</tt><big>(</big><em>conflicting_groups</em><big>)</big><a class="headerlink" href="#farg.exceptions.ConflictingGroupException" title="Permalink to this definition">¶</a></dt>
-<dd><p>If an attempt is made to add a group to the workspace that conflicts some existing group(s),
-this exception is raised.</p>
+<dd><p>If an attempt is made to add a group to the workspace that conflicts some existing
+group(s), this exception is raised.</p>
 <dl class="attribute">
 <dt id="farg.exceptions.ConflictingGroupException.conflicting_groups">
 <tt class="descname">conflicting_groups</tt><em class="property"> = None</em><a class="headerlink" href="#farg.exceptions.ConflictingGroupException.conflicting_groups" title="Permalink to this definition">¶</a></dt>
@@ -79,6 +87,12 @@ this exception is raised.</p>
 <dt id="farg.exceptions.FargException">
 <em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">FargException</tt><a class="reference internal" href="../_modules/farg/exceptions.html#FargException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.exceptions.FargException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for FARG-specific exceptions.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="farg.exceptions.NoAnswerException">
+<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">NoAnswerException</tt><a class="headerlink" href="#farg.exceptions.NoAnswerException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised by a subspace when it is realized that no answer is forthcoming.</p>
 </dd></dl>
 
 <dl class="exception">
@@ -139,7 +153,8 @@ this exception is raised.</p>
         <li class="right" >
           <a href="controller.html" title="Controller"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../design.html" >Design</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

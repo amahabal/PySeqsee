@@ -26,8 +26,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Design" href="../design.html" />
     <link rel="next" title="Exceptions" href="exceptions.html" />
-    <link rel="prev" title="The Run State" href="run_state.html" /> 
+    <link rel="prev" title="Codelets" href="codelets.html" /> 
   </head>
   <body>
     <div class="related">
@@ -43,9 +44,10 @@
           <a href="exceptions.html" title="Exceptions"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="run_state.html" title="The Run State"
+          <a href="codelets.html" title="Codelets"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../design.html" accesskey="U">Design</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -58,10 +60,16 @@
 <h1>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="farg.controller.Controller">
-<em class="property">class </em><tt class="descclassname">farg.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>runstate</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller" title="Permalink to this definition">¶</a></dt>
-<dd><p>The controller of an application sits between the UI layer and the runstate.</p>
-<p>The main job of the controller is to implement the <cite>Step()</cite> method, which takes
-the next action.</p>
+<em class="property">class </em><tt class="descclassname">farg.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>stream_class=&lt;class 'components.stream.Stream'&gt;</em>, <em>routine_codelets_to_add=None</em>, <em>ltm_name=None</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>The controller of an application (or of a subspace) implements the <cite>Step()</cite> method,
+which takes the next action. It marshals the various pieces &#8212; coderack, stream,
+workspace, and so forth.</p>
+<dl class="method">
+<dt id="farg.controller.Controller.AddCodelet">
+<tt class="descname">AddCodelet</tt><big>(</big><em>family</em>, <em>urgency</em>, <em>**arguments</em><big>)</big><a class="headerlink" href="#farg.controller.Controller.AddCodelet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Adds a codelet to the coderack.</p>
+</dd></dl>
+
 <dl class="method">
 <dt id="farg.controller.Controller.Quit">
 <tt class="descname">Quit</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.controller.Controller.Quit" title="Permalink to this definition">¶</a></dt>
@@ -69,16 +77,47 @@ the next action.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="farg.controller.Controller.RunUptoNSteps">
+<tt class="descname">RunUptoNSteps</tt><big>(</big><em>n_steps</em><big>)</big><a class="headerlink" href="#farg.controller.Controller.RunUptoNSteps" title="Permalink to this definition">¶</a></dt>
+<dd><p>Takes upto N steps. In these, it is possible that an answer is found and an exception
+raised.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="farg.controller.Controller.Step">
 <tt class="descname">Step</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.controller.Controller.Step" title="Permalink to this definition">¶</a></dt>
 <dd><p>Executes the next (stochastically chosen) step in the model.</p>
-<p>Many of the apps using the controller will not need to touch the standard way
-of doing things.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">The default implementation assumes the presence of a coderack and a
-stream, assumptions that hold with the standard RunState class.</p>
-</div>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.coderack">
+<tt class="descname">coderack</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.coderack" title="Permalink to this definition">¶</a></dt>
+<dd><p>The coderack. Currently, this always has capacity 10.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.ltm">
+<tt class="descname">ltm</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.ltm" title="Permalink to this definition">¶</a></dt>
+<dd><p>The LTM (if any)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.routine_codelets_to_add">
+<tt class="descname">routine_codelets_to_add</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.routine_codelets_to_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>An iterable of three-tuples that names a family, urgency, and probability of addition.
+At each step, a codelet is added with the said probability, and with this urgency.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.steps_taken">
+<tt class="descname">steps_taken</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.steps_taken" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of steps taken</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.stream">
+<tt class="descname">stream</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>The stream.</p>
 </dd></dl>
 
 </dd></dl>
@@ -92,8 +131,8 @@ stream, assumptions that hold with the standard RunState class.</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="run_state.html"
-                        title="previous chapter">The Run State</a></p>
+  <p class="topless"><a href="codelets.html"
+                        title="previous chapter">Codelets</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="exceptions.html"
                         title="next chapter">Exceptions</a></p>
@@ -132,9 +171,10 @@ stream, assumptions that hold with the standard RunState class.</p>
           <a href="exceptions.html" title="Exceptions"
              >next</a> |</li>
         <li class="right" >
-          <a href="run_state.html" title="The Run State"
+          <a href="codelets.html" title="Codelets"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="../design.html" >Design</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
