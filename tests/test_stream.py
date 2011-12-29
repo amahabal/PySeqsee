@@ -1,8 +1,9 @@
 import unittest
 from farg.controller import Controller
 from components.stream import Stream
+from farg.focusable_mixin import FocusableMixin
 
-class MyFocusable(object):
+class MyFocusable(FocusableMixin):
   def __init__(self, x):
     self.x = x
     self.y = 2 * x

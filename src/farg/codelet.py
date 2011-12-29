@@ -7,13 +7,8 @@ class CodeletFamily(object):
   """A codelet family is a class that defines what happens when you run a codelet of that
      family.
      
-     Naming:
-     --------
+     Codelet family names typically start with CF.
      
-     Codelet family names typically start with CF_.
-     
-     Interface:
-     -----------
      A codelet family subclasses this class and looks like this::
      
        class CF_Foo(CodeletFamily):
@@ -23,7 +18,9 @@ class CodeletFamily(object):
          
          @classmethod
          def Run(self, controller, other_arg1, other_arg2):
-           "The extra arguments will be passed by name only."
+           "Run may take extra arguments (such as other_arg1 above). The extra arguments
+            will be passed by name only. These are set in the constructor of the codelet.
+           "
            DoSomething()
   """
   pass
@@ -33,9 +30,9 @@ class Codelet(object):
      defines what it does. The codelet has an urgency that controls how likely the codelet
      is to run (based on the urgency of other codelets waiting to run), and it has a
      dictionary of arguments that will be used when running the codelet (if ever).
-     
-     Construction:
-     --------------
+
+     If extra arguments are passed while constructing the codelet, the Run() method of the
+     codelet family must be capable of handling these. 
      
      There are two ways of constructing. The first creates the codelet but does not yet
      place it on the coderack::

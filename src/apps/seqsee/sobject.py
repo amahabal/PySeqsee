@@ -16,6 +16,7 @@ from farg.exceptions import FargError, FargException, AnswerFoundException, NoAn
 from farg.ltm.storable import LTMMakeStorableMixin
 from farg.codelet import Codelet, CodeletFamily
 from farg.controller import Controller
+from farg.focusable_mixin import FocusableMixin
 import logging
 
 logger = logging.getLogger(__name__)
@@ -125,7 +126,7 @@ class NonAdjacentGroupElementsException(FargException):
   """Raised if group creation attempted with non-adjacent parts."""
   pass
 
-class SAnchored(LTMMakeStorableMixin):
+class SAnchored(LTMMakeStorableMixin, FocusableMixin):
   """An object with position information.
   
   .. warning:: This way of doing things differs from the way in Perl, where I was
@@ -145,7 +146,7 @@ class SAnchored(LTMMakeStorableMixin):
     self.end_pos = end_pos
     #: All items in the workspace --- what used to be elements and groups in the Perl
     #: version --- are SAnchored objects now. This bit distinguishes elements that are
-    #:  elements in the sequence.
+    #: elements in the sequence.
     self.is_sequence_element = is_sequence_element
     #: What metonym does this have? Metonym, if present, is a SObject.
     self.metonym = None

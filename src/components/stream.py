@@ -1,17 +1,39 @@
 # TODO(#4 --- Dec 28, 2011): Move to src/farg.
-from collections import defaultdict
 from apps.seqsee.util import WeightedChoice, ChooseAboutN
+from collections import defaultdict
+from farg.focusable_mixin import FocusableMixin
 
 class Stream(object):
   """Implements the Stream of Thought.
-  
-  Each episode of focusing on an object results in a fringe of it being remembered, and
-  subsequent episodes may remind of prior episodes based on the degree of overlap of the
-  fringes.
+
+     The main public function here is FocusOn(), called with::
+       
+       stream.FocusOn(focusable)
+       
+     where focusable must be an instance of the interface FocusableMixin. FocusableMixin
+     defines three methods: GetFringe(), GetAffordances(), and GetSimilarityAffordances().
+     
+     The net effect of the call to FocusOn is to influence future processing in two ways:
+     
+       * By adding codelets, as described below.
+       * By modifying the context in which future FocusOn()s work. This is implicit in the
+         description of GetSimilarityAffordances() below.
+         
+     A blow-by-blow account of what happens:
+     
+       * The fringe of the focusable is obtained via a call to GetFringe().
+       * If this fringe overlaps a prior stored fringe sufficiently, 
+         GetSimilarityAffordances() is called on the prior focusable and can create codelets,
+         but not just yet add these to the coderack.
+       * GetAffordances() may generate more codelets that haven't yet been added.
+       * Of these potential codelets, about 2 are chosen (biased by urgency) for addition to
+         the coderack.
   """
 
   #: Minimum level of similarity to consider two episodes as potentially related.
   kRelatedItemThreshold = 0.01
+  #: Minimum overlap with previous focusable to trigger GetSimilarityAffordances()
+  kMinOverlapToTriggerSimilarity = 0.1
   #: The factor by which the strength of a prior episode goes down each time a new episode
   #: is seen.
   kDecayRatio = 0.95
@@ -33,14 +55,14 @@ class Stream(object):
   def _RemovePriorFocus(self, focusable):
     """Remove a previous focus (and any fringe elements solely supported by that focus."""
     self.foci.__delitem__(focusable)
-    deletable_stored_fringe_items = []
-    for k, v in self.stored_fringes.iteritems():
+    deletable_stored_fringe_elements = []
+    for fringe_element, v in self.stored_fringes.iteritems():
       if focusable in v:
         v.__delitem__(focusable)
         if len(v) == 0:
-          deletable_stored_fringe_items.append(k)
+          deletable_stored_fringe_elements.append(fringe_element)
 
-    for deletable in deletable_stored_fringe_items:
+    for deletable in deletable_stored_fringe_elements:
       self.stored_fringes.__delitem__(deletable)
 
   def _RemoveMostAncientFocus(self):
@@ -59,6 +81,7 @@ class Stream(object):
 
   def FocusOn(self, focusable):
     """Focus on focusable, and act on a fringe-hit."""
+    assert(isinstance(focusable, FocusableMixin))
     self._PrepareForFocusing(focusable)
     hit_map = self._CalculateFringeOverlap(focusable)
     if not hit_map:
@@ -67,7 +90,7 @@ class Stream(object):
     # Possibly add codelets based on the fringe hit.
     potential_codelets = []
     for prior_focusable, overlap_amount in hit_map.iteritems():
-      if overlap_amount < 0.1:
+      if overlap_amount < Stream.kMinOverlapToTriggerSimilarity:
         continue
       potential_codelets.extend(prior_focusable.GetSimilarityAffordances(
           focusable,
@@ -78,8 +101,8 @@ class Stream(object):
     potential_codelets.extend(focusable.GetAffordances(controller=self.controller))
     if potential_codelets:
       selected_codelets = ChooseAboutN(2, [(x, x.urgency) for x in potential_codelets])
-      for one_codelet in selected_codelets:
-        self.controller.coderack.AddCodelet(one_codelet)
+      for codelet in selected_codelets:
+        self.controller.coderack.AddCodelet(codelet)
 
   def _CalculateFringeOverlap(self, focusable):
     """Calculates a hit map: from prior focusable to strength."""

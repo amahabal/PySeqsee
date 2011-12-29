@@ -9,8 +9,8 @@ logger = logging.getLogger(__name__)
 
 class Controller(object):
   """The controller of an application (or of a subspace) implements the `Step()` method,
-  which takes the next action. It marshals the various pieces --- coderack, stream,
-  workspace, and so forth.
+     which takes the next action. It marshals the various pieces --- coderack, stream,
+     workspace, and so forth.
   """
   def __init__(self, stream_class=Stream, routine_codelets_to_add=None, ltm_name=None):
     """This class provides a generic controller. Applications will usually subclass this."""
@@ -33,10 +33,10 @@ class Controller(object):
   def _AddRoutineCodelets(self, force=False):
     """Add routine codelets to the coderack.
     
-    The codelets are added with a certain probability (specified in the third term of the
-    tuple), but this can be over-ridden with force (or if the coderack is empty).
+       The codelets are added with a certain probability (specified in the third term of the
+       tuple), but this can be over-ridden with force (or if the coderack is empty).
 
-    In the Perl version, this was called 'background codelets'.
+       In the Perl version, this was called 'background codelets'.
     """
     if self.coderack.IsEmpty():
       force = True
@@ -64,7 +64,8 @@ class Controller(object):
 
   def RunUptoNSteps(self, n_steps):
     """Takes upto N steps. In these, it is possible that an answer is found and an exception
-    raised."""
+       raised.
+    """
     for n in xrange(0, n_steps):
       self.Step()
 
