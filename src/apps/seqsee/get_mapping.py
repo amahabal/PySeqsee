@@ -124,7 +124,7 @@ class SubspaceFindMapping(Subspace):
       mapping = GetMapping(arguments['left'], arguments['right'])
     if mapping:
       return AnswerFound(mapping)
-    return NeedDeeperExploration()
+    return NeedDeeperExploration
 
 
 class CF_FindAnchoredSimilarity(CodeletFamily):

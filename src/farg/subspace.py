@@ -1,14 +1,33 @@
 from farg.controller import Controller
 from farg.exceptions import FargException, AnswerFoundException, NoAnswerException
 
+class QuickReconnaisanceResult(object):
+  """QuickReconnaisance looks at the input to the subspace and makes a quick, rough
+     judgement about whether an answer might even be possible or sometimes quickly finds
+     the answer. The determination can thus take three forms:
+     
+       * No answer likely.
+       * Answer found, and here it is.
+       * More exploration needed.
+  """
+
+  def __init__(self, answer_likely=True, answer=None):
+    self.answer_likely = answer_likely
+    self.answer = answer
+
+  def NoAnswerLikely(self):
+    """Returns true if the result is that no answer is likely."""
+    return not(self.answer_likely)
+
+  def AnswerFound(self):
+    return self.answer is not None
+
+
 def AnswerFound(answer):
-  return { 'answer_found': True, 'answer': answer}
+  return QuickReconnaisanceResult(answer=answer)
 
-def NeedDeeperExploration():
-  return { 'answer_found': False }
-
-def NoAnswerLikely():
-  return None
+NeedDeeperExploration = QuickReconnaisanceResult()
+NoAnswerLikely = QuickReconnaisanceResult(answer_likely=False)
 
 class Subspace(object):
   """A base class for subspaces."""
@@ -31,10 +50,10 @@ def Subtask(subspace_class, max_number_of_steps, arguments):
   """
   # TODO(#17 --- Dec 28, 2011): Better documentation with examples.
   quick_result = subspace_class.QuickReconnaisance(arguments)
-  if not quick_result:
+  if quick_result.NoAnswerLikely():
     return None
-  if quick_result['answer_found']:
-    return quick_result['answer']
+  if quick_result.AnswerFound():
+    return quick_result.answer
   if not max_number_of_steps:
     return None
   subspace = subspace_class()
