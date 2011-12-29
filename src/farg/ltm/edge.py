@@ -5,7 +5,7 @@ class LTMEdge(object):
   """
 
   #: Some predefined types of edges.
-  #: .. todo:: This needs to be extensible; currently a predefined set.
+  # TODO(#35 --- Dec 28, 2011): Extensible edge types needed.
   LTM_EDGE_TYPE_RELATED = 1
   LTM_EDGE_TYPE_FOLLOWS = 2
   LTM_EDGE_TYPE_ISA = 3

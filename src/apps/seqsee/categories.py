@@ -17,20 +17,21 @@ These will include (not all implemented yet):
   
 * Mapping Based Categories:
 
-  * Given a mapping, a category can be defined whose elements are such that successive elements are
-    associated by this mapping.
+  * Given a mapping, a category can be defined whose elements are such that successive 
+    elements are associated by this mapping.
 
 Numeric Categories
 --------------------
 
-Members may only be SElements, and membership depends only on the magnitude of the SElement. These
-derive from NumericCategory, and must define the class method NumericIsInstance.
+Members may only be SElements, and membership depends only on the magnitude of the SElement. 
+These derive from NumericCategory, and must define the class method NumericIsInstance.
 
 Structural Categories
 -----------------------
 
-Members are SObjects (may be groups or elements), and membership depends only on the structure.
-These derive from StructuralCategory, and must define class method StructuralIsInstance.
+Members are SObjects (may be groups or elements), and membership depends only on the 
+structure. These derive from StructuralCategory, and must define class method 
+StructuralIsInstance.
 
 Parametrized Categories
 -------------------------
@@ -53,8 +54,8 @@ from apps.seqsee.structure_utils import StructureDepth
 from farg.exceptions import FargError, FargException
 
 class NumericCategory(Category):
-  """Base class for categories whose instances are SElements, and membership depends only on the
-     magnitude.
+  """Base class for categories whose instances are SElements, and membership depends only on 
+     the magnitude.
   """
   @classmethod
   def IsInstance(cls, item):
@@ -79,8 +80,10 @@ class StructuralCategory(Category):
 
   @classmethod
   def GetMappingBetweenBindings(cls, binding1, binding2):
-    """Get mapping between a pair of bindings. This should eventually be replaced by a space (as
-    discussed in the last chapter of the dissertation). For now, I have a simple mechanism."""
+    """Get mapping between a pair of bindings. This should eventually be replaced by a space
+       (as discussed in the last chapter of the dissertation). For now, I have a simple
+       mechanism.
+    """
     bindings_mapping = {}
     for k, v in binding1.bindings.iteritems():
       if k in binding2.bindings:
@@ -94,8 +97,8 @@ class StructuralCategory(Category):
 
 class ParametrizedCategory(object):
   """Base class for a family of related categories. To create one member of the family, call
-  Create. If the arguments to Create are novel, "Construct" will be called on the base class, and
-  it should return the category (i.e., a subclass of Category).
+     Create. If the arguments to Create are novel, "Construct" will be called on the base 
+     class, and it should return the category (i.e., a subclass of Category).
   """
   memos = {}
 
@@ -133,8 +136,9 @@ class Number(NumericCategory):
       return SObject.Create(item.magnitude + 1)
 
 class Prime(NumericCategory):
-  primes_list = [int(x) for x in
-                 '2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97'.split()]
+  primes_list = [
+      int(x) for x in
+      '2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97'.split()]
   largest_prime = max(primes_list)
 
   @classmethod
@@ -164,7 +168,8 @@ class Prime(NumericCategory):
     binding2 = item2.DescribeAs(cls)
     if not binding2: return None
 
-    index1, index2 = binding1.GetBindingsForAttribute('index'), binding2.GetBindingsForAttribute('index')
+    index1, index2 = (binding1.GetBindingsForAttribute('index'),
+                      binding2.GetBindingsForAttribute('index'))
     diff_string = NumericMapping.DifferenceString(index1, index2)
     if diff_string:
       return NumericMapping(diff_string, Prime)

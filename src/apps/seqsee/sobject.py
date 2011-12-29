@@ -1,13 +1,14 @@
 """Represents a group or a single number in a sequence.
 
-.. warning:: This is an implementation of the SObject in Perl, but differs significantly in the
-   ways described below.
+.. warning:: This is an implementation of the SObject in Perl, but differs significantly in
+     the ways described below.
 
-   * The class hierarchy is different. Whereas previously I had a messed up SElement isa SAnchored
-     isa SObject, now positioned stuff merely holds an SObject instance instead of inheriting.
+   * The class hierarchy is different. Whereas previously I had a messed up SElement isa
+     SAnchored isa SObject, now positioned stuff merely holds an SObject instance instead of
+     inheriting.
    * With this, the responsibility of objects (now SElement and SGroup, both subclasses of
-     SObject) is to maintain structure and structure related information (such as categories), and
-     not positional or specific use information (such as metonyms).
+     SObject) is to maintain structure and structure related information (such as
+     categories), and not positional or specific use information (such as metonyms).
 """
 
 from farg.category import CategorizableMixin
@@ -58,6 +59,7 @@ class SObject(CategorizableMixin, LTMMakeStorableMixin):
     return SGroup(items=new_items)
 
   def GetStorable(self):
+    # TODO(#24 --- Dec 28, 2011): Document (in LTM?) what GetStorable means.
     return self.Structure()
 
 class SGroup(SObject):
@@ -71,6 +73,8 @@ class SGroup(SObject):
 
   def DeepCopy(self):
     """Makes a copy of the group."""
+    # TODO(#25 --- Dec 28, 2011): Should copy categories, too. Perhaps a method in
+    # CategorizableMixin (CopyCategoriesFromCopy?). Also fix SElements below.
     new_items = [x.DeepCopy() for x in self.items]
     new_object = SGroup(items=new_items,
                         underlying_mapping=self.underlying_mapping)
@@ -83,6 +87,8 @@ class SGroup(SObject):
 
   def GetFringe(self):
     """Fringe for the group."""
+    # TODO(#26 --- Dec 28, 2011): Should be largely based off the LTM. Also fix Selement.
+    # TODO(#27 --- Dec 28, 2011): The categories are also a relevant part of the fringe.
     fringe = {}
     if self.underlying_mapping:
       fringe[self.underlying_mapping] = 1.0
@@ -116,6 +122,7 @@ class SElement(SObject):
 
 
 class NonAdjacentGroupElementsException(FargException):
+  """Raised if group creation attempted with non-adjacent parts."""
   pass
 
 class SAnchored(LTMMakeStorableMixin):
@@ -132,12 +139,13 @@ class SAnchored(LTMMakeStorableMixin):
     self.items = items
     #: The start position. The first element in the workspace has position 0.
     self.start_pos = start_pos
-    #: The end position. Note that this is the rightmost edge (unlike, say, iterators).
+    #: The end position. Note that this is the rightmost edge (unlike, say, in the case
+    #: of iterators, where end is beyond the rightmost item).
     #: For an element, left and right edges are identical.
     self.end_pos = end_pos
-    #: All items in the workspace --- what used to be elements and groups in the Perl version ---
-    #: are SAnchored objects now. This bit distinguishes elements that are elements in the
-    #: sequence.
+    #: All items in the workspace --- what used to be elements and groups in the Perl
+    #: version --- are SAnchored objects now. This bit distinguishes elements that are
+    #:  elements in the sequence.
     self.is_sequence_element = is_sequence_element
     #: What metonym does this have? Metonym, if present, is a SObject.
     self.metonym = None
@@ -165,9 +173,11 @@ class SAnchored(LTMMakeStorableMixin):
   @staticmethod
   def Create(*items):
     """Given a list of items, each a SAnchored, creates another SAnchored, provided that the
-    items are contiguous. Raises a NonAdjacentGroupElementsException if they are non-adjacent."""
+       items are contiguous. Raises a NonAdjacentGroupElementsException if they are
+       non-adjacent.
+    """
     if not items:
-      raise FargError("Empty group creation attempted. An error at the moment")
+      raise FargError("Empty group creation attempted. An error at the moment.")
     if len(items) == 1:
       if isinstance(items[0], SAnchored):
         return items[0]
@@ -223,4 +233,3 @@ class SAnchored(LTMMakeStorableMixin):
 
   def GetRightwardRelations(self):
     return [x for x in self.relations if x.left == self]
-

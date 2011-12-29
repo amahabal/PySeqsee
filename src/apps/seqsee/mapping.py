@@ -11,7 +11,8 @@ class NumericMapping(Mapping):
     #: A category (such as "Prime") on which this mapping is based.
     self.category = category
 
-  _flipmap_ = { 'succ': 'pred', 'pred': 'succ', 'same': 'same', 'flip': 'flip', 'noflip': 'noflip'}
+  _flipmap_ = { 'succ': 'pred', 'pred': 'succ', 'same': 'same', 'flip': 'flip',
+                'noflip': 'noflip'}
 
 
   def FlippedVersion(self):
@@ -37,12 +38,13 @@ class StructuralMapping(Mapping):
   def __init__(self, category, bindings_mapping, slippages=None):
     #: A category, such as ascending, on which mapping is based.
     self.category = category
-    #: A dictionary of attribute to a mapping: how is the value of each attribute transformed?
+    #: A dictionary of attribute to a mapping: how is the value of each attribute 
+    #: transformed?
     self.bindings_mapping = bindings_mapping
     #: If an attribute comes from a different attribute, that information is here.
-    #: Thus, if the new `start` is the successory of the old `end`, then there will be an entry
-    #: start => end in the slippages dictionary, as well as a start => succ in the bindings_mapping
-    #: dictionary.
+    #: Thus, if the new `start` is the successory of the old `end`, then there will be an 
+    #: entry start => end in the slippages dictionary, as well as a start => succ in the
+    #: bindings_mapping dictionary.
     self.slippages = slippages
 
   def Apply(self, item):

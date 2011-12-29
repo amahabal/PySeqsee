@@ -40,11 +40,12 @@ class LTMMadeStorable(object):
     return LTMMadeStorable.memos_ltm_madestorable[key]
 
 class LTMMakeStorableMixin(object):
-  """Some classes may not be storable in an LTM, but they may define a way to obtain unique LTM
-  nodes corresponding to them. An example is SObject: each time an SObject is created, it must 
-  produce a different object, but they should map to the same LTM node.
+  """Some classes may not be storable in an LTM, but they may define a way to obtain unique 
+     LTM nodes corresponding to them. An example is SObject: each time an SObject is created,
+     it must produce a different object, but they should map to the same LTM node.
   
-  Such classes may use this mixin and add a GetStorable method instead."""
+     Such classes may use this mixin and add a GetStorable method instead.
+  """
 
   @classmethod
   def CreateLTMStorable(cls, item):

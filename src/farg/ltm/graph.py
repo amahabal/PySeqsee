@@ -10,8 +10,8 @@ class LTMGraph(object):
     """Initialization loads up the nodes and edges of the graph."""
     #: Nodes in the graph. Each is a LTMNode.
     self._nodes = []
-    #: A utility data-structure mapping content to nodes. A particular piece of content should
-    #: have at most one node.
+    #: A utility data-structure mapping content to nodes. A particular piece of content
+    #: should have at most one node.
     self._content_to_node = {}
     #: The filename for reading the graph from and for dumping the graph to. Must exist.
     #: .. todo:: we need to be able to create this if missing.
@@ -26,8 +26,8 @@ class LTMGraph(object):
   def _LoadNodes(self, unpickler):
     """Load all nodes from the unpickler.
     
-    Each thing unpickled is a LTMNode. Because that class defines a __setstate__, it is used to
-    setup the state of the created node.
+    Each thing unpickled is a LTMNode. Because that class defines a __setstate__, it is used 
+    to setup the state of the created node.
     
     While pickling, the content of that node (in a mangled state, see below) and its class is
     stored. When unpickling (this method), __setstate__ of LTMNode calls Create on this class
@@ -84,7 +84,8 @@ class LTMGraph(object):
     """Spike node indicated by content by amount."""
     self.GetNodeForContent(content).Spike(amount, self._timesteps)
 
-  def AddEdgeBetweenContent(self, from_content, to_content, edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
+  def AddEdgeBetweenContent(self, from_content, to_content,
+                            edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
     edge = LTMEdge(self.GetNodeForContent(to_content), edge_type)
     self.GetNodeForContent(from_content)._outgoing_edges.append(edge)
 

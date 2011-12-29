@@ -1,9 +1,11 @@
 """Workspace. Modeled after the workspace in the Perl version.
 
-.. warning:: No attempt to optimize is being made. Later, with profiling, we can speed things up.
+.. warning:: No attempt to optimize is being made. Later, with profiling, we can speed
+       things up.
 
   Specifically, groups are being kept in a set, supergroups-related bookkeeping is not being
-  maintained, and so forth. If profiling reveals these to be issues, these can later be optimized.
+  maintained, and so forth. If profiling reveals these to be issues, these can later be
+  optimized.
 """
 
 from apps.seqsee.sobject import SAnchored, SElement, SGroup, SObject
@@ -35,8 +37,9 @@ class Workspace(object):
       self.InsertElement(SElement(item))
 
   def InsertGroup(self, group):
-    """Inserts a group into the workspace. It must not conflict with an existing group, else a
-    ConflictingGroupException is raised."""
+    """Inserts a group into the workspace. It must not conflict with an existing group, else
+       a ConflictingGroupException is raised.
+    """
     conflicting_groups = tuple(self.GetConflictingGroups(group))
     if conflicting_groups:
       raise ConflictingGroupException(conflicting_groups=conflicting_groups)
@@ -44,7 +47,10 @@ class Workspace(object):
       self.groups.add(group)
 
   def GetGroupsWithSpan(self, left_fn, right_fn):
-    """Get all groups which match the constraints set by the predicate functions for each end."""
+    """Get all groups which match the constraints set by the predicate functions for each
+       end.
+    """
+    # TODO(#33 --- Dec 28, 2011): Rename to GetObjectsWithSpan.
     for gp in self.groups:
       if left_fn(gp.start_pos) and right_fn(gp.end_pos):
         yield gp
@@ -80,6 +86,7 @@ class Workspace(object):
     Will currently be elements or groups."""
     def ThingsToChooseFrom(ws):
       """Yields two-tuples of things to choose from, the second being weight."""
+      # TODO(#34 --- Dec 28, 2011): Need notion of strength. Will bias these weights.
       for element in ws.elements:
         yield (element, 1.0)
       for gp in ws.groups:
