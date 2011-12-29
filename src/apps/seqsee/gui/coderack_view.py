@@ -6,8 +6,8 @@ from Tkinter import NW
 class CoderackView(ViewPort):
   families_per_page = 5
 
-  def __init__(self, canvas, left, bottom, width, height, identifier):
-    ViewPort.__init__(self, canvas, left, bottom, width, height, identifier)
+  def __init__(self, canvas, left, bottom, width, height):
+    ViewPort.__init__(self, canvas, left, bottom, width, height)
     self.height_per_row = 0.8 * (height - 20) / CoderackView.families_per_page
     self.current_page_number = 1
 

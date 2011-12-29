@@ -21,32 +21,30 @@ class CentralPane(Canvas):
     for viewport in self.viewports:
       viewport.ReDraw(self.controller)
 
-  def SetFullView(self, view_class, name):
-    self.viewports = [view_class(self, 0, 0, self.width, self.height, name)]
+  def SetFullView(self, view_class):
+    self.viewports = [view_class(self, 0, 0, self.width, self.height)]
     self.ReDraw()
 
-  def SetVerticallySplitView(self, view_class1, view_class2, name1, name2):
-    self.viewports = [view_class1(self, 0, 0, self.width, self.height / 2 - 2, name1),
+  def SetVerticallySplitView(self, view_class1, view_class2):
+    self.viewports = [view_class1(self, 0, 0, self.width, self.height / 2 - 2),
                       view_class2(self, 0, self.height / 2 + 2,
-                                  self.width, self.height / 2 - 2, name2)]
+                                  self.width, self.height / 2 - 2)]
     self.ReDraw()
 
   def SetInitialView(self):
-    self.SetVerticallySplitView(WorkspaceView, CoderackView,
-                                "ws", "cr")
+    self.SetVerticallySplitView(WorkspaceView, CoderackView)
 
   def SetupMenu(self, parent):
     menubar = Menu(self)
 
     view_menu = Menu(menubar, tearoff=0)
     view_menu.add_command(label='workspace',
-                          command=lambda: self.SetFullView(WorkspaceView, "ws"))
+                          command=lambda: self.SetFullView(WorkspaceView))
     view_menu.add_command(label='codelets',
-                          command=lambda: self.SetFullView(CoderackView, "cr"))
+                          command=lambda: self.SetFullView(CoderackView))
     view_menu.add_command(label='ws/codelets',
                           command=lambda: self.SetVerticallySplitView(WorkspaceView,
-                                                                      CoderackView,
-                                                                      "ws", "cr"))
+                                                                      CoderackView))
     menubar.add_cascade(label="View", menu=view_menu)
 
     parent.config(menu=menubar)

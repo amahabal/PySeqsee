@@ -1,8 +1,8 @@
 from apps.seqsee.gui.viewport import ViewPort
 
 class WorkspaceView(ViewPort):
-  def __init__(self, canvas, left, bottom, width, height, identifier):
-    ViewPort.__init__(self, canvas, left, bottom, width, height, identifier)
+  def __init__(self, canvas, left, bottom, width, height):
+    ViewPort.__init__(self, canvas, left, bottom, width, height)
     self.elements_y = height * 0.5
     self.min_gp_height = height * 0.2
     self.max_gp_height = height * 0.4
