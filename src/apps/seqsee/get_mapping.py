@@ -9,6 +9,7 @@ from farg.subspace import Subspace, AnswerFound, NeedDeeperExploration, NoAnswer
 import logging
 import random
 
+# TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
 
 logger = logging.getLogger(__name__)
 
@@ -130,10 +131,15 @@ class SubspaceFindMapping(Subspace):
 class CF_FindAnchoredSimilarity(CodeletFamily):
   @classmethod
   def Run(cls, controller, left, right):
+    if left.GetRelationTo(right):
+      # Relation exists, bail out.
+      return
     mapping = Subtask(SubspaceFindMapping, 4,
                       {'left': left.object, 'right': right.object})
     if mapping:
       relation = Relation(left, right, mapping)
-      logging.warning("Great, will create a relation %s", relation)
-
-
+      logging.warning("Great, will create a relation %s between %s and %s", relation,
+                      left, right)
+      right.AddRelation(relation)
+      left.AddRelation(relation)
+      logging.warning("%s realtions: %s" % (left, left.relations))

@@ -233,7 +233,7 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
     self.relations.add(relation)
 
   def GetRelationTo(self, other):
-    return [x for x in self.relations if (x.left == other or x.right == other)]
+    return [x for x in self.relations if (x.first == other or x.second == other)]
 
   def GetRightwardRelations(self):
-    return [x for x in self.relations if x.left == self]
+    return [x for x in self.relations if x.first == self]
