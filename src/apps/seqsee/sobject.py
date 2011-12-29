@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 class SObject(CategorizableMixin, LTMMakeStorableMixin):
   """Base class of objects --- groups or elements.
   
-  This is an abstract class. SGroup and SElement are concrete subclasses.
+     This is an abstract class. SGroup and SElement are concrete subclasses.
   """
   def __init__(self, is_group=False):
     CategorizableMixin.__init__(self)
@@ -35,10 +35,10 @@ class SObject(CategorizableMixin, LTMMakeStorableMixin):
   @staticmethod
   def Create(*items):
     """Creates an SObject given the items, which can be integers, lists, or other SObjects.
-    * An integer is converted to an SElement.
-    * Create([x, y, z]) is equivalent to Create(x, y, z)
-    * Create(x, y, z) forms an SGroup made up of Create(x), Create(y) and Create(z)
-    * Create(an Sobject) results in a DeepCopy of the SObject
+       * An integer is converted to an SElement.
+       * Create([x, y, z]) is equivalent to Create(x, y, z)
+       * Create(x, y, z) forms an SGroup made up of Create(x), Create(y) and Create(z)
+       * Create(an Sobject) results in a DeepCopy of the SObject
     """
     if not items:
       raise FargError("Empty group creation attempted. An error at the moment")
@@ -153,6 +153,9 @@ class SAnchored(LTMMakeStorableMixin):
     self.is_metonym_active = False
     #: Relations.
     self.relations = set()
+
+  def __str__(self):
+    return 'Anchored (%d, %d): %s' % (self.start_pos, self.end_pos, self.Structure())
 
   def SetPosition(self, start_pos, end_pos):
     """Sets the end-point of the anchored object."""

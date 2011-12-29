@@ -25,7 +25,7 @@ class CoderackView(ListBasedView):
     """Given x, y within the current widget and an item, draws it."""
     family, urgency, count = item
     x, y = self.CanvasCoordinates(widget_x, widget_y)
-    self.canvas.create_text(x, y, text='%2d %4.1f %s' % (count, urgency, family),
+    self.canvas.create_text(x, y, text='%2d %4.1f %s' % (count, urgency, family.__name__),
                             anchor=NW)
 
 
