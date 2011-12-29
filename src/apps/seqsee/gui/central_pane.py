@@ -1,6 +1,7 @@
 from Tkinter import *
 from apps.seqsee.gui.workspace_view import WorkspaceView
 from apps.seqsee.gui.coderack_view import CoderackView
+from apps.seqsee.gui.stream_view import StreamView
 
 class CentralPane(Canvas):
   """The central pane of the Tk-based UI. This can hold several displays."""
@@ -35,6 +36,8 @@ class CentralPane(Canvas):
                   'cr': lambda pane: pane.SetFullView(CoderackView),
                   'ws_cr': lambda pane: pane.SetVerticallySplitView(WorkspaceView,
                                                                     CoderackView),
+                  'cr_st':  lambda pane: pane.SetVerticallySplitView(CoderackView,
+                                                                     StreamView),
                  }
   def SetNamedView(self, name):
     CentralPane.named_views[name](self)
