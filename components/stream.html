@@ -62,9 +62,32 @@
 <dt id="components.stream.Stream">
 <em class="property">class </em><tt class="descclassname">components.stream.</tt><tt class="descname">Stream</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/components/stream.html#Stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.stream.Stream" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the Stream of Thought.</p>
-<p>Each episode of focusing on an object results in a fringe of it being remembered, and
-subsequent episodes may remind of prior episodes based on the degree of overlap of the
-fringes.</p>
+<p>The main public function here is FocusOn(), called with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">stream</span><span class="o">.</span><span class="n">FocusOn</span><span class="p">(</span><span class="n">focusable</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where focusable must be an instance of the interface FocusableMixin. FocusableMixin
+defines three methods: GetFringe(), GetAffordances(), and GetSimilarityAffordances().</p>
+<p>The net effect of the call to FocusOn is to influence future processing in two ways:</p>
+<blockquote>
+<div><ul class="simple">
+<li>By adding codelets, as described below.</li>
+<li>By modifying the context in which future FocusOn()s work. This is implicit in the
+description of GetSimilarityAffordances() below.</li>
+</ul>
+</div></blockquote>
+<p>A blow-by-blow account of what happens:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The fringe of the focusable is obtained via a call to GetFringe().</li>
+<li>If this fringe overlaps a prior stored fringe sufficiently, 
+GetSimilarityAffordances() is called on the prior focusable and can create codelets,
+but not just yet add these to the coderack.</li>
+<li>GetAffordances() may generate more codelets that haven&#8217;t yet been added.</li>
+<li>Of these potential codelets, about 2 are chosen (biased by urgency) for addition to
+the coderack.</li>
+</ul>
+</div></blockquote>
 <dl class="method">
 <dt id="components.stream.Stream.FociCount">
 <tt class="descname">FociCount</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/components/stream.html#Stream.FociCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.stream.Stream.FociCount" title="Permalink to this definition">¶</a></dt>
@@ -100,6 +123,12 @@ is seen.</p>
 <dt id="components.stream.Stream.kMaxFocusableCount">
 <tt class="descname">kMaxFocusableCount</tt><em class="property"> = 10</em><a class="headerlink" href="#components.stream.Stream.kMaxFocusableCount" title="Permalink to this definition">¶</a></dt>
 <dd><p>Maximum number of focusables to keep around.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="components.stream.Stream.kMinOverlapToTriggerSimilarity">
+<tt class="descname">kMinOverlapToTriggerSimilarity</tt><em class="property"> = 0.10000000000000001</em><a class="headerlink" href="#components.stream.Stream.kMinOverlapToTriggerSimilarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum overlap with previous focusable to trigger GetSimilarityAffordances()</p>
 </dd></dl>
 
 <dl class="attribute">
