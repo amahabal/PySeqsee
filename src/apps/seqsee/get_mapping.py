@@ -1,4 +1,4 @@
-from apps.seqsee.categories import GetMapping, Number
+from apps.seqsee.categories import GetNaiveMapping, Number
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.relation import Relation
 from apps.seqsee.util import WeightedShuffle
@@ -92,7 +92,7 @@ class CF_ExplainValues(CodeletFamily):
     attributes_to_use = dict([(a, 1) for a in b1_dict.keys()])
     attributes_to_use[one_attribute] += 3
     for attribute_to_use in WeightedShuffle(attributes_to_use.items()):
-      mapping = GetMapping(b1_dict[attribute_to_use], b2_dict[one_attribute])
+      mapping = GetNaiveMapping(b1_dict[attribute_to_use], b2_dict[one_attribute])
       logger.info("Used %s, saw mapping %s", attribute_to_use, str(mapping))
       if mapping:
         attribute_explanations[one_attribute] = (attribute_to_use, mapping)
@@ -121,7 +121,7 @@ class SubspaceFindMapping(Subspace):
     if 'category' in arguments:
       mapping = arguments['category'].GetMapping(arguments['left'], arguments['right'])
     else:
-      mapping = GetMapping(arguments['left'], arguments['right'])
+      mapping = GetNaiveMapping(arguments['left'], arguments['right'])
     if mapping:
       return AnswerFound(mapping)
     return NeedDeeperExploration

@@ -88,7 +88,7 @@ class StructuralCategory(Category):
     for k, v in binding1.bindings.iteritems():
       if k in binding2.bindings:
         v2 = binding2.bindings[k]
-        possible_mapping = GetMapping(v, v2)
+        possible_mapping = GetNaiveMapping(v, v2)
         if possible_mapping:
           bindings_mapping[k] = possible_mapping
     if cls.AreAttributesSufficientToBuild(bindings_mapping.keys()):
@@ -231,7 +231,7 @@ class Ascending(StructuralCategory):
   def AreAttributesSufficientToBuild(cls, attributes):
     return len(set(attributes).intersection(set(['start', 'end', 'length']))) >= 2
 
-def GetMapping(v1, v2):
+def GetNaiveMapping(v1, v2):
   if isinstance(v1, int) and isinstance(v2, int):
     diff_string = NumericMapping.DifferenceString(v1, v2)
     if diff_string:
@@ -244,7 +244,7 @@ def GetMapping(v1, v2):
     cat = list(common_categories)[0]
     return cat.GetMapping(v1, v2)
   if isinstance(v1, SElement) and isinstance(v2, SElement):
-    return GetMapping(v1.magnitude, v2.magnitude)
+    return GetNaiveMapping(v1.magnitude, v2.magnitude)
   return None
 
 
