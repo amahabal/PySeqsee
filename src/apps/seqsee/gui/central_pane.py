@@ -34,17 +34,24 @@ class CentralPane(Canvas):
   def SetInitialView(self):
     self.SetVerticallySplitView(WorkspaceView, CoderackView)
 
+  named_views = { 'ws': lambda pane: pane.SetFullView(WorkspaceView),
+                  'cr': lambda pane: pane.SetFullView(CoderackView),
+                  'ws_cr': lambda pane: pane.SetVerticallySplitView(WorkspaceView,
+                                                                    CoderackView),
+                 }
+  def SetNamedView(self, name):
+    CentralPane.named_views[name](self)
+
   def SetupMenu(self, parent):
     menubar = Menu(self)
 
     view_menu = Menu(menubar, tearoff=0)
     view_menu.add_command(label='workspace',
-                          command=lambda: self.SetFullView(WorkspaceView))
+                          command=lambda: self.SetNamedView('ws'))
     view_menu.add_command(label='codelets',
-                          command=lambda: self.SetFullView(CoderackView))
+                          command=lambda: self.SetNamedView('cr'))
     view_menu.add_command(label='ws/codelets',
-                          command=lambda: self.SetVerticallySplitView(WorkspaceView,
-                                                                      CoderackView))
+                          command=lambda: self.SetNamedView('ws_cr'))
     menubar.add_cascade(label="View", menu=view_menu)
 
     parent.config(menu=menubar)
