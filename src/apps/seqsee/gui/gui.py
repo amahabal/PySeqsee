@@ -11,6 +11,7 @@ class SeqseeGUI(gui.GUI):
     self.mw.bind('<KeyPress-q>', lambda e: self.Quit())
     self.mw.bind('<KeyPress-s>', lambda e: self.Steps(1))
     self.mw.bind('<KeyPress-l>', lambda e: self.Steps(10))
+    self.mw.bind('<KeyPress-k>', lambda e: self.Steps(100))
     self.mw.bind('<KeyPress-c>', lambda e: self.Start())
     self.mw.bind('<KeyPress-p>', lambda e: self.Pause())
 

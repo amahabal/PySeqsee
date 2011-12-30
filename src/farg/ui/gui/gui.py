@@ -19,14 +19,17 @@ class RunForNSteps(Thread):
         break
       try:
         self.gui.controller.Step()
-        self.gui.ReDraw()
+        #print 'Finished step #%d' % self.gui.controller.steps_taken
       except FargException as e:
         self.gui.stop_stepping = True
         try:
           self.gui.HandleAppSpecificFargException(e)
         except FargException as f:
           self.gui.HandleFargException(f)
+      if _step % 25 == 24:
+        self.gui.ReDraw()
     self.gui.stepping_thread = None
+    self.gui.ReDraw()
 
 class GUI(object):
   """A tkinter-based interfact for a FARG app.
@@ -70,19 +73,27 @@ class GUI(object):
     """Continually calls Step() on the controller."""
     if self.stepping_thread:
       return  # Already running.
-    thread = RunForNSteps(self)
+    thread = RunForNSteps(self, n_steps=1000)
+    if self.stepping_thread:
+      return  # Already running.
+    else:
+      self.stepping_thread = thread
     self.stop_stepping = False
     thread.start()
-    self.stepping_thread = thread
+
 
   def Steps(self, steps):
     """Takes a single step of the controller."""
     if self.stepping_thread:
       return  # Already running.
     thread = RunForNSteps(self, n_steps=steps)
+    if self.stepping_thread:
+      return  # Already running.
+    else:
+      self.stepping_thread = thread
     self.stop_stepping = False
     thread.start()
-    self.stepping_thread = thread
+
 
   def Pause(self):
     """Pauses the stepping-through of the controller."""
