@@ -32,12 +32,23 @@ class CentralPane(Canvas):
                                   self.width, self.height / 2 - 2)]
     self.ReDraw()
 
+  def SetThreeWaySplit(self, view_class1, view_class2, view_class3):
+    self.viewports = [view_class1(self, 0, 0, self.width, self.height / 2 - 2),
+                      view_class2(self, 0, self.height / 2 + 2,
+                                  self.width / 2 - 2, self.height / 2 - 2),
+                      view_class3(self, self.width / 2 + 2, self.height / 2 + 2,
+                                  self.width / 2 - 2, self.height / 2 - 2)]
+    self.ReDraw()
+
   named_views = { 'ws': lambda pane: pane.SetFullView(WorkspaceView),
                   'cr': lambda pane: pane.SetFullView(CoderackView),
                   'ws_cr': lambda pane: pane.SetVerticallySplitView(WorkspaceView,
                                                                     CoderackView),
                   'cr_st':  lambda pane: pane.SetVerticallySplitView(CoderackView,
                                                                      StreamView),
+                  'ws_cr_st':  lambda pane: pane.SetThreeWaySplit(WorkspaceView,
+                                                                  CoderackView,
+                                                                  StreamView),
                  }
   def SetNamedView(self, name):
     CentralPane.named_views[name](self)
@@ -52,6 +63,8 @@ class CentralPane(Canvas):
                           command=lambda: self.SetNamedView('cr'))
     view_menu.add_command(label='ws/codelets',
                           command=lambda: self.SetNamedView('ws_cr'))
+    view_menu.add_command(label='ws/codelets/stream',
+                          command=lambda: self.SetNamedView('ws_cr_st'))
     menubar.add_cascade(label="View", menu=view_menu)
 
     parent.config(menu=menubar)

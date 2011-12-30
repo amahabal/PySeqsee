@@ -1,6 +1,6 @@
 from apps.seqsee.gui.viewport import ViewPort
 from math import ceil
-from Tkinter import NW
+from Tkinter import NE, NW
 
 class ListBasedView(ViewPort):
   """A base class for views that show a bunch of objects and may require pagination."""
@@ -43,6 +43,9 @@ class ListBasedView(ViewPort):
 
 
   def ReDrawView(self, controller):
+    self.canvas.create_rectangle(self.left, self.bottom,
+                                 self.left + self.width, self.bottom + self.height,
+                                 fill='#EEEEFF', outline='#CCCCFF')
     items, top_message = self.GetAllItemsToDisplay(controller)
     items_count = len(items)
     max_page_number = ceil(1.0 * items_count / self.items_per_page)
@@ -54,7 +57,13 @@ class ListBasedView(ViewPort):
       index_beyond_last_item = items_count
     items_to_show = items[index_of_first_item:index_beyond_last_item]
     x, y = self.CanvasCoordinates(20, 0)
-    self.canvas.create_text(x, y, text=top_message, anchor=NW)
+    self.canvas.create_text(x, y, text=top_message, anchor=NW, fill='#3333FF')
+
+    if max_page_number:
+      x, y = self.CanvasCoordinates(self.width - 25, 0)
+      self.canvas.create_text(x, y,
+                              text='p. %d/%d' % (self.current_page_number, max_page_number),
+                              anchor=NE, fill='#33FF33')
 
     row_top_y = 20
     for item in items_to_show:
