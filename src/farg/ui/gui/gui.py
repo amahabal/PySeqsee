@@ -1,4 +1,4 @@
-from Tkinter import Tk, Button, Frame, LEFT, SUNKEN
+from Tkinter import Tk, Button, Frame, Label, LEFT, StringVar, SUNKEN
 from farg.exceptions import *
 from threading import Thread
 import tkMessageBox
@@ -56,6 +56,7 @@ class GUI(object):
     """Redraws the UI, flushing any changes that need to be."""
     for item in self.items_to_refresh:
       item.ReDraw()
+    self.codelet_count_var.set('%d' % self.controller.steps_taken)
 
   def Quit(self):
     """Quits the application. Calls quit on the controller as well."""
@@ -122,7 +123,11 @@ class GUI(object):
     Button(frame, text="Start", command=self.Start).pack(side=LEFT)
     Button(frame, text="Pause", command=self.Pause).pack(side=LEFT)
     Button(frame, text="Quit", command=self.Quit).pack(side=LEFT)
-
+    self.codelet_count_var = StringVar()
+    self.codelet_count_var.set("0")
+    Label(frame, textvariable=self.codelet_count_var,
+          font='-adobe-helvetica-bold-r-normal--28-140-100-100-p-105-iso8859-4',
+          fg='#FF0000').pack(side=LEFT)
 
   def PopulateCentralPane(self):
     """Sets up the display in the central part.

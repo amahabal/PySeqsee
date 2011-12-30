@@ -1,4 +1,5 @@
 from apps.seqsee.gui.viewport import ViewPort
+from Tkinter import LAST
 
 class WorkspaceView(ViewPort):
   def __init__(self, canvas, left, bottom, width, height):
@@ -15,8 +16,11 @@ class WorkspaceView(ViewPort):
     for idx, element in enumerate(ws.elements):
       x, y = self.CanvasCoordinates((idx + 0.5) * space_per_element,
                                      self.elements_y)
-      self.canvas.create_text(x, y, text='%d' % element.object.magnitude)
-      anchors_for_relations[element] = (x, y - 10)
+      self.canvas.create_text(
+          x, y, text='%d' % element.object.magnitude,
+          font='-adobe-helvetica-bold-r-normal--28-140-100-100-p-105-iso8859-4',
+          fill='#0000FF')
+      anchors_for_relations[element] = (x, y - 20)
 
     relations_already_drawn = set()
     for element in ws.elements:
@@ -27,5 +31,6 @@ class WorkspaceView(ViewPort):
           right_anchor = anchors_for_relations[relation.second]
           self.canvas.create_line(left_anchor[0], left_anchor[1],
                                   (left_anchor[0] + right_anchor[0]) / 2,
-                                  left_anchor[1] - 5,
-                                  right_anchor[0], right_anchor[1])
+                                  left_anchor[1] - 35,
+                                  right_anchor[0], right_anchor[1],
+                                  fill='#00FF00', smooth=True, arrow=LAST, width=3.0)
