@@ -8,7 +8,7 @@ class MyFocusable(FocusableMixin):
     self.x = x
     self.y = 2 * x
 
-  def GetFringe(self):
+  def GetFringe(self, controller):
     return { self.x: 0.7, self.y: 0.4 }
 
 class TestStream(unittest.TestCase):

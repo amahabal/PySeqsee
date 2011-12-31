@@ -146,6 +146,14 @@ class LTMNode(object):
     """Get outgoing edges from the node."""
     return self._outgoing_edges
 
+  def GetOutgoingEdgesOfType(self, edge_type):
+    """Get outgoing edges of particular type."""
+    return (edge for edge in self._outgoing_edges if edge.edge_type == edge_type)
+
+  def GetOutgoingEdgesOfTypeRelated(self):
+    """Get outgoing edges of type 'related'."""
+    return self.GetOutgoingEdgesOfType('related')
+
   def GetXDot(self, idx, is_center=False):
     label = self.content.BriefLabel()
     attributes = ['fillcolor="0.2 %0.3f 1.0"' % self.GetActivation(0), 'style="filled"']

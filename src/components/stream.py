@@ -106,7 +106,7 @@ class Stream(object):
 
   def _CalculateFringeOverlap(self, focusable):
     """Calculates a hit map: from prior focusable to strength."""
-    fringe = focusable.GetFringe()
+    fringe = focusable.GetFringe(self.controller)
     stored_fringe_map = self.stored_fringes
     hits_map = defaultdict(float)
     for fringe_element, intensity in fringe.iteritems():

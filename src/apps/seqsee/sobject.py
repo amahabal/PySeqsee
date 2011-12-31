@@ -87,7 +87,7 @@ class SGroup(SObject):
     """A tuple representations of the group."""
     return tuple(x.Structure() for x in self.items)
 
-  def GetFringe(self):
+  def GetFringe(self, controller):
     """Fringe for the group."""
     # TODO(#26 --- Dec 28, 2011): Should be largely based off the LTM. Also fix Selement.
     # TODO(#27 --- Dec 28, 2011): The categories are also a relevant part of the fringe.
@@ -114,12 +114,16 @@ class SElement(SObject):
     """The structure is the magnitude."""
     return self.magnitude
 
-  def GetFringe(self):
-    """Fringe for the element."""
-    fringe = {'mag:%d' % self.magnitude: 1.0,
-              'mag:%d' % (self.magnitude - 1): 0.8,
-              'mag:%d' % (self.magnitude + 1): 0.8,
-              }
+  def GetFringe(self, controller):
+    """Fringe for the element (now based off the LTM)."""
+    # TODO(# --- Dec 30, 2011): Need codelets to add LTM edges where they are missing.
+    my_node = controller.ltm.GetNodeForContent(self)
+    outgoing_related_edges = my_node.GetOutgoingEdgesOfTypeRelated()
+    fringe = dict()
+    fringe[my_node] = 1.0
+    for edge in outgoing_related_edges:
+      # TODO(# --- Dec 30, 2011): Edges should have strength, and it should influence this.
+      fringe[edge.to_node] = 0.8
     return fringe
 
 
@@ -207,13 +211,13 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
                      left_edge, right_edge)
 
 
-  def GetFringe(self):
+  def GetFringe(self, controller):
     """Gets the fringe (needed for stream-related activities)."""
     fringe = { 'pos:%d' % self.start_pos: 0.6,
                'pos:%d' % self.end_pos: 0.6,
                'pos:%d' % (self.end_pos + 1): 0.3,
                'pos:%d' % (self.start_pos - 1): 0.3}
-    for k, v in self.object.GetFringe().iteritems():
+    for k, v in self.object.GetFringe(controller).iteritems():
       fringe[k] = v
     return fringe
 
