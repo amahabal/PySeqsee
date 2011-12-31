@@ -1,15 +1,14 @@
 class LTMEdge(object):
   """Represents the connection between a pair of concepts.
 
-  An edge is directed, and it is stored in the node for which this is an outgoing edge.
+     An edge is directed, and it is stored in the node for which this is an outgoing edge.
   """
 
   #: Some predefined types of edges.
-  # TODO(#35 --- Dec 28, 2011): Extensible edge types needed.
-  LTM_EDGE_TYPE_RELATED = 1
-  LTM_EDGE_TYPE_FOLLOWS = 2
-  LTM_EDGE_TYPE_ISA = 3
-  LTM_EDGE_CAN_BE_SEEN_AS = 4
+  LTM_EDGE_TYPE_RELATED = "related"
+  LTM_EDGE_TYPE_FOLLOWS = "follows"
+  LTM_EDGE_TYPE_ISA = "is_a"
+  LTM_EDGE_CAN_BE_SEEN_AS = "can_be_seen_as"
 
   def __init__(self, to_node, edge_type):
     #: Other end of the node.

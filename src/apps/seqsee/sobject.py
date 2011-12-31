@@ -61,7 +61,8 @@ class SObject(CategorizableMixin, LTMMakeStorableMixin):
 
   def GetStorable(self):
     # TODO(#24 --- Dec 28, 2011): Document (in LTM?) what GetStorable means.
-    return self.Structure()
+    structure = self.Structure()
+    return (structure, str(structure))
 
 class SGroup(SObject):
   """A subclass of SObject representing things with an internal structure."""
@@ -172,7 +173,8 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
     return self.object.Structure()
 
   def GetStorable(self):
-    return self.Structure()
+    structure = self.object.Structure()
+    return (structure, str(structure))
 
   @staticmethod
   def Create(*items):

@@ -24,17 +24,21 @@ class LTMStorableMixin(object):
     return '%s: ???' % self.__class__.__name__
 
 class LTMMadeStorable(object):
-  def __init__(self, cls, storable):
+  def __init__(self, cls, storable, brief_label):
     self.cls = cls
     self.storable = storable
+    self.brief_label = brief_label
+
+  def BriefLabel(self):
+    return self.brief_label
 
   memos_ltm_madestorable = {}
 
   @staticmethod
-  def Create(cls, storable):
+  def Create(cls, storable, brief_label):
     key = (cls, storable)
     if key not in LTMMadeStorable.memos_ltm_madestorable:
-      new_instance = LTMMadeStorable(cls, storable)
+      new_instance = LTMMadeStorable(cls, storable, brief_label)
       LTMMadeStorable.memos_ltm_madestorable[key] = new_instance
       return new_instance
     return LTMMadeStorable.memos_ltm_madestorable[key]
@@ -49,5 +53,6 @@ class LTMMakeStorableMixin(object):
 
   @classmethod
   def CreateLTMStorable(cls, item):
-    return LTMMadeStorable.Create(cls, item.GetStorable())
+    storable, brief_label = item.GetStorable()
+    return LTMMadeStorable.Create(cls, storable, brief_label)
 
