@@ -1,4 +1,5 @@
 from apps.seqsee.gui.viewport import ViewPort
+from farg.exceptions import FargError
 from math import ceil
 from Tkinter import NE, NW
 
@@ -13,33 +14,33 @@ class ListBasedView(ViewPort):
     self.height_per_row = 0.8 * (height - 20) / self.items_per_page
     self.current_page_number = 1
 
-  def ClearAndRedraw(self):
+  def _ClearAndRedraw(self):
     self.canvas.ReDraw()
 
-  def IncrementPageNumber(self):
+  def _IncrementPageNumber(self):
     self.current_page_number += 1
-    self.ClearAndRedraw()
+    self._ClearAndRedraw()
 
-  def DecrementPageNumber(self):
+  def _DecrementPageNumber(self):
     self.current_page_number -= 1
-    self.ClearAndRedraw()
+    self._ClearAndRedraw()
 
-  def DrawPreviousPageArrow(self):
+  def _DrawPreviousPageArrow(self):
     """Draw a triangle facing left hooked to decrementing the page number."""
     x1, y1 = self.CanvasCoordinates(0, 10)
     x2, y2 = self.CanvasCoordinates(15, 0)
     x3, y3 = self.CanvasCoordinates(15, 20)
-    id = self.canvas.create_polygon(x1, y1, x2, y2, x3, y3)
-    self.canvas.tag_bind(id, '<1>', lambda e: self.DecrementPageNumber())
+    item_id = self.canvas.create_polygon(x1, y1, x2, y2, x3, y3)
+    self.canvas.tag_bind(item_id, '<1>', lambda e: self._DecrementPageNumber())
 
-  def DrawNextPageArrow(self):
+  def _DrawNextPageArrow(self):
     """Draw a triangle facing left hooked to incrementing the page number."""
     width = self.width
     x1, y1 = self.CanvasCoordinates(width, 10)
     x2, y2 = self.CanvasCoordinates(width - 15, 0)
     x3, y3 = self.CanvasCoordinates(width - 15, 20)
-    id = self.canvas.create_polygon(x1, y1, x2, y2, x3, y3)
-    self.canvas.tag_bind(id, '<1>', lambda e: self.IncrementPageNumber())
+    item_id = self.canvas.create_polygon(x1, y1, x2, y2, x3, y3)
+    self.canvas.tag_bind(item_id, '<1>', lambda e: self._IncrementPageNumber())
 
 
   def ReDrawView(self, controller):
@@ -71,7 +72,20 @@ class ListBasedView(ViewPort):
       row_top_y += self.height_per_row
 
     if self.current_page_number > 1:
-      self.DrawPreviousPageArrow()
+      self._DrawPreviousPageArrow()
 
     if self.current_page_number < max_page_number:
-      self.DrawNextPageArrow()
+      self._DrawNextPageArrow()
+
+  def GetAllItemsToDisplay(self, _controller):
+    """Obtain a 2-tuple (items, top-message) to display.
+    
+       Should be over-ridden by the derived class.
+    """
+    raise FargError("GetAllItemsToDisplay not implemented by %s", self.__class__)
+
+  def DrawItem(self, _x, _y, _item):
+    """Draws item given co-ordinates in *this* widget (not global canvas coordinates), and
+       the item to be drawn.
+    """
+    raise FargError("DrawItem not implemented by %s", self.__class__)

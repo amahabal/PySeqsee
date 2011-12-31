@@ -1,5 +1,5 @@
-from Tkinter import Tk, Button, Frame, Label, LEFT, StringVar, SUNKEN
-from farg.exceptions import *
+from Tkinter import Tk, Button, Frame, Label, LEFT, StringVar
+from farg.exceptions import FargException, YesNoException
 from threading import Thread
 import tkMessageBox
 
