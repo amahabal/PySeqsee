@@ -4,6 +4,9 @@ from farg.ltm.edge import LTMEdge
 
 from farg.ltm.storable import LTMStorableMixin, LTMMakeStorableMixin
 
+import logging
+logger = logging.getLogger(__name__)
+
 class LTMGraph(object):
   """Represents a full LTM graph (consisting of nodes and edges)."""
   def __init__(self, filename):
@@ -22,6 +25,7 @@ class LTMGraph(object):
     with open(filename) as f:
       up = pickle.Unpickler(f)
       self._LoadNodes(up)
+    logging.info('Loaded LTM in %s: %d nodes read', filename, len(self._nodes))
 
   def _LoadNodes(self, unpickler):
     """Load all nodes from the unpickler.
@@ -39,6 +43,10 @@ class LTMGraph(object):
         self.AddNode(node)
       except EOFError:
         break
+
+  def IsEmpty(self):
+    """True if there are zero-nodes."""
+    return not self._nodes
 
   def Dump(self):
     with open(self._filename, "w") as f:
