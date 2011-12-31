@@ -10,9 +10,12 @@ def InitializeSeqseeLTM(ltm):
   """Called if ltm was empty (had no nodes)."""
   from apps.seqsee.sobject import SElement
   # Creates nodes for elements corresponding to the integers 1 through 10.
-  element_nodes = []
-  for magnitude in xrange(1, 11):
-    element_nodes.append(ltm.GetNodeForContent(SElement(magnitude)))
+  elements = [SElement(magnitude) for magnitude in xrange(1, 11)]
+  for element in elements:
+    ltm.GetNodeForContent(element)
+  for idx, element in enumerate(elements[:-1]):
+    ltm.AddEdgeBetweenContent(element, elements[idx + 1], 'related')
+    ltm.AddEdgeBetweenContent(elements[idx + 1], element, 'related')
 
 LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
 

@@ -11,7 +11,6 @@ def GetGraph(ltm, startnode=None):
     xdot = ltm.GetGraphXDOT()
   else:
     xdot = ltm.GetGraphAroundNodeXDot(int(startnode))
-  # print xdot
   return xdot
 
 class MyDotWindow(xdot.DotWindow):
@@ -53,7 +52,6 @@ class MyDotWindow(xdot.DotWindow):
 
 
   def on_url_clicked(self, widget, url, event):
-    # print GetGraph(url)
     self.set_dotcode(GetGraph(self.ltm, url))
     self.history_stack.append(url)
     return True

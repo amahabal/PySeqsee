@@ -132,14 +132,12 @@ class LTMGraph(object):
           lines.append('node_%d -> node_%d;' % (node_at_previous_depth, other_node))
       nodes_at_depth.append(nodes_at_this_depth)
     # For the "leaf" nodes, add edges (without adding nodes)
-    print lines
     for node_at_previous_depth in nodes_at_depth[depth]:
       edges = nodes[node_at_previous_depth]._outgoing_edges
       for edge in edges:
         other_node = node_to_pos[edge.to_node]
         if other_node in nodes_to_depth:
           lines.append('node_%d -> node_%d;' % (node_at_previous_depth, other_node))
-    print lines
     return """
       digraph G {
       %s
