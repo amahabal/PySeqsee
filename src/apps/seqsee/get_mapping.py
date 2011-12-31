@@ -142,4 +142,6 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
                       left, right)
       right.AddRelation(relation)
       left.AddRelation(relation)
+      controller.ltm.AddEdgeBetweenContent(left.object, right.object, 'related')
+      controller.ltm.AddEdgeBetweenContent(right.object, left.object, 'related')
       logging.warning("%s realtions: %s" % (left, left.relations))

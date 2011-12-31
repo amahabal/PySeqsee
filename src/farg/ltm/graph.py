@@ -94,8 +94,13 @@ class LTMGraph(object):
 
   def AddEdgeBetweenContent(self, from_content, to_content,
                             edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
-    edge = LTMEdge(self.GetNodeForContent(to_content), edge_type)
-    self.GetNodeForContent(from_content)._outgoing_edges.append(edge)
+    node = self.GetNodeForContent(from_content)
+    to_node = self.GetNodeForContent(to_content)
+    for edge in node._outgoing_edges:
+      if edge.to_node == to_node and edge_type == edge.edge_type:
+        # Already exists, bail out.
+        return
+    node._outgoing_edges.append(LTMEdge(to_node, edge_type))
 
   def GetGraphXDOT(self):
     """Generates XDOT for entire graph."""
