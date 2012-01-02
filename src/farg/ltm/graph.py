@@ -121,7 +121,7 @@ class LTMGraph(object):
     """Get XDot of node outward from given node position upto given depth."""
     nodes = self._nodes
     node_to_pos = dict((y, x) for x, y in enumerate(self._nodes))
-    lines = [nodes[node_position].GetXDot(node_position, is_center=True)]
+    lines = [nodes[node_position].GetXDot(node_position)]
     nodes_to_depth = { node_position: 0 }
     nodes_at_depth = [[node_position]]
     for depth in range(1, depth):
