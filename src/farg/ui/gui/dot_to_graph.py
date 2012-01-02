@@ -3,7 +3,7 @@
 import colorsys
 import sys
 import subprocess
-from Tkinter import Tk, Canvas
+from Tkinter import Tk, Canvas, ALL
 
 from third_party.xdot import XDotParser
 from farg.ltm.graph import LTMGraph
@@ -17,7 +17,7 @@ class GraphViewer(Canvas):
     self.ltm = ltm
 
   def DrawGraph(self, startnode=None):
-    self.delete('ALL')
+    self.delete(ALL)
     if startnode is not None:
       dotcode = self.ltm.GetGraphAroundNodeXDot(int(startnode))
     else:
@@ -25,10 +25,8 @@ class GraphViewer(Canvas):
     graph = self._ConvertToGraph(dotcode)
     self._CalculateTransformParameters(graph)
     for node in graph.nodes:
-      print 'node=', node
       self._DrawNode(node)
     for edge in graph.edges:
-      print 'edge=', edge
       self._DrawEdge(edge)
 
   def _CalculateTransformParameters(self, graph):
@@ -68,9 +66,8 @@ class GraphViewer(Canvas):
     ltm_node = self.ltm._nodes[int(node.url)]
     label = ltm_node.content.BriefLabel()
     color = GraphViewer.HSVToColorString(0.2, ltm_node.GetActivation(0), 1.0)
-    print color
-    self.create_oval(x1, y1, x2, y2, fill=color)
-    print 'text=', label
+    oval = self.create_oval(x1, y1, x2, y2, fill=color)
+    self.tag_bind(oval, '<1>', lambda e: self.DrawGraph(int(node.url)))
     self.create_text(x, y, text=label)
 
   def _DrawEdge(self, edge):
@@ -97,13 +94,9 @@ class GraphViewer(Canvas):
     return xdotcode
 
   def _ConvertToGraph(self, dotcode):
-    print 'DOT=', dotcode
     xdotcode = self._ConvertToXDot(dotcode)
-    print 'XDOT=', xdotcode
     parser = XDotParser(xdotcode)
     graph = parser.parse()
-    for node in graph.nodes:
-      print "Node (%f, %f)" % (node.x, node.y)
     return graph
 
 
