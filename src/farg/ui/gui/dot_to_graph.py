@@ -15,8 +15,10 @@ class GraphViewer(Canvas):
     self.width = width - 10
     self.height = height - 10
     self.ltm = ltm
+    self.startnode = None
 
   def DrawGraph(self, startnode=None):
+    self.startnode = startnode
     self.delete(ALL)
     if startnode is not None:
       dotcode = self.ltm.GetGraphAroundNodeXDot(int(startnode))
@@ -28,6 +30,9 @@ class GraphViewer(Canvas):
       self._DrawNode(node)
     for edge in graph.edges:
       self._DrawEdge(edge)
+
+  def ReDraw(self):
+    self.DrawGraph(self.startnode)
 
   def _CalculateTransformParameters(self, graph):
     width, height = graph.get_size()

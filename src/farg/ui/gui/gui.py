@@ -1,5 +1,6 @@
-from Tkinter import Tk, Button, Frame, Label, LEFT, StringVar
+from Tkinter import Tk, Button, Frame, Label, LEFT, StringVar, Toplevel
 from farg.exceptions import FargException, YesNoException
+from farg.ui.gui.dot_to_graph import GraphViewer
 from threading import Thread
 import tkMessageBox
 
@@ -44,6 +45,7 @@ class GUI(object):
     self.controller = controller
     mw.geometry(geometry)
     self.SetupWindows(args)
+    self.SetupLTMWindow(args)
 
     #: If non-None, the thread that is stepping the controller.
     self.stepping_thread = None
@@ -60,6 +62,7 @@ class GUI(object):
     for item in self.items_to_refresh:
       item.ReDraw()
     self.codelet_count_var.set('%d' % self.controller.steps_taken)
+    self.graph_viewer.ReDraw()
 
   def Quit(self):
     """Quits the application. Calls quit on the controller as well."""
@@ -128,6 +131,13 @@ class GUI(object):
 
     self.PopulateCentralPane(args)
     self.PopulateInteractionPane(args)
+
+  def SetupLTMWindow(self, args):
+    """Creates a LTM-viewer window."""
+    ltm_top = Toplevel()
+    self.graph_viewer = GraphViewer(ltm_top, 400, 400, self.controller.ltm)
+    self.graph_viewer.pack()
+    self.graph_viewer.DrawGraph()
 
   def PopulateButtonPane(self, frame):
     """Adds buttons to the top row."""
