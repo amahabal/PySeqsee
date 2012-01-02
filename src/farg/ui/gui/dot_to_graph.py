@@ -7,6 +7,7 @@ from Tkinter import Tk, Canvas, ALL
 
 from third_party.xdot import XDotParser
 from farg.ltm.graph import LTMGraph
+from farg.ui.gui.util import HSVToColorString
 
 class GraphViewer(Canvas):
 
@@ -59,11 +60,6 @@ class GraphViewer(Canvas):
     return (self.x_offset + x * self.x_multiplier,
             self.y_offset + y * self.y_multiplier)
 
-  @staticmethod
-  def HSVToColorString(h, s, v):
-    rgb = ('%02x' % (255.0 * x) for x in colorsys.hsv_to_rgb(h, s, v))
-    return '#' + ''.join(rgb)
-
 
   def _DrawNode(self, node):
     x, y = self._Transform(node.x, node.y)
@@ -71,7 +67,7 @@ class GraphViewer(Canvas):
     x2, y2 = self._Transform(node.x2, node.y2)
     ltm_node = self.ltm._nodes[int(node.url)]
     label = ltm_node.content.BriefLabel()
-    color = GraphViewer.HSVToColorString(0.2, ltm_node.GetActivation(0), 1.0)
+    color = HSVToColorString(0.2, ltm_node.GetActivation(0), 1.0)
     oval = self.create_oval(x1, y1, x2, y2, fill=color)
     self.tag_bind(oval, '<1>', lambda e: self.DrawGraph(int(node.url)))
     description = 'Node=%s' % label
