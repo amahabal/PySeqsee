@@ -10,11 +10,12 @@ from farg.ltm.graph import LTMGraph
 
 class GraphViewer(Canvas):
 
-  def __init__(self, master, width, height, ltm):
+  def __init__(self, master, width, height, ltm, message_label):
     Canvas.__init__(self, master, width=width, height=height)
     self.width = width - 10
     self.height = height - 10
     self.ltm = ltm
+    self.message_label = message_label
     self.startnode = None
 
   def DrawGraph(self, startnode=None):
@@ -73,7 +74,10 @@ class GraphViewer(Canvas):
     color = GraphViewer.HSVToColorString(0.2, ltm_node.GetActivation(0), 1.0)
     oval = self.create_oval(x1, y1, x2, y2, fill=color)
     self.tag_bind(oval, '<1>', lambda e: self.DrawGraph(int(node.url)))
-    self.create_text(x, y, text=label)
+    description = 'Node=%s' % label
+    self.tag_bind(oval, '<Enter>', lambda e: self.message_label.set(description))
+    drawn_text = self.create_text(x, y, text=label)
+    self.tag_bind(drawn_text, '<1>', lambda e: self.DrawGraph(int(node.url)))
 
   def _DrawEdge(self, edge):
     #print 'src=', edge.src
@@ -83,7 +87,8 @@ class GraphViewer(Canvas):
     for x, y in edge.points:
       tx, ty = self._Transform(x, y)
       point_coordinates.extend((tx, ty))
-    self.create_line(point_coordinates)
+    self.create_line(point_coordinates, smooth=1, width=max(2, 2.0 * self.x_multiplier),
+                     arrow="last")
 
   def _ConvertToXDot(self, dotcode):
     p = subprocess.Popen(['dot', '-Txdot'],

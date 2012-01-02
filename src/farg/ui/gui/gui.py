@@ -1,4 +1,4 @@
-from Tkinter import Tk, Button, Frame, Label, LEFT, StringVar, Toplevel
+from Tkinter import Tk, Button, Frame, Label, LEFT, TOP, StringVar, Toplevel, BOTTOM
 from farg.exceptions import FargException, YesNoException
 from farg.ui.gui.dot_to_graph import GraphViewer
 from threading import Thread
@@ -135,9 +135,20 @@ class GUI(object):
   def SetupLTMWindow(self, args):
     """Creates a LTM-viewer window."""
     ltm_top = Toplevel()
-    self.graph_viewer = GraphViewer(ltm_top, 400, 400, self.controller.ltm)
-    self.graph_viewer.pack()
+    button_frame = Frame(ltm_top)
+    button_frame.pack(side=TOP)
+    Button(button_frame, text='Full Graph',
+           command=lambda: self.graph_viewer.DrawGraph()).pack(side=LEFT)
+
+    self.graph_viewer_message = StringVar()
+    Label(ltm_top, textvariable=self.graph_viewer_message).pack(side=BOTTOM)
+    self.graph_viewer_message.set("Hello, world!")
+
+    self.graph_viewer = GraphViewer(ltm_top, 400, 400, self.controller.ltm,
+                                    self.graph_viewer_message)
+    self.graph_viewer.pack(side=TOP)
     self.graph_viewer.DrawGraph()
+
 
   def PopulateButtonPane(self, frame):
     """Adds buttons to the top row."""
