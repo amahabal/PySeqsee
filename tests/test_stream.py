@@ -1,7 +1,7 @@
-import unittest
 from farg.controller import Controller
-from components.stream import Stream
 from farg.focusable_mixin import FocusableMixin
+from farg.stream import Stream
+import unittest
 
 class MyFocusable(FocusableMixin):
   def __init__(self, x):

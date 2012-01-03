@@ -1,8 +1,8 @@
 from apps.seqsee.util import Toss
-from components.coderack import Coderack, CoderackEmptyException
-from components.stream import Stream
 from farg.codelet import Codelet
+from farg.coderack import Coderack, CoderackEmptyException
 from farg.ltm.manager import LTMManager
+from farg.stream import Stream
 import logging
 
 logger = logging.getLogger(__name__)

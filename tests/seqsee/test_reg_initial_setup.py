@@ -1,10 +1,10 @@
+from apps.seqsee.controller import SeqseeController
+from apps.seqsee.sobject import SAnchored, SElement, SGroup
+from apps.seqsee.workspace import Workspace
+from farg.coderack import Coderack
+from farg.stream import Stream
 import unittest
 
-from apps.seqsee.sobject import SAnchored, SElement, SGroup
-from apps.seqsee.controller import SeqseeController
-from apps.seqsee.workspace import Workspace
-from components.coderack import Coderack
-from components.stream import Stream
 
 class Args(object): pass
 args = Args()

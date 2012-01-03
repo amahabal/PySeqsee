@@ -1,6 +1,6 @@
 Stream of Thought
 ======================
 
-.. automodule:: components.stream
+.. automodule:: farg.stream
   :members:
   :undoc-members:

@@ -1,8 +1,8 @@
-import unittest
-from components.coderack import Coderack, CoderackEmptyException
-
 from farg.codelet import Codelet, CodeletFamily
+from farg.coderack import Coderack, CoderackEmptyException
 from farg.exceptions import FargError
+import unittest
+
 
 class Controller(object):
   def __init__(self):
