@@ -1,9 +1,11 @@
 """A way to specify how two entities are related."""
 
+from farg.ltm.storable import LTMStorableMixin
+
 class Mapping(object):
   pass
 
-class NumericMapping(Mapping):
+class NumericMapping(Mapping, LTMStorableMixin):
   def __init__(self, name, category):
     #: A string such as "succ" or "same". There are only 5 distinct values used in the Perl
     #: version: *succ*, *pred*, *same*, *flip*, and *noflip*.

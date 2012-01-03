@@ -52,6 +52,7 @@ from apps.seqsee.sobject import SAnchored, SElement, SObject
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.structure_utils import StructureDepth
 from farg.exceptions import FargError, FargException
+from farg.ltm.storable import LTMStorableMixin
 
 class NumericCategory(Category):
   """Base class for categories whose instances are SElements, and membership depends only on 
@@ -95,11 +96,13 @@ class StructuralCategory(Category):
       return StructuralMapping(category=cls, bindings_mapping=bindings_mapping)
     return None
 
-class ParametrizedCategory(object):
+class ParametrizedCategory(LTMStorableMixin):
   """Base class for a family of related categories. To create one member of the family, call
      Create. If the arguments to Create are novel, "Construct" will be called on the base 
      class, and it should return the category (i.e., a subclass of Category).
   """
+  # TODO(# --- Jan 3, 2012): The Create is suspiciously like Create in LTMStorableMixin.
+  # They differ only in the presence of the word 'Construct'. Try to unify.
   memos = {}
 
   @classmethod
@@ -235,7 +238,7 @@ def GetNaiveMapping(v1, v2):
   if isinstance(v1, int) and isinstance(v2, int):
     diff_string = NumericMapping.DifferenceString(v1, v2)
     if diff_string:
-      return NumericMapping(diff_string, Number)
+      return NumericMapping.Create(name=diff_string, category=Number)
     else:
       return None
   common_categories = v1.GetCommonCategoriesSet(v2)

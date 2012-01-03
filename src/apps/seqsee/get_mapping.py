@@ -23,7 +23,7 @@ class CF_NumericCase(CodeletFamily):
     if isinstance(v1, int) and isinstance(v2, int):
       diff_string = NumericMapping.DifferenceString(v1, v2)
       if diff_string:
-        return NumericMapping(diff_string, Number)
+        return NumericMapping.Create(name=diff_string, category=Number)
       else:
         raise NoAnswerException()
     controller.AddCodelet(CF_ChooseCategory, 100)
@@ -145,3 +145,5 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
       controller.ltm.AddEdgeBetweenContent(left.object, right.object, 'related')
       controller.ltm.AddEdgeBetweenContent(right.object, left.object, 'related')
       logging.warning("%s realtions: %s" % (left, left.relations))
+      from apps.seqsee.codelet_families.all import CF_FocusOn
+      controller.AddCodelet(CF_FocusOn, 100, focusable=relation)

@@ -5,7 +5,7 @@ class FocusableMixin(object):
   """
 
 
-  def GetFringe(self):
+  def GetFringe(self, controller):
     """Returns the fringe of the item, which should be a dictionary keyed by fringe elements
        and with floats as values (indicating intensity of the element within the fringe).
     """

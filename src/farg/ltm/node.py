@@ -112,13 +112,8 @@ class LTMNode(object):
   def _SpikeNonSpreading(self, amount, current_time):
     """Update activation by this amount (after processing any pending decays, but do not
        propagate further.)"""
-    print "Raw (Before processing decays): %f" % self._raw_activation
     self._ProcessDecays(current_time)
-    print "Raw (Before increasing): %f" % self._raw_activation
-
     self._raw_activation += amount * self.depth_reciprocal
-    print "Raw (After increasing): %f" % self._raw_activation
-
     if self._raw_activation > 100:
       self.IncrementDepth()
       self._raw_activation = 90
