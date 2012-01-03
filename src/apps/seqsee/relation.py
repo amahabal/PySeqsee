@@ -1,6 +1,7 @@
 """A relation is a specific instance of a mapping."""
 
 from farg.focusable_mixin import FocusableMixin
+from farg.codelet import Codelet
 
 class Relation(FocusableMixin):
   def __init__(self, first, second, mapping):
@@ -27,7 +28,9 @@ class Relation(FocusableMixin):
     return {mapping_node: 1.0}
 
   def GetAffordances(self, controller):
-    return ()
+    # TODO(# --- Jan 3, 2012): Too eager, tone this down later.
+    from apps.seqsee.codelet_families.all import CF_GroupFromRelation
+    return (Codelet(CF_GroupFromRelation, controller, 50, relation=self),)
 
   def GetSimilarityAffordances(self, focusable, other_fringe, my_fringe, controller):
     return ()

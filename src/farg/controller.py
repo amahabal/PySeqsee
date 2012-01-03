@@ -77,3 +77,8 @@ class Controller(object):
     """Adds a codelet to the coderack."""
     codelet = Codelet(family, self, urgency, **arguments)
     self.coderack.AddCodelet(codelet)
+
+  def DisplayMessage(self, message):
+    if self.mw:  # Has the GUI set. O/w, DisplayMessage is a no-op.
+      import tkMessageBox
+      tkMessageBox.showinfo('', message)

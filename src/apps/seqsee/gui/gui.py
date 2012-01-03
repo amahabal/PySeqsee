@@ -8,6 +8,12 @@ from apps.seqsee.gui.conversation import Conversation
 class SeqseeGUI(gui.GUI):
   def __init__(self, controller, args, geometry='810x700-0+0'):
     gui.GUI.__init__(self, controller, args, geometry)
+
+    # TODO(# --- Jan 3, 2012): Not sure if this is the right abstraction. I want to be able
+    # to display messages for debugging. I should have a better messaging system built right
+    # into the controller.
+    controller.mw = self.mw
+
     self.mw.bind('<KeyPress-q>', lambda e: self.Quit())
     self.mw.bind('<KeyPress-s>', lambda e: self.Steps(1))
     self.mw.bind('<KeyPress-l>', lambda e: self.Steps(10))
