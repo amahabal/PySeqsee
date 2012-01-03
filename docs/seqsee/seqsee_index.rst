@@ -1,4 +1,4 @@
-The Seqsee App
+The Flagship App: Seqsee
 ====================================
 
 Seqsee is an one app running on the PySeqsee framework.
