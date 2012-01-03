@@ -14,4 +14,5 @@ class CF_GroupFromRelation(CodeletFamily):
     anchored = SAnchored.Create(relation.first, relation.second)
     # TODO(# --- Jan 3, 2012): Can throw. Need a method to handle the exception...
     controller.ws.InsertGroup(anchored)
-    controller.DisplayMessage('Groups: ' + ';'.join(str(x) for x in controller.ws.groups))
+    #controller.DisplayMessage('Groups: ' +
+    #                          ';'.join(str(x) for x in controller.ws.groups))
