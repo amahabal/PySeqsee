@@ -1,6 +1,7 @@
 # First cut of a Tk based viewer. Draws nodes and edges, but little else.
 
 import colorsys
+import math
 import sys
 import subprocess
 from Tkinter import Tk, Canvas, ALL
@@ -60,6 +61,14 @@ class GraphViewer(Canvas):
     return (self.x_offset + x * self.x_multiplier,
             self.y_offset + y * self.y_multiplier)
 
+  def _DisplayNodeDetails(self, ltm_node):
+    label = ltm_node.content.BriefLabel()
+    raw_activation = ltm_node.GetRawActivation(0)
+    activation = ltm_node.GetActivation(0)
+    depth = math.trunc(0.5 + 1.0 / ltm_node.depth_reciprocal)
+    description = 'Node=%s raw=%.2f act=%.2f depth=%d' % (label, raw_activation,
+                                                          activation, depth)
+    self.message_label.set(description)
 
   def _DrawNode(self, node):
     x, y = self._Transform(node.x, node.y)
@@ -70,8 +79,7 @@ class GraphViewer(Canvas):
     color = HSVToColorString(0.2, ltm_node.GetActivation(0), 1.0)
     oval = self.create_oval(x1, y1, x2, y2, fill=color)
     self.tag_bind(oval, '<1>', lambda e: self.DrawGraph(int(node.url)))
-    description = 'Node=%s' % label
-    self.tag_bind(oval, '<Enter>', lambda e: self.message_label.set(description))
+    self.tag_bind(oval, '<Enter>', lambda e: self._DisplayNodeDetails(ltm_node))
     drawn_text = self.create_text(x, y, text=label)
     self.tag_bind(drawn_text, '<1>', lambda e: self.DrawGraph(int(node.url)))
 

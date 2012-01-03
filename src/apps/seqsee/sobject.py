@@ -118,6 +118,7 @@ class SElement(SObject):
     """Fringe for the element (now based off the LTM)."""
     # TODO(# --- Dec 30, 2011): Need codelets to add LTM edges where they are missing.
     my_node = controller.ltm.GetNodeForContent(self)
+    my_node.Spike(50, controller.steps_taken)
     outgoing_related_edges = my_node.GetOutgoingEdgesOfTypeRelated()
     fringe = dict()
     fringe[my_node] = 1.0
