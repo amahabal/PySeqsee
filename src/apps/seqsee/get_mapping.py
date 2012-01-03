@@ -82,9 +82,9 @@ class CF_ExplainValues(CodeletFamily):
     b2_dict = b2.bindings
     unexplained_attributes = [x for x in b2_dict.keys() if x not in attribute_explanations]
     one_attribute = random.choice(unexplained_attributes)
-    logger.info("Chose attribute %s for explanation.", one_attribute)
+    logger.debug("Chose attribute %s for explanation.", one_attribute)
     attribute_value = b2_dict[one_attribute]
-    logger.info("Will love to explain this value: %s", str(attribute_value.Structure()))
+    logger.debug("Will love to explain this value: %s", str(attribute_value.Structure()))
 
     # Pick an ordering of attributes (biased in some way... how, and how to implement bias?)
     # I wish there was a weighted choice in random :)
@@ -94,7 +94,7 @@ class CF_ExplainValues(CodeletFamily):
     attributes_to_use[one_attribute] += 3
     for attribute_to_use in WeightedShuffle(attributes_to_use.items()):
       mapping = GetNaiveMapping(b1_dict[attribute_to_use], b2_dict[one_attribute])
-      logger.info("Used %s, saw mapping %s", attribute_to_use, str(mapping))
+      logger.debug("Used %s, saw mapping %s", attribute_to_use, str(mapping))
       if mapping:
         attribute_explanations[one_attribute] = (attribute_to_use, mapping)
         if ws.category.AreAttributesSufficientToBuild(attribute_explanations.keys()):
@@ -114,7 +114,7 @@ class SubspaceFindMapping(Subspace):
 
   def Initialize(self, arguments):
     self.workspace = self.controller.workspace = self.Workspace(**arguments)
-    logger.info('Initialized new subspace')
+    logger.debug('Initialized new subspace')
     self.controller.AddCodelet(CF_NumericCase, 100)
 
   @classmethod
@@ -138,12 +138,9 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
                       {'left': left.object, 'right': right.object})
     if mapping:
       relation = Relation(left, right, mapping)
-      logging.warning("Great, will create a relation %s between %s and %s", relation,
-                      left, right)
       right.AddRelation(relation)
       left.AddRelation(relation)
       controller.ltm.AddEdgeBetweenContent(left.object, right.object, 'related')
       controller.ltm.AddEdgeBetweenContent(right.object, left.object, 'related')
-      logging.warning("%s realtions: %s" % (left, left.relations))
       from apps.seqsee.codelet_families.all import CF_FocusOn
       controller.AddCodelet(CF_FocusOn, 100, focusable=relation)

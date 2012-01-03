@@ -182,11 +182,15 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
     return (structure, str(structure))
 
   @staticmethod
-  def Create(*items):
+  def Create(*items, **kwargs):
     """Given a list of items, each a SAnchored, creates another SAnchored, provided that the
        items are contiguous. Raises a NonAdjacentGroupElementsException if they are
        non-adjacent.
+       
+       The only acceptable kwarg is 'underlying_mapping'
     """
+    underlying_mapping = kwargs.pop('underlying_mapping', None)
+    assert(not kwargs)
     if not items:
       raise FargError("Empty group creation attempted. An error at the moment.")
     if len(items) == 1:
@@ -208,8 +212,8 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
       if left != right_edge + 1:
         raise NonAdjacentGroupElementsException()
       right_edge = right
-    return SAnchored(SObject.Create(list(x.object for x in items)), items,
-                     left_edge, right_edge)
+    object = SObject.Create(list(x.object for x in items))
+    return SAnchored(object, items, left_edge, right_edge)
 
 
   def GetFringe(self, controller):

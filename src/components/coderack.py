@@ -54,9 +54,8 @@ class Coderack(object):
 
   def AddCodelet(self, codelet):
     """Adds codelet to coderack. Removes some existing codelet if needed."""
-    logger.info('Codelet added: %s', str(codelet.family))
+    logger.debug('Codelet added: %s', str(codelet.family))
     if self._codelet_count == self._max_capacity:
-      logger.info('Over capacity: expunging some codelet.')
       self._ExpungeSomeCodelet()
     self._codelets.add(codelet)
     self._codelet_count += 1
@@ -85,4 +84,6 @@ class Coderack(object):
   def _ExpungeSomeCodelet(self):
     """Removes a codelet, chosen uniformly randomly."""
     codelet = random.choice(list(self._codelets))
+    logger.info('Coderack over capacity: expunged codelet of family %s.' %
+                codelet.family.__name__)
     self._RemoveCodelet(codelet)
