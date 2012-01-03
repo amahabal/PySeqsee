@@ -45,7 +45,8 @@ class GUI(object):
     self.controller = controller
     mw.geometry(geometry)
     self.SetupWindows(args)
-    self.SetupLTMWindow(args)
+    if args.gui_show_ltm:
+      self.SetupLTMWindow(args)
 
     #: If non-None, the thread that is stepping the controller.
     self.stepping_thread = None
@@ -62,7 +63,6 @@ class GUI(object):
     for item in self.items_to_refresh:
       item.ReDraw()
     self.codelet_count_var.set('%d' % self.controller.steps_taken)
-    self.graph_viewer.ReDraw()
 
   def Quit(self):
     """Quits the application. Calls quit on the controller as well."""
@@ -142,12 +142,13 @@ class GUI(object):
 
     self.graph_viewer_message = StringVar()
     Label(ltm_top, textvariable=self.graph_viewer_message).pack(side=BOTTOM)
-    self.graph_viewer_message.set("Hello, world!")
+    self.graph_viewer_message.set("")
 
-    self.graph_viewer = GraphViewer(ltm_top, 400, 400, self.controller.ltm,
-                                    self.graph_viewer_message)
-    self.graph_viewer.pack(side=TOP)
-    self.graph_viewer.DrawGraph()
+    graph_viewer = self.graph_viewer = GraphViewer(ltm_top, 400, 400, self.controller.ltm,
+                                                   self.graph_viewer_message)
+    graph_viewer.pack(side=TOP)
+    graph_viewer.DrawGraph()
+    self.items_to_refresh.append(graph_viewer)
 
 
   def PopulateButtonPane(self, frame):

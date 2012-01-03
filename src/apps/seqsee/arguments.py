@@ -9,7 +9,9 @@ from apps.seqsee.gui.gui import SeqseeGUI
 
 def ParseSeqseeArguments():
   parser = argparse.ArgumentParser(
-      description="Seqsee: A cognitive architecture for integer sequence perception")
+      description="Seqsee: A cognitive architecture for integer sequence perception",
+      prog='PySeqsee',)
+  parser.add_argument('--version', action='version', version='%(prog)s 0.01')
   parser.add_argument('sequence', metavar='N', type=int, nargs='+',
                       help='terms of the sequence')
   parser.add_argument('--ui',
@@ -27,6 +29,8 @@ def ParseSeqseeArguments():
                       help='In GUI mode, height of the ws canvas.')
   parser.add_argument('--gui_canvas_width', default=800, type=int,
                       help='In GUI mode, width of the ws canvas.')
+  parser.add_argument('--gui_show_ltm', action='store_true',
+                      help='Whether to show the LTM.')
 
   # Parse
   args = parser.parse_args()
