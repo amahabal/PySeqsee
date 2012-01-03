@@ -1,0 +1,172 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Codelets &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Developer Documentation" href="developer_index.html" />
+    <link rel="next" title="Controller" href="controller.html" />
+    <link rel="prev" title="Coderack" href="coderack.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="controller.html" title="Controller"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="coderack.html" title="Coderack"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-farg.codelet">
+<span id="codelets"></span><h1>Codelets<a class="headerlink" href="#module-farg.codelet" title="Permalink to this headline">¶</a></h1>
+<p>Base classes for Codelet families and for codelet.</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Keep eyes open for freshness issues; these have not been ported from Perl.</p>
+</div>
+<dl class="class">
+<dt id="farg.codelet.Codelet">
+<em class="property">class </em><tt class="descclassname">farg.codelet.</tt><tt class="descname">Codelet</tt><big>(</big><em>family</em>, <em>controller</em>, <em>urgency</em>, <em>**args</em><big>)</big><a class="reference internal" href="../_modules/farg/codelet.html#Codelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.codelet.Codelet" title="Permalink to this definition">¶</a></dt>
+<dd><p>A codelet is a unit of action in Seqsee. A codelet belongs to a codelet family which
+defines what it does. The codelet has an urgency that controls how likely the codelet
+is to run (based on the urgency of other codelets waiting to run), and it has a
+dictionary of arguments that will be used when running the codelet (if ever).</p>
+<p>If extra arguments are passed while constructing the codelet, the Run() method of the
+codelet family must be capable of handling these.</p>
+<p>There are two ways of constructing. The first creates the codelet but does not yet
+place it on the coderack:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The second method is to call AddCodelet on the controller:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt id="farg.codelet.Codelet.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/codelet.html#Codelet.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.codelet.Codelet.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.codelet.CodeletFamily">
+<em class="property">class </em><tt class="descclassname">farg.codelet.</tt><tt class="descname">CodeletFamily</tt><a class="reference internal" href="../_modules/farg/codelet.html#CodeletFamily"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.codelet.CodeletFamily" title="Permalink to this definition">¶</a></dt>
+<dd><p>A codelet family is a class that defines what happens when you run a codelet of that
+family.</p>
+<p>Codelet family names typically start with CF.</p>
+<p>A codelet family subclasses this class and looks like this:</p>
+<div class="highlight-python"><pre>class CF_Foo(CodeletFamily):
+  "Documentation describes what it does, what codelets it may create, what things
+   it may cause to focus on, and any subspace it may be a part of.
+  "
+  
+  @classmethod
+  def Run(self, controller, other_arg1, other_arg2):
+    "Run may take extra arguments (such as other_arg1 above). The extra arguments
+     will be passed by name only. These are set in the constructor of the codelet.
+    "
+    DoSomething()</pre>
+</div>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="coderack.html"
+                        title="previous chapter">Coderack</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="controller.html"
+                        title="next chapter">Controller</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/developer/codelets.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="controller.html" title="Controller"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="coderack.html" title="Coderack"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

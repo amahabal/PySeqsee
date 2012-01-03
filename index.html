@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Seqsee: A Cognitive Architecture for High-level Perception &mdash; PySeqsee 0.1 documentation</title>
+    <title>PySeqsee: A Cognitive Architecture for High-level Perception &mdash; PySeqsee 0.1 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -26,7 +26,7 @@
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="#" />
-    <link rel="next" title="Introduction" href="intro.html" /> 
+    <link rel="next" title="A brief motivation and overview of PySeqsee" href="overview/overview_index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -39,7 +39,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="intro.html" title="Introduction"
+          <a href="overview/overview_index.html" title="A brief motivation and overview of PySeqsee"
              accesskey="N">next</a> |</li>
         <li><a href="#">PySeqsee 0.1 documentation</a> &raquo;</li> 
       </ul>
@@ -50,44 +50,56 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="seqsee-a-cognitive-architecture-for-high-level-perception">
-<h1>Seqsee: A Cognitive Architecture for High-level Perception<a class="headerlink" href="#seqsee-a-cognitive-architecture-for-high-level-perception" title="Permalink to this headline">¶</a></h1>
-<p>Contents:</p>
+  <div class="section" id="pyseqsee-a-cognitive-architecture-for-high-level-perception">
+<h1>PySeqsee: A Cognitive Architecture for High-level Perception<a class="headerlink" href="#pyseqsee-a-cognitive-architecture-for-high-level-perception" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p>Under development.</p>
+<p>PySeqsee is a relatively new project. It is a Python reimplementation of
+Seqsee, a Perl program whose goal is to understand integer sequences
+in a human-like way.</p>
+<p class="last">The reimplementation is progressing nicely, and the reimplementation has
+made it possible to heavily refactor to allow the use of the architecture in
+other domains. At this stage, though, this is extremely alpha software with a
+single developer (if you wish to change that, help is greatly appreciated:
+drop me a line at amahabal [at] gmail).</p>
+</div>
+<div class="section" id="contents">
+<h2>Contents:<a class="headerlink" href="#contents" title="Permalink to this headline">¶</a></h2>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="intro.html">Introduction</a></li>
-<li class="toctree-l1"><a class="reference internal" href="design.html">Design</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="design/subspaces.html">Subspaces</a></li>
-<li class="toctree-l2"><a class="reference internal" href="design/codelets.html">Codelets</a></li>
-<li class="toctree-l2"><a class="reference internal" href="design/controller.html">Controller</a></li>
-<li class="toctree-l2"><a class="reference internal" href="design/exceptions.html">Exceptions</a></li>
-<li class="toctree-l2"><a class="reference internal" href="design/categories.html">Categories</a></li>
-<li class="toctree-l2"><a class="reference internal" href="design/categories.html#module-apps.seqsee.categories">Categories in Seqsee</a></li>
-<li class="toctree-l2"><a class="reference internal" href="design/ui.html">The Graphic User Interface</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/coderack.html">Coderack</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/stream.html">Stream of Thought</a></li>
-<li class="toctree-l2"><a class="reference internal" href="components/ltm.html">Long-term Memory</a></li>
+<li class="toctree-l1"><a class="reference internal" href="overview/overview_index.html">A brief motivation and overview of PySeqsee</a></li>
+<li class="toctree-l1"><a class="reference internal" href="developer/developer_index.html">Developer Documentation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="developer/coderack.html">Coderack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/codelets.html">Codelets</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/controller.html">Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/stream.html">Stream of Thought</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/ltm.html">Long-term Memory</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/subspaces.html">Subspaces</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/exceptions.html">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/categories.html">Categories</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/categories.html#module-apps.seqsee.categories">Categories in Seqsee</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developer/ui.html">The Graphic User Interface</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="sample_app.html">Sample App</a></li>
-<li class="toctree-l1"><a class="reference internal" href="seqsee/index.html">The Seqsee App</a><ul>
+<li class="toctree-l1"><a class="reference internal" href="seqsee/seqsee_index.html">The Flagship App: Seqsee</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="seqsee/objects.html">Elements and Groups in Seqsee</a></li>
 <li class="toctree-l2"><a class="reference internal" href="seqsee/relations.html">Relations and Mappings</a></li>
 <li class="toctree-l2"><a class="reference internal" href="seqsee/workspace.html">Workspace</a></li>
 <li class="toctree-l2"><a class="reference internal" href="seqsee/utility_functions.html">Utility Functions</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="todo.html">ToDos collected from documentation and code:</a></li>
 </ul>
 </div>
 </div>
 <div class="section" id="indices-and-tables">
-<h1>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h1>
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
 <li><a class="reference internal" href="genindex.html"><em>Index</em></a></li>
 <li><a class="reference internal" href="py-modindex.html"><em>Module Index</em></a></li>
 <li><a class="reference internal" href="search.html"><em>Search Page</em></a></li>
 </ul>
+</div>
 </div>
 
 
@@ -98,15 +110,18 @@
         <div class="sphinxsidebarwrapper">
   <h3><a href="#">Table Of Contents</a></h3>
   <ul>
-<li><a class="reference internal" href="#">Seqsee: A Cognitive Architecture for High-level Perception</a><ul>
+<li><a class="reference internal" href="#">PySeqsee: A Cognitive Architecture for High-level Perception</a><ul>
+<li><a class="reference internal" href="#contents">Contents:</a><ul>
 </ul>
 </li>
 <li><a class="reference internal" href="#indices-and-tables">Indices and tables</a></li>
 </ul>
+</li>
+</ul>
 
   <h4>Next topic</h4>
-  <p class="topless"><a href="intro.html"
-                        title="next chapter">Introduction</a></p>
+  <p class="topless"><a href="overview/overview_index.html"
+                        title="next chapter">A brief motivation and overview of PySeqsee</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="_sources/index.txt"
@@ -139,7 +154,7 @@
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="intro.html" title="Introduction"
+          <a href="overview/overview_index.html" title="A brief motivation and overview of PySeqsee"
              >next</a> |</li>
         <li><a href="#">PySeqsee 0.1 documentation</a> &raquo;</li> 
       </ul>

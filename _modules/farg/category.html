@@ -49,10 +49,113 @@
           <div class="body">
             
   <h1>Source code for farg.category</h1><div class="highlight"><pre>
-<span class="sd">&quot;&quot;&quot;Base class for a category.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Classes to deal with categories and their instances, including the base class for</span>
+<span class="sd">categories.</span>
 
-<div class="viewcode-block" id="Category"><a class="viewcode-back" href="../../design/categories.html#farg.category.Category">[docs]</a><span class="k">class</span> <span class="nc">Category</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-  <span class="k">pass</span></div>
+<span class="sd">An example will help describe all that happens here. We will use the category &#39;Ascending&#39;</span>
+<span class="sd">from Seqsee. Instances of this category are objects such as &#39;(1 2 3)&#39; and &#39;(7 8 9 10)&#39;.</span>
+<span class="sd">Objects need to have CategorizableMixin in their class hierarchy: it provides methods to</span>
+<span class="sd">store the discovered categories and their bindings.</span>
+
+<span class="sd">A category is a class (deriving from Category).</span>
+
+<span class="sd">Adding a category to an instance::</span>
+
+<span class="sd">  bindings = item.DescribeAs(category)</span>
+
+<span class="sd">The following also returns a binding, but does not store the membership information::</span>
+
+<span class="sd">  bindings = category.IsInstance(item)</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">farg.exceptions</span> <span class="kn">import</span> <span class="n">FargError</span>
+
+<div class="viewcode-block" id="Binding"><a class="viewcode-back" href="../../developer/categories.html#farg.category.Binding">[docs]</a><span class="k">class</span> <span class="nc">Binding</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Specification of how an instance is a member of some category.</span>
+<span class="sd">  </span>
+<span class="sd">  .. Note::</span>
+<span class="sd">  </span>
+<span class="sd">    In the Perl version, the bindings had special slots for squinting, position, metotype</span>
+<span class="sd">    etc. Here, all are part of the same hash, along with &quot;regular&quot; attributes such as length.</span>
+<span class="sd">  </span>
+<span class="sd">    This also means that the caller of the constructor needs to do all the work, unlike in</span>
+<span class="sd">    Perl, where some bits were calculated by the constructor. </span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">bindings</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">bindings</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">bindings</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Binding.GetBindingsForAttribute"><a class="viewcode-back" href="../../developer/categories.html#farg.category.Binding.GetBindingsForAttribute">[docs]</a>  <span class="k">def</span> <span class="nf">GetBindingsForAttribute</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attribute_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get the binding of a single attribute.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">bindings</span><span class="p">[</span><span class="n">attribute_name</span><span class="p">]</span>
+</div></div>
+<div class="viewcode-block" id="CategorizableMixin"><a class="viewcode-back" href="../../developer/categories.html#farg.category.CategorizableMixin">[docs]</a><span class="k">class</span> <span class="nc">CategorizableMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class for things which can belong to categories.&quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">categories</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="CategorizableMixin.AddCategory"><a class="viewcode-back" href="../../developer/categories.html#farg.category.CategorizableMixin.AddCategory">[docs]</a>  <span class="k">def</span> <span class="nf">AddCategory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="n">binding</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add a category (with the specified binding) to the object.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="n">binding</span>
+</div>
+<div class="viewcode-block" id="CategorizableMixin.RemoveCategory"><a class="viewcode-back" href="../../developer/categories.html#farg.category.CategorizableMixin.RemoveCategory">[docs]</a>  <span class="k">def</span> <span class="nf">RemoveCategory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Removes the category: the item will not (currently) be considered a member of that</span>
+<span class="sd">       category.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="CategorizableMixin.GetBindingsForCategory"><a class="viewcode-back" href="../../developer/categories.html#farg.category.CategorizableMixin.GetBindingsForCategory">[docs]</a>  <span class="k">def</span> <span class="nf">GetBindingsForCategory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets bindings. If not an instance of category, raises an exception.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span>
+</div>
+<div class="viewcode-block" id="CategorizableMixin.IsKnownAsInstanceOf"><a class="viewcode-back" href="../../developer/categories.html#farg.category.CategorizableMixin.IsKnownAsInstanceOf">[docs]</a>  <span class="k">def</span> <span class="nf">IsKnownAsInstanceOf</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;True if known to be an instance of category.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="CategorizableMixin.DescribeAs"><a class="viewcode-back" href="../../developer/categories.html#farg.category.CategorizableMixin.DescribeAs">[docs]</a>  <span class="k">def</span> <span class="nf">DescribeAs</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Describes item as instance of category, and remembers the binding if one is found.</span>
+<span class="sd">    </span>
+<span class="sd">    Returns the binding.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">has_key</span><span class="p">(</span><span class="n">category</span><span class="p">):</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span>
+    <span class="n">binding</span> <span class="o">=</span> <span class="n">category</span><span class="o">.</span><span class="n">IsInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">binding</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="n">binding</span>
+      <span class="k">return</span> <span class="n">binding</span>
+    <span class="k">return</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="CategorizableMixin.GetCommonCategoriesSet"><a class="viewcode-back" href="../../developer/categories.html#farg.category.CategorizableMixin.GetCommonCategoriesSet">[docs]</a>  <span class="k">def</span> <span class="nf">GetCommonCategoriesSet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a list of discovered categories common to this and the other categorizable.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="n">other</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+</div></div>
+<div class="viewcode-block" id="Category"><a class="viewcode-back" href="../../developer/categories.html#farg.category.Category">[docs]</a><span class="k">class</span> <span class="nc">Category</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;The base class of any category in the FARG system.</span>
+<span class="sd">  </span>
+<span class="sd">  Any derivative class must define the following class methods:</span>
+<span class="sd">  </span>
+<span class="sd">  * IsInstance (which would return a binding),</span>
+<span class="sd">  * FindMapping (given two categorizables, returns a mapping between the two)</span>
+<span class="sd">  * ApplyMapping (given a mapping and a categorizable, returns a new item). </span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Category.IsInstance"><a class="viewcode-back" href="../../developer/categories.html#farg.category.Category.IsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Is object an instance of this category?</span>
+<span class="sd">    </span>
+<span class="sd">    If it is not, `None` is returned. If it is, a binding object is returned.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;IsInstance makes no sense on base category.&quot;</span><span class="p">)</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Category.FindMapping"><a class="viewcode-back" href="../../developer/categories.html#farg.category.Category.FindMapping">[docs]</a>  <span class="k">def</span> <span class="nf">FindMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">categorizable1</span><span class="p">,</span> <span class="n">categorizable2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Finds a mapping between two objects based on a particular category.&quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;IsInstance makes no sense on base category.&quot;</span><span class="p">)</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Category.ApplyMapping"><a class="viewcode-back" href="../../developer/categories.html#farg.category.Category.ApplyMapping">[docs]</a>  <span class="k">def</span> <span class="nf">ApplyMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">categorizable</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Apply a mapping to a categorizable to obtain a different categorizable.&quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;IsInstance makes no sense on base category.&quot;</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>

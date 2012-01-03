@@ -51,13 +51,99 @@
   <h1>Source code for apps.seqsee.workspace</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;Workspace. Modeled after the workspace in the Perl version.</span>
 
-<span class="sd">.. warning:: No attempt to optimize is being made. Later, with profiling, we can speed things up.</span>
+<span class="sd">.. warning:: No attempt to optimize is being made. Later, with profiling, we can speed</span>
+<span class="sd">       things up.</span>
+
+<span class="sd">  Specifically, groups are being kept in a set, supergroups-related bookkeeping is not being</span>
+<span class="sd">  maintained, and so forth. If profiling reveals these to be issues, these can later be</span>
+<span class="sd">  optimized.</span>
 <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">apps.seqsee.sobject</span> <span class="kn">import</span> <span class="n">SAnchored</span><span class="p">,</span> <span class="n">SElement</span><span class="p">,</span> <span class="n">SGroup</span><span class="p">,</span> <span class="n">SObject</span>
+<span class="kn">from</span> <span class="nn">apps.seqsee.util</span> <span class="kn">import</span> <span class="n">LessThan</span><span class="p">,</span> <span class="n">LessThanEq</span><span class="p">,</span> <span class="n">GreaterThan</span><span class="p">,</span> <span class="n">GreaterThanEq</span><span class="p">,</span> <span class="n">Exactly</span><span class="p">,</span> \
+  <span class="n">WeightedChoice</span>
+<span class="kn">from</span> <span class="nn">farg.exceptions</span> <span class="kn">import</span> <span class="n">FargError</span><span class="p">,</span> <span class="n">ConflictingGroupException</span>
 
 <div class="viewcode-block" id="Workspace"><a class="viewcode-back" href="../../../seqsee/workspace.html#apps.seqsee.workspace.Workspace">[docs]</a><span class="k">class</span> <span class="nc">Workspace</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c">#: All elements. Each is a :class:`~apps.seqsee.sobject.SAnchored` object.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">elements</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="p">[]</span></div>
+    <span class="c">#: Number of elements.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">num_elements</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c">#: Groups (excluding single element groups).</span>
+    <span class="c">#: Each is a :class:`~apps.seqsee.sobject.SAnchored` object.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">groups</span> <span class="o">=</span> <span class="nb">set</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Workspace.InsertElement"><a class="viewcode-back" href="../../../seqsee/workspace.html#apps.seqsee.workspace.Workspace.InsertElement">[docs]</a>  <span class="k">def</span> <span class="nf">InsertElement</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">element</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Insert an element beyond the last element.&quot;&quot;&quot;</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="n">SElement</span><span class="p">)</span>
+    <span class="n">anchored</span> <span class="o">=</span> <span class="n">SAnchored</span><span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="p">[],</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_elements</span><span class="p">,</span>
+                         <span class="bp">self</span><span class="o">.</span><span class="n">num_elements</span><span class="p">,</span> <span class="n">is_sequence_element</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">num_elements</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">anchored</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Workspace.InsertElements"><a class="viewcode-back" href="../../../seqsee/workspace.html#apps.seqsee.workspace.Workspace.InsertElements">[docs]</a>  <span class="k">def</span> <span class="nf">InsertElements</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">integers</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Utility for adding lots of integers as elements.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">integers</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">InsertElement</span><span class="p">(</span><span class="n">SElement</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Workspace.InsertGroup"><a class="viewcode-back" href="../../../seqsee/workspace.html#apps.seqsee.workspace.Workspace.InsertGroup">[docs]</a>  <span class="k">def</span> <span class="nf">InsertGroup</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Inserts a group into the workspace. It must not conflict with an existing group, else</span>
+<span class="sd">       a ConflictingGroupException is raised.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">conflicting_groups</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetConflictingGroups</span><span class="p">(</span><span class="n">group</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">conflicting_groups</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="n">ConflictingGroupException</span><span class="p">(</span><span class="n">conflicting_groups</span><span class="o">=</span><span class="n">conflicting_groups</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Workspace.GetGroupsWithSpan"><a class="viewcode-back" href="../../../seqsee/workspace.html#apps.seqsee.workspace.Workspace.GetGroupsWithSpan">[docs]</a>  <span class="k">def</span> <span class="nf">GetGroupsWithSpan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left_fn</span><span class="p">,</span> <span class="n">right_fn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get all groups which match the constraints set by the predicate functions for each</span>
+<span class="sd">       end.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c"># TODO(#33 --- Dec 28, 2011): Rename to GetObjectsWithSpan.</span>
+    <span class="k">for</span> <span class="n">gp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">left_fn</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">start_pos</span><span class="p">)</span> <span class="ow">and</span> <span class="n">right_fn</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">end_pos</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">gp</span>
+    <span class="k">for</span> <span class="n">gp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">left_fn</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">start_pos</span><span class="p">)</span> <span class="ow">and</span> <span class="n">right_fn</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">end_pos</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">gp</span>
+</div>
+<div class="viewcode-block" id="Workspace.GetConflictingGroups"><a class="viewcode-back" href="../../../seqsee/workspace.html#apps.seqsee.workspace.Workspace.GetConflictingGroups">[docs]</a>  <span class="k">def</span> <span class="nf">GetConflictingGroups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gp</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get a list of groups conflicting with given group.</span>
+<span class="sd">    </span>
+<span class="sd">    Groups g1 and g2 conflict if one group is strictly subsumed by the other and yet is</span>
+<span class="sd">    not an element of the other. In other words, set(g1.items) overlaps set(g2.items)</span>
+<span class="sd">    </span>
+<span class="sd">    .. Note:: This can be sped up if I am keeping track of supergroups.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">gp</span><span class="o">.</span><span class="n">is_sequence_element</span><span class="p">:</span> <span class="k">return</span>
+    <span class="k">if</span> <span class="n">gp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span> <span class="k">return</span>
+    <span class="n">gp_items</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">other_group</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+      <span class="n">other_gp_items</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="n">other_group</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">gp_items</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="n">other_gp_items</span><span class="p">)</span> <span class="ow">or</span> <span class="n">gp_items</span><span class="o">.</span><span class="n">issuperset</span><span class="p">(</span><span class="n">other_gp_items</span><span class="p">):</span>
+        <span class="k">yield</span> <span class="n">other_group</span>
+</div>
+<div class="viewcode-block" id="Workspace.GetSuperGroups"><a class="viewcode-back" href="../../../seqsee/workspace.html#apps.seqsee.workspace.Workspace.GetSuperGroups">[docs]</a>  <span class="k">def</span> <span class="nf">GetSuperGroups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">anchored</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns those group that contain the given anchored as a direct element.&quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">gp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">anchored</span> <span class="ow">in</span> <span class="n">gp</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="n">gp</span>
+</div>
+<div class="viewcode-block" id="Workspace.ChooseItemToFocusOn"><a class="viewcode-back" href="../../../seqsee/workspace.html#apps.seqsee.workspace.Workspace.ChooseItemToFocusOn">[docs]</a>  <span class="k">def</span> <span class="nf">ChooseItemToFocusOn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Choose an item from the WS to focus on.</span>
+<span class="sd">    </span>
+<span class="sd">    Will currently be elements or groups.&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">ThingsToChooseFrom</span><span class="p">(</span><span class="n">ws</span><span class="p">):</span>
+      <span class="sd">&quot;&quot;&quot;Yields two-tuples of things to choose from, the second being weight.&quot;&quot;&quot;</span>
+      <span class="c"># TODO(#34 --- Dec 28, 2011): Need notion of strength. Will bias these weights.</span>
+      <span class="k">for</span> <span class="n">element</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="p">(</span><span class="n">element</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+      <span class="k">for</span> <span class="n">gp</span> <span class="ow">in</span> <span class="n">ws</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span>
+        <span class="k">yield</span> <span class="p">(</span><span class="n">gp</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">WeightedChoice</span><span class="p">(</span><span class="n">ThingsToChooseFrom</span><span class="p">(</span><span class="bp">self</span><span class="p">))</span></div></div>
 </pre></div>
 
           </div>

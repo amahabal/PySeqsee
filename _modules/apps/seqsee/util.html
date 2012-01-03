@@ -52,10 +52,13 @@
 <span class="sd">&quot;&quot;&quot;Utility functions for Seqsee.</span>
 
 <span class="sd">These include:</span>
+
 <span class="sd">* Comparator functions *LessThan*, *LessThanEq*, *GreaterThan*, *GreaterThanEq*, *Exactly*, each of</span>
 <span class="sd">  which takes a single argument and returns a one-argument function.</span>
+<span class="sd">* Toss(x), which returns True with probability x.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">import</span> <span class="nn">random</span>
 
 <div class="viewcode-block" id="LessThan"><a class="viewcode-back" href="../../../seqsee/utility_functions.html#apps.seqsee.util.LessThan">[docs]</a><span class="k">def</span> <span class="nf">LessThan</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
   <span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="n">y</span> <span class="o">&lt;</span> <span class="n">x</span>
@@ -75,7 +78,54 @@
 </div>
 <div class="viewcode-block" id="Exactly"><a class="viewcode-back" href="../../../seqsee/utility_functions.html#apps.seqsee.util.Exactly">[docs]</a><span class="k">def</span> <span class="nf">Exactly</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
   <span class="k">def</span> <span class="nf">fn</span><span class="p">(</span><span class="n">y</span><span class="p">):</span> <span class="k">return</span> <span class="n">y</span> <span class="o">==</span> <span class="n">x</span>
-  <span class="k">return</span> <span class="n">fn</span></div>
+  <span class="k">return</span> <span class="n">fn</span>
+</div>
+<div class="viewcode-block" id="Toss"><a class="viewcode-back" href="../../../seqsee/utility_functions.html#apps.seqsee.util.Toss">[docs]</a><span class="k">def</span> <span class="nf">Toss</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;x is a number between 0 and 1. Returns true with probability x.&quot;&quot;&quot;</span>
+  <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">x</span>
+
+</div>
+<div class="viewcode-block" id="ChooseAboutN"><a class="viewcode-back" href="../../../seqsee/utility_functions.html#apps.seqsee.util.ChooseAboutN">[docs]</a><span class="k">def</span> <span class="nf">ChooseAboutN</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Choose in a way that the expected number of choices is n.</span>
+<span class="sd">  </span>
+<span class="sd">  Choices is an iterable of 2-tuples, where the second value is the weight.</span>
+<span class="sd">  </span>
+<span class="sd">  An example to show how it works: let choices contain 5 things with weights 10, 20, 30</span>
+<span class="sd">  40, and 50 (thus summing to 150), and let n=3. Then we will keep the first item in the</span>
+<span class="sd">  output with probability 3 * 10/150 (i.e., 20%).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="n">choices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>  <span class="c"># Needed since we iterate twice over the iterable.</span>
+  <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">)</span>
+  <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">choices</span> <span class="k">if</span> <span class="n">Toss</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span><span class="p">)]</span>
+</div>
+<div class="viewcode-block" id="WeightedChoice"><a class="viewcode-back" href="../../../seqsee/utility_functions.html#apps.seqsee.util.WeightedChoice">[docs]</a><span class="k">def</span> <span class="nf">WeightedChoice</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Choices is an iterable of 2-tuples, where the second value is the weight. Chooses one.&quot;&quot;&quot;</span>
+  <span class="n">choices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>  <span class="c"># Needed since we iterate twice over the iterable.</span>
+  <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">)</span>
+  <span class="n">r</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+  <span class="n">upto</span> <span class="o">=</span> <span class="mi">0</span>
+  <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">upto</span> <span class="o">+</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="n">r</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">c</span>
+    <span class="n">upto</span> <span class="o">+=</span> <span class="n">w</span>
+  <span class="k">assert</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;Shouldn&#39;t get here&quot;</span>
+</div>
+<div class="viewcode-block" id="WeightedShuffle"><a class="viewcode-back" href="../../../seqsee/utility_functions.html#apps.seqsee.util.WeightedShuffle">[docs]</a><span class="k">def</span> <span class="nf">WeightedShuffle</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Choices is an iterable of 2-tuples, where the second value is the weight.</span>
+<span class="sd">  </span>
+<span class="sd">  Returns a shuffle of the first elements based on the weight.&quot;&quot;&quot;</span>
+  <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="k">for</span> <span class="n">c</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">)</span>
+  <span class="k">while</span> <span class="n">total</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
+    <span class="n">upto</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">ch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
+      <span class="n">c</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">ch</span>
+      <span class="k">if</span> <span class="n">upto</span> <span class="o">+</span> <span class="n">w</span> <span class="o">&gt;</span> <span class="n">r</span><span class="p">:</span>
+        <span class="n">total</span> <span class="o">-=</span> <span class="n">w</span>
+        <span class="n">choices</span> <span class="o">=</span> <span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">choices</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
+        <span class="k">yield</span> <span class="n">c</span>
+        <span class="k">continue</span>
+      <span class="n">upto</span> <span class="o">+=</span> <span class="n">w</span></div>
 </pre></div>
 
           </div>

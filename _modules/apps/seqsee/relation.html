@@ -51,7 +51,10 @@
   <h1>Source code for apps.seqsee.relation</h1><div class="highlight"><pre>
 <span class="sd">&quot;&quot;&quot;A relation is a specific instance of a mapping.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Relation"><a class="viewcode-back" href="../../../seqsee/relations.html#apps.seqsee.relation.Relation">[docs]</a><span class="k">class</span> <span class="nc">Relation</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<span class="kn">from</span> <span class="nn">farg.focusable_mixin</span> <span class="kn">import</span> <span class="n">FocusableMixin</span>
+<span class="kn">from</span> <span class="nn">farg.codelet</span> <span class="kn">import</span> <span class="n">Codelet</span>
+
+<div class="viewcode-block" id="Relation"><a class="viewcode-back" href="../../../seqsee/relations.html#apps.seqsee.relation.Relation">[docs]</a><span class="k">class</span> <span class="nc">Relation</span><span class="p">(</span><span class="n">FocusableMixin</span><span class="p">):</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
     <span class="c">#: The object on the left.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">first</span>
@@ -60,6 +63,9 @@
     <span class="c">#: The mapping to transform the left object to the right object.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span> <span class="o">=</span> <span class="n">mapping</span>
 
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">--&gt;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">)</span>
+
 <div class="viewcode-block" id="Relation.Ends"><a class="viewcode-back" href="../../../seqsee/relations.html#apps.seqsee.relation.Relation.Ends">[docs]</a>  <span class="k">def</span> <span class="nf">Ends</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns a 2-tuple of the two ends.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
@@ -67,6 +73,18 @@
 <div class="viewcode-block" id="Relation.AreEndsContiguous"><a class="viewcode-back" href="../../../seqsee/relations.html#apps.seqsee.relation.Relation.AreEndsContiguous">[docs]</a>  <span class="k">def</span> <span class="nf">AreEndsContiguous</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Are the two ends right next to each other (i.e., true if no hole).&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">end_pos</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">start_pos</span>
+</div>
+<div class="viewcode-block" id="Relation.GetFringe"><a class="viewcode-back" href="../../../seqsee/relations.html#apps.seqsee.relation.Relation.GetFringe">[docs]</a>  <span class="k">def</span> <span class="nf">GetFringe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+    <span class="n">mapping_node</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">mapping_node</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span>
+</div>
+<div class="viewcode-block" id="Relation.GetAffordances"><a class="viewcode-back" href="../../../seqsee/relations.html#apps.seqsee.relation.Relation.GetAffordances">[docs]</a>  <span class="k">def</span> <span class="nf">GetAffordances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+    <span class="c"># TODO(# --- Jan 3, 2012): Too eager, tone this down later.</span>
+    <span class="kn">from</span> <span class="nn">apps.seqsee.codelet_families.all</span> <span class="kn">import</span> <span class="n">CF_GroupFromRelation</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">CF_GroupFromRelation</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="bp">self</span><span class="p">),)</span>
+</div>
+<div class="viewcode-block" id="Relation.GetSimilarityAffordances"><a class="viewcode-back" href="../../../seqsee/relations.html#apps.seqsee.relation.Relation.GetSimilarityAffordances">[docs]</a>  <span class="k">def</span> <span class="nf">GetSimilarityAffordances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">focusable</span><span class="p">,</span> <span class="n">other_fringe</span><span class="p">,</span> <span class="n">my_fringe</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">()</span>
 </pre></div></div></div>
 
           </div>

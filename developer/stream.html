@@ -1,0 +1,208 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Stream of Thought &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="Developer Documentation" href="developer_index.html" />
+    <link rel="next" title="Long-term Memory" href="ltm.html" />
+    <link rel="prev" title="Controller" href="controller.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ltm.html" title="Long-term Memory"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="controller.html" title="Controller"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="module-components.stream">
+<span id="stream-of-thought"></span><h1>Stream of Thought<a class="headerlink" href="#module-components.stream" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="components.stream.Stream">
+<em class="property">class </em><tt class="descclassname">components.stream.</tt><tt class="descname">Stream</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/components/stream.html#Stream"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.stream.Stream" title="Permalink to this definition">¶</a></dt>
+<dd><p>Implements the Stream of Thought.</p>
+<p>The main public function here is FocusOn(), called with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">stream</span><span class="o">.</span><span class="n">FocusOn</span><span class="p">(</span><span class="n">focusable</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where focusable must be an instance of the interface FocusableMixin. FocusableMixin
+defines three methods: GetFringe(), GetAffordances(), and GetSimilarityAffordances().</p>
+<p>The net effect of the call to FocusOn is to influence future processing in two ways:</p>
+<blockquote>
+<div><ul class="simple">
+<li>By adding codelets, as described below.</li>
+<li>By modifying the context in which future FocusOn()s work. This is implicit in the
+description of GetSimilarityAffordances() below.</li>
+</ul>
+</div></blockquote>
+<p>A blow-by-blow account of what happens:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The fringe of the focusable is obtained via a call to GetFringe().</li>
+<li>If this fringe overlaps a prior stored fringe sufficiently, 
+GetSimilarityAffordances() is called on the prior focusable and can create codelets,
+but not just yet add these to the coderack.</li>
+<li>GetAffordances() may generate more codelets that haven&#8217;t yet been added.</li>
+<li>Of these potential codelets, about 2 are chosen (biased by urgency) for addition to
+the coderack.</li>
+</ul>
+</div></blockquote>
+<dl class="method">
+<dt id="components.stream.Stream.FociCount">
+<tt class="descname">FociCount</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/components/stream.html#Stream.FociCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.stream.Stream.FociCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Counts the number of recent items focused upon.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="components.stream.Stream.FocusOn">
+<tt class="descname">FocusOn</tt><big>(</big><em>focusable</em><big>)</big><a class="reference internal" href="../_modules/components/stream.html#Stream.FocusOn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.stream.Stream.FocusOn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Focus on focusable, and act on a fringe-hit.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="components.stream.Stream.controller">
+<tt class="descname">controller</tt><em class="property"> = None</em><a class="headerlink" href="#components.stream.Stream.controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>Controller for the stream (needed to take fringe-hit based actions)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="components.stream.Stream.foci">
+<tt class="descname">foci</tt><em class="property"> = None</em><a class="headerlink" href="#components.stream.Stream.foci" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maps foci (i.e., things focused upon recently) to strength.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="components.stream.Stream.kDecayRatio">
+<tt class="descname">kDecayRatio</tt><em class="property"> = 0.94999999999999996</em><a class="headerlink" href="#components.stream.Stream.kDecayRatio" title="Permalink to this definition">¶</a></dt>
+<dd><p>The factor by which the strength of a prior episode goes down each time a new episode
+is seen.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="components.stream.Stream.kMaxFocusableCount">
+<tt class="descname">kMaxFocusableCount</tt><em class="property"> = 10</em><a class="headerlink" href="#components.stream.Stream.kMaxFocusableCount" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maximum number of focusables to keep around.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="components.stream.Stream.kMinOverlapToTriggerSimilarity">
+<tt class="descname">kMinOverlapToTriggerSimilarity</tt><em class="property"> = 0.10000000000000001</em><a class="headerlink" href="#components.stream.Stream.kMinOverlapToTriggerSimilarity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum overlap with previous focusable to trigger GetSimilarityAffordances()</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="components.stream.Stream.kRelatedItemThreshold">
+<tt class="descname">kRelatedItemThreshold</tt><em class="property"> = 0.01</em><a class="headerlink" href="#components.stream.Stream.kRelatedItemThreshold" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum level of similarity to consider two episodes as potentially related.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="components.stream.Stream.stored_fringes">
+<tt class="descname">stored_fringes</tt><em class="property"> = None</em><a class="headerlink" href="#components.stream.Stream.stored_fringes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Maps fringe elements to a dict (which is a dict from focus to strength).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="controller.html"
+                        title="previous chapter">Controller</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ltm.html"
+                        title="next chapter">Long-term Memory</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/developer/stream.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="ltm.html" title="Long-term Memory"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="controller.html" title="Controller"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

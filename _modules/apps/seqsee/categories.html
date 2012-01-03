@@ -49,22 +49,160 @@
           <div class="body">
             
   <h1>Source code for apps.seqsee.categories</h1><div class="highlight"><pre>
-<span class="sd">&quot;&quot;&quot;Seqsee-specific categories.&quot;&quot;&quot;</span>
+<span class="sd">&quot;&quot;&quot;Seqsee-specific categories.</span>
 
-<span class="kn">from</span> <span class="nn">farg.category</span> <span class="kn">import</span> <span class="n">Category</span>
+<span class="sd">These will include (not all implemented yet):</span>
 
-<div class="viewcode-block" id="NumericCategoryMixin"><a class="viewcode-back" href="../../../design/categories.html#apps.seqsee.categories.NumericCategoryMixin">[docs]</a><span class="k">class</span> <span class="nc">NumericCategoryMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-  <span class="k">pass</span>
+<span class="sd">* Numeric Categories:</span>
 
+<span class="sd">  * Number</span>
+<span class="sd">  * Prime</span>
+<span class="sd">  * Even and Odd</span>
+<span class="sd">  </span>
+<span class="sd">* Structural Categories:</span>
+
+<span class="sd">  * Ascending</span>
+<span class="sd">  * Descending</span>
+<span class="sd">  * Mountain</span>
+<span class="sd">  * Size2, Size3, etc.</span>
+<span class="sd">  </span>
+<span class="sd">* Mapping Based Categories:</span>
+
+<span class="sd">  * Given a mapping, a category can be defined whose elements are such that successive </span>
+<span class="sd">    elements are associated by this mapping.</span>
+
+<span class="sd">Numeric Categories</span>
+<span class="sd">--------------------</span>
+
+<span class="sd">Members may only be SElements, and membership depends only on the magnitude of the SElement. </span>
+<span class="sd">These derive from NumericCategory, and must define the class method NumericIsInstance.</span>
+
+<span class="sd">Structural Categories</span>
+<span class="sd">-----------------------</span>
+
+<span class="sd">Members are SObjects (may be groups or elements), and membership depends only on the </span>
+<span class="sd">structure. These derive from StructuralCategory, and must define class method </span>
+<span class="sd">StructuralIsInstance.</span>
+
+<span class="sd">Parametrized Categories</span>
+<span class="sd">-------------------------</span>
+
+<span class="sd">This is a category &quot;factory&quot;: subclasses of ParametrizedCategory must define a classmethod</span>
+<span class="sd">Construct that returns a category (i.e., a subclass of Category).</span>
+
+<span class="sd">If FooCategory is a subclass of ParametrizedCategory, we could say::</span>
+
+<span class="sd">  cat1 = FooCategory.Create(x=3)</span>
+<span class="sd">  # cat1 is subclass of Category.</span>
+<span class="sd">  cat2 = FooCategory.Create(x=3)  # Returns the same cached class.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">farg.category</span> <span class="kn">import</span> <span class="n">Binding</span><span class="p">,</span> <span class="n">Category</span>
+<span class="kn">from</span> <span class="nn">apps.seqsee.sobject</span> <span class="kn">import</span> <span class="n">SAnchored</span><span class="p">,</span> <span class="n">SElement</span><span class="p">,</span> <span class="n">SObject</span>
+<span class="kn">from</span> <span class="nn">apps.seqsee.mapping</span> <span class="kn">import</span> <span class="n">NumericMapping</span><span class="p">,</span> <span class="n">StructuralMapping</span>
+<span class="kn">from</span> <span class="nn">apps.seqsee.structure_utils</span> <span class="kn">import</span> <span class="n">StructureDepth</span>
+<span class="kn">from</span> <span class="nn">farg.exceptions</span> <span class="kn">import</span> <span class="n">FargError</span><span class="p">,</span> <span class="n">FargException</span>
+<span class="kn">from</span> <span class="nn">farg.ltm.storable</span> <span class="kn">import</span> <span class="n">LTMStorableMixin</span>
+
+<div class="viewcode-block" id="NumericCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.NumericCategory">[docs]</a><span class="k">class</span> <span class="nc">NumericCategory</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class for categories whose instances are SElements, and membership depends only on </span>
+<span class="sd">     the magnitude.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="NumericCategory.IsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.NumericCategory.IsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">SElement</span><span class="p">):</span>
+      <span class="k">return</span> <span class="bp">None</span>
+    <span class="n">magnitude</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">magnitude</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">NumericIsInstance</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="StructuralCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory">[docs]</a><span class="k">class</span> <span class="nc">StructuralCategory</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class whose membership depends on the structure (e.g., ascending, mountain).&quot;&quot;&quot;</span>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="StructuralCategory.IsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory.IsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">StructuralIsInstance</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">Structure</span><span class="p">())</span>
 </div>
-<div class="viewcode-block" id="Prime"><a class="viewcode-back" href="../../../design/categories.html#apps.seqsee.categories.Prime">[docs]</a><span class="k">class</span> <span class="nc">Prime</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
-  <span class="n">primes_list</span> <span class="o">=</span> <span class="s">&#39;2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()</span>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="StructuralCategory.GetMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory.GetMapping">[docs]</a>  <span class="k">def</span> <span class="nf">GetMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
+    <span class="n">binding1</span> <span class="o">=</span> <span class="n">item1</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">binding1</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+    <span class="n">binding2</span> <span class="o">=</span> <span class="n">item2</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">binding2</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">GetMappingBetweenBindings</span><span class="p">(</span><span class="n">binding1</span><span class="p">,</span> <span class="n">binding2</span><span class="p">)</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="StructuralCategory.GetMappingBetweenBindings"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory.GetMappingBetweenBindings">[docs]</a>  <span class="k">def</span> <span class="nf">GetMappingBetweenBindings</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">binding1</span><span class="p">,</span> <span class="n">binding2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get mapping between a pair of bindings. This should eventually be replaced by a space</span>
+<span class="sd">       (as discussed in the last chapter of the dissertation). For now, I have a simple</span>
+<span class="sd">       mechanism.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">bindings_mapping</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">binding1</span><span class="o">.</span><span class="n">bindings</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+      <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">binding2</span><span class="o">.</span><span class="n">bindings</span><span class="p">:</span>
+        <span class="n">v2</span> <span class="o">=</span> <span class="n">binding2</span><span class="o">.</span><span class="n">bindings</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
+        <span class="n">possible_mapping</span> <span class="o">=</span> <span class="n">GetNaiveMapping</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">possible_mapping</span><span class="p">:</span>
+          <span class="n">bindings_mapping</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">possible_mapping</span>
+    <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="n">bindings_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+      <span class="k">return</span> <span class="n">StructuralMapping</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="n">cls</span><span class="p">,</span> <span class="n">bindings_mapping</span><span class="o">=</span><span class="n">bindings_mapping</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">None</span>
+</div></div>
+<div class="viewcode-block" id="ParametrizedCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.ParametrizedCategory">[docs]</a><span class="k">class</span> <span class="nc">ParametrizedCategory</span><span class="p">(</span><span class="n">LTMStorableMixin</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class for a family of related categories. To create one member of the family, call</span>
+<span class="sd">     Create. If the arguments to Create are novel, &quot;Construct&quot; will be called on the base </span>
+<span class="sd">     class, and it should return the category (i.e., a subclass of Category).</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c"># TODO(# --- Jan 3, 2012): The Create is suspiciously like Create in LTMStorableMixin.</span>
+  <span class="c"># They differ only in the presence of the word &#39;Construct&#39;. Try to unify.</span>
+  <span class="n">memos</span> <span class="o">=</span> <span class="p">{}</span>
+
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="ParametrizedCategory.Create"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.ParametrizedCategory.Create">[docs]</a>  <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
+    <span class="n">key</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">memos</span><span class="p">:</span>
+      <span class="n">new_category</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">Construct</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+      <span class="n">cls</span><span class="o">.</span><span class="n">memos</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_category</span>
+      <span class="k">return</span> <span class="n">new_category</span>
+    <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">memos</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+</div></div>
+<div class="viewcode-block" id="Number"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number">[docs]</a><span class="k">class</span> <span class="nc">Number</span><span class="p">(</span><span class="n">NumericCategory</span><span class="p">):</span>
+<div class="viewcode-block" id="Number.NumericIsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number.NumericIsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">NumericIsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Binding</span><span class="p">()</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Number.GetMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number.GetMapping">[docs]</a>  <span class="k">def</span> <span class="nf">GetMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
+    <span class="n">index1</span><span class="p">,</span> <span class="n">index2</span> <span class="o">=</span> <span class="n">item1</span><span class="o">.</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">item2</span><span class="o">.</span><span class="n">magnitude</span>
+    <span class="n">diff_string</span> <span class="o">=</span> <span class="n">NumericMapping</span><span class="o">.</span><span class="n">DifferenceString</span><span class="p">(</span><span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">diff_string</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">NumericMapping</span><span class="p">(</span><span class="n">diff_string</span><span class="p">,</span> <span class="n">Number</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">None</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Number.ApplyMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number.ApplyMapping">[docs]</a>  <span class="k">def</span> <span class="nf">ApplyMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;same&#39;</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">DeepCopy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;pred&#39;</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;succ&#39;</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="Prime"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Prime">[docs]</a><span class="k">class</span> <span class="nc">Prime</span><span class="p">(</span><span class="n">NumericCategory</span><span class="p">):</span>
+  <span class="n">primes_list</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+      <span class="s">&#39;2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
   <span class="n">largest_prime</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">primes_list</span><span class="p">)</span>
 
-  <span class="nd">@staticmethod</span>
-  <span class="k">def</span> <span class="nf">_IsPrime</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">Prime</span><span class="o">.</span><span class="n">primes_list</span>
-
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Prime.NumericIsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Prime.NumericIsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">NumericIsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">index</span> <span class="o">=</span> <span class="n">Prime</span><span class="o">.</span><span class="n">primes_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
+    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">None</span>
+</div>
   <span class="nd">@staticmethod</span>
   <span class="k">def</span> <span class="nf">_NextPrime</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;=</span> <span class="n">Prime</span><span class="o">.</span><span class="n">largest_prime</span><span class="p">:</span>
@@ -76,7 +214,167 @@
     <span class="k">if</span> <span class="n">val</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
       <span class="k">return</span> <span class="bp">None</span>
     <span class="k">return</span> <span class="n">Prime</span><span class="o">.</span><span class="n">primes_list</span><span class="p">[</span><span class="n">Prime</span><span class="o">.</span><span class="n">primes_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
-</pre></div></div>
+
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Prime.GetMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Prime.GetMapping">[docs]</a>  <span class="k">def</span> <span class="nf">GetMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
+    <span class="n">binding1</span> <span class="o">=</span> <span class="n">item1</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">binding1</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+    <span class="n">binding2</span> <span class="o">=</span> <span class="n">item2</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">binding2</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+
+    <span class="n">index1</span><span class="p">,</span> <span class="n">index2</span> <span class="o">=</span> <span class="p">(</span><span class="n">binding1</span><span class="o">.</span><span class="n">GetBindingsForAttribute</span><span class="p">(</span><span class="s">&#39;index&#39;</span><span class="p">),</span>
+                      <span class="n">binding2</span><span class="o">.</span><span class="n">GetBindingsForAttribute</span><span class="p">(</span><span class="s">&#39;index&#39;</span><span class="p">))</span>
+    <span class="n">diff_string</span> <span class="o">=</span> <span class="n">NumericMapping</span><span class="o">.</span><span class="n">DifferenceString</span><span class="p">(</span><span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">diff_string</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">NumericMapping</span><span class="p">(</span><span class="n">diff_string</span><span class="p">,</span> <span class="n">Prime</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">None</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Prime.ApplyMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Prime.ApplyMapping">[docs]</a>  <span class="k">def</span> <span class="nf">ApplyMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="n">name</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">name</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;same&#39;</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">DeepCopy</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;pred&#39;</span><span class="p">:</span>
+      <span class="n">val</span> <span class="o">=</span> <span class="n">Prime</span><span class="o">.</span><span class="n">_PrevPrime</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;succ&#39;</span><span class="p">:</span>
+      <span class="n">val</span> <span class="o">=</span> <span class="n">Prime</span><span class="o">.</span><span class="n">_NextPrime</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
+        <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+</div></div>
+<div class="viewcode-block" id="Ascending"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending">[docs]</a><span class="k">class</span> <span class="nc">Ascending</span><span class="p">(</span><span class="n">StructuralCategory</span><span class="p">):</span>
+
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Ascending.StructuralIsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending.StructuralIsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">StructuralIsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">structure</span><span class="p">):</span>
+    <span class="n">depth</span> <span class="o">=</span> <span class="n">StructureDepth</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">structure</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="n">structure</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="c"># So depth = 1</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">structure</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="mi">1</span><span class="p">):</span>
+      <span class="k">if</span> <span class="n">v</span> <span class="o">!=</span> <span class="n">structure</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">structure</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
+                   <span class="n">end</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">structure</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
+                   <span class="n">length</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">structure</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">structure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Ascending.Create"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending.Create">[docs]</a>  <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">bindings</span><span class="p">):</span>
+    <span class="n">start</span> <span class="o">=</span> <span class="n">bindings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;start&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">end</span> <span class="o">=</span> <span class="n">bindings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;end&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="n">length</span> <span class="o">=</span> <span class="n">bindings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;length&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">start</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">end</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">length</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;Create called when attributes insufficient to build.&quot;</span><span class="p">)</span>
+      <span class="n">start_mag</span> <span class="o">=</span> <span class="n">end</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">-</span> <span class="n">length</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">+</span> <span class="mi">1</span>
+      <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start_mag</span><span class="p">,</span> <span class="n">end</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">end</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">start</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">length</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;Create called when attributes insufficient to build.&quot;</span><span class="p">)</span>
+      <span class="n">end_mag</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">+</span> <span class="n">length</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">-</span> <span class="mi">1</span>
+      <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">end_mag</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+    <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">end</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="Ascending.AreAttributesSufficientToBuild"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending.AreAttributesSufficientToBuild">[docs]</a>  <span class="k">def</span> <span class="nf">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="s">&#39;start&#39;</span><span class="p">,</span> <span class="s">&#39;end&#39;</span><span class="p">,</span> <span class="s">&#39;length&#39;</span><span class="p">])))</span> <span class="o">&gt;=</span> <span class="mi">2</span>
+</div></div>
+<div class="viewcode-block" id="GetNaiveMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.GetNaiveMapping">[docs]</a><span class="k">def</span> <span class="nf">GetNaiveMapping</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">):</span>
+  <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="n">diff_string</span> <span class="o">=</span> <span class="n">NumericMapping</span><span class="o">.</span><span class="n">DifferenceString</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">diff_string</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">NumericMapping</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">diff_string</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">Number</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">None</span>
+  <span class="n">common_categories</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">GetCommonCategoriesSet</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
+  <span class="k">if</span> <span class="n">common_categories</span><span class="p">:</span>
+    <span class="c"># ... ToDo: Don&#39;t merely use the first category!</span>
+    <span class="n">cat</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">common_categories</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">cat</span><span class="o">.</span><span class="n">GetMapping</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
+  <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">SElement</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="n">SElement</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">GetNaiveMapping</span><span class="p">(</span><span class="n">v1</span><span class="o">.</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">v2</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+  <span class="k">return</span> <span class="bp">None</span>
+
+</div>
+<div class="viewcode-block" id="SizeNCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SizeNCategory">[docs]</a><span class="k">class</span> <span class="nc">SizeNCategory</span><span class="p">(</span><span class="n">ParametrizedCategory</span><span class="p">):</span>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="SizeNCategory.Construct"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SizeNCategory.Construct">[docs]</a>  <span class="k">def</span> <span class="nf">Construct</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;Attempt to create a SizeN category with size=1&quot;</span><span class="p">)</span>
+    <span class="k">class</span> <span class="nc">SizeN</span><span class="p">(</span><span class="n">StructuralCategory</span><span class="p">):</span>
+      <span class="nd">@classmethod</span>
+      <span class="k">def</span> <span class="nf">StructuralIsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">structure</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+          <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span> <span class="o">!=</span> <span class="n">size</span><span class="p">:</span>
+          <span class="k">return</span> <span class="bp">None</span>
+        <span class="n">bindings</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+          <span class="n">bindings</span><span class="p">[</span><span class="s">&#39;pos_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="o">**</span><span class="n">bindings</span><span class="p">)</span>
+
+      <span class="nd">@classmethod</span>
+      <span class="k">def</span> <span class="nf">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+          <span class="k">if</span> <span class="s">&#39;pos_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">False</span>
+        <span class="k">return</span> <span class="bp">True</span>
+
+      <span class="nd">@classmethod</span>
+      <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">bindings</span><span class="p">):</span>
+        <span class="n">structure</span> <span class="o">=</span> <span class="p">[</span><span class="n">bindings</span><span class="p">[</span><span class="s">&#39;pos_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+        <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">SizeN</span>
+</div></div>
+<div class="viewcode-block" id="MappingBasedCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.MappingBasedCategory">[docs]</a><span class="k">class</span> <span class="nc">MappingBasedCategory</span><span class="p">(</span><span class="n">ParametrizedCategory</span><span class="p">):</span>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="MappingBasedCategory.Construct"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.MappingBasedCategory.Construct">[docs]</a>  <span class="k">def</span> <span class="nf">Construct</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
+    <span class="k">class</span> <span class="nc">MBC</span><span class="p">(</span><span class="n">StructuralCategory</span><span class="p">):</span>
+
+      <span class="nd">@classmethod</span>
+      <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">SElement</span><span class="p">):</span>
+          <span class="c"># Probably the wrong thing to do.</span>
+          <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">for</span> <span class="n">item_part</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+          <span class="k">if</span> <span class="ow">not</span> <span class="n">item_part</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">IsDegenerateInstance</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="c"># So all items can be described as members of category...</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">itempart</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="mi">1</span><span class="p">):</span>
+          <span class="k">if</span> <span class="ow">not</span> <span class="n">mapping</span><span class="o">.</span><span class="n">IsPairConsistent</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">itempart</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">IsDegenerateInstance</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="c"># Okay, so valid.</span>
+        <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">length</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">)))</span>
+
+      <span class="nd">@classmethod</span>
+      <span class="k">def</span> <span class="nf">IsDegenerateInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
+          <span class="k">return</span> <span class="bp">None</span>
+        <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">item</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+
+      <span class="nd">@classmethod</span>
+      <span class="k">def</span> <span class="nf">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+        <span class="k">return</span> <span class="s">&#39;start&#39;</span> <span class="ow">in</span> <span class="n">attributes</span> <span class="ow">and</span> <span class="s">&#39;length&#39;</span> <span class="ow">in</span> <span class="n">attributes</span>
+
+      <span class="nd">@classmethod</span>
+      <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">bindings</span><span class="p">):</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">bindings</span><span class="p">[</span><span class="s">&#39;start&#39;</span><span class="p">])]</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">bindings</span><span class="p">[</span><span class="s">&#39;length&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">magnitude</span><span class="p">):</span>
+          <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="n">FargException</span><span class="p">(</span><span class="s">&quot;Unable to create object&quot;</span><span class="p">)</span>
+          <span class="n">next_item</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+          <span class="k">if</span> <span class="ow">not</span> <span class="n">next_item</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="n">FargException</span><span class="p">(</span><span class="s">&quot;Unable to create object&quot;</span><span class="p">)</span>
+          <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">MBC</span></div></div>
+</pre></div>
 
           </div>
         </div>

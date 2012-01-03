@@ -49,13 +49,90 @@
           <div class="body">
             
   <h1>Source code for farg.controller</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../design/controller.html#farg.controller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;The controller of an application sits between the UI layer and the runstate.</span>
+<span class="kn">from</span> <span class="nn">apps.seqsee.util</span> <span class="kn">import</span> <span class="n">Toss</span>
+<span class="kn">from</span> <span class="nn">components.coderack</span> <span class="kn">import</span> <span class="n">Coderack</span><span class="p">,</span> <span class="n">CoderackEmptyException</span>
+<span class="kn">from</span> <span class="nn">components.stream</span> <span class="kn">import</span> <span class="n">Stream</span>
+<span class="kn">from</span> <span class="nn">farg.codelet</span> <span class="kn">import</span> <span class="n">Codelet</span>
+<span class="kn">from</span> <span class="nn">farg.ltm.manager</span> <span class="kn">import</span> <span class="n">LTMManager</span>
+<span class="kn">import</span> <span class="nn">logging</span>
 
-<span class="sd">  The main job of the controller is to implement the `Step()` method, which takes</span>
-<span class="sd">  the next action.</span>
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;The controller of an application (or of a subspace) implements the `Step()` method,</span>
+<span class="sd">     which takes the next action. It marshals the various pieces --- coderack, stream,</span>
+<span class="sd">     workspace, and so forth.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="k">pass</span></div>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_class</span><span class="o">=</span><span class="n">Stream</span><span class="p">,</span> <span class="n">routine_codelets_to_add</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ltm_name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;This class provides a generic controller. Applications will usually subclass this.&quot;&quot;&quot;</span>
+    <span class="c">#: The coderack. Currently, this always has capacity 10.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span> <span class="o">=</span> <span class="n">Coderack</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+    <span class="c">#: The stream.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stream</span> <span class="o">=</span> <span class="n">stream_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="c">#: An iterable of three-tuples that names a family, urgency, and probability of addition.</span>
+    <span class="c">#: At each step, a codelet is added with the said probability, and with this urgency.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="n">routine_codelets_to_add</span>
+    <span class="c">#: Number of steps taken</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">if</span> <span class="n">ltm_name</span><span class="p">:</span>
+      <span class="c">#: The LTM (if any)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">ltm</span> <span class="o">=</span> <span class="n">LTMManager</span><span class="o">.</span><span class="n">GetLTM</span><span class="p">(</span><span class="n">ltm_name</span><span class="p">)</span>
+
+    <span class="c"># Add any routine codelets...</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_AddRoutineCodelets</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">_AddRoutineCodelets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Add routine codelets to the coderack.</span>
+<span class="sd">    </span>
+<span class="sd">       The codelets are added with a certain probability (specified in the third term of the</span>
+<span class="sd">       tuple), but this can be over-ridden with force (or if the coderack is empty).</span>
+
+<span class="sd">       In the Perl version, this was called &#39;background codelets&#39;.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">IsEmpty</span><span class="p">():</span>
+      <span class="n">force</span> <span class="o">=</span> <span class="bp">True</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">routine_codelets_to_add</span><span class="p">:</span>
+      <span class="k">for</span> <span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">probability</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">routine_codelets_to_add</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">force</span> <span class="ow">or</span> <span class="n">Toss</span><span class="p">(</span><span class="n">probability</span><span class="p">):</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">urgency</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Skipped adding routine codelet&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Controller.Step"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller.Step">[docs]</a>  <span class="k">def</span> <span class="nf">Step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Executes the next (stochastically chosen) step in the model.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;============ Started Step #</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">_AddRoutineCodelets</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">IsEmpty</span><span class="p">():</span>
+      <span class="n">codelet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">GetCodelet</span><span class="p">()</span>
+      <span class="c"># TODO(#14 --- Dec 28, 2011): Find a way to pretty-print family names.</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Running codelet of family </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">codelet</span><span class="o">.</span><span class="n">family</span><span class="p">)</span>
+      <span class="n">codelet</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Empty coderack, step is a no-op.&quot;</span><span class="p">)</span>
+
+</div>
+<div class="viewcode-block" id="Controller.RunUptoNSteps"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller.RunUptoNSteps">[docs]</a>  <span class="k">def</span> <span class="nf">RunUptoNSteps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Takes upto N steps. In these, it is possible that an answer is found and an exception</span>
+<span class="sd">       raised.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">n</span> <span class="ow">in</span> <span class="nb">xrange</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">):</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">Step</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Controller.Quit"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller.Quit">[docs]</a>  <span class="k">def</span> <span class="nf">Quit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Gets called when the app is about to quit, in case any cleanup is needed.&quot;&quot;&quot;</span>
+    <span class="n">LTMManager</span><span class="o">.</span><span class="n">SaveAllOpenLTMS</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Controller.AddCodelet"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller.AddCodelet">[docs]</a>  <span class="k">def</span> <span class="nf">AddCodelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="o">**</span><span class="n">arguments</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Adds a codelet to the coderack.&quot;&quot;&quot;</span>
+    <span class="n">codelet</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="o">**</span><span class="n">arguments</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">codelet</span><span class="p">)</span>
+</div>
+  <span class="k">def</span> <span class="nf">DisplayMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mw</span><span class="p">:</span>  <span class="c"># Has the GUI set. O/w, DisplayMessage is a no-op.</span>
+      <span class="kn">import</span> <span class="nn">tkMessageBox</span>
+      <span class="n">tkMessageBox</span><span class="o">.</span><span class="n">showinfo</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

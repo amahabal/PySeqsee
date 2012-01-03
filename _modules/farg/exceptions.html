@@ -49,9 +49,40 @@
           <div class="body">
             
   <h1>Source code for farg.exceptions</h1><div class="highlight"><pre>
-<div class="viewcode-block" id="FargException"><a class="viewcode-back" href="../../design/exceptions.html#farg.exceptions.FargException">[docs]</a><span class="k">class</span> <span class="nc">FargException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="FargError"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.FargError">[docs]</a><span class="k">class</span> <span class="nc">FargError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class for untrappable errors (indicating bugs).&quot;&quot;&quot;</span>
+  <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="FargException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.FargException">[docs]</a><span class="k">class</span> <span class="nc">FargException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Base class for FARG-specific exceptions.&quot;&quot;&quot;</span>
-  <span class="k">pass</span></div>
+  <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="AnswerFoundException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.AnswerFoundException">[docs]</a><span class="k">class</span> <span class="nc">AnswerFoundException</span><span class="p">(</span><span class="n">FargException</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Raised by a subspace when it believes that an answer has been found.&quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answer</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">answer</span> <span class="o">=</span> <span class="n">answer</span>
+</div>
+<div class="viewcode-block" id="NoAnswerException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.NoAnswerException">[docs]</a><span class="k">class</span> <span class="nc">NoAnswerException</span><span class="p">(</span><span class="n">FargException</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Raised by a subspace when it is realized that no answer is forthcoming.&quot;&quot;&quot;</span>
+  <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="ConflictingGroupException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.ConflictingGroupException">[docs]</a><span class="k">class</span> <span class="nc">ConflictingGroupException</span><span class="p">(</span><span class="n">FargException</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;If an attempt is made to add a group to the workspace that conflicts some existing</span>
+<span class="sd">     group(s), this exception is raised.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conflicting_groups</span><span class="p">):</span>
+    <span class="c">#: The groups that conflict.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">conflicting_groups</span> <span class="o">=</span> <span class="n">conflicting_groups</span>
+</div>
+<div class="viewcode-block" id="YesNoException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.YesNoException">[docs]</a><span class="k">class</span> <span class="nc">YesNoException</span><span class="p">(</span><span class="n">FargException</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;An exception that requests the UI to ask a yes/no question.</span>
+<span class="sd">  </span>
+<span class="sd">  When the user answers, a callback is made to the controller with this info.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question_string</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">question_string</span> <span class="o">=</span> <span class="n">question_string</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span></div>
 </pre></div>
 
           </div>
