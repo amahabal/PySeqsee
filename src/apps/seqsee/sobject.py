@@ -64,6 +64,20 @@ class SObject(CategorizableMixin, LTMMakeStorableMixin):
     structure = self.Structure()
     return (structure, str(structure))
 
+  def GetFringeFromLTM(self, controller):
+    """Fringe for the element (now based off the LTM)."""
+    # TODO(# --- Dec 30, 2011): Need codelets to add LTM edges where they are missing.
+    my_node = controller.ltm.GetNodeForContent(self)
+    my_node.Spike(50, controller.steps_taken)
+    outgoing_related_edges = my_node.GetOutgoingEdgesOfTypeRelated()
+    fringe = dict()
+    fringe[my_node] = 1.0
+    for edge in outgoing_related_edges:
+      # TODO(# --- Dec 30, 2011): Edges should have strength, and it should influence this.
+      fringe[edge.to_node] = 0.8
+    return fringe
+
+
 class SGroup(SObject):
   """A subclass of SObject representing things with an internal structure."""
   def __init__(self, underlying_mapping=None, items=[]):
@@ -89,11 +103,11 @@ class SGroup(SObject):
 
   def GetFringe(self, controller):
     """Fringe for the group."""
-    # TODO(#26 --- Dec 28, 2011): Should be largely based off the LTM. Also fix Selement.
     # TODO(#27 --- Dec 28, 2011): The categories are also a relevant part of the fringe.
-    fringe = {}
+    fringe = dict()
     if self.underlying_mapping:
       fringe[self.underlying_mapping] = 1.0
+    fringe.update(self.GetFringeFromLTM(controller))
     return fringe
 
 class SElement(SObject):
@@ -116,16 +130,7 @@ class SElement(SObject):
 
   def GetFringe(self, controller):
     """Fringe for the element (now based off the LTM)."""
-    # TODO(# --- Dec 30, 2011): Need codelets to add LTM edges where they are missing.
-    my_node = controller.ltm.GetNodeForContent(self)
-    my_node.Spike(50, controller.steps_taken)
-    outgoing_related_edges = my_node.GetOutgoingEdgesOfTypeRelated()
-    fringe = dict()
-    fringe[my_node] = 1.0
-    for edge in outgoing_related_edges:
-      # TODO(# --- Dec 30, 2011): Edges should have strength, and it should influence this.
-      fringe[edge.to_node] = 0.8
-    return fringe
+    return self.GetFringeFromLTM(controller)
 
 
 class NonAdjacentGroupElementsException(FargException):
@@ -222,8 +227,7 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
                'pos:%d' % self.end_pos: 0.6,
                'pos:%d' % (self.end_pos + 1): 0.3,
                'pos:%d' % (self.start_pos - 1): 0.3}
-    for k, v in self.object.GetFringe(controller).iteritems():
-      fringe[k] = v
+    fringe.update(self.object.GetFringe(controller))
     return fringe
 
   def GetAffordances(self, controller):

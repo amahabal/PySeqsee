@@ -88,7 +88,7 @@ class Workspace(object):
       """Yields two-tuples of things to choose from, the second being weight."""
       # TODO(#34 --- Dec 28, 2011): Need notion of strength. Will bias these weights.
       for element in ws.elements:
-        yield (element, 1.0)
+        yield (element, 0.5)
       for gp in ws.groups:
         yield (gp, 1.0)
 
