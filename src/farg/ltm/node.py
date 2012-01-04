@@ -57,6 +57,9 @@ class LTMNode(object):
     #: only when needed (not whenever decays happen, for instance!)
     self._time_of_activation_update = 0
 
+  def __str__(self):
+    return 'Node(%s)' % self.content.BriefLabel()
+
   def __getstate__(self):
     """This saves the class name of content and (mangled) __dict__, to be reconstructed
     using Create().

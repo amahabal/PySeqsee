@@ -47,7 +47,7 @@ class ListBasedView(ViewPort):
     self.canvas.create_rectangle(self.left, self.bottom,
                                  self.left + self.width, self.bottom + self.height,
                                  fill='#EEEEFF', outline='#CCCCFF')
-    items, top_message = self.GetAllItemsToDisplay(controller)
+    items, top_message, extra_dict = self.GetAllItemsToDisplay(controller)
     items_count = len(items)
     max_page_number = ceil(1.0 * items_count / self.items_per_page)
     if self.current_page_number > max_page_number:
@@ -68,7 +68,7 @@ class ListBasedView(ViewPort):
 
     row_top_y = 20
     for item in items_to_show:
-      self.DrawItem(20, row_top_y, item)
+      self.DrawItem(20, row_top_y, item, extra_dict, controller)
       row_top_y += self.height_per_row
 
     if self.current_page_number > 1:

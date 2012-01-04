@@ -13,6 +13,12 @@ class NumericMapping(Mapping, LTMStorableMixin):
     #: A category (such as "Prime") on which this mapping is based.
     self.category = category
 
+  def __str__(self):
+    return 'NumericMapping(%s %s)' % (self.category, self.name)
+
+  def BriefLabel(self):
+    return str(self)
+
   _flipmap_ = { 'succ': 'pred', 'pred': 'succ', 'same': 'same', 'flip': 'flip',
                 'noflip': 'noflip'}
 
