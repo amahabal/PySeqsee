@@ -232,7 +232,11 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
 
   def GetAffordances(self, controller):
     logging.debug('GetAffordances called for %s', self)
-    return ()
+    codelets = []
+    from apps.seqsee.codelet_families.all import CF_FocusOn
+    for relation in self.relations:
+      codelets.append(Codelet(CF_FocusOn, controller, 25, focusable=relation))
+    return codelets
 
   def GetSimilarityAffordances(self, other, other_fringe, my_fringe, controller):
     from apps.seqsee.get_mapping import CF_FindAnchoredSimilarity

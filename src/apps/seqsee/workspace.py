@@ -13,6 +13,10 @@ from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, E
   WeightedChoice
 from farg.exceptions import FargError, ConflictingGroupException
 
+import logging
+logger = logging.getLogger(__name__)
+
+
 class Workspace(object):
   def __init__(self):
     #: All elements. Each is a :class:`~apps.seqsee.sobject.SAnchored` object.
@@ -42,6 +46,8 @@ class Workspace(object):
     """
     conflicting_groups = tuple(self.GetConflictingGroups(group))
     if conflicting_groups:
+      logger.warning('Conflicts while adding %s: %s', group,
+                      '; '.join(str(x) for x in conflicting_groups))
       raise ConflictingGroupException(conflicting_groups=conflicting_groups)
     else:
       self.groups.add(group)
@@ -61,10 +67,10 @@ class Workspace(object):
   def GetConflictingGroups(self, gp):
     """Get a list of groups conflicting with given group.
     
-    Groups g1 and g2 conflict if one group is strictly subsumed by the other and yet is
-    not an element of the other. In other words, set(g1.items) overlaps set(g2.items)
+       Groups g1 and g2 conflict if one group is strictly subsumed by the other and yet is
+       not an element of the other. In other words, set(g1.items) overlaps set(g2.items)
     
-    .. Note:: This can be sped up if I am keeping track of supergroups.
+       .. Note:: This can be sped up if I am keeping track of supergroups.
     """
     if gp.is_sequence_element: return
     if gp in self.groups: return
