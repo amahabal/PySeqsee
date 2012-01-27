@@ -8,9 +8,24 @@ import logging
 logger = logging.getLogger(__name__)
 
 class Controller(object):
-  """The controller of an application (or of a subspace) implements the `Step()` method,
-     which takes the next action. It marshals the various pieces --- coderack, stream,
-     workspace, and so forth.
+  """A controller is responsible for controlling the Coderack.
+     The Coderack, in turn, by the action of codelets, marshals the various pieces of a space
+     or of an entire application.  These pieces include the stream, the long-term memory, and
+     any pieces added by subclasses (a workspace will typically be added).
+
+     A controller provides the method 'Step'.  This does two things.  First, it may add
+     routine codelets.  The controller's constructor specifies what codelets to add and with
+     what likelihood.  If the Coderack is empty, the codelets are added regardless of the
+     likelihood.  Second, a codelet is selected from the Coderack and executed.  This codelet
+     may access the stream, the long-term memory, or the workspace and could even add other
+     codelets which the next call to 'Step' may execute.
+
+     Args:
+       * stream_class: What sort of stream to set up? Defaults to the standard stream.
+       * routine_codelets_to_add: This is a list containing 3-tuples made up of
+         (family, urgency, probability). The probability is ignored during a Step if the
+         coderack is empty.
+       * ltm_name: If provides, the LTM file is loaded and available as self.ltm.
   """
   def __init__(self, stream_class=Stream, routine_codelets_to_add=None, ltm_name=None):
     """This class provides a generic controller. Applications will usually subclass this."""
@@ -32,7 +47,7 @@ class Controller(object):
 
   def _AddRoutineCodelets(self, force=False):
     """Add routine codelets to the coderack.
-    
+
        The codelets are added with a certain probability (specified in the third term of the
        tuple), but this can be over-ridden with force (or if the coderack is empty).
 
@@ -71,6 +86,7 @@ class Controller(object):
 
   def Quit(self):
     """Gets called when the app is about to quit, in case any cleanup is needed."""
+    # TODO(# --- Jan 27, 2012): Does not belong here. Just dump current LTM.
     LTMManager.SaveAllOpenLTMS()
 
   def AddCodelet(self, family, urgency, **arguments):
