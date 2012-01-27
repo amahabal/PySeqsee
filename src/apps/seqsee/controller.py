@@ -1,7 +1,6 @@
-from apps.seqsee.workspace import Workspace
 from apps.seqsee.codelet_families.read_from_ws import CF_ReadFromWS
+from apps.seqsee.workspace import Workspace
 from farg.controller import Controller
-
 from farg.ltm.manager import LTMManager
 
 kLTMName = 'seqsee.main'

@@ -1,11 +1,24 @@
-"""Workspace. Modeled after the workspace in the Perl version.
+"""The workspace is the virtual blackboard on which various codelets make annotations about
+   relationships that have been seen between entities and groups that have been formed.
 
-.. warning:: No attempt to optimize is being made. Later, with profiling, we can speed
-       things up.
+   The workspace contains three main types of objects: elements such as a "7", groups such
+   as "(2 3)" and relations between these entities.  The relationships are not directly
+   entered into the workspace.  They are kept with the groups and elements between which the
+   relationship holds.
 
-  Specifically, groups are being kept in a set, supergroups-related bookkeeping is not being
-  maintained, and so forth. If profiling reveals these to be issues, these can later be
-  optimized.
+   The workspace makes a consistency guarantee that no groups conflict with each other at any
+   time.  It is important to note that overlap does not necessarily imply a conflict.  If the
+   overlap between two groups forms a complete unit within each group, no conflict exists.
+
+   For a group in the workspace, it is a required that its parts be a part of the workspace
+   as well.  Also, it is not permissible for two distinct groups to be at the same location.
+   What this means is that for overlapping groups the overlap itself represents a group or
+   an element in the workspace.
+
+   The method InsertGroup is used to add new groups.  If adding this group leads to an
+   inconsistent state, it is not added and a ConflictingGroupException is raised.  Note that
+   the consistency guarantee implies that adding the group may involve adding all its
+   subgroups, and one of these may conflict with an existing group.
 """
 
 from apps.seqsee.sobject import SAnchored, SElement, SGroup, SObject
@@ -15,7 +28,6 @@ from farg.util import WeightedChoice
 import logging
 
 logger = logging.getLogger(__name__)
-
 
 class Workspace(object):
   def __init__(self):
@@ -67,24 +79,56 @@ class Workspace(object):
   def GetConflictingGroups(self, gp):
     """Get a list of groups conflicting with given group.
     
-       Groups g1 and g2 conflict if one group is strictly subsumed by the other and yet is
-       not an element of the other. In other words, set(g1.items) overlaps set(g2.items)
-    
+       Only maximal groups are returned, where the relative order is based on being a
+       subgroup (i.e., if A is a part of B, and both conflict, B is returned; note that if A
+       conflicts with the group under consideration, so does B).
        .. Note:: This can be sped up if I am keeping track of supergroups.
     """
     if gp.is_sequence_element: return
     if gp in self.groups: return
+
+    groups_at_this_location = list(self.GetGroupsWithSpan(Exactly(gp.start_pos),
+                                                          Exactly(gp.end_pos)))
+    if groups_at_this_location:
+      # If something lies at exactly this location, it had better have the same structure.
+      group_at_this_location = groups_at_this_location[0]  # Can only be one.
+      if groups_at_this_location.Structure() == gp.Structure():
+        return
+      else:
+        yield self.SomeMaximalSuperGroup(other_group)
+        return
+
+    # See if any subgroup conflicts.
     gp_items = set(gp.items)
+    for subgroup in gp_items:
+      conflicts = list(self.GetConflictingGroups(subgroup))
+      if conflicts:
+        for conflict in conflicts:
+          yield conflict
+        return
+
+    # Since we got here, any subgroup is fine individually. The only thing that may go wrong
+    # is that there is overlap of more than one subgroup with an existing group (i.e., there
+    # exists a (1, 2, 3, 4) and we are adding (3, 4, 5, 6)).
+
     for other_group in self.groups:
       other_gp_items = set(other_group.items)
-      if gp_items.issubset(other_gp_items) or gp_items.issuperset(other_gp_items):
-        yield other_group
+      overlap = gp_items.intersection(other_gp_items)
+      if len(overlap) >= 2:
+        yield self.SomeMaximalSuperGroup(other_group)
 
   def GetSuperGroups(self, anchored):
     """Returns those group that contain the given anchored as a direct element."""
     for gp in self.groups:
       if anchored in gp.items:
         yield gp
+
+  def SomeMaximalSuperGroup(self, gp):
+    """Returns some super* group, if any, or returns self."""
+    for supergp in self.GetSuperGroups(gp):
+      return self.SomeMaximalSuperGroup(supergp)
+    # We reach here if no supergroup exists.
+    return gp
 
   def ChooseItemToFocusOn(self):
     """Choose an item from the WS to focus on.
