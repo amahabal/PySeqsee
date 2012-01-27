@@ -1,11 +1,11 @@
 from apps.seqsee.categories import GetNaiveMapping, Number
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.relation import Relation
-from apps.seqsee.util import WeightedShuffle
 from farg.codelet import Codelet, CodeletFamily
 from farg.exceptions import FargException, AnswerFoundException, NoAnswerException
-from farg.subspace import Subspace, AnswerFound, NeedDeeperExploration, NoAnswerLikely, \
-  Subtask
+from farg.subspace import (Subspace, AnswerFound, NeedDeeperExploration, NoAnswerLikely,
+  Subtask)
+from farg.util import WeightedShuffle
 import logging
 import random
 

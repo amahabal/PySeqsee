@@ -19,7 +19,7 @@ def ParseSeqseeArguments():
                       choices=['cmdline', 'gui', 'batch', 'web'],
                       default='gui')
   parser.add_argument('--unrevealed_terms',
-                      help='Extra terms (which Seqsee will ignore expcept in batch mode)',
+                      help='Extra terms (which Seqsee will ignore except in batch mode)',
                       default='')
   parser.add_argument('--debug', default='', help='Logging level')
 

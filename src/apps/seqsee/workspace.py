@@ -9,11 +9,11 @@
 """
 
 from apps.seqsee.sobject import SAnchored, SElement, SGroup, SObject
-from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly, \
-  WeightedChoice
+from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 from farg.exceptions import FargError, ConflictingGroupException
-
+from farg.util import WeightedChoice
 import logging
+
 logger = logging.getLogger(__name__)
 
 

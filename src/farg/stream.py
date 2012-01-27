@@ -1,7 +1,7 @@
 # TODO(#4 --- Dec 28, 2011): Move to src/farg.
-from apps.seqsee.util import WeightedChoice, ChooseAboutN
 from collections import defaultdict
 from farg.focusable_mixin import FocusableMixin
+from farg.util import WeightedChoice, ChooseAboutN
 
 class Stream(object):
   """Implements the Stream of Thought.
