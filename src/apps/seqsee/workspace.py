@@ -19,6 +19,10 @@
    inconsistent state, it is not added and a ConflictingGroupException is raised.  Note that
    the consistency guarantee implies that adding the group may involve adding all its
    subgroups, and one of these may conflict with an existing group.
+
+   .. warning:
+
+      This is likely to be quite inefficient. Keep an eye open for how slow this actually is.
 """
 
 from apps.seqsee.sobject import SAnchored, SElement, SGroup, SObject
@@ -55,6 +59,8 @@ class Workspace(object):
   def InsertGroup(self, group):
     """Inserts a group into the workspace. It must not conflict with an existing group, else
        a ConflictingGroupException is raised.
+
+       Returns a new group formed from things added to the workspace.
     """
     conflicting_groups = tuple(self.GetConflictingGroups(group))
     if conflicting_groups:
@@ -62,7 +68,23 @@ class Workspace(object):
                       '; '.join(str(x) for x in conflicting_groups))
       raise ConflictingGroupException(conflicting_groups=conflicting_groups)
     else:
-      self.groups.add(group)
+      return self._PlonkIntoPlace(group)
+
+  def _PlonkIntoPlace(self, group):
+    """Anchors the group into the workspace. Assumes that conflicts have already been checked
+       for.
+    """
+    groups_at_this_location = list(self.GetGroupsWithSpan(Exactly(group.start_pos),
+                                                          Exactly(group.end_pos)))
+    if groups_at_this_location:
+      return groups_at_this_location[0]  # There can be only 1
+
+    # Construct one
+    pieces = [self._PlonkIntoPlace(x) for x in group.items]
+    new_object = SAnchored.Create(*pieces,
+                                  underlying_mapping=group.object.underlying_mapping)
+    self.groups.add(new_object)
+    return new_object
 
   def GetGroupsWithSpan(self, left_fn, right_fn):
     """Get all groups which match the constraints set by the predicate functions for each
@@ -78,7 +100,7 @@ class Workspace(object):
 
   def GetConflictingGroups(self, gp):
     """Get a list of groups conflicting with given group.
-    
+
        Only maximal groups are returned, where the relative order is based on being a
        subgroup (i.e., if A is a part of B, and both conflict, B is returned; note that if A
        conflicts with the group under consideration, so does B).
@@ -95,7 +117,7 @@ class Workspace(object):
       if groups_at_this_location.Structure() == gp.Structure():
         return
       else:
-        yield self.SomeMaximalSuperGroup(other_group)
+        yield self.SomeMaximalSuperGroup(group_at_this_location)
         return
 
     # See if any subgroup conflicts.
