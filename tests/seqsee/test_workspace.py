@@ -1,7 +1,7 @@
 import unittest
 from apps.seqsee.workspace import Workspace
 from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
-from apps.seqsee.sobject import SAnchored, SObject
+from apps.seqsee.sobject import SAnchored, SObject, SElement
 from farg.exceptions import FargError, ConflictingGroupException
 
 def helper_create_and_insert_group(ws, specification):
@@ -119,3 +119,32 @@ class TestWorkspace(unittest.TestCase):
     self.assertEqual(0, len(tuple(ws.GetSuperGroups(g2))))
     self.assertEqual(2, len(tuple(ws.GetSuperGroups(ws.elements[3]))))
 
+  def test_plonk_into_place(self):
+    ws = Workspace()
+    ws.InsertElements(*range(0, 11))
+    helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))
+
+    # Plonk an element... returns existing element.
+    elt = SAnchored(SElement(3), (), 3, 3)
+    self.assertEqual(ws.elements[3], ws._PlonkIntoPlace(elt))
+
+    # Plonk a group, one item of which is an existing element, one novel. The plonked group
+    # has the existing element as a subgroup.
+    elt0 = SAnchored(SElement(7), (), 7, 7)
+    elt1 = SAnchored(SElement(8), (), 8, 8)
+    elt2 = SAnchored(SElement(9), (), 9, 9)
+    gp1 = SAnchored.Create(elt0, elt1, underlying_mapping='foo')
+    gp2 = SAnchored.Create(gp1, elt2, underlying_mapping='bar')
+
+    plonked = ws._PlonkIntoPlace(gp2)
+    self.assertEqual(((7, 8), 9), plonked.Structure())
+    existing_groups = list(ws.GetGroupsWithSpan(Exactly(7), Exactly(8)))
+    self.assertEqual(existing_groups[0], plonked.items[0])
+    self.assertEqual('foo', plonked.items[0].object.underlying_mapping)
+    self.assertEqual('bar', plonked.object.underlying_mapping)
+
+
+  def test_extension(self):
+    ws = Workspace()
+    ws.InsertElements(*range(0, 10))
+    helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))

@@ -118,6 +118,7 @@ class SElement(SObject):
     self.magnitude = magnitude
     # .. ToDO:: (handle strength, primality, etc).
     # .. ToDo:: Copy categories as well.
+    self.underlying_mapping = None
 
   def DeepCopy(self):
     """Makes a copy."""
@@ -222,6 +223,7 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
         raise NonAdjacentGroupElementsException(items=items)
       right_edge = right
     object = SObject.Create(list(x.object for x in items))
+    object.underlying_mapping = underlying_mapping
     return SAnchored(object, items, left_edge, right_edge)
 
 

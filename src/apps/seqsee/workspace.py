@@ -77,7 +77,11 @@ class Workspace(object):
     groups_at_this_location = list(self.GetGroupsWithSpan(Exactly(group.start_pos),
                                                           Exactly(group.end_pos)))
     if groups_at_this_location:
-      return groups_at_this_location[0]  # There can be only 1
+      group_at_this_location = groups_at_this_location[0] # There can be only 1
+      if (group.object.underlying_mapping and
+          not group_at_this_location.object.underlying_mapping):
+        group_at_this_location.object.underlying_mapping = group.object.underlying_mapping
+      return group_at_this_location
 
     # Construct one
     pieces = [self._PlonkIntoPlace(x) for x in group.items]
