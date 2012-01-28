@@ -30,7 +30,10 @@ class Relation(FocusableMixin):
   def GetAffordances(self, controller):
     # TODO(# --- Jan 3, 2012): Too eager, tone this down later.
     from apps.seqsee.codelet_families.all import CF_GroupFromRelation
-    return (Codelet(CF_GroupFromRelation, controller, 50, relation=self),)
+    if self.AreEndsContiguous():
+      return (Codelet(CF_GroupFromRelation, controller, 50, relation=self),)
+    else:
+      return ()
 
   def GetSimilarityAffordances(self, focusable, other_fringe, my_fringe, controller):
     return ()

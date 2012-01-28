@@ -135,7 +135,11 @@ class SElement(SObject):
 
 class NonAdjacentGroupElementsException(FargException):
   """Raised if group creation attempted with non-adjacent parts."""
-  pass
+  def __init__(self, items):
+    self.items = items
+
+  def __str__(self):
+    return ', '.join(str(x) for x in self.items)
 
 class SAnchored(LTMMakeStorableMixin, FocusableMixin):
   """An object with position information.
@@ -215,7 +219,7 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
     for item in items[1:]:
       left, right = item.Span()
       if left != right_edge + 1:
-        raise NonAdjacentGroupElementsException()
+        raise NonAdjacentGroupElementsException(items=items)
       right_edge = right
     object = SObject.Create(list(x.object for x in items))
     return SAnchored(object, items, left_edge, right_edge)
