@@ -27,7 +27,8 @@
 
 from apps.seqsee.sobject import SAnchored, SElement, SGroup, SObject
 from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
-from farg.exceptions import FargError, ConflictingGroupException
+from farg.exceptions import (FargError, ConflictingGroupException,
+  CannotReplaceSubgroupException)
 from farg.util import WeightedChoice
 import logging
 
@@ -137,9 +138,17 @@ class Workspace(object):
     # is that there is overlap of more than one subgroup with an existing group (i.e., there
     # exists a (1, 2, 3, 4) and we are adding (3, 4, 5, 6)).
 
+    existsing_group_items = set()
+    for item in gp_items:
+      # If a group exists with these ends, keep it in existing groups.
+      objects_with_same_span = list(self.GetGroupsWithSpan(Exactly(item.start_pos),
+                                                           Exactly(item.end_pos)))
+      if objects_with_same_span:
+        existsing_group_items.add(objects_with_same_span[0])
+
     for other_group in self.groups:
       other_gp_items = set(other_group.items)
-      overlap = gp_items.intersection(other_gp_items)
+      overlap = existsing_group_items.intersection(other_gp_items)
       if len(overlap) >= 2:
         yield self.SomeMaximalSuperGroup(other_group)
 
@@ -155,6 +164,23 @@ class Workspace(object):
       return self.SomeMaximalSuperGroup(supergp)
     # We reach here if no supergroup exists.
     return gp
+
+  def Replace(self, original_gp, new_group):
+    # Original group had better be present:
+    if not original_gp in self.groups:
+      raise FargError("Group being replaced not in WS!")
+    if (list(self.GetSuperGroups(original_gp))):
+      raise CannotReplaceSubgroupException()
+    # The idea here is to temporarily delete original group from groups in the ws, see if
+    # new_group fits in. If it does, we may need to do more work such as fixing relations.
+    self.groups.discard(original_gp)
+    try:
+      inserted = self.InsertGroup(new_group)
+    except ConflictingGroupException as e:
+      self.groups.add(original_gp)
+      raise e
+
+    # TODO(# --- Jan 27, 2012): Complete this.
 
   def ChooseItemToFocusOn(self):
     """Choose an item from the WS to focus on.

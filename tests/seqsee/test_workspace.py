@@ -1,8 +1,9 @@
-import unittest
-from apps.seqsee.workspace import Workspace
-from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 from apps.seqsee.sobject import SAnchored, SObject, SElement
-from farg.exceptions import FargError, ConflictingGroupException
+from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
+from apps.seqsee.workspace import Workspace
+from farg.exceptions import (FargError, ConflictingGroupException,
+  CannotReplaceSubgroupException)
+import unittest
 
 def helper_create_and_insert_group(ws, specification):
   """Utility for quickly creating groups.
@@ -145,6 +146,35 @@ class TestWorkspace(unittest.TestCase):
 
 
   def test_extension(self):
+    new_group = SAnchored.Create(SAnchored(SElement(7), (), 7, 7),
+                                 SAnchored(SElement(8), (), 8, 8),
+                                 SAnchored(SElement(9), (), 9, 9))
+
     ws = Workspace()
     ws.InsertElements(*range(0, 10))
     helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))
+    existing_group = list(ws.GetGroupsWithSpan(Exactly(7), Exactly(8)))[0]
+    # Cannot replace a group which is not the topmost.
+    self.assertRaises(CannotReplaceSubgroupException,
+                      ws.Replace, existing_group, new_group)
+
+    ws = Workspace()
+    ws.InsertElements(*range(0, 10))
+    helper_create_and_insert_groups(ws, (7, 8))
+    existing_group = list(ws.GetGroupsWithSpan(Exactly(7), Exactly(8)))[0]
+    ws.Replace(existing_group, new_group)
+    self.assertTrue(existing_group not in ws.groups)
+    self.assertEqual(1, len(list(ws.GetGroupsWithSpan(Exactly(7), Exactly(9)))))
+
+    # So now (7, 8, 9) is a group. Let's add a group (5, 6) and try and extend it to 5:8
+    helper_create_and_insert_groups(ws, (5, 6))
+    existing_group = list(ws.GetGroupsWithSpan(Exactly(5), Exactly(6)))[0]
+    new_group = SAnchored.Create(SAnchored(SElement(5), (), 5, 5),
+                                 SAnchored(SElement(6), (), 6, 6),
+                                 SAnchored(SElement(7), (), 7, 7),
+                                 SAnchored(SElement(8), (), 8, 8))
+    self.assertRaises(ConflictingGroupException,
+                      ws.Replace, existing_group, new_group)
+    # The original group still exists
+    self.assertTrue(existing_group in ws.groups)
+

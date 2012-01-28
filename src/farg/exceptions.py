@@ -23,6 +23,10 @@ class ConflictingGroupException(FargException):
     #: The groups that conflict.
     self.conflicting_groups = conflicting_groups
 
+class CannotReplaceSubgroupException(FargException):
+  """Attempt to replace a group that is a subgroup."""
+  pass
+
 class YesNoException(FargException):
   """An exception that requests the UI to ask a yes/no question.
   
