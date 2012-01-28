@@ -33,10 +33,11 @@ class RunForNSteps(Thread):
     self.gui.ReDraw()
 
 class GUI(object):
-  """A tkinter-based interfact for a FARG app.
-  
-  It sets up three frames: a buttons frame, a central pane, and an interaction
-  widget. Subclasses can override specific bits of it as needed."""
+  """A tkinter-based interface for FARG applications.
+
+     It sets up three frames: a buttons frame, a central pane, and an interaction
+     widget. Subclasses can override specific bits of it as needed.
+  """
 
   def __init__(self, controller, args, geometry='810x700+0+0'):
     #: The main-window of the UI.
@@ -105,10 +106,10 @@ class GUI(object):
 
   def HandleAppSpecificFargException(self, exception):
     """A hook to allow derivative classes a way to handle specific types of exceptions.
-    
-    If unhandled, the exception should be rethrown.
-    
-    By default, this does nothing and rethrows the exception.
+
+       If unhandled, the exception should be rethrown.
+
+       By default, this does nothing and rethrows the exception.
     """
     raise exception
 

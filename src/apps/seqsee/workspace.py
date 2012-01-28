@@ -114,7 +114,7 @@ class Workspace(object):
     if groups_at_this_location:
       # If something lies at exactly this location, it had better have the same structure.
       group_at_this_location = groups_at_this_location[0]  # Can only be one.
-      if groups_at_this_location.Structure() == gp.Structure():
+      if group_at_this_location.Structure() == gp.Structure():
         return
       else:
         yield self.SomeMaximalSuperGroup(group_at_this_location)

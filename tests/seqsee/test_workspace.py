@@ -67,8 +67,8 @@ class TestWorkspace(unittest.TestCase):
     helper_create_and_insert_groups(ws, (1, 2, 3), (4, 5, 6))
     self.assertEqual(2, len(ws.groups))
 
-    # An overlapping group not subsumed is fine:
-    self.assertFalse(
+    # An overlapping group which overlaps by more than one subgroup is a conflict:
+    self.assertTrue(
         tuple(ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, 2, 3, 4))))
 
     # Subsumed that is not an element is problematic.
@@ -102,12 +102,10 @@ class TestWorkspace(unittest.TestCase):
     self.assertFalse(
         tuple(ws.GetConflictingGroups(helper_create_group_given_spans_of_items(ws, (1, 3)))))
 
-    # Note, however, that if a new group is crafted out of existing parts, such that is aligns
-    # exactly with an existing group, it is still in conflict.
+    # If a new group is crafted out of existing parts, such that is aligns
+    # exactly with an existing group, it is not in conflict.
     g1 = helper_create_group_given_spans_of_items(ws, 1, 2, 3)
-    self.assertTrue(ws.GetConflictingGroups(g1))
-
-    self.assertRaises(ConflictingGroupException, ws.InsertGroup, g1)
+    self.assertFalse(tuple(ws.GetConflictingGroups(g1)))
 
   def test_supergroups(self):
     ws = Workspace()
@@ -116,8 +114,8 @@ class TestWorkspace(unittest.TestCase):
     self.assertEqual(1, len(tuple(ws.GetSuperGroups(ws.elements[1]))))
     g1 = helper_create_group_given_spans_of_items(ws, (1, 3))
     self.assertEqual(1, len(tuple(ws.GetSuperGroups(g1))))
-    helper_create_and_insert_groups(ws, (3, 4, 5))
-    g2 = helper_create_group_given_spans_of_items(ws, (3, 5))
+    helper_create_and_insert_groups(ws, (3, 4))
+    g2 = helper_create_group_given_spans_of_items(ws, (3, 4))
     self.assertEqual(0, len(tuple(ws.GetSuperGroups(g2))))
     self.assertEqual(2, len(tuple(ws.GetSuperGroups(ws.elements[3]))))
 
