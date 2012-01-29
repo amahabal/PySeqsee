@@ -105,6 +105,14 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
     new_object.underlying_mapping = underlying_mapping
     return SAnchored(new_object, items, left_edge, right_edge)
 
+  def AddRelation(self, relation):
+    self.relations.add(relation)
+
+  def GetRelationTo(self, other):
+    return [x for x in self.relations if (x.first == other or x.second == other)]
+
+  def GetRightwardRelations(self):
+    return [x for x in self.relations if x.first == self]
 
   def GetFringe(self, controller):
     """Gets the fringe (needed for stream-related activities)."""
@@ -124,20 +132,18 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
     return codelets
 
   def GetSimilarityAffordances(self, other, other_fringe, my_fringe, controller):
-    from apps.seqsee.get_mapping import CF_FindAnchoredSimilarity
     logging.debug('GetSimilarityAffordances called: [%s] and [%s] ', self, other)
     if not isinstance(other, SAnchored):
       return ()
-    sorted_items = sorted((self, other), key=lambda x: x.start_pos)
-    # So both are anchored, and have overlapping fringes. Time for subspaces!
-    return [Codelet(CF_FindAnchoredSimilarity, controller, 100,
-                    left=sorted_items[0], right=sorted_items[1])]
-
-  def AddRelation(self, relation):
-    self.relations.add(relation)
-
-  def GetRelationTo(self, other):
-    return [x for x in self.relations if (x.first == other or x.second == other)]
-
-  def GetRightwardRelations(self):
-    return [x for x in self.relations if x.first == self]
+    left, right = sorted((self, other), key=lambda x: x.start_pos)
+    # Do they overlap?
+    if left.end_pos >= right.start_pos:
+      # They overlap. So we will want to form a bigger group...
+      from apps.seqsee.codelet_families.overlapping_groups import CF_ActOnOverlappingGroups
+      return [Codelet(CF_ActOnOverlappingGroups, controller, 100,
+                      left=left, right=right)]
+    else:
+      # So both are anchored, and have overlapping fringes. Time for subspaces!
+      from apps.seqsee.get_mapping import CF_FindAnchoredSimilarity
+      return [Codelet(CF_FindAnchoredSimilarity, controller, 100,
+                      left=left, right=right)]

@@ -166,24 +166,29 @@ class Workspace(object):
     # We reach here if no supergroup exists.
     return gp
 
-  def Replace(self, original_gp, new_group):
+  def Replace(self, original_gps, new_group):
     """Replace original group with new group unless the new group is going to cause conflicts.
     
        If the new group will cause conflicts, a ConflictingGroupException is raised.
     """
+    if not isinstance(original_gps, tuple):
+      original_gps = (original_gps,)
     # Original group had better be present:
-    if not original_gp in self.groups:
-      raise FargError("Group being replaced not in WS!")
-    if (list(self.GetSuperGroups(original_gp))):
-      raise CannotReplaceSubgroupException()
+    for original_gp in original_gps:
+      if not original_gp in self.groups:
+        raise FargError("Group being replaced not in WS!")
+      if (list(self.GetSuperGroups(original_gp))):
+        raise CannotReplaceSubgroupException()
     # The idea here is to temporarily delete original group from groups in the ws, see if
     # new_group fits in. If it does, we may need to do more work such as fixing relations.
     # TODO(# --- Jan 27, 2012): Complete this.
-    self.groups.discard(original_gp)
+    for original_gp in original_gps:
+      self.groups.discard(original_gp)
     try:
       inserted = self.InsertGroup(new_group)
     except ConflictingGroupException as e:
-      self.groups.add(original_gp)
+      for original_gp in original_gps:
+        self.groups.add(original_gp)
       raise e
 
   def ChooseItemToFocusOn(self):
