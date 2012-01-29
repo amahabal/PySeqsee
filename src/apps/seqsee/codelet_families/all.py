@@ -1,5 +1,5 @@
 from farg.codelet import Codelet, CodeletFamily
-from apps.seqsee.sobject import SAnchored
+from apps.seqsee.anchored import SAnchored
 
 class CF_FocusOn(CodeletFamily):
   """Causes the required focusable to be added to the stream."""

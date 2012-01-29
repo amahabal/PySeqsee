@@ -2,7 +2,8 @@ import unittest
 from farg.category import Binding, CategorizableMixin, Category
 from apps.seqsee.categories import Ascending, MappingBasedCategory, Number, Prime, SizeNCategory
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
-from apps.seqsee.sobject import SAnchored, SElement, SObject
+from apps.seqsee.sobject import SElement, SObject
+from apps.seqsee.anchored import SAnchored
 
 class TestSeqseeCategories(unittest.TestCase):
   def test_sanity(self):

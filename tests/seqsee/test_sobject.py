@@ -1,5 +1,6 @@
 import unittest
-from apps.seqsee.sobject import SAnchored, SObject, NonAdjacentGroupElementsException
+from apps.seqsee.sobject import SObject
+from apps.seqsee.anchored import SAnchored, NonAdjacentGroupElementsException
 from farg.exceptions import FargError
 
 class TestSObject(unittest.TestCase):

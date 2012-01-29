@@ -7,7 +7,8 @@ from farg.ltm.graph import LTMGraph
 from farg.ltm.node import LTMNode
 from farg.ltm.storable import LTMStorableMixin
 
-from apps.seqsee.sobject import SObject, SElement, SGroup, SAnchored
+from apps.seqsee.sobject import SObject, SElement, SGroup
+from apps.seqsee.anchored import SAnchored
 
 class LTMTestBase(unittest.TestCase):
   def setUp(self):

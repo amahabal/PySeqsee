@@ -48,7 +48,8 @@ If FooCategory is a subclass of ParametrizedCategory, we could say::
 """
 
 from farg.category import Binding, Category
-from apps.seqsee.sobject import SAnchored, SElement, SObject
+from apps.seqsee.sobject import SElement, SObject
+from apps.seqsee.anchored import SAnchored
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.structure_utils import StructureDepth
 from farg.exceptions import FargError, FargException

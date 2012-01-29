@@ -1,4 +1,5 @@
-from apps.seqsee.sobject import SAnchored, SObject, SElement
+from apps.seqsee.anchored import SAnchored
+from apps.seqsee.sobject import SObject, SElement
 from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 from apps.seqsee.workspace import Workspace
 from farg.exceptions import (FargError, ConflictingGroupException,

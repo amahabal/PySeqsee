@@ -1,5 +1,6 @@
 from apps.seqsee.controller import SeqseeController
-from apps.seqsee.sobject import SAnchored, SElement, SGroup
+from apps.seqsee.sobject import SElement, SGroup
+from apps.seqsee.anchored import SAnchored
 from apps.seqsee.workspace import Workspace
 from farg.coderack import Coderack
 from farg.stream import Stream

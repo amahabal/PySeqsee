@@ -25,7 +25,8 @@
       This is likely to be quite inefficient. Keep an eye open for how slow this actually is.
 """
 
-from apps.seqsee.sobject import SAnchored, SElement, SGroup, SObject
+from apps.seqsee.sobject import SElement, SGroup, SObject
+from apps.seqsee.anchored import SAnchored
 from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 from farg.exceptions import (FargError, ConflictingGroupException,
   CannotReplaceSubgroupException)

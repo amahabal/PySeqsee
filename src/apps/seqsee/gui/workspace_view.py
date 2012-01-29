@@ -8,6 +8,8 @@ class WorkspaceView(ViewPort):
     self.min_gp_height = height * 0.2
     self.max_gp_height = height * 0.4
 
+  # Many local variables here.
+  # pylint: disable=R0914
   def ReDrawView(self, controller):
     ws = controller.ws
     anchors_for_relations = dict()
