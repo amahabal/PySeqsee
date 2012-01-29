@@ -1,7 +1,7 @@
 # TODO(#4 --- Dec 28, 2011): Move to src/farg.
 from collections import defaultdict
 from farg.focusable_mixin import FocusableMixin
-from farg.util import WeightedChoice, ChooseAboutN
+from farg.util import ChooseAboutN
 
 class Stream(object):
   """Implements the Stream of Thought.
@@ -47,6 +47,11 @@ class Stream(object):
     #: Controller for the stream (needed to take fringe-hit based actions)
     self.controller = controller
 
+  def Clear(self):
+    """Clears all state."""
+    self.stored_fringes.clear()
+    self.foci.clear()
+
   def FociCount(self):
     """Counts the number of recent items focused upon."""
     return len(self.foci)
@@ -55,14 +60,14 @@ class Stream(object):
   def _RemovePriorFocus(self, focusable):
     """Remove a previous focus (and any fringe elements solely supported by that focus."""
     self.foci.__delitem__(focusable)
-    deletable_stored_fringe_elements = []
-    for fringe_element, v in self.stored_fringes.iteritems():
-      if focusable in v:
-        v.__delitem__(focusable)
-        if len(v) == 0:
-          deletable_stored_fringe_elements.append(fringe_element)
+    deletable_stored_fringe_elts = []
+    for fringe_element, focus_to_strength_dict in self.stored_fringes.iteritems():
+      if focusable in focus_to_strength_dict:
+        focus_to_strength_dict.__delitem__(focusable)
+        if len(focus_to_strength_dict) == 0:
+          deletable_stored_fringe_elts.append(fringe_element)
 
-    for deletable in deletable_stored_fringe_elements:
+    for deletable in deletable_stored_fringe_elts:
       self.stored_fringes.__delitem__(deletable)
 
   def _RemoveMostAncientFocus(self):
@@ -83,7 +88,7 @@ class Stream(object):
     """Focus on focusable, and act on a fringe-hit."""
     assert(isinstance(focusable, FocusableMixin))
     self._PrepareForFocusing(focusable)
-    hit_map = self._CalculateFringeOverlap(focusable)
+    hit_map = self._StoreFringeAndCalculateOverlap(focusable)
     if not hit_map:
       return
 
@@ -104,7 +109,7 @@ class Stream(object):
       for codelet in selected_codelets:
         self.controller.coderack.AddCodelet(codelet)
 
-  def _CalculateFringeOverlap(self, focusable):
+  def _StoreFringeAndCalculateOverlap(self, focusable):
     """Calculates a hit map: from prior focusable to strength."""
     fringe = focusable.GetFringe(self.controller)
     stored_fringe_map = self.stored_fringes

@@ -204,3 +204,14 @@ class Workspace(object):
         yield (gp, 1.0)
 
     return WeightedChoice(ThingsToChooseFrom(self))
+
+  def GetItemAt(self, start_pos, end_pos):
+    """Returns the sole object with this span. Throws FargError if not found."""
+    for group in self.groups:
+      if group.start_pos == start_pos and group.end_pos == end_pos:
+        return group
+    if start_pos == end_pos:
+      for element in self.elements:
+        if element.start_pos == start_pos:
+          return element
+    raise FargError("GetItemAt has no item to return.")

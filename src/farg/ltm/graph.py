@@ -9,22 +9,24 @@ logger = logging.getLogger(__name__)
 
 class LTMGraph(object):
   """Represents a full LTM graph (consisting of nodes and edges)."""
-  def __init__(self, filename):
+  def __init__(self, filename=None):
     """Initialization loads up the nodes and edges of the graph."""
     #: Nodes in the graph. Each is a LTMNode.
     self._nodes = []
     #: A utility data-structure mapping content to nodes. A particular piece of content
     #: should have at most one node.
     self._content_to_node = {}
-    #: The filename for reading the graph from and for dumping the graph to. Must exist.
+    #: The filename for reading the graph from and for dumping the graph to.
+    #: Must exist if we want to persist the LTM, but may be empty for testing.
     #: .. todo:: we need to be able to create this if missing.
     self._filename = filename
     #: Elapsed time-steps. Activation is time dependent since it decays at each time step. A
     #: notion of time is therefore relevant.
     self._timesteps = 0
-    with open(filename) as f:
-      up = pickle.Unpickler(f)
-      self._LoadNodes(up)
+    if filename:
+      with open(filename) as f:
+        up = pickle.Unpickler(f)
+        self._LoadNodes(up)
     logging.info('Loaded LTM in %s: %d nodes read', filename, len(self._nodes))
 
   def _LoadNodes(self, unpickler):
@@ -49,6 +51,9 @@ class LTMGraph(object):
     return not self._nodes
 
   def Dump(self):
+    """Writes out content to file if file attribute is set."""
+    if not self._filename:
+      return
     with open(self._filename, "w") as f:
       pickler = pickle.Pickler(f, 2)
       for node in self._nodes:
