@@ -145,7 +145,7 @@ class TestWorkspace(unittest.TestCase):
     self.assertEqual('bar', plonked.object.underlying_mapping)
 
 
-  def test_extension(self):
+  def test_replacement(self):
     new_group = SAnchored.Create(SAnchored(SElement(7), (), 7, 7),
                                  SAnchored(SElement(8), (), 8, 8),
                                  SAnchored(SElement(9), (), 9, 9))

@@ -1,5 +1,5 @@
 from farg.codelet import Codelet
-from farg.coderack import Coderack, CoderackEmptyException
+from farg.coderack import Coderack
 from farg.ltm.manager import LTMManager
 from farg.stream import Stream
 from farg.util import Toss
@@ -81,7 +81,7 @@ class Controller(object):
     """Takes upto N steps. In these, it is possible that an answer is found and an exception
        raised.
     """
-    for n in xrange(0, n_steps):
+    for _ in xrange(0, n_steps):
       self.Step()
 
   def Quit(self):
@@ -95,6 +95,6 @@ class Controller(object):
     self.coderack.AddCodelet(codelet)
 
   def DisplayMessage(self, message):
-    if self.mw:  # Has the GUI set. O/w, DisplayMessage is a no-op.
+    if hasattr(self, 'mw'):  # Has the GUI set. O/w, DisplayMessage is a no-op.
       import tkMessageBox
       tkMessageBox.showinfo('', message)

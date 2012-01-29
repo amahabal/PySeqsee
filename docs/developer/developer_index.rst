@@ -6,9 +6,9 @@ Contents:
 .. toctree::
    :maxdepth: 2
 
+   controller
    coderack
    codelets
-   controller
    stream
    ltm
    subspaces

@@ -166,6 +166,10 @@ class Workspace(object):
     return gp
 
   def Replace(self, original_gp, new_group):
+    """Replace original group with new group unless the new group is going to cause conflicts.
+    
+       If the new group will cause conflicts, a ConflictingGroupException is raised.
+    """
     # Original group had better be present:
     if not original_gp in self.groups:
       raise FargError("Group being replaced not in WS!")
@@ -173,14 +177,13 @@ class Workspace(object):
       raise CannotReplaceSubgroupException()
     # The idea here is to temporarily delete original group from groups in the ws, see if
     # new_group fits in. If it does, we may need to do more work such as fixing relations.
+    # TODO(# --- Jan 27, 2012): Complete this.
     self.groups.discard(original_gp)
     try:
       inserted = self.InsertGroup(new_group)
     except ConflictingGroupException as e:
       self.groups.add(original_gp)
       raise e
-
-    # TODO(# --- Jan 27, 2012): Complete this.
 
   def ChooseItemToFocusOn(self):
     """Choose an item from the WS to focus on.
