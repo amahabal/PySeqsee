@@ -88,7 +88,7 @@ class Stream(object):
     """Focus on focusable, and act on a fringe-hit."""
     assert(isinstance(focusable, FocusableMixin))
     self._PrepareForFocusing(focusable)
-    hit_map = self._StoreFringeAndCalculateOverlap(focusable)
+    hit_map = self.StoreFringeAndCalculateOverlap(focusable)
     if not hit_map:
       return
 
@@ -109,7 +109,7 @@ class Stream(object):
       for codelet in selected_codelets:
         self.controller.coderack.AddCodelet(codelet)
 
-  def _StoreFringeAndCalculateOverlap(self, focusable):
+  def StoreFringeAndCalculateOverlap(self, focusable):
     """Calculates a hit map: from prior focusable to strength."""
     fringe = focusable.GetFringe(self.controller)
     stored_fringe_map = self.stored_fringes
