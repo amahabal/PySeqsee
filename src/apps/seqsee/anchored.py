@@ -103,6 +103,9 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
       right_edge = right
     new_object = SObject.Create(list(x.object for x in items))
     new_object.underlying_mapping = underlying_mapping
+    if underlying_mapping:
+      from apps.seqsee.categories import MappingBasedCategory
+      new_object.DescribeAs(MappingBasedCategory.Construct(underlying_mapping))
     return SAnchored(new_object, items, left_edge, right_edge)
 
   def AddRelation(self, relation):
@@ -144,6 +147,7 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
                       left=left, right=right)]
     else:
       # So both are anchored, and have overlapping fringes. Time for subspaces!
+      urgency = 100.0 / (right.start_pos - left.end_pos)  # denominator is at least 1.
       from apps.seqsee.get_mapping import CF_FindAnchoredSimilarity
-      return [Codelet(CF_FindAnchoredSimilarity, controller, 100,
+      return [Codelet(CF_FindAnchoredSimilarity, controller, urgency,
                       left=left, right=right)]

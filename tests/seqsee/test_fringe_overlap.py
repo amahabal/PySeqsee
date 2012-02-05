@@ -1,4 +1,4 @@
-from apps.seqsee.categories import Number
+from apps.seqsee.categories import Number, MappingBasedCategory
 from apps.seqsee.mapping import NumericMapping
 from apps.seqsee.testing_utils import FringeOverlapTest, MockSeqseeController, \
   CodeletPresenceSpec
@@ -26,8 +26,11 @@ class FringeOverlapTestForAnchored(FringeOverlapTest):
     controller = MockSeqseeController((1, 2, 3, 1, 2, 3))
     ws = controller.ws
     numeric_succesor_mapping = NumericMapping('succ', Number)
+    ascending_group = MappingBasedCategory.Construct(numeric_succesor_mapping)
     group1 = self.HelperCreateAndInsertGroup(ws, (0, 1, 2), numeric_succesor_mapping)
     group2 = self.HelperCreateAndInsertGroup(ws, (3, 4, 5), numeric_succesor_mapping)
+    group1.object.DescribeAs(ascending_group)
+    group2.object.DescribeAs(ascending_group)
     self.AssertFringeContains(controller, group1, { numeric_succesor_mapping: 0.9 })
 
     from apps.seqsee.get_mapping import CF_FindAnchoredSimilarity
@@ -36,3 +39,9 @@ class FringeOverlapTestForAnchored(FringeOverlapTest):
         expected_similarity_affordances=(
             CodeletPresenceSpec(CF_FindAnchoredSimilarity, {'left': group1,
                                                             'right': group2 }),))
+
+    controller.stream.FocusOn(group2)
+    controller.Step()
+    from apps.seqsee.codelet_families.all import CF_FocusOn
+    self.AssertCodeletPresent(CodeletPresenceSpec(CF_FocusOn),
+                              controller.coderack._codelets)

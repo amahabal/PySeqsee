@@ -108,6 +108,7 @@ class FringeOverlapTest(unittest.TestCase):
       self.AssertCodeletPresent(codelet_presence_spec, container_to_check)
 
   def AssertCodeletPresent(self, codelet_presence_spec, container_to_check):
+    """Check if codelet matching spec is present in a list of codelets."""
     expected_family = codelet_presence_spec.family
     expected_arguments_dict = codelet_presence_spec.arguments
     for codelet in container_to_check:

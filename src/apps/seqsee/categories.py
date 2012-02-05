@@ -117,6 +117,7 @@ class ParametrizedCategory(LTMStorableMixin):
 
 
 class Number(NumericCategory):
+  @classmethod
   def NumericIsInstance(cls, val):
     return Binding()
 

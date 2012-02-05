@@ -137,6 +137,8 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
     mapping = Subtask(SubspaceFindMapping, 4,
                       {'left': left.object, 'right': right.object})
     if mapping:
+      # TODO(# --- Jan 29, 2012): The relation should be formed with a probability dependent
+      # on the distance between the nodes.
       relation = Relation(left, right, mapping)
       right.AddRelation(relation)
       left.AddRelation(relation)

@@ -14,7 +14,7 @@ class NumericMapping(Mapping, LTMStorableMixin):
     self.category = category
 
   def __str__(self):
-    return 'NumericMapping(%s %s)' % (self.category, self.name)
+    return 'NumericMapping-%ld(%s %s)' % (id(self), self.category, self.name)
 
   def BriefLabel(self):
     return str(self)
@@ -41,6 +41,8 @@ class NumericMapping(Mapping, LTMStorableMixin):
     else:
       return None
 
+  def IsPairConsistent(self, item1, item2):
+    return self.Apply(item1).Structure() == item2.Structure()
 
 class StructuralMapping(Mapping):
   def __init__(self, category, bindings_mapping, slippages=None):

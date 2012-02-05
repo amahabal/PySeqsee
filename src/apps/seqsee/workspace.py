@@ -89,6 +89,7 @@ class Workspace(object):
     pieces = [self._PlonkIntoPlace(x) for x in group.items]
     new_object = SAnchored.Create(*pieces,
                                   underlying_mapping=group.object.underlying_mapping)
+    # TODO(# --- Jan 30, 2012): Copy categories as well.
     self.groups.add(new_object)
     return new_object
 
