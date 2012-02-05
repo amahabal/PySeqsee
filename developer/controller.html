@@ -27,8 +27,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
-    <link rel="next" title="Stream of Thought" href="stream.html" />
-    <link rel="prev" title="Codelets" href="codelets.html" /> 
+    <link rel="next" title="Coderack" href="coderack.html" />
+    <link rel="prev" title="Developer Documentation" href="developer_index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,10 +41,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="stream.html" title="Stream of Thought"
+          <a href="coderack.html" title="Coderack"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="codelets.html" title="Codelets"
+          <a href="developer_index.html" title="Developer Documentation"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
@@ -60,10 +60,28 @@
 <h1>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="farg.controller.Controller">
-<em class="property">class </em><tt class="descclassname">farg.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>stream_class=&lt;class 'components.stream.Stream'&gt;</em>, <em>routine_codelets_to_add=None</em>, <em>ltm_name=None</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller" title="Permalink to this definition">¶</a></dt>
-<dd><p>The controller of an application (or of a subspace) implements the <cite>Step()</cite> method,
-which takes the next action. It marshals the various pieces &#8212; coderack, stream,
-workspace, and so forth.</p>
+<em class="property">class </em><tt class="descclassname">farg.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>stream_class=&lt;class 'farg.stream.Stream'&gt;</em>, <em>routine_codelets_to_add=None</em>, <em>ltm_name=None</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>A controller is responsible for controlling the Coderack.
+The Coderack, in turn, by the action of codelets, marshals the various pieces of a space
+or of an entire application.  These pieces include the stream, the long-term memory, and
+any pieces added by subclasses (a workspace will typically be added).</p>
+<p>A controller provides the method &#8216;Step&#8217;.  This does two things.  First, it may add
+routine codelets.  The controller&#8217;s constructor specifies what codelets to add and with
+what likelihood.  If the Coderack is empty, the codelets are added regardless of the
+likelihood.  Second, a codelet is selected from the Coderack and executed.  This codelet
+may access the stream, the long-term memory, or the workspace and could even add other
+codelets which the next call to &#8216;Step&#8217; may execute.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><ul class="first last simple">
+<li>stream_class: What sort of stream to set up? Defaults to the standard stream.</li>
+<li>routine_codelets_to_add: This is a list containing 3-tuples made up of
+(family, urgency, probability). The probability is ignored during a Step if the
+coderack is empty.</li>
+<li>ltm_name: If provides, the LTM file is loaded and available as self.ltm.</li>
+</ul>
+</dd>
+</dl>
 <dl class="method">
 <dt id="farg.controller.Controller.AddCodelet">
 <tt class="descname">AddCodelet</tt><big>(</big><em>family</em>, <em>urgency</em>, <em>**arguments</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller.AddCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller.AddCodelet" title="Permalink to this definition">¶</a></dt>
@@ -131,11 +149,11 @@ At each step, a codelet is added with the said probability, and with this urgenc
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="codelets.html"
-                        title="previous chapter">Codelets</a></p>
+  <p class="topless"><a href="developer_index.html"
+                        title="previous chapter">Developer Documentation</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="stream.html"
-                        title="next chapter">Stream of Thought</a></p>
+  <p class="topless"><a href="coderack.html"
+                        title="next chapter">Coderack</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/developer/controller.txt"
@@ -168,10 +186,10 @@ At each step, a codelet is added with the said probability, and with this urgenc
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="stream.html" title="Stream of Thought"
+          <a href="coderack.html" title="Coderack"
              >next</a> |</li>
         <li class="right" >
-          <a href="codelets.html" title="Codelets"
+          <a href="developer_index.html" title="Developer Documentation"
              >previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 

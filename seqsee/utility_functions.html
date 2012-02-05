@@ -59,18 +59,7 @@
 <ul class="simple">
 <li>Comparator functions <em>LessThan</em>, <em>LessThanEq</em>, <em>GreaterThan</em>, <em>GreaterThanEq</em>, <em>Exactly</em>, each of
 which takes a single argument and returns a one-argument function.</li>
-<li>Toss(x), which returns True with probability x.</li>
 </ul>
-<dl class="function">
-<dt id="apps.seqsee.util.ChooseAboutN">
-<tt class="descclassname">apps.seqsee.util.</tt><tt class="descname">ChooseAboutN</tt><big>(</big><em>n</em>, <em>choices</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/util.html#ChooseAboutN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.util.ChooseAboutN" title="Permalink to this definition">¶</a></dt>
-<dd><p>Choose in a way that the expected number of choices is n.</p>
-<p>Choices is an iterable of 2-tuples, where the second value is the weight.</p>
-<p>An example to show how it works: let choices contain 5 things with weights 10, 20, 30
-40, and 50 (thus summing to 150), and let n=3. Then we will keep the first item in the
-output with probability 3 * 10/150 (i.e., 20%).</p>
-</dd></dl>
-
 <dl class="function">
 <dt id="apps.seqsee.util.Exactly">
 <tt class="descclassname">apps.seqsee.util.</tt><tt class="descname">Exactly</tt><big>(</big><em>x</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/util.html#Exactly"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.util.Exactly" title="Permalink to this definition">¶</a></dt>
@@ -95,25 +84,6 @@ output with probability 3 * 10/150 (i.e., 20%).</p>
 <dt id="apps.seqsee.util.LessThanEq">
 <tt class="descclassname">apps.seqsee.util.</tt><tt class="descname">LessThanEq</tt><big>(</big><em>x</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/util.html#LessThanEq"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.util.LessThanEq" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="function">
-<dt id="apps.seqsee.util.Toss">
-<tt class="descclassname">apps.seqsee.util.</tt><tt class="descname">Toss</tt><big>(</big><em>x</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/util.html#Toss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.util.Toss" title="Permalink to this definition">¶</a></dt>
-<dd><p>x is a number between 0 and 1. Returns true with probability x.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="apps.seqsee.util.WeightedChoice">
-<tt class="descclassname">apps.seqsee.util.</tt><tt class="descname">WeightedChoice</tt><big>(</big><em>choices</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/util.html#WeightedChoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.util.WeightedChoice" title="Permalink to this definition">¶</a></dt>
-<dd><p>Choices is an iterable of 2-tuples, where the second value is the weight. Chooses one.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="apps.seqsee.util.WeightedShuffle">
-<tt class="descclassname">apps.seqsee.util.</tt><tt class="descname">WeightedShuffle</tt><big>(</big><em>choices</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/util.html#WeightedShuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.util.WeightedShuffle" title="Permalink to this definition">¶</a></dt>
-<dd><p>Choices is an iterable of 2-tuples, where the second value is the weight.</p>
-<p>Returns a shuffle of the first elements based on the weight.</p>
-</dd></dl>
 
 </div>
 

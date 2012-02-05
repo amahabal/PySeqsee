@@ -56,25 +56,25 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-components.coderack">
-<span id="coderack"></span><h1>Coderack<a class="headerlink" href="#module-components.coderack" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-farg.coderack">
+<span id="coderack"></span><h1>Coderack<a class="headerlink" href="#module-farg.coderack" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="components.coderack.Coderack">
-<em class="property">class </em><tt class="descclassname">components.coderack.</tt><tt class="descname">Coderack</tt><big>(</big><em>max_capacity</em><big>)</big><a class="reference internal" href="../_modules/components/coderack.html#Coderack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.coderack.Coderack" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.coderack.Coderack">
+<em class="property">class </em><tt class="descclassname">farg.coderack.</tt><tt class="descname">Coderack</tt><big>(</big><em>max_capacity</em><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the coderack &#8212; the collection of codelets waiting to run.</p>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
 <p class="last">Choose the codelet to expunge based on a better criteria than uniformly randomly.</p>
 </div>
 <dl class="method">
-<dt id="components.coderack.Coderack.AddCodelet">
-<tt class="descname">AddCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="reference internal" href="../_modules/components/coderack.html#Coderack.AddCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.coderack.Coderack.AddCodelet" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.coderack.Coderack.AddCodelet">
+<tt class="descname">AddCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack.AddCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack.AddCodelet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds codelet to coderack. Removes some existing codelet if needed.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="components.coderack.Coderack.ForceNextCodelet">
-<tt class="descname">ForceNextCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="reference internal" href="../_modules/components/coderack.html#Coderack.ForceNextCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.coderack.Coderack.ForceNextCodelet" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.coderack.Coderack.ForceNextCodelet">
+<tt class="descname">ForceNextCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack.ForceNextCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack.ForceNextCodelet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Force codelet to be the next one retrieved by GetCodelet.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -86,24 +86,24 @@ thereafter.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="components.coderack.Coderack.GetCodelet">
-<tt class="descname">GetCodelet</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/components/coderack.html#Coderack.GetCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.coderack.Coderack.GetCodelet" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.coderack.Coderack.GetCodelet">
+<tt class="descname">GetCodelet</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack.GetCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack.GetCodelet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Randomly selects a codelet (biased by urgency).
 Requires the coderack to be nonempty.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="components.coderack.Coderack.IsEmpty">
-<tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/components/coderack.html#Coderack.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.coderack.Coderack.IsEmpty" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.coderack.Coderack.IsEmpty">
+<tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack.IsEmpty" title="Permalink to this definition">¶</a></dt>
 <dd><p>True if contains no codelets.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="exception">
-<dt id="components.coderack.CoderackEmptyException">
-<em class="property">exception </em><tt class="descclassname">components.coderack.</tt><tt class="descname">CoderackEmptyException</tt><a class="reference internal" href="../_modules/components/coderack.html#CoderackEmptyException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#components.coderack.CoderackEmptyException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Raised if <a class="reference internal" href="#components.coderack.Coderack.GetCodelet" title="components.coderack.Coderack.GetCodelet"><tt class="xref py py-func docutils literal"><span class="pre">GetCodelet()</span></tt></a> called on an empty coderack.</p>
+<dt id="farg.coderack.CoderackEmptyException">
+<em class="property">exception </em><tt class="descclassname">farg.coderack.</tt><tt class="descname">CoderackEmptyException</tt><a class="reference internal" href="../_modules/farg/coderack.html#CoderackEmptyException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.CoderackEmptyException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised if <a class="reference internal" href="#farg.coderack.Coderack.GetCodelet" title="farg.coderack.Coderack.GetCodelet"><tt class="xref py py-func docutils literal"><span class="pre">GetCodelet()</span></tt></a> called on an empty coderack.</p>
 </dd></dl>
 
 </div>
