@@ -1,4 +1,4 @@
-A brief motivation and overview of PySeqsee
+﻿A brief motivation and overview of PySeqsee
 =============================================
 
 Goals
@@ -32,3 +32,20 @@ in programs? A concrete example might provide a partial answer.
 A concrete example
 ---------------------
 
+The following sequence is hard for computers to understand but presents no
+problems for people::
+ 
+  1 7 1 2 8 1 2 3 9 
+
+To make sense of the sequence, one has to figure out how to split this 
+into pieces.  This particular sequence is an interlacing of a pair of 
+sequences "(1) (1 2) (1 2 3)" and "7 8 9".  Since each piece of either 
+sequence could be of any size, the number of ways of splitting the 
+sequence is enormous, even assuming that only two interlacing sequences 
+are present.  Without that assumption, the number of potential splits 
+becomes even larger and a naïve brute-force algorithm has little hope of 
+solving such sequences.
+
+What enables people to understand such a sequence 
+effortlessly?  There are several easily picked up the hints as to the 
+grouping of the terms: {{write this}}.  
