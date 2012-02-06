@@ -36,4 +36,5 @@ class TestSubspace(unittest.TestCase):
                                                  'category': Ascending})
     self.assertTrue(isinstance(mapping, StructuralMapping))
     self.assertEqual(Ascending, mapping.category)
-    self.assertEqual('end', mapping.slippages['start'])
+    slippages_dict = dict(mapping.slippages)
+    self.assertEqual('end', slippages_dict['start'])

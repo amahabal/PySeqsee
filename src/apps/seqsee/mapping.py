@@ -51,21 +51,18 @@ class StructuralMapping(Mapping, LTMStorableMixin):
     #: A dictionary of attribute to a mapping: how is the value of each attribute 
     #: transformed?
     assert isinstance(bindings_mapping, frozenset)
-    self.bindings_mapping = dict(bindings_mapping)
+    self.bindings_mapping = bindings_mapping
     #: If an attribute comes from a different attribute, that information is here.
     #: Thus, if the new `start` is the successor of the old `end`, then there will be an 
     #: entry start => end in the slippages dictionary, as well as a start => succ in the
     #: bindings_mapping dictionary.
     assert not(slippages) or isinstance(slippages, frozenset)
-    if slippages:
-      self.slippages = dict(slippages)
-    else:
-      self.slippages = None
+    self.slippages = slippages
 
   def Apply(self, item):
     bindings = item.GetBindingsForCategory(self.category)
     new_bindings = {}
-    for attribute, v in self.bindings_mapping.iteritems():
+    for attribute, v in self.bindings_mapping:
       new_binding_for_attribute = v.Apply(bindings.GetBindingsForAttribute(attribute))
       new_bindings[attribute] = new_binding_for_attribute
     return self.category.Create(new_bindings)
