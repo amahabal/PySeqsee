@@ -79,8 +79,9 @@ class CF_ExplainValues(CodeletFamily):
       if left_attribute != right_attribute:
         slippages[right_attribute] = left_attribute
       mappings[right_attribute] = mapping
-    return StructuralMapping(category, frozenset(mappings.items()),
-                             frozenset(slippages.items()))
+    return StructuralMapping.Create(category=category,
+                                    bindings_mapping=frozenset(mappings.items()),
+                                    slippages=frozenset(slippages.items()))
 
   @classmethod
   def Run(cls, controller):

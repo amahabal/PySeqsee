@@ -44,7 +44,7 @@ class NumericMapping(Mapping, LTMStorableMixin):
   def IsPairConsistent(self, item1, item2):
     return self.Apply(item1).Structure() == item2.Structure()
 
-class StructuralMapping(Mapping):
+class StructuralMapping(Mapping, LTMStorableMixin):
   def __init__(self, category, bindings_mapping, slippages=None):
     #: A category, such as ascending, on which mapping is based.
     self.category = category

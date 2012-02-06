@@ -144,7 +144,7 @@ class TestWorkspace(unittest.TestCase):
 
     successor_mapping_based_cat = MappingBasedCategory.Create(mapping=numeric_successor)
 
-    next_ascending = StructuralMapping(
+    next_ascending = StructuralMapping.Create(
         category=MappingBasedCategory.Create(mapping=numeric_successor),
         bindings_mapping=frozenset((('length', numeric_successor),
                                     ('start', numeric_sameness))))

@@ -94,8 +94,8 @@ class StructuralCategory(Category):
         if possible_mapping:
           bindings_mapping[k] = possible_mapping
     if cls.AreAttributesSufficientToBuild(bindings_mapping.keys()):
-      return StructuralMapping(category=cls,
-                               bindings_mapping=frozenset(bindings_mapping.items()))
+      return StructuralMapping.Create(category=cls,
+                                      bindings_mapping=frozenset(bindings_mapping.items()))
     return None
 
 class ParametrizedCategory(LTMStorableMixin):
