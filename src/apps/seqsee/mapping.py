@@ -50,12 +50,17 @@ class StructuralMapping(Mapping):
     self.category = category
     #: A dictionary of attribute to a mapping: how is the value of each attribute 
     #: transformed?
-    self.bindings_mapping = bindings_mapping
+    assert isinstance(bindings_mapping, frozenset)
+    self.bindings_mapping = dict(bindings_mapping)
     #: If an attribute comes from a different attribute, that information is here.
     #: Thus, if the new `start` is the successor of the old `end`, then there will be an 
     #: entry start => end in the slippages dictionary, as well as a start => succ in the
     #: bindings_mapping dictionary.
-    self.slippages = slippages
+    assert not(slippages) or isinstance(slippages, frozenset)
+    if slippages:
+      self.slippages = dict(slippages)
+    else:
+      self.slippages = None
 
   def Apply(self, item):
     bindings = item.GetBindingsForCategory(self.category)

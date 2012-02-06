@@ -141,18 +141,24 @@ class TestWorkspace(unittest.TestCase):
     elt4 = SAnchored(SElement(9), (), 4, 4)
     numeric_successor = NumericMapping("succ", Number)
     numeric_sameness = NumericMapping("same", Number)
+
+    successor_mapping_based_cat = MappingBasedCategory.Create(mapping=numeric_successor)
+
     next_ascending = StructuralMapping(
-        category=MappingBasedCategory.Construct(numeric_successor),
-        bindings_mapping={ 'length': numeric_successor,
-                          'start': numeric_sameness })
+        category=MappingBasedCategory.Create(mapping=numeric_successor),
+        bindings_mapping=frozenset((('length', numeric_successor),
+                                    ('start', numeric_sameness))))
     gp1 = SAnchored.Create(elt0, elt1, underlying_mapping=numeric_successor)
     gp2 = SAnchored.Create(elt2, elt3, elt4, underlying_mapping=numeric_successor)
     gp3 = SAnchored.Create(gp1, gp2, underlying_mapping=next_ascending)
+
+    self.assertTrue(gp1.object.IsKnownAsInstanceOf(successor_mapping_based_cat))
 
     plonked = ws._PlonkIntoPlace(gp3)
     self.assertEqual(((7, 8), (7, 8, 9)), plonked.Structure())
     existing_groups = list(ws.GetGroupsWithSpan(Exactly(0), Exactly(1)))
     self.assertEqual(existing_groups[0], plonked.items[0])
+    self.assertTrue(plonked.items[0].object.IsKnownAsInstanceOf(successor_mapping_based_cat))
     self.assertEqual(numeric_successor, plonked.items[0].object.underlying_mapping)
     self.assertEqual(next_ascending, plonked.object.underlying_mapping)
 

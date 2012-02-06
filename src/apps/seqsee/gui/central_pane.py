@@ -1,7 +1,8 @@
 from Tkinter import *
-from apps.seqsee.gui.workspace_view import WorkspaceView
 from apps.seqsee.gui.coderack_view import CoderackView
+from apps.seqsee.gui.groups_view import GroupsView
 from apps.seqsee.gui.stream_view import StreamView
+from apps.seqsee.gui.workspace_view import WorkspaceView
 
 class CentralPane(Canvas):
   """The central pane of the Tk-based UI. This can hold several displays."""
@@ -48,6 +49,9 @@ class CentralPane(Canvas):
                                                                      StreamView),
                   'ws_cr_st':  lambda pane: pane.SetThreeWaySplit(WorkspaceView,
                                                                   CoderackView,
+                                                                  StreamView),
+                  'ws_gr_st':  lambda pane: pane.SetThreeWaySplit(WorkspaceView,
+                                                                  GroupsView,
                                                                   StreamView),
                  }
   def SetNamedView(self, name):

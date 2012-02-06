@@ -8,6 +8,7 @@ from farg.subspace import (Subspace, AnswerFound, NeedDeeperExploration, NoAnswe
 from farg.util import WeightedShuffle
 import logging
 import random
+from apps.seqsee.sobject import SGroup
 
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
 
@@ -34,8 +35,14 @@ class CF_ChooseCategory(CodeletFamily):
     ws = controller.workspace
     v1 = ws.left
     v2 = ws.right
+
     if not ws.category:
       common_categories = v1.GetCommonCategoriesSet(v2)
+      # TODO This is temporary debugging cruft, remove.
+      if isinstance(v1, SGroup) and isinstance(v2, SGroup):
+        logging.warning('In CF_ChooseCategory: %s and %s --- %s' % (v1.Structure(),
+                                                                    v2.Structure(),
+                                                                    common_categories))
       if common_categories:
         # ... ToDo: Don't merely use the first category!
         cat = list(common_categories)[0]
@@ -71,8 +78,9 @@ class CF_ExplainValues(CodeletFamily):
       left_attribute, mapping = val
       if left_attribute != right_attribute:
         slippages[right_attribute] = left_attribute
-      mappings[right_attribute] = mappings
-    return StructuralMapping(category, mappings, slippages)
+      mappings[right_attribute] = mapping
+    return StructuralMapping(category, frozenset(mappings.items()),
+                             frozenset(slippages.items()))
 
   @classmethod
   def Run(cls, controller):
