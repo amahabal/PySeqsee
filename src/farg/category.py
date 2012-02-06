@@ -38,6 +38,9 @@ class Binding(object):
     """Get the binding of a single attribute."""
     return self.bindings[attribute_name]
 
+  def __str__(self):
+    return 'Bindings: %s' % self.bindings
+
 class CategorizableMixin(object):
   """Base class for things which can belong to categories."""
   def __init__(self):

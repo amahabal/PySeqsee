@@ -52,7 +52,7 @@ class StructuralMapping(Mapping):
     #: transformed?
     self.bindings_mapping = bindings_mapping
     #: If an attribute comes from a different attribute, that information is here.
-    #: Thus, if the new `start` is the successory of the old `end`, then there will be an 
+    #: Thus, if the new `start` is the successor of the old `end`, then there will be an 
     #: entry start => end in the slippages dictionary, as well as a start => succ in the
     #: bindings_mapping dictionary.
     self.slippages = slippages
