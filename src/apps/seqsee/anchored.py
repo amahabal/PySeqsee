@@ -105,7 +105,7 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
     new_object.underlying_mapping = underlying_mapping
     if underlying_mapping:
       from apps.seqsee.categories import MappingBasedCategory
-      new_object.DescribeAs(MappingBasedCategory.Create(mapping=underlying_mapping))
+      new_object.DescribeAs(MappingBasedCategory(mapping=underlying_mapping))
     return SAnchored(new_object, items, left_edge, right_edge)
 
   def AddRelation(self, relation):

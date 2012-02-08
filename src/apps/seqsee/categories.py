@@ -59,29 +59,29 @@ class NumericCategory(Category):
   """Base class for categories whose instances are SElements, and membership depends only on 
      the magnitude.
   """
-  @classmethod
-  def IsInstance(cls, item):
+
+  def IsInstance(self, item):
     if not isinstance(item, SElement):
       return None
     magnitude = item.magnitude
-    return cls.NumericIsInstance(magnitude)
+    return self.NumericIsInstance(magnitude)
 
 class StructuralCategory(Category):
   """Base class whose membership depends on the structure (e.g., ascending, mountain)."""
-  @classmethod
-  def IsInstance(cls, item):
-    return cls.StructuralIsInstance(item.Structure())
 
-  @classmethod
-  def GetMapping(cls, item1, item2):
-    binding1 = item1.DescribeAs(cls)
+  def IsInstance(self, item):
+    return self.StructuralIsInstance(item.Structure())
+
+
+  def GetMapping(self, item1, item2):
+    binding1 = item1.DescribeAs(self)
     if not binding1: return None
-    binding2 = item2.DescribeAs(cls)
+    binding2 = item2.DescribeAs(self)
     if not binding2: return None
-    return cls.GetMappingBetweenBindings(binding1, binding2)
+    return self.GetMappingBetweenBindings(binding1, binding2)
 
-  @classmethod
-  def GetMappingBetweenBindings(cls, binding1, binding2):
+
+  def GetMappingBetweenBindings(self, binding1, binding2):
     """Get mapping between a pair of bindings. This should eventually be replaced by a space
        (as discussed in the last chapter of the dissertation). For now, I have a simple
        mechanism.
@@ -93,46 +93,27 @@ class StructuralCategory(Category):
         possible_mapping = GetNaiveMapping(v, v2)
         if possible_mapping:
           bindings_mapping[k] = possible_mapping
-    if cls.AreAttributesSufficientToBuild(bindings_mapping.keys()):
-      return StructuralMapping.Create(category=cls,
+    if self.AreAttributesSufficientToBuild(bindings_mapping.keys()):
+      return StructuralMapping.Create(category=self,
                                       bindings_mapping=frozenset(bindings_mapping.items()))
     return None
 
-class ParametrizedCategory(LTMStorableMixin):
-  """Base class for a family of related categories. To create one member of the family, call
-     Create. If the arguments to Create are novel, "Construct" will be called on the base 
-     class, and it should return the category (i.e., a subclass of Category).
-  """
-  # TODO(# --- Jan 3, 2012): The Create is suspiciously like Create in LTMStorableMixin.
-  # They differ only in the presence of the word 'Construct'. Try to unify.
-  memos = {}
-
-  @classmethod
-  def Create(cls, **kwargs):
-    key = frozenset(kwargs.items())
-    if key not in cls.memos:
-      new_category = cls.Construct(**kwargs)
-      cls.memos[key] = new_category
-      return new_category
-    return cls.memos[key]
-
-
 class Number(NumericCategory):
-  @classmethod
-  def NumericIsInstance(cls, val):
+
+  def NumericIsInstance(self, val):
     return Binding()
 
-  @classmethod
-  def GetMapping(cls, item1, item2):
+
+  def GetMapping(self, item1, item2):
     index1, index2 = item1.magnitude, item2.magnitude
     diff_string = NumericMapping.DifferenceString(index1, index2)
     if diff_string:
-      return NumericMapping(diff_string, Number)
+      return NumericMapping(diff_string, Number())
     else:
       return None
 
-  @classmethod
-  def ApplyMapping(cls, mapping, item):
+
+  def ApplyMapping(self, mapping, item):
     name = mapping.name
     if name == 'same':
       return item.DeepCopy()
@@ -147,8 +128,8 @@ class Prime(NumericCategory):
       '2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97'.split()]
   largest_prime = max(primes_list)
 
-  @classmethod
-  def NumericIsInstance(cls, val):
+
+  def NumericIsInstance(self, val):
     try:
       index = Prime.primes_list.index(val)
       return Binding(index=index)
@@ -167,23 +148,23 @@ class Prime(NumericCategory):
       return None
     return Prime.primes_list[Prime.primes_list.index(val) - 1]
 
-  @classmethod
-  def GetMapping(cls, item1, item2):
-    binding1 = item1.DescribeAs(cls)
+
+  def GetMapping(self, item1, item2):
+    binding1 = item1.DescribeAs(self)
     if not binding1: return None
-    binding2 = item2.DescribeAs(cls)
+    binding2 = item2.DescribeAs(self)
     if not binding2: return None
 
     index1, index2 = (binding1.GetBindingsForAttribute('index'),
                       binding2.GetBindingsForAttribute('index'))
     diff_string = NumericMapping.DifferenceString(index1, index2)
     if diff_string:
-      return NumericMapping(diff_string, Prime)
+      return NumericMapping(diff_string, Prime())
     else:
       return None
 
-  @classmethod
-  def ApplyMapping(cls, mapping, item):
+
+  def ApplyMapping(self, mapping, item):
     name = mapping.name
     if name == 'same':
       return item.DeepCopy()
@@ -202,8 +183,8 @@ class Prime(NumericCategory):
 
 class Ascending(StructuralCategory):
 
-  @classmethod
-  def StructuralIsInstance(cls, structure):
+
+  def StructuralIsInstance(self, structure):
     depth = StructureDepth(structure)
     if depth >= 2: return None
     if depth == 0:
@@ -216,8 +197,8 @@ class Ascending(StructuralCategory):
                    end=SObject.Create(structure[-1]),
                    length=SObject.Create(structure[-1] - structure[0] + 1))
 
-  @classmethod
-  def Create(cls, bindings):
+
+  def Create(self, bindings):
     start = bindings.get('start', None)
     end = bindings.get('end', None)
     length = bindings.get('length', None)
@@ -233,15 +214,15 @@ class Ascending(StructuralCategory):
       return SObject.Create(list(range(start.magnitude, end_mag + 1)))
     return SObject.Create(list(range(start.magnitude, end.magnitude + 1)))
 
-  @classmethod
-  def AreAttributesSufficientToBuild(cls, attributes):
+
+  def AreAttributesSufficientToBuild(self, attributes):
     return len(set(attributes).intersection(set(['start', 'end', 'length']))) >= 2
 
 def GetNaiveMapping(v1, v2):
   if isinstance(v1, int) and isinstance(v2, int):
     diff_string = NumericMapping.DifferenceString(v1, v2)
     if diff_string:
-      return NumericMapping.Create(name=diff_string, category=Number)
+      return NumericMapping.Create(name=diff_string, category=Number())
     else:
       return None
   common_categories = v1.GetCommonCategoriesSet(v2)
@@ -254,75 +235,71 @@ def GetNaiveMapping(v1, v2):
   return None
 
 
-class SizeNCategory(ParametrizedCategory):
-  @classmethod
-  def Construct(cls, size):
+class SizeNCategory(StructuralCategory):
+
+  def __init__(self, size):
     if size == 1:
       raise FargError("Attempt to create a SizeN category with size=1")
-    class SizeN(StructuralCategory):
-      @classmethod
-      def StructuralIsInstance(cls, structure):
-        if isinstance(structure, int):
-          return None
-        if len(structure) != size:
-          return None
-        bindings = {}
-        for idx, item in enumerate(structure, 1):
-          bindings['pos_%d' % idx] = SObject.Create(item)
-        return Binding(**bindings)
+    self.size = size
 
-      @classmethod
-      def AreAttributesSufficientToBuild(cls, attributes):
-        for idx in range(1, size + 1):
-          if 'pos_%d' % idx not in attributes:
-            return False
-        return True
+  def StructuralIsInstance(self, structure):
+    if isinstance(structure, int):
+      return None
+    if len(structure) != self.size:
+      return None
+    bindings = {}
+    for idx, item in enumerate(structure, 1):
+      bindings['pos_%d' % idx] = SObject.Create(item)
+    return Binding(**bindings)
 
-      @classmethod
-      def Create(cls, bindings):
-        structure = [bindings['pos_%d' % x] for x in range(1, size + 1)]
-        return SObject.Create(structure)
-    return SizeN
 
-class MappingBasedCategory(ParametrizedCategory):
-  @classmethod
-  def Construct(cls, mapping):
-    class MBC(StructuralCategory):
+  def AreAttributesSufficientToBuild(self, attributes):
+    for idx in range(1, self.size + 1):
+      if 'pos_%d' % idx not in attributes:
+        return False
+    return True
 
-      @classmethod
-      def IsInstance(cls, item):
-        if isinstance(item, SElement):
-          # Probably the wrong thing to do.
-          return None
-        for item_part in item.items:
-          if not item_part.DescribeAs(mapping.category):
-            return cls.IsDegenerateInstance(item)
-        # So all items can be described as members of category...
-        for idx, itempart in enumerate(item.items[1:], 1):
-          if not mapping.IsPairConsistent(item.items[idx - 1], itempart):
-            return cls.IsDegenerateInstance(item)
-        # Okay, so valid.
-        return Binding(start=item.items[0], length=SObject.Create(len(item.items)))
 
-      @classmethod
-      def IsDegenerateInstance(cls, item):
-        if not item.DescribeAs(mapping.category):
-          return None
-        return Binding(start=item, length=SObject.Create(1))
+  def Create(self, bindings):
+    structure = [bindings['pos_%d' % x] for x in range(1, self.size + 1)]
+    return SObject.Create(structure)
 
-      @classmethod
-      def AreAttributesSufficientToBuild(cls, attributes):
-        return 'start' in attributes and 'length' in attributes
+class MappingBasedCategory(StructuralCategory):
+  def __init__(self, mapping):
+    self.mapping = mapping
 
-      @classmethod
-      def Create(cls, bindings):
-        items = [SObject.Create(bindings['start'])]
-        for i in range(1, bindings['length'].magnitude):
-          if not items[-1].DescribeAs(mapping.category):
-            raise FargException("Unable to create object")
-          next_item = mapping.Apply(items[-1])
-          if not next_item:
-            raise FargException("Unable to create object")
-          items.append(next_item)
-        return SObject.Create(items)
-    return MBC
+  def IsInstance(self, item):
+    if isinstance(item, SElement):
+      # Probably the wrong thing to do.
+      return None
+    for item_part in item.items:
+      if not item_part.DescribeAs(self.mapping.category):
+        return self.IsDegenerateInstance(item)
+    # So all items can be described as members of category...
+    for idx, itempart in enumerate(item.items[1:], 1):
+      if not self.mapping.IsPairConsistent(item.items[idx - 1], itempart):
+        return self.IsDegenerateInstance(item)
+    # Okay, so valid.
+    return Binding(start=item.items[0], length=SObject.Create(len(item.items)))
+
+
+  def IsDegenerateInstance(self, item):
+    if not item.DescribeAs(self.mapping.category):
+      return None
+    return Binding(start=item, length=SObject.Create(1))
+
+
+  def AreAttributesSufficientToBuild(self, attributes):
+    return 'start' in attributes and 'length' in attributes
+
+
+  def Create(self, bindings):
+    items = [SObject.Create(bindings['start'])]
+    for i in range(1, bindings['length'].magnitude):
+      if not items[-1].DescribeAs(self.mapping.category):
+        raise FargException("Unable to create object")
+      next_item = self.mapping.Apply(items[-1])
+      if not next_item:
+        raise FargException("Unable to create object")
+      items.append(next_item)
+    return SObject.Create(items)

@@ -9,73 +9,74 @@ class TestSeqseeCategories(unittest.TestCase):
   def test_sanity(self):
     self.assertTrue(issubclass(SObject, CategorizableMixin))
 
-  def test_prime(self):
-    self.assertTrue(Prime.IsInstance(SObject.Create(3)))
-    self.assertFalse(Prime.IsInstance(SObject.Create(4)))
-    self.assertFalse(Prime.IsInstance(SObject.Create(3, 5)))
+  def test_Prime(self):
+    self.assertEqual(Prime(), Prime())
+    self.assertTrue(Prime().IsInstance(SObject.Create(3)))
+    self.assertFalse(Prime().IsInstance(SObject.Create(4)))
+    self.assertFalse(Prime().IsInstance(SObject.Create(3, 5)))
 
     element = SObject.Create(17)
-    binding = Prime.IsInstance(element)
-    self.assertFalse(element.IsKnownAsInstanceOf(Prime))
+    binding = Prime().IsInstance(element)
+    self.assertFalse(element.IsKnownAsInstanceOf(Prime()))
     self.assertTrue(binding)
     self.assertEqual(6, binding.GetBindingsForAttribute('index'))
 
-    binding2 = element.DescribeAs(Prime)
-    self.assertTrue(element.IsKnownAsInstanceOf(Prime))
+    binding2 = element.DescribeAs(Prime())
+    self.assertTrue(element.IsKnownAsInstanceOf(Prime()))
     self.assertTrue(binding2)
     self.assertEqual(6, binding2.GetBindingsForAttribute('index'))
     self.assertNotEqual(binding, binding2)
 
     # Same (stored) binding returned.
-    binding3 = element.DescribeAs(Prime)
+    binding3 = element.DescribeAs(Prime())
     self.assertEqual(binding3, binding2)
 
     element5 = SObject.Create(5)
     element7 = SObject.Create(7)
     element11 = SObject.Create(11)
-    mapping = Prime.GetMapping(element5, element7)
+    mapping = Prime().GetMapping(element5, element7)
     self.assertTrue(isinstance(mapping, NumericMapping))
-    self.assertEqual(Prime, mapping.category)
+    self.assertEqual(Prime(), mapping.category)
     self.assertEqual("succ", mapping.name)
 
     self.assertEqual(11, mapping.Apply(element7).magnitude)
 
   def test_ascending(self):
-    self.assertTrue(Ascending.IsInstance(SObject.Create(3)))
-    self.assertTrue(Ascending.IsInstance(SObject.Create(3, 4, 5)))
+    self.assertTrue(Ascending().IsInstance(SObject.Create(3)))
+    self.assertTrue(Ascending().IsInstance(SObject.Create(3, 4, 5)))
 
-    self.assertFalse(Ascending.IsInstance(SObject.Create(4, 6)))
-    self.assertFalse(Ascending.IsInstance(SObject.Create(4, (5, 6))))
+    self.assertFalse(Ascending().IsInstance(SObject.Create(4, 6)))
+    self.assertFalse(Ascending().IsInstance(SObject.Create(4, (5, 6))))
 
     group = SObject.Create(3, 4, 5)
-    binding = Ascending.IsInstance(group)
-    self.assertFalse(group.IsKnownAsInstanceOf(Ascending))
+    binding = Ascending().IsInstance(group)
+    self.assertFalse(group.IsKnownAsInstanceOf(Ascending()))
     self.assertTrue(binding)
     self.assertEqual(3, binding.GetBindingsForAttribute('start').magnitude)
     self.assertEqual(5, binding.GetBindingsForAttribute('end').magnitude)
 
-    binding2 = group.DescribeAs(Ascending)
-    self.assertTrue(group.IsKnownAsInstanceOf(Ascending))
+    binding2 = group.DescribeAs(Ascending())
+    self.assertTrue(group.IsKnownAsInstanceOf(Ascending()))
     self.assertTrue(binding2)
     self.assertEqual(3, binding2.GetBindingsForAttribute('start').magnitude)
     self.assertNotEqual(binding, binding2)
 
     # Same (stored) binding returned.
-    binding3 = group.DescribeAs(Ascending)
+    binding3 = group.DescribeAs(Ascending())
     self.assertEqual(binding3, binding2)
 
     element5 = SObject.Create(3, 4, 5)
     element7 = SObject.Create(3, 4, 5, 6)
-    mapping = Ascending.GetMapping(element5, element7)
+    mapping = Ascending().GetMapping(element5, element7)
     self.assertTrue(isinstance(mapping, StructuralMapping))
-    self.assertEqual(Ascending, mapping.category)
+    self.assertEqual(Ascending(), mapping.category)
 
     self.assertEqual((3, 4, 5, 6, 7), mapping.Apply(element7).Structure())
 
   def test_sizen(self):
-    Size2 = SizeNCategory.Create(size=2)
-    Size2p = SizeNCategory.Create(size=2)
-    Size3 = SizeNCategory.Create(size=3)
+    Size2 = SizeNCategory(size=2)
+    Size2p = SizeNCategory(size=2)
+    Size3 = SizeNCategory(size=3)
 
     self.assertEqual(Size2, Size2p)
     self.assertNotEqual(Size2, Size3)
@@ -111,9 +112,9 @@ class TestSeqseeCategories(unittest.TestCase):
     self.assertEqual((3, 7), mapping.Apply(element6).Structure())
 
   def test_mapping_based(self):
-    Size2 = SizeNCategory.Create(size=2)
-    numeric_sameness = NumericMapping("same", Number)
-    numeric_successor = NumericMapping("succ", Number)
+    Size2 = SizeNCategory(size=2)
+    numeric_sameness = NumericMapping("same", Number())
+    numeric_successor = NumericMapping("succ", Number())
     mapping_second_succ = StructuralMapping.Create(
         category=Size2,
         bindings_mapping=frozenset((('pos_1', numeric_sameness),
@@ -122,9 +123,9 @@ class TestSeqseeCategories(unittest.TestCase):
         category=Size2,
         bindings_mapping=frozenset((('pos_2', numeric_sameness),
                                     ('pos_1', numeric_successor))))
-    SecondSucc = MappingBasedCategory.Create(mapping=mapping_second_succ)
-    SecondSuccp = MappingBasedCategory.Create(mapping=mapping_second_succ)
-    FirstSucc = MappingBasedCategory.Create(mapping=mapping_first_succ)
+    SecondSucc = MappingBasedCategory(mapping=mapping_second_succ)
+    SecondSuccp = MappingBasedCategory(mapping=mapping_second_succ)
+    FirstSucc = MappingBasedCategory(mapping=mapping_first_succ)
 
     self.assertEqual(SecondSucc, SecondSuccp)
     self.assertNotEqual(SecondSucc, FirstSucc)

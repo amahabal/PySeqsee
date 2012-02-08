@@ -19,6 +19,7 @@ The following also returns a binding, but does not store the membership informat
 """
 
 from farg.exceptions import FargError
+from io import __metaclass__
 
 class Binding(object):
   """Specification of how an instance is a member of some category.
@@ -81,6 +82,16 @@ class CategorizableMixin(object):
     """Returns a list of discovered categories common to this and the other categorizable."""
     return set(self.categories.keys()).intersection(other.categories.keys())
 
+class MemoizedConstructor(type):
+  def __init__(self, name, bases, class_dict):
+    super(MemoizedConstructor, self).__init__(name, bases, class_dict)
+    self.__memo__ = dict()
+
+  def __call__(self, *args, **kw):
+    memo_key = (tuple(args), frozenset(kw.items()))
+    if memo_key not in self.__memo__:
+      self.__memo__[memo_key] = super(MemoizedConstructor, self).__call__(*args, **kw)
+    return self.__memo__[memo_key]
 
 class Category(object):
   """The base class of any category in the FARG system.
@@ -91,20 +102,19 @@ class Category(object):
   * FindMapping (given two categorizables, returns a mapping between the two)
   * ApplyMapping (given a mapping and a categorizable, returns a new item). 
   """
-  @classmethod
-  def IsInstance(cls, object):
+  __metaclass__ = MemoizedConstructor
+
+  def IsInstance(self, object):
     """Is object an instance of this category?
     
     If it is not, `None` is returned. If it is, a binding object is returned.
     """
     raise FargError("IsInstance makes no sense on base category.")
 
-  @classmethod
-  def FindMapping(cls, categorizable1, categorizable2):
+  def FindMapping(self, categorizable1, categorizable2):
     """Finds a mapping between two objects based on a particular category."""
     raise FargError("IsInstance makes no sense on base category.")
 
-  @classmethod
-  def ApplyMapping(cls, categorizable, mapping):
+  def ApplyMapping(self, categorizable, mapping):
     """Apply a mapping to a categorizable to obtain a different categorizable."""
     raise FargError("IsInstance makes no sense on base category.")

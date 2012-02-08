@@ -25,8 +25,8 @@ class FringeOverlapTestForAnchored(FringeOverlapTest):
   def Test_123_123(self):
     controller = MockSeqseeController((1, 2, 3, 1, 2, 3))
     ws = controller.ws
-    numeric_succesor_mapping = NumericMapping('succ', Number)
-    ascending_group = MappingBasedCategory.Create(mapping=numeric_succesor_mapping)
+    numeric_succesor_mapping = NumericMapping('succ', Number())
+    ascending_group = MappingBasedCategory(mapping=numeric_succesor_mapping)
     group1 = self.HelperCreateAndInsertGroup(ws, (0, 1, 2), numeric_succesor_mapping)
     group2 = self.HelperCreateAndInsertGroup(ws, (3, 4, 5), numeric_succesor_mapping)
     group1.object.DescribeAs(ascending_group)

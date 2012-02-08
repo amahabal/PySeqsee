@@ -139,13 +139,13 @@ class TestWorkspace(unittest.TestCase):
     elt2 = SAnchored(SElement(7), (), 2, 2)
     elt3 = SAnchored(SElement(8), (), 3, 3)
     elt4 = SAnchored(SElement(9), (), 4, 4)
-    numeric_successor = NumericMapping("succ", Number)
-    numeric_sameness = NumericMapping("same", Number)
+    numeric_successor = NumericMapping("succ", Number())
+    numeric_sameness = NumericMapping("same", Number())
 
-    successor_mapping_based_cat = MappingBasedCategory.Create(mapping=numeric_successor)
+    successor_mapping_based_cat = MappingBasedCategory(mapping=numeric_successor)
 
     next_ascending = StructuralMapping.Create(
-        category=MappingBasedCategory.Create(mapping=numeric_successor),
+        category=MappingBasedCategory(mapping=numeric_successor),
         bindings_mapping=frozenset((('length', numeric_successor),
                                     ('start', numeric_sameness))))
     gp1 = SAnchored.Create(elt0, elt1, underlying_mapping=numeric_successor)

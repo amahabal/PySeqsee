@@ -17,14 +17,15 @@ class TestSubspace(unittest.TestCase):
 
     a19_21 = SObject.Create(19, 20, 21)
 
-    mapping = Subtask(SubspaceFindMapping, 3, { 'left': a3, 'right': a4, 'category': Ascending})
+    mapping = Subtask(SubspaceFindMapping, 3, { 'left': a3, 'right': a4,
+                                                'category': Ascending()})
     self.assertTrue(isinstance(mapping, StructuralMapping))
-    self.assertEqual(Ascending, mapping.category)
+    self.assertEqual(Ascending(), mapping.category)
     self.assertEqual(None, mapping.slippages)
 
     mapping = Subtask(SubspaceFindMapping, 3, { 'left': a5,
                                                 'right': a19_21,
-                                                'category': Ascending})
+                                                'category': Ascending()})
     self.assertEqual(None, mapping)
 
   def test_with_slippages(self):
@@ -33,8 +34,8 @@ class TestSubspace(unittest.TestCase):
 
     mapping = Subtask(SubspaceFindMapping, 10, { 'left': a17_19,
                                                  'right': a19_21,
-                                                 'category': Ascending})
+                                                 'category': Ascending()})
     self.assertTrue(isinstance(mapping, StructuralMapping))
-    self.assertEqual(Ascending, mapping.category)
+    self.assertEqual(Ascending(), mapping.category)
     slippages_dict = dict(mapping.slippages)
     self.assertEqual('end', slippages_dict['start'])
