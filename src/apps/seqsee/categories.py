@@ -94,8 +94,8 @@ class StructuralCategory(Category):
         if possible_mapping:
           bindings_mapping[k] = possible_mapping
     if self.AreAttributesSufficientToBuild(bindings_mapping.keys()):
-      return StructuralMapping.Create(category=self,
-                                      bindings_mapping=frozenset(bindings_mapping.items()))
+      return StructuralMapping(category=self,
+                               bindings_mapping=frozenset(bindings_mapping.items()))
     return None
 
 class Number(NumericCategory):
@@ -222,7 +222,7 @@ def GetNaiveMapping(v1, v2):
   if isinstance(v1, int) and isinstance(v2, int):
     diff_string = NumericMapping.DifferenceString(v1, v2)
     if diff_string:
-      return NumericMapping.Create(name=diff_string, category=Number())
+      return NumericMapping(name=diff_string, category=Number())
     else:
       return None
   common_categories = v1.GetCommonCategoriesSet(v2)

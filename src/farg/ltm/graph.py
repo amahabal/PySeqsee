@@ -2,7 +2,7 @@ import cPickle as pickle
 from farg.ltm.node import LTMNode
 from farg.ltm.edge import LTMEdge
 
-from farg.ltm.storable import LTMStorableMixin, LTMMakeStorableMixin
+from farg.ltm.storable import LTMStorableMixin
 
 import logging
 logger = logging.getLogger(__name__)
@@ -82,15 +82,12 @@ class LTMGraph(object):
 
   def GetNodeForContent(self, content):
     """Returns node for content; creates one if it does not exist."""
-    if isinstance(content, LTMMakeStorableMixin):
-      content = content.CreateLTMStorable(content)
-    else:
-      assert(isinstance(content, LTMStorableMixin))
-    if content in self._content_to_node:
-      return self._content_to_node[content]
-    new_node = LTMNode(content)
+    storable_content = content.GetLTMStorableContent()
+    if storable_content in self._content_to_node:
+      return self._content_to_node[storable_content]
+    new_node = LTMNode(storable_content)
     self._nodes.append(new_node)
-    self._content_to_node[content] = new_node
+    self._content_to_node[storable_content] = new_node
     return new_node
 
   def SpikeForContent(self, content, amount):

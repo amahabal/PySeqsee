@@ -1,11 +1,12 @@
 """A way to specify how two entities are related."""
 
 from farg.ltm.storable import LTMStorableMixin
+from farg.meta import MemoizedConstructor
 
-class Mapping(object):
-  pass
+class Mapping(LTMStorableMixin):
+  __metaclass__ = MemoizedConstructor
 
-class NumericMapping(Mapping, LTMStorableMixin):
+class NumericMapping(Mapping):
   def __init__(self, name, category):
     #: A string such as "succ" or "same". There are only 5 distinct values used in the Perl
     #: version: *succ*, *pred*, *same*, *flip*, and *noflip*.
@@ -44,7 +45,7 @@ class NumericMapping(Mapping, LTMStorableMixin):
   def IsPairConsistent(self, item1, item2):
     return self.Apply(item1).Structure() == item2.Structure()
 
-class StructuralMapping(Mapping, LTMStorableMixin):
+class StructuralMapping(Mapping):
   def __init__(self, category, bindings_mapping, slippages=None):
     #: A category, such as ascending, on which mapping is based.
     self.category = category

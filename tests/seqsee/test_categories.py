@@ -115,11 +115,11 @@ class TestSeqseeCategories(unittest.TestCase):
     Size2 = SizeNCategory(size=2)
     numeric_sameness = NumericMapping("same", Number())
     numeric_successor = NumericMapping("succ", Number())
-    mapping_second_succ = StructuralMapping.Create(
+    mapping_second_succ = StructuralMapping(
         category=Size2,
         bindings_mapping=frozenset((('pos_1', numeric_sameness),
                                     ('pos_2', numeric_successor))))
-    mapping_first_succ = StructuralMapping.Create(
+    mapping_first_succ = StructuralMapping(
         category=Size2,
         bindings_mapping=frozenset((('pos_2', numeric_sameness),
                                     ('pos_1', numeric_successor))))

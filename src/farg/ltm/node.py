@@ -85,7 +85,7 @@ class LTMNode(object):
     """
     clsname, instance_dict, outgoing_edges, depth_reciprocal = state
     LTMNode._Unmangle(instance_dict)
-    self.content = clsname.Create(**instance_dict)
+    self.content = clsname(**instance_dict)
     self._outgoing_edges = outgoing_edges
     self._raw_activation = 0
     self._time_of_activation_update = 0

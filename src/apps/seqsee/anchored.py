@@ -1,10 +1,10 @@
-from farg.ltm.storable import LTMMakeStorableMixin
-from farg.focusable_mixin import FocusableMixin
-from farg.exceptions import FargError, FargException
-from apps.seqsee.sobject import SObject
+from apps.seqsee.sobject import SObject, LTMStorableSObject
 from farg.codelet import Codelet
-
+from farg.exceptions import FargError, FargException
+from farg.focusable_mixin import FocusableMixin
+from farg.ltm.storable import LTMStorableMixin
 import logging
+
 
 logger = logging.getLogger(__name__)
 
@@ -19,14 +19,13 @@ class NonAdjacentGroupElementsException(FargException):
 
 # This class has more than 7 attributes, disable that pylint check.
 # pylint: disable=R0902
-class SAnchored(LTMMakeStorableMixin, FocusableMixin):
+class SAnchored(LTMStorableMixin, FocusableMixin):
   """An object with position information.
   
   .. warning:: This way of doing things differs from the way in Perl, where I was
     subclassing instead of just having an sobject as a member.
   """
   def __init__(self, sobj, items, start_pos, end_pos, is_sequence_element=False):
-    LTMMakeStorableMixin.__init__(self)
     FocusableMixin.__init__(self)
     #: The object which is anchored.
     self.object = sobj
@@ -65,6 +64,10 @@ class SAnchored(LTMMakeStorableMixin, FocusableMixin):
   def Structure(self):
     """The structure of the contained object."""
     return self.object.Structure()
+
+  def GetLTMStorableContent(self):
+    structure = self.Structure()
+    return LTMStorableSObject(structure)
 
   def GetStorable(self):
     structure = self.object.Structure()

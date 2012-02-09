@@ -7,7 +7,7 @@ from farg.ltm.graph import LTMGraph
 from farg.ltm.node import LTMNode
 from farg.ltm.storable import LTMStorableMixin
 
-from apps.seqsee.sobject import SObject, SElement, SGroup
+from apps.seqsee.sobject import SObject, SElement, SGroup, LTMStorableSObject
 from apps.seqsee.anchored import SAnchored
 
 class LTMTestBase(unittest.TestCase):
@@ -28,14 +28,14 @@ class TestLTMWithObjects(LTMTestBase):
     o1_23 = SObject.Create(1, (2, 3))
 
     self.assertNotEqual(o1, o1b)
-    self.assertEqual(o1.GetStorable(), o1b.GetStorable())
+    self.assertEqual(o1.GetLTMStorableContent(), o1b.GetLTMStorableContent())
     self.assertEqual(myltm.GetNodeForContent(o1), myltm.GetNodeForContent(o1b))
 
     for content in (o1, o1b, o2, o12, o123, o1_23):
       myltm.GetNodeForContent(content)
 
-    self.assertNotEqual(myltm.GetNodeForContent(o1),
-                        myltm.GetNodeForContent(SAnchored(o1, None, 5, 5)))
+    self.assertEqual(myltm.GetNodeForContent(o1),
+                     myltm.GetNodeForContent(SAnchored(o1, None, 5, 5)))
 
     self.assertEqual(myltm.GetNodeForContent(SAnchored(o1b, None, 6, 6)),
                      myltm.GetNodeForContent(SAnchored(o1, None, 5, 5)))
@@ -44,10 +44,10 @@ class TestLTMWithObjects(LTMTestBase):
                         myltm.GetNodeForContent(SAnchored(o1_23, None, 5, 7)))
 
     node = myltm.GetNodeForContent(SAnchored(o1_23, None, 5, 7))
-    self.assertEqual(SAnchored, node.content.cls)
-    self.assertEqual((1, (2, 3)), node.content.storable)
+    self.assertEqual(LTMStorableSObject, node.content.__class__)
+    self.assertEqual((1, (2, 3)), node.content.structure)
 
     myltm.Dump()
 
     myltm2 = LTMGraph(self.filename)
-    self.assertEqual(7, len(myltm2._nodes))
+    self.assertEqual(5, len(myltm2._nodes))

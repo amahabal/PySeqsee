@@ -24,7 +24,7 @@ class CF_NumericCase(CodeletFamily):
     if isinstance(v1, int) and isinstance(v2, int):
       diff_string = NumericMapping.DifferenceString(v1, v2)
       if diff_string:
-        return NumericMapping.Create(name=diff_string, category=Number)
+        return NumericMapping(name=diff_string, category=Number)
       else:
         raise NoAnswerException()
     controller.AddCodelet(CF_ChooseCategory, 100)
@@ -79,9 +79,9 @@ class CF_ExplainValues(CodeletFamily):
       if left_attribute != right_attribute:
         slippages[right_attribute] = left_attribute
       mappings[right_attribute] = mapping
-    return StructuralMapping.Create(category=category,
-                                    bindings_mapping=frozenset(mappings.items()),
-                                    slippages=frozenset(slippages.items()))
+    return StructuralMapping(category=category,
+                             bindings_mapping=frozenset(mappings.items()),
+                             slippages=frozenset(slippages.items()))
 
   @classmethod
   def Run(cls, controller):

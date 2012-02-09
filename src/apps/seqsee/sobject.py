@@ -13,19 +13,28 @@
 
 from farg.category import CategorizableMixin
 from farg.exceptions import FargError
-from farg.ltm.storable import LTMMakeStorableMixin
+from farg.meta import MemoizedConstructor
+from farg.ltm.storable import LTMStorableMixin
 import logging
 
 logger = logging.getLogger(__name__)
 
-class SObject(CategorizableMixin, LTMMakeStorableMixin):
+class LTMStorableSObject(LTMStorableMixin):
+  __metaclass__ = MemoizedConstructor
+
+  def __init__(self, structure):
+    self.structure = structure
+
+  def BriefLabel(self):
+    return 'Obj:%s' % self.structure
+
+class SObject(CategorizableMixin, LTMStorableMixin):
   """Base class of objects --- groups or elements.
   
      This is an abstract class. SGroup and SElement are concrete subclasses.
   """
   def __init__(self, is_group=False):
     CategorizableMixin.__init__(self)
-    LTMMakeStorableMixin.__init__(self)
     #: A number between 0 and 100.
     self.strength = 0
     #: Is this a group? Even SElements can occasionally act like groups.
@@ -57,10 +66,10 @@ class SObject(CategorizableMixin, LTMMakeStorableMixin):
     new_items = [SObject.Create(x) for x in items]
     return SGroup(items=new_items)
 
-  def GetStorable(self):
+  def GetLTMStorableContent(self):
     # TODO(#24 --- Dec 28, 2011): Document (in LTM?) what GetStorable means.
     structure = self.Structure()
-    return (structure, str(structure))
+    return LTMStorableSObject(structure)
 
   def Structure(self):  # pylint: disable=R0201
     """Should be overridden by subclasses to return an int or tuple representing the
