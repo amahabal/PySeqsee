@@ -19,6 +19,7 @@ The following also returns a binding, but does not store the membership informat
 """
 
 from farg.exceptions import FargError
+from farg.meta import MemoizedConstructor
 from io import __metaclass__
 
 class Binding(object):
@@ -81,17 +82,6 @@ class CategorizableMixin(object):
   def GetCommonCategoriesSet(self, other):
     """Returns a list of discovered categories common to this and the other categorizable."""
     return set(self.categories.keys()).intersection(other.categories.keys())
-
-class MemoizedConstructor(type):
-  def __init__(self, name, bases, class_dict):
-    super(MemoizedConstructor, self).__init__(name, bases, class_dict)
-    self.__memo__ = dict()
-
-  def __call__(self, *args, **kw):
-    memo_key = (tuple(args), frozenset(kw.items()))
-    if memo_key not in self.__memo__:
-      self.__memo__[memo_key] = super(MemoizedConstructor, self).__call__(*args, **kw)
-    return self.__memo__[memo_key]
 
 class Category(object):
   """The base class of any category in the FARG system.
