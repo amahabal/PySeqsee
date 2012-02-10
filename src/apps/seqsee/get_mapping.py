@@ -5,7 +5,7 @@ from farg.codelet import Codelet, CodeletFamily
 from farg.exceptions import FargException, AnswerFoundException, NoAnswerException
 from farg.subspace import (Subspace, AnswerFound, NeedDeeperExploration, NoAnswerLikely,
   Subtask)
-from farg.util import WeightedShuffle
+from farg.util import WeightedShuffle, WeightedChoice
 import logging
 import random
 from apps.seqsee.sobject import SGroup
@@ -38,14 +38,9 @@ class CF_ChooseCategory(CodeletFamily):
 
     if not ws.category:
       common_categories = v1.GetCommonCategoriesSet(v2)
-      # TODO This is temporary debugging cruft, remove.
-      if isinstance(v1, SGroup) and isinstance(v2, SGroup):
-        logging.warning('In CF_ChooseCategory: %s and %s --- %s' % (v1.Structure(),
-                                                                    v2.Structure(),
-                                                                    common_categories))
       if common_categories:
         # ... ToDo: Don't merely use the first category!
-        cat = list(common_categories)[0]
+        cat = WeightedChoice((x, 1) for x in common_categories)
         ws.category = cat
       else:
         raise NoAnswerException()
@@ -93,8 +88,7 @@ class CF_ExplainValues(CodeletFamily):
     one_attribute = random.choice(unexplained_attributes)
     logger.debug("Chose attribute %s for explanation.", one_attribute)
     attribute_value = b2_dict[one_attribute]
-    logger.debug("Will love to explain this value: %s", str(attribute_value.Structure()))
-
+    logger.debug("Will love to explain this value: %s", str(attribute_value))
     # Pick an ordering of attributes (biased in some way... how, and how to implement bias?)
     # I wish there was a weighted choice in random :)
     b1 = ws.b1

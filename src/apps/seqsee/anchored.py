@@ -1,5 +1,5 @@
 from apps.seqsee.sobject import SObject, LTMStorableSObject
-from farg.codelet import Codelet
+from farg.codelet import Codelet, CodeletFamily
 from farg.exceptions import FargError, FargException
 from farg.focusable_mixin import FocusableMixin
 from farg.ltm.storable import LTMStorableMixin
@@ -7,6 +7,13 @@ import logging
 
 
 logger = logging.getLogger(__name__)
+
+# TODO(# --- Feb 10, 2012): Find a better home
+class CF_DescribeAs(CodeletFamily):
+  @classmethod
+  def Run(cls, controller, item, category):
+    if not item.IsKnownAsInstanceOf(category):
+      item.DescribeAs(category)
 
 class NonAdjacentGroupElementsException(FargException):
   """Raised if group creation attempted with non-adjacent parts."""
@@ -134,7 +141,20 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
     codelets = []
     from apps.seqsee.codelet_families.all import CF_FocusOn
     for relation in self.relations:
+      # QUALITY TODO(Feb 10, 2012): Whether to add a relation-focusing codelet should depend
+      # on its confidence, whether it is internal (part of a group), and other considerations.
       codelets.append(Codelet(CF_FocusOn, controller, 25, focusable=relation))
+    my_node = controller.ltm.GetNodeForContent(self)
+    outgoing_isa_edges = my_node.GetOutgoingEdgesOfTypeIsa()
+    for edge in outgoing_isa_edges:
+      # QUALITY TODO(Feb 10, 2012): Category activation and edge strength relevant here.
+      category = edge.to_node.content
+
+      # The following appears to repeatedly check; However, note that the link in the LTM
+      # suggests that the categorization is possible.
+      if not self.object.IsKnownAsInstanceOf(category):
+        codelets.append(Codelet(CF_DescribeAs, controller, 25,
+                                item=self.object, category=category))
     return codelets
 
   def GetSimilarityAffordances(self, other, other_fringe, my_fringe, controller):

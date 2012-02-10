@@ -19,12 +19,9 @@ def InitializeSeqseeLTM(ltm):
     ltm.AddEdgeBetweenContent(elements[idx + 1], element,
                               LTMEdge.LTM_EDGE_TYPE_RELATED)
   from apps.seqsee.categories import Prime
-  ltm.AddEdgeBetweenContent(elements[1], Prime(),
-                            LTMEdge.LTM_EDGE_TYPE_ISA)
-  ltm.AddEdgeBetweenContent(elements[2], Prime(),
-                            LTMEdge.LTM_EDGE_TYPE_ISA)
-  ltm.AddEdgeBetweenContent(elements[4], Prime(),
-                            LTMEdge.LTM_EDGE_TYPE_ISA)
+  for prime_number in (2, 3, 5, 7):
+    ltm.AddEdgeBetweenContent(elements[prime_number - 1], Prime(),
+                              LTMEdge.LTM_EDGE_TYPE_ISA)
 
 LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
 

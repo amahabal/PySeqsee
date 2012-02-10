@@ -84,13 +84,9 @@ class SObject(CategorizableMixin, LTMStorableMixin):
     my_node.Spike(50, controller.steps_taken)
     fringe = dict()
     fringe[my_node] = 1.0
-    outgoing_related_edges = list(my_node.GetOutgoingEdgesOfTypeRelated())
+    outgoing_related_edges = my_node.GetOutgoingEdgesOfTypeRelated()
     for edge in outgoing_related_edges:
       # TODO(# --- Dec 30, 2011): Edges should have strength, and it should influence this.
-      fringe[edge.to_node] = 0.8
-    outgoing_isa_edges = list(my_node.GetOutgoingEdgesOfTypeIsa())
-    for edge in outgoing_isa_edges:
-      # TODO(# --- Feb 9, 2012): Node's activation should influence this!
       fringe[edge.to_node] = 0.8
     return fringe
 
@@ -126,6 +122,9 @@ class SGroup(SObject):
     fringe = dict()
     if self.underlying_mapping:
       fringe[self.underlying_mapping] = 1.0
+    for category, _bindings in self.categories.iteritems():
+      # QUALITY TODO(Feb 10, 2012): Activation in the LTM matters.
+      fringe[category] = 0.8
     fringe.update(self.GetFringeFromLTM(controller))
     return fringe
 
@@ -150,4 +149,9 @@ class SElement(SObject):
 
   def GetFringe(self, controller):
     """Fringe for the element (now based off the LTM)."""
-    return self.GetFringeFromLTM(controller)
+    fringe = dict()
+    for category, _bindings in self.categories.iteritems():
+      # QUALITY TODO(Feb 10, 2012): Activation in the LTM matters.
+      fringe[category] = 0.8
+    fringe.update(self.GetFringeFromLTM(controller))
+    return fringe
