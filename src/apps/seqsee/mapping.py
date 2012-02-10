@@ -18,7 +18,7 @@ class NumericMapping(Mapping):
     return 'NumericMapping-%ld(%s %s)' % (id(self), self.category, self.name)
 
   def BriefLabel(self):
-    return str(self)
+    return '{%s} %s' % (self.category.BriefLabel(), self.name)
 
   _flipmap_ = { 'succ': 'pred', 'pred': 'succ', 'same': 'same', 'flip': 'flip',
                 'noflip': 'noflip'}
@@ -60,6 +60,8 @@ class StructuralMapping(Mapping):
     assert not(slippages) or isinstance(slippages, frozenset)
     self.slippages = slippages
 
+  def BriefLabel(self):
+    return '[%s]' % self.category.BriefLabel()
   def Apply(self, item):
     bindings = item.GetBindingsForCategory(self.category)
     new_bindings = {}

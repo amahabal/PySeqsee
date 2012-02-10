@@ -26,7 +26,7 @@ class LTMStorableSObject(LTMStorableMixin):
     self.structure = structure
 
   def BriefLabel(self):
-    return 'Obj:%s' % self.structure
+    return 'Obj:%s' % str(self.structure)
 
 class SObject(CategorizableMixin, LTMStorableMixin):
   """Base class of objects --- groups or elements.

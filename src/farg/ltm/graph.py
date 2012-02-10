@@ -90,12 +90,13 @@ class LTMGraph(object):
 
   def SpikeForContent(self, content, amount):
     """Spike node indicated by content by amount."""
-    self.GetNodeForContent(content).Spike(amount, self._timesteps)
+    storable_content = content.GetLTMStorableContent()
+    self.GetNodeForContent(storable_content).Spike(amount, self._timesteps)
 
   def AddEdgeBetweenContent(self, from_content, to_content,
                             edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
-    node = self.GetNodeForContent(from_content)
-    to_node = self.GetNodeForContent(to_content)
+    node = self.GetNodeForContent(from_content.GetLTMStorableContent())
+    to_node = self.GetNodeForContent(to_content.GetLTMStorableContent())
     for edge in node.outgoing_edges:
       if edge.to_node == to_node and edge_type == edge.edge_type:
         # Already exists, bail out.

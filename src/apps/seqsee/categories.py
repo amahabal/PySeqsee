@@ -47,13 +47,12 @@ If FooCategory is a subclass of ParametrizedCategory, we could say::
 
 """
 
-from farg.category import Binding, Category
-from apps.seqsee.sobject import SElement, SObject
 from apps.seqsee.anchored import SAnchored
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
+from apps.seqsee.sobject import SElement, SObject
 from apps.seqsee.structure_utils import StructureDepth
+from farg.category import Binding, Category
 from farg.exceptions import FargError, FargException
-from farg.ltm.storable import LTMStorableMixin
 
 class NumericCategory(Category):
   """Base class for categories whose instances are SElements, and membership depends only on 
@@ -100,6 +99,9 @@ class StructuralCategory(Category):
 
 class Number(NumericCategory):
 
+  def BriefLabel(self):
+    return 'Number'
+
   def NumericIsInstance(self, val):
     return Binding()
 
@@ -128,6 +130,8 @@ class Prime(NumericCategory):
       '2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97'.split()]
   largest_prime = max(primes_list)
 
+  def BriefLabel(self):
+    return 'Prime'
 
   def NumericIsInstance(self, val):
     try:
@@ -182,6 +186,9 @@ class Prime(NumericCategory):
         return None
 
 class Ascending(StructuralCategory):
+
+  def BriefLabel(self):
+    return 'Ascending'
 
 
   def StructuralIsInstance(self, structure):
@@ -242,6 +249,9 @@ class SizeNCategory(StructuralCategory):
       raise FargError("Attempt to create a SizeN category with size=1")
     self.size = size
 
+  def BriefLabel(self):
+    return 'SizeN(%d)' % self.size
+
   def StructuralIsInstance(self, structure):
     if isinstance(structure, int):
       return None
@@ -267,6 +277,9 @@ class SizeNCategory(StructuralCategory):
 class MappingBasedCategory(StructuralCategory):
   def __init__(self, mapping):
     self.mapping = mapping
+
+  def BriefLabel(self):
+    return 'MBC(%s)' % self.mapping.BriefLabel()
 
   def IsInstance(self, item):
     if isinstance(item, SElement):
