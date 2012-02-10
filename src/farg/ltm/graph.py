@@ -111,7 +111,14 @@ class LTMGraph(object):
       lines.append(node.GetXDot(node_to_pos[node]))
       for edge in node.outgoing_edges:
         other_node = edge.to_node
-        lines.append('node_%d -> node_%d' % (node_to_pos[node], node_to_pos[other_node]))
+        try:
+          lines.append('node_%d -> node_%d' % (node_to_pos[node], node_to_pos[other_node]))
+        except KeyError:
+          print "Key error: %s  ==> %s" % (node.content.BriefLabel(),
+                                           other_node.content.BriefLabel(),
+                                           edge.edge_type)
+          print (node, other_node)
+          print self._nodes
     return """
       digraph G {
       %s
