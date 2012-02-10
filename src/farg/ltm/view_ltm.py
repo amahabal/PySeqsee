@@ -29,15 +29,15 @@ class MyDotWindow(xdot.DotWindow):
   def __init__(self, ltm):
     xdot.DotWindow.__init__(self)
     self.history_stack = []
-    self.widget.connect('clicked', self.on_url_clicked)
+    self.widget.connect('clicked', self.OnUrlClicked)
     self.uimanager.remove_action_group(self.actiongroup)
     self.ltm = ltm
 
     self.actiongroup = gtk.ActionGroup('Actions')
     self.actiongroup.add_actions(
         (
-         ('FullGraph', gtk.STOCK_HOME, None, None, None, self.display_full_graph),
-         ('GoBack', gtk.STOCK_GO_BACK, None, None, None, self.go_back),
+         ('FullGraph', gtk.STOCK_HOME, None, None, None, self.DisplayFullGraph),
+         ('GoBack', gtk.STOCK_GO_BACK, None, None, None, self.GoBack),
          ('Reload', gtk.STOCK_REFRESH, None, None, None, self.on_reload),
          ('ZoomIn', gtk.STOCK_ZOOM_IN, None, None, None, self.widget.on_zoom_in),
          ('ZoomOut', gtk.STOCK_ZOOM_OUT, None, None, None, self.widget.on_zoom_out),
@@ -48,21 +48,21 @@ class MyDotWindow(xdot.DotWindow):
     self.uimanager.add_ui_from_string(self.ui)
 
 
-  def on_url_clicked(self, widget, url, event):
+  def OnUrlClicked(self, _widget, url, _event):
     self.set_dotcode(GetGraph(self.ltm, url))
     self.history_stack.append(url)
     return True
 
-  def display_full_graph(self, ignored_action):
+  def DisplayFullGraph(self, _action):
     self.set_dotcode(GetGraph(self.ltm, None))
     self.history_stack = []
 
-  def go_back(self, ignored_action):
+  def GoBack(self, _action):
     len_history = len(self.history_stack)
     if len_history == 0:
       return
     if len_history == 1:
-      return self.display_full_graph(ignored_action)
+      return self.DisplayFullGraph(_action)
     prior_url = self.history_stack[-2]
     self.history_stack = self.history_stack[:-1]
     self.set_dotcode(GetGraph(self.ltm, prior_url))

@@ -5,7 +5,7 @@ import math
 #: ['0.003', '0.018', '0.043', '0.093', # For 0, 10, 20, 30
 #:  '0.220', '0.562', '0.811', '0.895', # For 40, 50, 60, 70
 #:  '0.932', '0.952', '0.964']  # For 80, 90, 100
-_raw_activation_to_real_activation = [
+_RAW_ACTIVATION_TO_REAL_ACTIVATION = [
     0.4815 + 0.342 * math.atan2(12 * (0.01 * x - 0.5), 1)
     for x in range(2, 203)]
 
@@ -44,7 +44,7 @@ class LTMNode(object):
       
     """
     self.content = content
-    self._outgoing_edges = []
+    self.outgoing_edges = []
     #: An easy-to-update measure of activation. The real activation is a continuous function
     #: of this. Starts out at (and never falls below) 0.
     self._raw_activation = 0
@@ -77,7 +77,7 @@ class LTMNode(object):
     classes get pickled is not an option.
     """
     content = self.content
-    return (content.__class__, content.__dict__, self._outgoing_edges, self.depth_reciprocal)
+    return (content.__class__, content.__dict__, self.outgoing_edges, self.depth_reciprocal)
 
   def __setstate__(self, state):
     """This vivifies the object, using Create() and unmangling any values: that is, values 
@@ -85,8 +85,8 @@ class LTMNode(object):
     """
     clsname, instance_dict, outgoing_edges, depth_reciprocal = state
     LTMNode._Unmangle(instance_dict)
-    self.content = clsname(**instance_dict)
-    self._outgoing_edges = outgoing_edges
+    self.content = clsname(**instance_dict)  # Fair use of ** magic. pylint: disable=W0142
+    self.outgoing_edges = outgoing_edges
     self._raw_activation = 0
     self._time_of_activation_update = 0
     self.depth_reciprocal = depth_reciprocal
@@ -94,9 +94,9 @@ class LTMNode(object):
   @staticmethod
   def _Unmangle(content_dict):
     """Replaces values that are nodes with contents of those nodes."""
-    for k, v in content_dict.iteritems():
-      if isinstance(v, LTMNode):
-        content_dict[k] = v.content
+    for k, value in content_dict.iteritems():
+      if isinstance(value, LTMNode):
+        content_dict[k] = value.content
 
   def IncrementDepth(self):
     """Increment depth of node by 1."""
@@ -112,7 +112,7 @@ class LTMNode(object):
         self._raw_activation = 0
     self._time_of_activation_update = current_time
 
-  def _SpikeNonSpreading(self, amount, current_time):
+  def SpikeNonSpreading(self, amount, current_time):
     """Update activation by this amount (after processing any pending decays, but do not
        propagate further.)"""
     self._ProcessDecays(current_time)
@@ -127,10 +127,10 @@ class LTMNode(object):
     
     .. todo:: Should spread to depth 2. Not done correctly. Nor is the amount spread accurate.
     """
-    self._SpikeNonSpreading(amount, current_time)
-    for edge in self._outgoing_edges:
+    self.SpikeNonSpreading(amount, current_time)
+    for edge in self.outgoing_edges:
       to_node = edge.to_node
-      to_node._SpikeNonSpreading(0.25 * amount, current_time)
+      to_node.SpikeNonSpreading(0.25 * amount, current_time)
     return self.GetActivation(current_time)
 
   def GetRawActivation(self, current_time):
@@ -143,15 +143,15 @@ class LTMNode(object):
 
   def GetActivation(self, current_time):
     """Get activation. This is f(raw_activation), where f is a predefined mapping."""
-    return _raw_activation_to_real_activation[int(self.GetRawActivation(current_time))]
+    return _RAW_ACTIVATION_TO_REAL_ACTIVATION[int(self.GetRawActivation(current_time))]
 
   def GetOutgoingEdges(self):
     """Get outgoing edges from the node."""
-    return self._outgoing_edges
+    return self.outgoing_edges
 
   def GetOutgoingEdgesOfType(self, edge_type):
     """Get outgoing edges of particular type."""
-    return (edge for edge in self._outgoing_edges if edge.edge_type == edge_type)
+    return (edge for edge in self.outgoing_edges if edge.edge_type == edge_type)
 
   def GetOutgoingEdgesOfTypeRelated(self):
     """Get outgoing edges of type 'related'."""

@@ -1,4 +1,4 @@
-class LTMEdge(object):
+class LTMEdge(object):  # Has no public methods pylint:disable=R0903
   """Represents the connection between a pair of concepts.
 
      An edge is directed, and it is stored in the node for which this is an outgoing edge.

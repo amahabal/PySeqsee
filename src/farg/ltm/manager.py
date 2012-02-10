@@ -1,7 +1,8 @@
+"""Manages the set of LTMs."""
+
 import os.path
 from farg.ltm.graph import LTMGraph
 
-"""Manages the set of LTMs."""
 
 import logging
 logger = logging.getLogger(__name__)
@@ -16,6 +17,7 @@ class LTMManager(object):
   def GetLTM(cls, ltm_name):
     if ltm_name in LTMManager.loaded_ltms:
       return LTMManager.loaded_ltms[ltm_name]
+    # TODO(# --- Feb 9, 2012): Should not be hardcoded.
     filename = '/home/amahabal/pyseqsee/ltms/%s' % ltm_name
     if not os.path.isfile(filename):
       # We need to create the LTM. I'd need to figure out how and where it should get
@@ -39,7 +41,8 @@ class LTMManager(object):
        single argument, the LTM.
     """
     LTMManager._registered_initializers[ltm_name] = initializer_function
+
   @classmethod
-  def SaveAllOpenLTMS(self):
-    for k, v in LTMManager.loaded_ltms.iteritems():
-      v.Dump()
+  def SaveAllOpenLTMS(cls):
+    for _ltm_name, ltm in LTMManager.loaded_ltms.iteritems():
+      ltm.Dump()

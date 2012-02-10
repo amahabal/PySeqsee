@@ -1,10 +1,8 @@
-import cPickle as pickle
-from farg.ltm.node import LTMNode
 from farg.ltm.edge import LTMEdge
-
-from farg.ltm.storable import LTMStorableMixin
-
+from farg.ltm.node import LTMNode
+import cPickle as pickle
 import logging
+
 logger = logging.getLogger(__name__)
 
 class LTMGraph(object):
@@ -24,8 +22,8 @@ class LTMGraph(object):
     #: notion of time is therefore relevant.
     self._timesteps = 0
     if filename:
-      with open(filename) as f:
-        up = pickle.Unpickler(f)
+      with open(filename) as ltmfile:
+        up = pickle.Unpickler(ltmfile)
         self._LoadNodes(up)
     logging.info('Loaded LTM in %s: %d nodes read', filename, len(self._nodes))
 
@@ -54,8 +52,8 @@ class LTMGraph(object):
     """Writes out content to file if file attribute is set."""
     if not self._filename:
       return
-    with open(self._filename, "w") as f:
-      pickler = pickle.Pickler(f, 2)
+    with open(self._filename, "w") as ltm_file:
+      pickler = pickle.Pickler(ltm_file, 2)
       for node in self._nodes:
         self._Mangle(node.content.__dict__)
         pickler.dump(node)
@@ -63,15 +61,15 @@ class LTMGraph(object):
 
   def _Mangle(self, content_dict):
     """Replaces references to nodes with the nodes themselves."""
-    for k, v in content_dict.iteritems():
-      if v in self._content_to_node:
-        content_dict[k] = self._content_to_node[v]
+    for k, value in content_dict.iteritems():
+      if value in self._content_to_node:
+        content_dict[k] = self._content_to_node[value]
 
   def _Unmangle(self, content_dict):
     """Replaces values that are nodes with contents of those nodes."""
-    for k, v in content_dict.iteritems():
-      if isinstance(v, LTMNode):
-        content_dict[k] = v.content
+    for k, value in content_dict.iteritems():
+      if isinstance(value, LTMNode):
+        content_dict[k] = value.content
 
 
   def AddNode(self, node):
@@ -98,11 +96,11 @@ class LTMGraph(object):
                             edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
     node = self.GetNodeForContent(from_content)
     to_node = self.GetNodeForContent(to_content)
-    for edge in node._outgoing_edges:
+    for edge in node.outgoing_edges:
       if edge.to_node == to_node and edge_type == edge.edge_type:
         # Already exists, bail out.
         return
-    node._outgoing_edges.append(LTMEdge(to_node, edge_type))
+    node.outgoing_edges.append(LTMEdge(to_node, edge_type))
 
   def GetGraphXDOT(self):
     """Generates XDOT for entire graph."""
@@ -110,7 +108,7 @@ class LTMGraph(object):
     node_to_pos = dict((y, x) for x, y in enumerate(self._nodes))
     for node in self._nodes:
       lines.append(node.GetXDot(node_to_pos[node]))
-      for edge in node._outgoing_edges:
+      for edge in node.outgoing_edges:
         other_node = edge.to_node
         lines.append('node_%d -> node_%d' % (node_to_pos[node], node_to_pos[other_node]))
     return """
@@ -129,7 +127,7 @@ class LTMGraph(object):
     for depth in range(1, depth):
       nodes_at_this_depth = []
       for node_at_previous_depth in nodes_at_depth[depth - 1]:
-        edges = nodes[node_at_previous_depth]._outgoing_edges
+        edges = nodes[node_at_previous_depth].outgoing_edges
         for edge in edges:
           other_node = node_to_pos[edge.to_node]
           if other_node not in nodes_to_depth:
@@ -140,7 +138,7 @@ class LTMGraph(object):
       nodes_at_depth.append(nodes_at_this_depth)
     # For the "leaf" nodes, add edges (without adding nodes)
     for node_at_previous_depth in nodes_at_depth[depth]:
-      edges = nodes[node_at_previous_depth]._outgoing_edges
+      edges = nodes[node_at_previous_depth].outgoing_edges
       for edge in edges:
         other_node = node_to_pos[edge.to_node]
         if other_node in nodes_to_depth:
