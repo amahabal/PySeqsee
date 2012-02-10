@@ -2,6 +2,7 @@ from farg.ltm.edge import LTMEdge
 from farg.ltm.node import LTMNode
 import cPickle as pickle
 import logging
+from farg.exceptions import FargError
 
 logger = logging.getLogger(__name__)
 
@@ -98,7 +99,9 @@ class LTMGraph(object):
     node = self.GetNodeForContent(from_content.GetLTMStorableContent())
     to_node = self.GetNodeForContent(to_content.GetLTMStorableContent())
     for edge in node.outgoing_edges:
-      if edge.to_node == to_node and edge_type == edge.edge_type:
+      if edge.to_node == to_node:
+        if edge_type != edge.edge_type:
+          raise FargError("Edge already exists, but with diff type!")
         # Already exists, bail out.
         return
     node.outgoing_edges.append(LTMEdge(to_node, edge_type))

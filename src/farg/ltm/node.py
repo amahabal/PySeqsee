@@ -155,7 +155,13 @@ class LTMNode(object):
 
   def GetOutgoingEdgesOfTypeRelated(self):
     """Get outgoing edges of type 'related'."""
-    return self.GetOutgoingEdgesOfType('related')
+    from farg.ltm.edge import LTMEdge
+    return self.GetOutgoingEdgesOfType(LTMEdge.LTM_EDGE_TYPE_RELATED)
+
+  def GetOutgoingEdgesOfTypeIsa(self):
+    """Get outgoing edges of type 'isa'."""
+    from farg.ltm.edge import LTMEdge
+    return self.GetOutgoingEdgesOfType(LTMEdge.LTM_EDGE_TYPE_ISA)
 
   def GetXDot(self, idx, is_center=False):
     label = self.content.BriefLabel()

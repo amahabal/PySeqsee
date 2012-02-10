@@ -69,7 +69,7 @@ class SObject(CategorizableMixin, LTMStorableMixin):
   def GetLTMStorableContent(self):
     # TODO(#24 --- Dec 28, 2011): Document (in LTM?) what GetStorable means.
     structure = self.Structure()
-    return LTMStorableSObject(structure)
+    return LTMStorableSObject(structure=structure)
 
   def Structure(self):  # pylint: disable=R0201
     """Should be overridden by subclasses to return an int or tuple representing the
@@ -82,11 +82,15 @@ class SObject(CategorizableMixin, LTMStorableMixin):
     # TODO(# --- Dec 30, 2011): Need codelets to add LTM edges where they are missing.
     my_node = controller.ltm.GetNodeForContent(self)
     my_node.Spike(50, controller.steps_taken)
-    outgoing_related_edges = my_node.GetOutgoingEdgesOfTypeRelated()
     fringe = dict()
     fringe[my_node] = 1.0
+    outgoing_related_edges = list(my_node.GetOutgoingEdgesOfTypeRelated())
     for edge in outgoing_related_edges:
       # TODO(# --- Dec 30, 2011): Edges should have strength, and it should influence this.
+      fringe[edge.to_node] = 0.8
+    outgoing_isa_edges = list(my_node.GetOutgoingEdgesOfTypeIsa())
+    for edge in outgoing_isa_edges:
+      # TODO(# --- Feb 9, 2012): Node's activation should influence this!
       fringe[edge.to_node] = 0.8
     return fringe
 

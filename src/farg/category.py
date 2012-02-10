@@ -20,7 +20,7 @@ The following also returns a binding, but does not store the membership informat
 
 from farg.exceptions import FargError
 from farg.meta import MemoizedConstructor
-from io import __metaclass__
+from farg.ltm.storable import LTMStorableMixin
 
 class Binding(object):
   """Specification of how an instance is a member of some category.
@@ -83,7 +83,7 @@ class CategorizableMixin(object):
     """Returns a list of discovered categories common to this and the other categorizable."""
     return set(self.categories.keys()).intersection(other.categories.keys())
 
-class Category(object):
+class Category(LTMStorableMixin):
   """The base class of any category in the FARG system.
   
   Any derivative class must define the following class methods:

@@ -2,6 +2,7 @@ from apps.seqsee.codelet_families.read_from_ws import CF_ReadFromWS
 from apps.seqsee.workspace import Workspace
 from farg.controller import Controller
 from farg.ltm.manager import LTMManager
+from farg.ltm.edge import LTMEdge
 
 kLTMName = 'seqsee.main'
 
@@ -13,8 +14,17 @@ def InitializeSeqseeLTM(ltm):
   for element in elements:
     ltm.GetNodeForContent(element)
   for idx, element in enumerate(elements[:-1]):
-    ltm.AddEdgeBetweenContent(element, elements[idx + 1], 'related')
-    ltm.AddEdgeBetweenContent(elements[idx + 1], element, 'related')
+    ltm.AddEdgeBetweenContent(element, elements[idx + 1],
+                              LTMEdge.LTM_EDGE_TYPE_RELATED)
+    ltm.AddEdgeBetweenContent(elements[idx + 1], element,
+                              LTMEdge.LTM_EDGE_TYPE_RELATED)
+  from apps.seqsee.categories import Prime
+  ltm.AddEdgeBetweenContent(elements[1], Prime(),
+                            LTMEdge.LTM_EDGE_TYPE_ISA)
+  ltm.AddEdgeBetweenContent(elements[2], Prime(),
+                            LTMEdge.LTM_EDGE_TYPE_ISA)
+  ltm.AddEdgeBetweenContent(elements[4], Prime(),
+                            LTMEdge.LTM_EDGE_TYPE_ISA)
 
 LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
 
