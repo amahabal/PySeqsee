@@ -152,7 +152,6 @@ class Prime(NumericCategory):
       return None
     return Prime.primes_list[Prime.primes_list.index(val) - 1]
 
-
   def GetMapping(self, item1, item2):
     binding1 = item1.DescribeAs(self)
     if not binding1: return None
