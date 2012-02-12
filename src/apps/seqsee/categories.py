@@ -47,7 +47,6 @@ If FooCategory is a subclass of ParametrizedCategory, we could say::
 
 """
 
-from apps.seqsee.anchored import SAnchored
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.sobject import SElement, SObject
 from apps.seqsee.structure_utils import StructureDepth
@@ -307,7 +306,7 @@ class MappingBasedCategory(StructuralCategory):
 
   def Create(self, bindings):
     items = [SObject.Create(bindings['start'])]
-    for i in range(1, bindings['length'].magnitude):
+    for _i in range(1, bindings['length'].magnitude):
       if not items[-1].DescribeAs(self.mapping.category):
         raise FargException("Unable to create object")
       next_item = self.mapping.Apply(items[-1])

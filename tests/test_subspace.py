@@ -1,12 +1,10 @@
-import random
-import unittest
-
-from apps.seqsee.sobject import SObject
 from apps.seqsee.categories import Ascending
 from apps.seqsee.get_mapping import SubspaceFindMapping
 from apps.seqsee.mapping import StructuralMapping
-
+from apps.seqsee.sobject import SObject
 from farg.controller import Controller
+import unittest
+
 
 class TestSubspace(unittest.TestCase):
   def test_sanity(self):

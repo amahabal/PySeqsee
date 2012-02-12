@@ -1,13 +1,12 @@
 from apps.seqsee.categories import GetNaiveMapping, Number
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.relation import Relation
-from farg.codelet import Codelet, CodeletFamily
-from farg.exceptions import FargException, AnswerFoundException, NoAnswerException
+from farg.codelet import CodeletFamily
+from farg.exceptions import AnswerFoundException, NoAnswerException
 from farg.subspace import Subspace
 from farg.util import WeightedShuffle, WeightedChoice
 import logging
 import random
-from apps.seqsee.sobject import SGroup
 
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
 
