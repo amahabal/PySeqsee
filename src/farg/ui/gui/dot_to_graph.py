@@ -1,6 +1,5 @@
 # First cut of a Tk based viewer. Draws nodes and edges, but little else.
 
-import colorsys
 import math
 import sys
 import subprocess
@@ -10,7 +9,7 @@ from third_party.xdot import XDotParser
 from farg.ltm.graph import LTMGraph
 from farg.ui.gui.util import HSVToColorString
 
-class GraphViewer(Canvas):
+class GraphViewer(Canvas):  # Too many public methods imported: pylint: disable=R0904
 
   def __init__(self, master, width, height, ltm, message_label):
     Canvas.__init__(self, master, width=width, height=height)
@@ -38,6 +37,7 @@ class GraphViewer(Canvas):
     self.DrawGraph(self.startnode)
 
   def _CalculateTransformParameters(self, graph):
+    # Many attributes get defined here. pylint: disable=W0201
     width, height = graph.get_size()
     self.graph_width = width
     self.graph_height = height
