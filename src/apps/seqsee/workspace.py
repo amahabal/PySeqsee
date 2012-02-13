@@ -25,11 +25,10 @@
       This is likely to be quite inefficient. Keep an eye open for how slow this actually is.
 """
 
-from apps.seqsee.sobject import SElement, SGroup, SObject
 from apps.seqsee.anchored import SAnchored
-from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
-from farg.exceptions import (FargError, ConflictingGroupException,
-  CannotReplaceSubgroupException)
+from apps.seqsee.sobject import SElement
+from apps.seqsee.util import Exactly
+from farg.exceptions import FargError, ConflictingGroupException, CannotReplaceSubgroupException
 from farg.util import WeightedChoice
 import logging
 
@@ -186,7 +185,7 @@ class Workspace(object):
     for original_gp in original_gps:
       self.groups.discard(original_gp)
     try:
-      inserted = self.InsertGroup(new_group)
+      self.InsertGroup(new_group)
     except ConflictingGroupException as e:
       for original_gp in original_gps:
         self.groups.add(original_gp)

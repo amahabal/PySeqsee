@@ -3,6 +3,7 @@ from farg.exceptions import FargException, YesNoException
 from farg.ui.gui.dot_to_graph import GraphViewer
 from threading import Thread
 import tkMessageBox
+from pprint import pprint
 
 class RunForNSteps(Thread):
   """Runs controller for upto n steps.
@@ -120,6 +121,12 @@ class GUI(object):
     except YesNoException:
       answer = tkMessageBox.askyesno("Question", exception.question_string)
       exception.callback(answer)
+    except:
+      print '----------'
+      for line in exception.stack_trace:
+        print line
+      print '----------'
+      raise exception
 
   def SetupWindows(self, args):
     """Sets up the three panes in the UI."""
