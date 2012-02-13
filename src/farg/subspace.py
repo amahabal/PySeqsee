@@ -1,5 +1,4 @@
 from farg.controller import Controller
-from farg.exceptions import FargException, AnswerFoundException, NoAnswerException
 from farg.meta import SubspaceMeta
 
 class Subspace(object):
@@ -21,7 +20,7 @@ class Subspace(object):
   def __init__(self, parent_controller, nsteps, **kwargs):
     self.controller = Controller(routine_codelets_to_add=self.RoutineCodeletsToAdd())
     self.workspace = self.controller.workspace = self.ws_class(**kwargs)
-    self.parent_controller = parent_controller
+    self.controller.parent_controller = parent_controller
     self.max_number_of_steps = nsteps
     self.InitializeCoderack(self.controller)
 

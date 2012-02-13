@@ -36,8 +36,13 @@ class ConflictingGroupException(FargException):
 
 class CannotReplaceSubgroupException(FargException):
   """Attempt to replace a group that is a subgroup."""
-  def __init__(self):
+  def __init__(self, supergroups):
     FargException.__init__(self)
+    self.supergroups = supergroups
+
+  def __str__(self):
+    return "CannotReplaceSubgroupException(supergroups=%s)" % str(self.supergroups)
+
 
 class YesNoException(FargException):
   """An exception that requests the UI to ask a yes/no question.

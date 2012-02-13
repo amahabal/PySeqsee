@@ -1,5 +1,7 @@
 from farg.codelet import Codelet, CodeletFamily
 from apps.seqsee.anchored import SAnchored
+from farg.exceptions import ConflictingGroupException
+from apps.seqsee.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
 
 class CF_FocusOn(CodeletFamily):
   """Causes the required focusable to be added to the stream."""
@@ -18,7 +20,8 @@ class CF_GroupFromRelation(CodeletFamily):
       return
     anchored = SAnchored.Create(relation.first, relation.second,
                                 underlying_mapping=relation.mapping)
-    # TODO(# --- Jan 3, 2012): Can throw. Need a method to handle the exception...
-    controller.ws.InsertGroup(anchored)
-    #controller.DisplayMessage('Groups: ' +
-    #                          ';'.join(str(x) for x in controller.ws.groups))
+    try:
+      controller.ws.InsertGroup(anchored)
+    except ConflictingGroupException as e:
+      SubspaceDealWithConflictingGroups(controller, new_group=anchored,
+                                        incumbents=e.conflicting_groups)

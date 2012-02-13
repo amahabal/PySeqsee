@@ -1,8 +1,9 @@
 from farg.codelet import CodeletFamily
 from apps.seqsee.anchored import SAnchored
-from farg.exceptions import ConflictingGroupException
+from farg.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
 
 import logging
+from apps.seqsee.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
 
 logger = logging.getLogger(__name__)
 
@@ -28,5 +29,8 @@ class CF_ActOnOverlappingGroups(CodeletFamily):
         try:
           controller.ws.Replace((left, right), new_group)
         except ConflictingGroupException as e:
-          # TODO(# --- Jan 28, 2012): Try to fight with conflicting groups?
-          pass
+          SubspaceDealWithConflictingGroups(controller, new_group=new_group,
+                                            incumbents=e.conflicting_groups)
+        except CannotReplaceSubgroupException as e:
+          SubspaceDealWithConflictingGroups(controller, new_group=new_group,
+                                            incumbents=e.supergroups)

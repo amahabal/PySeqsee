@@ -177,8 +177,9 @@ class Workspace(object):
     for original_gp in original_gps:
       if not original_gp in self.groups:
         raise FargError("Group being replaced not in WS!")
-      if (list(self.GetSuperGroups(original_gp))):
-        raise CannotReplaceSubgroupException()
+      supergroups = list(self.GetSuperGroups(original_gp))
+      if supergroups:
+        raise CannotReplaceSubgroupException(supergroups)
     # The idea here is to temporarily delete original group from groups in the ws, see if
     # new_group fits in. If it does, we may need to do more work such as fixing relations.
     # TODO(# --- Jan 27, 2012): Complete this.
