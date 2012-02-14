@@ -171,6 +171,6 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
     else:
       # So both are anchored, and have overlapping fringes. Time for subspaces!
       urgency = 100.0 / (right.start_pos - left.end_pos)  # denominator is at least 1.
-      from apps.seqsee.get_mapping import CF_FindAnchoredSimilarity
+      from apps.seqsee.subspaces.get_mapping import CF_FindAnchoredSimilarity
       return [Codelet(CF_FindAnchoredSimilarity, controller, urgency,
                       left=left, right=right)]

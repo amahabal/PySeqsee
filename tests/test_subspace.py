@@ -1,5 +1,5 @@
 from apps.seqsee.categories import Ascending
-from apps.seqsee.get_mapping import SubspaceFindMapping
+from apps.seqsee.subspaces.get_mapping import SubspaceFindMapping
 from apps.seqsee.mapping import StructuralMapping
 from apps.seqsee.sobject import SObject
 from farg.controller import Controller

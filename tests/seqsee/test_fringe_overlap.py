@@ -33,7 +33,7 @@ class FringeOverlapTestForAnchored(FringeOverlapTest):
     group2.object.DescribeAs(ascending_group)
     self.AssertFringeContains(controller, group1, { numeric_succesor_mapping: 0.9 })
 
-    from apps.seqsee.get_mapping import CF_FindAnchoredSimilarity
+    from apps.seqsee.subspaces.get_mapping import CF_FindAnchoredSimilarity
     self.AssertFringeOverlap(
         controller, group1, group2, 0.4,
         expected_similarity_affordances=(
