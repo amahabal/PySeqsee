@@ -29,7 +29,6 @@ from apps.seqsee.anchored import SAnchored
 from apps.seqsee.sobject import SElement
 from apps.seqsee.util import Exactly
 from farg.exceptions import FargError, ConflictingGroupException, CannotReplaceSubgroupException
-from farg.util import WeightedChoice
 import logging
 
 logger = logging.getLogger(__name__)
@@ -191,20 +190,6 @@ class Workspace(object):
       for original_gp in original_gps:
         self.groups.add(original_gp)
       raise e
-
-  def ChooseItemToFocusOn(self):
-    """Choose an item from the WS to focus on.
-    
-    Will currently be elements or groups."""
-    def ThingsToChooseFrom(ws):
-      """Yields two-tuples of things to choose from, the second being weight."""
-      # TODO(#34 --- Dec 28, 2011): Need notion of strength. Will bias these weights.
-      for element in ws.elements:
-        yield (element, 0.5)
-      for gp in ws.groups:
-        yield (gp, 1.0)
-
-    return WeightedChoice(ThingsToChooseFrom(self))
 
   def GetItemAt(self, start_pos, end_pos):
     """Returns the sole object with this span. Throws FargError if not found."""
