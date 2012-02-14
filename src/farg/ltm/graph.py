@@ -11,7 +11,7 @@ class LTMGraph(object):
   def __init__(self, filename=None):
     """Initialization loads up the nodes and edges of the graph."""
     #: Nodes in the graph. Each is a LTMNode.
-    self._nodes = []
+    self.nodes = []
     #: A utility data-structure mapping content to nodes. A particular piece of content
     #: should have at most one node.
     self._content_to_node = {}
@@ -26,7 +26,7 @@ class LTMGraph(object):
       with open(filename) as ltmfile:
         up = pickle.Unpickler(ltmfile)
         self._LoadNodes(up)
-    logging.info('Loaded LTM in %s: %d nodes read', filename, len(self._nodes))
+    logging.info('Loaded LTM in %s: %d nodes read', filename, len(self.nodes))
 
   def _LoadNodes(self, unpickler):
     """Load all nodes from the unpickler.
@@ -47,7 +47,7 @@ class LTMGraph(object):
 
   def IsEmpty(self):
     """True if there are zero-nodes."""
-    return not self._nodes
+    return not self.nodes
 
   def Dump(self):
     """Writes out content to file if file attribute is set."""
@@ -55,7 +55,7 @@ class LTMGraph(object):
       return
     with open(self._filename, "w") as ltm_file:
       pickler = pickle.Pickler(ltm_file, 2)
-      for node in self._nodes:
+      for node in self.nodes:
         self._Mangle(node.content.__dict__)
         pickler.dump(node)
         self._Unmangle(node.content.__dict__)
@@ -77,7 +77,7 @@ class LTMGraph(object):
     assert(isinstance(node, LTMNode))
     if not node.content in self._content_to_node:
       self._content_to_node[node.content] = node
-      self._nodes.append(node)
+      self.nodes.append(node)
 
   def GetNodeForContent(self, content):
     """Returns node for content; creates one if it does not exist."""
@@ -85,7 +85,7 @@ class LTMGraph(object):
     if storable_content in self._content_to_node:
       return self._content_to_node[storable_content]
     new_node = LTMNode(storable_content)
-    self._nodes.append(new_node)
+    self.nodes.append(new_node)
     self._content_to_node[storable_content] = new_node
     return new_node
 
@@ -109,8 +109,8 @@ class LTMGraph(object):
   def GetGraphXDOT(self):
     """Generates XDOT for entire graph."""
     lines = []
-    node_to_pos = dict((y, x) for x, y in enumerate(self._nodes))
-    for node in self._nodes:
+    node_to_pos = dict((y, x) for x, y in enumerate(self.nodes))
+    for node in self.nodes:
       lines.append(node.GetXDot(node_to_pos[node]))
       for edge in node.outgoing_edges:
         other_node = edge.to_node
@@ -121,7 +121,7 @@ class LTMGraph(object):
                                            other_node.content.BriefLabel(),
                                            edge.edge_type)
           print (node, other_node)
-          print self._nodes
+          print self.nodes
     return """
       digraph G {
       %s
@@ -130,8 +130,8 @@ class LTMGraph(object):
 
   def GetGraphAroundNodeXDot(self, node_position, depth=3):
     """Get XDot of node outward from given node position upto given depth."""
-    nodes = self._nodes
-    node_to_pos = dict((y, x) for x, y in enumerate(self._nodes))
+    nodes = self.nodes
+    node_to_pos = dict((y, x) for x, y in enumerate(self.nodes))
     lines = [nodes[node_position].GetXDot(node_position)]
     nodes_to_depth = { node_position: 0 }
     nodes_at_depth = [[node_position]]

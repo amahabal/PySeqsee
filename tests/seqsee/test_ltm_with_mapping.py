@@ -33,7 +33,7 @@ class TestLTMWithMappings(LTMTestBase):
     myltm.Dump()
 
     myltm2 = LTMGraph(self.filename)
-    self.assertEqual(3, len(myltm2._nodes))
+    self.assertEqual(3, len(myltm2.nodes))
     self.assertEqual(myltm2.GetNodeForContent(m1),
                      myltm2.GetNodeForContent(NumericMapping(name='succ',
                                                              category=Prime)))

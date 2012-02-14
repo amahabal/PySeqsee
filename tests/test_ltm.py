@@ -66,8 +66,8 @@ class TestLTM(LTMTestBase):
     # MockCategory.memos = {}
 
     myltm2 = LTMGraph(self.filename)
-    self.assertEqual(4, len(myltm2._nodes))
-    c1p, m1p, c2p, m2p = (x.content for x in myltm2._nodes)
+    self.assertEqual(4, len(myltm2.nodes))
+    c1p, m1p, c2p, m2p = (x.content for x in myltm2.nodes)
     self.assertEqual(c1p, c1)
     self.assertNotEqual(m1p, m1)
     self.assertEqual(7, c1p.foo)
@@ -100,8 +100,8 @@ class TestLTM(LTMTestBase):
     MockMapping.memos = {}
 
     myltm2 = LTMGraph(self.filename)
-    self.assertEqual(4, len(myltm2._nodes))
-    m1p, m2p, c1p, c2p = (x.content for x in myltm2._nodes)
+    self.assertEqual(4, len(myltm2.nodes))
+    m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
 
     self.assertEqual(7, c1p.foo)
     self.assertEqual(9, c2p.foo)
@@ -138,8 +138,8 @@ class TestLTM(LTMTestBase):
     MockCategory.memos = {}
 
     myltm2 = LTMGraph(self.filename)
-    self.assertEqual(4, len(myltm2._nodes))
-    m1p, m2p, c1p, c2p = (x.content for x in myltm2._nodes)
+    self.assertEqual(4, len(myltm2.nodes))
+    m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
     edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
     self.assertEqual(c1p, edges[0].to_node.content)
     self.assertEqual(LTMEdge.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
@@ -181,8 +181,8 @@ class TestLTM2(LTMTestBase):
     MockCategory2.__memo__ = dict()
     MockMapping.__memo__ = dict()
     myltm2 = LTMGraph(self.filename)
-    node_m1p, node_c1p = myltm2._nodes
-    m1p, c1p = (x.content for x in myltm2._nodes)
+    node_m1p, node_c1p = myltm2.nodes
+    m1p, c1p = (x.content for x in myltm2.nodes)
     edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
     self.assertEqual(c1p, edges[0].to_node.content)
 

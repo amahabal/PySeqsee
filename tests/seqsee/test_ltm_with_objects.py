@@ -50,4 +50,4 @@ class TestLTMWithObjects(LTMTestBase):
     myltm.Dump()
 
     myltm2 = LTMGraph(self.filename)
-    self.assertEqual(5, len(myltm2._nodes))
+    self.assertEqual(5, len(myltm2.nodes))

@@ -14,11 +14,13 @@ def ChooseAboutN(n, choices):
   output with probability 3 * 10/150 (i.e., 20%).
   """
   choices = list(choices)  # Needed since we iterate twice over the iterable.
-  total = sum(w for c, w in choices)
+  total = sum(w for _c, w in choices)
   return [x[0] for x in choices if Toss(1.0 * n * x[1] / total)]
 
 def WeightedChoice(choices):
-  """Choices is an iterable of 2-tuples, where the second value is the weight. Chooses one."""
+  """Choices is an iterable of 2-tuples, where the second value is the weight.
+     Chooses one.
+  """
   choices = list(choices)  # Needed since we iterate twice over the iterable.
   total = sum(w for c, w in choices)
   r = random.uniform(0, total)
@@ -33,15 +35,15 @@ def WeightedShuffle(choices):
   """Choices is an iterable of 2-tuples, where the second value is the weight.
   
   Returns a shuffle of the first elements based on the weight."""
-  total = sum(w for c, w in choices)
+  total = sum(weight for item, weight in choices)
   while total > 0:
-    r = random.uniform(0, total)
+    random_val = random.uniform(0, total)
     upto = 0
     for idx, ch in enumerate(choices):
-      c, w = ch
-      if upto + w > r:
-        total -= w
+      item, weight = ch
+      if upto + weight > random_val:
+        total -= weight
         choices = choices[0:idx] + choices[idx + 1:]
-        yield c
+        yield item
         continue
-      upto += w
+      upto += weight

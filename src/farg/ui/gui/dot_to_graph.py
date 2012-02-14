@@ -74,7 +74,7 @@ class GraphViewer(Canvas):  # Too many public methods imported: pylint: disable=
     x, y = self._Transform(node.x, node.y)
     x1, y1 = self._Transform(node.x1, node.y1)
     x2, y2 = self._Transform(node.x2, node.y2)
-    ltm_node = self.ltm._nodes[int(node.url)]
+    ltm_node = self.ltm.nodes[int(node.url)]
     label = ltm_node.content.BriefLabel()
     color = HSVToColorString(0.2, ltm_node.GetActivation(0), 1.0)
     oval = self.create_oval(x1, y1, x2, y2, fill=color)
@@ -123,7 +123,7 @@ def main():
 
   # TODO(# --- Dec 30, 2011): Make sure file exists and so forth.
   ltm = LTMGraph(args.filename)
-  print "LTM has %d nodes" % len(ltm._nodes)
+  print "LTM has %d nodes" % len(ltm.nodes)
 
   mw = Tk()
   viewer = GraphViewer(mw, 700, 500, ltm)
@@ -133,4 +133,4 @@ def main():
 
 
 if __name__ == '__main__':
-    main()
+  main()
