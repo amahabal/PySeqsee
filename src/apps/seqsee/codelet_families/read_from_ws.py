@@ -4,6 +4,5 @@ from apps.seqsee.subspaces.choose_item_to_focus_on import SubspaceSelectObjectTo
 class CF_ReadFromWS(CodeletFamily):
   @classmethod
   def Run(cls, controller):
-    choice = SubspaceSelectObjectToFocusOn(controller,
-                                           parent_ws=controller.ws)
+    choice = SubspaceSelectObjectToFocusOn(controller)
     controller.stream.FocusOn(choice)

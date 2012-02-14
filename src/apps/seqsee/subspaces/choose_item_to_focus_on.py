@@ -15,10 +15,10 @@ def ThingsToChooseFrom(ws):
 
 class SubspaceSelectObjectToFocusOn(Subspace):
   class WS(object):
-    def __init__(self, parent_ws):
-      self.parent_ws = parent_ws
-
+    def __init__(self):
+      pass
 
   @staticmethod
   def QuickReconn(**arguments):
-    raise AnswerFoundException(WeightedChoice(ThingsToChooseFrom(arguments['parent_ws'])))
+    parent_ws = arguments['parent_controller'].ws
+    raise AnswerFoundException(WeightedChoice(ThingsToChooseFrom(parent_ws)))

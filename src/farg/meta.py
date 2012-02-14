@@ -22,7 +22,7 @@ class SubspaceMeta(type):
 
   def __call__(self, parent_controller, nsteps=4, **kw):
     try:
-      self.QuickReconn(**kw)
+      self.QuickReconn(parent_controller=parent_controller, **kw)
     except NoAnswerException:
       return None
     except AnswerFoundException as e:
