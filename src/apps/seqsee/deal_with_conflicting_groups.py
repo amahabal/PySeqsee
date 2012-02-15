@@ -8,7 +8,7 @@ class CF_FightIncumbents(CodeletFamily):
   def Run(cls, controller):
     # QUALITY TODO(Feb 12, 2012): Strengths of groups are important. Need to work those in.
     ws = controller.workspace
-    parent_ws = controller.parent_controller.workspace
+    parent_ws = controller.parent_controller.ws
     for incumbent in ws.incumbents:
       if Toss(0.3):  # QUALITY TODO(Feb 12, 2012): Surely, I can do better :)
         parent_ws.DeleteGroup(incumbent)

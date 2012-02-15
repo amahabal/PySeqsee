@@ -128,6 +128,16 @@ class SGroup(SObject):
     fringe.update(self.GetFringeFromLTM(controller))
     return fringe
 
+  def Length(self):
+    return sum(x.Length() for x in self.items)
+
+  def FlattenedMagnitudes(self):
+    flattened = []
+    for part in self.items:
+      flattened.extend(part.FlattenedMagnitudes())
+    return flattened
+
+
 class SElement(SObject):
   """A subclass of SObject, where there is a single element, which is a number."""
   def __init__(self, magnitude):
@@ -155,3 +165,9 @@ class SElement(SObject):
       fringe[category] = 0.8
     fringe.update(self.GetFringeFromLTM(controller))
     return fringe
+
+  def Length(self):
+    return 1
+
+  def FlattenedMagnitudes(self):
+    return (self.magnitude,)

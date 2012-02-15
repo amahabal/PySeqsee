@@ -1,9 +1,10 @@
-from apps.seqsee.sobject import SObject, LTMStorableSObject
+from apps.seqsee.sobject import SObject, LTMStorableSObject, SElement
 from farg.codelet import Codelet, CodeletFamily
 from farg.exceptions import FargError, FargException
 from farg.focusable_mixin import FocusableMixin
 from farg.ltm.storable import LTMStorableMixin
 import logging
+from farg.util import Toss
 
 
 logger = logging.getLogger(__name__)
@@ -14,6 +15,46 @@ class CF_DescribeAs(CodeletFamily):
   def Run(cls, controller, item, category):
     if not item.IsKnownAsInstanceOf(category):
       item.DescribeAs(category)
+
+class CF_ExtendGroup(CodeletFamily):
+  @classmethod
+  def Run(cls, controller, item):
+    if item not in controller.ws.groups:
+      # item deleted?
+      return
+    # QUALITY TODO(Feb 14, 2012): Direction to extend choice can be improved.
+    extend_right = True
+    if (item.start_pos > 0 and Toss(0.5)):
+      extend_right = False
+
+    parts = item.items
+    underlying_mapping = item.object.underlying_mapping
+    if extend_right:
+      next_part = underlying_mapping.Apply(parts[-1].object)
+      if not controller.ws.CheckForPresence(item.end_pos + 1,
+                                            next_part.FlattenedMagnitudes()):
+        # TODO(# --- Feb 14, 2012): This is where we may go beyond known elements.
+        return
+      next_part_anchored = SAnchored.CreateAt(item.end_pos + 1, next_part)
+      print "NEXT PART FOUND for %s! %s" % (item, next_part_anchored)
+      new_parts = list(parts[:])
+      new_parts.append(next_part_anchored)
+      new_group = SAnchored.Create(*new_parts,
+                                   underlying_mapping=underlying_mapping)
+
+      from farg.exceptions import ConflictingGroupException
+      from farg.exceptions import CannotReplaceSubgroupException
+      from apps.seqsee.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
+      try:
+        controller.ws.Replace(item, new_group)
+      except ConflictingGroupException as e:
+        SubspaceDealWithConflictingGroups(controller,
+                                          new_group=new_group,
+                                          incumbents=e.conflicting_groups)
+      except CannotReplaceSubgroupException as e:
+        SubspaceDealWithConflictingGroups(controller,
+                                          new_group=new_group,
+                                          incumbents=e.supergroups)
 
 class NonAdjacentGroupElementsException(FargException):
   """Raised if group creation attempted with non-adjacent parts."""
@@ -79,6 +120,18 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
   def GetStorable(self):
     structure = self.object.Structure()
     return (structure, str(structure))
+
+  @staticmethod
+  def CreateAt(start_pos, sobject):
+    if isinstance(sobject, SElement):
+      return SAnchored(sobject, (), start_pos, start_pos)
+    else:
+      pos = start_pos
+      new_parts = []
+      for part in sobject.items:
+        new_parts.append(SAnchored.CreateAt(pos, part))
+        pos = pos + part.Length()
+      return SAnchored(sobject, new_parts, start_pos, pos - 1)
 
   @staticmethod
   def Create(*items, **kwargs):
@@ -155,6 +208,9 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
       if not self.object.IsKnownAsInstanceOf(category):
         codelets.append(Codelet(CF_DescribeAs, controller, 25,
                                 item=self.object, category=category))
+    if self.object.underlying_mapping:
+      codelets.append(Codelet(CF_ExtendGroup, controller, 25,
+                              item=self))
     return codelets
 
   def GetSimilarityAffordances(self, other, other_fringe, my_fringe, controller):

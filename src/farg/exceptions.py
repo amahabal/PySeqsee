@@ -3,13 +3,16 @@ from itertools import takewhile
 
 class FargError(Exception):
   """Base class for untrappable errors (indicating bugs)."""
-  pass
+  def __init__(self, msg):
+    self.stack_trace = list(takewhile((lambda x: x.find('FargError.__init__') == -1),
+                                      traceback.format_stack(limit=8)))
+    print 'FargError: ', msg
 
 class FargException(Exception):
   """Base class for FARG-specific exceptions."""
   def __init__(self):
     self.stack_trace = list(takewhile((lambda x: x.find('FargException.__init__') == -1),
-                                      traceback.format_stack(limit=5)))
+                                      traceback.format_stack(limit=8)))
 
 class AnswerFoundException(FargException):
   """Raised by a subspace when it believes that an answer has been found."""

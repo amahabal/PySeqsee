@@ -56,6 +56,15 @@ class Workspace(object):
     for item in integers:
       self.InsertElement(SElement(item))
 
+  def CheckForPresence(self, start_pos, element_magnitudes):
+    if start_pos + len(element_magnitudes) > len(self.elements):
+      # TODO(# --- Feb 14, 2012): Going beyond known. Need something more drastic.
+      return False
+    for idx, magnitude in enumerate(element_magnitudes, start_pos):
+      if self.elements[idx].object.magnitude != magnitude:
+        return False
+    return True
+
   def InsertGroup(self, group):
     """Inserts a group into the workspace. It must not conflict with an existing group, else
        a ConflictingGroupException is raised.
@@ -69,6 +78,16 @@ class Workspace(object):
       raise ConflictingGroupException(conflicting_groups=conflicting_groups)
     else:
       return self._PlonkIntoPlace(group)
+
+  def DeleteGroup(self, gp):
+    self.groups.discard(gp)
+    for other_gp in self.groups:
+      relations_to_discard = set()
+      for rel in other_gp.relations:
+        if rel.first == gp or rel.second == gp:
+          relations_to_discard.add(rel)
+      for rel in relations_to_discard:
+        other_gp.relations.discard(rel)
 
   def _PlonkIntoPlace(self, group):
     """Anchors the group into the workspace. Assumes that conflicts have already been checked
@@ -175,7 +194,7 @@ class Workspace(object):
     # Original group had better be present:
     for original_gp in original_gps:
       if not original_gp in self.groups:
-        raise FargError("Group being replaced not in WS!")
+        raise FargError("Group being replaced not in WS: %s!" % original_gp)
       supergroups = list(self.GetSuperGroups(original_gp))
       if supergroups:
         raise CannotReplaceSubgroupException(supergroups)
