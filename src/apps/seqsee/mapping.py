@@ -46,7 +46,9 @@ class NumericMapping(Mapping):
     return self.Apply(item1).Structure() == item2.Structure()
 
 class StructuralMapping(Mapping):
-  def __init__(self, category, bindings_mapping, slippages=None):
+  def __init__(self, category, bindings_mapping, slippages=None,
+               no_flipped_version=None,
+               flipped_version=None):
     #: A category, such as ascending, on which mapping is based.
     self.category = category
     #: A dictionary of attribute to a mapping: how is the value of each attribute 
@@ -59,6 +61,9 @@ class StructuralMapping(Mapping):
     #: bindings_mapping dictionary.
     assert not(slippages) or isinstance(slippages, frozenset)
     self.slippages = slippages
+
+    self.no_flipped_version = False
+    self.flipped_version = None
 
   def BriefLabel(self):
     return '[%s]' % self.category.BriefLabel()
@@ -76,3 +81,28 @@ class StructuralMapping(Mapping):
     .. ToDo:: This is a cop-out, currently; when extending Seqsee, I should revisit this.
     """
     return self.Apply(item1).Structure() == item2.Structure()
+
+  def FlippedVersion(self):
+    if self.no_flipped_version:
+      return None
+    if self.flipped_version:
+      return self.flipped_version
+    flipped = self.GetFlippedVersion()
+    if flipped:
+      self.flipped_version = flipped
+      return flipped
+    else:
+      self.no_flipped_version = True
+      return None
+
+  def GetFlippedVersion(self):
+    new_bindings_mappings = dict()
+    for attribute, mapping in self.bindings_mapping:
+      flipped = mapping.FlippedVersion()
+      if not flipped:
+        return None
+      new_bindings_mappings[attribute] = flipped
+    if not self.slippages:
+      return StructuralMapping(self.category, frozenset(new_bindings_mappings.items()))
+    # TODO(# --- Feb 16, 2012): Flip items with slippages when possible.
+    return None

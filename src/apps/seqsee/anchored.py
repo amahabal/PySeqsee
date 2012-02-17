@@ -39,22 +39,39 @@ class CF_ExtendGroup(CodeletFamily):
       print "NEXT PART FOUND for %s! %s" % (item, next_part_anchored)
       new_parts = list(parts[:])
       new_parts.append(next_part_anchored)
-      new_group = SAnchored.Create(*new_parts,
-                                   underlying_mapping=underlying_mapping)
+    else:
+      flipped = underlying_mapping.FlippedVersion()
+      if not flipped:
+        return
+      previous_part = flipped.Apply(parts[0].object)
+      magnitudes = previous_part.FlattenedMagnitudes()
+      if len(magnitudes) > item.start_pos:
+        return
+      if not controller.ws.CheckForPresence(item.start_pos - len(magnitudes),
+                                            magnitudes):
+        return
+      prev_part_anchored = SAnchored.CreateAt(item.start_pos - len(magnitudes),
+                                              previous_part)
+      print "PREV PART FOUND for %s! %s" % (item, prev_part_anchored)
+      new_parts = [prev_part_anchored]
+      new_parts.extend(parts)
+      print new_parts
+    new_group = SAnchored.Create(*new_parts,
+                                 underlying_mapping=underlying_mapping)
 
-      from farg.exceptions import ConflictingGroupException
-      from farg.exceptions import CannotReplaceSubgroupException
-      from apps.seqsee.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
-      try:
-        controller.ws.Replace(item, new_group)
-      except ConflictingGroupException as e:
-        SubspaceDealWithConflictingGroups(controller,
-                                          new_group=new_group,
-                                          incumbents=e.conflicting_groups)
-      except CannotReplaceSubgroupException as e:
-        SubspaceDealWithConflictingGroups(controller,
-                                          new_group=new_group,
-                                          incumbents=e.supergroups)
+    from farg.exceptions import ConflictingGroupException
+    from farg.exceptions import CannotReplaceSubgroupException
+    from apps.seqsee.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
+    try:
+      controller.ws.Replace(item, new_group)
+    except ConflictingGroupException as e:
+      SubspaceDealWithConflictingGroups(controller,
+                                        new_group=new_group,
+                                        incumbents=e.conflicting_groups)
+    except CannotReplaceSubgroupException as e:
+      SubspaceDealWithConflictingGroups(controller,
+                                        new_group=new_group,
+                                        incumbents=e.supergroups)
 
 class NonAdjacentGroupElementsException(FargException):
   """Raised if group creation attempted with non-adjacent parts."""
