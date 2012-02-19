@@ -67,8 +67,11 @@ class StructuralMapping(Mapping):
 
   def BriefLabel(self):
     return '[%s]' % self.category.BriefLabel()
+
   def Apply(self, item):
     bindings = item.DescribeAs(self.category)
+    if not bindings:
+      return
     new_bindings = {}
     for attribute, v in self.bindings_mapping:
       new_binding_for_attribute = v.Apply(bindings.GetBindingsForAttribute(attribute))

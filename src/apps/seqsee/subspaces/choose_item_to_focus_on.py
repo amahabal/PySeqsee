@@ -9,9 +9,9 @@ def ThingsToChooseFrom(ws):
   # QUALITY TODO(Feb 14, 2012): Explore role of relations.
   # TODO(#34 --- Dec 28, 2011): Need notion of strength. Will bias these weights.
   for element in ws.elements:
-    yield (element, 0.5)
+    yield (element, 20)
   for gp in ws.groups:
-    yield (gp, 1.0)
+    yield (gp, gp.strength)
 
 class SubspaceSelectObjectToFocusOn(Subspace):
   class WS(object):
