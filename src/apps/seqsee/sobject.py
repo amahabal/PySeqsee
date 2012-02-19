@@ -16,6 +16,7 @@ from farg.exceptions import FargError
 from farg.meta import MemoizedConstructor
 from farg.ltm.storable import LTMStorableMixin
 import logging
+from farg.util import Squash
 
 logger = logging.getLogger(__name__)
 
@@ -147,7 +148,7 @@ class SGroup(SObject):
         node = controller.ltm.GetNodeForContent(self.underlying_mapping)
         activation = node.GetActivation(controller.steps_taken)
         strength += 30 * activation
-    return min(strength, 100)
+    return Squash(strength, 100)
 
 class SElement(SObject):
   """A subclass of SObject, where there is a single element, which is a number."""
@@ -186,4 +187,4 @@ class SElement(SObject):
   def CalculateStrength(self, controller=None):
     # QUALITY TODO(Feb 18, 2012): WHat should "strength" mean? Should elements that have been
     # accounted for have a different strength?
-    return 20
+    return 16.8067226891 # i.e., Squash(20, 100)

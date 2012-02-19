@@ -47,3 +47,9 @@ def WeightedShuffle(choices):
         yield item
         continue
       upto += weight
+
+def Squash(val, cap):
+  """Use a sigmoidal squashing function to squash to 100."""
+  if val < 1:
+    return val
+  return cap * val / (cap - 1.0 + val)

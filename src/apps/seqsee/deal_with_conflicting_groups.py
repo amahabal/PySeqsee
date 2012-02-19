@@ -4,13 +4,23 @@ from farg.util import Toss
 from farg.exceptions import NoAnswerException
 
 class CF_FightIncumbents(CodeletFamily):
+  @staticmethod
+  def ProbabilityOfOverturningIncumbent(incumbent_strength, challenger_strength):
+    if not incumbent_strength:
+      return 0.6
+    return 0.6 * (challenger_strength / (incumbent_strength + challenger_strength))
+
   @classmethod
   def Run(cls, controller):
     # QUALITY TODO(Feb 12, 2012): Strengths of groups are important. Need to work those in.
     ws = controller.workspace
     parent_ws = controller.parent_controller.ws
+    challenger_strength = ws.new_group.strength
     for incumbent in ws.incumbents:
-      if Toss(0.3):  # QUALITY TODO(Feb 12, 2012): Surely, I can do better :)
+      probability_of_deletion = CF_FightIncumbents.ProbabilityOfOverturningIncumbent(
+          incumbent.strength,
+          challenger_strength)
+      if Toss(probability_of_deletion):
         parent_ws.DeleteGroup(incumbent)
       else:
         raise NoAnswerException()
