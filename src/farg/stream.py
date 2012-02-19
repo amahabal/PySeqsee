@@ -87,6 +87,7 @@ class Stream(object):
   def FocusOn(self, focusable):
     """Focus on focusable, and act on a fringe-hit."""
     assert(isinstance(focusable, FocusableMixin))
+    focusable.OnFocus(self.controller)
     self._PrepareForFocusing(focusable)
     hit_map = self.StoreFringeAndCalculateOverlap(focusable)
     if not hit_map:

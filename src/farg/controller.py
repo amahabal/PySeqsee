@@ -41,6 +41,8 @@ class Controller(object):
     if ltm_name:
       #: The LTM (if any)
       self.ltm = LTMManager.GetLTM(ltm_name)
+    else:
+      self.ltm = None
 
     # Add any routine codelets...
     self._AddRoutineCodelets(force=True)
@@ -66,6 +68,8 @@ class Controller(object):
   def Step(self):
     """Executes the next (stochastically chosen) step in the model."""
     self.steps_taken += 1
+    if self.ltm:
+      self.ltm._timesteps = self.steps_taken
     logger.debug('============ Started Step #%d', self.steps_taken)
     self._AddRoutineCodelets()
     if not self.coderack.IsEmpty():

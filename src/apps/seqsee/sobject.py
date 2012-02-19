@@ -137,6 +137,17 @@ class SGroup(SObject):
       flattened.extend(part.FlattenedMagnitudes())
     return flattened
 
+  def CalculateStrength(self, controller=None):
+    """The strength of a group is made up of a few components, including the strength of
+       its parts and the strength of the underlying_mapping.
+    """
+    strength = sum(x.CalculateStrength(controller) for x in self.items)
+    if controller and controller.ltm:
+      if self.underlying_mapping:
+        node = controller.ltm.GetNodeForContent(self.underlying_mapping)
+        activation = node.GetActivation(controller.steps_taken)
+        strength += 30 * activation
+    return min(strength, 100)
 
 class SElement(SObject):
   """A subclass of SObject, where there is a single element, which is a number."""
@@ -171,3 +182,8 @@ class SElement(SObject):
 
   def FlattenedMagnitudes(self):
     return (self.magnitude,)
+
+  def CalculateStrength(self, controller=None):
+    # QUALITY TODO(Feb 18, 2012): WHat should "strength" mean? Should elements that have been
+    # accounted for have a different strength?
+    return 20

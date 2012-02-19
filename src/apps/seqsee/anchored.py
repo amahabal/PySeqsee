@@ -31,6 +31,8 @@ class CF_ExtendGroup(CodeletFamily):
     underlying_mapping = item.object.underlying_mapping
     if extend_right:
       next_part = underlying_mapping.Apply(parts[-1].object)
+      if not next_part:
+        return
       if not controller.ws.CheckForPresence(item.end_pos + 1,
                                             next_part.FlattenedMagnitudes()):
         # TODO(# --- Feb 14, 2012): This is where we may go beyond known elements.
@@ -44,6 +46,8 @@ class CF_ExtendGroup(CodeletFamily):
       if not flipped:
         return
       previous_part = flipped.Apply(parts[0].object)
+      if not previous_part:
+        return
       magnitudes = previous_part.FlattenedMagnitudes()
       if len(magnitudes) > item.start_pos:
         return
@@ -103,6 +107,8 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
     #: of iterators, where end is beyond the rightmost item).
     #: For an element, left and right edges are identical.
     self.end_pos = end_pos
+    #: The strength of the group --- this is a number between 0 and 100.
+    self.strength = sobj.CalculateStrength()
     #: All items in the workspace --- what used to be elements and groups in the Perl
     #: version --- are SAnchored objects now. This bit distinguishes elements that are
     #: elements in the sequence.
@@ -247,3 +253,9 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
       from apps.seqsee.subspaces.get_mapping import CF_FindAnchoredSimilarity
       return [Codelet(CF_FindAnchoredSimilarity, controller, urgency,
                       left=left, right=right)]
+
+  def OnFocus(self, controller):
+    """Updates the strength of the object when it is focused upon."""
+    if self.object.underlying_mapping and controller and controller.ltm:
+      controller.ltm.SpikeForContent(self.object.underlying_mapping, 10)
+    self.strength = self.object.CalculateStrength(controller)

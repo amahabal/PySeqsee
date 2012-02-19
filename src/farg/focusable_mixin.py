@@ -25,3 +25,7 @@ class FocusableMixin(object):
        This should return a list of codelets that follow-up on this potential similarity.
     """
     raise FargError("Focusable mixin's GetSimilarityAffordances() was not over-ridden.")
+
+  def OnFocus(self, controller):
+    """Any book-keeping or other sundry actions on focused-upon object may be done here."""
+    pass
