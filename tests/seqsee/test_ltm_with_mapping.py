@@ -18,10 +18,10 @@ class LTMTestBase(unittest.TestCase):
 class TestLTMWithMappings(LTMTestBase):
   def test_sanity(self):
     myltm = LTMGraph(self.filename)
-    m1 = NumericMapping(name='succ', category=Prime)
-    m2 = NumericMapping(name='succ', category=Prime)
-    m3 = NumericMapping(name='pred', category=Prime)
-    m4 = NumericMapping(name='succ', category=Number)
+    m1 = NumericMapping(name='succ', category=Prime())
+    m2 = NumericMapping(name='succ', category=Prime())
+    m3 = NumericMapping(name='pred', category=Prime())
+    m4 = NumericMapping(name='succ', category=Number())
     self.assertEqual(m1, m2)
     self.assertNotEqual(m1, m3)
     self.assertNotEqual(m1, m4)
@@ -32,8 +32,13 @@ class TestLTMWithMappings(LTMTestBase):
       myltm.GetNodeForContent(content)
     myltm.Dump()
 
+    # Let's clear the memos for NumericMapping.
+    NumericMapping.__memo__.clear()
+
     myltm2 = LTMGraph(self.filename)
-    self.assertEqual(3, len(myltm2.nodes))
-    self.assertEqual(myltm2.GetNodeForContent(m1),
-                     myltm2.GetNodeForContent(NumericMapping(name='succ',
-                                                             category=Prime)))
+    self.assertEqual(5, len(myltm2.nodes))
+    m1_like_node = NumericMapping(name='succ', category=Prime())
+    self.assertNotEqual(m1_like_node, m1)
+    self.assertNotEqual(m1_like_node.GetLTMStorableContent(), m1.GetLTMStorableContent())
+    myltm2.GetNodeForContent(m1_like_node)
+    self.assertEqual(5, len(myltm2.nodes))

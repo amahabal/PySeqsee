@@ -87,6 +87,9 @@ class LTMGraph(object):
     new_node = LTMNode(storable_content)
     self.nodes.append(new_node)
     self._content_to_node[storable_content] = new_node
+    # Also ensure presence of any dependent nodes.
+    for dependent_content in storable_content.LTMDependentContent():
+      self.GetNodeForContent(dependent_content)
     return new_node
 
   def SpikeForContent(self, content, amount):

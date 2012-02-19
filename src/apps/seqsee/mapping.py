@@ -45,6 +45,9 @@ class NumericMapping(Mapping):
   def IsPairConsistent(self, item1, item2):
     return self.Apply(item1).Structure() == item2.Structure()
 
+  def LTMDependentContent(self):
+    return (self.category,)
+
 class StructuralMapping(Mapping):
   def __init__(self, category, bindings_mapping, slippages=None,
                no_flipped_version=None,
@@ -109,3 +112,6 @@ class StructuralMapping(Mapping):
       return StructuralMapping(self.category, frozenset(new_bindings_mappings.items()))
     # TODO(# --- Feb 16, 2012): Flip items with slippages when possible.
     return None
+
+  def LTMDependentContent(self):
+    return (self.category,)
