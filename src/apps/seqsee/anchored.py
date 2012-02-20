@@ -1,21 +1,11 @@
 from apps.seqsee.sobject import SObject, LTMStorableSObject, SElement
-from farg.codelet import Codelet, CodeletFamily
+from farg.codelet import Codelet
 from farg.exceptions import FargError, FargException
 from farg.focusable_mixin import FocusableMixin
 from farg.ltm.storable import LTMStorableMixin
 import logging
-from farg.util import Toss
-
 
 logger = logging.getLogger(__name__)
-
-# TODO(# --- Feb 10, 2012): Find a better home
-class CF_DescribeAs(CodeletFamily):
-  @classmethod
-  def Run(cls, controller, item, category):
-    if not item.IsKnownAsInstanceOf(category):
-      item.DescribeAs(category)
-
 
 class NonAdjacentGroupElementsException(FargException):
   """Raised if group creation attempted with non-adjacent parts."""
@@ -169,6 +159,7 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
       # The following appears to repeatedly check; However, note that the link in the LTM
       # suggests that the categorization is possible.
       if not self.object.IsKnownAsInstanceOf(category):
+        from apps.seqsee.codelet_families.all import CF_DescribeAs
         codelets.append(Codelet(CF_DescribeAs, controller, 25,
                                 item=self.object, category=category))
     if self.object.underlying_mapping:

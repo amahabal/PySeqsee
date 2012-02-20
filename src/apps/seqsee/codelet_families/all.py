@@ -25,3 +25,11 @@ class CF_GroupFromRelation(CodeletFamily):
     except ConflictingGroupException as e:
       SubspaceDealWithConflictingGroups(controller, new_group=anchored,
                                         incumbents=e.conflicting_groups)
+
+class CF_DescribeAs(CodeletFamily):
+  """Attempt to describe item as belonging to category."""
+  @classmethod
+  def Run(cls, controller, item, category):
+    if not item.IsKnownAsInstanceOf(category):
+      item.DescribeAs(category)
+
