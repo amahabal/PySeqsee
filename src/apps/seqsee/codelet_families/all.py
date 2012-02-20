@@ -1,7 +1,7 @@
-from farg.codelet import Codelet, CodeletFamily
+from farg.codelet import CodeletFamily
 from apps.seqsee.anchored import SAnchored
 from farg.exceptions import ConflictingGroupException
-from apps.seqsee.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
+from apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
 
 class CF_FocusOn(CodeletFamily):
   """Causes the required focusable to be added to the stream."""

@@ -3,7 +3,7 @@ from apps.seqsee.anchored import SAnchored
 from farg.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
 
 import logging
-from apps.seqsee.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
+from apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
 
 logger = logging.getLogger(__name__)
 

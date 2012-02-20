@@ -65,7 +65,7 @@ class CF_ExtendGroup(CodeletFamily):
 
     from farg.exceptions import ConflictingGroupException
     from farg.exceptions import CannotReplaceSubgroupException
-    from apps.seqsee.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
+    from apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
     try:
       controller.ws.Replace(item, new_group)
     except ConflictingGroupException as e:
