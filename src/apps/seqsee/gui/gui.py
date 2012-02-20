@@ -1,6 +1,5 @@
 """Adapting the generic FARG GUI to Seqsee."""
 
-from Tkinter import Canvas, TOP
 from farg.ui.gui import gui
 from apps.seqsee.gui.central_pane import CentralPane
 from apps.seqsee.gui.conversation import Conversation

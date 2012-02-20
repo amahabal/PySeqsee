@@ -1,6 +1,7 @@
 from farg.codelet import CodeletFamily
 from farg.util import Toss
 from apps.seqsee.anchored import SAnchored
+from apps.seqsee.subspaces.go_beyond_known import SubspaceGoBeyondKnown
 
 class CF_ExtendGroup(CodeletFamily):
   @classmethod
@@ -19,10 +20,26 @@ class CF_ExtendGroup(CodeletFamily):
       next_part = underlying_mapping.Apply(parts[-1].object)
       if not next_part:
         return
-      if not controller.ws.CheckForPresence(item.end_pos + 1,
-                                            next_part.FlattenedMagnitudes()):
+      magnitudes = next_part.FlattenedMagnitudes()
+      number_of_known_elements = len(controller.ws.elements) - item.end_pos - 1
+      if len(magnitudes) > number_of_known_elements:
         # TODO(# --- Feb 14, 2012): This is where we may go beyond known elements.
-        return
+        # To the extent that the next few elements are known, ensure that they agree with
+        # what's known.
+        if not controller.ws.CheckForPresence(item.end_pos + 1,
+                                              magnitudes[:number_of_known_elements]):
+          return
+        # The following either returns false soon if the user will not be asked, or asks
+        # the user and returns the response. If the response is yes, the elements are also
+        # added.
+        should_continue = SubspaceGoBeyondKnown(controller,
+                                                basis_of_extension=item,
+                                                suggested_terms=magnitudes)
+        if not should_continue:
+          return
+      else:
+        if not controller.ws.CheckForPresence(item.end_pos + 1, magnitudes):
+          return
       next_part_anchored = SAnchored.CreateAt(item.end_pos + 1, next_part)
       print "NEXT PART FOUND for %s! %s" % (item, next_part_anchored)
       new_parts = list(parts[:])

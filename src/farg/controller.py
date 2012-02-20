@@ -102,3 +102,8 @@ class Controller(object):
     if hasattr(self, 'mw'):  # Has the GUI set. O/w, DisplayMessage is a no-op.
       import tkMessageBox
       tkMessageBox.showinfo('', message)
+
+  def AskYesNoQuestion(self, question):
+    if hasattr(self, 'mw'):  # Has the GUI set. O/w, DisplayMessage is a no-op.
+      import tkMessageBox
+      return tkMessageBox.askyesno("Question", question)

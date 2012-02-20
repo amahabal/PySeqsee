@@ -3,7 +3,6 @@ from farg.exceptions import FargException, YesNoException
 from farg.ui.gui.dot_to_graph import GraphViewer
 from threading import Thread
 import tkMessageBox
-from pprint import pprint
 
 class RunForNSteps(Thread):
   """Runs controller for upto n steps.
