@@ -50,7 +50,8 @@ If FooCategory is a subclass of ParametrizedCategory, we could say::
 from apps.seqsee.mapping import NumericMapping, StructuralMapping
 from apps.seqsee.sobject import SElement, SObject
 from apps.seqsee.structure_utils import StructureDepth
-from farg.category import Binding, Category
+from farg.categorization.binding import Binding
+from farg.categorization.category import Category
 from farg.exceptions import FargError, FargException
 
 class NumericCategory(Category):

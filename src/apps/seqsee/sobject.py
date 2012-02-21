@@ -11,7 +11,7 @@
      categories), and not positional or specific use information (such as metonyms).
 """
 
-from farg.category import CategorizableMixin
+from farg.categorization.categorizable import CategorizableMixin
 from farg.exceptions import FargError
 from farg.meta import MemoizedConstructor
 from farg.ltm.storable import LTMStorableMixin
