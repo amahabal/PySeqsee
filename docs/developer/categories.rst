@@ -1,7 +1,15 @@
 Categories
 ==================
 
-.. automodule:: farg.category
+.. automodule:: farg.categorization.category
+  :members:
+  :undoc-members:
+
+.. automodule:: farg.categorization.binding
+  :members:
+  :undoc-members:
+
+.. automodule:: farg.categorization.categorizable
   :members:
   :undoc-members:
 
