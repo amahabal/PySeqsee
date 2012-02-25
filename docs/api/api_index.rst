@@ -10,4 +10,8 @@ Contents:
 
    ui
    controller
+   stream
+   coderack
+   codelets
+   codelet_family
    category
