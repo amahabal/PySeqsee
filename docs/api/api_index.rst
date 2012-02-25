@@ -10,6 +10,7 @@ Contents:
 
    ui
    controller
+   subspace
    stream
    coderack
    codelets
