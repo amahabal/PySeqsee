@@ -27,6 +27,7 @@ Contents:
    :maxdepth: 2
 
    overview/overview_index
+   api/api_index
    developer/developer_index
    seqsee/seqsee_index
 

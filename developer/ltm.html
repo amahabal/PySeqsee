@@ -98,6 +98,12 @@ just in time calculation.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="farg.ltm.node.LTMNode.GetOutgoingEdgesOfTypeIsa">
+<tt class="descname">GetOutgoingEdgesOfTypeIsa</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.ltm.node.LTMNode.GetOutgoingEdgesOfTypeIsa" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get outgoing edges of type &#8216;isa&#8217;.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="farg.ltm.node.LTMNode.GetOutgoingEdgesOfTypeRelated">
 <tt class="descname">GetOutgoingEdgesOfTypeRelated</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.GetOutgoingEdgesOfTypeRelated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.GetOutgoingEdgesOfTypeRelated" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get outgoing edges of type &#8216;related&#8217;.</p>
@@ -132,6 +138,13 @@ spread an appropriate component to nearby nodes.</p>
 </div>
 </dd></dl>
 
+<dl class="method">
+<dt id="farg.ltm.node.LTMNode.SpikeNonSpreading">
+<tt class="descname">SpikeNonSpreading</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="headerlink" href="#farg.ltm.node.LTMNode.SpikeNonSpreading" title="Permalink to this definition">¶</a></dt>
+<dd><p>Update activation by this amount (after processing any pending decays, but do not
+propagate further.)</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="farg.ltm.node.LTMNode.depth_reciprocal">
 <tt class="descname">depth_reciprocal</tt><em class="property"> = None</em><a class="headerlink" href="#farg.ltm.node.LTMNode.depth_reciprocal" title="Permalink to this definition">¶</a></dt>
@@ -144,64 +157,31 @@ calculations.</p>
 </dd></dl>
 
 <span class="target" id="module-farg.ltm.storable"></span><dl class="class">
-<dt id="farg.ltm.storable.LTMMadeStorable">
-<em class="property">class </em><tt class="descclassname">farg.ltm.storable.</tt><tt class="descname">LTMMadeStorable</tt><big>(</big><em>cls</em>, <em>storable</em>, <em>brief_label</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMMadeStorable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMMadeStorable" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
-<dt id="farg.ltm.storable.LTMMadeStorable.BriefLabel">
-<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMMadeStorable.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMMadeStorable.BriefLabel" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="staticmethod">
-<dt id="farg.ltm.storable.LTMMadeStorable.Create">
-<em class="property">static </em><tt class="descname">Create</tt><big>(</big><em>storable</em>, <em>brief_label</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMMadeStorable.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMMadeStorable.Create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="farg.ltm.storable.LTMMadeStorable.memos_ltm_madestorable">
-<tt class="descname">memos_ltm_madestorable</tt><em class="property"> = {}</em><a class="headerlink" href="#farg.ltm.storable.LTMMadeStorable.memos_ltm_madestorable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
-<dt id="farg.ltm.storable.LTMMakeStorableMixin">
-<em class="property">class </em><tt class="descclassname">farg.ltm.storable.</tt><tt class="descname">LTMMakeStorableMixin</tt><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMMakeStorableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMMakeStorableMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Some classes may not be storable in an LTM, but they may define a way to obtain unique 
-LTM nodes corresponding to them. An example is SObject: each time an SObject is created,
-it must produce a different object, but they should map to the same LTM node.</p>
-<p>Such classes may use this mixin and add a GetStorable method instead.</p>
-<dl class="classmethod">
-<dt id="farg.ltm.storable.LTMMakeStorableMixin.CreateLTMStorable">
-<em class="property">classmethod </em><tt class="descname">CreateLTMStorable</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMMakeStorableMixin.CreateLTMStorable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMMakeStorableMixin.CreateLTMStorable" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-</dd></dl>
-
-<dl class="class">
 <dt id="farg.ltm.storable.LTMStorableMixin">
 <em class="property">class </em><tt class="descclassname">farg.ltm.storable.</tt><tt class="descname">LTMStorableMixin</tt><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMStorableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Any class whose instances should be stored in LTM must adhere to certain semantics,
-and subclass from this class.</p>
+and subclass from this class. Typically, it would also use MemoizedConstructor as a
+metaclass.</p>
 <p>For a given set of arguments, this class ensures that only a single object is created.</p>
 <dl class="method">
 <dt id="farg.ltm.storable.LTMStorableMixin.BriefLabel">
 <tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMStorableMixin.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.BriefLabel" title="Permalink to this definition">¶</a></dt>
-<dd><p>A brief label useful for, for instance, display in LTM viewer.</p>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.ltm.storable.LTMStorableMixin.GetLTMStorableContent">
+<tt class="descname">GetLTMStorableContent</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.GetLTMStorableContent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.ltm.storable.LTMStorableMixin.LTMDependentContent">
+<tt class="descname">LTMDependentContent</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.LTMDependentContent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns nodes whose existence is necessary for fully defining this node.</p>
 </dd></dl>
 
-<dl class="classmethod">
-<dt id="farg.ltm.storable.LTMStorableMixin.ClearMemos">
-<em class="property">classmethod </em><tt class="descname">ClearMemos</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMStorableMixin.ClearMemos"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.ClearMemos" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="classmethod">
-<dt id="farg.ltm.storable.LTMStorableMixin.Create">
-<em class="property">classmethod </em><tt class="descname">Create</tt><big>(</big><em>**kwargs</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMStorableMixin.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.Create" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="farg.ltm.storable.LTMStorableMixin.memos">
-<tt class="descname">memos</tt><em class="property"> = {}</em><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.memos" title="Permalink to this definition">¶</a></dt>
+<dl class="method">
+<dt id="farg.ltm.storable.LTMStorableMixin.LTMDisplayLabel">
+<tt class="descname">LTMDisplayLabel</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.LTMDisplayLabel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -294,6 +274,12 @@ and subclass from this class.</p>
 <dt id="farg.ltm.graph.LTMGraph.SpikeForContent">
 <tt class="descname">SpikeForContent</tt><big>(</big><em>content</em>, <em>amount</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/graph.html#LTMGraph.SpikeForContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.graph.LTMGraph.SpikeForContent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Spike node indicated by content by amount.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.ltm.graph.LTMGraph.nodes">
+<tt class="descname">nodes</tt><em class="property"> = None</em><a class="headerlink" href="#farg.ltm.graph.LTMGraph.nodes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Nodes in the graph. Each is a LTMNode.</p>
 </dd></dl>
 
 </dd></dl>

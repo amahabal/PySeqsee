@@ -1,0 +1,158 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>The User Interface &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="The Core API" href="api_index.html" />
+    <link rel="next" title="Developer Documentation" href="../developer/developer_index.html" />
+    <link rel="prev" title="The Core API" href="api_index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../developer/developer_index.html" title="Developer Documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="api_index.html" title="The Core API"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="the-user-interface">
+<h1>The User Interface<a class="headerlink" href="#the-user-interface" title="Permalink to this headline">¶</a></h1>
+<p>The base class of the user interface is <em>farg/ui</em>. Subclasses should support the
+following.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">It should hold a controller object:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">controller</span>  <span class="c"># Holds the controller object.</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The contoller can be stepped through:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Step</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>  <span class="c"># Step the controller 7 steps.</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Some UI initializations (such as a GUI) may do some setup/teardown. They
+should override these methods:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">Setup</span><span class="p">()</span>  <span class="c"># Defaults to a no-op.</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">Teardown</span><span class="p">()</span>  <span class="c"># Defaults to a no-op.</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The UI must deal with displaying messages and asking questions to the user.
+In some cases, these methods would be overridden to automatically answer
+such questions (in a testing suite, for example). The code calling these
+functions should not care about who is answering them:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">DisplayMessage</span><span class="p">()</span>  <span class="c"># In a GUI, will display the message in a pop-up.</span>
+<span class="n">is_palindrome</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AskYesNoQuestion</span><span class="p">(</span><span class="s">&quot;Is this a palindrome?&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Not designed yet: A way to ask more complex questions that an app developed
+using this framework may support.</p>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="api_index.html"
+                        title="previous chapter">The Core API</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../developer/developer_index.html"
+                        title="next chapter">Developer Documentation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/ui.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../developer/developer_index.html" title="Developer Documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="api_index.html" title="The Core API"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

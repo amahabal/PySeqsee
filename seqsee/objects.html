@@ -75,9 +75,24 @@ categories), and not positional or specific use information (such as metonyms).<
 </ul>
 </div>
 <dl class="class">
+<dt id="apps.seqsee.sobject.LTMStorableSObject">
+<em class="property">class </em><tt class="descclassname">apps.seqsee.sobject.</tt><tt class="descname">LTMStorableSObject</tt><big>(</big><em>structure</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.LTMStorableSObject" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="apps.seqsee.sobject.LTMStorableSObject.BriefLabel">
+<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.LTMStorableSObject.BriefLabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
 <dt id="apps.seqsee.sobject.SElement">
 <em class="property">class </em><tt class="descclassname">apps.seqsee.sobject.</tt><tt class="descname">SElement</tt><big>(</big><em>magnitude</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/sobject.html#SElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.sobject.SElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>A subclass of SObject, where there is a single element, which is a number.</p>
+<dl class="method">
+<dt id="apps.seqsee.sobject.SElement.CalculateStrength">
+<tt class="descname">CalculateStrength</tt><big>(</big><em>controller=None</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SElement.CalculateStrength" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="apps.seqsee.sobject.SElement.DeepCopy">
 <tt class="descname">DeepCopy</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/sobject.html#SElement.DeepCopy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.sobject.SElement.DeepCopy" title="Permalink to this definition">¶</a></dt>
@@ -85,10 +100,20 @@ categories), and not positional or specific use information (such as metonyms).<
 </dd></dl>
 
 <dl class="method">
+<dt id="apps.seqsee.sobject.SElement.FlattenedMagnitudes">
+<tt class="descname">FlattenedMagnitudes</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SElement.FlattenedMagnitudes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="apps.seqsee.sobject.SElement.GetFringe">
 <tt class="descname">GetFringe</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/sobject.html#SElement.GetFringe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.sobject.SElement.GetFringe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fringe for the element (now based off the LTM).</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SElement.Length">
+<tt class="descname">Length</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SElement.Length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="apps.seqsee.sobject.SElement.Structure">
@@ -109,16 +134,33 @@ categories), and not positional or specific use information (such as metonyms).<
 <em class="property">class </em><tt class="descclassname">apps.seqsee.sobject.</tt><tt class="descname">SGroup</tt><big>(</big><em>underlying_mapping=None</em>, <em>items=None</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/sobject.html#SGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.sobject.SGroup" title="Permalink to this definition">¶</a></dt>
 <dd><p>A subclass of SObject representing things with an internal structure.</p>
 <dl class="method">
+<dt id="apps.seqsee.sobject.SGroup.CalculateStrength">
+<tt class="descname">CalculateStrength</tt><big>(</big><em>controller=None</em><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SGroup.CalculateStrength" title="Permalink to this definition">¶</a></dt>
+<dd><p>The strength of a group is made up of a few components, including the strength of
+its parts and the strength of the underlying_mapping.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="apps.seqsee.sobject.SGroup.DeepCopy">
 <tt class="descname">DeepCopy</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/sobject.html#SGroup.DeepCopy"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.sobject.SGroup.DeepCopy" title="Permalink to this definition">¶</a></dt>
 <dd><p>Makes a copy of the group.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="apps.seqsee.sobject.SGroup.FlattenedMagnitudes">
+<tt class="descname">FlattenedMagnitudes</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SGroup.FlattenedMagnitudes" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
 <dt id="apps.seqsee.sobject.SGroup.GetFringe">
 <tt class="descname">GetFringe</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/sobject.html#SGroup.GetFringe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.sobject.SGroup.GetFringe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Fringe for the group.</p>
 </dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.sobject.SGroup.Length">
+<tt class="descname">Length</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SGroup.Length" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="method">
 <dt id="apps.seqsee.sobject.SGroup.Structure">
@@ -156,8 +198,8 @@ categories), and not positional or specific use information (such as metonyms).<
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.sobject.SObject.GetStorable">
-<tt class="descname">GetStorable</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/sobject.html#SObject.GetStorable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.sobject.SObject.GetStorable" title="Permalink to this definition">¶</a></dt>
+<dt id="apps.seqsee.sobject.SObject.GetLTMStorableContent">
+<tt class="descname">GetLTMStorableContent</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.sobject.SObject.GetLTMStorableContent" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">

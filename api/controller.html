@@ -1,0 +1,187 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Controller &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="The Core API" href="api_index.html" />
+    <link rel="next" title="Developer Documentation" href="../developer/developer_index.html" />
+    <link rel="prev" title="The User Interface" href="ui.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../developer/developer_index.html" title="Developer Documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="ui.html" title="The User Interface"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="controller">
+<h1>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h1>
+<p>The controller marshalls the various pieces such as coderack, stream and the
+workspace.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Keeps a pointer to the UI. Subspaces have their own contollers, but they
+all point to the same UI. This is needed for such tasks as asking a
+question:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ui</span>  <span class="c"># Points to the UI (usually a GUI).</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Keeps a pointer to a coderack:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">coderack</span>  <span class="c"># Created when controller is initialized</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Keeps a pointer to a stream. This stream is of the class specified at
+construction:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">stream</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Keeps a pointer to an LTM. This can be <em>None</em>:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ltm</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">It is possible to ask the controller to add certain codelets at each step.
+This is specified at construction using an iterable consisting of any
+number of 3-tuples (family, urgency, probability-of-addition):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">routine_codelets_to_add</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The constructor becomes clearer in terms of the bullets above. The
+<em>stream_class</em> controls the type of stream created, the
+<em>routine_codelets_to_add</em> controls codelets added at each stage, and
+<em>ltm_name</em> helps choose which LTM to load, if any:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Controller</span><span class="p">(</span><span class="n">stream_class</span><span class="o">=</span><span class="n">Stream</span><span class="p">,</span>
+               <span class="n">routine_codelets_to_add</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">ltm_name</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The epoch of the controller &#8212; how many steps it has taken &#8212; is
+maintained:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">This is a utility to add a codelet. This is needed since every codelet
+keeps a pointer to a controller:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">Finally, it provides a Step method. It executes the next (stochastically
+chosen) step in the model.</p>
+<p>This should catch all farg-related exceptions and prevent them from
+bubbling to the UI:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">Step</span><span class="p">()</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ui.html"
+                        title="previous chapter">The User Interface</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../developer/developer_index.html"
+                        title="next chapter">Developer Documentation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/controller.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../developer/developer_index.html" title="Developer Documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="ui.html" title="The User Interface"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>

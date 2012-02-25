@@ -28,7 +28,7 @@
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
     <link rel="next" title="Codelets" href="codelets.html" />
-    <link rel="prev" title="Developer Documentation" href="developer_index.html" /> 
+    <link rel="prev" title="Controller" href="controller.html" /> 
   </head>
   <body>
     <div class="related">
@@ -44,7 +44,7 @@
           <a href="codelets.html" title="Codelets"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="developer_index.html" title="Developer Documentation"
+          <a href="controller.html" title="Controller"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
@@ -58,6 +58,20 @@
             
   <div class="section" id="module-farg.coderack">
 <span id="coderack"></span><h1>Coderack<a class="headerlink" href="#module-farg.coderack" title="Permalink to this headline">¶</a></h1>
+<p>The Coderack in Seqsee is like a todo list.  It consists of promising 
+actions to take next, each associated with a number indicating the degree 
+of promise.  Seqsee chooses an item and runs it, and in that process of 
+running it may come up with other promising actions that are then added to 
+the Coderack.</p>
+<p>The probability of choosing an item depends on its promise.  Higher 
+promise actions are likelier to be chosen, but it is still possible for 
+ignore promise actions to occasionally get chosen.</p>
+<p>Each action is called a codelet.  As that term suggests, the action is a 
+tiny and targeted.  In fact, Seqsee requires several dozens of codelets to 
+understand even simple sequences.</p>
+<p>Just as the contents of a person&#8217;s to do list can strongly suggest their 
+actions over the next few hours, the Coderack&#8217;s contents indicate the 
+directions Seqsee will pursue in the near future.</p>
 <dl class="class">
 <dt id="farg.coderack.Coderack">
 <em class="property">class </em><tt class="descclassname">farg.coderack.</tt><tt class="descname">Coderack</tt><big>(</big><em>max_capacity</em><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack" title="Permalink to this definition">¶</a></dt>
@@ -115,8 +129,8 @@ Requires the coderack to be nonempty.</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="developer_index.html"
-                        title="previous chapter">Developer Documentation</a></p>
+  <p class="topless"><a href="controller.html"
+                        title="previous chapter">Controller</a></p>
   <h4>Next topic</h4>
   <p class="topless"><a href="codelets.html"
                         title="next chapter">Codelets</a></p>
@@ -155,7 +169,7 @@ Requires the coderack to be nonempty.</p>
           <a href="codelets.html" title="Codelets"
              >next</a> |</li>
         <li class="right" >
-          <a href="developer_index.html" title="Developer Documentation"
+          <a href="controller.html" title="Controller"
              >previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 

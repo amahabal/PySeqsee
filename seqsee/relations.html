@@ -92,6 +92,11 @@
 <tt class="descname">IsPairConsistent</tt><big>(</big><em>item1</em>, <em>item2</em><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping.IsPairConsistent" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
+<dl class="method">
+<dt id="apps.seqsee.mapping.NumericMapping.LTMDependentContent">
+<tt class="descname">LTMDependentContent</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping.LTMDependentContent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="attribute">
 <dt id="apps.seqsee.mapping.NumericMapping.category">
 <tt class="descname">category</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.NumericMapping.category" title="Permalink to this definition">¶</a></dt>
@@ -109,10 +114,25 @@ version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>nof
 
 <dl class="class">
 <dt id="apps.seqsee.mapping.StructuralMapping">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.mapping.</tt><tt class="descname">StructuralMapping</tt><big>(</big><em>category</em>, <em>bindings_mapping</em>, <em>slippages=None</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/mapping.html#StructuralMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">apps.seqsee.mapping.</tt><tt class="descname">StructuralMapping</tt><big>(</big><em>category</em>, <em>bindings_mapping</em>, <em>slippages=None</em>, <em>no_flipped_version=None</em>, <em>flipped_version=None</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/mapping.html#StructuralMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
 <dt id="apps.seqsee.mapping.StructuralMapping.Apply">
 <tt class="descname">Apply</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/mapping.html#StructuralMapping.Apply"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.Apply" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.mapping.StructuralMapping.BriefLabel">
+<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.BriefLabel" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.mapping.StructuralMapping.FlippedVersion">
+<tt class="descname">FlippedVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.FlippedVersion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="apps.seqsee.mapping.StructuralMapping.GetFlippedVersion">
+<tt class="descname">GetFlippedVersion</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.GetFlippedVersion" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -125,26 +145,15 @@ version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>nof
 </div>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="apps.seqsee.mapping.StructuralMapping.bindings_mapping">
-<tt class="descname">bindings_mapping</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.bindings_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>A dictionary of attribute to a mapping: how is the value of each attribute
-transformed?</p>
-</dd></dl>
+<dl class="method">
+<dt id="apps.seqsee.mapping.StructuralMapping.LTMDependentContent">
+<tt class="descname">LTMDependentContent</tt><big>(</big><big>)</big><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.LTMDependentContent" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 <dl class="attribute">
 <dt id="apps.seqsee.mapping.StructuralMapping.category">
 <tt class="descname">category</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.category" title="Permalink to this definition">¶</a></dt>
 <dd><p>A category, such as ascending, on which mapping is based.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="apps.seqsee.mapping.StructuralMapping.slippages">
-<tt class="descname">slippages</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.mapping.StructuralMapping.slippages" title="Permalink to this definition">¶</a></dt>
-<dd><p>If an attribute comes from a different attribute, that information is here.
-Thus, if the new <cite>start</cite> is the successory of the old <cite>end</cite>, then there will be an
-entry start =&gt; end in the slippages dictionary, as well as a start =&gt; succ in the
-bindings_mapping dictionary.</p>
 </dd></dl>
 
 </dd></dl>

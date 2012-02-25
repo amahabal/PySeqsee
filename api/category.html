@@ -1,0 +1,196 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Category &mdash; PySeqsee 0.1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="up" title="The Core API" href="api_index.html" />
+    <link rel="next" title="Developer Documentation" href="../developer/developer_index.html" />
+    <link rel="prev" title="Controller" href="controller.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../developer/developer_index.html" title="Developer Documentation"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="controller.html" title="Controller"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="category">
+<h1>Category<a class="headerlink" href="#category" title="Permalink to this headline">¶</a></h1>
+<p>This is the root of all categories.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Provides a method to check if an entity is an instance. Returns a binding &#8212; a
+description of how this is an instance. For example, the binding for the category
+Mountain for the entity &#8220;5 6 7 8 7 6 5&#8221; might be that 8 is the peak and 5 the base:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">binding</span> <span class="o">=</span> <span class="n">IsInstance</span><span class="p">(</span><span class="n">entity</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="categorizablemixin">
+<h1>CategorizableMixin<a class="headerlink" href="#categorizablemixin" title="Permalink to this headline">¶</a></h1>
+<p>Any entity that we wish to be an instance of a category must derive from this mixin.</p>
+<blockquote>
+<div><ul>
+<li><p class="first">Allows access to categories of which this is a known instance. This is a dict keyed
+by category and containing bindings for values:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">categories</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">It provides the ability to add and remove categories. Removing a non-existant category
+is not an error:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">AddCategory</span><span class="p">(</span><span class="n">category</span><span class="p">,</span> <span class="n">binding</span><span class="p">)</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">RemoveCategory</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">You can get bindings or check whether this is known to be an instance of a category. For
+getting binding, it is an error to call this with a category this is not an instance of:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">IsKnownAsInstanceOf</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+<span class="n">binding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetBinding</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The following checks if an entity is a known instance of a category, and if not, uses the
+category to describe this object as an instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">binding</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">DescribeAsInstanceOf</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</div>
+<div class="section" id="binding">
+<h1>Binding<a class="headerlink" href="#binding" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><ul>
+<li><p class="first">To construct a binding, use a dict:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">b</span> <span class="o">=</span> <span class="n">Binding</span><span class="p">(</span><span class="nb">dict</span><span class="p">(</span><span class="n">base</span><span class="o">=</span><span class="mi">7</span><span class="p">,</span> <span class="n">peak</span><span class="o">=</span><span class="mi">9</span><span class="p">))</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">And you can get the binding for any attribute:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">v</span> <span class="o">=</span> <span class="n">GetBindingForAttribute</span><span class="p">(</span><span class="s">&#39;peak&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</li>
+<li><p class="first">The entire binding is also available to iterate over:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">binding</span>
+</pre></div>
+</div>
+</li>
+</ul>
+</div></blockquote>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Category</a></li>
+<li><a class="reference internal" href="#categorizablemixin">CategorizableMixin</a></li>
+<li><a class="reference internal" href="#binding">Binding</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="controller.html"
+                        title="previous chapter">Controller</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../developer/developer_index.html"
+                        title="next chapter">Developer Documentation</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/api/category.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../developer/developer_index.html" title="Developer Documentation"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="controller.html" title="Controller"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+    </div>
+  </body>
+</html>
