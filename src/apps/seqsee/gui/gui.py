@@ -5,8 +5,8 @@ from apps.seqsee.gui.central_pane import CentralPane
 from apps.seqsee.gui.conversation import Conversation
 
 class SeqseeGUI(gui.GUI):
-  def __init__(self, controller, args, geometry='810x700-0+0'):
-    gui.GUI.__init__(self, controller, args, geometry)
+  def __init__(self, controller, flags, geometry='810x700-0+0'):
+    gui.GUI.__init__(self, controller, flags, geometry)
 
     # TODO(# --- Jan 3, 2012): Not sure if this is the right abstraction. I want to be able
     # to display messages for debugging. I should have a better messaging system built right

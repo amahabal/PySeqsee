@@ -26,10 +26,10 @@ def InitializeSeqseeLTM(ltm):
 LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
 
 class SeqseeController(Controller):
-  def __init__(self, args):
+  def __init__(self, flags):
     routine_codelets_to_add = ((CF_ReadFromWS, 30, 0.3),)
     Controller.__init__(self, routine_codelets_to_add=routine_codelets_to_add,
                         ltm_name=kLTMName)
     ws = self.ws = Workspace()
-    ws.InsertElements(*args.sequence)
-    self.unrevealed_terms = args.unrevealed_terms
+    ws.InsertElements(*flags.sequence)
+    self.unrevealed_terms = flags.unrevealed_terms

@@ -1,6 +1,7 @@
 from Tkinter import Tk, Button, Frame, Label, LEFT, TOP, StringVar, Toplevel, BOTTOM
 from farg.exceptions import FargException, YesNoException
 from farg.ui.gui.dot_to_graph import GraphViewer
+from farg.ui.ui import UI
 from threading import Thread
 import tkMessageBox
 
@@ -32,22 +33,23 @@ class RunForNSteps(Thread):
     self.gui.stepping_thread = None
     self.gui.ReDraw()
 
-class GUI(object):
+class GUI(UI):
   """A tkinter-based interface for FARG applications.
 
      It sets up three frames: a buttons frame, a central pane, and an interaction
      widget. Subclasses can override specific bits of it as needed.
   """
 
-  def __init__(self, controller, args, geometry='810x700+0+0'):
+  def __init__(self, controller, flags, geometry='810x700+0+0'):
+    UI.__init__(self, controller, flags)
     #: The main-window of the UI.
     self.mw = mw = Tk()
     #: The controller owned by the UI.
     self.controller = controller
     mw.geometry(geometry)
-    self.SetupWindows(args)
-    if args.gui_show_ltm:
-      self.SetupLTMWindow(args)
+    self.SetupWindows(flags)
+    if flags.gui_show_ltm:
+      self.SetupLTMWindow(flags)
 
     #: If non-None, the thread that is stepping the controller.
     self.stepping_thread = None

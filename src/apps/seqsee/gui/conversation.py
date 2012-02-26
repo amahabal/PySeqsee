@@ -10,7 +10,7 @@ class Conversation(Frame):
     buttons_frame.pack(side=RIGHT)
 
     self.buttons = []
-    for pos in range(0, 4):
+    for _pos in range(0, 4):
       self.buttons.append(
           Button(buttons_frame, text='', width=15, state='disabled'))
       self.buttons[-1].pack(side=TOP)

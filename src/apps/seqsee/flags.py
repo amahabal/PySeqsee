@@ -7,7 +7,7 @@ from apps.seqsee.gui.gui import SeqseeGUI
 
 # Corresponding Perl code in Seqsee.pm
 
-def ParseSeqseeArguments():
+def ParseSeqseeFlags():
   parser = argparse.ArgumentParser(
       description="Seqsee: A cognitive architecture for integer sequence perception",
       prog='PySeqsee',)
