@@ -99,11 +99,7 @@ class Controller(object):
     self.coderack.AddCodelet(codelet)
 
   def DisplayMessage(self, message):
-    if hasattr(self, 'mw'):  # Has the GUI set. O/w, DisplayMessage is a no-op.
-      import tkMessageBox
-      tkMessageBox.showinfo('', message)
+    self.ui.DisplayMessage(message)
 
   def AskYesNoQuestion(self, question):
-    if hasattr(self, 'mw'):  # Has the GUI set. O/w, DisplayMessage is a no-op.
-      import tkMessageBox
-      return tkMessageBox.askyesno("Question", question)
+    return self.ui.AskYesNoQuestion(question)

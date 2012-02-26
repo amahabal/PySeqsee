@@ -91,3 +91,11 @@ class UI(object):
   def ReDraw(self):
     """Called to update visual state (especially for GUIs)."""
     pass
+
+  def DisplayMessage(self, message):
+    """Should be implemented by individual UIs to display a message."""
+    pass
+
+  def AskYesNoQuestion(self, question):
+    """Should be implemented by individual UIs to display a boolean question."""
+    raise NotImplementedError("Should have been implemented by subclass")

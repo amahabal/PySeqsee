@@ -110,3 +110,9 @@ class GUI(UI):
   def PopulateInteractionPane(self):
     """Sets up the interaction pane at the bottom."""
     pass
+
+  def DisplayMessage(self, message):
+    tkMessageBox.showinfo('', message)
+
+  def AskYesNoQuestion(self, question):
+    return tkMessageBox.askyesno("Question", question)
