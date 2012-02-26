@@ -30,8 +30,8 @@ class RunForNSteps(Thread):
           self.gui.HandleFargException(f)
       if _step % 25 == 24:
         self.gui.ReDraw()
-    self.gui.stepping_thread = None
     self.gui.ReDraw()
+    self.gui.stepping_thread = None
 
 class GUI(UI):
   """A tkinter-based interface for FARG applications.
