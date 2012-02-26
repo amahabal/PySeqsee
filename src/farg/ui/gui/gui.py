@@ -1,7 +1,7 @@
 from Tkinter import Tk, Button, Frame, Label, LEFT, TOP, StringVar, Toplevel, BOTTOM
 from farg.exceptions import YesNoException
 from farg.ui.gui.dot_to_graph import GraphViewer
-from farg.ui.ui import UI, RunForNSteps
+from farg.ui.ui import UI
 import tkMessageBox
 
 
@@ -16,18 +16,10 @@ class GUI(UI):
     UI.__init__(self, controller, flags)
     #: The main-window of the UI.
     self.mw = mw = Tk()
-    #: The controller owned by the UI.
-    self.controller = controller
     mw.geometry(geometry)
     self.SetupWindows(flags)
     if flags.gui_show_ltm:
       self.SetupLTMWindow(flags)
-
-    #: If non-None, the thread that is stepping the controller.
-    self.stepping_thread = None
-
-    #: If true, the stepping will stop after the next iteration.
-    self.stop_stepping = False
 
   def Launch(self):
     """Starts the app by launching the UI."""
@@ -39,44 +31,10 @@ class GUI(UI):
       item.ReDraw()
     self.codelet_count_var.set('%d' % self.controller.steps_taken)
 
-  def Quit(self):
-    """Quits the application. Calls quit on the controller as well."""
-    self.Pause()
-    if self.stepping_thread:
-      self.stepping_thread.join()
-    self.controller.Quit()
+  def CleanupAfterQuit(self):
+    """Called after Quit (by Quit) for any cleanup."""
     self.mw.quit()
 
-  def Start(self):
-    """Continually calls Step() on the controller."""
-    if self.stepping_thread:
-      return  # Already running.
-    thread = RunForNSteps(self, n_steps=1000)
-    if self.stepping_thread:
-      return  # Already running.
-    else:
-      self.stepping_thread = thread
-    self.stop_stepping = False
-    thread.start()
-
-
-  def Steps(self, steps):
-    """Takes a single step of the controller."""
-    if self.stepping_thread:
-      return  # Already running.
-    thread = RunForNSteps(self, n_steps=steps)
-    if self.stepping_thread:
-      return  # Already running.
-    else:
-      self.stepping_thread = thread
-    self.stop_stepping = False
-    thread.start()
-
-
-  def Pause(self):
-    """Pauses the stepping-through of the controller."""
-    print "Pausing"
-    self.stop_stepping = True
 
   def HandleAppSpecificFargException(self, exception):
     """A hook to allow derivative classes a way to handle specific types of exceptions.
