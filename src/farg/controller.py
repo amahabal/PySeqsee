@@ -4,6 +4,8 @@ from farg.ltm.manager import LTMManager
 from farg.stream import Stream
 from farg.util import Toss
 import logging
+from farg.exceptions import FargException, YesNoException, NoAnswerException, \
+  AnswerFoundException
 
 logger = logging.getLogger(__name__)
 
@@ -76,7 +78,10 @@ class Controller(object):
       codelet = self.coderack.GetCodelet()
       # TODO(#14 --- Dec 28, 2011): Find a way to pretty-print family names.
       logger.debug("Running codelet of family %s", codelet.family)
-      codelet.Run()
+      try:
+        codelet.Run()
+      except FargException as e:
+        self.HandleFargException(e)
     else:
       logger.debug("Empty coderack, step is a no-op.")
 
@@ -103,3 +108,16 @@ class Controller(object):
 
   def AskYesNoQuestion(self, question):
     return self.ui.AskYesNoQuestion(question)
+
+  def HandleFargException(self, exception):
+    if (isinstance(exception, NoAnswerException) or
+        isinstance(exception, AnswerFoundException)):
+      raise exception
+    elif isinstance(exception, YesNoException):
+      exception.callback(self.ui.AskYesNoQuestion(exception.question_string))
+    else:
+      print '----------'
+      for line in exception.stack_trace:
+        print line
+      print '----------'
+      raise exception

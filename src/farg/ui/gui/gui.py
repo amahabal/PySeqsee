@@ -37,30 +37,6 @@ class GUI(UI):
     """Called after Quit (by Quit) for any cleanup."""
     self.mw.quit()
 
-
-  def HandleAppSpecificFargException(self, exception):
-    """A hook to allow derivative classes a way to handle specific types of exceptions.
-
-       If unhandled, the exception should be rethrown.
-
-       By default, this does nothing and rethrows the exception.
-    """
-    raise exception
-
-  def HandleFargException(self, exception):
-    """Takes care of the exception thrown by the controller, provided it is the right type."""
-    try:
-      raise exception
-    except YesNoException:
-      answer = tkMessageBox.askyesno("Question", exception.question_string)
-      exception.callback(answer)
-    except:
-      print '----------'
-      for line in exception.stack_trace:
-        print line
-      print '----------'
-      raise exception
-
   def SetupWindows(self, args):
     """Sets up the three panes in the UI."""
     mw = self.mw

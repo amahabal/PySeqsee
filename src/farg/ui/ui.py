@@ -1,7 +1,6 @@
 # Base class of UIs (including GUIs, cmdline, and other versions).
 
 from threading import Thread
-from time import sleep
 from farg.exceptions import FargException
 
 class RunForNSteps(Thread):
@@ -18,15 +17,7 @@ class RunForNSteps(Thread):
     for _step in xrange(0, self.n_steps):
       if self.ui.stop_stepping:
         break
-      try:
-        self.ui.controller.Step()
-        #print 'Finished step #%d' % self.gui.controller.steps_taken
-      except FargException as e:
-        self.ui.stop_stepping = True
-        try:
-          self.ui.HandleAppSpecificFargException(e)
-        except FargException as f:
-          self.ui.HandleFargException(f)
+      self.ui.controller.Step()
       if _step % 25 == 24:
         self.ui.ReDraw()
     self.ui.ReDraw()
