@@ -40,10 +40,3 @@ class Category(LTMStorableMixin):
     """
     raise FargError("IsInstance makes no sense on base category.")
 
-  def FindMapping(self, categorizable1, categorizable2):
-    """Finds a mapping between two objects based on a particular category."""
-    raise FargError("IsInstance makes no sense on base category.")
-
-  def ApplyMapping(self, categorizable, mapping):
-    """Apply a mapping to a categorizable to obtain a different categorizable."""
-    raise FargError("IsInstance makes no sense on base category.")

@@ -54,7 +54,24 @@ from farg.categorization.binding import Binding
 from farg.categorization.category import Category
 from farg.exceptions import FargError, FargException
 
-class NumericCategory(Category):
+class SeqseeObjectCategory(Category):
+  """Base for categories whose instances are groups in Seqsee.
+
+     Any derivative class must define the following class methods:
+
+     * FindMapping (given two categorizables, returns a mapping between the two)
+     * ApplyMapping (given a mapping and a categorizable, returns a new item). 
+  """
+  def FindMapping(self, categorizable1, categorizable2):
+    """Finds a mapping between two objects based on a particular category."""
+    raise FargError("IsInstance makes no sense on base category.")
+
+  def ApplyMapping(self, categorizable, mapping):
+    """Apply a mapping to a categorizable to obtain a different categorizable."""
+    raise FargError("IsInstance makes no sense on base category.")
+
+
+class NumericCategory(SeqseeObjectCategory):
   """Base class for categories whose instances are SElements, and membership depends only on 
      the magnitude.
   """
@@ -65,7 +82,7 @@ class NumericCategory(Category):
     magnitude = item.magnitude
     return self.NumericIsInstance(magnitude)
 
-class StructuralCategory(Category):
+class StructuralCategory(SeqseeObjectCategory):
   """Base class whose membership depends on the structure (e.g., ascending, mountain)."""
 
   def IsInstance(self, item):

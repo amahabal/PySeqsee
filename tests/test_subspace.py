@@ -4,6 +4,7 @@ from apps.seqsee.mapping import StructuralMapping
 from apps.seqsee.sobject import SObject
 from farg.controller import Controller
 import unittest
+from farg.ui.ui import UI
 
 
 class TestSubspace(unittest.TestCase):
@@ -16,6 +17,7 @@ class TestSubspace(unittest.TestCase):
     a19_21 = SObject.Create(19, 20, 21)
 
     controller = Controller()
+    _ui = UI(controller, None)
     mapping = SubspaceFindMapping(controller, 3, left=a3, right=a4, category=Ascending())
     self.assertTrue(isinstance(mapping, StructuralMapping))
     self.assertEqual(Ascending(), mapping.category)
@@ -29,6 +31,7 @@ class TestSubspace(unittest.TestCase):
     a19_21 = SObject.Create(19, 20, 21)
 
     controller = Controller()
+    _ui = UI(controller, None)
     mapping = SubspaceFindMapping(controller, 10, left=a17_19, right=a19_21,
                                   category=Ascending())
     self.assertTrue(isinstance(mapping, StructuralMapping))
