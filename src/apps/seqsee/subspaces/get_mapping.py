@@ -132,8 +132,10 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
     if left.GetRelationTo(right):
       # Relation exists, bail out.
       return
-    mapping = SubspaceFindMapping(controller, left=left.object,
-                                  right=right.object, category=None);
+    mapping = SubspaceFindMapping(controller,
+                                  workspace_arguments=dict(left=left.object,
+                                                           right=right.object,
+                                                           category=None));
     if mapping:
       # TODO(# --- Jan 29, 2012): The relation should be formed with a probability dependent
       # on the distance between the nodes.

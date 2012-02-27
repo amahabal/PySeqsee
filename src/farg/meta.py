@@ -20,16 +20,17 @@ class SubspaceMeta(type):
       raise Exception("Subspace construction should have a WS class.")
     super(SubspaceMeta, self).__init__(name, bases, class_dict)
 
-  def __call__(self, parent_controller, nsteps=4, **kw):
+  def __call__(self, parent_controller, nsteps=4, workspace_arguments=dict()):
     try:
-      self.QuickReconn(parent_controller=parent_controller, **kw)
+      self.QuickReconn(parent_controller=parent_controller, **workspace_arguments)
     except NoAnswerException:
       return None
     except AnswerFoundException as e:
       return e.answer
 
     # Okay, so a QuickReconn recommends a deeper exploration.
-    instance = super(SubspaceMeta, self).__call__(parent_controller, nsteps, **kw)
+    instance = super(SubspaceMeta, self).__call__(parent_controller, nsteps,
+                                                  workspace_arguments)
     try:
       instance.Run()
     except AnswerFoundException as e:

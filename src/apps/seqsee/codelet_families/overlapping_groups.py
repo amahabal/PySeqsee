@@ -29,8 +29,12 @@ class CF_ActOnOverlappingGroups(CodeletFamily):
         try:
           controller.ws.Replace((left, right), new_group)
         except ConflictingGroupException as e:
-          SubspaceDealWithConflictingGroups(controller, new_group=new_group,
-                                            incumbents=e.conflicting_groups)
+          SubspaceDealWithConflictingGroups(
+              controller,
+              workspace_arguments=dict(new_group=new_group,
+                                       incumbents=e.conflicting_groups))
         except CannotReplaceSubgroupException as e:
-          SubspaceDealWithConflictingGroups(controller, new_group=new_group,
-                                            incumbents=e.supergroups)
+          SubspaceDealWithConflictingGroups(
+              controller,
+              workspace_arguments=dict(new_group=new_group,
+                                       incumbents=e.supergroups))

@@ -18,12 +18,14 @@ class TestSubspace(unittest.TestCase):
 
     controller = Controller()
     _ui = UI(controller, None)
-    mapping = SubspaceFindMapping(controller, 3, left=a3, right=a4, category=Ascending())
+    mapping = SubspaceFindMapping(controller, 3,
+                                  dict(left=a3, right=a4, category=Ascending()))
     self.assertTrue(isinstance(mapping, StructuralMapping))
     self.assertEqual(Ascending(), mapping.category)
     self.assertEqual(None, mapping.slippages)
 
-    mapping = SubspaceFindMapping(controller, 3, left=a5, right=a19_21, category=Ascending())
+    mapping = SubspaceFindMapping(controller, 3,
+                                  dict(left=a5, right=a19_21, category=Ascending()))
     self.assertEqual(None, mapping)
 
   def test_with_slippages(self):
@@ -32,8 +34,8 @@ class TestSubspace(unittest.TestCase):
 
     controller = Controller()
     _ui = UI(controller, None)
-    mapping = SubspaceFindMapping(controller, 10, left=a17_19, right=a19_21,
-                                  category=Ascending())
+    mapping = SubspaceFindMapping(controller, 10,
+                                  dict(left=a17_19, right=a19_21, category=Ascending()))
     self.assertTrue(isinstance(mapping, StructuralMapping))
     self.assertEqual(Ascending(), mapping.category)
     slippages_dict = dict(mapping.slippages)

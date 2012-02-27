@@ -17,10 +17,10 @@ class Subspace(object):
   def RoutineCodeletsToAdd(self):
     return None
 
-  def __init__(self, parent_controller, nsteps, **kwargs):
+  def __init__(self, parent_controller, nsteps, workspace_arguments):
     self.controller = Controller(routine_codelets_to_add=self.RoutineCodeletsToAdd())
     self.controller.ui = parent_controller.ui
-    self.workspace = self.controller.workspace = self.ws_class(**kwargs)
+    self.workspace = self.controller.workspace = self.ws_class(**workspace_arguments)
     self.controller.parent_controller = parent_controller
     self.max_number_of_steps = nsteps
     self.InitializeCoderack()

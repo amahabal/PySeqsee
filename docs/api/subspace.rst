@@ -24,6 +24,10 @@ as well as a controller. These are available::
     self.controller.coderack
     self.controller.stream
 
+The controller's parent controller is also set up here, and it can be accessed thus::
+
+    self.controller.parent_controller 
+
 The coderack should be initialized by the InitializeCoderack method, which can access the
 coderack through the controller::
 

@@ -32,9 +32,10 @@ class CF_ExtendGroup(CodeletFamily):
         # The following either returns false soon if the user will not be asked, or asks
         # the user and returns the response. If the response is yes, the elements are also
         # added.
-        should_continue = SubspaceGoBeyondKnown(controller,
-                                                basis_of_extension=item,
-                                                suggested_terms=magnitudes)
+        should_continue = SubspaceGoBeyondKnown(
+            controller,
+            workspace_arguments=dict(basis_of_extension=item,
+                                     suggested_terms=magnitudes))
         if not should_continue:
           return
       else:
@@ -70,10 +71,12 @@ class CF_ExtendGroup(CodeletFamily):
     try:
       controller.ws.Replace(item, new_group)
     except ConflictingGroupException as e:
-      SubspaceDealWithConflictingGroups(controller,
-                                        new_group=new_group,
-                                        incumbents=e.conflicting_groups)
+      SubspaceDealWithConflictingGroups(
+          controller,
+          workspace_arguments=dict(new_group=new_group,
+                                   incumbents=e.conflicting_groups))
     except CannotReplaceSubgroupException as e:
-      SubspaceDealWithConflictingGroups(controller,
-                                        new_group=new_group,
-                                        incumbents=e.supergroups)
+      SubspaceDealWithConflictingGroups(
+          controller,
+          workspace_arguments=dict(new_group=new_group,
+                                   incumbents=e.supergroups))

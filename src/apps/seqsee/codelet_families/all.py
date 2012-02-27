@@ -23,8 +23,10 @@ class CF_GroupFromRelation(CodeletFamily):
     try:
       controller.ws.InsertGroup(anchored)
     except ConflictingGroupException as e:
-      SubspaceDealWithConflictingGroups(controller, new_group=anchored,
-                                        incumbents=e.conflicting_groups)
+      SubspaceDealWithConflictingGroups(
+          controller,
+          workspace_arguments=dict(new_group=anchored,
+                                   incumbents=e.conflicting_groups))
 
 class CF_DescribeAs(CodeletFamily):
   """Attempt to describe item as belonging to category."""
