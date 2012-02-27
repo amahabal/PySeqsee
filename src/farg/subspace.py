@@ -10,7 +10,7 @@ class Subspace(object):
   def QuickReconn(**args):
     raise Exception("Attempt to call Subspace(). Surely you meant to call a subclass?")
 
-  def InitializeCoderack(self, controller):
+  def InitializeCoderack(self):
     raise Exception("Base InitializeCoderack called. This should have been overridden "
                     "(to set up the initial codelet, for example)")
 
@@ -23,7 +23,7 @@ class Subspace(object):
     self.workspace = self.controller.workspace = self.ws_class(**kwargs)
     self.controller.parent_controller = parent_controller
     self.max_number_of_steps = nsteps
-    self.InitializeCoderack(self.controller)
+    self.InitializeCoderack()
 
   def Run(self):
     self.controller.RunUptoNSteps(self.max_number_of_steps)

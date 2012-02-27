@@ -22,3 +22,7 @@ class SubspaceSelectObjectToFocusOn(Subspace):
   def QuickReconn(**arguments):
     parent_ws = arguments['parent_controller'].ws
     raise AnswerFoundException(WeightedChoice(ThingsToChooseFrom(parent_ws)))
+
+  def InitializeCoderack(self):
+    """This never gets called currently as QuickReconn always handles things."""
+    pass

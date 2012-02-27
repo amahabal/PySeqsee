@@ -38,6 +38,6 @@ class SubspaceGoBeyondKnown(Subspace):
   def QuickReconn(**arguments):
     pass
 
-  def InitializeCoderack(self, controller):
-    controller.AddCodelet(CF_InitialEvaluation, 100)
+  def InitializeCoderack(self):
+    self.controller.AddCodelet(CF_InitialEvaluation, 100)
 

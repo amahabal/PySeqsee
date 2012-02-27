@@ -37,5 +37,5 @@ class SubspaceDealWithConflictingGroups(Subspace):
   def QuickReconn(**arguments):
     pass
 
-  def InitializeCoderack(self, controller):
-    controller.AddCodelet(CF_FightIncumbents, 100)
+  def InitializeCoderack(self):
+    self.controller.AddCodelet(CF_FightIncumbents, 100)

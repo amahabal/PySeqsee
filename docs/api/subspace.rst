@@ -14,4 +14,19 @@ to come up with a quick solution or a recommendation for deeper exploration::
       ...
       @staticmethod
       def QuickReconn(arg1, arg2):
-        # do something. 
+        # do something.
+        
+When QuickReconn suggests deeper exploration, a coderack, stream, and workspace are set up,
+as well as a controller. These are available::
+
+    self.controller
+    self.workspace
+    self.controller.coderack
+    self.controller.stream
+
+The coderack should be initialized by the InitializeCoderack method, which can access the
+coderack through the controller::
+
+    def InitializeCoderack(self):
+      self.controller.AddCodelet(...) 
+ 

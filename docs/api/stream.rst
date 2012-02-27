@@ -15,6 +15,12 @@ Focusable Mixin
 
 Entities that can be focused on should mix this in, and provide the following methods.
 
+* If some work needs be done when focused upon, it can be done in the *FocusOn* method. This
+  is for immediate book-keeping-like stuff. *GetAffordance* below can handle the creation
+  of codelets for latter activity::
+  
+    self.FocusOn(controller)
+
 * The fringe of the entity is a dictionary keyed by fringe elements and with floats
   indicating intensity as value::
   

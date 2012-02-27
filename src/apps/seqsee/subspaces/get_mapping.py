@@ -122,8 +122,8 @@ class SubspaceFindMapping(Subspace):
     if mapping:
       raise AnswerFoundException(mapping)
 
-  def InitializeCoderack(self, controller):
-    controller.AddCodelet(CF_NumericCase, 100)
+  def InitializeCoderack(self):
+    self.controller.AddCodelet(CF_NumericCase, 100)
 
 
 class CF_FindAnchoredSimilarity(CodeletFamily):
