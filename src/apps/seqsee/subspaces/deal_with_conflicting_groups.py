@@ -39,4 +39,3 @@ class SubspaceDealWithConflictingGroups(Subspace):
 
   def InitializeCoderack(self, controller):
     controller.AddCodelet(CF_FightIncumbents, 100)
-    controller.DisplayMessage("Initialized a SubspaceDealWithConflictingGroups")

@@ -27,6 +27,8 @@ class GUI(UI):
 
   def ReDraw(self):
     """Redraws the UI, flushing any changes that need to be."""
+    if self.quitting:
+      return
     for item in self.items_to_refresh:
       item.ReDraw()
     self.codelet_count_var.set('%d' % self.controller.steps_taken)

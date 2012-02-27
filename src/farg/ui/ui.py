@@ -1,6 +1,7 @@
 # Base class of UIs (including GUIs, cmdline, and other versions).
 
 from threading import Thread
+from time import sleep
 from farg.exceptions import FargException
 
 class RunForNSteps(Thread):
@@ -46,11 +47,19 @@ class UI(object):
     #: If true, the stepping will stop after the next iteration.
     self.stop_stepping = False
 
+    #: If true, the process of quitting has started.
+    self.quitting = False
+
   def Quit(self):
     """Quits the application. Calls quit on the controller as well."""
     self.Pause()
-    if self.stepping_thread:
-      self.stepping_thread.join()
+    self.quitting = True
+    stepping_thread = self.stepping_thread
+    if stepping_thread:
+      try:
+        stepping_thread.join(2)
+      except AttributeError:  # The thread already gone.
+        pass
     self.controller.Quit()
     self.CleanupAfterQuit()
 

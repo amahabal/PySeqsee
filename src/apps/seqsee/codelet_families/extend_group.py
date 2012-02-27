@@ -41,7 +41,6 @@ class CF_ExtendGroup(CodeletFamily):
         if not controller.ws.CheckForPresence(item.end_pos + 1, magnitudes):
           return
       next_part_anchored = SAnchored.CreateAt(item.end_pos + 1, next_part)
-      print "NEXT PART FOUND for %s! %s" % (item, next_part_anchored)
       new_parts = list(parts[:])
       new_parts.append(next_part_anchored)
     else:
@@ -59,7 +58,6 @@ class CF_ExtendGroup(CodeletFamily):
         return
       prev_part_anchored = SAnchored.CreateAt(item.start_pos - len(magnitudes),
                                               previous_part)
-      print "PREV PART FOUND for %s! %s" % (item, prev_part_anchored)
       new_parts = [prev_part_anchored]
       new_parts.extend(parts)
       print new_parts
