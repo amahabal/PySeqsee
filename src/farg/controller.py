@@ -103,12 +103,6 @@ class Controller(object):
     codelet = Codelet(family, self, urgency, **arguments)
     self.coderack.AddCodelet(codelet)
 
-  def DisplayMessage(self, message):
-    self.ui.DisplayMessage(message)
-
-  def AskYesNoQuestion(self, question):
-    return self.ui.AskYesNoQuestion(question)
-
   def HandleFargException(self, exception):
     if (isinstance(exception, NoAnswerException) or
         isinstance(exception, AnswerFoundException)):

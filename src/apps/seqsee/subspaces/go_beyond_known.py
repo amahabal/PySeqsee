@@ -23,7 +23,7 @@ class CF_AskQuestion(CodeletFamily):
   def Run(cls, controller):
     ws = controller.workspace
     question = "Are the next few terms %s" % ws.unknown_terms
-    if controller.parent_controller.AskYesNoQuestion(question):
+    if controller.ui.AskYesNoQuestion(question):
       unknown_terms = ws.unknown_terms
       ws.seqsee_ws.InsertElements(*unknown_terms)
       raise AnswerFoundException(True)
