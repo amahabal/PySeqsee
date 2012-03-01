@@ -141,33 +141,41 @@ class Number(NumericCategory):
     if name == 'succ':
       return SObject.Create(item.magnitude + 1)
 
-class Prime(NumericCategory):
-  primes_list = [
-      int(x) for x in
-      '2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97'.split()]
-  largest_prime = max(primes_list)
+class PrecomputedNumberList(NumericCategory):
+  """Categories such as Prime and Fibonacci which are provided as a pre-computed list."""
+
+  #: Must be provided with a number list.
+  number_list = None
+
+  #: A brief label must be provided.
+  brief_label = None
+
+  def __init__(self):
+    NumericCategory.__init__(self)
+
+    # These are stored on the class (where they belong).
+    self.__class__.smallest_known_element = min(self.number_list)
+    self.__class__.largest_known_element = max(self.number_list)
 
   def BriefLabel(self):
-    return 'Prime'
+    return self.brief_label
 
   def NumericIsInstance(self, val):
     try:
-      index = Prime.primes_list.index(val)
+      index = self.number_list.index(val)
       return Binding(index=index)
     except ValueError:
       return None
 
-  @staticmethod
-  def _NextPrime(val):
-    if val >= Prime.largest_prime:
+  def _NextNumber(self, val):
+    if val >= self.largest_known_element:
       return None
-    return Prime.primes_list[Prime.primes_list.index(val) + 1]
+    return self.number_list[self.number_list.index(val) + 1]
 
-  @staticmethod
-  def _PrevPrime(val):
-    if val <= 2:
+  def _PrevNumber(self, val):
+    if val <= self.smallest_known_element:
       return None
-    return Prime.primes_list[Prime.primes_list.index(val) - 1]
+    return self.number_list[self.number_list.index(val) - 1]
 
   def GetMapping(self, item1, item2):
     binding1 = item1.DescribeAs(self)
@@ -179,7 +187,7 @@ class Prime(NumericCategory):
                       binding2.GetBindingsForAttribute('index'))
     diff_string = NumericMapping.DifferenceString(index1, index2)
     if diff_string:
-      return NumericMapping(diff_string, Prime())
+      return NumericMapping(diff_string, self)
     else:
       return None
 
@@ -189,17 +197,31 @@ class Prime(NumericCategory):
     if name == 'same':
       return item.DeepCopy()
     if name == 'pred':
-      val = Prime._PrevPrime(item.magnitude)
+      val = self._PrevNumber(item.magnitude)
       if val:
         return SObject.Create(val)
       else:
         return None
     if name == 'succ':
-      val = Prime._NextPrime(item.magnitude)
+      val = self._NextNumber(item.magnitude)
       if val:
         return SObject.Create(val)
       else:
         return None
+
+class Prime(PrecomputedNumberList):
+  brief_label = 'Prime'
+  number_list = [
+      int(x) for x in
+      '2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97'.split()]
+
+class Squares(PrecomputedNumberList):
+  brief_label = 'Square'
+  number_list = [x * x for x in range(1, 100)]
+
+class TriangularNumbers(PrecomputedNumberList):
+  brief_label = 'TriangularNumber'
+  number_list = [ x * (x + 1) / 2 for x in range(1, 100)]
 
 class Ascending(StructuralCategory):
 

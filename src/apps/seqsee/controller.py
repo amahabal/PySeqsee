@@ -18,10 +18,16 @@ def InitializeSeqseeLTM(ltm):
                               LTMEdge.LTM_EDGE_TYPE_RELATED)
     ltm.AddEdgeBetweenContent(elements[idx + 1], element,
                               LTMEdge.LTM_EDGE_TYPE_RELATED)
-  from apps.seqsee.categories import Prime
+  from apps.seqsee.categories import Prime, Squares, TriangularNumbers
   for prime_number in (2, 3, 5, 7):
     ltm.AddEdgeBetweenContent(elements[prime_number - 1], Prime(),
                               LTMEdge.LTM_EDGE_TYPE_ISA)
+  for square in Squares.number_list[:10]:
+    ltm.AddEdgeBetweenContent(SElement(square), Squares(), LTMEdge.LTM_EDGE_TYPE_ISA)
+  for triangular in TriangularNumbers.number_list[:10]:
+    ltm.AddEdgeBetweenContent(SElement(triangular), TriangularNumbers(),
+                              LTMEdge.LTM_EDGE_TYPE_ISA)
+
 
 LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
 
