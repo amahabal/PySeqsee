@@ -57,18 +57,16 @@ class CentralPane(Canvas):
   def SetNamedView(self, name):
     CentralPane.named_views[name](self)
 
+  def NamedViewCmd(self, name):
+    return (lambda: self.SetNamedView(name))
+
   def SetupMenu(self, parent):
     menubar = Menu(self)
 
     view_menu = Menu(menubar, tearoff=0)
-    view_menu.add_command(label='workspace',
-                          command=lambda: self.SetNamedView('ws'))
-    view_menu.add_command(label='codelets',
-                          command=lambda: self.SetNamedView('cr'))
-    view_menu.add_command(label='ws/codelets',
-                          command=lambda: self.SetNamedView('ws_cr'))
-    view_menu.add_command(label='ws/codelets/stream',
-                          command=lambda: self.SetNamedView('ws_cr_st'))
+    for name in self.named_views.keys():
+      view_menu.add_command(label=name,
+                            command=self.NamedViewCmd(name))
     menubar.add_cascade(label="View", menu=view_menu)
 
     parent.config(menu=menubar)

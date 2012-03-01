@@ -1,5 +1,4 @@
 from Tkinter import Tk, Button, Frame, Label, LEFT, TOP, StringVar, Toplevel, BOTTOM
-from farg.exceptions import YesNoException
 from farg.ui.gui.dot_to_graph import GraphViewer
 from farg.ui.ui import UI
 import tkMessageBox
