@@ -1,7 +1,6 @@
 # Base class of UIs (including GUIs, cmdline, and other versions).
 
 from threading import Thread
-from farg.exceptions import FargException
 
 class RunForNSteps(Thread):
   """Runs controller for upto n steps.

@@ -36,12 +36,15 @@ def ParseSeqseeFlags():
   args = parser.parse_args()
 
   # Validate and Pre-process
-  if args.ui is 'gui':
+  if args.ui == 'gui':
     args.ui = SeqseeGUI
+  elif args.ui == 'cmdline':
+    from farg.ui.cmdline import CmdlineUI
+    args.ui = CmdlineUI
   else:
     # TODO(#20 --- Dec 28, 2011): Add support for cmdline mode.
     # TODO(#21 --- Dec 28, 2011): Add support for web mode.
-    print "%s is not a supported UI (yet)" % args.ui
+    print "UI '%s' is not supported (yet)" % args.ui
     sys.exit(1)
 
   args.unrevealed_terms = [int(x) for x in args.unrevealed_terms.split()]
