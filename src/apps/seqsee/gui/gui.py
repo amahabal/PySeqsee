@@ -19,6 +19,7 @@ class SeqseeGUI(gui.GUI):
     self.mw.bind('<KeyPress-k>', lambda e: self.Steps(100))
     self.mw.bind('<KeyPress-c>', lambda e: self.Start())
     self.mw.bind('<KeyPress-p>', lambda e: self.Pause())
+    self.mw.bind('<KeyPress-d>', lambda e: self.controller.workspace.DebugRelations())
 
   def PopulateCentralPane(self, args):
     height = args.gui_canvas_height

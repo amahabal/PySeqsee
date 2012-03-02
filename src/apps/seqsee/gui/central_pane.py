@@ -69,4 +69,8 @@ class CentralPane(Canvas):
                             command=self.NamedViewCmd(name))
     menubar.add_cascade(label="View", menu=view_menu)
 
+    debug_menu = Menu(menubar, tearoff=0)
+    debug_menu.add_command(label='Debug Relations',
+                           command=lambda: self.controller.workspace.DebugRelations())
+    menubar.add_cascade(label="Debug", menu=debug_menu)
     parent.config(menu=menubar)

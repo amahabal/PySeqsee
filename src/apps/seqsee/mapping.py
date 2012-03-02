@@ -15,7 +15,7 @@ class NumericMapping(Mapping):
     self.category = category
 
   def __str__(self):
-    return 'NumericMapping-%ld(%s %s)' % (id(self), self.category, self.name)
+    return 'NumericMapping(%s %s)' % (self.category.BriefLabel(), self.name)
 
   def BriefLabel(self):
     return '{%s} %s' % (self.category.BriefLabel(), self.name)

@@ -28,6 +28,7 @@
 from apps.seqsee.anchored import SAnchored
 from apps.seqsee.sobject import SElement
 from apps.seqsee.util import Exactly
+from collections import defaultdict
 from farg.exceptions import FargError, ConflictingGroupException, CannotReplaceSubgroupException
 import logging
 
@@ -186,7 +187,7 @@ class Workspace(object):
 
   def Replace(self, original_gps, new_group):
     """Replace original group with new group unless the new group is going to cause conflicts.
-    
+
        If the new group will cause conflicts, a ConflictingGroupException is raised.
     """
     if not isinstance(original_gps, tuple):
@@ -220,3 +221,26 @@ class Workspace(object):
         if element.start_pos == start_pos:
           return element
     raise FargError("GetItemAt has no item to return.")
+
+  def CalculateSupergroupMap(self):
+    """Calculates a map from anchored elements to their supergroups.
+
+       Generated for immediate use and not kept updated. Regenrate for each use.
+    """
+    supergroup_map = defaultdict(set)
+    for group in self.groups:
+      for part in group.items:
+        supergroup_map[part].add(group)
+    return supergroup_map
+
+  def DebugRelations(self):
+    """Print debugging information to Stderr."""
+    counter = 0
+    for element in self.elements:
+      for relation in element.relations:
+        counter = counter + 1
+        print '[%d] %s' % (counter, relation)
+    for gp in self.groups:
+      for relation in gp.relations:
+        counter = counter + 1
+        print '[%d] %s' % (counter, relation)
