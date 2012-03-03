@@ -1,8 +1,19 @@
 """Adapting the generic FARG GUI to Seqsee."""
 
-from farg.ui.gui import gui
 from apps.seqsee.gui.central_pane import CentralPane
 from apps.seqsee.gui.conversation import Conversation
+from farg.ui.gui import gui
+from third_party import gflags
+
+gflags.DEFINE_string('gui_initial_view', 'ws',
+                     'In GUI mode, what should the initial mode be?')
+gflags.DEFINE_integer('gui_canvas_height', 400,
+                      'Height of the central canvas')
+gflags.DEFINE_integer('gui_canvas_width', 800,
+                      'Width of the central canvas')
+gflags.DEFINE_boolean('gui_show_ltm', False,
+                      "Whether to show the LTM (it's expensive!)")
+
 
 class SeqseeGUI(gui.GUI):
   def __init__(self, controller, flags, geometry='810x700-0+0'):

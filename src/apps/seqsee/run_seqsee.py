@@ -1,9 +1,10 @@
 #!/usr/bin/python
 
 from apps.seqsee.controller import SeqseeController
+from apps.seqsee.gui.gui import SeqseeGUI
 from third_party import gflags
-import sys
 import logging
+import sys
 
 #flags = ParseSeqseeFlags()
 #print flags
@@ -12,16 +13,6 @@ FLAGS = gflags.FLAGS
 
 gflags.DEFINE_enum('ui', 'gui', ('gui', 'cmdline', 'batch', 'web'),
                    'Which UI to use?')
-
-gflags.DEFINE_string('gui_initial_view', 'ws',
-                     'In GUI mode, what should the initial mode be?')
-
-gflags.DEFINE_integer('gui_canvas_height', 400,
-                      'Height of the central canvas')
-gflags.DEFINE_integer('gui_canvas_width', 800,
-                      'Width of the central canvas')
-gflags.DEFINE_boolean('gui_show_ltm', False,
-                      "Whether to show the LTM (it's expensive!)")
 
 gflags.DEFINE_enum('debug', '', ('', 'debug', 'info', 'warn', 'error', 'fatal'),
                    'Show messages from what debug level and above?')
@@ -41,7 +32,6 @@ def main(argv):
     sys.exit(1)
 
   if FLAGS.ui == 'gui':
-    from apps.seqsee.gui.gui import SeqseeGUI
     FLAGS.ui = SeqseeGUI
   elif FLAGS.ui == 'cmdline':
     from farg.ui.cmdline import CmdlineUI
