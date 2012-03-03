@@ -3,8 +3,8 @@ from farg.ui.ui import UI
 class CmdlineUI(UI):
   """A non-gui UI."""
 
-  def __init__(self, controller, flags):
-    UI.__init__(self, controller, flags)
+  def __init__(self, controller):
+    UI.__init__(self, controller)
 
   def Launch(self):
     """Starts the app by launching the UI."""

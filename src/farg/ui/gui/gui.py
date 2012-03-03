@@ -2,6 +2,9 @@ from Tkinter import Tk, Button, Frame, Label, LEFT, TOP, StringVar, Toplevel, BO
 from farg.ui.gui.dot_to_graph import GraphViewer
 from farg.ui.ui import UI
 import tkMessageBox
+from third_party import gflags
+
+FLAGS = gflags.FLAGS
 
 
 class GUI(UI):
@@ -11,14 +14,14 @@ class GUI(UI):
      widget. Subclasses can override specific bits of it as needed.
   """
 
-  def __init__(self, controller, flags, geometry='810x700+0+0'):
-    UI.__init__(self, controller, flags)
+  def __init__(self, controller, geometry='810x700+0+0'):
+    UI.__init__(self, controller)
     #: The main-window of the UI.
     self.mw = mw = Tk()
     mw.geometry(geometry)
-    self.SetupWindows(flags)
-    if flags.gui_show_ltm:
-      self.SetupLTMWindow(flags)
+    self.SetupWindows()
+    if FLAGS.gui_show_ltm:
+      self.SetupLTMWindow()
 
   def Launch(self):
     """Starts the app by launching the UI."""
@@ -36,7 +39,7 @@ class GUI(UI):
     """Called after Quit (by Quit) for any cleanup."""
     self.mw.quit()
 
-  def SetupWindows(self, args):
+  def SetupWindows(self):
     """Sets up the three panes in the UI."""
     mw = self.mw
     self.items_to_refresh = []
@@ -45,10 +48,10 @@ class GUI(UI):
     self.PopulateButtonPane(self.buttons_pane)
     self.buttons_pane.grid()
 
-    self.PopulateCentralPane(args)
-    self.PopulateInteractionPane(args)
+    self.PopulateCentralPane()
+    self.PopulateInteractionPane()
 
-  def SetupLTMWindow(self, args):
+  def SetupLTMWindow(self):
     """Creates a LTM-viewer window."""
     ltm_top = Toplevel()
     button_frame = Frame(ltm_top)

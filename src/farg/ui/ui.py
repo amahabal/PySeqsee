@@ -1,6 +1,9 @@
 # Base class of UIs (including GUIs, cmdline, and other versions).
 
 from threading import Thread
+from third_party import gflags
+
+FLAGS = gflags.FLAGS
 
 class RunForNSteps(Thread):
   """Runs controller for upto n steps.
@@ -25,11 +28,9 @@ class RunForNSteps(Thread):
 
 class UI(object):
 
-  def __init__(self, controller, flags):
+  def __init__(self, controller):
     self.controller = controller
     controller.ui = self
-
-    self.flags = flags
 
     #: If non-None, the thread that is stepping the controller.
     self.stepping_thread = None

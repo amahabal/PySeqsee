@@ -54,7 +54,7 @@ def main(argv):
 
   controller = SeqseeController(FLAGS)
   # The following line takes control of the rest of the run(s):
-  ui = FLAGS.ui(controller, FLAGS)
+  ui = FLAGS.ui(controller)
   ui.Launch()
 
 if __name__ == '__main__':

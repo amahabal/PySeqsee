@@ -14,10 +14,11 @@ gflags.DEFINE_integer('gui_canvas_width', 800,
 gflags.DEFINE_boolean('gui_show_ltm', False,
                       "Whether to show the LTM (it's expensive!)")
 
+FLAGS = gflags.FLAGS
 
 class SeqseeGUI(gui.GUI):
-  def __init__(self, controller, flags, geometry='810x700-0+0'):
-    gui.GUI.__init__(self, controller, flags, geometry)
+  def __init__(self, controller, geometry='810x700-0+0'):
+    gui.GUI.__init__(self, controller, geometry)
 
     # TODO(# --- Jan 3, 2012): Not sure if this is the right abstraction. I want to be able
     # to display messages for debugging. I should have a better messaging system built right
@@ -32,10 +33,10 @@ class SeqseeGUI(gui.GUI):
     self.mw.bind('<KeyPress-p>', lambda e: self.Pause())
     self.mw.bind('<KeyPress-d>', lambda e: self.controller.workspace.DebugRelations())
 
-  def PopulateCentralPane(self, args):
-    height = args.gui_canvas_height
-    width = args.gui_canvas_width
-    canvas = CentralPane(self.mw, self.controller, args,
+  def PopulateCentralPane(self):
+    height = FLAGS.gui_canvas_height
+    width = FLAGS.gui_canvas_width
+    canvas = CentralPane(self.mw, self.controller, FLAGS,
                          height=height, width=width,
                          background='#FEE')
     canvas.grid()
@@ -43,7 +44,7 @@ class SeqseeGUI(gui.GUI):
     self.items_to_refresh.append(canvas)
     canvas.ReDraw()
 
-  def PopulateInteractionPane(self, args):
+  def PopulateInteractionPane(self):
     conversation = Conversation(self.mw, self.controller, height=10)
     conversation.grid()
     self.conversation = conversation
