@@ -6,9 +6,6 @@ from third_party import gflags
 import logging
 import sys
 
-#flags = ParseSeqseeFlags()
-#print flags
-
 FLAGS = gflags.FLAGS
 
 gflags.DEFINE_enum('ui', 'gui', ('gui', 'cmdline', 'batch', 'web'),
@@ -24,13 +21,7 @@ gflags.DEFINE_spaceseplist('unrevealed_terms', '',
                            'A space separated list of integers')
 
 
-def main(argv):
-  try:
-    argv = FLAGS(argv)  # parse flags
-  except gflags.FlagsError, e:
-    print '%s\nUsage: %s ARGS\n%s\n\n%s' % (e, sys.argv[0], FLAGS, e)
-    sys.exit(1)
-
+def ProcessFlags():
   if FLAGS.ui == 'gui':
     FLAGS.ui = SeqseeGUI
   elif FLAGS.ui == 'cmdline':
@@ -51,8 +42,16 @@ def main(argv):
       raise ValueError('Invalid log level: %s' % FLAGS.debug)
     logging.basicConfig(level=numeric_level)
 
+def main(argv):
+  try:
+    argv = FLAGS(argv)  # parse flags
+  except gflags.FlagsError, e:
+    print '%s\nUsage: %s ARGS\n%s\n\n%s' % (e, sys.argv[0], FLAGS, e)
+    sys.exit(1)
 
-  controller = SeqseeController(FLAGS)
+  ProcessFlags()
+
+  controller = SeqseeController()
   # The following line takes control of the rest of the run(s):
   ui = FLAGS.ui(controller)
   ui.Launch()

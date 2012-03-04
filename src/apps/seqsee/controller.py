@@ -5,6 +5,10 @@ from farg.ltm.manager import LTMManager
 from farg.ltm.edge import LTMEdge
 from apps.seqsee.codelet_families.all import CF_RemoveSpuriousRelations
 
+from third_party import gflags
+FLAGS = gflags.FLAGS
+
+
 kLTMName = 'seqsee.main'
 
 def InitializeSeqseeLTM(ltm):
@@ -33,11 +37,11 @@ def InitializeSeqseeLTM(ltm):
 LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
 
 class SeqseeController(Controller):
-  def __init__(self, flags):
+  def __init__(self):
     routine_codelets_to_add = ((CF_ReadFromWS, 30, 0.3),
                                (CF_RemoveSpuriousRelations, 30, 0.1))
     Controller.__init__(self, routine_codelets_to_add=routine_codelets_to_add,
                         ltm_name=kLTMName)
     ws = self.ws = self.workspace = Workspace()
-    ws.InsertElements(*flags.sequence)
-    self.unrevealed_terms = flags.unrevealed_terms
+    ws.InsertElements(*FLAGS.sequence)
+    self.unrevealed_terms = FLAGS.unrevealed_terms
