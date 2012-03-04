@@ -2,13 +2,15 @@
 
 from apps.seqsee.controller import SeqseeController
 from apps.seqsee.gui.gui import SeqseeGUI
+from farg.ui.cmdline import CmdlineUI
+from farg.ui.sxs import SxSUI, SxSUIHelper
 from third_party import gflags
 import logging
 import sys
 
 FLAGS = gflags.FLAGS
 
-gflags.DEFINE_enum('ui', 'gui', ('gui', 'cmdline', 'batch', 'web'),
+gflags.DEFINE_enum('ui', 'gui', ('gui', 'cmdline', 'batch', 'web', 'sxs', 'sxs_helper'),
                    'Which UI to use?')
 
 gflags.DEFINE_enum('debug', '', ('', 'debug', 'info', 'warn', 'error', 'fatal'),
@@ -25,8 +27,11 @@ def ProcessFlags():
   if FLAGS.ui == 'gui':
     FLAGS.ui = SeqseeGUI
   elif FLAGS.ui == 'cmdline':
-    from farg.ui.cmdline import CmdlineUI
     FLAGS.ui = CmdlineUI
+  elif FLAGS.ui == 'sxs':
+    FLAGS.ui = SxSUI
+  elif FLAGS.ui == 'sxs_helper':
+    FLAGS.ui = SxSUIHelper
   else:
     # TODO(#20 --- Dec 28, 2011): Add support for cmdline mode.
     # TODO(#21 --- Dec 28, 2011): Add support for web mode.

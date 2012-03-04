@@ -6,6 +6,7 @@ from farg.ltm.edge import LTMEdge
 from apps.seqsee.codelet_families.all import CF_RemoveSpuriousRelations
 
 from third_party import gflags
+from third_party.gflags import FlagsError
 FLAGS = gflags.FLAGS
 
 
@@ -45,3 +46,21 @@ class SeqseeController(Controller):
     ws = self.ws = self.workspace = Workspace()
     ws.InsertElements(*FLAGS.sequence)
     self.unrevealed_terms = FLAGS.unrevealed_terms
+
+    if FLAGS.sxs_condition:
+      condition_name = FLAGS.sxs_condition
+      if condition_name == 'group_formed':
+        # A dummy condition for testing SxSs
+        def StoppingCondition(controller):
+          return bool(controller.ws.groups)
+
+        self.stopping_condition = StoppingCondition
+      else:
+        raise FlagsError('Unknown stopping condition name "%s"' % condition_name)
+    else:
+      self.stopping_condition = None
+
+  def CheckCondition(self):
+    if not self.stopping_condition:
+      return False
+    return self.stopping_condition(self)
