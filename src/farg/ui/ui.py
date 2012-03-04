@@ -57,20 +57,12 @@ class UI(object):
   def CleanupAfterQuit(self):
     pass
 
-  def Start(self):
+  def StartThreaded(self):
     """Continually calls Step() on the controller."""
-    if self.stepping_thread:
-      return  # Already running.
-    thread = RunForNSteps(self, n_steps=1000)
-    if self.stepping_thread:
-      return  # Already running.
-    else:
-      self.stepping_thread = thread
-    self.stop_stepping = False
-    thread.start()
+    self.StepsInAnotherThread(1000)
 
 
-  def Steps(self, steps):
+  def StepsInAnotherThread(self, steps):
     """Takes a single step of the controller."""
     if self.stepping_thread:
       return  # Already running.
@@ -82,6 +74,9 @@ class UI(object):
     self.stop_stepping = False
     thread.start()
 
+  def Steps(self, steps):
+    for _step in xrange(0, steps):
+      self.controller.Step()
 
   def Pause(self):
     """Pauses the stepping-through of the controller."""

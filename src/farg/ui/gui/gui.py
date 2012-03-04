@@ -72,7 +72,7 @@ class GUI(UI):
 
   def PopulateButtonPane(self, frame):
     """Adds buttons to the top row."""
-    Button(frame, text="Start", command=self.Start).pack(side=LEFT)
+    Button(frame, text="Start", command=self.StartThreaded).pack(side=LEFT)
     Button(frame, text="Pause", command=self.Pause).pack(side=LEFT)
     Button(frame, text="Quit", command=self.Quit).pack(side=LEFT)
     self.codelet_count_var = StringVar()
