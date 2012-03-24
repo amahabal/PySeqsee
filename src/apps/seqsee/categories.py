@@ -103,15 +103,15 @@ class StructuralCategory(SeqseeObjectCategory):
        mechanism.
     """
     bindings_mapping = {}
-    for k, v in binding1.bindings.iteritems():
+    for k, v in binding1.bindings.items():
       if k in binding2.bindings:
         v2 = binding2.bindings[k]
         possible_mapping = GetNaiveMapping(v, v2)
         if possible_mapping:
           bindings_mapping[k] = possible_mapping
-    if self.AreAttributesSufficientToBuild(bindings_mapping.keys()):
+    if self.AreAttributesSufficientToBuild(list(bindings_mapping.keys())):
       return StructuralMapping(category=self,
-                               bindings_mapping=frozenset(bindings_mapping.items()))
+                               bindings_mapping=frozenset(list(bindings_mapping.items())))
     return None
 
 class Number(NumericCategory):

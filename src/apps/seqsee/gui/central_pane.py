@@ -1,4 +1,4 @@
-from Tkinter import *
+from tkinter import *
 from apps.seqsee.gui.coderack_view import CoderackView
 from apps.seqsee.gui.groups_view import GroupsView
 from apps.seqsee.gui.stream_view import StreamView
@@ -64,7 +64,7 @@ class CentralPane(Canvas):
     menubar = Menu(self)
 
     view_menu = Menu(menubar, tearoff=0)
-    for name in self.named_views.keys():
+    for name in list(self.named_views.keys()):
       view_menu.add_command(label=name,
                             command=self.NamedViewCmd(name))
     menubar.add_cascade(label="View", menu=view_menu)

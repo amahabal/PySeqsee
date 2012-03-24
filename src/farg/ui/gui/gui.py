@@ -1,7 +1,6 @@
-from Tkinter import Tk, Button, Frame, Label, LEFT, TOP, StringVar, Toplevel, BOTTOM
-from farg.ui.gui.dot_to_graph import GraphViewer
+from tkinter import Tk, Button, Frame, Label, LEFT, TOP, StringVar, Toplevel, BOTTOM
 from farg.ui.ui import UI
-import tkMessageBox
+import tkinter.messagebox
 from third_party import gflags
 
 FLAGS = gflags.FLAGS
@@ -53,6 +52,7 @@ class GUI(UI):
 
   def SetupLTMWindow(self):
     """Creates a LTM-viewer window."""
+    from farg.ui.gui.dot_to_graph import GraphViewer
     ltm_top = Toplevel()
     button_frame = Frame(ltm_top)
     button_frame.pack(side=TOP)
@@ -92,7 +92,7 @@ class GUI(UI):
     pass
 
   def DisplayMessage(self, message):
-    tkMessageBox.showinfo('', message)
+    tkinter.messagebox.showinfo('', message)
 
   def AskYesNoQuestion(self, question):
-    return tkMessageBox.askyesno("Question", question)
+    return tkinter.messagebox.askyesno("Question", question)

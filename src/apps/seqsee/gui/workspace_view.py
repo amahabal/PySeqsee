@@ -1,5 +1,5 @@
 from apps.seqsee.gui.viewport import ViewPort
-from Tkinter import LAST
+from tkinter import LAST
 
 class WorkspaceView(ViewPort):
   def __init__(self, canvas, left, bottom, width, height):

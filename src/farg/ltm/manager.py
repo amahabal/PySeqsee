@@ -44,5 +44,5 @@ class LTMManager(object):
 
   @classmethod
   def SaveAllOpenLTMS(cls):
-    for _ltm_name, ltm in LTMManager.loaded_ltms.iteritems():
+    for _ltm_name, ltm in LTMManager.loaded_ltms.items():
       ltm.Dump()

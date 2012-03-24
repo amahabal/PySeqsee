@@ -1,5 +1,5 @@
-from Tkconstants import END
-from Tkinter import NW, Text, Toplevel
+from tkinter.constants import END
+from tkinter import NW, Text, Toplevel
 from apps.seqsee.gui.list_based_view import ListBasedView
 from collections import defaultdict
 
@@ -11,7 +11,7 @@ def ShowFocusableDetails(controller, focusable):
   tb = Text(top, height=50, width=50)
   tb.pack()
   tb.insert(END, '%s\n\n' % focusable)
-  for fringe_element, strength_dict in stored_fringes.iteritems():
+  for fringe_element, strength_dict in stored_fringes.items():
     if focusable in strength_dict:
       tb.insert(END, '%.1f\t%s\n' % (strength_dict[focusable], fringe_element))
 
@@ -23,7 +23,7 @@ class StreamView(ListBasedView):
   def GetAllItemsToDisplay(self, controller):
     """Returns a 2-tuple: A top message, and a list of items."""
     stream = controller.stream
-    items = sorted(stream.foci.items(), reverse=True, key=lambda item: item[1])
+    items = sorted(list(stream.foci.items()), reverse=True, key=lambda item: item[1])
     return (items, 'Stream: %d prior foci' % len(stream.foci), dict())
 
   def DrawItem(self, widget_x, widget_y, item, extra_dict, controller):

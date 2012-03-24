@@ -29,22 +29,22 @@ class SxSUIHelper(UI):
   def Launch(self):
     """Starts the app by launching the UI."""
     start_time = time.time()
-    for _step in xrange(0, FLAGS.sxs_max_steps):
+    for _step in range(0, FLAGS.sxs_max_steps):
       self.controller.Step()
       if self.controller.CheckCondition():
         time_elasped = time.time() - start_time
-        print "CONDITION MATCHED;%d;%.3f" % (
-            self.controller.steps_taken, time_elasped)
+        print("CONDITION MATCHED;%d;%.3f" % (
+            self.controller.steps_taken, time_elasped))
         import sys
         sys.exit()
 
   def DisplayMessage(self, message):
-    print '[%d] Message: %s' % (self.controller.steps_taken, message)
+    print('[%d] Message: %s' % (self.controller.steps_taken, message))
 
   def AskYesNoQuestion(self, question):
-    print '[%d] Question: %s' % (self.controller.steps_taken, question)
-    ans = raw_input('[y/n] ').lower().find('y') >= 0
-    print "You chose %s" % ans
+    print('[%d] Question: %s' % (self.controller.steps_taken, question))
+    ans = input('[y/n] ').lower().find('y') >= 0
+    print("You chose %s" % ans)
     return ans
 
 
@@ -73,21 +73,21 @@ class SxSUI(UI):
 
   def GetStats(self, use_flag):
     arguments = self.GetArgumentsForSubprocess(use_flag)
-    print arguments
+    print(arguments)
     for idx in range(0, FLAGS.sxs_number_of_runs):
-      print "Run #%d" % idx
+      print("Run #%d" % idx)
       output, stderror = subprocess.Popen(arguments, stdout=subprocess.PIPE).communicate()
       if stderror:
-        print '----------\n%s\n---------' % stderror
+        print('----------\n%s\n---------' % stderror)
       lines = [x for x in output.split('\n') if x.startswith('CONDITION MATCHED')]
       if lines:
         parts = lines[0].split(';')
         codelets, seconds = parts[1:]
-        print 'CODELETS: %s, secs: %s' % (codelets, seconds)
+        print('CODELETS: %s, secs: %s' % (codelets, seconds))
 
 
   def Launch(self):
     """Starts the app by launching the UI."""
     stats_without_flag = self.GetStats(False)
     stats_with_flag = self.GetStats(True)
-    print stats_with_flag, stats_without_flag
+    print(stats_with_flag, stats_without_flag)

@@ -1,4 +1,4 @@
-from Tkinter import *
+from tkinter import *
 
 class Conversation(Frame):
   def __init__(self, parent, *args, **kwargs):

@@ -61,7 +61,7 @@ class Stream(object):
     """Remove a previous focus (and any fringe elements solely supported by that focus."""
     self.foci.__delitem__(focusable)
     deletable_stored_fringe_elts = []
-    for fringe_element, focus_to_strength_dict in self.stored_fringes.iteritems():
+    for fringe_element, focus_to_strength_dict in self.stored_fringes.items():
       if focusable in focus_to_strength_dict:
         focus_to_strength_dict.__delitem__(focusable)
         if len(focus_to_strength_dict) == 0:
@@ -95,7 +95,7 @@ class Stream(object):
 
     # Possibly add codelets based on the fringe hit.
     potential_codelets = []
-    for prior_focusable, overlap_amount in hit_map.iteritems():
+    for prior_focusable, overlap_amount in hit_map.items():
       if overlap_amount < Stream.kMinOverlapToTriggerSimilarity:
         continue
       potential_codelets.extend(prior_focusable.GetSimilarityAffordances(
@@ -115,14 +115,14 @@ class Stream(object):
     fringe = focusable.GetFringe(self.controller)
     stored_fringe_map = self.stored_fringes
     hits_map = defaultdict(float)
-    for fringe_element, intensity in fringe.iteritems():
+    for fringe_element, intensity in fringe.items():
       if fringe_element in stored_fringe_map:
-        for related_focusable, strength in stored_fringe_map[fringe_element].iteritems():
+        for related_focusable, strength in stored_fringe_map[fringe_element].items():
           extra_strength = strength * self.foci[related_focusable] * intensity
           if extra_strength > self.kRelatedItemThreshold:
             hits_map[related_focusable] += extra_strength
       stored_fringe_map[fringe_element][focusable] = intensity
-    for focus in self.foci.keys():
+    for focus in list(self.foci.keys()):
       self.foci[focus] *= self.kDecayRatio
     self.foci[focusable] = 1
     return hits_map

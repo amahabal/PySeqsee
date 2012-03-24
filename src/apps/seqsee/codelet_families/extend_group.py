@@ -61,7 +61,7 @@ class CF_ExtendGroup(CodeletFamily):
                                               previous_part)
       new_parts = [prev_part_anchored]
       new_parts.extend(parts)
-      print new_parts
+      print(new_parts)
     new_group = SAnchored.Create(*new_parts,
                                  underlying_mapping=underlying_mapping)
 

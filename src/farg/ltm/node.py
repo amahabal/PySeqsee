@@ -94,7 +94,7 @@ class LTMNode(object):
   @staticmethod
   def _Unmangle(content_dict):
     """Replaces values that are nodes with contents of those nodes."""
-    for k, value in content_dict.iteritems():
+    for k, value in content_dict.items():
       if isinstance(value, LTMNode):
         content_dict[k] = value.content
 

@@ -239,8 +239,8 @@ class Workspace(object):
     for element in self.elements:
       for relation in element.relations:
         counter = counter + 1
-        print '[%d] %s' % (counter, relation)
+        print('[%d] %s' % (counter, relation))
     for gp in self.groups:
       for relation in gp.relations:
         counter = counter + 1
-        print '[%d] %s' % (counter, relation)
+        print('[%d] %s' % (counter, relation))

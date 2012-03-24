@@ -6,7 +6,7 @@ from apps.seqsee.testing_utils import FringeOverlapTest, MockSeqseeController, \
 # Too many public methods because of unittest. pylint: disable=R0904
 class FringeOverlapTestForAnchored(FringeOverlapTest):
   def TestSanity(self):
-    controller = MockSeqseeController(range(0, 10))
+    controller = MockSeqseeController(list(range(0, 10)))
     ws = controller.ws
     item_at_pos_1 = ws.GetItemAt(1, 1)
     item_1_node = controller.ltm.GetNodeForContent(item_at_pos_1.object)

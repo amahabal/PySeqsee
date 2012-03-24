@@ -54,7 +54,7 @@ import sys
 import stat
 import time
 
-import gflags
+from . import gflags
 
 _VERSION = '0.1'
 
@@ -81,18 +81,18 @@ _MIN_VALID_USAGE_MSG = 9         # if fewer lines than this, help is suspect
 
 class Logging:
   """A super-simple logging class"""
-  def error(self, msg): print >>sys.stderr, "ERROR: ", msg
-  def warn(self, msg): print >>sys.stderr, "WARNING: ", msg
-  def info(self, msg): print msg
+  def error(self, msg): print("ERROR: ", msg, file=sys.stderr)
+  def warn(self, msg): print("WARNING: ", msg, file=sys.stderr)
+  def info(self, msg): print(msg)
   def debug(self, msg): self.vlog(1, msg)
   def vlog(self, level, msg):
-    if FLAGS.v >= level: print msg
+    if FLAGS.v >= level: print(msg)
 logging = Logging()
 class App:
   def usage(self, shorthelp=0):
-    print >>sys.stderr, __doc__
-    print >>sys.stderr, "flags:"
-    print >>sys.stderr, str(FLAGS)
+    print(__doc__, file=sys.stderr)
+    print("flags:", file=sys.stderr)
+    print(str(FLAGS), file=sys.stderr)
   def run(self):
     main(sys.argv)
 app = App()

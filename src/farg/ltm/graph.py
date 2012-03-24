@@ -1,6 +1,6 @@
 from farg.ltm.edge import LTMEdge
 from farg.ltm.node import LTMNode
-import cPickle as pickle
+import pickle as pickle
 import logging
 from farg.exceptions import FargError
 
@@ -23,7 +23,7 @@ class LTMGraph(object):
     #: notion of time is therefore relevant.
     self._timesteps = 0
     if filename:
-      with open(filename) as ltmfile:
+      with open(filename, "rb") as ltmfile:
         up = pickle.Unpickler(ltmfile)
         self._LoadNodes(up)
     logging.info('Loaded LTM in %s: %d nodes read', filename, len(self.nodes))
@@ -44,6 +44,9 @@ class LTMGraph(object):
         self.AddNode(node)
       except EOFError:
         break
+      except ValueError:
+        # Hit in Py3 for empty input file...
+        break
 
   def IsEmpty(self):
     """True if there are zero-nodes."""
@@ -53,7 +56,7 @@ class LTMGraph(object):
     """Writes out content to file if file attribute is set."""
     if not self._filename:
       return
-    with open(self._filename, "w") as ltm_file:
+    with open(self._filename, "wb") as ltm_file:
       pickler = pickle.Pickler(ltm_file, 2)
       for node in self.nodes:
         self._Mangle(node.content.__dict__)
@@ -62,13 +65,13 @@ class LTMGraph(object):
 
   def _Mangle(self, content_dict):
     """Replaces references to nodes with the nodes themselves."""
-    for k, value in content_dict.iteritems():
+    for k, value in content_dict.items():
       if value in self._content_to_node:
         content_dict[k] = self._content_to_node[value]
 
   def _Unmangle(self, content_dict):
     """Replaces values that are nodes with contents of those nodes."""
-    for k, value in content_dict.iteritems():
+    for k, value in content_dict.items():
       if isinstance(value, LTMNode):
         content_dict[k] = value.content
 
@@ -120,11 +123,11 @@ class LTMGraph(object):
         try:
           lines.append('node_%d -> node_%d' % (node_to_pos[node], node_to_pos[other_node]))
         except KeyError:
-          print "Key error: %s  ==> %s" % (node.content.BriefLabel(),
+          print("Key error: %s  ==> %s" % (node.content.BriefLabel(),
                                            other_node.content.BriefLabel(),
-                                           edge.edge_type)
-          print (node, other_node)
-          print self.nodes
+                                           edge.edge_type))
+          print((node, other_node))
+          print(self.nodes)
     return """
       digraph G {
       %s

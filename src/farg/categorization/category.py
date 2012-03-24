@@ -22,7 +22,7 @@ from farg.exceptions import FargError
 from farg.meta import MemoizedConstructor
 from farg.ltm.storable import LTMStorableMixin
 
-class Category(LTMStorableMixin):
+class Category(LTMStorableMixin, metaclass=MemoizedConstructor):
   """The base class of any category in the FARG system.
   
   Any derivative class must define the following class methods:
@@ -31,7 +31,6 @@ class Category(LTMStorableMixin):
   * FindMapping (given two categorizables, returns a mapping between the two)
   * ApplyMapping (given a mapping and a categorizable, returns a new item). 
   """
-  __metaclass__ = MemoizedConstructor
 
   def IsInstance(self, object):
     """Is object an instance of this category?

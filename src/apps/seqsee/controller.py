@@ -16,7 +16,7 @@ def InitializeSeqseeLTM(ltm):
   """Called if ltm was empty (had no nodes)."""
   from apps.seqsee.sobject import SElement
   # Creates nodes for elements corresponding to the integers 1 through 10.
-  elements = [SElement(magnitude) for magnitude in xrange(1, 11)]
+  elements = [SElement(magnitude) for magnitude in range(1, 11)]
   for element in elements:
     ltm.GetNodeForContent(element)
   for idx, element in enumerate(elements[:-1]):
@@ -39,7 +39,7 @@ LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
 
 class SeqseeController(Controller):
   def __init__(self):
-    print "starting"
+    print("starting")
     routine_codelets_to_add = ((CF_ReadFromWS, 30, 0.3),
                                (CF_RemoveSpuriousRelations, 30, 0.1))
     Controller.__init__(self, routine_codelets_to_add=routine_codelets_to_add,

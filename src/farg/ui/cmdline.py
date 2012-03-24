@@ -11,10 +11,10 @@ class CmdlineUI(UI):
     self.Steps(5000)
 
   def DisplayMessage(self, message):
-    print '[%d] Message: %s' % (self.controller.steps_taken, message)
+    print('[%d] Message: %s' % (self.controller.steps_taken, message))
 
   def AskYesNoQuestion(self, question):
-    print '[%d] Question: %s' % (self.controller.steps_taken, question)
-    ans = raw_input('[y/n] ').lower().find('y') >= 0
-    print "You chose %s" % ans
+    print('[%d] Question: %s' % (self.controller.steps_taken, question))
+    ans = input('[y/n] ').lower().find('y') >= 0
+    print("You chose %s" % ans)
     return ans

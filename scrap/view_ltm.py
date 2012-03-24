@@ -13,12 +13,12 @@ myltm = LTMGraph(filename)
 
 class MockCategory(LTMStorableMixin):
   def __init__(self, foo):
-    print "Initializing MockCategory instance ", self
+    print("Initializing MockCategory instance ", self)
     self.foo = foo
 
 class MockCategory2(LTMStorableMixin):
   def __init__(self, foo):
-    print "Initializing MockCategory2 instance ", self
+    print("Initializing MockCategory2 instance ", self)
     self.foo = foo
 
 class MockMapping(LTMStorableMixin):

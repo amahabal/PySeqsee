@@ -14,7 +14,7 @@ graph = { 'a': ('b', 'c', 'd', 'f'),
 def GetGraph(startnode=None):
   if not startnode or startnode == '---':
     lines = []
-    for k, v in graph.iteritems():
+    for k, v in graph.items():
       lines.append('%s [URL="%s" color="#00ff00" style="filled"];' % (k, k))
       for other_node in v:
         lines.append('%s -> %s;' % (k, other_node))
@@ -27,7 +27,7 @@ def GetGraph(startnode=None):
     lines = ['%s [URL="%s" color="#ff0000" style="filled"];' % (startnode, startnode)]
     nodes_to_depth = { startnode: 0 }
     nodes_at_depth = [[startnode]]
-    print nodes_at_depth
+    print(nodes_at_depth)
     for depth in (1, 2):
       nodes_at_this_depth = []
       for node_at_previous_depth in nodes_at_depth[depth - 1]:
@@ -39,14 +39,14 @@ def GetGraph(startnode=None):
           lines.append('%s -> %s;' % (node_at_previous_depth, other_node))
       nodes_at_depth.append(nodes_at_this_depth)
     # For the "leaf" nodes, add edges (without adding nodes
-    print nodes_at_depth
-    print lines
+    print(nodes_at_depth)
+    print(lines)
     for node_at_previous_depth in nodes_at_depth[2]:
       for other_node in graph[node_at_previous_depth]:
         if other_node in nodes_to_depth:
           lines.append('%s -> %s;' % (node_at_previous_depth, other_node))
-    print nodes_at_depth
-    print lines
+    print(nodes_at_depth)
+    print(lines)
     return """
     digraph G {
     %s

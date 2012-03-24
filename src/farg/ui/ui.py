@@ -16,7 +16,7 @@ class RunForNSteps(Thread):
     self.n_steps = n_steps
 
   def run(self):
-    for _step in xrange(0, self.n_steps):
+    for _step in range(0, self.n_steps):
       if self.ui.stop_stepping:
         break
       self.ui.controller.Step()
@@ -75,12 +75,12 @@ class UI(object):
     thread.start()
 
   def Steps(self, steps):
-    for _step in xrange(0, steps):
+    for _step in range(0, steps):
       self.controller.Step()
 
   def Pause(self):
     """Pauses the stepping-through of the controller."""
-    print "Pausing"
+    print("Pausing")
     self.stop_stepping = True
 
   def ReDraw(self):

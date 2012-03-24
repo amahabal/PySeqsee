@@ -1,9 +1,7 @@
 from farg.controller import Controller
 from farg.meta import SubspaceMeta
 
-class Subspace(object):
-  __metaclass__ = SubspaceMeta
-
+class Subspace(object, metaclass=SubspaceMeta):
   WS = None
 
   @staticmethod

@@ -19,14 +19,14 @@ class CategorizableMixin(object):
 
   def IsKnownAsInstanceOf(self, category):
     """True if known to be an instance of category."""
-    return self.categories.has_key(category)
+    return category in self.categories
 
   def DescribeAs(self, category):
     """Describes item as instance of category, and remembers the binding if one is found.
     
     Returns the binding.
     """
-    if self.categories.has_key(category):
+    if category in self.categories:
       return self.categories[category]
     binding = category.IsInstance(self)
     if binding:
@@ -36,5 +36,5 @@ class CategorizableMixin(object):
 
   def GetCommonCategoriesSet(self, other):
     """Returns a list of discovered categories common to this and the other categorizable."""
-    return set(self.categories.keys()).intersection(other.categories.keys())
+    return set(self.categories.keys()).intersection(list(other.categories.keys()))
 

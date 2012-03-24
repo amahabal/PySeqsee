@@ -3,7 +3,7 @@
 import math
 import sys
 import subprocess
-from Tkinter import Tk, Canvas, ALL
+from tkinter import Tk, Canvas, ALL
 
 from third_party.xdot import XDotParser
 from farg.ltm.graph import LTMGraph
@@ -123,7 +123,7 @@ def main():
 
   # TODO(# --- Dec 30, 2011): Make sure file exists and so forth.
   ltm = LTMGraph(args.filename)
-  print "LTM has %d nodes" % len(ltm.nodes)
+  print("LTM has %d nodes" % len(ltm.nodes))
 
   mw = Tk()
   viewer = GraphViewer(mw, 700, 500, ltm)

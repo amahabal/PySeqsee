@@ -90,7 +90,7 @@ class Controller(object):
     """Takes upto N steps. In these, it is possible that an answer is found and an exception
        raised.
     """
-    for _ in xrange(0, n_steps):
+    for _ in range(0, n_steps):
       self.Step()
 
   def Quit(self):
@@ -110,8 +110,8 @@ class Controller(object):
     elif isinstance(exception, YesNoException):
       exception.callback(self.ui.AskYesNoQuestion(exception.question_string))
     else:
-      print '----------'
+      print('----------')
       for line in exception.stack_trace:
-        print line
-      print '----------'
+        print(line)
+      print('----------')
       raise exception

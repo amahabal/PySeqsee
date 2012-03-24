@@ -1,7 +1,7 @@
 from apps.seqsee.gui.viewport import ViewPort
 from farg.exceptions import FargError
 from math import ceil
-from Tkinter import NE, NW
+from tkinter import NE, NW
 
 class ListBasedView(ViewPort):
   """A base class for views that show a bunch of objects and may require pagination."""

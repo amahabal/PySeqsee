@@ -405,7 +405,7 @@ try:
 except ImportError:
   termios = None
 
-import gflags_validators
+from . import gflags_validators
 # pylint: enable-msg=C6204
 
 
@@ -583,7 +583,7 @@ def CutCommonSpacePrefix(text):
     space_prefix_len = len(common_prefix) - len(common_prefix.lstrip())
     # If we have a common space prefix, drop it from all lines
     if space_prefix_len:
-      for index in xrange(len(text_lines)):
+      for index in range(len(text_lines)):
         if text_lines[index]:
           text_lines[index] = text_lines[index][space_prefix_len:]
     return '\n'.join(text_first_line + text_lines)
@@ -745,7 +745,7 @@ def _GetModuleObjectAndName(globals_dict):
   # a parallel thread imports a module while we iterate over
   # .iteritems() (not nice, but possible), we get a RuntimeError ...
   # Hence, we use the slightly slower but safer .items().
-  for name, module in sys.modules.items():
+  for name, module in list(sys.modules.items()):
     if getattr(module, '__dict__', None) is globals_dict:
       if name == '__main__':
         # Pick a more informative name for the main module.
@@ -964,7 +964,7 @@ class FlagValues:
       If no such module exists (i.e. no flag with this name exists),
       we return default.
     """
-    for module, flags in self.FlagsByModuleDict().iteritems():
+    for module, flags in self.FlagsByModuleDict().items():
       for flag in flags:
         if flag.name == flagname or flag.short_name == flagname:
           return module
@@ -983,7 +983,7 @@ class FlagValues:
       If no such module exists (i.e. no flag with this name exists),
       we return default.
     """
-    for module_id, flags in self.FlagsByModuleIdDict().iteritems():
+    for module_id, flags in self.FlagsByModuleIdDict().items():
       for flag in flags:
         if flag.name == flagname or flag.short_name == flagname:
           return module_id
@@ -995,7 +995,7 @@ class FlagValues:
     Args:
       flag_values: registry to copy from
     """
-    for flag_name, flag in flag_values.FlagDict().iteritems():
+    for flag_name, flag in flag_values.FlagDict().items():
       # Each flags with shortname appears here twice (once under its
       # normal name, and again with its short name).  To prevent
       # problems (DuplicateFlagError) with double flag registration, we
@@ -1068,7 +1068,7 @@ class FlagValues:
 
   def _AssertAllValidators(self):
     all_validators = set()
-    for flag in self.FlagDict().itervalues():
+    for flag in self.FlagDict().values():
       for validator in flag.validators:
         all_validators.add(validator)
     self._AssertValidators(all_validators)
@@ -1088,7 +1088,7 @@ class FlagValues:
         validators, key=lambda validator: validator.insertion_index):
       try:
         validator.Verify(self)
-      except gflags_validators.Error, e:
+      except gflags_validators.Error as e:
         message = validator.PrintFlagsWithValues(self)
         raise IllegalFlagValue('%s: %s' % (message, str(e)))
 
@@ -1163,7 +1163,7 @@ class FlagValues:
         flags.
       flag_obj: A flag object.
     """
-    for unused_module, flags_in_module in flags_by_module_dict.iteritems():
+    for unused_module, flags_in_module in flags_by_module_dict.items():
       # while (as opposed to if) takes care of multiple occurrences of a
       # flag in the list for the same module.
       while flag_obj in flags_in_module:
@@ -1222,7 +1222,7 @@ class FlagValues:
     # full forms: --mybool=(true|false).
     original_argv = list(argv)  # list() makes a copy
     shortest_matches = None
-    for name, flag in fl.items():
+    for name, flag in list(fl.items()):
       if not flag.boolean:
         continue
       if shortest_matches is None:
@@ -1246,7 +1246,7 @@ class FlagValues:
     # specified as a string of letters, each letter followed by a colon
     # if it takes an argument.  Long options are stored in an array of
     # strings.  Each string ends with an '=' if it takes an argument.
-    for name, flag in fl.items():
+    for name, flag in list(fl.items()):
       longopts.append(name + "=")
       if len(name) == 1:  # one-letter option: allow short flag type also
         shortopts += name
@@ -1267,7 +1267,7 @@ class FlagValues:
         else:
           optlist, unparsed_args = getopt.getopt(args, shortopts, longopts)
         break
-      except getopt.GetoptError, e:
+      except getopt.GetoptError as e:
         if not e.opt or e.opt in fl:
           # Not an unrecognized option, re-raise the exception as a FlagsError
           raise FlagsError(e)
@@ -1335,7 +1335,7 @@ class FlagValues:
 
   def Reset(self):
     """Resets the values to the point before FLAGS(argv) was called."""
-    for f in self.FlagDict().values():
+    for f in list(self.FlagDict().values()):
       f.Unparse()
 
   def RegisteredFlags(self):
@@ -1375,13 +1375,13 @@ class FlagValues:
         self.__RenderOurModuleFlags(module, helplist)
 
       self.__RenderModuleFlags('gflags',
-                               _SPECIAL_FLAGS.FlagDict().values(),
+                               list(_SPECIAL_FLAGS.FlagDict().values()),
                                helplist)
 
     else:
       # Just print one long list of flags.
       self.__RenderFlagList(
-          self.FlagDict().values() + _SPECIAL_FLAGS.FlagDict().values(),
+          list(self.FlagDict().values()) + list(_SPECIAL_FLAGS.FlagDict().values()),
           helplist, prefix)
 
     return '\n'.join(helplist)
@@ -1488,7 +1488,7 @@ class FlagValues:
     """Returns: dictionary; maps flag names to their shortest unique prefix."""
     # Sort the list of flag names
     sorted_flags = []
-    for name, flag in fl.items():
+    for name, flag in list(fl.items()):
       sorted_flags.append(name)
       if flag.boolean:
         sorted_flags.append('no%s' % name)
@@ -1570,7 +1570,7 @@ class FlagValues:
     flag_line_list = []  # Subset of lines w/o comments, blanks, flagfile= tags.
     try:
       file_obj = open(filename, 'r')
-    except IOError, e_msg:
+    except IOError as e_msg:
       raise CantOpenFlagFileError('ERROR:: Unable to open flagfile: %s' % e_msg)
 
     line_list = file_obj.readlines()
@@ -1682,7 +1682,7 @@ class FlagValues:
     from http://code.google.com/p/google-gflags
     """
     s = ''
-    for flag in self.FlagDict().values():
+    for flag in list(self.FlagDict().values()):
       if flag.value is not None:
         s += flag.Serialize() + '\n'
     return s
@@ -1769,7 +1769,7 @@ def _StrOrUnicode(value):
   try:
     return str(value)
   except UnicodeEncodeError:
-    return unicode(value)
+    return str(value)
 
 
 def _MakeXMLSafe(s):
@@ -1883,7 +1883,7 @@ class Flag:
   def Parse(self, argument):
     try:
       self.value = self.parser.Parse(argument)
-    except ValueError, e:  # recast ValueError as IllegalFlagValue
+    except ValueError as e:  # recast ValueError as IllegalFlagValue
       raise IllegalFlagValue("flag --%s=%s: %s" % (self.name, argument, e))
     self.present += 1
 
@@ -2030,7 +2030,7 @@ class _ArgumentParserCache(type):
         return type.__call__(mcs, *args)
 
 
-class ArgumentParser(object):
+class ArgumentParser(object, metaclass=_ArgumentParserCache):
   """Base class used to parse and convert arguments.
 
   The Parse() method checks to make sure that the string argument is a
@@ -2045,7 +2045,6 @@ class ArgumentParser(object):
   and shared between flags. Initializer arguments are allowed, but all
   member variables must be derived from initializer arguments only.
   """
-  __metaclass__ = _ArgumentParserCache
 
   syntactic_help = ""
 
@@ -2296,7 +2295,7 @@ def ADOPT_module_key_flags(module, flag_values=FLAGS):
         # a different module.  So, we can't use _GetKeyFlagsForModule.
         # Instead, we take all flags from _SPECIAL_FLAGS (a private
         # FlagValues, where no other module should register flags).
-        [f.name for f in _SPECIAL_FLAGS.FlagDict().values()],
+        [f.name for f in list(_SPECIAL_FLAGS.FlagDict().values())],
         flag_values=_SPECIAL_FLAGS,
         key_flag_values=flag_values)
 
@@ -2396,10 +2395,10 @@ class HelpFlag(BooleanFlag):
     if arg:
       doc = sys.modules["__main__"].__doc__
       flags = str(FLAGS)
-      print doc or ("\nUSAGE: %s [flags]\n" % sys.argv[0])
+      print(doc or ("\nUSAGE: %s [flags]\n" % sys.argv[0]))
       if flags:
-        print "flags:"
-        print flags
+        print("flags:")
+        print(flags)
       sys.exit(1)
 class HelpXMLFlag(BooleanFlag):
   """Similar to HelpFlag, but generates output in XML format."""
@@ -2426,10 +2425,10 @@ class HelpshortFlag(BooleanFlag):
     if arg:
       doc = sys.modules["__main__"].__doc__
       flags = FLAGS.MainModuleHelp()
-      print doc or ("\nUSAGE: %s [flags]\n" % sys.argv[0])
+      print(doc or ("\nUSAGE: %s [flags]\n" % sys.argv[0]))
       if flags:
-        print "flags:"
-        print flags
+        print("flags:")
+        print(flags)
       sys.exit(1)
 
 #

@@ -6,7 +6,7 @@ class FargError(Exception):
   def __init__(self, msg):
     self.stack_trace = list(takewhile((lambda x: x.find('FargError.__init__') == -1),
                                       traceback.format_stack(limit=8)))
-    print 'FargError: ', msg
+    print('FargError: ', msg)
 
 class FargException(Exception):
   """Base class for FARG-specific exceptions."""

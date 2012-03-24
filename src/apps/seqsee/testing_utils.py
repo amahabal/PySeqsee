@@ -57,7 +57,7 @@ class FringeOverlapTest(unittest.TestCase):
              intensity)).
     """
     fringe = item.GetFringe(controller)
-    for fringe_element, min_expected_intensity in expected_fringe_components.iteritems():
+    for fringe_element, min_expected_intensity in expected_fringe_components.items():
       self.assertTrue(fringe_element in fringe,
                       'Fringe element %s in fringe' % fringe_element)
       actual_intensity = fringe[fringe_element]
@@ -116,7 +116,7 @@ class FringeOverlapTest(unittest.TestCase):
         continue
       arguments = codelet.args
       arguments_matched = True
-      for argument, value in expected_arguments_dict.iteritems():
+      for argument, value in expected_arguments_dict.items():
         if argument not in arguments:
           arguments_matched = False
           break

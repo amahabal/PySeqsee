@@ -8,20 +8,17 @@ import tempfile
 import unittest
 
 
-class MockCategory(LTMStorableMixin):
-  __metaclass__ = MemoizedConstructor
+class MockCategory(LTMStorableMixin, metaclass=MemoizedConstructor):
   def __init__(self, foo):
-    print "Initializing MockCategory instance ", self
+    print("Initializing MockCategory instance ", self)
     self.foo = foo
 
-class MockCategory2(LTMStorableMixin):
-  __metaclass__ = MemoizedConstructor
+class MockCategory2(LTMStorableMixin, metaclass=MemoizedConstructor):
   def __init__(self, foo):
-    print "Initializing MockCategory2 instance ", self
+    print("Initializing MockCategory2 instance ", self)
     self.foo = foo
 
-class MockMapping(LTMStorableMixin):
-  __metaclass__ = MemoizedConstructor
+class MockMapping(LTMStorableMixin, metaclass=MemoizedConstructor):
   def __init__(self, category):
     self.category = category
 

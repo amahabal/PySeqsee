@@ -39,7 +39,7 @@ def helper_create_group_given_spans_of_items(ws, *spans):
       anchored_items.append(ws.elements[span])
     else:
       matching_groups = ws.GetGroupsWithSpan(Exactly(span[0]), Exactly(span[1]))
-      anchored_items.append(matching_groups.next())
+      anchored_items.append(next(matching_groups))
   return SAnchored.Create(*anchored_items)
 
 class TestWorkspace(unittest.TestCase):
@@ -68,7 +68,7 @@ class TestWorkspace(unittest.TestCase):
 
   def test_conflicting_groups_simple(self):
     ws = Workspace()
-    ws.InsertElements(*range(0, 10))
+    ws.InsertElements(*list(range(0, 10)))
     helper_create_and_insert_groups(ws, (1, 2, 3), (4, 5, 6))
     self.assertEqual(2, len(ws.groups))
 
@@ -86,7 +86,7 @@ class TestWorkspace(unittest.TestCase):
 
   def test_conflicting_groups_more_complex(self):
     ws = Workspace()
-    ws.InsertElements(*range(0, 10))
+    ws.InsertElements(*list(range(0, 10)))
     helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))
     self.assertEqual(4, len(ws.groups))
 
@@ -114,7 +114,7 @@ class TestWorkspace(unittest.TestCase):
 
   def test_supergroups(self):
     ws = Workspace()
-    ws.InsertElements(*range(0, 10))
+    ws.InsertElements(*list(range(0, 10)))
     helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))
     self.assertEqual(1, len(tuple(ws.GetSuperGroups(ws.elements[1]))))
     g1 = helper_create_group_given_spans_of_items(ws, (1, 3))
@@ -169,7 +169,7 @@ class TestWorkspace(unittest.TestCase):
                                  SAnchored(SElement(9), (), 9, 9))
 
     ws = Workspace()
-    ws.InsertElements(*range(0, 10))
+    ws.InsertElements(*list(range(0, 10)))
     helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))
     existing_group = list(ws.GetGroupsWithSpan(Exactly(7), Exactly(8)))[0]
     # Cannot replace a group which is not the topmost.
@@ -177,7 +177,7 @@ class TestWorkspace(unittest.TestCase):
                       ws.Replace, existing_group, new_group)
 
     ws = Workspace()
-    ws.InsertElements(*range(0, 10))
+    ws.InsertElements(*list(range(0, 10)))
     helper_create_and_insert_groups(ws, (7, 8))
     existing_group = list(ws.GetGroupsWithSpan(Exactly(7), Exactly(8)))[0]
     ws.Replace(existing_group, new_group)

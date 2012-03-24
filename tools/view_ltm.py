@@ -13,9 +13,9 @@ def main():
 
   # TODO(# --- Dec 30, 2011): Make sure file exists and so forth.
   ltm = LTMGraph(args.filename)
-  print "LTM has %d nodes" % len(ltm.nodes)
+  print("LTM has %d nodes" % len(ltm.nodes))
   for idx, node in enumerate(ltm.nodes):
-    print idx, '] ', str(node.content)
+    print(idx, '] ', str(node.content))
   window = MyDotWindow(ltm)
   window.set_dotcode(GetGraph(ltm))
   window.connect('destroy', gtk.main_quit)

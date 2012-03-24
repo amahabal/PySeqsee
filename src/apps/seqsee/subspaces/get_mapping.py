@@ -67,14 +67,14 @@ class CF_ExplainValues(CodeletFamily):
   def CreateStructuralMappingFromExplanation(category, explanation):
     slippages = {}
     mappings = {}
-    for right_attribute, val in explanation.iteritems():
+    for right_attribute, val in explanation.items():
       left_attribute, mapping = val
       if left_attribute != right_attribute:
         slippages[right_attribute] = left_attribute
       mappings[right_attribute] = mapping
     return StructuralMapping(category=category,
-                             bindings_mapping=frozenset(mappings.items()),
-                             slippages=frozenset(slippages.items()))
+                             bindings_mapping=frozenset(list(mappings.items())),
+                             slippages=frozenset(list(slippages.items())))
 
   @classmethod
   def Run(cls, controller):
@@ -82,7 +82,7 @@ class CF_ExplainValues(CodeletFamily):
     attribute_explanations = ws.attribute_explanations
     b2 = ws.b2
     b2_dict = b2.bindings
-    unexplained_attributes = [x for x in b2_dict.keys() if x not in attribute_explanations]
+    unexplained_attributes = [x for x in list(b2_dict.keys()) if x not in attribute_explanations]
     one_attribute = random.choice(unexplained_attributes)
     logger.debug("Chose attribute %s for explanation.", one_attribute)
     attribute_value = b2_dict[one_attribute]
@@ -91,14 +91,14 @@ class CF_ExplainValues(CodeletFamily):
     # I wish there was a weighted choice in random :)
     b1 = ws.b1
     b1_dict = b1.bindings
-    attributes_to_use = dict([(a, 1) for a in b1_dict.keys()])
+    attributes_to_use = dict([(a, 1) for a in list(b1_dict.keys())])
     attributes_to_use[one_attribute] += 3
-    for attribute_to_use in WeightedShuffle(attributes_to_use.items()):
+    for attribute_to_use in WeightedShuffle(list(attributes_to_use.items())):
       mapping = GetNaiveMapping(b1_dict[attribute_to_use], b2_dict[one_attribute])
       logger.debug("Used %s, saw mapping %s", attribute_to_use, str(mapping))
       if mapping:
         attribute_explanations[one_attribute] = (attribute_to_use, mapping)
-        if ws.category.AreAttributesSufficientToBuild(attribute_explanations.keys()):
+        if ws.category.AreAttributesSufficientToBuild(list(attribute_explanations.keys())):
           # We have an explanation...
           full_mapping = CF_ExplainValues.CreateStructuralMappingFromExplanation(
               ws.category, attribute_explanations)

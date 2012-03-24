@@ -20,9 +20,7 @@ from farg.util import Squash
 
 logger = logging.getLogger(__name__)
 
-class LTMStorableSObject(LTMStorableMixin):
-  __metaclass__ = MemoizedConstructor
-
+class LTMStorableSObject(LTMStorableMixin, metaclass=MemoizedConstructor):
   def __init__(self, structure):
     self.structure = structure
 
@@ -123,7 +121,7 @@ class SGroup(SObject):
     fringe = dict()
     if self.underlying_mapping:
       fringe[self.underlying_mapping] = 1.0
-    for category, _bindings in self.categories.iteritems():
+    for category, _bindings in self.categories.items():
       # QUALITY TODO(Feb 10, 2012): Activation in the LTM matters.
       fringe[category] = 0.8
     fringe.update(self.GetFringeFromLTM(controller))
@@ -172,7 +170,7 @@ class SElement(SObject):
   def GetFringe(self, controller):
     """Fringe for the element (now based off the LTM)."""
     fringe = dict()
-    for category, _bindings in self.categories.iteritems():
+    for category, _bindings in self.categories.items():
       # QUALITY TODO(Feb 10, 2012): Activation in the LTM matters.
       fringe[category] = 0.8
     fringe.update(self.GetFringeFromLTM(controller))

@@ -3,8 +3,8 @@
 from farg.ltm.storable import LTMStorableMixin
 from farg.meta import MemoizedConstructor
 
-class Mapping(LTMStorableMixin):
-  __metaclass__ = MemoizedConstructor
+class Mapping(LTMStorableMixin, metaclass=MemoizedConstructor):
+  pass
 
 class NumericMapping(Mapping):
   def __init__(self, name, category):
@@ -109,7 +109,7 @@ class StructuralMapping(Mapping):
         return None
       new_bindings_mappings[attribute] = flipped
     if not self.slippages:
-      return StructuralMapping(self.category, frozenset(new_bindings_mappings.items()))
+      return StructuralMapping(self.category, frozenset(list(new_bindings_mappings.items())))
     # TODO(# --- Feb 16, 2012): Flip items with slippages when possible.
     return None
 

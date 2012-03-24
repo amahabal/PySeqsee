@@ -35,7 +35,7 @@ def ProcessFlags():
   else:
     # TODO(#20 --- Dec 28, 2011): Add support for cmdline mode.
     # TODO(#21 --- Dec 28, 2011): Add support for web mode.
-    print "UI '%s' is not supported (yet)" % FLAGS.ui
+    print("UI '%s' is not supported (yet)" % FLAGS.ui)
     sys.exit(1)
 
   FLAGS.sequence = [int(x) for x in FLAGS.sequence]
@@ -50,8 +50,8 @@ def ProcessFlags():
 def main(argv):
   try:
     argv = FLAGS(argv)  # parse flags
-  except gflags.FlagsError, e:
-    print '%s\nUsage: %s ARGS\n%s\n\n%s' % (e, sys.argv[0], FLAGS, e)
+  except gflags.FlagsError as e:
+    print('%s\nUsage: %s ARGS\n%s\n\n%s' % (e, sys.argv[0], FLAGS, e))
     sys.exit(1)
 
   ProcessFlags()
