@@ -33,7 +33,7 @@ class SxSUIHelper(UI):
       self.controller.Step()
       if self.controller.CheckCondition():
         time_elasped = time.time() - start_time
-        print "CONDITION MATCHED! Codelets run: %d (in %.3f seconds)" % (
+        print "CONDITION MATCHED;%d;%.3f" % (
             self.controller.steps_taken, time_elasped)
         import sys
         sys.exit()
@@ -58,15 +58,36 @@ class SxSUI(UI):
       raise gflags.FlagsError('Must specify --sxs_flag when --ui=sxs.')
     UI.__init__(self, controller)
 
-  def Launch(self):
-    """Starts the app by launching the UI."""
+  def GetArgumentsForSubprocess(self, use_flag):
     sequence_string = ' '.join(str(x) for x in FLAGS.sequence)
     arguments = ['src/apps/seqsee/run_seqsee.py',
                  '--ui', 'sxs_helper',
                  '--sxs_max_steps', str(FLAGS.sxs_max_steps),
                  '--sxs_condition', FLAGS.sxs_condition,
                  '--sequence', sequence_string]
+    if use_flag:
+      arguments.extend(('--%s' % FLAGS.sxs_flag, '1'))
+    else:
+      arguments.extend(('--%s' % FLAGS.sxs_flag, '0'))
+    return arguments
+
+  def GetStats(self, use_flag):
+    arguments = self.GetArgumentsForSubprocess(use_flag)
     print arguments
     for idx in range(0, FLAGS.sxs_number_of_runs):
       print "Run #%d" % idx
-      print subprocess.call(arguments)
+      output, stderror = subprocess.Popen(arguments, stdout=subprocess.PIPE).communicate()
+      if stderror:
+        print '----------\n%s\n---------' % stderror
+      lines = [x for x in output.split('\n') if x.startswith('CONDITION MATCHED')]
+      if lines:
+        parts = lines[0].split(';')
+        codelets, seconds = parts[1:]
+        print 'CODELETS: %s, secs: %s' % (codelets, seconds)
+
+
+  def Launch(self):
+    """Starts the app by launching the UI."""
+    stats_without_flag = self.GetStats(False)
+    stats_with_flag = self.GetStats(True)
+    print stats_with_flag, stats_without_flag

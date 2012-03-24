@@ -39,6 +39,7 @@ LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
 
 class SeqseeController(Controller):
   def __init__(self):
+    print "starting"
     routine_codelets_to_add = ((CF_ReadFromWS, 30, 0.3),
                                (CF_RemoveSpuriousRelations, 30, 0.1))
     Controller.__init__(self, routine_codelets_to_add=routine_codelets_to_add,
@@ -52,7 +53,7 @@ class SeqseeController(Controller):
       if condition_name == 'group_formed':
         # A dummy condition for testing SxSs
         def StoppingCondition(controller):
-          return bool(controller.ws.groups)
+          return len(controller.ws.groups) >= 3
 
         self.stopping_condition = StoppingCondition
       else:

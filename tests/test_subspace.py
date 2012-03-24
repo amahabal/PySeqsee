@@ -17,7 +17,7 @@ class TestSubspace(unittest.TestCase):
     a19_21 = SObject.Create(19, 20, 21)
 
     controller = Controller()
-    _ui = UI(controller, None)
+    _ui = UI(controller)
     mapping = SubspaceFindMapping(controller, 3,
                                   dict(left=a3, right=a4, category=Ascending()))
     self.assertTrue(isinstance(mapping, StructuralMapping))
@@ -33,7 +33,7 @@ class TestSubspace(unittest.TestCase):
     a19_21 = SObject.Create(19, 20, 21)
 
     controller = Controller()
-    _ui = UI(controller, None)
+    _ui = UI(controller)
     mapping = SubspaceFindMapping(controller, 10,
                                   dict(left=a17_19, right=a19_21, category=Ascending()))
     self.assertTrue(isinstance(mapping, StructuralMapping))

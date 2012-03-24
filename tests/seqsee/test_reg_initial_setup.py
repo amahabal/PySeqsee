@@ -6,15 +6,16 @@ from farg.coderack import Coderack
 from farg.stream import Stream
 import unittest
 
+from apps.seqsee import run_seqsee
+from third_party import gflags
+FLAGS = gflags.FLAGS
 
-class Args(object): pass
-args = Args()
-args.sequence = []
-args.unrevealed_terms = []
+FLAGS.sequence = []
+FLAGS.unrevealed_terms = []
 
 class TestRegtestInitialSetup(unittest.TestCase):
   def test_sanity(self):
-    controller = SeqseeController(args)
+    controller = SeqseeController()
     self.assertTrue(isinstance(controller.ws, Workspace))
     self.assertTrue(isinstance(controller.coderack, Coderack))
     self.assertTrue(isinstance(controller.stream, Stream))
@@ -22,7 +23,7 @@ class TestRegtestInitialSetup(unittest.TestCase):
     self.assertTrue(controller.coderack._codelet_count > 0)
 
   def test_ws(self):
-    controller = SeqseeController(args)
+    controller = SeqseeController()
     ws = controller.ws
     cr = controller.coderack
     ws.InsertElements(1, 1, 2, 1, 2, 3)
