@@ -43,10 +43,10 @@ class Codelet(object):
      
        controller.AddCodelet(family, urgency, other_arg=10, other_arg2=15)
   """
-  def __init__(self, family, controller, urgency, **args):
+  def __init__(self, family, controller, urgency, arguments_dict=None):
     self.family = family
     self.urgency = urgency
-    self.args = args
+    self.args = arguments_dict if arguments_dict is not None else {}
     self.controller = controller
 
   def Run(self):

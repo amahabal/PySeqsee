@@ -16,7 +16,7 @@ class CF_InitialEvaluation(CodeletFamily):
     number_of_terms_already_known = (len(seqsee_ws.elements) -
                                      my_ws.basis_of_extension.end_pos - 1)
     my_ws.unknown_terms = my_ws.suggested_terms[number_of_terms_already_known:]
-    controller.AddCodelet(CF_AskQuestion, 100,)
+    controller.AddCodelet(family=CF_AskQuestion, urgency=100)
 
 class CF_AskQuestion(CodeletFamily):
   @classmethod
@@ -29,7 +29,7 @@ class CF_AskQuestion(CodeletFamily):
       raise AnswerFoundException(True)
 
 class SubspaceGoBeyondKnown(Subspace):
-  class WS(object):
+  class Workspace:
     def __init__(self, basis_of_extension, suggested_terms):
       self.basis_of_extension = basis_of_extension
       self.suggested_terms = suggested_terms
@@ -39,5 +39,5 @@ class SubspaceGoBeyondKnown(Subspace):
     pass
 
   def InitializeCoderack(self):
-    self.controller.AddCodelet(CF_InitialEvaluation, 100)
+    self.controller.AddCodelet(family=CF_InitialEvaluation, urgency=100)
 

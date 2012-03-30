@@ -8,6 +8,8 @@ import unittest
 
 from apps.seqsee import run_seqsee
 from third_party import gflags
+from tide.batch_ui import BatchUI
+import threading
 FLAGS = gflags.FLAGS
 
 FLAGS.sequence = []
@@ -15,21 +17,24 @@ FLAGS.unrevealed_terms = []
 
 class TestRegtestInitialSetup(unittest.TestCase):
   def test_sanity(self):
-    controller = SeqseeController()
-    self.assertTrue(isinstance(controller.ws, Workspace))
+    ui = BatchUI()
+    state_lock = threading.Lock()
+    controller = SeqseeController(ui=ui, state_lock=state_lock, controller_depth=0)
+    self.assertTrue(isinstance(controller.workspace, Workspace))
     self.assertTrue(isinstance(controller.coderack, Coderack))
     self.assertTrue(isinstance(controller.stream, Stream))
 
     self.assertTrue(controller.coderack._codelet_count > 0)
 
   def test_ws(self):
-    controller = SeqseeController()
-    ws = controller.ws
-    cr = controller.coderack
-    ws.InsertElements(1, 1, 2, 1, 2, 3)
-    self.assertEqual(6, ws.num_elements)
+    ui = BatchUI()
+    state_lock = threading.Lock()
+    controller = SeqseeController(ui=ui, state_lock=state_lock, controller_depth=0)
+    workspace = controller.workspace
+    workspace.InsertElements(1, 1, 2, 1, 2, 3)
+    self.assertEqual(6, workspace.num_elements)
 
-    first_el = ws.elements[0]
+    first_el = workspace.elements[0]
     self.assertTrue(isinstance(first_el, SAnchored))
     self.assertTrue(isinstance(first_el.object, SElement))
     self.assertEqual(1, first_el.object.magnitude)
@@ -38,11 +43,11 @@ class TestRegtestInitialSetup(unittest.TestCase):
     self.assertTrue(first_el.is_sequence_element)
     self.assertFalse(first_el.items)
 
-    gp = SAnchored.Create(ws.elements[1], ws.elements[2])
+    gp = SAnchored.Create(workspace.elements[1], workspace.elements[2])
     self.assertTrue(isinstance(gp, SAnchored))
     self.assertTrue(isinstance(gp.object, SGroup))
     self.assertEqual((1, 2), gp.object.Structure())
     self.assertEqual(1, gp.start_pos)
     self.assertEqual(2, gp.end_pos)
     self.assertFalse(gp.is_sequence_element)
-    self.assertEqual(tuple(ws.elements[1:3]), gp.items)
+    self.assertEqual(tuple(workspace.elements[1:3]), gp.items)

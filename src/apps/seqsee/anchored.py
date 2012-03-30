@@ -149,7 +149,7 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
     for relation in self.relations:
       # QUALITY TODO(Feb 10, 2012): Whether to add a relation-focusing codelet should depend
       # on its confidence, whether it is internal (part of a group), and other considerations.
-      codelets.append(Codelet(CF_FocusOn, controller, 25, focusable=relation))
+      codelets.append(Codelet(CF_FocusOn, controller, 25, dict(focusable=relation)))
     my_node = controller.ltm.GetNodeForContent(self)
     outgoing_isa_edges = my_node.GetOutgoingEdgesOfTypeIsa()
     for edge in outgoing_isa_edges:
@@ -161,11 +161,11 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
       if not self.object.IsKnownAsInstanceOf(category):
         from apps.seqsee.codelet_families.all import CF_DescribeAs
         codelets.append(Codelet(CF_DescribeAs, controller, 25,
-                                item=self.object, category=category))
+                                dict(item=self.object, category=category)))
     if self.object.underlying_mapping:
       from apps.seqsee.codelet_families.extend_group import CF_ExtendGroup
       codelets.append(Codelet(CF_ExtendGroup, controller, 25,
-                              item=self))
+                              dict(item=self)))
     return codelets
 
   def GetSimilarityAffordances(self, other, other_fringe, my_fringe, controller):
@@ -178,13 +178,13 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
       # They overlap. So we will want to form a bigger group...
       from apps.seqsee.codelet_families.overlapping_groups import CF_ActOnOverlappingGroups
       return [Codelet(CF_ActOnOverlappingGroups, controller, 100,
-                      left=left, right=right)]
+                      dict(left=left, right=right))]
     else:
       # So both are anchored, and have overlapping fringes. Time for subspaces!
       urgency = 100.0 / (right.start_pos - left.end_pos)  # denominator is at least 1.
       from apps.seqsee.subspaces.get_mapping import CF_FindAnchoredSimilarity
       return [Codelet(CF_FindAnchoredSimilarity, controller, urgency,
-                      left=left, right=right)]
+                      dict(left=left, right=right))]
 
   def OnFocus(self, controller):
     """Updates the strength of the object when it is focused upon."""

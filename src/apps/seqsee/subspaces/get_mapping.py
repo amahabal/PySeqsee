@@ -25,7 +25,7 @@ class CF_NumericCase(CodeletFamily):
         return NumericMapping(name=diff_string, category=Number)
       else:
         raise NoAnswerException()
-    controller.AddCodelet(CF_ChooseCategory, 100)
+    controller.AddCodelet(family=CF_ChooseCategory, urgency=100)
 
 class CF_ChooseCategory(CodeletFamily):
   @classmethod
@@ -42,7 +42,7 @@ class CF_ChooseCategory(CodeletFamily):
         ws.category = cat
       else:
         raise NoAnswerException()
-    controller.AddCodelet(CF_GetBindings, 100)
+    controller.AddCodelet(family=CF_GetBindings, urgency=100)
 
 class CF_GetBindings(CodeletFamily):
   @classmethod
@@ -60,7 +60,7 @@ class CF_GetBindings(CodeletFamily):
       raise NoAnswerException()
     ws.b2 = b2
     ws.attribute_explanations = {}
-    controller.AddCodelet(CF_ExplainValues, 100)
+    controller.AddCodelet(family=CF_ExplainValues, urgency=100)
 
 class CF_ExplainValues(CodeletFamily):
   @staticmethod
@@ -103,11 +103,11 @@ class CF_ExplainValues(CodeletFamily):
           full_mapping = CF_ExplainValues.CreateStructuralMappingFromExplanation(
               ws.category, attribute_explanations)
           raise AnswerFoundException(full_mapping)
-    controller.AddCodelet(CF_ExplainValues, 100)
+    controller.AddCodelet(family=CF_ExplainValues, urgency=100)
 
 
 class SubspaceFindMapping(Subspace):
-  class WS(object):
+  class Workspace:
     def __init__(self, left, right, category=None):
       self.left = left
       self.right = right
@@ -123,7 +123,7 @@ class SubspaceFindMapping(Subspace):
       raise AnswerFoundException(mapping)
 
   def InitializeCoderack(self):
-    self.controller.AddCodelet(CF_NumericCase, 100)
+    self.controller.AddCodelet(family=CF_NumericCase, urgency=100)
 
 
 class CF_FindAnchoredSimilarity(CodeletFamily):
@@ -145,4 +145,5 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
       controller.ltm.AddEdgeBetweenContent(left.object, right.object, 'related')
       controller.ltm.AddEdgeBetweenContent(right.object, left.object, 'related')
       from apps.seqsee.codelet_families.all import CF_FocusOn
-      controller.AddCodelet(CF_FocusOn, 100, focusable=relation)
+      controller.AddCodelet(family=CF_FocusOn, urgency=100,
+                            arguments_dict=dict(focusable=relation))

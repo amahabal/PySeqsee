@@ -5,10 +5,8 @@ from farg.ltm.edge import LTMEdge
 from apps.seqsee.codelet_families.all import CF_RemoveSpuriousRelations
 
 from third_party import gflags
-from third_party.gflags import FlagsError
 from tide.controller import Controller
 FLAGS = gflags.FLAGS
-
 
 kLTMName = 'seqsee.main'
 
@@ -41,6 +39,7 @@ class SeqseeController(Controller):
   routine_codelets_to_add = ((CF_ReadFromWS, 30, 0.3),
                              (CF_RemoveSpuriousRelations, 30, 0.1))
   workspace_class = Workspace
+  ltm_name = kLTMName
 
   def __init__(self, **args):
     print("starting")

@@ -31,7 +31,7 @@ class Relation(FocusableMixin):
     # TODO(# --- Jan 3, 2012): Too eager, tone this down later.
     from apps.seqsee.codelet_families.all import CF_GroupFromRelation
     if self.AreEndsContiguous():
-      return (Codelet(CF_GroupFromRelation, controller, 50, relation=self),)
+      return (Codelet(CF_GroupFromRelation, controller, 50, dict(relation=self)),)
     else:
       return ()
 

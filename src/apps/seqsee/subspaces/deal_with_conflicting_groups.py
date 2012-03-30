@@ -28,7 +28,7 @@ class CF_FightIncumbents(CodeletFamily):
     parent_ws._PlonkIntoPlace(ws.new_group)
 
 class SubspaceDealWithConflictingGroups(Subspace):
-  class WS(object):
+  class Workspace:
     def __init__(self, new_group, incumbents):
       self.new_group = new_group
       self.incumbents = incumbents
@@ -38,4 +38,4 @@ class SubspaceDealWithConflictingGroups(Subspace):
     pass
 
   def InitializeCoderack(self):
-    self.controller.AddCodelet(CF_FightIncumbents, 100)
+    self.controller.AddCodelet(family=CF_FightIncumbents, urgency=100)

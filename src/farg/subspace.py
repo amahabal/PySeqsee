@@ -1,8 +1,7 @@
 from farg.controller import Controller
 from farg.meta import SubspaceMeta
 
-class Subspace(object, metaclass=SubspaceMeta):
-  WS = None
+class Subspace(metaclass=SubspaceMeta):
 
   @staticmethod
   def QuickReconn(**args):
@@ -18,7 +17,7 @@ class Subspace(object, metaclass=SubspaceMeta):
   def __init__(self, parent_controller, nsteps, workspace_arguments):
     self.controller = Controller(routine_codelets_to_add=self.RoutineCodeletsToAdd())
     self.controller.ui = parent_controller.ui
-    self.workspace = self.controller.workspace = self.ws_class(**workspace_arguments)
+    self.workspace = self.controller.workspace = self.workspace_class(**workspace_arguments)
     self.controller.parent_controller = parent_controller
     self.max_number_of_steps = nsteps
     self.InitializeCoderack()

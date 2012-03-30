@@ -16,7 +16,7 @@ class RunForNSteps(threading.Thread):
 
 class GUI:
 
-  geometry = '810x700+0+0'
+  geometry = '810x700-0+0'
 
   def __init__(self, *, controller_class):
     self.state_lock = threading.Lock()

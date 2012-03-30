@@ -92,8 +92,10 @@ class Controller(object):
         return
       self.Step()
 
-  def AddCodelet(self, *, family, urgency, arguments_dict):
+  def AddCodelet(self, *, family, urgency, arguments_dict=None):
     """Adds a codelet to the coderack."""
+    if arguments_dict is None:
+      arguments_dict = {}
     codelet = Codelet(family=family, controller=self,
                       urgency=urgency, arguments_dict=arguments_dict)
     self.coderack.AddCodelet(codelet)

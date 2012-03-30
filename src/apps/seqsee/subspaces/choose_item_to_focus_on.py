@@ -14,13 +14,13 @@ def ThingsToChooseFrom(ws):
     yield (gp, gp.strength)
 
 class SubspaceSelectObjectToFocusOn(Subspace):
-  class WS(object):
+  class Workspace(object):
     def __init__(self):
       pass
 
   @staticmethod
   def QuickReconn(**arguments):
-    parent_ws = arguments['parent_controller'].ws
+    parent_ws = arguments['parent_controller'].workspace
     raise AnswerFoundException(WeightedChoice(ThingsToChooseFrom(parent_ws)))
 
   def InitializeCoderack(self):

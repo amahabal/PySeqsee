@@ -18,7 +18,7 @@ class TestCoderack(unittest.TestCase):
   def test_basic(self):
     c = Coderack(10)
     controller = Controller()
-    codelet = Codelet(Foo, controller, 20, x=3)
+    codelet = Codelet(Foo, controller, 20, dict(x=3))
 
     assert 10 == c._max_capacity
     c.AddCodelet(codelet)
@@ -35,9 +35,9 @@ class TestCoderack(unittest.TestCase):
     """For testing, it is useful to mark the next codelet that GetCodelet() returns."""
     c = Coderack(10)
     controller = Controller()
-    codelet = Codelet(Foo, controller, 20, x=3)
-    codelet2 = Codelet(Foo, controller, 30, x=4)
-    codelet3 = Codelet(Foo, controller, 30, x=4)
+    codelet = Codelet(Foo, controller, 20, dict(x=3))
+    codelet2 = Codelet(Foo, controller, 30, dict(x=4))
+    codelet3 = Codelet(Foo, controller, 30, dict(x=4))
 
     c.AddCodelet(codelet)
     c.AddCodelet(codelet2)

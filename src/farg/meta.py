@@ -14,10 +14,10 @@ class MemoizedConstructor(type):
 
 class SubspaceMeta(type):
   def __init__(self, name, bases, class_dict):
-    if 'WS' in class_dict:
-      self.ws_class = class_dict['WS']
-    else:
-      raise Exception("Subspace construction should have a WS class.")
+    if 'Workspace' in class_dict:
+      self.workspace_class = class_dict['Workspace']
+    elif bases:
+      raise Exception("Subspace construction should have a Workspace class.")
     super(SubspaceMeta, self).__init__(name, bases, class_dict)
 
   def __call__(self, parent_controller, nsteps=4, workspace_arguments=dict()):
