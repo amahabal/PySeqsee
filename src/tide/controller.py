@@ -30,9 +30,14 @@ class Controller(object):
   #: Name of LTM used by the controller. If None, no LTM is created.
   ltm_name = None
 
-  def __init__(self, *, ui):
+  def __init__(self, *, ui, state_lock, controller_depth):
+    #: How deeply in the stack this controller is. The top-level controller has a depth
+    #: of 0, Subspaces it spawns 1, and so forth.
+    self.controller_depth = controller_depth
+    #: Lock used for any real work (i.e., in step).
+    self.state_lock = state_lock
     #: The coderack.
-    self.coderack = self.coderack_class()
+    self.coderack = self.coderack_class(10)
     #: The stream.
     self.stream = self.stream_class(self)
     if self.ltm_name:
@@ -73,16 +78,15 @@ class Controller(object):
     self._AddRoutineCodelets()
     if not self.coderack.IsEmpty():
       codelet = self.coderack.GetCodelet()
-      try:
-        codelet.Run()
-      except FargException as e:
-        self.HandleFargException(e)
+      codelet.Run()
 
   def RunUptoNSteps(self, n_steps):
     """Takes upto N steps. In these, it is possible that an answer is found and an exception
        raised.
     """
     for _ in range(n_steps):
+      if self.ui.pause_stepping:
+        return
       self.Step()
 
   def AddCodelet(self, *, family, urgency, arguments_dict):
