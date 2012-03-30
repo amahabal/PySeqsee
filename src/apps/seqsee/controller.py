@@ -1,12 +1,12 @@
 from apps.seqsee.codelet_families.read_from_ws import CF_ReadFromWS
 from apps.seqsee.workspace import Workspace
-from farg.controller import Controller
 from farg.ltm.manager import LTMManager
 from farg.ltm.edge import LTMEdge
 from apps.seqsee.codelet_families.all import CF_RemoveSpuriousRelations
 
 from third_party import gflags
 from third_party.gflags import FlagsError
+from tide.controller import Controller
 FLAGS = gflags.FLAGS
 
 
@@ -38,30 +38,13 @@ def InitializeSeqseeLTM(ltm):
 LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
 
 class SeqseeController(Controller):
-  def __init__(self):
+  routine_codelets_to_add = ((CF_ReadFromWS, 30, 0.3),
+                             (CF_RemoveSpuriousRelations, 30, 0.1))
+  workspace_class = Workspace
+
+  def __init__(self, **args):
     print("starting")
-    routine_codelets_to_add = ((CF_ReadFromWS, 30, 0.3),
-                               (CF_RemoveSpuriousRelations, 30, 0.1))
-    Controller.__init__(self, routine_codelets_to_add=routine_codelets_to_add,
-                        ltm_name=kLTMName)
-    ws = self.ws = self.workspace = Workspace()
-    ws.InsertElements(*FLAGS.sequence)
+    Controller.__init__(self, **args)
+    self.workspace.InsertElements(*FLAGS.sequence)
+    print("Inserted elements: ", FLAGS.sequence)
     self.unrevealed_terms = FLAGS.unrevealed_terms
-
-    if FLAGS.sxs_condition:
-      condition_name = FLAGS.sxs_condition
-      if condition_name == 'group_formed':
-        # A dummy condition for testing SxSs
-        def StoppingCondition(controller):
-          return len(controller.ws.groups) >= 3
-
-        self.stopping_condition = StoppingCondition
-      else:
-        raise FlagsError('Unknown stopping condition name "%s"' % condition_name)
-    else:
-      self.stopping_condition = None
-
-  def CheckCondition(self):
-    if not self.stopping_condition:
-      return False
-    return self.stopping_condition(self)

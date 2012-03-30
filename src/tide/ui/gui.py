@@ -6,13 +6,13 @@ class RunForNSteps(threading.Thread):
   
   Checking each time if we have not been asked to pause."""
 
-  def __init__(self, *, controller, n_steps=1000):
+  def __init__(self, *, controller, num_steps=1000):
     threading.Thread.__init__(self)
     self.controller = controller
-    self.n_steps = n_steps
+    self.num_steps = num_steps
 
   def run(self):
-    self.controller.RunUptoNSteps(self.n_steps)
+    self.controller.RunUptoNSteps(self.num_steps)
 
 class GUI:
 
@@ -47,7 +47,7 @@ class GUI:
     self.PopulateCentralPane()
     self.PopulateInteractionPane()
 
-  def StartThreaded(self):
+  def StepsInAnotherThread(self, num_steps):
     with self.run_state_lock:
       if self.quitting:
         return
@@ -56,9 +56,12 @@ class GUI:
           return
         else:
           self.stepping_thread = None
-      self.stepping_thread = RunForNSteps(controller=self.controller)
+      self.stepping_thread = RunForNSteps(controller=self.controller, num_steps=num_steps)
       self.pause_stepping = False
       self.stepping_thread.start()
+
+  def StartThreaded(self):
+    self.StepsInAnotherThread(1000)
 
   def Pause(self):
     with self.run_state_lock:

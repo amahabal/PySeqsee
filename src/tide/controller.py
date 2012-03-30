@@ -40,6 +40,9 @@ class Controller(object):
     self.coderack = self.coderack_class(10)
     #: The stream.
     self.stream = self.stream_class(self)
+    if self.workspace_class:
+      #: Workspace
+      self.workspace = self.workspace_class()
     if self.ltm_name:
       #: LTM, if any
       self.ltm = LTMManager.GetLTM(self.ltm_name)

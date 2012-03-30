@@ -2,8 +2,8 @@
 
 from apps.seqsee.gui.central_pane import CentralPane
 from apps.seqsee.gui.conversation import Conversation
-from farg.ui.gui import gui
 from third_party import gflags
+from tide.ui.gui import GUI
 
 gflags.DEFINE_string('gui_initial_view', 'ws',
                      'In GUI mode, what should the initial mode be?')
@@ -16,14 +16,9 @@ gflags.DEFINE_boolean('gui_show_ltm', False,
 
 FLAGS = gflags.FLAGS
 
-class SeqseeGUI(gui.GUI):
-  def __init__(self, controller, geometry='810x700-0+0'):
-    gui.GUI.__init__(self, controller, geometry)
-
-    # TODO(# --- Jan 3, 2012): Not sure if this is the right abstraction. I want to be able
-    # to display messages for debugging. I should have a better messaging system built right
-    # into the controller.
-    controller.mw = self.mw
+class SeqseeGUI(GUI):
+  def __init__(self, *, controller_class):
+    GUI.__init__(self, controller_class=controller_class)
 
     self.mw.bind('<KeyPress-q>', lambda e: self.Quit())
     self.mw.bind('<KeyPress-s>', lambda e: self.StepsInAnotherThread(1))

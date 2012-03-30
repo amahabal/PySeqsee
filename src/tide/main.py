@@ -28,6 +28,8 @@ class Main:
 
   def ProcessFlags(self):
     """Called after flags have been read in."""
+    self.ProcessCustomFlags()
+
     run_mode_name = FLAGS.run_mode
     if run_mode_name == 'gui':
       self.run_mode = self.run_mode_gui_class(controller_class=self.controller_class,
@@ -44,8 +46,6 @@ class Main:
       if not isinstance(numeric_level, int):
         raise ValueError('Invalid log level: %s' % FLAGS.debug)
       logging.basicConfig(level=numeric_level)
-
-    self.ProcessCustomFlags()
 
   def ProcessCustomFlags(self):
     pass

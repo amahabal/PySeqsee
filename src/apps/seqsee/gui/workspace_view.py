@@ -11,12 +11,12 @@ class WorkspaceView(ViewPort):
   # Many local variables here.
   # pylint: disable=R0914
   def ReDrawView(self, controller):
-    ws = controller.ws
+    workspace = controller.workspace
     anchors_for_relations = dict()
-    revealed_terms = [x.object.magnitude for x in ws.elements]
+    revealed_terms = [x.object.magnitude for x in workspace.elements]
     space_per_element = self.width / (len(revealed_terms) + 1)
 
-    groups = sorted(ws.groups, reverse=True, key=lambda x: x.end_pos - x.start_pos)
+    groups = sorted(workspace.groups, reverse=True, key=lambda x: x.end_pos - x.start_pos)
     for group in groups:
       start, end = group.start_pos, group.end_pos
       x1, y = self.CanvasCoordinates(start * space_per_element, self.elements_y)
@@ -25,7 +25,7 @@ class WorkspaceView(ViewPort):
       group_height = 30.0 + 1.0 * span * 30.0 / len(revealed_terms)
       self.canvas.create_oval(x1, y - group_height, x2, y + group_height)
 
-    for idx, element in enumerate(ws.elements):
+    for idx, element in enumerate(workspace.elements):
       x, y = self.CanvasCoordinates((idx + 0.5) * space_per_element,
                                      self.elements_y)
       self.canvas.create_text(
@@ -37,7 +37,7 @@ class WorkspaceView(ViewPort):
 
 
     relations_already_drawn = set()
-    for element in ws.elements:
+    for element in workspace.elements:
       for relation in element.relations:
         if relation not in relations_already_drawn:
           relations_already_drawn.add(relation)
