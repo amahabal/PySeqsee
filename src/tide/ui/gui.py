@@ -1,4 +1,5 @@
-from tkinter import Button, Frame, Label, LEFT, StringVar, Tk
+from tkinter import *
+from tkinter.ttk import *
 import threading
 from tkinter.messagebox import askyesno
 from tide.question.question import BooleanQuestion
@@ -88,8 +89,7 @@ class GUI:
     self.codelet_count_var = StringVar()
     self.codelet_count_var.set("0")
     Label(frame, textvariable=self.codelet_count_var,
-          font='-adobe-helvetica-bold-r-normal--28-140-100-100-p-105-iso8859-4',
-          fg='#FF0000').pack(side=LEFT)
+          font='-adobe-helvetica-bold-r-normal--28-140-100-100-p-105-iso8859-4').pack(side=LEFT)
 
   def PopulateCentralPane(self):
     """Sets up the display in the central part.
