@@ -38,6 +38,7 @@ class GUI:
     with self.state_lock:
       for item in self.items_to_refresh:
         item.ReDraw()
+      self.codelet_count_var.set('%d' % self.controller.steps_taken)
 
   def SetupWindows(self):
     self.buttons_pane = Frame(self.mw)
