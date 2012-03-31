@@ -1,6 +1,7 @@
 from farg.codelet import CodeletFamily
 from farg.subspace import Subspace
 from farg.exceptions import NoAnswerException, AnswerFoundException
+from apps.seqsee.question import AreTheseTheNextTermsQuestion
 
 class CF_InitialEvaluation(CodeletFamily):
   @classmethod
@@ -22,8 +23,8 @@ class CF_AskQuestion(CodeletFamily):
   @classmethod
   def Run(cls, controller):
     workspace = controller.workspace
-    question = "Are the next few terms %s" % workspace.unknown_terms
-    if controller.ui.AskYesNoQuestion(question):
+    question = AreTheseTheNextTermsQuestion(workspace.unknown_terms)
+    if controller.ui.AskQuestion(question):
       unknown_terms = workspace.unknown_terms
       workspace.seqsee_ws.InsertElements(*unknown_terms)
       raise AnswerFoundException(True)

@@ -1,5 +1,7 @@
 from tkinter import Button, Frame, Label, LEFT, StringVar, Tk
 import threading
+from tkinter.messagebox import askyesno
+from tide.question.question import BooleanQuestion
 
 class RunForNSteps(threading.Thread):
   """Runs controller for upto n steps.
@@ -32,7 +34,7 @@ class GUI:
 
     self.items_to_refresh = []
     self.SetupWindows()
-
+    self.RegisterQuestionHandlers()
 
   def UpdateDisplay(self):
     with self.state_lock:
@@ -98,3 +100,11 @@ class GUI:
   def PopulateInteractionPane(self):
     """Sets up the interaction pane at the bottom."""
     pass
+
+  def AskQuestion(self, question):
+    return question.Ask(self)
+
+  def RegisterQuestionHandlers(self):
+    def boolean_question_handler(question, ui):
+      return askyesno('', question.question_string)
+    BooleanQuestion.Ask = boolean_question_handler
