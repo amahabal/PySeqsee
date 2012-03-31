@@ -12,4 +12,4 @@ class RunModeGUI(RunMode):
 
   def Refresher(self):
     self.ui.UpdateDisplay()
-    self.ui.mw.after(1000, self.Refresher)
+    self.ui.mw.after(100, self.Refresher)

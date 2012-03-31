@@ -7,15 +7,15 @@ from apps.seqsee.testing_utils import FringeOverlapTest, MockSeqseeController, \
 class FringeOverlapTestForAnchored(FringeOverlapTest):
   def TestSanity(self):
     controller = MockSeqseeController(list(range(0, 10)))
-    ws = controller.ws
-    item_at_pos_1 = ws.GetItemAt(1, 1)
+    workspace = controller.workspace
+    item_at_pos_1 = workspace.GetItemAt(1, 1)
     item_1_node = controller.ltm.GetNodeForContent(item_at_pos_1.object)
     self.AssertFringeContains(controller, item_at_pos_1, {'pos:1': 0.5,
                                                           'pos:2': 0.3,
                                                           item_1_node: 0.4,
                                                           })
 
-    item_at_pos_2 = ws.GetItemAt(2, 2)
+    item_at_pos_2 = workspace.GetItemAt(2, 2)
     self.AssertFringeOverlap(controller,
                              prior_focus=item_at_pos_1,
                              current_focus=item_at_pos_2,
@@ -24,11 +24,11 @@ class FringeOverlapTestForAnchored(FringeOverlapTest):
 
   def Test_123_123(self):
     controller = MockSeqseeController((1, 2, 3, 1, 2, 3))
-    ws = controller.ws
+    workspace = controller.workspace
     numeric_succesor_mapping = NumericMapping('succ', Number())
     ascending_group = MappingBasedCategory(mapping=numeric_succesor_mapping)
-    group1 = self.HelperCreateAndInsertGroup(ws, (0, 1, 2), numeric_succesor_mapping)
-    group2 = self.HelperCreateAndInsertGroup(ws, (3, 4, 5), numeric_succesor_mapping)
+    group1 = self.HelperCreateAndInsertGroup(workspace, (0, 1, 2), numeric_succesor_mapping)
+    group2 = self.HelperCreateAndInsertGroup(workspace, (3, 4, 5), numeric_succesor_mapping)
     group1.object.DescribeAs(ascending_group)
     group2.object.DescribeAs(ascending_group)
     self.AssertFringeContains(controller, group1, { numeric_succesor_mapping: 0.9 })

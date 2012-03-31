@@ -16,12 +16,12 @@ class CF_GroupFromRelation(CodeletFamily):
     # If there is a group spanning the proposed group, perish the thought.
     left, right = relation.first.start_pos, relation.second.end_pos
     from apps.seqsee.util import GreaterThanEq, LessThanEq
-    if tuple(controller.ws.GetGroupsWithSpan(LessThanEq(left), GreaterThanEq(right))):
+    if tuple(controller.workspace.GetGroupsWithSpan(LessThanEq(left), GreaterThanEq(right))):
       return
     anchored = SAnchored.Create(relation.first, relation.second,
                                 underlying_mapping=relation.mapping)
     try:
-      controller.ws.InsertGroup(anchored)
+      controller.workspace.InsertGroup(anchored)
     except ConflictingGroupException as e:
       SubspaceDealWithConflictingGroups(
           controller,
@@ -41,9 +41,9 @@ class CF_RemoveSpuriousRelations(CodeletFamily):
   """
   @classmethod
   def Run(cls, controller):
-    ws = controller.workspace
-    supergroups_map = ws.CalculateSupergroupMap()
-    for element in ws.elements:
+    workspace = controller.workspace
+    supergroups_map = workspace.CalculateSupergroupMap()
+    for element in workspace.elements:
       supergps = supergroups_map[element]
       if not supergps:
         continue

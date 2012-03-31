@@ -10,7 +10,7 @@ logger = logging.getLogger(__name__)
 class CF_ActOnOverlappingGroups(CodeletFamily):
   @classmethod
   def Run(cls, controller, left, right):
-    if left not in controller.ws.groups or right not in controller.ws.groups:
+    if left not in controller.workspace.groups or right not in controller.workspace.groups:
       # Groups gone, fizzle.
       return
     if set(left.items).intersection(set(right.items)):
@@ -27,7 +27,7 @@ class CF_ActOnOverlappingGroups(CodeletFamily):
                      '; '.join(str(x) for x in new_group_items))
         new_group = SAnchored.Create(*new_group_items, underlying_mapping=left_underlying)
         try:
-          controller.ws.Replace((left, right), new_group)
+          controller.workspace.Replace((left, right), new_group)
         except ConflictingGroupException as e:
           SubspaceDealWithConflictingGroups(
               controller,

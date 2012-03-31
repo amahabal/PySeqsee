@@ -8,9 +8,9 @@ import unittest
 class MockSeqseeController(Controller):
   def __init__(self, items):
     Controller.__init__(self)
-    ws = self.ws = Workspace()
+    workspace = self.workspace = Workspace()
     self.ltm = LTMGraph()
-    ws.InsertElements(*items)
+    workspace.InsertElements(*items)
 
 class CodeletPresenceSpec(object):
   def __init__(self, family, arguments=None):
@@ -24,7 +24,7 @@ class CodeletPresenceSpec(object):
 class FringeOverlapTest(unittest.TestCase):
 
   @staticmethod
-  def HelperCreateAndInsertGroup(ws, specification, underlying_mapping=None):
+  def HelperCreateAndInsertGroup(workspace, specification, underlying_mapping=None):
     """Utility for quickly creating groups.
 
        Each element in the specification is a tuple consisting of integers or of other
@@ -35,18 +35,18 @@ class FringeOverlapTest(unittest.TestCase):
        element is returned.
     """
     if isinstance(specification, int):
-      return ws.elements[specification]
+      return workspace.elements[specification]
     else:
-      anchored_items = list(FringeOverlapTest.HelperCreateAndInsertGroup(ws, x)
+      anchored_items = list(FringeOverlapTest.HelperCreateAndInsertGroup(workspace, x)
                             for x in specification)
       new_group = SAnchored.Create(*anchored_items, underlying_mapping=underlying_mapping)
-      return ws.InsertGroup(new_group)
+      return workspace.InsertGroup(new_group)
 
   @staticmethod
   def SetupTestingWS(items):
-    ws = Workspace()
-    ws.InsertElements(*items)
-    return ws
+    workspace = Workspace()
+    workspace.InsertElements(*items)
+    return workspace
 
   def AssertFringeContains(self, controller, item, expected_fringe_components):
     """Checks for the presence of particular components in the fringe.

@@ -16,8 +16,8 @@ class GroupsView(ListBasedView):
 
   def GetAllItemsToDisplay(self, controller):
     """Returns a 2-tuple: A top message, and a list of items."""
-    ws = controller.ws
-    items = [x for x in ws.groups]
+    workspace = controller.workspace
+    items = [x for x in workspace.groups]
     message = '%d groups.' % (len(items))
     return (items, message, dict())
 

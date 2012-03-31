@@ -11,7 +11,7 @@ class CF_InitialEvaluation(CodeletFamily):
       raise NoAnswerException()
     # So we'll pop the question!
     my_ws = controller.workspace
-    seqsee_ws = controller.parent_controller.ws
+    seqsee_ws = controller.parent_controller.workspace
     my_ws.seqsee_ws = seqsee_ws
     number_of_terms_already_known = (len(seqsee_ws.elements) -
                                      my_ws.basis_of_extension.end_pos - 1)
@@ -21,11 +21,11 @@ class CF_InitialEvaluation(CodeletFamily):
 class CF_AskQuestion(CodeletFamily):
   @classmethod
   def Run(cls, controller):
-    ws = controller.workspace
-    question = "Are the next few terms %s" % ws.unknown_terms
+    workspace = controller.workspace
+    question = "Are the next few terms %s" % workspace.unknown_terms
     if controller.ui.AskYesNoQuestion(question):
-      unknown_terms = ws.unknown_terms
-      ws.seqsee_ws.InsertElements(*unknown_terms)
+      unknown_terms = workspace.unknown_terms
+      workspace.seqsee_ws.InsertElements(*unknown_terms)
       raise AnswerFoundException(True)
 
 class SubspaceGoBeyondKnown(Subspace):

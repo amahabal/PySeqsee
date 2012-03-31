@@ -13,10 +13,10 @@ class CF_FightIncumbents(CodeletFamily):
   @classmethod
   def Run(cls, controller):
     # QUALITY TODO(Feb 12, 2012): Strengths of groups are important. Need to work those in.
-    ws = controller.workspace
-    parent_ws = controller.parent_controller.ws
-    challenger_strength = ws.new_group.strength
-    for incumbent in ws.incumbents:
+    workspace = controller.workspace
+    parent_ws = controller.parent_controller.workspace
+    challenger_strength = workspace.new_group.strength
+    for incumbent in workspace.incumbents:
       probability_of_deletion = CF_FightIncumbents.ProbabilityOfOverturningIncumbent(
           incumbent.strength,
           challenger_strength)
@@ -25,7 +25,7 @@ class CF_FightIncumbents(CodeletFamily):
       else:
         raise NoAnswerException()
     # Okay, I suppose we can plonk this in.
-    parent_ws._PlonkIntoPlace(ws.new_group)
+    parent_ws._PlonkIntoPlace(workspace.new_group)
 
 class SubspaceDealWithConflictingGroups(Subspace):
   class Workspace:
