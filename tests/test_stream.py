@@ -1,7 +1,8 @@
-from farg.controller import Controller
 from farg.focusable_mixin import FocusableMixin
 from farg.stream import Stream
 import unittest
+from tide.controller import Controller
+from tide.ui.batch_ui import BatchUI
 
 class MyFocusable(FocusableMixin):
   def __init__(self, x):
@@ -14,7 +15,7 @@ class MyFocusable(FocusableMixin):
 class TestStream(unittest.TestCase):
   def test_basic(self):
 
-    c = Controller()
+    c = BatchUI(controller_class=Controller).controller
     s = c.stream
     self.assertEqual(0, s.FociCount())
 

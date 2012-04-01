@@ -1,13 +1,13 @@
 # Utility functions for testing seqsee.
 from apps.seqsee.anchored import SAnchored
-from farg.controller import Controller
 from apps.seqsee.workspace import Workspace
 from farg.ltm.graph import LTMGraph
 import unittest
+from tide.controller import Controller
 
 class MockSeqseeController(Controller):
   def __init__(self, items):
-    Controller.__init__(self)
+    Controller.__init__(self, ui=None)
     workspace = self.workspace = Workspace()
     self.ltm = LTMGraph()
     workspace.InsertElements(*items)

@@ -30,7 +30,7 @@ class Controller(object):
   #: Name of LTM used by the controller. If None, no LTM is created.
   ltm_name = None
 
-  def __init__(self, *, ui, state_lock, controller_depth,
+  def __init__(self, *, ui, state_lock=None, controller_depth=0,
                parent_controller=None, workspace_arguments=None):
     #: How deeply in the stack this controller is. The top-level controller has a depth
     #: of 0, Subspaces it spawns 1, and so forth.

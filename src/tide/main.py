@@ -5,7 +5,7 @@ from third_party import gflags
 import logging
 import sys
 from tide.ui.gui import GUI
-from tide.batch_ui import BatchUI
+from tide.ui.batch_ui import BatchUI
 
 FLAGS = gflags.FLAGS
 

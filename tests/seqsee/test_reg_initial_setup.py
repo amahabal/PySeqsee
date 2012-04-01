@@ -8,7 +8,7 @@ import unittest
 
 from apps.seqsee import run_seqsee
 from third_party import gflags
-from tide.batch_ui import BatchUI
+from tide.ui.batch_ui import BatchUI
 import threading
 FLAGS = gflags.FLAGS
 
@@ -17,7 +17,7 @@ FLAGS.unrevealed_terms = []
 
 class TestRegtestInitialSetup(unittest.TestCase):
   def test_sanity(self):
-    ui = BatchUI()
+    ui = BatchUI(controller_class=SeqseeController)
     state_lock = threading.Lock()
     controller = SeqseeController(ui=ui, state_lock=state_lock, controller_depth=0)
     self.assertTrue(isinstance(controller.workspace, Workspace))
@@ -27,7 +27,7 @@ class TestRegtestInitialSetup(unittest.TestCase):
     self.assertTrue(controller.coderack._codelet_count > 0)
 
   def test_ws(self):
-    ui = BatchUI()
+    ui = BatchUI(controller_class=SeqseeController)
     state_lock = threading.Lock()
     controller = SeqseeController(ui=ui, state_lock=state_lock, controller_depth=0)
     workspace = controller.workspace

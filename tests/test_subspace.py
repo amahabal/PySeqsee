@@ -2,9 +2,9 @@ from apps.seqsee.categories import Ascending
 from apps.seqsee.subspaces.get_mapping import SubspaceFindMapping
 from apps.seqsee.mapping import StructuralMapping
 from apps.seqsee.sobject import SObject
-from farg.controller import Controller
+from tide.controller import Controller
 import unittest
-from farg.ui.ui import UI
+from tide.ui.batch_ui import BatchUI
 
 
 class TestSubspace(unittest.TestCase):
@@ -16,8 +16,8 @@ class TestSubspace(unittest.TestCase):
 
     a19_21 = SObject.Create(19, 20, 21)
 
-    controller = Controller()
-    _ui = UI(controller)
+    _ui = BatchUI(controller_class=Controller)
+    controller = _ui.controller
     mapping = SubspaceFindMapping(controller, 3,
                                   dict(left=a3, right=a4, category=Ascending()))
     self.assertTrue(isinstance(mapping, StructuralMapping))
@@ -32,8 +32,8 @@ class TestSubspace(unittest.TestCase):
     a17_19 = SObject.Create(17, 18, 19)
     a19_21 = SObject.Create(19, 20, 21)
 
-    controller = Controller()
-    _ui = UI(controller)
+    _ui = BatchUI(controller_class=Controller)
+    controller = _ui.controller
     mapping = SubspaceFindMapping(controller, 10,
                                   dict(left=a17_19, right=a19_21, category=Ascending()))
     self.assertTrue(isinstance(mapping, StructuralMapping))

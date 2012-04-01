@@ -1,6 +1,5 @@
 from tide.run_mode.run_mode import RunMode
 
-
 class RunModeGUI(RunMode):
   def __init__(self, *, controller_class, ui_class):
     print("Initialized a GUI run mode")
