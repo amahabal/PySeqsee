@@ -90,7 +90,11 @@ class Controller(object):
     for _ in range(n_steps):
       if self.ui.pause_stepping:
         return
-      self.Step()
+      if self.state_lock is not None:
+        with self.state_lock:
+          self.Step()
+      else:
+        self.Step()
 
   def AddCodelet(self, *, family, urgency, arguments_dict=None):
     """Adds a codelet to the coderack."""
