@@ -2,6 +2,7 @@ from farg.subspace import Subspace
 from farg.codelet import CodeletFamily
 from farg.util import Toss
 from farg.exceptions import NoAnswerException
+from tide.controller import Controller
 
 class CF_FightIncumbents(CodeletFamily):
   @staticmethod
@@ -28,10 +29,11 @@ class CF_FightIncumbents(CodeletFamily):
     parent_ws._PlonkIntoPlace(workspace.new_group)
 
 class SubspaceDealWithConflictingGroups(Subspace):
-  class Workspace:
-    def __init__(self, new_group, incumbents):
-      self.new_group = new_group
-      self.incumbents = incumbents
+  class controller_class(Controller):
+    class workspace_class:
+      def __init__(self, new_group, incumbents):
+        self.new_group = new_group
+        self.incumbents = incumbents
 
   @staticmethod
   def QuickReconn(**arguments):

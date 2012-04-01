@@ -30,10 +30,12 @@ class CF_AskQuestion(CodeletFamily):
       raise AnswerFoundException(True)
 
 class SubspaceGoBeyondKnown(Subspace):
-  class Workspace:
-    def __init__(self, basis_of_extension, suggested_terms):
-      self.basis_of_extension = basis_of_extension
-      self.suggested_terms = suggested_terms
+  from tide.controller import Controller
+  class controller_class(Controller):
+    class workspace_class:
+      def __init__(self, basis_of_extension, suggested_terms):
+        self.basis_of_extension = basis_of_extension
+        self.suggested_terms = suggested_terms
 
   @staticmethod
   def QuickReconn(**arguments):

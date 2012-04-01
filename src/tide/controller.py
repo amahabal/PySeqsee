@@ -30,10 +30,13 @@ class Controller(object):
   #: Name of LTM used by the controller. If None, no LTM is created.
   ltm_name = None
 
-  def __init__(self, *, ui, state_lock, controller_depth):
+  def __init__(self, *, ui, state_lock, controller_depth,
+               parent_controller=None, workspace_arguments=None):
     #: How deeply in the stack this controller is. The top-level controller has a depth
     #: of 0, Subspaces it spawns 1, and so forth.
     self.controller_depth = controller_depth
+    #: If this is a controller of a subspace, this points to parent_controller.
+    self.parent_controller = parent_controller
     #: Lock used for any real work (i.e., in step).
     self.state_lock = state_lock
     #: The coderack.
@@ -41,8 +44,10 @@ class Controller(object):
     #: The stream.
     self.stream = self.stream_class(self)
     if self.workspace_class:
+      if workspace_arguments is None:
+        workspace_arguments = dict()
       #: Workspace
-      self.workspace = self.workspace_class()
+      self.workspace = self.workspace_class(**workspace_arguments)
     if self.ltm_name:
       #: LTM, if any
       self.ltm = LTMManager.GetLTM(self.ltm_name)

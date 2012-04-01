@@ -7,6 +7,7 @@ from farg.subspace import Subspace
 from farg.util import WeightedShuffle, WeightedChoice
 import logging
 import random
+from tide.controller import Controller
 
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
 
@@ -107,11 +108,12 @@ class CF_ExplainValues(CodeletFamily):
 
 
 class SubspaceFindMapping(Subspace):
-  class Workspace:
-    def __init__(self, left, right, category=None):
-      self.left = left
-      self.right = right
-      self.category = category
+  class controller_class(Controller):
+    class workspace_class:
+      def __init__(self, left, right, category=None):
+        self.left = left
+        self.right = right
+        self.category = category
 
   @staticmethod
   def QuickReconn(**arguments):

@@ -1,7 +1,8 @@
-from farg.controller import Controller
+from tide.controller import Controller
 from farg.meta import SubspaceMeta
 
 class Subspace(metaclass=SubspaceMeta):
+  controller_class = Controller
 
   @staticmethod
   def QuickReconn(**args):
@@ -15,10 +16,12 @@ class Subspace(metaclass=SubspaceMeta):
     return None
 
   def __init__(self, parent_controller, nsteps, workspace_arguments):
-    self.controller = Controller(routine_codelets_to_add=self.RoutineCodeletsToAdd())
-    self.controller.ui = parent_controller.ui
-    self.workspace = self.controller.workspace = self.workspace_class(**workspace_arguments)
-    self.controller.parent_controller = parent_controller
+    self.controller = self.controller_class(
+        ui=parent_controller.ui,
+        state_lock=None,
+        controller_depth=(parent_controller.controller_depth + 1),
+        workspace_arguments=workspace_arguments,
+        parent_controller=parent_controller)
     self.max_number_of_steps = nsteps
     self.InitializeCoderack()
 
