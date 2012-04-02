@@ -14,6 +14,9 @@ class FargException(Exception):
     self.stack_trace = list(takewhile((lambda x: x.find('FargException.__init__') == -1),
                                       traceback.format_stack(limit=8)))
 
+class StoppingConditionMet(Exception):
+  pass
+
 class AnswerFoundException(FargException):
   """Raised by a subspace when it believes that an answer has been found."""
   def __init__(self, answer):

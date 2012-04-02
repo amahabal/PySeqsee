@@ -14,6 +14,7 @@ gflags.DEFINE_enum('run_mode', 'gui',
                    'Mode to run in.')
 gflags.DEFINE_enum('debug', '', ('', 'debug', 'info', 'warn', 'error', 'fatal'),
                    'Show messages from what debug level and above?')
+gflags.DEFINE_string('stopping_condition', None, "Stopping condition, if any")
 
 class Main:
   run_mode_gui_class = gui.RunModeGUI
@@ -26,20 +27,37 @@ class Main:
   from tide.controller import Controller
   controller_class = Controller
 
+  stopping_conditions = dict()
+
   def ProcessFlags(self):
     """Called after flags have been read in."""
     self.ProcessCustomFlags()
 
+    if FLAGS.stopping_condition:
+      if FLAGS.stopping_condition in self.stopping_conditions:
+        self.stopping_condition_fn = self.stopping_conditions[FLAGS.stopping_condition]
+      else:
+        raise ValueError('Unknown stopping condition %s. Use one of %s' %
+                         (FLAGS.stopping_condition, list(self.stopping_conditions.keys())))
+    else:
+      self.stopping_condition_fn = None
+
     run_mode_name = FLAGS.run_mode
     if run_mode_name == 'gui':
-      self.run_mode = self.run_mode_gui_class(controller_class=self.controller_class,
-                                              ui_class=self.gui_class)
+      self.run_mode = self.run_mode_gui_class(
+          controller_class=self.controller_class,
+          ui_class=self.gui_class,
+          stopping_condition_fn=self.stopping_condition_fn)
     elif run_mode_name == 'batch':
-      self.run_mode = self.run_mode_batch_class(controller_class=self.controller_class,
-                                                ui_class=self.batch_ui_class)
+      self.run_mode = self.run_mode_batch_class(
+          controller_class=self.controller_class,
+          ui_class=self.batch_ui_class,
+          stopping_condition_fn=self.stopping_condition_fn)
     else:
-      self.run_mode = self.run_mode_sxs_class(controller_class=self.controller_class,
-                                              ui_class=self.batch_ui_class)
+      self.run_mode = self.run_mode_sxs_class(
+          controller_class=self.controller_class,
+          ui_class=self.batch_ui_class,
+          stopping_condition_fn=self.stopping_condition_fn)
 
     if FLAGS.debug:
       numeric_level = getattr(logging, FLAGS.debug.upper(), None)

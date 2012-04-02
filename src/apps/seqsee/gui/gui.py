@@ -17,8 +17,8 @@ gflags.DEFINE_boolean('gui_show_ltm', False,
 FLAGS = gflags.FLAGS
 
 class SeqseeGUI(GUI):
-  def __init__(self, *, controller_class):
-    GUI.__init__(self, controller_class=controller_class)
+  def __init__(self, **kwargs):
+    GUI.__init__(self, **kwargs)
 
     self.mw.bind('<KeyPress-q>', lambda e: self.Quit())
     self.mw.bind('<KeyPress-s>', lambda e: self.StepsInAnotherThread(1))

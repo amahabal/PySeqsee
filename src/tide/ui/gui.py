@@ -21,7 +21,7 @@ class GUI:
 
   geometry = '810x700-0+0'
 
-  def __init__(self, *, controller_class):
+  def __init__(self, *, controller_class, stopping_condition_fn=None):
     self.state_lock = threading.Lock()
     self.run_state_lock = threading.Lock()
     self.pause_stepping = False
@@ -29,7 +29,8 @@ class GUI:
     self.stepping_thread = None
 
     self.controller = controller_class(ui=self, state_lock=self.state_lock,
-                                       controller_depth=0)
+                                       controller_depth=0,
+                                       stopping_condition=stopping_condition_fn)
     self.mw = mw = Tk()
     mw.geometry(self.geometry)
 

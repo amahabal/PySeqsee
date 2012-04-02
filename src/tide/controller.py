@@ -3,7 +3,15 @@ from farg.coderack import Coderack
 from farg.util import Toss
 from farg.codelet import Codelet
 from farg.ltm.manager import LTMManager
-from farg.exceptions import FargException
+from farg.exceptions import StoppingConditionMet
+from third_party import gflags
+
+FLAGS = gflags.FLAGS
+
+gflags.DEFINE_integer('stopping_condition_granularity', 5,
+                      "How frequently the stopping condition is evaluated, as measured in"
+                      " number of codelets.")
+
 class Controller(object):
   """A controller is responsible for controlling the Coderack.
      The Coderack, in turn, by the action of codelets, marshals the various pieces of a space
@@ -31,7 +39,8 @@ class Controller(object):
   ltm_name = None
 
   def __init__(self, *, ui, state_lock=None, controller_depth=0,
-               parent_controller=None, workspace_arguments=None):
+               parent_controller=None, workspace_arguments=None,
+               stopping_condition=None):
     #: How deeply in the stack this controller is. The top-level controller has a depth
     #: of 0, Subspaces it spawns 1, and so forth.
     self.controller_depth = controller_depth
@@ -59,6 +68,8 @@ class Controller(object):
     #: answer questions that'd normally be answered by a user in a GUI). Any subspace
     #: spawned by this space shall inherit the ui.
     self.ui = ui
+    #: Stopping condition (for SxS and batch modes).
+    self.stopping_condition = stopping_condition
     # Add any routine codelets...
     self._AddRoutineCodelets(force=True)
 
@@ -87,6 +98,10 @@ class Controller(object):
     if not self.coderack.IsEmpty():
       codelet = self.coderack.GetCodelet()
       codelet.Run()
+    if self.stopping_condition:
+      if self.steps_taken % FLAGS.stopping_condition_granularity == 0:
+        if self.stopping_condition(self):
+          raise StoppingConditionMet()
 
   def RunUptoNSteps(self, n_steps):
     """Takes upto N steps. In these, it is possible that an answer is found and an exception
