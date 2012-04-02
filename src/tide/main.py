@@ -16,6 +16,9 @@ gflags.DEFINE_enum('debug', '', ('', 'debug', 'info', 'warn', 'error', 'fatal'),
                    'Show messages from what debug level and above?')
 gflags.DEFINE_string('stopping_condition', None, "Stopping condition, if any")
 
+gflags.DEFINE_string('input_spec_file', None,
+                     'Path specifying inputs over which to run bach processes.')
+
 class Main:
   run_mode_gui_class = gui.RunModeGUI
   run_mode_batch_class = batch.RunModeBatch
@@ -28,6 +31,8 @@ class Main:
   controller_class = Controller
 
   stopping_conditions = dict()
+
+  input_spec_reader_class = None
 
   def ProcessFlags(self):
     """Called after flags have been read in."""
@@ -49,14 +54,23 @@ class Main:
           ui_class=self.gui_class,
           stopping_condition_fn=self.stopping_condition_fn)
     elif run_mode_name == 'batch':
+      if not FLAGS.input_spec_file:
+        raise ValueError("Batch runmode requires an input file to be specified.")
+      input_spec = list(self.input_spec_reader_class().ReadFile(FLAGS.input_spec_file))
+      print(input_spec)
       self.run_mode = self.run_mode_batch_class(
           controller_class=self.controller_class,
           ui_class=self.batch_ui_class,
+          input_spec=input_spec,
           stopping_condition_fn=self.stopping_condition_fn)
     else:
+      if not FLAGS.input_spec_file:
+        raise ValueError("SxS runmode requires an input file to be specified.")
+      input_spec = list(self.input_spec_reader_class().ReadFile(FLAGS.input_spec_file))
       self.run_mode = self.run_mode_sxs_class(
           controller_class=self.controller_class,
           ui_class=self.batch_ui_class,
+          input_spec=input_spec,
           stopping_condition_fn=self.stopping_condition_fn)
 
     if FLAGS.debug:
