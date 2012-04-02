@@ -15,7 +15,11 @@ class FargException(Exception):
                                       traceback.format_stack(limit=8)))
 
 class StoppingConditionMet(Exception):
-  pass
+  def __init__(self, *, codelet_count):
+    self.codelet_count = codelet_count
+
+  def __str__(self):
+    return 'StoppingConditionMet after %d codelets' % self.codelet_count
 
 class AnswerFoundException(FargException):
   """Raised by a subspace when it believes that an answer has been found."""

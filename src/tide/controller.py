@@ -101,7 +101,7 @@ class Controller(object):
     if self.stopping_condition:
       if self.steps_taken % FLAGS.stopping_condition_granularity == 0:
         if self.stopping_condition(self):
-          raise StoppingConditionMet()
+          raise StoppingConditionMet(codelet_count=self.steps_taken)
 
   def RunUptoNSteps(self, n_steps):
     """Takes upto N steps. In these, it is possible that an answer is found and an exception
