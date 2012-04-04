@@ -6,6 +6,7 @@ from apps.seqsee.stopping_conditions import stopping_conditions_dict
 from third_party import gflags
 from tide.main import Main
 import sys
+from apps.seqsee.batch_ui import SeqseeBatchUI
 
 FLAGS = gflags.FLAGS
 
@@ -17,7 +18,9 @@ gflags.DEFINE_spaceseplist('unrevealed_terms', '',
 
 class SeqseeMain(Main):
   gui_class = SeqseeGUI
+  batch_ui_class = SeqseeBatchUI
   controller_class = SeqseeController
+
   stopping_conditions = stopping_conditions_dict
   input_spec_reader_class = ReadInputSpec
 

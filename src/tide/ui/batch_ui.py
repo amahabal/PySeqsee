@@ -1,3 +1,6 @@
+from third_party import gflags
+FLAGS = gflags.FLAGS
+
 class BatchUI:
   def __init__(self, *, controller_class, stopping_condition_fn=None):
     self.state_lock = None
@@ -17,4 +20,4 @@ class BatchUI:
     pass
 
   def Run(self):
-    self.controller.RunUptoNSteps(1000)
+    self.controller.RunUptoNSteps(FLAGS.max_steps)

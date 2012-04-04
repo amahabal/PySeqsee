@@ -4,17 +4,14 @@ from third_party import gflags
 FLAGS = gflags.FLAGS
 
 class RunModeBatch(RunModeNonInteractive):
-  def __init__(self, *, controller_class, ui_class, stopping_condition_fn=None,
-               input_spec):
+  def __init__(self, *, controller_class, input_spec):
     print("Initialized Batch run mode")
     self.input_spec = input_spec
-    self.ui = ui_class(controller_class=controller_class,
-                       stopping_condition_fn=stopping_condition_fn)
 
   def GetSubprocessArguments(self, one_input_spec_arguments):
     arguments = dict(stopping_condition=FLAGS.stopping_condition,
                      stopping_condition_granularity=FLAGS.stopping_condition_granularity,
-                     run_mode="single_run",
+                     run_mode="single",
                      )
     arguments.update(one_input_spec_arguments)
     return arguments
@@ -25,5 +22,6 @@ class RunModeBatch(RunModeNonInteractive):
       spec = one_input_spec['spec']
       print("======%s======" % name)
       arguments = self.GetSubprocessArguments(spec)
-      self.DoSingleRun(arguments)
-    self.ui.Run()
+
+      for _idx in range(FLAGS.num_iterations):
+        self.DoSingleRun(arguments)

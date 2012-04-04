@@ -1,6 +1,6 @@
 """The Main class is the entry point into an app.
 """
-from tide.run_mode import batch, gui, sxs
+from tide.run_mode import batch, gui, single, sxs
 from third_party import gflags
 import logging
 import sys
@@ -18,11 +18,16 @@ gflags.DEFINE_string('stopping_condition', None, "Stopping condition, if any")
 
 gflags.DEFINE_string('input_spec_file', None,
                      'Path specifying inputs over which to run bach processes.')
+gflags.DEFINE_integer('num_iterations', 10,
+                      "In batch and SxS mode, number of iterations to run", 1)
+gflags.DEFINE_integer('max_steps', 1000,
+                      "In batch and SxS mode, number of steps per run", 1)
 
 class Main:
   run_mode_gui_class = gui.RunModeGUI
   run_mode_batch_class = batch.RunModeBatch
   run_mode_sxs_class = sxs.RunModeSxS
+  run_mode_single_run_class = single.RunModeSingle
 
   gui_class = GUI
   batch_ui_class = BatchUI
@@ -42,14 +47,14 @@ class Main:
       if stopping_condition:
         raise ValueError("Stopping condition does not make sense with GUI.")
     else:  # Verify that the stopping condition's name is defined.
-      if FLAGS.stopping_condition:
+      if FLAGS.stopping_condition and FLAGS.stopping_condition != "None":
         if FLAGS.stopping_condition not in self.stopping_conditions:
           raise ValueError('Unknown stopping condition %s. Use one of %s' %
                            (FLAGS.stopping_condition, list(self.stopping_conditions.keys())))
         else:
           self.stopping_condition_fn = self.stopping_conditions[FLAGS.stopping_condition]
       else:
-        self.stopping_condition_fn = None
+        self.stopping_condition_fn = ''
 
   def CreateRunModeInstance(self):
     run_mode_name = FLAGS.run_mode
