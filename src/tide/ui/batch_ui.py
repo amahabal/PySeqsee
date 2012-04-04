@@ -1,5 +1,5 @@
 class BatchUI:
-  def __init__(self, *, controller_class, stopping_condition_fn):
+  def __init__(self, *, controller_class, stopping_condition_fn=None):
     self.state_lock = None
     self.pause_stepping = False
     self.quitting = False
