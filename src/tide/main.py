@@ -10,7 +10,7 @@ from tide.ui.batch_ui import BatchUI
 FLAGS = gflags.FLAGS
 
 gflags.DEFINE_enum('run_mode', 'gui',
-                   ('gui', 'batch', 'sxs'),
+                   ('gui', 'batch', 'sxs', 'single'),
                    'Mode to run in.')
 gflags.DEFINE_enum('debug', '', ('', 'debug', 'info', 'warn', 'error', 'fatal'),
                    'Show messages from what debug level and above?')
@@ -34,44 +34,54 @@ class Main:
 
   input_spec_reader_class = None
 
+  def VerifyStoppingConditionSanity(self):
+    run_mode_name = FLAGS.run_mode
+    stopping_condition = FLAGS.stopping_condition
+    if run_mode_name == 'gui':
+      # There should be no stopping condition.
+      if stopping_condition:
+        raise ValueError("Stopping condition does not make sense with GUI.")
+    else:  # Verify that the stopping condition's name is defined.
+      if FLAGS.stopping_condition:
+        if FLAGS.stopping_condition not in self.stopping_conditions:
+          raise ValueError('Unknown stopping condition %s. Use one of %s' %
+                           (FLAGS.stopping_condition, list(self.stopping_conditions.keys())))
+        else:
+          self.stopping_condition_fn = self.stopping_conditions[FLAGS.stopping_condition]
+      else:
+        self.stopping_condition_fn = None
+
+  def CreateRunModeInstance(self):
+    run_mode_name = FLAGS.run_mode
+    if run_mode_name == 'gui':
+      return self.run_mode_gui_class(controller_class=self.controller_class,
+                                     ui_class=self.gui_class)
+    elif run_mode_name == 'single':
+      return self.run_mode_single_run_class(controller_class=self.controller_class,
+                                            ui_class=self.batch_ui_class,
+                                            stopping_condition_fn=self.stopping_condition_fn)
+    else:
+      if not FLAGS.input_spec_file:
+        error_msg = ('Runmode --run_mode=%s requires --input_spec_file to be specified' %
+                     run_mode_name)
+        raise ValueError(error_msg)
+      input_spec = list(self.input_spec_reader_class().ReadFile(FLAGS.input_spec_file))
+      print(input_spec)
+      if run_mode_name == 'batch':
+        return self.run_mode_batch_class(controller_class=self.controller_class,
+                                         input_spec=input_spec)
+      elif run_mode_name == 'sxs':
+        return self.run_mode_sxs_class(controller_class=self.controller_class,
+                                       input_spec=input_spec)
+      else:
+        raise ValueError("Unrecognized run_mode %s" % run_mode_name)
+
   def ProcessFlags(self):
     """Called after flags have been read in."""
     self.ProcessCustomFlags()
 
-    if FLAGS.stopping_condition:
-      if FLAGS.stopping_condition in self.stopping_conditions:
-        self.stopping_condition_fn = self.stopping_conditions[FLAGS.stopping_condition]
-      else:
-        raise ValueError('Unknown stopping condition %s. Use one of %s' %
-                         (FLAGS.stopping_condition, list(self.stopping_conditions.keys())))
-    else:
-      self.stopping_condition_fn = None
-
-    run_mode_name = FLAGS.run_mode
-    if run_mode_name == 'gui':
-      self.run_mode = self.run_mode_gui_class(
-          controller_class=self.controller_class,
-          ui_class=self.gui_class,
-          stopping_condition_fn=self.stopping_condition_fn)
-    elif run_mode_name == 'batch':
-      if not FLAGS.input_spec_file:
-        raise ValueError("Batch runmode requires an input file to be specified.")
-      input_spec = list(self.input_spec_reader_class().ReadFile(FLAGS.input_spec_file))
-      print(input_spec)
-      self.run_mode = self.run_mode_batch_class(
-          controller_class=self.controller_class,
-          ui_class=self.batch_ui_class,
-          input_spec=input_spec,
-          stopping_condition_fn=self.stopping_condition_fn)
-    else:
-      if not FLAGS.input_spec_file:
-        raise ValueError("SxS runmode requires an input file to be specified.")
-      input_spec = list(self.input_spec_reader_class().ReadFile(FLAGS.input_spec_file))
-      self.run_mode = self.run_mode_sxs_class(
-          controller_class=self.controller_class,
-          ui_class=self.batch_ui_class,
-          input_spec=input_spec,
-          stopping_condition_fn=self.stopping_condition_fn)
+    self.VerifyStoppingConditionSanity()
+    self.run_mode = self.CreateRunModeInstance()
 
     if FLAGS.debug:
       numeric_level = getattr(logging, FLAGS.debug.upper(), None)
