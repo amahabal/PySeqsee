@@ -14,23 +14,29 @@ class FargException(Exception):
     self.stack_trace = list(takewhile((lambda x: x.find('FargException.__init__') == -1),
                                       traceback.format_stack(limit=8)))
 
-class StoppingConditionMet(Exception):
+class BatchModeStopException(Exception):
+  """Base class of ways of stopping during batch mode."""
   def __init__(self, *, codelet_count):
+    Exception.__init__(self)
     self.codelet_count = codelet_count
 
+class StoppingConditionMet(BatchModeStopException):
   def __str__(self):
     return 'StoppingConditionMet after %d codelets' % self.codelet_count
 
-class AnswerFoundException(FargException):
+class SuccessfulCompletion(BatchModeStopException):
+  pass
+
+class AnswerFoundException(BatchModeStopException):
   """Raised by a subspace when it believes that an answer has been found."""
-  def __init__(self, answer):
-    FargException.__init__(self)
+  def __init__(self, answer, *, codelet_count):
+    BatchModeStopException.__init__(self, codelet_count=codelet_count)
     self.answer = answer
 
-class NoAnswerException(FargException):
+class NoAnswerException(BatchModeStopException):
   """Raised by a subspace when it is realized that no answer is forthcoming."""
-  def __init__(self):
-    FargException.__init__(self)
+  def __init__(self, *, codelet_count):
+    BatchModeStopException.__init__(self, codelet_count=codelet_count)
 
 class ConflictingGroupException(FargException):
   """If an attempt is made to add a group to the workspace that conflicts some existing

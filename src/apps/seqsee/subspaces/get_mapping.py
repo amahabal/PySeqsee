@@ -25,7 +25,7 @@ class CF_NumericCase(CodeletFamily):
       if diff_string:
         return NumericMapping(name=diff_string, category=Number)
       else:
-        raise NoAnswerException()
+        raise NoAnswerException(codelet_count=controller.steps_taken)
     controller.AddCodelet(family=CF_ChooseCategory, urgency=100)
 
 class CF_ChooseCategory(CodeletFamily):
@@ -42,7 +42,7 @@ class CF_ChooseCategory(CodeletFamily):
         cat = WeightedChoice((x, 1) for x in common_categories)
         ws.category = cat
       else:
-        raise NoAnswerException()
+        raise NoAnswerException(codelet_count=controller.steps_taken)
     controller.AddCodelet(family=CF_GetBindings, urgency=100)
 
 class CF_GetBindings(CodeletFamily):
@@ -54,11 +54,11 @@ class CF_GetBindings(CodeletFamily):
     category = ws.category
     b1 = v1.GetBindingsForCategory(category)
     if not b1:
-      raise NoAnswerException()
+      raise NoAnswerException(codelet_count=controller.steps_taken)
     ws.b1 = b1
     b2 = v2.GetBindingsForCategory(category)
     if not b2:
-      raise NoAnswerException()
+      raise NoAnswerException(codelet_count=controller.steps_taken)
     ws.b2 = b2
     ws.attribute_explanations = {}
     controller.AddCodelet(family=CF_ExplainValues, urgency=100)
@@ -103,7 +103,7 @@ class CF_ExplainValues(CodeletFamily):
           # We have an explanation...
           full_mapping = CF_ExplainValues.CreateStructuralMappingFromExplanation(
               ws.category, attribute_explanations)
-          raise AnswerFoundException(full_mapping)
+          raise AnswerFoundException(full_mapping, codelet_count=controller.steps_taken)
     controller.AddCodelet(family=CF_ExplainValues, urgency=100)
 
 
@@ -122,7 +122,7 @@ class SubspaceFindMapping(Subspace):
     else:
       mapping = GetNaiveMapping(arguments['left'], arguments['right'])
     if mapping:
-      raise AnswerFoundException(mapping)
+      raise AnswerFoundException(mapping, codelet_count=0)
 
   def InitializeCoderack(self):
     self.controller.AddCodelet(family=CF_NumericCase, urgency=100)

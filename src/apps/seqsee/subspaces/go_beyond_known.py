@@ -9,7 +9,7 @@ class CF_InitialEvaluation(CodeletFamily):
     # For now, I'll require the basis of extension to be flush left.
     # QUALITY TODO(Feb 20, 2012): This can be improved vastly.
     if controller.workspace.basis_of_extension.start_pos != 0:
-      raise NoAnswerException()
+      raise NoAnswerException(codelet_count=controller.steps_taken)
     # So we'll pop the question!
     my_ws = controller.workspace
     seqsee_ws = controller.parent_controller.workspace
@@ -27,7 +27,7 @@ class CF_AskQuestion(CodeletFamily):
     if controller.ui.AskQuestion(question):
       unknown_terms = workspace.unknown_terms
       workspace.seqsee_ws.InsertElements(*unknown_terms)
-      raise AnswerFoundException(True)
+      raise AnswerFoundException(True, codelet_count=controller.steps_taken)
 
 class SubspaceGoBeyondKnown(Subspace):
   from tide.controller import Controller

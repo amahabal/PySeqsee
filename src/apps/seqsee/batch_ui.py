@@ -1,7 +1,7 @@
 from tide.ui.batch_ui import BatchUI
 from apps.seqsee.question import AreTheseTheNextTermsQuestion
 from third_party import gflags
-from farg.exceptions import FargException
+from farg.exceptions import SuccessfulCompletion
 import sys
 
 FLAGS = gflags.FLAGS
@@ -18,7 +18,7 @@ class SeqseeBatchUI(BatchUI):
       expected_total_terms = current_known_terms + list(question.terms)
       if len(expected_total_terms) > len(total_known_terms):
         if (HasAsPrefix(expected_total_terms, total_known_terms)):
-          raise FargException("RunOutOfKnownFutureTerms")
+          raise SuccessfulCompletion(codelet_count=ui.controller.steps_taken)
         else:
           return False
       else:

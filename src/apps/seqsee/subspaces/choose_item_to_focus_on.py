@@ -17,4 +17,5 @@ class SubspaceSelectObjectToFocusOn(Subspace):
   @staticmethod
   def QuickReconn(**arguments):
     parent_ws = arguments['parent_controller'].workspace
-    raise AnswerFoundException(WeightedChoice(ThingsToChooseFrom(parent_ws)))
+    raise AnswerFoundException(WeightedChoice(ThingsToChooseFrom(parent_ws)),
+                               codelet_count=0)
