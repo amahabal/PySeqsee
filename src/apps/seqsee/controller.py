@@ -42,8 +42,6 @@ class SeqseeController(Controller):
   ltm_name = kLTMName
 
   def __init__(self, **args):
-    print("starting")
     Controller.__init__(self, **args)
     self.workspace.InsertElements(*FLAGS.sequence)
-    print("Inserted elements: ", FLAGS.sequence)
     self.unrevealed_terms = FLAGS.unrevealed_terms

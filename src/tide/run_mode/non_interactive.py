@@ -8,5 +8,4 @@ class RunModeNonInteractive(RunMode):
     arguments.append(sys.argv[0])  # The script used to run this mode (e.g., run_seqsee.py)
 
     arguments.extend('--%s=%s' % (str(k), str(v)) for k, v in cmdline_arguments_dict.items())
-    print('cmdline_arguments=', arguments)
-    print(subprocess.check_output(arguments))
+    return subprocess.check_output(arguments)

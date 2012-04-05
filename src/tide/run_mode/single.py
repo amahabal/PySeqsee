@@ -1,7 +1,7 @@
 from tide.run_mode.non_interactive import RunModeNonInteractive
 from third_party import gflags
 from farg.exceptions import BatchModeStopException
-from pkg_resources import StringIO
+from io import StringIO
 import sys
 
 FLAGS = gflags.FLAGS

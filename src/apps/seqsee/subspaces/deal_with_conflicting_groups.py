@@ -24,7 +24,7 @@ class CF_FightIncumbents(CodeletFamily):
       if Toss(probability_of_deletion):
         parent_ws.DeleteGroup(incumbent)
       else:
-        raise NoAnswerException()
+        raise NoAnswerException(codelet_count=controller.steps_taken)
     # Okay, I suppose we can plonk this in.
     parent_ws._PlonkIntoPlace(workspace.new_group)
 

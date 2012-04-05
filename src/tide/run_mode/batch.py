@@ -12,6 +12,7 @@ class RunModeBatch(RunModeNonInteractive):
     arguments = dict(stopping_condition=FLAGS.stopping_condition,
                      stopping_condition_granularity=FLAGS.stopping_condition_granularity,
                      run_mode="single",
+                     max_steps=FLAGS.max_steps,
                      )
     arguments.update(one_input_spec_arguments)
     return arguments
@@ -24,4 +25,5 @@ class RunModeBatch(RunModeNonInteractive):
       arguments = self.GetSubprocessArguments(spec)
 
       for _idx in range(FLAGS.num_iterations):
-        self.DoSingleRun(arguments)
+        result = self.DoSingleRun(arguments)
+        print (result)

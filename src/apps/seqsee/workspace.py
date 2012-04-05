@@ -74,8 +74,8 @@ class Workspace(object):
     """
     conflicting_groups = tuple(self.GetConflictingGroups(group))
     if conflicting_groups:
-      logger.warning('Conflicts while adding %s: %s', group,
-                      '; '.join(str(x) for x in conflicting_groups))
+      logger.info('Conflicts while adding %s: %s', group,
+                  '; '.join(str(x) for x in conflicting_groups))
       raise ConflictingGroupException(conflicting_groups=conflicting_groups)
     else:
       return self._PlonkIntoPlace(group)
