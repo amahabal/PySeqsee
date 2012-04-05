@@ -24,7 +24,7 @@ class RunModeSingle(RunModeNonInteractive):
     try:
       self.ui.Run()
     except BatchModeStopException as e:
-      classname = str(e.__class__).split('.')[-1][:-1]
+      classname = str(e.__class__).split('.')[-1][:-2]
       output_status = '%s %d' % (classname, e.codelet_count)
     else:
       output_status = 'MaxCodeletsReached'

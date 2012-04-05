@@ -1,5 +1,6 @@
 from tide.run_mode.non_interactive import RunModeNonInteractive
 from third_party import gflags
+from tide.run_stats import RunStats
 
 FLAGS = gflags.FLAGS
 
@@ -24,6 +25,10 @@ class RunModeBatch(RunModeNonInteractive):
       print("======%s======" % name)
       arguments = self.GetSubprocessArguments(spec)
 
+      stats = RunStats()
+
       for _idx in range(FLAGS.num_iterations):
         result = self.DoSingleRun(arguments)
-        print (result)
+        stats.AddData(result)
+
+      print(str(stats))
