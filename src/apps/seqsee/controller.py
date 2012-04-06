@@ -6,7 +6,13 @@ from apps.seqsee.codelet_families.all import CF_RemoveSpuriousRelations
 
 from third_party import gflags
 from tide.controller import Controller
+import sys
 FLAGS = gflags.FLAGS
+
+gflags.DEFINE_float('seqsee_remove_spurious_relation_probability',
+                    0.1,
+                    'Probability of adding a codelet to clean relations. '
+                    'This is a useless flag to test the SxS system. Should be removed')
 
 kLTMName = 'seqsee.main'
 
@@ -37,11 +43,15 @@ LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
 
 class SeqseeController(Controller):
   routine_codelets_to_add = ((CF_ReadFromWS, 30, 0.3),
-                             (CF_RemoveSpuriousRelations, 30, 0.1))
+                             (CF_RemoveSpuriousRelations, 10000,
+                              FLAGS.seqsee_remove_spurious_relation_probability))
   workspace_class = Workspace
   ltm_name = kLTMName
 
   def __init__(self, **args):
     Controller.__init__(self, **args)
+    self.routine_codelets_to_add = ((CF_ReadFromWS, 30, 0.3),
+                                    (CF_RemoveSpuriousRelations, 30,
+                                     FLAGS.seqsee_remove_spurious_relation_probability))
     self.workspace.InsertElements(*FLAGS.sequence)
     self.unrevealed_terms = FLAGS.unrevealed_terms
