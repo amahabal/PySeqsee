@@ -1,4 +1,10 @@
+import colorsys
 import random
+
+def HSVToColorString(hue, saturation, value):
+  """Convert from HSV to RGB color space."""
+  rgb = ('%02x' % (255.0 * x) for x in colorsys.hsv_to_rgb(hue, saturation, value))
+  return '#' + ''.join(rgb)
 
 def Toss(x):
   """x is a number between 0 and 1. Returns true with probability x."""
