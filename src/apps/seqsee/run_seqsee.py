@@ -1,12 +1,12 @@
 #!/usr/bin/python
+from apps.seqsee.batch_ui import SeqseeBatchUI
 from apps.seqsee.controller import SeqseeController
 from apps.seqsee.gui.gui import SeqseeGUI
 from apps.seqsee.read_input_spec import ReadInputSpec
 from apps.seqsee.stopping_conditions import stopping_conditions_dict
+from farg.main import Main
 from third_party import gflags
-from tide.main import Main
 import sys
-from apps.seqsee.batch_ui import SeqseeBatchUI
 
 FLAGS = gflags.FLAGS
 

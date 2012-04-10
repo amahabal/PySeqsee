@@ -1,4 +1,4 @@
-from tide.main import Main
+from farg.main import Main
 from third_party import gflags
 import sys
 
