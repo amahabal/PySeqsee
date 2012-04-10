@@ -27,7 +27,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
-    <link rel="next" title="Controller" href="controller.html" />
+    <link rel="next" title="Stream of Thought" href="stream.html" />
     <link rel="prev" title="Coderack" href="coderack.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="controller.html" title="Controller"
+          <a href="stream.html" title="Stream of Thought"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="coderack.html" title="Coderack"
@@ -65,7 +65,7 @@
 </div>
 <dl class="class">
 <dt id="farg.codelet.Codelet">
-<em class="property">class </em><tt class="descclassname">farg.codelet.</tt><tt class="descname">Codelet</tt><big>(</big><em>family</em>, <em>controller</em>, <em>urgency</em>, <em>**args</em><big>)</big><a class="reference internal" href="../_modules/farg/codelet.html#Codelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.codelet.Codelet" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">farg.codelet.</tt><tt class="descname">Codelet</tt><big>(</big><em>family</em>, <em>controller</em>, <em>urgency</em>, <em>arguments_dict=None</em><big>)</big><a class="reference internal" href="../_modules/farg/codelet.html#Codelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.codelet.Codelet" title="Permalink to this definition">¶</a></dt>
 <dd><p>A codelet is a unit of action in Seqsee. A codelet belongs to a codelet family which
 defines what it does. The codelet has an urgency that controls how likely the codelet
 is to run (based on the urgency of other codelets waiting to run), and it has a
@@ -96,15 +96,15 @@ family.</p>
 <p>Codelet family names typically start with CF.</p>
 <p>A codelet family subclasses this class and looks like this:</p>
 <div class="highlight-python"><pre>class CF_Foo(CodeletFamily):
-  "Documentation describes what it does, what codelets it may create, what things
+  &quot;Documentation describes what it does, what codelets it may create, what things
    it may cause to focus on, and any subspace it may be a part of.
-  "
+  &quot;
   
   @classmethod
   def Run(self, controller, other_arg1, other_arg2):
-    "Run may take extra arguments (such as other_arg1 above). The extra arguments
+    &quot;Run may take extra arguments (such as other_arg1 above). The extra arguments
      will be passed by name only. These are set in the constructor of the codelet.
-    "
+    &quot;
     DoSomething()</pre>
 </div>
 </dd></dl>
@@ -121,8 +121,8 @@ family.</p>
   <p class="topless"><a href="coderack.html"
                         title="previous chapter">Coderack</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="controller.html"
-                        title="next chapter">Controller</a></p>
+  <p class="topless"><a href="stream.html"
+                        title="next chapter">Stream of Thought</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/developer/codelets.txt"
@@ -155,7 +155,7 @@ family.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="controller.html" title="Controller"
+          <a href="stream.html" title="Stream of Thought"
              >next</a> |</li>
         <li class="right" >
           <a href="coderack.html" title="Coderack"
@@ -165,8 +165,8 @@ family.</p>
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2011, Abhijit Mahabal.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

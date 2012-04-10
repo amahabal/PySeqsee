@@ -56,7 +56,7 @@
 <span class="c">#: [&#39;0.003&#39;, &#39;0.018&#39;, &#39;0.043&#39;, &#39;0.093&#39;, # For 0, 10, 20, 30</span>
 <span class="c">#:  &#39;0.220&#39;, &#39;0.562&#39;, &#39;0.811&#39;, &#39;0.895&#39;, # For 40, 50, 60, 70</span>
 <span class="c">#:  &#39;0.932&#39;, &#39;0.952&#39;, &#39;0.964&#39;]  # For 80, 90, 100</span>
-<span class="n">_raw_activation_to_real_activation</span> <span class="o">=</span> <span class="p">[</span>
+<span class="n">_RAW_ACTIVATION_TO_REAL_ACTIVATION</span> <span class="o">=</span> <span class="p">[</span>
     <span class="mf">0.4815</span> <span class="o">+</span> <span class="mf">0.342</span> <span class="o">*</span> <span class="n">math</span><span class="o">.</span><span class="n">atan2</span><span class="p">(</span><span class="mi">12</span> <span class="o">*</span> <span class="p">(</span><span class="mf">0.01</span> <span class="o">*</span> <span class="n">x</span> <span class="o">-</span> <span class="mf">0.5</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">203</span><span class="p">)]</span>
 
@@ -95,7 +95,7 @@
 <span class="sd">      </span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">content</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing_edges</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_edges</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="c">#: An easy-to-update measure of activation. The real activation is a continuous function</span>
     <span class="c">#: of this. Starts out at (and never falls below) 0.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">=</span> <span class="mi">0</span>
@@ -107,6 +107,9 @@
     <span class="c">#: When was activation last updated? This is used so that activation can be calculated</span>
     <span class="c">#: only when needed (not whenever decays happen, for instance!)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_time_of_activation_update</span> <span class="o">=</span> <span class="mi">0</span>
+
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;Node(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">()</span>
 
   <span class="k">def</span> <span class="nf">__getstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;This saves the class name of content and (mangled) __dict__, to be reconstructed</span>
@@ -125,7 +128,7 @@
 <span class="sd">    classes get pickled is not an option.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">content</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">content</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing_edges</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth_reciprocal</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">content</span><span class="o">.</span><span class="n">__class__</span><span class="p">,</span> <span class="n">content</span><span class="o">.</span><span class="n">__dict__</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_edges</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth_reciprocal</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">__setstate__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;This vivifies the object, using Create() and unmangling any values: that is, values </span>
@@ -133,8 +136,8 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">clsname</span><span class="p">,</span> <span class="n">instance_dict</span><span class="p">,</span> <span class="n">outgoing_edges</span><span class="p">,</span> <span class="n">depth_reciprocal</span> <span class="o">=</span> <span class="n">state</span>
     <span class="n">LTMNode</span><span class="o">.</span><span class="n">_Unmangle</span><span class="p">(</span><span class="n">instance_dict</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">clsname</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="o">**</span><span class="n">instance_dict</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing_edges</span> <span class="o">=</span> <span class="n">outgoing_edges</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">content</span> <span class="o">=</span> <span class="n">clsname</span><span class="p">(</span><span class="o">**</span><span class="n">instance_dict</span><span class="p">)</span>  <span class="c"># Fair use of ** magic. pylint: disable=W0142</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_edges</span> <span class="o">=</span> <span class="n">outgoing_edges</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_time_of_activation_update</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">depth_reciprocal</span> <span class="o">=</span> <span class="n">depth_reciprocal</span>
@@ -142,9 +145,9 @@
   <span class="nd">@staticmethod</span>
   <span class="k">def</span> <span class="nf">_Unmangle</span><span class="p">(</span><span class="n">content_dict</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Replaces values that are nodes with contents of those nodes.&quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">content_dict</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
-      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">LTMNode</span><span class="p">):</span>
-        <span class="n">content_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">content</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">content_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">LTMNode</span><span class="p">):</span>
+        <span class="n">content_dict</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">content</span>
 
 <div class="viewcode-block" id="LTMNode.IncrementDepth"><a class="viewcode-back" href="../../../developer/ltm.html#farg.ltm.node.LTMNode.IncrementDepth">[docs]</a>  <span class="k">def</span> <span class="nf">IncrementDepth</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Increment depth of node by 1.&quot;&quot;&quot;</span>
@@ -160,7 +163,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_time_of_activation_update</span> <span class="o">=</span> <span class="n">current_time</span>
 
-  <span class="k">def</span> <span class="nf">_SpikeNonSpreading</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>
+<div class="viewcode-block" id="LTMNode.SpikeNonSpreading"><a class="viewcode-back" href="../../../developer/ltm.html#farg.ltm.node.LTMNode.SpikeNonSpreading">[docs]</a>  <span class="k">def</span> <span class="nf">SpikeNonSpreading</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Update activation by this amount (after processing any pending decays, but do not</span>
 <span class="sd">       propagate further.)&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_ProcessDecays</span><span class="p">(</span><span class="n">current_time</span><span class="p">)</span>
@@ -168,17 +171,17 @@
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">IncrementDepth</span><span class="p">()</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">=</span> <span class="mi">90</span>
-
+</div>
 <div class="viewcode-block" id="LTMNode.Spike"><a class="viewcode-back" href="../../../developer/ltm.html#farg.ltm.node.LTMNode.Spike">[docs]</a>  <span class="k">def</span> <span class="nf">Spike</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Update activation by this amount (after processing any pending decays), and also </span>
 <span class="sd">       spread an appropriate component to nearby nodes.</span>
 <span class="sd">    </span>
 <span class="sd">    .. todo:: Should spread to depth 2. Not done correctly. Nor is the amount spread accurate.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">_SpikeNonSpreading</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">)</span>
-    <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing_edges</span><span class="p">:</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">SpikeNonSpreading</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_edges</span><span class="p">:</span>
       <span class="n">to_node</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">to_node</span>
-      <span class="n">to_node</span><span class="o">.</span><span class="n">_SpikeNonSpreading</span><span class="p">(</span><span class="mf">0.25</span> <span class="o">*</span> <span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">)</span>
+      <span class="n">to_node</span><span class="o">.</span><span class="n">SpikeNonSpreading</span><span class="p">(</span><span class="mf">0.25</span> <span class="o">*</span> <span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetActivation</span><span class="p">(</span><span class="n">current_time</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="LTMNode.GetRawActivation"><a class="viewcode-back" href="../../../developer/ltm.html#farg.ltm.node.LTMNode.GetRawActivation">[docs]</a>  <span class="k">def</span> <span class="nf">GetRawActivation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>
@@ -191,19 +194,25 @@
 </div>
 <div class="viewcode-block" id="LTMNode.GetActivation"><a class="viewcode-back" href="../../../developer/ltm.html#farg.ltm.node.LTMNode.GetActivation">[docs]</a>  <span class="k">def</span> <span class="nf">GetActivation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get activation. This is f(raw_activation), where f is a predefined mapping.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">_raw_activation_to_real_activation</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetRawActivation</span><span class="p">(</span><span class="n">current_time</span><span class="p">))]</span>
+    <span class="k">return</span> <span class="n">_RAW_ACTIVATION_TO_REAL_ACTIVATION</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetRawActivation</span><span class="p">(</span><span class="n">current_time</span><span class="p">))]</span>
 </div>
 <div class="viewcode-block" id="LTMNode.GetOutgoingEdges"><a class="viewcode-back" href="../../../developer/ltm.html#farg.ltm.node.LTMNode.GetOutgoingEdges">[docs]</a>  <span class="k">def</span> <span class="nf">GetOutgoingEdges</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get outgoing edges from the node.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing_edges</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_edges</span>
 </div>
 <div class="viewcode-block" id="LTMNode.GetOutgoingEdgesOfType"><a class="viewcode-back" href="../../../developer/ltm.html#farg.ltm.node.LTMNode.GetOutgoingEdgesOfType">[docs]</a>  <span class="k">def</span> <span class="nf">GetOutgoingEdgesOfType</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">edge_type</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get outgoing edges of particular type.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">edge</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_outgoing_edges</span> <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">edge_type</span> <span class="o">==</span> <span class="n">edge_type</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">(</span><span class="n">edge</span> <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_edges</span> <span class="k">if</span> <span class="n">edge</span><span class="o">.</span><span class="n">edge_type</span> <span class="o">==</span> <span class="n">edge_type</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="LTMNode.GetOutgoingEdgesOfTypeRelated"><a class="viewcode-back" href="../../../developer/ltm.html#farg.ltm.node.LTMNode.GetOutgoingEdgesOfTypeRelated">[docs]</a>  <span class="k">def</span> <span class="nf">GetOutgoingEdgesOfTypeRelated</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get outgoing edges of type &#39;related&#39;.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetOutgoingEdgesOfType</span><span class="p">(</span><span class="s">&#39;related&#39;</span><span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">farg.ltm.edge</span> <span class="kn">import</span> <span class="n">LTMEdge</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetOutgoingEdgesOfType</span><span class="p">(</span><span class="n">LTMEdge</span><span class="o">.</span><span class="n">LTM_EDGE_TYPE_RELATED</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="LTMNode.GetOutgoingEdgesOfTypeIsa"><a class="viewcode-back" href="../../../developer/ltm.html#farg.ltm.node.LTMNode.GetOutgoingEdgesOfTypeIsa">[docs]</a>  <span class="k">def</span> <span class="nf">GetOutgoingEdgesOfTypeIsa</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get outgoing edges of type &#39;isa&#39;.&quot;&quot;&quot;</span>
+    <span class="kn">from</span> <span class="nn">farg.ltm.edge</span> <span class="kn">import</span> <span class="n">LTMEdge</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetOutgoingEdgesOfType</span><span class="p">(</span><span class="n">LTMEdge</span><span class="o">.</span><span class="n">LTM_EDGE_TYPE_ISA</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="LTMNode.GetXDot"><a class="viewcode-back" href="../../../developer/ltm.html#farg.ltm.node.LTMNode.GetXDot">[docs]</a>  <span class="k">def</span> <span class="nf">GetXDot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">idx</span><span class="p">,</span> <span class="n">is_center</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="n">label</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">()</span>
@@ -252,8 +261,8 @@
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2011, Abhijit Mahabal.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

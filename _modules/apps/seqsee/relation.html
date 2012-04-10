@@ -81,7 +81,10 @@
 <div class="viewcode-block" id="Relation.GetAffordances"><a class="viewcode-back" href="../../../seqsee/relations.html#apps.seqsee.relation.Relation.GetAffordances">[docs]</a>  <span class="k">def</span> <span class="nf">GetAffordances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
     <span class="c"># TODO(# --- Jan 3, 2012): Too eager, tone this down later.</span>
     <span class="kn">from</span> <span class="nn">apps.seqsee.codelet_families.all</span> <span class="kn">import</span> <span class="n">CF_GroupFromRelation</span>
-    <span class="k">return</span> <span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">CF_GroupFromRelation</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="bp">self</span><span class="p">),)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">AreEndsContiguous</span><span class="p">():</span>
+      <span class="k">return</span> <span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">CF_GroupFromRelation</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="bp">self</span><span class="p">),)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Relation.GetSimilarityAffordances"><a class="viewcode-back" href="../../../seqsee/relations.html#apps.seqsee.relation.Relation.GetSimilarityAffordances">[docs]</a>  <span class="k">def</span> <span class="nf">GetSimilarityAffordances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">focusable</span><span class="p">,</span> <span class="n">other_fringe</span><span class="p">,</span> <span class="n">my_fringe</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">()</span>
@@ -123,8 +126,8 @@
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2011, Abhijit Mahabal.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

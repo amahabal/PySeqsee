@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The User Interface &mdash; PySeqsee 0.1 documentation</title>
+    <title>Coderack &mdash; PySeqsee 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -27,8 +27,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
     <link rel="up" title="The Core API" href="api_index.html" />
-    <link rel="next" title="Controller" href="controller.html" />
-    <link rel="prev" title="Run Mode" href="run_mode.html" /> 
+    <link rel="next" title="Codelet" href="codelets.html" />
+    <link rel="prev" title="Stream of Thought" href="stream.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,10 +41,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="controller.html" title="Controller"
+          <a href="codelets.html" title="Codelet"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="run_mode.html" title="Run Mode"
+          <a href="stream.html" title="Stream of Thought"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
           <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
@@ -56,45 +56,50 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="the-user-interface">
-<h1>The User Interface<a class="headerlink" href="#the-user-interface" title="Permalink to this headline">¶</a></h1>
-<p>The base class of the user interface is <em>farg/ui</em>. Subclasses should support the
-following.</p>
-<blockquote>
-<div><ul>
-<li><p class="first">It should hold a controller object:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">controller</span>  <span class="c"># Holds the controller object.</span>
+  <div class="section" id="coderack">
+<h1>Coderack<a class="headerlink" href="#coderack" title="Permalink to this headline">¶</a></h1>
+<p>The Coderack in Seqsee is like a todo list.  It consists of promising
+actions to take next, each associated with a number indicating the degree
+of promise.  Seqsee chooses an item and runs it, and in that process of
+running it may come up with other promising actions that are then added to
+the Coderack.</p>
+<p>The probability of choosing an item depends on its promise.  Higher
+promise actions are likelier to be chosen, but it is still possible for
+ignore promise actions to occasionally get chosen.</p>
+<p>Each action is called a codelet.  As that term suggests, the action is a
+tiny and targeted.  In fact, Seqsee requires several dozens of codelets to
+understand even simple sequences.</p>
+<p>Just as the contents of a person&#8217;s to do list can strongly suggest their
+actions over the next few hours, the Coderack&#8217;s contents indicate the
+directions Seqsee will pursue in the near future.</p>
+<ul>
+<li><p class="first">To create, specify the maximum number of codelets it can hold:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cr</span> <span class="o">=</span> <span class="n">Coderack</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">The contoller can be stepped through:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Step</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>  <span class="c"># Step the controller 7 steps.</span>
+<li><p class="first">Adding a codelet may expunge an existing codelet if too many are present:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">codelet</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">Some UI initializations (such as a GUI) may do some setup/teardown. They
-should override these methods:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">Setup</span><span class="p">()</span>  <span class="c"># Defaults to a no-op.</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">Teardown</span><span class="p">()</span>  <span class="c"># Defaults to a no-op.</span>
+<li><p class="first">To test for emptyness:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">IsEmpty</span><span class="p">()</span>
 </pre></div>
 </div>
 </li>
-<li><p class="first">The UI must deal with displaying messages and asking questions to the user.
-In some cases, these methods would be overridden to automatically answer
-such questions (in a testing suite, for example). The code calling these
-functions should not care about who is answering them:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">DisplayMessage</span><span class="p">()</span>  <span class="c"># In a GUI, will display the message in a pop-up.</span>
-<span class="n">is_palindrome</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">AskYesNoQuestion</span><span class="p">(</span><span class="s">&quot;Is this a palindrome?&quot;</span><span class="p">)</span>
+<li><p class="first">Retrieving a codelet should only be done on a non-empty coderack:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">GetCodelet</span><span class="p">()</span>  <span class="c"># Raises CoderackEmptyException if coderack is empty.</span>
 </pre></div>
 </div>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">Not designed yet: A way to ask more complex questions that an app developed
-using this framework may support.</p>
+</li>
+<li><p class="first">For testing, it is possible to stuff a codelet that is guaranteed to be returned by the
+next call to GetCodelet (provided that there are no AddCodelets in between):</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ForceNextCodelet</span><span class="p">(</span><span class="n">codelet</span><span class="p">)</span>
+</pre></div>
 </div>
 </li>
 </ul>
-</div></blockquote>
 </div>
 
 
@@ -104,14 +109,14 @@ using this framework may support.</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="run_mode.html"
-                        title="previous chapter">Run Mode</a></p>
+  <p class="topless"><a href="stream.html"
+                        title="previous chapter">Stream of Thought</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="controller.html"
-                        title="next chapter">Controller</a></p>
+  <p class="topless"><a href="codelets.html"
+                        title="next chapter">Codelet</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/api/ui.txt"
+    <li><a href="../_sources/api/coderack.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -141,10 +146,10 @@ using this framework may support.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="controller.html" title="Controller"
+          <a href="codelets.html" title="Codelet"
              >next</a> |</li>
         <li class="right" >
-          <a href="run_mode.html" title="Run Mode"
+          <a href="stream.html" title="Stream of Thought"
              >previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
           <li><a href="api_index.html" >The Core API</a> &raquo;</li> 

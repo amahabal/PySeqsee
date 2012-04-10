@@ -79,13 +79,26 @@ subgroups, and one of these may conflict with an existing group.</p>
 <dt id="apps.seqsee.workspace.Workspace">
 <em class="property">class </em><tt class="descclassname">apps.seqsee.workspace.</tt><tt class="descname">Workspace</tt><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
+<dt id="apps.seqsee.workspace.Workspace.CalculateSupergroupMap">
+<tt class="descname">CalculateSupergroupMap</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.CalculateSupergroupMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.CalculateSupergroupMap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates a map from anchored elements to their supergroups.</p>
+<p>Generated for immediate use and not kept updated. Regenrate for each use.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="apps.seqsee.workspace.Workspace.CheckForPresence">
-<tt class="descname">CheckForPresence</tt><big>(</big><em>start_pos</em>, <em>element_magnitudes</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.CheckForPresence" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">CheckForPresence</tt><big>(</big><em>start_pos</em>, <em>element_magnitudes</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.CheckForPresence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.CheckForPresence" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="apps.seqsee.workspace.Workspace.DebugRelations">
+<tt class="descname">DebugRelations</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.DebugRelations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.DebugRelations" title="Permalink to this definition">¶</a></dt>
+<dd><p>Print debugging information to Stderr.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="apps.seqsee.workspace.Workspace.DeleteGroup">
-<tt class="descname">DeleteGroup</tt><big>(</big><em>gp</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.DeleteGroup" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">DeleteGroup</tt><big>(</big><em>gp</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.DeleteGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.DeleteGroup" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
@@ -107,7 +120,7 @@ end.</p>
 
 <dl class="method">
 <dt id="apps.seqsee.workspace.Workspace.GetItemAt">
-<tt class="descname">GetItemAt</tt><big>(</big><em>start_pos</em>, <em>end_pos</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetItemAt" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">GetItemAt</tt><big>(</big><em>start_pos</em>, <em>end_pos</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.GetItemAt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetItemAt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the sole object with this span. Throws FargError if not found.</p>
 </dd></dl>
 
@@ -139,14 +152,14 @@ a ConflictingGroupException is raised.</p>
 
 <dl class="method">
 <dt id="apps.seqsee.workspace.Workspace.Replace">
-<tt class="descname">Replace</tt><big>(</big><em>original_gps</em>, <em>new_group</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.Replace" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">Replace</tt><big>(</big><em>original_gps</em>, <em>new_group</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.Replace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.Replace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace original group with new group unless the new group is going to cause conflicts.</p>
 <p>If the new group will cause conflicts, a ConflictingGroupException is raised.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="apps.seqsee.workspace.Workspace.SomeMaximalSuperGroup">
-<tt class="descname">SomeMaximalSuperGroup</tt><big>(</big><em>gp</em><big>)</big><a class="headerlink" href="#apps.seqsee.workspace.Workspace.SomeMaximalSuperGroup" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">SomeMaximalSuperGroup</tt><big>(</big><em>gp</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.SomeMaximalSuperGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.SomeMaximalSuperGroup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns some super* group, if any, or returns self.</p>
 </dd></dl>
 
@@ -227,8 +240,8 @@ Each is a <tt class="xref py py-class docutils literal"><span class="pre">SAncho
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2011, Abhijit Mahabal.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

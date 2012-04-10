@@ -49,22 +49,32 @@
           <div class="body">
             
   <h1>Source code for farg.exceptions</h1><div class="highlight"><pre>
+<span class="kn">import</span> <span class="nn">traceback</span>
+<span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">takewhile</span>
+
 <div class="viewcode-block" id="FargError"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.FargError">[docs]</a><span class="k">class</span> <span class="nc">FargError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Base class for untrappable errors (indicating bugs).&quot;&quot;&quot;</span>
-  <span class="k">pass</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stack_trace</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">takewhile</span><span class="p">((</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;FargError.__init__&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+                                      <span class="n">traceback</span><span class="o">.</span><span class="n">format_stack</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">8</span><span class="p">)))</span>
+    <span class="k">print</span><span class="p">(</span><span class="s">&#39;FargError: &#39;</span><span class="p">,</span> <span class="n">msg</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="FargException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.FargException">[docs]</a><span class="k">class</span> <span class="nc">FargException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Base class for FARG-specific exceptions.&quot;&quot;&quot;</span>
-  <span class="k">pass</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stack_trace</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">takewhile</span><span class="p">((</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">find</span><span class="p">(</span><span class="s">&#39;FargException.__init__&#39;</span><span class="p">)</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">),</span>
+                                      <span class="n">traceback</span><span class="o">.</span><span class="n">format_stack</span><span class="p">(</span><span class="n">limit</span><span class="o">=</span><span class="mi">8</span><span class="p">)))</span>
 </div>
 <div class="viewcode-block" id="AnswerFoundException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.AnswerFoundException">[docs]</a><span class="k">class</span> <span class="nc">AnswerFoundException</span><span class="p">(</span><span class="n">FargException</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Raised by a subspace when it believes that an answer has been found.&quot;&quot;&quot;</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answer</span><span class="p">):</span>
+    <span class="n">FargException</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">answer</span> <span class="o">=</span> <span class="n">answer</span>
 </div>
 <div class="viewcode-block" id="NoAnswerException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.NoAnswerException">[docs]</a><span class="k">class</span> <span class="nc">NoAnswerException</span><span class="p">(</span><span class="n">FargException</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Raised by a subspace when it is realized that no answer is forthcoming.&quot;&quot;&quot;</span>
-  <span class="k">pass</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">FargException</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="ConflictingGroupException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.ConflictingGroupException">[docs]</a><span class="k">class</span> <span class="nc">ConflictingGroupException</span><span class="p">(</span><span class="n">FargException</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;If an attempt is made to add a group to the workspace that conflicts some existing</span>
@@ -72,7 +82,21 @@
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">conflicting_groups</span><span class="p">):</span>
     <span class="c">#: The groups that conflict.</span>
+    <span class="n">FargException</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">conflicting_groups</span> <span class="o">=</span> <span class="n">conflicting_groups</span>
+
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&quot;ConflictingGroupException(conflicting_groups=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">conflicting_groups</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="CannotReplaceSubgroupException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.CannotReplaceSubgroupException">[docs]</a><span class="k">class</span> <span class="nc">CannotReplaceSubgroupException</span><span class="p">(</span><span class="n">FargException</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Attempt to replace a group that is a subgroup.&quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">supergroups</span><span class="p">):</span>
+    <span class="n">FargException</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">supergroups</span> <span class="o">=</span> <span class="n">supergroups</span>
+
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&quot;CannotReplaceSubgroupException(supergroups=</span><span class="si">%s</span><span class="s">)&quot;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">supergroups</span><span class="p">)</span>
+
 </div>
 <div class="viewcode-block" id="YesNoException"><a class="viewcode-back" href="../../developer/exceptions.html#farg.exceptions.YesNoException">[docs]</a><span class="k">class</span> <span class="nc">YesNoException</span><span class="p">(</span><span class="n">FargException</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;An exception that requests the UI to ask a yes/no question.</span>
@@ -81,6 +105,7 @@
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question_string</span><span class="p">,</span> <span class="n">callback</span><span class="p">):</span>
+    <span class="n">FargException</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">question_string</span> <span class="o">=</span> <span class="n">question_string</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">callback</span> <span class="o">=</span> <span class="n">callback</span></div>
 </pre></div>
@@ -121,8 +146,8 @@
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2011, Abhijit Mahabal.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

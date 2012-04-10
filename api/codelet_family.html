@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The Core API &mdash; PySeqsee 0.1 documentation</title>
+    <title>Codelet Family &mdash; PySeqsee 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -26,8 +26,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
-    <link rel="next" title="Run Mode" href="run_mode.html" />
-    <link rel="prev" title="A brief motivation and overview of PySeqsee" href="../overview/overview_index.html" /> 
+    <link rel="up" title="The Core API" href="api_index.html" />
+    <link rel="next" title="Long-term Memory" href="ltm.html" />
+    <link rel="prev" title="Codelet" href="codelets.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,12 +41,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="run_mode.html" title="Run Mode"
+          <a href="ltm.html" title="Long-term Memory"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../overview/overview_index.html" title="A brief motivation and overview of PySeqsee"
+          <a href="codelets.html" title="Codelet"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,33 +56,28 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="the-core-api">
-<h1>The Core API<a class="headerlink" href="#the-core-api" title="Permalink to this headline">¶</a></h1>
-<p>Details of how to build applications on top of the core.</p>
-<p>Contents:</p>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="run_mode.html">Run Mode</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="run_mode.html#api">API</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run_mode.html#gui">GUI</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run_mode.html#batch">Batch</a></li>
-<li class="toctree-l2"><a class="reference internal" href="run_mode.html#sxs">SxS</a></li>
-</ul>
-</li>
-<li class="toctree-l1"><a class="reference internal" href="ui.html">The User Interface</a></li>
-<li class="toctree-l1"><a class="reference internal" href="controller.html">Controller</a></li>
-<li class="toctree-l1"><a class="reference internal" href="subspace.html">Subspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stream.html">Stream of Thought</a></li>
-<li class="toctree-l1"><a class="reference internal" href="stream.html#focusable-mixin">Focusable Mixin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="coderack.html">Coderack</a></li>
-<li class="toctree-l1"><a class="reference internal" href="codelets.html">Codelet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="codelet_family.html">Codelet Family</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ltm.html">Long-term Memory</a></li>
-<li class="toctree-l1"><a class="reference internal" href="category.html">Category</a></li>
-<li class="toctree-l1"><a class="reference internal" href="category.html#categorizablemixin">CategorizableMixin</a></li>
-<li class="toctree-l1"><a class="reference internal" href="category.html#binding">Binding</a></li>
-</ul>
+  <div class="section" id="codelet-family">
+<h1>Codelet Family<a class="headerlink" href="#codelet-family" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p>A codelet family is a class that defines what happens when you run a codelet of that
+family.</p>
+<p>Codelet family names typically start with CF.</p>
+<p>A codelet family subclasses this class and looks like this:</p>
+<div class="highlight-python"><pre>class CF_Foo(CodeletFamily):
+  &quot;Documentation describes what it does, what codelets it may create, what things
+   it may cause to focus on, and any subspace it may be a part of.
+  &quot;
+
+  Name = &quot;Foo&quot;
+
+  @classmethod
+  def Run(self, controller, other_arg1, other_arg2):
+    &quot;Run may take extra arguments (such as other_arg1 above). The extra arguments
+     will be passed by name only. These are set in the constructor of the codelet.
+    &quot;
+    DoSomething()</pre>
 </div>
+</div></blockquote>
 </div>
 
 
@@ -90,14 +87,14 @@
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../overview/overview_index.html"
-                        title="previous chapter">A brief motivation and overview of PySeqsee</a></p>
+  <p class="topless"><a href="codelets.html"
+                        title="previous chapter">Codelet</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="run_mode.html"
-                        title="next chapter">Run Mode</a></p>
+  <p class="topless"><a href="ltm.html"
+                        title="next chapter">Long-term Memory</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/api/api_index.txt"
+    <li><a href="../_sources/api/codelet_family.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -127,12 +124,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="run_mode.html" title="Run Mode"
+          <a href="ltm.html" title="Long-term Memory"
              >next</a> |</li>
         <li class="right" >
-          <a href="../overview/overview_index.html" title="A brief motivation and overview of PySeqsee"
+          <a href="codelets.html" title="Codelet"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

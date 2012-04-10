@@ -60,7 +60,7 @@
 <h1>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="farg.controller.Controller">
-<em class="property">class </em><tt class="descclassname">farg.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>stream_class=&lt;class 'farg.stream.Stream'&gt;</em>, <em>routine_codelets_to_add=None</em>, <em>ltm_name=None</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">farg.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>ui</em>, <em>state_lock</em>, <em>controller_depth</em>, <em>parent_controller</em>, <em>workspace_arguments</em>, <em>stopping_condition</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller" title="Permalink to this definition">¶</a></dt>
 <dd><p>A controller is responsible for controlling the Coderack.
 The Coderack, in turn, by the action of codelets, marshals the various pieces of a space
 or of an entire application.  These pieces include the stream, the long-term memory, and
@@ -71,27 +71,10 @@ what likelihood.  If the Coderack is empty, the codelets are added regardless of
 likelihood.  Second, a codelet is selected from the Coderack and executed.  This codelet
 may access the stream, the long-term memory, or the workspace and could even add other
 codelets which the next call to &#8216;Step&#8217; may execute.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><ul class="first last simple">
-<li>stream_class: What sort of stream to set up? Defaults to the standard stream.</li>
-<li>routine_codelets_to_add: This is a list containing 3-tuples made up of
-(family, urgency, probability). The probability is ignored during a Step if the
-coderack is empty.</li>
-<li>ltm_name: If provides, the LTM file is loaded and available as self.ltm.</li>
-</ul>
-</dd>
-</dl>
 <dl class="method">
 <dt id="farg.controller.Controller.AddCodelet">
-<tt class="descname">AddCodelet</tt><big>(</big><em>family</em>, <em>urgency</em>, <em>**arguments</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller.AddCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller.AddCodelet" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">AddCodelet</tt><big>(</big><em>family</em>, <em>urgency</em>, <em>arguments_dict</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller.AddCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller.AddCodelet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds a codelet to the coderack.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.controller.Controller.Quit">
-<tt class="descname">Quit</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller.Quit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller.Quit" title="Permalink to this definition">¶</a></dt>
-<dd><p>Gets called when the app is about to quit, in case any cleanup is needed.</p>
 </dd></dl>
 
 <dl class="method">
@@ -110,20 +93,52 @@ raised.</p>
 <dl class="attribute">
 <dt id="farg.controller.Controller.coderack">
 <tt class="descname">coderack</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.coderack" title="Permalink to this definition">¶</a></dt>
-<dd><p>The coderack. Currently, this always has capacity 10.</p>
+<dd><p>The coderack.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.coderack_class">
+<tt class="descname">coderack_class</tt><a class="headerlink" href="#farg.controller.Controller.coderack_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>What type of coderack is owned by the controller.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Coderack</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.controller_depth">
+<tt class="descname">controller_depth</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.controller_depth" title="Permalink to this definition">¶</a></dt>
+<dd><p>How deeply in the stack this controller is. The top-level controller has a depth
+of 0, Subspaces it spawns 1, and so forth.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.controller.Controller.ltm">
 <tt class="descname">ltm</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.ltm" title="Permalink to this definition">¶</a></dt>
-<dd><p>The LTM (if any)</p>
+<dd><p>LTM, if any</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.ltm_name">
+<tt class="descname">ltm_name</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.ltm_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of LTM used by the controller. If None, no LTM is created.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.parent_controller">
+<tt class="descname">parent_controller</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.parent_controller" title="Permalink to this definition">¶</a></dt>
+<dd><p>If this is a controller of a subspace, this points to parent_controller.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.controller.Controller.routine_codelets_to_add">
-<tt class="descname">routine_codelets_to_add</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.routine_codelets_to_add" title="Permalink to this definition">¶</a></dt>
-<dd><p>An iterable of three-tuples that names a family, urgency, and probability of addition.
-At each step, a codelet is added with the said probability, and with this urgency.</p>
+<tt class="descname">routine_codelets_to_add</tt><em class="property"> = ()</em><a class="headerlink" href="#farg.controller.Controller.routine_codelets_to_add" title="Permalink to this definition">¶</a></dt>
+<dd><p>This is a list containing 3-tuples made up of (family, urgency, probability).
+The probability is ignored during a Step if the coderack is empty.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.state_lock">
+<tt class="descname">state_lock</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.state_lock" title="Permalink to this definition">¶</a></dt>
+<dd><p>Lock used for any real work (i.e., in step).</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -133,9 +148,42 @@ At each step, a codelet is added with the said probability, and with this urgenc
 </dd></dl>
 
 <dl class="attribute">
+<dt id="farg.controller.Controller.stopping_condition">
+<tt class="descname">stopping_condition</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.stopping_condition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Stopping condition (for SxS and batch modes).</p>
+</dd></dl>
+
+<dl class="attribute">
 <dt id="farg.controller.Controller.stream">
 <tt class="descname">stream</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.stream" title="Permalink to this definition">¶</a></dt>
 <dd><p>The stream.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.stream_class">
+<tt class="descname">stream_class</tt><a class="headerlink" href="#farg.controller.Controller.stream_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>What type of stream is owned by the controller.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Stream</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.ui">
+<tt class="descname">ui</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.ui" title="Permalink to this definition">¶</a></dt>
+<dd><p>The UI running this controller. May be a GUI or a Guided UI (which knows how to
+answer questions that&#8217;d normally be answered by a user in a GUI). Any subspace
+spawned by this space shall inherit the ui.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.workspace">
+<tt class="descname">workspace</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.workspace" title="Permalink to this definition">¶</a></dt>
+<dd><p>Workspace</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.controller.Controller.workspace_class">
+<tt class="descname">workspace_class</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.workspace_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>What type of workspace is owned by the controller. With None, gets no workspace.</p>
 </dd></dl>
 
 </dd></dl>
@@ -196,8 +244,8 @@ At each step, a codelet is added with the said probability, and with this urgenc
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2011, Abhijit Mahabal.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>

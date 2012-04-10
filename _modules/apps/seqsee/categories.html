@@ -98,89 +98,92 @@
 
 <span class="sd">&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">farg.category</span> <span class="kn">import</span> <span class="n">Binding</span><span class="p">,</span> <span class="n">Category</span>
-<span class="kn">from</span> <span class="nn">apps.seqsee.sobject</span> <span class="kn">import</span> <span class="n">SAnchored</span><span class="p">,</span> <span class="n">SElement</span><span class="p">,</span> <span class="n">SObject</span>
 <span class="kn">from</span> <span class="nn">apps.seqsee.mapping</span> <span class="kn">import</span> <span class="n">NumericMapping</span><span class="p">,</span> <span class="n">StructuralMapping</span>
+<span class="kn">from</span> <span class="nn">apps.seqsee.sobject</span> <span class="kn">import</span> <span class="n">SElement</span><span class="p">,</span> <span class="n">SObject</span>
 <span class="kn">from</span> <span class="nn">apps.seqsee.structure_utils</span> <span class="kn">import</span> <span class="n">StructureDepth</span>
+<span class="kn">from</span> <span class="nn">farg.categorization.binding</span> <span class="kn">import</span> <span class="n">Binding</span>
+<span class="kn">from</span> <span class="nn">farg.categorization.category</span> <span class="kn">import</span> <span class="n">Category</span>
 <span class="kn">from</span> <span class="nn">farg.exceptions</span> <span class="kn">import</span> <span class="n">FargError</span><span class="p">,</span> <span class="n">FargException</span>
-<span class="kn">from</span> <span class="nn">farg.ltm.storable</span> <span class="kn">import</span> <span class="n">LTMStorableMixin</span>
 
-<div class="viewcode-block" id="NumericCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.NumericCategory">[docs]</a><span class="k">class</span> <span class="nc">NumericCategory</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
+<div class="viewcode-block" id="SeqseeObjectCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SeqseeObjectCategory">[docs]</a><span class="k">class</span> <span class="nc">SeqseeObjectCategory</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base for categories whose instances are groups in Seqsee.</span>
+
+<span class="sd">     Any derivative class must define the following class methods:</span>
+
+<span class="sd">     * FindMapping (given two categorizables, returns a mapping between the two)</span>
+<span class="sd">     * ApplyMapping (given a mapping and a categorizable, returns a new item). </span>
+<span class="sd">  &quot;&quot;&quot;</span>
+<div class="viewcode-block" id="SeqseeObjectCategory.FindMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SeqseeObjectCategory.FindMapping">[docs]</a>  <span class="k">def</span> <span class="nf">FindMapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categorizable1</span><span class="p">,</span> <span class="n">categorizable2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Finds a mapping between two objects based on a particular category.&quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;IsInstance makes no sense on base category.&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SeqseeObjectCategory.ApplyMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SeqseeObjectCategory.ApplyMapping">[docs]</a>  <span class="k">def</span> <span class="nf">ApplyMapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">categorizable</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Apply a mapping to a categorizable to obtain a different categorizable.&quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;IsInstance makes no sense on base category.&quot;</span><span class="p">)</span>
+
+</div></div>
+<div class="viewcode-block" id="NumericCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.NumericCategory">[docs]</a><span class="k">class</span> <span class="nc">NumericCategory</span><span class="p">(</span><span class="n">SeqseeObjectCategory</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Base class for categories whose instances are SElements, and membership depends only on </span>
 <span class="sd">     the magnitude.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="NumericCategory.IsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.NumericCategory.IsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+
+<div class="viewcode-block" id="NumericCategory.IsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.NumericCategory.IsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">SElement</span><span class="p">):</span>
       <span class="k">return</span> <span class="bp">None</span>
     <span class="n">magnitude</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">magnitude</span>
-    <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">NumericIsInstance</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">NumericIsInstance</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span>
 </div></div>
-<div class="viewcode-block" id="StructuralCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory">[docs]</a><span class="k">class</span> <span class="nc">StructuralCategory</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
+<div class="viewcode-block" id="StructuralCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory">[docs]</a><span class="k">class</span> <span class="nc">StructuralCategory</span><span class="p">(</span><span class="n">SeqseeObjectCategory</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Base class whose membership depends on the structure (e.g., ascending, mountain).&quot;&quot;&quot;</span>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="StructuralCategory.IsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory.IsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">StructuralIsInstance</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">Structure</span><span class="p">())</span>
+
+<div class="viewcode-block" id="StructuralCategory.IsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory.IsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">StructuralIsInstance</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">Structure</span><span class="p">())</span>
+
 </div>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="StructuralCategory.GetMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory.GetMapping">[docs]</a>  <span class="k">def</span> <span class="nf">GetMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
-    <span class="n">binding1</span> <span class="o">=</span> <span class="n">item1</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+<div class="viewcode-block" id="StructuralCategory.GetMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory.GetMapping">[docs]</a>  <span class="k">def</span> <span class="nf">GetMapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
+    <span class="n">binding1</span> <span class="o">=</span> <span class="n">item1</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">binding1</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
-    <span class="n">binding2</span> <span class="o">=</span> <span class="n">item2</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+    <span class="n">binding2</span> <span class="o">=</span> <span class="n">item2</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">binding2</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
-    <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">GetMappingBetweenBindings</span><span class="p">(</span><span class="n">binding1</span><span class="p">,</span> <span class="n">binding2</span><span class="p">)</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetMappingBetweenBindings</span><span class="p">(</span><span class="n">binding1</span><span class="p">,</span> <span class="n">binding2</span><span class="p">)</span>
+
 </div>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="StructuralCategory.GetMappingBetweenBindings"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory.GetMappingBetweenBindings">[docs]</a>  <span class="k">def</span> <span class="nf">GetMappingBetweenBindings</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">binding1</span><span class="p">,</span> <span class="n">binding2</span><span class="p">):</span>
+<div class="viewcode-block" id="StructuralCategory.GetMappingBetweenBindings"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.StructuralCategory.GetMappingBetweenBindings">[docs]</a>  <span class="k">def</span> <span class="nf">GetMappingBetweenBindings</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">binding1</span><span class="p">,</span> <span class="n">binding2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get mapping between a pair of bindings. This should eventually be replaced by a space</span>
 <span class="sd">       (as discussed in the last chapter of the dissertation). For now, I have a simple</span>
 <span class="sd">       mechanism.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">bindings_mapping</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">binding1</span><span class="o">.</span><span class="n">bindings</span><span class="o">.</span><span class="n">iteritems</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">binding1</span><span class="o">.</span><span class="n">bindings</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
       <span class="k">if</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">binding2</span><span class="o">.</span><span class="n">bindings</span><span class="p">:</span>
         <span class="n">v2</span> <span class="o">=</span> <span class="n">binding2</span><span class="o">.</span><span class="n">bindings</span><span class="p">[</span><span class="n">k</span><span class="p">]</span>
         <span class="n">possible_mapping</span> <span class="o">=</span> <span class="n">GetNaiveMapping</span><span class="p">(</span><span class="n">v</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">possible_mapping</span><span class="p">:</span>
           <span class="n">bindings_mapping</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="o">=</span> <span class="n">possible_mapping</span>
-    <span class="k">if</span> <span class="n">cls</span><span class="o">.</span><span class="n">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="n">bindings_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
-      <span class="k">return</span> <span class="n">StructuralMapping</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="n">cls</span><span class="p">,</span> <span class="n">bindings_mapping</span><span class="o">=</span><span class="n">bindings_mapping</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">bindings_mapping</span><span class="o">.</span><span class="n">keys</span><span class="p">())):</span>
+      <span class="k">return</span> <span class="n">StructuralMapping</span><span class="p">(</span><span class="n">category</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                               <span class="n">bindings_mapping</span><span class="o">=</span><span class="nb">frozenset</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">bindings_mapping</span><span class="o">.</span><span class="n">items</span><span class="p">())))</span>
     <span class="k">return</span> <span class="bp">None</span>
 </div></div>
-<div class="viewcode-block" id="ParametrizedCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.ParametrizedCategory">[docs]</a><span class="k">class</span> <span class="nc">ParametrizedCategory</span><span class="p">(</span><span class="n">LTMStorableMixin</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Base class for a family of related categories. To create one member of the family, call</span>
-<span class="sd">     Create. If the arguments to Create are novel, &quot;Construct&quot; will be called on the base </span>
-<span class="sd">     class, and it should return the category (i.e., a subclass of Category).</span>
-<span class="sd">  &quot;&quot;&quot;</span>
-  <span class="c"># TODO(# --- Jan 3, 2012): The Create is suspiciously like Create in LTMStorableMixin.</span>
-  <span class="c"># They differ only in the presence of the word &#39;Construct&#39;. Try to unify.</span>
-  <span class="n">memos</span> <span class="o">=</span> <span class="p">{}</span>
-
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="ParametrizedCategory.Create"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.ParametrizedCategory.Create">[docs]</a>  <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-    <span class="n">key</span> <span class="o">=</span> <span class="nb">frozenset</span><span class="p">(</span><span class="n">kwargs</span><span class="o">.</span><span class="n">items</span><span class="p">())</span>
-    <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">memos</span><span class="p">:</span>
-      <span class="n">new_category</span> <span class="o">=</span> <span class="n">cls</span><span class="o">.</span><span class="n">Construct</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-      <span class="n">cls</span><span class="o">.</span><span class="n">memos</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_category</span>
-      <span class="k">return</span> <span class="n">new_category</span>
-    <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">memos</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
-
-</div></div>
 <div class="viewcode-block" id="Number"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number">[docs]</a><span class="k">class</span> <span class="nc">Number</span><span class="p">(</span><span class="n">NumericCategory</span><span class="p">):</span>
-<div class="viewcode-block" id="Number.NumericIsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number.NumericIsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">NumericIsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">Binding</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Number.BriefLabel"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number.BriefLabel">[docs]</a>  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;Number&#39;</span>
 </div>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Number.GetMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number.GetMapping">[docs]</a>  <span class="k">def</span> <span class="nf">GetMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
+<div class="viewcode-block" id="Number.NumericIsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number.NumericIsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">NumericIsInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Binding</span><span class="p">()</span>
+
+</div>
+<div class="viewcode-block" id="Number.GetMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number.GetMapping">[docs]</a>  <span class="k">def</span> <span class="nf">GetMapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
     <span class="n">index1</span><span class="p">,</span> <span class="n">index2</span> <span class="o">=</span> <span class="n">item1</span><span class="o">.</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">item2</span><span class="o">.</span><span class="n">magnitude</span>
     <span class="n">diff_string</span> <span class="o">=</span> <span class="n">NumericMapping</span><span class="o">.</span><span class="n">DifferenceString</span><span class="p">(</span><span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">diff_string</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">NumericMapping</span><span class="p">(</span><span class="n">diff_string</span><span class="p">,</span> <span class="n">Number</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">NumericMapping</span><span class="p">(</span><span class="n">diff_string</span><span class="p">,</span> <span class="n">Number</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="k">return</span> <span class="bp">None</span>
+
 </div>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Number.ApplyMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number.ApplyMapping">[docs]</a>  <span class="k">def</span> <span class="nf">ApplyMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<div class="viewcode-block" id="Number.ApplyMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Number.ApplyMapping">[docs]</a>  <span class="k">def</span> <span class="nf">ApplyMapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">name</span>
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;same&#39;</span><span class="p">:</span>
       <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">DeepCopy</span><span class="p">()</span>
@@ -189,69 +192,95 @@
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;succ&#39;</span><span class="p">:</span>
       <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
 </div></div>
-<div class="viewcode-block" id="Prime"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Prime">[docs]</a><span class="k">class</span> <span class="nc">Prime</span><span class="p">(</span><span class="n">NumericCategory</span><span class="p">):</span>
-  <span class="n">primes_list</span> <span class="o">=</span> <span class="p">[</span>
-      <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
-      <span class="s">&#39;2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
-  <span class="n">largest_prime</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">primes_list</span><span class="p">)</span>
+<div class="viewcode-block" id="PrecomputedNumberList"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.PrecomputedNumberList">[docs]</a><span class="k">class</span> <span class="nc">PrecomputedNumberList</span><span class="p">(</span><span class="n">NumericCategory</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Categories such as Prime and Fibonacci which are provided as a pre-computed list.&quot;&quot;&quot;</span>
 
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Prime.NumericIsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Prime.NumericIsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">NumericIsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+  <span class="c">#: Must be provided with a number list.</span>
+  <span class="n">number_list</span> <span class="o">=</span> <span class="bp">None</span>
+
+  <span class="c">#: A brief label must be provided.</span>
+  <span class="n">brief_label</span> <span class="o">=</span> <span class="bp">None</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">NumericCategory</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="c"># These are stored on the class (where they belong).</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">smallest_known_element</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_list</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">__class__</span><span class="o">.</span><span class="n">largest_known_element</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">number_list</span><span class="p">)</span>
+
+<div class="viewcode-block" id="PrecomputedNumberList.BriefLabel"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.PrecomputedNumberList.BriefLabel">[docs]</a>  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">brief_label</span>
+</div>
+<div class="viewcode-block" id="PrecomputedNumberList.NumericIsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.PrecomputedNumberList.NumericIsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">NumericIsInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
     <span class="k">try</span><span class="p">:</span>
-      <span class="n">index</span> <span class="o">=</span> <span class="n">Prime</span><span class="o">.</span><span class="n">primes_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
+      <span class="n">index</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
       <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">index</span><span class="o">=</span><span class="n">index</span><span class="p">)</span>
     <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
       <span class="k">return</span> <span class="bp">None</span>
 </div>
-  <span class="nd">@staticmethod</span>
-  <span class="k">def</span> <span class="nf">_NextPrime</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;=</span> <span class="n">Prime</span><span class="o">.</span><span class="n">largest_prime</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">_NextNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">largest_known_element</span><span class="p">:</span>
       <span class="k">return</span> <span class="bp">None</span>
-    <span class="k">return</span> <span class="n">Prime</span><span class="o">.</span><span class="n">primes_list</span><span class="p">[</span><span class="n">Prime</span><span class="o">.</span><span class="n">primes_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_list</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">number_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
 
-  <span class="nd">@staticmethod</span>
-  <span class="k">def</span> <span class="nf">_PrevPrime</span><span class="p">(</span><span class="n">val</span><span class="p">):</span>
-    <span class="k">if</span> <span class="n">val</span> <span class="o">&lt;=</span> <span class="mi">2</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">_PrevNumber</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">val</span><span class="p">):</span>
+    <span class="k">if</span> <span class="n">val</span> <span class="o">&lt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">smallest_known_element</span><span class="p">:</span>
       <span class="k">return</span> <span class="bp">None</span>
-    <span class="k">return</span> <span class="n">Prime</span><span class="o">.</span><span class="n">primes_list</span><span class="p">[</span><span class="n">Prime</span><span class="o">.</span><span class="n">primes_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">number_list</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">number_list</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
 
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Prime.GetMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Prime.GetMapping">[docs]</a>  <span class="k">def</span> <span class="nf">GetMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
-    <span class="n">binding1</span> <span class="o">=</span> <span class="n">item1</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+<div class="viewcode-block" id="PrecomputedNumberList.GetMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.PrecomputedNumberList.GetMapping">[docs]</a>  <span class="k">def</span> <span class="nf">GetMapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
+    <span class="n">binding1</span> <span class="o">=</span> <span class="n">item1</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">binding1</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
-    <span class="n">binding2</span> <span class="o">=</span> <span class="n">item2</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">cls</span><span class="p">)</span>
+    <span class="n">binding2</span> <span class="o">=</span> <span class="n">item2</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">binding2</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
 
     <span class="n">index1</span><span class="p">,</span> <span class="n">index2</span> <span class="o">=</span> <span class="p">(</span><span class="n">binding1</span><span class="o">.</span><span class="n">GetBindingsForAttribute</span><span class="p">(</span><span class="s">&#39;index&#39;</span><span class="p">),</span>
                       <span class="n">binding2</span><span class="o">.</span><span class="n">GetBindingsForAttribute</span><span class="p">(</span><span class="s">&#39;index&#39;</span><span class="p">))</span>
     <span class="n">diff_string</span> <span class="o">=</span> <span class="n">NumericMapping</span><span class="o">.</span><span class="n">DifferenceString</span><span class="p">(</span><span class="n">index1</span><span class="p">,</span> <span class="n">index2</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">diff_string</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">NumericMapping</span><span class="p">(</span><span class="n">diff_string</span><span class="p">,</span> <span class="n">Prime</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">NumericMapping</span><span class="p">(</span><span class="n">diff_string</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="k">return</span> <span class="bp">None</span>
+
 </div>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Prime.ApplyMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Prime.ApplyMapping">[docs]</a>  <span class="k">def</span> <span class="nf">ApplyMapping</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<div class="viewcode-block" id="PrecomputedNumberList.ApplyMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.PrecomputedNumberList.ApplyMapping">[docs]</a>  <span class="k">def</span> <span class="nf">ApplyMapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapping</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
     <span class="n">name</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">name</span>
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;same&#39;</span><span class="p">:</span>
       <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">DeepCopy</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;pred&#39;</span><span class="p">:</span>
-      <span class="n">val</span> <span class="o">=</span> <span class="n">Prime</span><span class="o">.</span><span class="n">_PrevPrime</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+      <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_PrevNumber</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
       <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
       <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">None</span>
     <span class="k">if</span> <span class="n">name</span> <span class="o">==</span> <span class="s">&#39;succ&#39;</span><span class="p">:</span>
-      <span class="n">val</span> <span class="o">=</span> <span class="n">Prime</span><span class="o">.</span><span class="n">_NextPrime</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+      <span class="n">val</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_NextNumber</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
       <span class="k">if</span> <span class="n">val</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">val</span><span class="p">)</span>
       <span class="k">else</span><span class="p">:</span>
         <span class="k">return</span> <span class="bp">None</span>
 </div></div>
+<div class="viewcode-block" id="Prime"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Prime">[docs]</a><span class="k">class</span> <span class="nc">Prime</span><span class="p">(</span><span class="n">PrecomputedNumberList</span><span class="p">):</span>
+  <span class="n">brief_label</span> <span class="o">=</span> <span class="s">&#39;Prime&#39;</span>
+  <span class="n">number_list</span> <span class="o">=</span> <span class="p">[</span>
+      <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span>
+      <span class="s">&#39;2 3 5 7 11 13 17 19 23 29 31 37 41 43 47 53 59 61 67 71 73 79 83 89 97&#39;</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+</div>
+<div class="viewcode-block" id="Squares"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Squares">[docs]</a><span class="k">class</span> <span class="nc">Squares</span><span class="p">(</span><span class="n">PrecomputedNumberList</span><span class="p">):</span>
+  <span class="n">brief_label</span> <span class="o">=</span> <span class="s">&#39;Square&#39;</span>
+  <span class="n">number_list</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span> <span class="o">*</span> <span class="n">x</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+</div>
+<div class="viewcode-block" id="TriangularNumbers"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.TriangularNumbers">[docs]</a><span class="k">class</span> <span class="nc">TriangularNumbers</span><span class="p">(</span><span class="n">PrecomputedNumberList</span><span class="p">):</span>
+  <span class="n">brief_label</span> <span class="o">=</span> <span class="s">&#39;TriangularNumber&#39;</span>
+  <span class="n">number_list</span> <span class="o">=</span> <span class="p">[</span> <span class="n">x</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">100</span><span class="p">)]</span>
+</div>
 <div class="viewcode-block" id="Ascending"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending">[docs]</a><span class="k">class</span> <span class="nc">Ascending</span><span class="p">(</span><span class="n">StructuralCategory</span><span class="p">):</span>
 
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Ascending.StructuralIsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending.StructuralIsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">StructuralIsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">structure</span><span class="p">):</span>
+<div class="viewcode-block" id="Ascending.BriefLabel"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending.BriefLabel">[docs]</a>  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;Ascending&#39;</span>
+
+</div>
+<div class="viewcode-block" id="Ascending.StructuralIsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending.StructuralIsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">StructuralIsInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">structure</span><span class="p">):</span>
     <span class="n">depth</span> <span class="o">=</span> <span class="n">StructureDepth</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">depth</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">:</span> <span class="k">return</span> <span class="bp">None</span>
     <span class="k">if</span> <span class="n">depth</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -263,9 +292,9 @@
     <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">structure</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
                    <span class="n">end</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">structure</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]),</span>
                    <span class="n">length</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">structure</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">structure</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
+
 </div>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Ascending.Create"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending.Create">[docs]</a>  <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">bindings</span><span class="p">):</span>
+<div class="viewcode-block" id="Ascending.Create"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending.Create">[docs]</a>  <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bindings</span><span class="p">):</span>
     <span class="n">start</span> <span class="o">=</span> <span class="n">bindings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;start&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
     <span class="n">end</span> <span class="o">=</span> <span class="n">bindings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;end&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
     <span class="n">length</span> <span class="o">=</span> <span class="n">bindings</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s">&#39;length&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">)</span>
@@ -280,16 +309,16 @@
       <span class="n">end_mag</span> <span class="o">=</span> <span class="n">start</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">+</span> <span class="n">length</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">-</span> <span class="mi">1</span>
       <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">end_mag</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
     <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">start</span><span class="o">.</span><span class="n">magnitude</span><span class="p">,</span> <span class="n">end</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)))</span>
+
 </div>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="Ascending.AreAttributesSufficientToBuild"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending.AreAttributesSufficientToBuild">[docs]</a>  <span class="k">def</span> <span class="nf">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+<div class="viewcode-block" id="Ascending.AreAttributesSufficientToBuild"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.Ascending.AreAttributesSufficientToBuild">[docs]</a>  <span class="k">def</span> <span class="nf">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
     <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">attributes</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="nb">set</span><span class="p">([</span><span class="s">&#39;start&#39;</span><span class="p">,</span> <span class="s">&#39;end&#39;</span><span class="p">,</span> <span class="s">&#39;length&#39;</span><span class="p">])))</span> <span class="o">&gt;=</span> <span class="mi">2</span>
 </div></div>
 <div class="viewcode-block" id="GetNaiveMapping"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.GetNaiveMapping">[docs]</a><span class="k">def</span> <span class="nf">GetNaiveMapping</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">):</span>
   <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">v2</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
     <span class="n">diff_string</span> <span class="o">=</span> <span class="n">NumericMapping</span><span class="o">.</span><span class="n">DifferenceString</span><span class="p">(</span><span class="n">v1</span><span class="p">,</span> <span class="n">v2</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">diff_string</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">NumericMapping</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">diff_string</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">Number</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">NumericMapping</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="n">diff_string</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="n">Number</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="k">return</span> <span class="bp">None</span>
   <span class="n">common_categories</span> <span class="o">=</span> <span class="n">v1</span><span class="o">.</span><span class="n">GetCommonCategoriesSet</span><span class="p">(</span><span class="n">v2</span><span class="p">)</span>
@@ -302,78 +331,80 @@
   <span class="k">return</span> <span class="bp">None</span>
 
 </div>
-<div class="viewcode-block" id="SizeNCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SizeNCategory">[docs]</a><span class="k">class</span> <span class="nc">SizeNCategory</span><span class="p">(</span><span class="n">ParametrizedCategory</span><span class="p">):</span>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="SizeNCategory.Construct"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SizeNCategory.Construct">[docs]</a>  <span class="k">def</span> <span class="nf">Construct</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
+<div class="viewcode-block" id="SizeNCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SizeNCategory">[docs]</a><span class="k">class</span> <span class="nc">SizeNCategory</span><span class="p">(</span><span class="n">StructuralCategory</span><span class="p">):</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">size</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">size</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
       <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;Attempt to create a SizeN category with size=1&quot;</span><span class="p">)</span>
-    <span class="k">class</span> <span class="nc">SizeN</span><span class="p">(</span><span class="n">StructuralCategory</span><span class="p">):</span>
-      <span class="nd">@classmethod</span>
-      <span class="k">def</span> <span class="nf">StructuralIsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">structure</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
-          <span class="k">return</span> <span class="bp">None</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span> <span class="o">!=</span> <span class="n">size</span><span class="p">:</span>
-          <span class="k">return</span> <span class="bp">None</span>
-        <span class="n">bindings</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
-          <span class="n">bindings</span><span class="p">[</span><span class="s">&#39;pos_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="o">**</span><span class="n">bindings</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="n">size</span>
 
-      <span class="nd">@classmethod</span>
-      <span class="k">def</span> <span class="nf">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
-        <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
-          <span class="k">if</span> <span class="s">&#39;pos_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
-            <span class="k">return</span> <span class="bp">False</span>
-        <span class="k">return</span> <span class="bp">True</span>
+<div class="viewcode-block" id="SizeNCategory.BriefLabel"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SizeNCategory.BriefLabel">[docs]</a>  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;SizeN(</span><span class="si">%d</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span>
+</div>
+<div class="viewcode-block" id="SizeNCategory.StructuralIsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SizeNCategory.StructuralIsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">StructuralIsInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">structure</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+      <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">None</span>
+    <span class="n">bindings</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">structure</span><span class="p">,</span> <span class="mi">1</span><span class="p">):</span>
+      <span class="n">bindings</span><span class="p">[</span><span class="s">&#39;pos_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="o">**</span><span class="n">bindings</span><span class="p">)</span>
 
-      <span class="nd">@classmethod</span>
-      <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">bindings</span><span class="p">):</span>
-        <span class="n">structure</span> <span class="o">=</span> <span class="p">[</span><span class="n">bindings</span><span class="p">[</span><span class="s">&#39;pos_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
-        <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">SizeN</span>
+</div>
+<div class="viewcode-block" id="SizeNCategory.AreAttributesSufficientToBuild"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SizeNCategory.AreAttributesSufficientToBuild">[docs]</a>  <span class="k">def</span> <span class="nf">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+      <span class="k">if</span> <span class="s">&#39;pos_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">idx</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">attributes</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="bp">True</span>
+
+</div>
+<div class="viewcode-block" id="SizeNCategory.Create"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.SizeNCategory.Create">[docs]</a>  <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bindings</span><span class="p">):</span>
+    <span class="n">structure</span> <span class="o">=</span> <span class="p">[</span><span class="n">bindings</span><span class="p">[</span><span class="s">&#39;pos_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">x</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">size</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">structure</span><span class="p">)</span>
 </div></div>
-<div class="viewcode-block" id="MappingBasedCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.MappingBasedCategory">[docs]</a><span class="k">class</span> <span class="nc">MappingBasedCategory</span><span class="p">(</span><span class="n">ParametrizedCategory</span><span class="p">):</span>
-  <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="MappingBasedCategory.Construct"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.MappingBasedCategory.Construct">[docs]</a>  <span class="k">def</span> <span class="nf">Construct</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
-    <span class="k">class</span> <span class="nc">MBC</span><span class="p">(</span><span class="n">StructuralCategory</span><span class="p">):</span>
+<div class="viewcode-block" id="MappingBasedCategory"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.MappingBasedCategory">[docs]</a><span class="k">class</span> <span class="nc">MappingBasedCategory</span><span class="p">(</span><span class="n">StructuralCategory</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span> <span class="o">=</span> <span class="n">mapping</span>
 
-      <span class="nd">@classmethod</span>
-      <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">SElement</span><span class="p">):</span>
-          <span class="c"># Probably the wrong thing to do.</span>
-          <span class="k">return</span> <span class="bp">None</span>
-        <span class="k">for</span> <span class="n">item_part</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
-          <span class="k">if</span> <span class="ow">not</span> <span class="n">item_part</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">IsDegenerateInstance</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="c"># So all items can be described as members of category...</span>
-        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">itempart</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="mi">1</span><span class="p">):</span>
-          <span class="k">if</span> <span class="ow">not</span> <span class="n">mapping</span><span class="o">.</span><span class="n">IsPairConsistent</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">itempart</span><span class="p">):</span>
-            <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">IsDegenerateInstance</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="c"># Okay, so valid.</span>
-        <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">length</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">)))</span>
+<div class="viewcode-block" id="MappingBasedCategory.BriefLabel"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.MappingBasedCategory.BriefLabel">[docs]</a>  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;MBC(</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="MappingBasedCategory.IsInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.MappingBasedCategory.IsInstance">[docs]</a>  <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">SElement</span><span class="p">):</span>
+      <span class="c"># Probably the wrong thing to do.</span>
+      <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">for</span> <span class="n">item_part</span> <span class="ow">in</span> <span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">item_part</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">IsDegenerateInstance</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="c"># So all items can be described as members of category...</span>
+    <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">itempart</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">1</span><span class="p">:],</span> <span class="mi">1</span><span class="p">):</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">IsPairConsistent</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">],</span> <span class="n">itempart</span><span class="p">):</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">IsDegenerateInstance</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+    <span class="c"># Okay, so valid.</span>
+    <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">length</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">items</span><span class="p">)))</span>
 
-      <span class="nd">@classmethod</span>
-      <span class="k">def</span> <span class="nf">IsDegenerateInstance</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
-          <span class="k">return</span> <span class="bp">None</span>
-        <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">item</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="MappingBasedCategory.IsDegenerateInstance"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.MappingBasedCategory.IsDegenerateInstance">[docs]</a>  <span class="k">def</span> <span class="nf">IsDegenerateInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">item</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
+      <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">start</span><span class="o">=</span><span class="n">item</span><span class="p">,</span> <span class="n">length</span><span class="o">=</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
 
-      <span class="nd">@classmethod</span>
-      <span class="k">def</span> <span class="nf">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
-        <span class="k">return</span> <span class="s">&#39;start&#39;</span> <span class="ow">in</span> <span class="n">attributes</span> <span class="ow">and</span> <span class="s">&#39;length&#39;</span> <span class="ow">in</span> <span class="n">attributes</span>
+</div>
+<div class="viewcode-block" id="MappingBasedCategory.AreAttributesSufficientToBuild"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.MappingBasedCategory.AreAttributesSufficientToBuild">[docs]</a>  <span class="k">def</span> <span class="nf">AreAttributesSufficientToBuild</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">attributes</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;start&#39;</span> <span class="ow">in</span> <span class="n">attributes</span> <span class="ow">and</span> <span class="s">&#39;length&#39;</span> <span class="ow">in</span> <span class="n">attributes</span>
 
-      <span class="nd">@classmethod</span>
-      <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">bindings</span><span class="p">):</span>
-        <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">bindings</span><span class="p">[</span><span class="s">&#39;start&#39;</span><span class="p">])]</span>
-        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">bindings</span><span class="p">[</span><span class="s">&#39;length&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">magnitude</span><span class="p">):</span>
-          <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">mapping</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="n">FargException</span><span class="p">(</span><span class="s">&quot;Unable to create object&quot;</span><span class="p">)</span>
-          <span class="n">next_item</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-          <span class="k">if</span> <span class="ow">not</span> <span class="n">next_item</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="n">FargException</span><span class="p">(</span><span class="s">&quot;Unable to create object&quot;</span><span class="p">)</span>
-          <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_item</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">MBC</span></div></div>
+</div>
+<div class="viewcode-block" id="MappingBasedCategory.Create"><a class="viewcode-back" href="../../../developer/categories.html#apps.seqsee.categories.MappingBasedCategory.Create">[docs]</a>  <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">bindings</span><span class="p">):</span>
+    <span class="n">items</span> <span class="o">=</span> <span class="p">[</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">bindings</span><span class="p">[</span><span class="s">&#39;start&#39;</span><span class="p">])]</span>
+    <span class="k">for</span> <span class="n">_i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">bindings</span><span class="p">[</span><span class="s">&#39;length&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">magnitude</span><span class="p">):</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">category</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="n">FargException</span><span class="p">(</span><span class="s">&quot;Unable to create object&quot;</span><span class="p">)</span>
+      <span class="n">next_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">next_item</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FargException</span><span class="p">(</span><span class="s">&quot;Unable to create object&quot;</span><span class="p">)</span>
+      <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">next_item</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">items</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
@@ -412,8 +443,8 @@
       </ul>
     </div>
     <div class="footer">
-        &copy; Copyright 2011, Abhijit Mahabal.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
 </html>
