@@ -2,7 +2,7 @@ from apps.seqsee.categories import Ascending
 from apps.seqsee.subspaces.get_mapping import SubspaceFindMapping
 from apps.seqsee.mapping import StructuralMapping
 from apps.seqsee.sobject import SObject
-from tide.controller import Controller
+from farg.controller import Controller
 import unittest
 from tide.ui.batch_ui import BatchUI
 

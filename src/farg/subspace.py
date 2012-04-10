@@ -1,4 +1,4 @@
-from tide.controller import Controller
+from farg.controller import Controller
 from farg.meta import SubspaceMeta
 
 class Subspace(metaclass=SubspaceMeta):

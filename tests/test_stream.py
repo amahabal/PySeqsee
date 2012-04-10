@@ -1,7 +1,7 @@
 from farg.focusable_mixin import FocusableMixin
 from farg.stream import Stream
 import unittest
-from tide.controller import Controller
+from farg.controller import Controller
 from tide.ui.batch_ui import BatchUI
 
 class MyFocusable(FocusableMixin):

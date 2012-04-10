@@ -32,7 +32,7 @@ class Main:
   gui_class = GUI
   batch_ui_class = BatchUI
 
-  from tide.controller import Controller
+  from farg.controller import Controller
   controller_class = Controller
 
   stopping_conditions = dict()

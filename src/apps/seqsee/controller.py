@@ -5,7 +5,7 @@ from farg.ltm.edge import LTMEdge
 from apps.seqsee.codelet_families.all import CF_RemoveSpuriousRelations
 
 from third_party import gflags
-from tide.controller import Controller
+from farg.controller import Controller
 import sys
 FLAGS = gflags.FLAGS
 

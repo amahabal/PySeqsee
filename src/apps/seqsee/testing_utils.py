@@ -3,7 +3,7 @@ from apps.seqsee.anchored import SAnchored
 from apps.seqsee.workspace import Workspace
 from farg.ltm.graph import LTMGraph
 import unittest
-from tide.controller import Controller
+from farg.controller import Controller
 
 class MockSeqseeController(Controller):
   def __init__(self, items):
