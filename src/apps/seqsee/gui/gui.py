@@ -2,8 +2,8 @@
 
 from apps.seqsee.gui.central_pane import CentralPane
 from apps.seqsee.gui.conversation import Conversation
+from farg.ui.gui import GUI
 from third_party import gflags
-from tide.ui.gui import GUI
 
 gflags.DEFINE_string('gui_initial_view', 'ws',
                      'In GUI mode, what should the initial mode be?')

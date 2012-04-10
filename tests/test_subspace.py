@@ -4,7 +4,7 @@ from apps.seqsee.mapping import StructuralMapping
 from apps.seqsee.sobject import SObject
 from farg.controller import Controller
 import unittest
-from tide.ui.batch_ui import BatchUI
+from farg.ui.batch_ui import BatchUI
 
 
 class TestSubspace(unittest.TestCase):

@@ -1,11 +1,11 @@
 """The Main class is the entry point into an app.
 """
-from tide.run_mode import batch, gui, single, sxs
+from farg.ui.batch_ui import BatchUI
+from farg.ui.gui import GUI
 from third_party import gflags
+from tide.run_mode import batch, gui, single, sxs
 import logging
 import sys
-from tide.ui.gui import GUI
-from tide.ui.batch_ui import BatchUI
 
 FLAGS = gflags.FLAGS
 

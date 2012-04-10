@@ -1,7 +1,7 @@
-from tide.ui.batch_ui import BatchUI
 from apps.seqsee.question import AreTheseTheNextTermsQuestion
-from third_party import gflags
 from farg.exceptions import SuccessfulCompletion
+from farg.ui.batch_ui import BatchUI
+from third_party import gflags
 import sys
 
 FLAGS = gflags.FLAGS
