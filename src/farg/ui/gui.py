@@ -1,8 +1,8 @@
+from farg.question.question import BooleanQuestion
 from tkinter import *
+from tkinter.messagebox import askyesno
 from tkinter.ttk import *
 import threading
-from tkinter.messagebox import askyesno
-from tide.question.question import BooleanQuestion
 
 class RunForNSteps(threading.Thread):
   """Runs controller for upto n steps.

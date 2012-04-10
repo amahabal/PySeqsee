@@ -1,12 +1,19 @@
-from tide.run_mode.non_interactive import RunModeNonInteractive
+from farg.run_mode.non_interactive import RunModeNonInteractive
+from farg.run_stats import RunStats
 from third_party import gflags
-from tide.run_stats import RunStats
+
 
 FLAGS = gflags.FLAGS
 
-class RunModeBatch(RunModeNonInteractive):
+gflags.DEFINE_string('base_flags', '', 'Extra flags for base')
+gflags.DEFINE_string('exp_flags', '', 'Extra flags for exp')
+
+class RunModeSxS(RunModeNonInteractive):
   def __init__(self, *, controller_class, input_spec):
-    print("Initialized Batch run mode")
+    print("Initialized SxS run mode")
+    if FLAGS.base_flags == FLAGS.exp_flags:
+      raise ValueError("Base and Exp flags are identical (%s). SxS makes no sense!" %
+                       FLAGS.exp_flags)
     self.input_spec = input_spec
 
   def GetSubprocessArguments(self, one_input_spec_arguments):
@@ -23,12 +30,18 @@ class RunModeBatch(RunModeNonInteractive):
       name = one_input_spec['name']
       spec = one_input_spec['spec']
       print("======%s======" % name)
-      arguments = self.GetSubprocessArguments(spec)
+      common_arguments = self.GetSubprocessArguments(spec)
 
+      # Base
       stats = RunStats()
-
       for _idx in range(FLAGS.num_iterations):
-        result = self.DoSingleRun(arguments)
+        result = self.DoSingleRun(common_arguments, FLAGS.base_flags)
         stats.AddData(result)
+      print(str(stats))
 
+      # Exp
+      stats = RunStats()
+      for _idx in range(FLAGS.num_iterations):
+        result = self.DoSingleRun(common_arguments, FLAGS.exp_flags)
+        stats.AddData(result)
       print(str(stats))
