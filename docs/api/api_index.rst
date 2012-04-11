@@ -1,16 +1,16 @@
 The Core API
 ====================================
 
-Details of how to build applications on top of the core.
+This section documents the API exposed by the core of the architecture.
 
 Contents:
 
 .. toctree::
    :maxdepth: 2
 
+   controller
    run_mode
    ui
-   controller
    subspace
    stream
    coderack

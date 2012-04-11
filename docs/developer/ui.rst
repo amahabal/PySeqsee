@@ -1,6 +1,6 @@
 The Graphic User Interface
 ==========================
 
-.. autoclass:: tide.ui.gui.GUI
+.. autoclass:: farg.ui.gui.GUI
   :members:
   :private-members:
