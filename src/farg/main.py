@@ -1,4 +1,5 @@
 # Copyright (C) 2011, 2012  Abhijit Mahabal
+import os.path
 
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -85,12 +86,14 @@ class Main:
     if run_mode_name == 'gui':
       # There should be no stopping condition.
       if stopping_condition:
-        raise ValueError("Stopping condition does not make sense with GUI.")
+        print("Stopping condition does not make sense with GUI.")
+        sys.exit(1)
     else:  # Verify that the stopping condition's name is defined.
       if FLAGS.stopping_condition and FLAGS.stopping_condition != "None":
         if FLAGS.stopping_condition not in self.stopping_conditions:
-          raise ValueError('Unknown stopping condition %s. Use one of %s' %
-                           (FLAGS.stopping_condition, list(self.stopping_conditions.keys())))
+          print('Unknown stopping condition %s. Use one of %s' %
+                (FLAGS.stopping_condition, list(self.stopping_conditions.keys())))
+          sys.exit(1)
         else:
           self.stopping_condition_fn = self.stopping_conditions[FLAGS.stopping_condition]
       else:
@@ -110,9 +113,9 @@ class Main:
                                             stopping_condition_fn=self.stopping_condition_fn)
     else:
       if not FLAGS.input_spec_file:
-        error_msg = ('Runmode --run_mode=%s requires --input_spec_file to be specified' %
-                     run_mode_name)
-        raise ValueError(error_msg)
+        print('Runmode --run_mode=%s requires --input_spec_file to be specified' %
+              run_mode_name)
+        sys.exit(1)
       input_spec = list(self.input_spec_reader_class().ReadFile(FLAGS.input_spec_file))
       print(input_spec)
       if run_mode_name == 'batch':
@@ -122,11 +125,23 @@ class Main:
         return self.run_mode_sxs_class(controller_class=self.controller_class,
                                        input_spec=input_spec)
       else:
-        raise ValueError("Unrecognized run_mode %s" % run_mode_name)
+        print("Unrecognized run_mode %s" % run_mode_name)
+        sys.exit(1)
 
   def ProcessFlags(self):
     """Called after flags have been read in."""
     self.ProcessCustomFlags()
+
+    if FLAGS.input_spec_file:
+      # Check that this is a file and it exists.
+      if not os.path.exists(FLAGS.input_spec_file):
+        print ("Input specification file %s does not exist. Bailing out." %
+               FLAGS.input_spec_file)
+        sys.exit(1)
+      if not os.path.isfile(FLAGS.input_spec_file):
+        print ("Input specification '%s' is not a file. Bailing out." %
+               FLAGS.input_spec_file)
+        sys.exit(1)
 
     self.VerifyStoppingConditionSanity()
     self.run_mode = self.CreateRunModeInstance()
@@ -134,7 +149,8 @@ class Main:
     if FLAGS.debug:
       numeric_level = getattr(logging, FLAGS.debug.upper(), None)
       if not isinstance(numeric_level, int):
-        raise ValueError('Invalid log level: %s' % FLAGS.debug)
+        print('Invalid log level: %s' % FLAGS.debug)
+        sys.exit(1)
       logging.basicConfig(level=numeric_level)
 
   def ProcessCustomFlags(self):

@@ -14,6 +14,7 @@
 from farg.run_mode.non_interactive import RunModeNonInteractive
 from farg.run_stats import RunStats
 from third_party import gflags
+import sys
 
 
 FLAGS = gflags.FLAGS
@@ -25,8 +26,9 @@ class RunModeSxS(RunModeNonInteractive):
   def __init__(self, *, controller_class, input_spec):
     print("Initialized SxS run mode")
     if FLAGS.base_flags == FLAGS.exp_flags:
-      raise ValueError("Base and Exp flags are identical (%s). SxS makes no sense!" %
-                       FLAGS.exp_flags)
+      print("Base and Exp flags are identical (%s). SxS makes no sense!" %
+            FLAGS.exp_flags)
+      sys.exit(1)
     self.input_spec = input_spec
 
   def GetSubprocessArguments(self, one_input_spec_arguments):
