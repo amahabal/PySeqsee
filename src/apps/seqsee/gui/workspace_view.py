@@ -1,4 +1,4 @@
-from apps.seqsee.gui.viewport import ViewPort
+from farg.ui.gui.views.viewport import ViewPort
 from tkinter import LAST
 
 class WorkspaceView(ViewPort):

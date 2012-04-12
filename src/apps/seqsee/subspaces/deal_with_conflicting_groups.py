@@ -2,7 +2,7 @@ from farg.subspace import Subspace
 from farg.codelet import CodeletFamily
 from farg.util import Toss
 from farg.exceptions import NoAnswerException
-from tide.controller import Controller
+from farg.controller import Controller
 
 class CF_FightIncumbents(CodeletFamily):
   @staticmethod

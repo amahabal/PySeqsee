@@ -1,15 +1,15 @@
+from apps.seqsee import run_seqsee
+from apps.seqsee.anchored import SAnchored
 from apps.seqsee.controller import SeqseeController
 from apps.seqsee.sobject import SElement, SGroup
-from apps.seqsee.anchored import SAnchored
 from apps.seqsee.workspace import Workspace
 from farg.coderack import Coderack
 from farg.stream import Stream
+from farg.ui.batch_ui import BatchUI
+from third_party import gflags
+import threading
 import unittest
 
-from apps.seqsee import run_seqsee
-from third_party import gflags
-from tide.ui.batch_ui import BatchUI
-import threading
 FLAGS = gflags.FLAGS
 
 FLAGS.sequence = []

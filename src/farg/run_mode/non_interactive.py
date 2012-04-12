@@ -1,6 +1,7 @@
-from tide.run_mode.run_mode import RunMode
-import sys
+from farg.run_mode.run_mode import RunMode
 import subprocess
+import sys
+
 class RunModeNonInteractive(RunMode):
   def DoSingleRun(self, cmdline_arguments_dict, extra_arguments=None):
     arguments = []  # Collect arguments to pass to subprocess

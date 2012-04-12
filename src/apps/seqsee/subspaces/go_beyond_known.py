@@ -30,7 +30,7 @@ class CF_AskQuestion(CodeletFamily):
       raise AnswerFoundException(True, codelet_count=controller.steps_taken)
 
 class SubspaceGoBeyondKnown(Subspace):
-  from tide.controller import Controller
+  from farg.controller import Controller
   class controller_class(Controller):
     class workspace_class:
       def __init__(self, basis_of_extension, suggested_terms):

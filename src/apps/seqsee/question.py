@@ -1,4 +1,4 @@
-from tide.question.question import BooleanQuestion
+from farg.question.question import BooleanQuestion
 
 class AreTheseTheNextTermsQuestion(BooleanQuestion):
   def __init__(self, terms):
