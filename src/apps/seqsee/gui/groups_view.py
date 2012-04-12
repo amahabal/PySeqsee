@@ -1,7 +1,6 @@
 from collections import defaultdict
+from farg.ui.gui.views.list_based_view import ListBasedView
 from tkinter import NW, Text, Toplevel
-
-from apps.seqsee.gui.list_based_view import ListBasedView
 from tkinter.constants import END
 
 def ShowGroupDetails(controller, group):

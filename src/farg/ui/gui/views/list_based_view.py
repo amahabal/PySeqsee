@@ -1,5 +1,5 @@
-from apps.seqsee.gui.viewport import ViewPort
 from farg.exceptions import FargError
+from farg.ui.gui.views.viewport import ViewPort
 from math import ceil
 from tkinter import NE, NW
 

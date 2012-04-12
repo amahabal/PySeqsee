@@ -1,12 +1,12 @@
 """Adapting the generic FARG GUI to Seqsee."""
 
-from apps.seqsee.gui.coderack_view import CoderackView
 from apps.seqsee.gui.groups_view import GroupsView
-from apps.seqsee.gui.stream_view import StreamView
 from apps.seqsee.gui.workspace_view import WorkspaceView
 from farg.ui.gui import GUI
-from third_party import gflags
 from farg.ui.gui.central_pane import CentralPane
+from farg.ui.gui.views.coderack_view import CoderackView
+from farg.ui.gui.views.stream_view import StreamView
+from third_party import gflags
 
 gflags.DEFINE_boolean('gui_show_ltm', False,
                       "Whether to show the LTM (it's expensive!)")
