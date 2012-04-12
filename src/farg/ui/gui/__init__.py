@@ -1,8 +1,17 @@
 from farg.question.question import BooleanQuestion
+from farg.ui.gui.central_pane import CentralPane
+from third_party import gflags
 from tkinter import *
 from tkinter.messagebox import askyesno
 from tkinter.ttk import *
 import threading
+
+gflags.DEFINE_integer('gui_canvas_height', 400,
+                      'Height of the central canvas')
+gflags.DEFINE_integer('gui_canvas_width', 800,
+                      'Width of the central canvas')
+
+FLAGS = gflags.FLAGS
 
 class RunForNSteps(threading.Thread):
   """Runs controller for upto n steps.
@@ -34,6 +43,13 @@ class GUI:
     self.mw = mw = Tk()
     mw.geometry(self.geometry)
 
+    self.mw.bind('<KeyPress-q>', lambda e: self.Quit())
+    self.mw.bind('<KeyPress-s>', lambda e: self.StepsInAnotherThread(1))
+    self.mw.bind('<KeyPress-l>', lambda e: self.StepsInAnotherThread(10))
+    self.mw.bind('<KeyPress-k>', lambda e: self.StepsInAnotherThread(100))
+    self.mw.bind('<KeyPress-c>', lambda e: self.StartThreaded())
+    self.mw.bind('<KeyPress-p>', lambda e: self.Pause())
+
     self.items_to_refresh = []
     self.SetupWindows()
     self.RegisterQuestionHandlers()
@@ -49,7 +65,6 @@ class GUI:
     self.buttons_pane.grid()
 
     self.PopulateCentralPane()
-    self.PopulateInteractionPane()
 
   def StepsInAnotherThread(self, num_steps):
     with self.run_state_lock:
@@ -95,7 +110,15 @@ class GUI:
     """Sets up the display in the central part.
     
     If an item must be refreshed, add it to items_to_refresh."""
-    pass
+    height = FLAGS.gui_canvas_height
+    width = FLAGS.gui_canvas_width
+    canvas = CentralPane(self.mw, self.controller, FLAGS,
+                         height=height, width=width,
+                         background='#FEE')
+    canvas.grid()
+    self.central_pane = canvas
+    self.items_to_refresh.append(canvas)
+    canvas.ReDraw()
 
   def PopulateInteractionPane(self):
     """Sets up the interaction pane at the bottom."""
