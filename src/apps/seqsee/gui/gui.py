@@ -10,6 +10,7 @@
 
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+
 """Adapting the generic FARG GUI to Seqsee."""
 
 from apps.seqsee.gui.groups_view import GroupsView
