@@ -1,5 +1,6 @@
 # Copyright (C) 2011, 2012  Abhijit Mahabal
 import os.path
+from farg.stopping_conditions import StoppingConditions
 
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
@@ -74,7 +75,7 @@ class Main:
 
   #: A mapping between stopping condition names and their implmentation (which is a funtion
   #: that takes a controller and returns a bool).
-  stopping_conditions = dict()
+  stopping_conditions_class = StoppingConditions
 
 
   def VerifyStoppingConditionSanity(self):
@@ -90,12 +91,14 @@ class Main:
         sys.exit(1)
     else:  # Verify that the stopping condition's name is defined.
       if FLAGS.stopping_condition and FLAGS.stopping_condition != "None":
-        if FLAGS.stopping_condition not in self.stopping_conditions:
+        stopping_conditions_list = self.stopping_conditions_class.StoppingConditionsList()
+        if FLAGS.stopping_condition not in stopping_conditions_list:
           print('Unknown stopping condition %s. Use one of %s' %
-                (FLAGS.stopping_condition, list(self.stopping_conditions.keys())))
+                (FLAGS.stopping_condition, stopping_conditions_list))
           sys.exit(1)
         else:
-          self.stopping_condition_fn = self.stopping_conditions[FLAGS.stopping_condition]
+          self.stopping_condition_fn = (
+               self.stopping_conditions_class.GetStoppingCondition(FLAGS.stopping_condition))
       else:
         self.stopping_condition_fn = ''
 
@@ -135,7 +138,7 @@ class Main:
     if FLAGS.input_spec_file:
       # Check that this is a file and it exists.
       if not os.path.exists(FLAGS.input_spec_file):
-        print ("Input specification file %s does not exist. Bailing out." %
+        print ("Input specification file '%s' does not exist. Bailing out." %
                FLAGS.input_spec_file)
         sys.exit(1)
       if not os.path.isfile(FLAGS.input_spec_file):

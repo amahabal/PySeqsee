@@ -3,12 +3,16 @@ from apps.{application_name}.batch_ui import {application_class}BatchUI
 from apps.{application_name}.controller import {application_class}Controller
 from apps.{application_name}.gui.gui import {application_class}GUI
 from apps.{application_name}.read_input_spec import {application_class}ReadInputSpec
-from apps.{application_name}.stopping_conditions import stopping_conditions_dict
+from apps.{application_name}.stopping_conditions import {application_class}StoppingConditions
 from farg.main import Main
 from third_party import gflags
 import sys
 
 FLAGS = gflags.FLAGS
+
+gflags.DEFINE_string('input', '', 'input')
+gflags.DEFINE_string('expected_output', '', 'Expected output')
+
 
 # Add any custom flags. See ... for syntax.
 
@@ -17,7 +21,7 @@ class {application_class}Main(Main):
   batch_ui_class = {application_class}BatchUI
   controller_class = {application_class}Controller
 
-  stopping_conditions = stopping_conditions_dict
+  stopping_conditions_class = {application_class}StoppingConditions
   input_spec_reader_class = {application_class}ReadInputSpec
 
   def ProcessCustomFlags(self):

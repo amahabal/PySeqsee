@@ -16,7 +16,7 @@ from apps.seqsee.batch_ui import SeqseeBatchUI
 from apps.seqsee.controller import SeqseeController
 from apps.seqsee.gui.gui import SeqseeGUI
 from apps.seqsee.read_input_spec import ReadInputSpec
-from apps.seqsee.stopping_conditions import stopping_conditions_dict
+from apps.seqsee.stopping_conditions import SeqseeStoppingConditions
 from farg.main import Main
 from third_party import gflags
 import sys
@@ -49,7 +49,7 @@ class SeqseeMain(Main):
   #: to get a sense of how long a program runs until this condition is met.
   #: Examples of conditions: A group spanning all terms is formed; a relation is formed
   #: with a certain type, and so forth.
-  stopping_conditions = stopping_conditions_dict
+  stopping_conditions_class = SeqseeStoppingConditions
   #: In batch/sxs modes, the various input sequences are read from a file. This class
   #: converts the file to input specifications.
   input_spec_reader_class = ReadInputSpec

@@ -7,7 +7,7 @@ class {application_class}ReadInputSpec:
         continue
       if not '|' in line:
         continue
-      input, expected_output = line.strip().split('|')
+      input, expected_output = (x.strip() for x in line.strip().split('|'))
       yield dict(spec=dict(input=input,
                            expected_output=expected_output),
                  name=input)

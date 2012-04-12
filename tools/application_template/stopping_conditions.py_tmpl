@@ -1,12 +1,10 @@
-stopping_conditions_dict = dict()
+from farg.stopping_conditions import StoppingConditions, RegisterStoppingCondition
 
-def RegisterStoppingCondition(*, condition_name):
-  def decorator(func):
-    stopping_conditions_dict[condition_name] = func
-    return func
-  return decorator
+class {application_class}StoppingConditions(StoppingConditions):
+  pass
 
 # EDIT-ME: This is a dummy condition. Add your own if needed.
-@RegisterStoppingCondition(condition_name="5_codelets_or_more")
-def CheckGroupPresence(controller):
+@RegisterStoppingCondition({application_class}StoppingConditions, condition_name="5_codelets_or_more")
+def FiveCodeletsOrMore(controller):
   return controller.coderack.CodeletCount() >= 5
+

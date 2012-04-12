@@ -11,14 +11,11 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-stopping_conditions_dict = dict()
+from farg.stopping_conditions import StoppingConditions, RegisterStoppingCondition
 
-def RegisterStoppingCondition(*, condition_name):
-  def decorator(func):
-    stopping_conditions_dict[condition_name] = func
-    return func
-  return decorator
+class SeqseeStoppingConditions(StoppingConditions):
+  pass
 
-@RegisterStoppingCondition(condition_name="group_present")
+@RegisterStoppingCondition(SeqseeStoppingConditions, condition_name="group_present")
 def CheckGroupPresence(controller):
   return bool(controller.workspace.groups)
