@@ -11,17 +11,13 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-class ReadInputSpec:
-  def Read(self, filelike):
-    for line in filelike:
-      if line.strip().startswith('#'):
-        continue
-      if not '|' in line:
-        continue
-      input, continuation = (x.split() for x in line.strip().split('|'))
-      yield dict(spec=dict(sequence=' '.join(input),
-                           unrevealed_terms=' '.join(continuation)),
-                 name=' '.join(input))
+from farg.read_input_spec import ReadInputSpec, SpecificationForOneRun
 
-  def ReadFile(self, filename):
-    return self.Read(open(filename))
+class SeqseeReadInputSpec(ReadInputSpec):
+  def ReadLine(self, line):
+    if not '|' in line:
+      return
+    input, continuation = (x.split() for x in line.strip().split('|'))
+    yield SpecificationForOneRun(' '.join(input),
+                                 dict(sequence=' '.join(input),
+                                      unrevealed_terms=' '.join(continuation)))

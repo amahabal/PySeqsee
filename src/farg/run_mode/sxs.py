@@ -37,15 +37,14 @@ class RunModeSxS(RunModeNonInteractive):
                      run_mode="single",
                      max_steps=FLAGS.max_steps,
                      )
-    arguments.update(one_input_spec_arguments)
+    arguments.update(one_input_spec_arguments.arguments_dict)
     return arguments
 
   def Run(self):
     for one_input_spec in self.input_spec:
-      name = one_input_spec['name']
-      spec = one_input_spec['spec']
+      name = one_input_spec.name
       print("======%s======" % name)
-      common_arguments = self.GetSubprocessArguments(spec)
+      common_arguments = self.GetSubprocessArguments(one_input_spec)
 
       # Base
       stats = RunStats()
@@ -54,6 +53,7 @@ class RunModeSxS(RunModeNonInteractive):
         stats.AddData(result)
       print(str(stats))
 
+      print("  -------------")
       # Exp
       stats = RunStats()
       for _idx in range(FLAGS.num_iterations):

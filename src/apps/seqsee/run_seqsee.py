@@ -15,7 +15,7 @@
 from apps.seqsee.batch_ui import SeqseeBatchUI
 from apps.seqsee.controller import SeqseeController
 from apps.seqsee.gui.gui import SeqseeGUI
-from apps.seqsee.read_input_spec import ReadInputSpec
+from apps.seqsee.read_input_spec import SeqseeReadInputSpec
 from apps.seqsee.stopping_conditions import SeqseeStoppingConditions
 from farg.main import Main
 from third_party import gflags
@@ -52,7 +52,7 @@ class SeqseeMain(Main):
   stopping_conditions_class = SeqseeStoppingConditions
   #: In batch/sxs modes, the various input sequences are read from a file. This class
   #: converts the file to input specifications.
-  input_spec_reader_class = ReadInputSpec
+  input_spec_reader_class = SeqseeReadInputSpec
 
   def ProcessCustomFlags(self):
     """

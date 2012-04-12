@@ -1,16 +1,7 @@
-class {application_class}ReadInputSpec:
-  def Read(self, filelike):
-    # EDIT-ME This is a default implementation where input and output flags are
-    # input and expected_output and their values are strings separated by a '|'.
-    for line in filelike:
-      if line.strip().startswith('#'):
-        continue
-      if not '|' in line:
-        continue
-      input, expected_output = (x.strip() for x in line.strip().split('|'))
-      yield dict(spec=dict(input=input,
-                           expected_output=expected_output),
-                 name=input)
+from farg.read_input_spec import ReadInputSpec, SpecificationForOneRun
 
-  def ReadFile(self, filename):
-    return self.Read(open(filename))
+class {application_class}ReadInputSpec(ReadInputSpec):
+  # EDIT-ME This is a default implementation where input and output flags are
+  # input and expected_output and their values are strings separated by a '|'.
+  pass
+

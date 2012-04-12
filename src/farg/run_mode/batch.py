@@ -15,15 +15,14 @@ class RunModeBatch(RunModeNonInteractive):
                      run_mode="single",
                      max_steps=FLAGS.max_steps,
                      )
-    arguments.update(one_input_spec_arguments)
+    arguments.update(one_input_spec_arguments.arguments_dict)
     return arguments
 
   def Run(self):
     for one_input_spec in self.input_spec:
-      name = one_input_spec['name']
-      spec = one_input_spec['spec']
+      name = one_input_spec.name
       print("======%s======" % name)
-      arguments = self.GetSubprocessArguments(spec)
+      arguments = self.GetSubprocessArguments(one_input_spec)
 
       stats = RunStats()
 
