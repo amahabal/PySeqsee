@@ -1,10 +1,11 @@
 """
 Script to create an empty application.
 """
-import os.path
-from skeleton import Skeleton, Var
-from skeleton.core import ValidateError
 from argparse import ArgumentError
+from third_party.skeleton import Skeleton, Var
+from third_party.skeleton.core import ValidateError
+import os.path
+import sys
 
 class VarWithConstraints(Var):
   def __init__(self, name, *, constraint, **kwargs):
@@ -57,7 +58,11 @@ def main():
   # Check that there is an apps subdirectory.
   if not(os.path.exists('apps')) or not (os.path.isdir('apps')):
     raise Exception('Should be called from a directory containing apps')
-  FARGApp.cmd()
+
+  if len(sys.argv) != 2:
+    raise Exception('Expected exactly one argument (name of app to create)')
+
+  FARGApp().run(sys.argv[1])
 
 if __name__ == '__main__':
   main()
