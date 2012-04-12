@@ -2,7 +2,7 @@
 from apps.{application_name}.batch_ui import {application_class}BatchUI
 from apps.{application_name}.controller import {application_class}Controller
 from apps.{application_name}.gui.gui import {application_class}GUI
-from apps.{application_name}.read_input_spec import ReadInputSpec
+from apps.{application_name}.read_input_spec import {application_class}ReadInputSpec
 from apps.{application_name}.stopping_conditions import stopping_conditions_dict
 from farg.main import Main
 from third_party import gflags
@@ -18,7 +18,7 @@ class {application_class}Main(Main):
   controller_class = {application_class}Controller
 
   stopping_conditions = stopping_conditions_dict
-  input_spec_reader_class = ReadInputSpec
+  input_spec_reader_class = {application_class}ReadInputSpec
 
   def ProcessCustomFlags(self):
     # Process any special flags.

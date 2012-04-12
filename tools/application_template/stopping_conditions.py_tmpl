@@ -1,0 +1,12 @@
+stopping_conditions_dict = dict()
+
+def RegisterStoppingCondition(*, condition_name):
+  def decorator(func):
+    stopping_conditions_dict[condition_name] = func
+    return func
+  return decorator
+
+# EDIT-ME: This is a dummy condition. Add your own if needed.
+@RegisterStoppingCondition(condition_name="5_codelets_or_more")
+def CheckGroupPresence(controller):
+  return controller.coderack.CodeletCount() >= 5

@@ -46,6 +46,9 @@ class Coderack(object):
     #: For testing, it is useful to be able to force next codelet to return.
     self._forced_next_codelet = None
 
+  def CodeletCount(self):
+    return self._codelet_count
+
   def IsEmpty(self):
     """True if contains no codelets."""
     return (self._codelet_count == 0)

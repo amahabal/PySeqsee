@@ -1,0 +1,7 @@
+"""The workspace is the virtual blackboard on which various codelets make annotations.
+"""
+
+class {application_class}Workspace(object):
+  def __init__(self):
+    pass
+
