@@ -1,22 +1,24 @@
 from tkinter import *
-from apps.seqsee.gui.coderack_view import CoderackView
-from apps.seqsee.gui.groups_view import GroupsView
-from apps.seqsee.gui.stream_view import StreamView
-from apps.seqsee.gui.workspace_view import WorkspaceView
+from third_party import gflags
+
+gflags.DEFINE_string('gui_initial_view', '',
+                     'In GUI mode, what should the initial mode be?')
+FLAGS = gflags.FLAGS
 
 class CentralPane(Canvas):
   """The central pane of the Tk-based UI. This can hold several displays."""
+
+  named_views = {}
+  default_initial_view = ''
+
   def __init__(self, master, controller, seqsee_args, *args, **kwargs):
     self.height = int(kwargs['height'])
     self.width = int(kwargs['width'])
     self.controller = controller
-
+    self.viewports = []
     Canvas.__init__(self, master, **kwargs)
     self.SetupMenu(master)
-
-    # Setup appropriate view based on config and commandline options.
-    # Defaulting to full workspace view, for now.
-    self.SetNamedView(seqsee_args.gui_initial_view)
+    self.SetNamedView(FLAGS.gui_initial_view or self.default_initial_view)
 
   def ReDraw(self):
     self.delete(ALL)
@@ -41,21 +43,8 @@ class CentralPane(Canvas):
                                   self.width / 2 - 2, self.height / 2 - 2)]
     self.ReDraw()
 
-  named_views = { 'ws': lambda pane: pane.SetFullView(WorkspaceView),
-                  'cr': lambda pane: pane.SetFullView(CoderackView),
-                  'ws_cr': lambda pane: pane.SetVerticallySplitView(WorkspaceView,
-                                                                    CoderackView),
-                  'cr_st':  lambda pane: pane.SetVerticallySplitView(CoderackView,
-                                                                     StreamView),
-                  'ws_cr_st':  lambda pane: pane.SetThreeWaySplit(WorkspaceView,
-                                                                  CoderackView,
-                                                                  StreamView),
-                  'ws_gr_st':  lambda pane: pane.SetThreeWaySplit(WorkspaceView,
-                                                                  GroupsView,
-                                                                  StreamView),
-                 }
   def SetNamedView(self, name):
-    CentralPane.named_views[name](self)
+    self.named_views[name](self)
 
   def NamedViewCmd(self, name):
     return (lambda: self.SetNamedView(name))

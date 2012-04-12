@@ -6,7 +6,7 @@ from tkinter.messagebox import askyesno
 from tkinter.ttk import *
 import threading
 
-gflags.DEFINE_integer('gui_canvas_height', 400,
+gflags.DEFINE_integer('gui_canvas_height', 500,
                       'Height of the central canvas')
 gflags.DEFINE_integer('gui_canvas_width', 800,
                       'Width of the central canvas')
@@ -29,6 +29,7 @@ class RunForNSteps(threading.Thread):
 class GUI:
 
   geometry = '810x700-0+0'
+  central_pane_class = CentralPane
 
   def __init__(self, *, controller_class, stopping_condition_fn=None):
     self.state_lock = threading.Lock()
@@ -112,9 +113,9 @@ class GUI:
     If an item must be refreshed, add it to items_to_refresh."""
     height = FLAGS.gui_canvas_height
     width = FLAGS.gui_canvas_width
-    canvas = CentralPane(self.mw, self.controller, FLAGS,
-                         height=height, width=width,
-                         background='#FEE')
+    canvas = self.central_pane_class(self.mw, self.controller, FLAGS,
+                                     height=height, width=width,
+                                     background='#FEE')
     canvas.grid()
     self.central_pane = canvas
     self.items_to_refresh.append(canvas)
