@@ -3,9 +3,12 @@
 import os.path
 from farg.ltm.graph import LTMGraph
 
-
 import logging
+from third_party import gflags
+import sys
 logger = logging.getLogger(__name__)
+
+FLAGS = gflags.FLAGS
 
 class LTMManager(object):
   #: What LTMs have been loaded.
@@ -18,7 +21,7 @@ class LTMManager(object):
     if ltm_name in LTMManager.loaded_ltms:
       return LTMManager.loaded_ltms[ltm_name]
     # TODO(# --- Feb 9, 2012): Should not be hardcoded.
-    filename = '/home/amahabal/pyseqsee/ltms/%s' % ltm_name
+    filename = os.path.join(FLAGS.ltm_directory, ltm_name)
     if not os.path.isfile(filename):
       # We need to create the LTM. I'd need to figure out how and where it should get
       # populated. For now, I will create an empty LTM.

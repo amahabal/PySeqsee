@@ -45,6 +45,12 @@ gflags.DEFINE_integer('num_iterations', 10,
 gflags.DEFINE_integer('max_steps', 1000,
                       "In batch and SxS mode, number of steps per run", 1)
 
+gflags.DEFINE_string('ltm_directory', '',
+                     'Directory to hold LTM files. If this flag is passes, the directory'
+                     'it points to must exist. If not passed, ~/.pyseqsee would be used,'
+                     ' and created if necessary')
+
+
 class Main:
   #: Class to use for running in GUI mode.
   run_mode_gui_class = gui.RunModeGUI
@@ -76,6 +82,25 @@ class Main:
   #: A mapping between stopping condition names and their implmentation (which is a funtion
   #: that takes a controller and returns a bool).
   stopping_conditions_class = StoppingConditions
+
+  def VerifyLTMPath(self):
+    """Create a directory for ltms unless flag provided. If provided, verify it exists."""
+    if FLAGS.ltm_directory:
+      if not os.path.exists(FLAGS.ltm_directory):
+        print ("LTM directory '%s' does not exist." % FLAGS.ltm_directory)
+        sys.exit(1)
+    else:
+      # Locate it in users's home.
+      homedir = os.path.expanduser('~')
+      if not os.path.exists(homedir):
+        print ("Could not locate home directory for storing LTM files."
+               "You could explicitely specify an existing directory to use by using"
+               "the flag --ltm_directory. Quitting.")
+        sys.exit(1)
+      FLAGS.ltm_directory = os.path.join(homedir, '.pyseqsee')
+      if not os.path.exists(FLAGS.ltm_directory):
+        print('Creating directory for storing ltms: %s' % FLAGS.ltm_directory)
+        os.mkdir(FLAGS.ltm_directory)
 
 
   def VerifyStoppingConditionSanity(self):
@@ -147,6 +172,7 @@ class Main:
         sys.exit(1)
 
     self.VerifyStoppingConditionSanity()
+    self.VerifyLTMPath()
     self.run_mode = self.CreateRunModeInstance()
 
     if FLAGS.debug:
