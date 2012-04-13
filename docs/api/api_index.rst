@@ -10,7 +10,6 @@ Contents:
 
    controller
    run_mode
-   ui
    subspace
    stream
    coderack
