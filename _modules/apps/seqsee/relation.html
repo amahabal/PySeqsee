@@ -49,6 +49,19 @@
           <div class="body">
             
   <h1>Source code for apps.seqsee.relation</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
+
+<span class="c"># This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c"># the terms of the GNU General Public License as published by the Free Software</span>
+<span class="c"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
+
+<span class="c"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
+<span class="c"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
+
+<span class="c"># You should have received a copy of the GNU General Public License along with this</span>
+<span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+
 <span class="sd">&quot;&quot;&quot;A relation is a specific instance of a mapping.&quot;&quot;&quot;</span>
 
 <span class="kn">from</span> <span class="nn">farg.focusable_mixin</span> <span class="kn">import</span> <span class="n">FocusableMixin</span>
@@ -82,7 +95,7 @@
     <span class="c"># TODO(# --- Jan 3, 2012): Too eager, tone this down later.</span>
     <span class="kn">from</span> <span class="nn">apps.seqsee.codelet_families.all</span> <span class="kn">import</span> <span class="n">CF_GroupFromRelation</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">AreEndsContiguous</span><span class="p">():</span>
-      <span class="k">return</span> <span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">CF_GroupFromRelation</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="n">relation</span><span class="o">=</span><span class="bp">self</span><span class="p">),)</span>
+      <span class="k">return</span> <span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">CF_GroupFromRelation</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">relation</span><span class="o">=</span><span class="bp">self</span><span class="p">)),)</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="k">return</span> <span class="p">()</span>
 </div>

@@ -27,7 +27,7 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
     <link rel="up" title="How to ..." href="howto_index.html" />
-    <link rel="next" title="The Core API" href="../api/api_index.html" />
+    <link rel="next" title="How to create a new application" href="create_new_app.html" />
     <link rel="prev" title="How to ..." href="howto_index.html" /> 
   </head>
   <body>
@@ -41,7 +41,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../api/api_index.html" title="The Core API"
+          <a href="create_new_app.html" title="How to create a new application"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="howto_index.html" title="How to ..."
@@ -58,16 +58,43 @@
             
   <div class="section" id="how-to-install-pyseqsee">
 <h1>How to install PySeqsee<a class="headerlink" href="#how-to-install-pyseqsee" title="Permalink to this headline">¶</a></h1>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p class="last">This section needs to be written.</p>
-</div>
 <div class="section" id="requirements">
 <h2>Requirements<a class="headerlink" href="#requirements" title="Permalink to this headline">¶</a></h2>
 <ul class="simple">
-<li>Python 3.1 or higher.</li>
-<li>git (if you are installing from source)</li>
+<li>Python 3.1 or higher. You can download this from <a class="reference external" href="http://python.org">http://python.org</a></li>
 </ul>
+</div>
+<div class="section" id="on-linux-or-other-unix-like-system">
+<h2>On Linux (or other Unix-like system)<a class="headerlink" href="#on-linux-or-other-unix-like-system" title="Permalink to this headline">¶</a></h2>
+<p>Change to the directory where you want to put PySeqsee and type:</p>
+<div class="highlight-python"><pre>git clone git@github.com:amahabal/PySeqsee.git</pre>
+</div>
+<p>This will create a directory called PySeqsee. To test that everything works,
+you can type:</p>
+<div class="highlight-python"><pre>cd PySeqsee/src
+/usr/bin/python3.1 apps/seqsee/run_seqsee.py --sequence=&quot;2 3 5 7 11&quot;</pre>
+</div>
+</div>
+<div class="section" id="on-windows">
+<h2>On Windows<a class="headerlink" href="#on-windows" title="Permalink to this headline">¶</a></h2>
+<p>You can install ActivePython (available from <a class="reference external" href="http://www.activestate.com/activepython/downloads">http://www.activestate.com/activepython/downloads</a>).
+Remember to get Python 3 (the default at the top is Python 2). You might need to
+install git (see <a class="reference external" href="http://help.github.com/win-set-up-git/">http://help.github.com/win-set-up-git/</a> You only need to install it,
+no need to bother with ssh setup or whatnot, unless you want to upload code yourself).</p>
+<p>You will then use git to fetch <a class="reference external" href="mailto:git&#37;&#52;&#48;github&#46;com">git<span>&#64;</span>github<span>&#46;</span>com</a>:amahabal/PySeqsee.git.</p>
+</div>
+<div class="section" id="diagnosing-issues">
+<h2>Diagnosing issues:<a class="headerlink" href="#diagnosing-issues" title="Permalink to this headline">¶</a></h2>
+<p>If you see an error message that ends with:</p>
+<div class="highlight-python"><pre>class Subspace(metaclass=SubspaceMeta):
+                         ^
+SyntaxError: invalid syntax</pre>
+</div>
+<p>The likely reason is that you used Python 2 instead of Python 3.</p>
+</div>
+<div class="section" id="if-something-goes-wrong">
+<h2>If something goes wrong<a class="headerlink" href="#if-something-goes-wrong" title="Permalink to this headline">¶</a></h2>
+<p>Please email <a class="reference external" href="mailto:pyseqsee&#37;&#52;&#48;googlegroups&#46;com">pyseqsee<span>&#64;</span>googlegroups<span>&#46;</span>com</a></p>
 </div>
 </div>
 
@@ -81,6 +108,10 @@
   <ul>
 <li><a class="reference internal" href="#">How to install PySeqsee</a><ul>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
+<li><a class="reference internal" href="#on-linux-or-other-unix-like-system">On Linux (or other Unix-like system)</a></li>
+<li><a class="reference internal" href="#on-windows">On Windows</a></li>
+<li><a class="reference internal" href="#diagnosing-issues">Diagnosing issues:</a></li>
+<li><a class="reference internal" href="#if-something-goes-wrong">If something goes wrong</a></li>
 </ul>
 </li>
 </ul>
@@ -89,8 +120,8 @@
   <p class="topless"><a href="howto_index.html"
                         title="previous chapter">How to ...</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="../api/api_index.html"
-                        title="next chapter">The Core API</a></p>
+  <p class="topless"><a href="create_new_app.html"
+                        title="next chapter">How to create a new application</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/howto/install.txt"
@@ -123,7 +154,7 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="../api/api_index.html" title="The Core API"
+          <a href="create_new_app.html" title="How to create a new application"
              >next</a> |</li>
         <li class="right" >
           <a href="howto_index.html" title="How to ..."

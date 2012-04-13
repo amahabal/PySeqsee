@@ -48,6 +48,7 @@ Contents:
 
    overview/overview_index
    howto/howto_index
+   theory/theory_index
    api/api_index
    developer/developer_index
    seqsee/seqsee_index

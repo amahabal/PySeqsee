@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to ... &mdash; PySeqsee 0.1 documentation</title>
+    <title>How to create a new application &mdash; PySeqsee 0.1 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -26,8 +26,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
-    <link rel="next" title="How to install PySeqsee" href="install.html" />
-    <link rel="prev" title="A brief motivation and overview of PySeqsee" href="../overview/overview_index.html" /> 
+    <link rel="up" title="How to ..." href="howto_index.html" />
+    <link rel="next" title="How to add flags to the application" href="flags.html" />
+    <link rel="prev" title="How to install PySeqsee" href="install.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,12 +41,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="install.html" title="How to install PySeqsee"
+          <a href="flags.html" title="How to add flags to the application"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../overview/overview_index.html" title="A brief motivation and overview of PySeqsee"
+          <a href="install.html" title="How to install PySeqsee"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="howto_index.html" accesskey="U">How to ...</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,28 +56,22 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="how-to">
-<h1>How to ...<a class="headerlink" href="#how-to" title="Permalink to this headline">¶</a></h1>
-<p>This section describes how to achieve various things, both mundane and otherwise
-(e.g., both &#8220;how to install pySeqsee&#8221; and &#8220;how to design with subspaces&#8221; will be
-addressed).</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Still to be written, for the most part.</p>
+  <div class="section" id="how-to-create-a-new-application">
+<h1>How to create a new application<a class="headerlink" href="#how-to-create-a-new-application" title="Permalink to this headline">¶</a></h1>
+<p>I assume here that you have downloaded PySeqsee and are in the src directory.
+Follow these instructions to create a project named Cat:</p>
+<div class="highlight-python"><pre>/usr/bin/python3 ../tools/create_app.py cat</pre>
 </div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">How to install PySeqsee</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_new_app.html">How to create a new application</a></li>
-<li class="toctree-l1"><a class="reference internal" href="flags.html">How to add flags to the application</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_workspace_for_app.html">How to create a workspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workspace_display.html">How to display the workspace in the GUI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_codelet_families.html">How to add a new type of codelet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_subspaces.html">How to create and use a subspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ask_question.html">How to ask the user a question</a></li>
-<li class="toctree-l1"><a class="reference internal" href="batch_and_sxs.html">Evaluation: Batch mode and side-by-side mode</a></li>
-</ul>
+<p>This will prompt you for an application name, and suggest the default &#8216;Cat&#8217;.
+Press Enter to accept this. This will create a subdirectory within apps called
+&#8216;cat&#8217;. The directory will contain, amongst other things, the file &#8216;run_cat.py&#8217;.
+You can launch the new app like this:</p>
+<div class="highlight-python"><pre>/usr/bin/python3 apps/cat/run_cat.py</pre>
 </div>
+<p>This should launch the app. It will not do anything useful yet. After all, it
+knows of no codelets, its slipnet has no nodes, or any of the other wholesome
+goodness you will add later. However, you can still click on the &#8216;view&#8217; on the
+top left to look at, say, the workspace and the coderack.</p>
 </div>
 
 
@@ -85,14 +81,14 @@ addressed).</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../overview/overview_index.html"
-                        title="previous chapter">A brief motivation and overview of PySeqsee</a></p>
-  <h4>Next topic</h4>
   <p class="topless"><a href="install.html"
-                        title="next chapter">How to install PySeqsee</a></p>
+                        title="previous chapter">How to install PySeqsee</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="flags.html"
+                        title="next chapter">How to add flags to the application</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/howto/howto_index.txt"
+    <li><a href="../_sources/howto/create_new_app.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -122,12 +118,13 @@ addressed).</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="install.html" title="How to install PySeqsee"
+          <a href="flags.html" title="How to add flags to the application"
              >next</a> |</li>
         <li class="right" >
-          <a href="../overview/overview_index.html" title="A brief motivation and overview of PySeqsee"
+          <a href="install.html" title="How to install PySeqsee"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+          <li><a href="howto_index.html" >How to ...</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

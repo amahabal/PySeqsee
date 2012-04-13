@@ -49,16 +49,32 @@
           <div class="body">
             
   <h1>Source code for farg.controller</h1><div class="highlight"><pre>
-<span class="kn">from</span> <span class="nn">farg.codelet</span> <span class="kn">import</span> <span class="n">Codelet</span>
-<span class="kn">from</span> <span class="nn">farg.coderack</span> <span class="kn">import</span> <span class="n">Coderack</span>
-<span class="kn">from</span> <span class="nn">farg.ltm.manager</span> <span class="kn">import</span> <span class="n">LTMManager</span>
-<span class="kn">from</span> <span class="nn">farg.stream</span> <span class="kn">import</span> <span class="n">Stream</span>
-<span class="kn">from</span> <span class="nn">farg.util</span> <span class="kn">import</span> <span class="n">Toss</span>
-<span class="kn">import</span> <span class="nn">logging</span>
-<span class="kn">from</span> <span class="nn">farg.exceptions</span> <span class="kn">import</span> <span class="n">FargException</span><span class="p">,</span> <span class="n">YesNoException</span><span class="p">,</span> <span class="n">NoAnswerException</span><span class="p">,</span> \
-  <span class="n">AnswerFoundException</span>
+<span class="c"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
 
-<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+<span class="c"># This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c"># the terms of the GNU General Public License as published by the Free Software</span>
+<span class="c"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
+
+<span class="c"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
+<span class="c"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
+
+<span class="c"># You should have received a copy of the GNU General Public License along with this</span>
+<span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+
+<span class="kn">from</span> <span class="nn">farg.stream</span> <span class="kn">import</span> <span class="n">Stream</span>
+<span class="kn">from</span> <span class="nn">farg.coderack</span> <span class="kn">import</span> <span class="n">Coderack</span>
+<span class="kn">from</span> <span class="nn">farg.util</span> <span class="kn">import</span> <span class="n">Toss</span>
+<span class="kn">from</span> <span class="nn">farg.codelet</span> <span class="kn">import</span> <span class="n">Codelet</span>
+<span class="kn">from</span> <span class="nn">farg.ltm.manager</span> <span class="kn">import</span> <span class="n">LTMManager</span>
+<span class="kn">from</span> <span class="nn">farg.exceptions</span> <span class="kn">import</span> <span class="n">StoppingConditionMet</span>
+<span class="kn">from</span> <span class="nn">third_party</span> <span class="kn">import</span> <span class="n">gflags</span>
+
+<span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
+
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_integer</span><span class="p">(</span><span class="s">&#39;stopping_condition_granularity&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span>
+                      <span class="s">&quot;How frequently the stopping condition is evaluated, as measured in&quot;</span>
+                      <span class="s">&quot; number of codelets.&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A controller is responsible for controlling the Coderack.</span>
@@ -72,31 +88,52 @@
 <span class="sd">     likelihood.  Second, a codelet is selected from the Coderack and executed.  This codelet</span>
 <span class="sd">     may access the stream, the long-term memory, or the workspace and could even add other</span>
 <span class="sd">     codelets which the next call to &#39;Step&#39; may execute.</span>
-
-<span class="sd">     Args:</span>
-<span class="sd">       * stream_class: What sort of stream to set up? Defaults to the standard stream.</span>
-<span class="sd">       * routine_codelets_to_add: This is a list containing 3-tuples made up of</span>
-<span class="sd">         (family, urgency, probability). The probability is ignored during a Step if the</span>
-<span class="sd">         coderack is empty.</span>
-<span class="sd">       * ltm_name: If provides, the LTM file is loaded and available as self.ltm.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">stream_class</span><span class="o">=</span><span class="n">Stream</span><span class="p">,</span> <span class="n">routine_codelets_to_add</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">ltm_name</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;This class provides a generic controller. Applications will usually subclass this.&quot;&quot;&quot;</span>
-    <span class="c">#: The coderack. Currently, this always has capacity 10.</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span> <span class="o">=</span> <span class="n">Coderack</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+
+  <span class="c">#: What type of stream is owned by the controller.</span>
+  <span class="n">stream_class</span> <span class="o">=</span> <span class="n">Stream</span>
+  <span class="c">#: What type of coderack is owned by the controller.</span>
+  <span class="n">coderack_class</span> <span class="o">=</span> <span class="n">Coderack</span>
+  <span class="c">#: What type of workspace is owned by the controller. With None, gets no workspace.</span>
+  <span class="n">workspace_class</span> <span class="o">=</span> <span class="bp">None</span>
+  <span class="c">#: This is a list containing 3-tuples made up of (family, urgency, probability).</span>
+  <span class="c">#: The probability is ignored during a Step if the coderack is empty.</span>
+  <span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="p">()</span>
+  <span class="c">#: Name of LTM used by the controller. If None, no LTM is created.</span>
+  <span class="n">ltm_name</span> <span class="o">=</span> <span class="bp">None</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">state_lock</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">controller_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
+               <span class="n">parent_controller</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">workspace_arguments</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">stopping_condition</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="c">#: How deeply in the stack this controller is. The top-level controller has a depth</span>
+    <span class="c">#: of 0, Subspaces it spawns 1, and so forth.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">controller_depth</span> <span class="o">=</span> <span class="n">controller_depth</span>
+    <span class="c">#: If this is a controller of a subspace, this points to parent_controller.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">parent_controller</span> <span class="o">=</span> <span class="n">parent_controller</span>
+    <span class="c">#: Lock used for any real work (i.e., in step).</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">state_lock</span> <span class="o">=</span> <span class="n">state_lock</span>
+    <span class="c">#: The coderack.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coderack_class</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
     <span class="c">#: The stream.</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">stream</span> <span class="o">=</span> <span class="n">stream_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
-    <span class="c">#: An iterable of three-tuples that names a family, urgency, and probability of addition.</span>
-    <span class="c">#: At each step, a codelet is added with the said probability, and with this urgency.</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="n">routine_codelets_to_add</span>
-    <span class="c">#: Number of steps taken</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span> <span class="o">=</span> <span class="mi">0</span>
-    <span class="k">if</span> <span class="n">ltm_name</span><span class="p">:</span>
-      <span class="c">#: The LTM (if any)</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">ltm</span> <span class="o">=</span> <span class="n">LTMManager</span><span class="o">.</span><span class="n">GetLTM</span><span class="p">(</span><span class="n">ltm_name</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stream</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stream_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspace_class</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">workspace_arguments</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="n">workspace_arguments</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+      <span class="c">#: Workspace</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">workspace</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">workspace_class</span><span class="p">(</span><span class="o">**</span><span class="n">workspace_arguments</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ltm_name</span><span class="p">:</span>
+      <span class="c">#: LTM, if any</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">ltm</span> <span class="o">=</span> <span class="n">LTMManager</span><span class="o">.</span><span class="n">GetLTM</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ltm_name</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">ltm</span> <span class="o">=</span> <span class="bp">None</span>
-
+    <span class="c">#: Number of steps taken</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c">#: The UI running this controller. May be a GUI or a Guided UI (which knows how to</span>
+    <span class="c">#: answer questions that&#39;d normally be answered by a user in a GUI). Any subspace</span>
+    <span class="c">#: spawned by this space shall inherit the ui.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">ui</span>
+    <span class="c">#: Stopping condition (for SxS and batch modes).</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stopping_condition</span> <span class="o">=</span> <span class="n">stopping_condition</span>
     <span class="c"># Add any routine codelets...</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_AddRoutineCodelets</span><span class="p">(</span><span class="n">force</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
 
@@ -114,8 +151,6 @@
       <span class="k">for</span> <span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">probability</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">routine_codelets_to_add</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">force</span> <span class="ow">or</span> <span class="n">Toss</span><span class="p">(</span><span class="n">probability</span><span class="p">):</span>
           <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">urgency</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-          <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;Skipped adding routine codelet&#39;</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Controller.Step"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller.Step">[docs]</a>  <span class="k">def</span> <span class="nf">Step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -123,49 +158,35 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span> <span class="o">+=</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ltm</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">_timesteps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span>
-    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&#39;============ Started Step #</span><span class="si">%d</span><span class="s">&#39;</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_AddRoutineCodelets</span><span class="p">()</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">IsEmpty</span><span class="p">():</span>
       <span class="n">codelet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">GetCodelet</span><span class="p">()</span>
-      <span class="c"># TODO(#14 --- Dec 28, 2011): Find a way to pretty-print family names.</span>
-      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Running codelet of family </span><span class="si">%s</span><span class="s">&quot;</span><span class="p">,</span> <span class="n">codelet</span><span class="o">.</span><span class="n">family</span><span class="p">)</span>
-      <span class="k">try</span><span class="p">:</span>
-        <span class="n">codelet</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
-      <span class="k">except</span> <span class="n">FargException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">HandleFargException</span><span class="p">(</span><span class="n">e</span><span class="p">)</span>
-    <span class="k">else</span><span class="p">:</span>
-      <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s">&quot;Empty coderack, step is a no-op.&quot;</span><span class="p">)</span>
-
+      <span class="n">codelet</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_condition</span><span class="p">:</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span> <span class="o">%</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition_granularity</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+          <span class="k">raise</span> <span class="n">StoppingConditionMet</span><span class="p">(</span><span class="n">codelet_count</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Controller.RunUptoNSteps"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller.RunUptoNSteps">[docs]</a>  <span class="k">def</span> <span class="nf">RunUptoNSteps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Takes upto N steps. In these, it is possible that an answer is found and an exception</span>
 <span class="sd">       raised.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">):</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">Step</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pause_stepping</span><span class="p">:</span>
+        <span class="k">return</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_lock</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span><span class="p">:</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_lock</span><span class="p">:</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">Step</span><span class="p">()</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">Step</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="Controller.Quit"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller.Quit">[docs]</a>  <span class="k">def</span> <span class="nf">Quit</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Gets called when the app is about to quit, in case any cleanup is needed.&quot;&quot;&quot;</span>
-    <span class="c"># TODO(# --- Jan 27, 2012): Does not belong here. Just dump current LTM.</span>
-    <span class="n">LTMManager</span><span class="o">.</span><span class="n">SaveAllOpenLTMS</span><span class="p">()</span>
-</div>
-<div class="viewcode-block" id="Controller.AddCodelet"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller.AddCodelet">[docs]</a>  <span class="k">def</span> <span class="nf">AddCodelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="o">**</span><span class="n">arguments</span><span class="p">):</span>
+<div class="viewcode-block" id="Controller.AddCodelet"><a class="viewcode-back" href="../../developer/controller.html#farg.controller.Controller.AddCodelet">[docs]</a>  <span class="k">def</span> <span class="nf">AddCodelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">arguments_dict</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Adds a codelet to the coderack.&quot;&quot;&quot;</span>
-    <span class="n">codelet</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="o">**</span><span class="n">arguments</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">codelet</span><span class="p">)</span>
-</div>
-  <span class="k">def</span> <span class="nf">HandleFargException</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">exception</span><span class="p">):</span>
-    <span class="k">if</span> <span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">NoAnswerException</span><span class="p">)</span> <span class="ow">or</span>
-        <span class="nb">isinstance</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">AnswerFoundException</span><span class="p">)):</span>
-      <span class="k">raise</span> <span class="n">exception</span>
-    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">exception</span><span class="p">,</span> <span class="n">YesNoException</span><span class="p">):</span>
-      <span class="n">exception</span><span class="o">.</span><span class="n">callback</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AskYesNoQuestion</span><span class="p">(</span><span class="n">exception</span><span class="o">.</span><span class="n">question_string</span><span class="p">))</span>
-    <span class="k">else</span><span class="p">:</span>
-      <span class="k">print</span><span class="p">(</span><span class="s">&#39;----------&#39;</span><span class="p">)</span>
-      <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">exception</span><span class="o">.</span><span class="n">stack_trace</span><span class="p">:</span>
-        <span class="k">print</span><span class="p">(</span><span class="n">line</span><span class="p">)</span>
-      <span class="k">print</span><span class="p">(</span><span class="s">&#39;----------&#39;</span><span class="p">)</span>
-      <span class="k">raise</span> <span class="n">exception</span></div>
+    <span class="k">if</span> <span class="n">arguments_dict</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
+      <span class="n">arguments_dict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">codelet</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="n">family</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
+                      <span class="n">urgency</span><span class="o">=</span><span class="n">urgency</span><span class="p">,</span> <span class="n">arguments_dict</span><span class="o">=</span><span class="n">arguments_dict</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">codelet</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
