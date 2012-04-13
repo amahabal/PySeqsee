@@ -48,4 +48,9 @@ solving such sequences.
 
 What enables people to understand such a sequence 
 effortlessly?  There are several easily picked up the hints as to the 
-grouping of the terms: {{write this}}.  
+grouping of the terms: {{write this}}.
+  
+.. note::
+  
+  This section needs to be written. I suspect, however, that anybody who reached this page
+  today already knows this stuff. I will soon update this.  

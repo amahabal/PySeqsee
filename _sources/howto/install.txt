@@ -1,0 +1,14 @@
+How to install PySeqsee
+=========================
+
+.. note::
+ 
+  This section needs to be written.
+
+Requirements
+---------------
+
+* Python 3.1 or higher.
+* git (if you are installing from source)
+
+

@@ -27,8 +27,8 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
     <link rel="up" title="The Core API" href="api_index.html" />
-    <link rel="next" title="Subspace" href="subspace.html" />
-    <link rel="prev" title="The User Interface" href="ui.html" /> 
+    <link rel="next" title="Run Mode" href="run_mode.html" />
+    <link rel="prev" title="The Core API" href="api_index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,10 +41,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="subspace.html" title="Subspace"
+          <a href="run_mode.html" title="Run Mode"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="ui.html" title="The User Interface"
+          <a href="api_index.html" title="The Core API"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
           <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
@@ -58,50 +58,108 @@
             
   <div class="section" id="controller">
 <h1>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h1>
-<p>The controller marshalls the various pieces such as coderack, stream and the
-workspace.</p>
-<blockquote>
-<div><ul>
-<li><p class="first">Keeps a pointer to the UI. Subspaces have their own contollers, but they
-all point to the same UI. This is needed for such tasks as asking a
-question:</p>
+<p>A controller is the purely mechanical (read &#8220;dumb&#8221;) loop that controls the
+entire application as well as individual subspaces that the application may
+create to tackle subproblems. Each subspace gets its own controller.</p>
+<p>Each controller has its own coderack, stream, long-term memory, and workspace.
+These may be accessed thus, respectively:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">coderack</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">stream</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">ltm</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">workspace</span>
+</pre></div>
+</div>
+<div class="section" id="customizing-the-controller-class">
+<h2>Customizing the controller class<a class="headerlink" href="#customizing-the-controller-class" title="Permalink to this headline">¶</a></h2>
+<p>A controller is an instance of a subclass of <a class="reference internal" href="../developer/controller.html#farg.controller.Controller" title="farg.controller.Controller"><tt class="xref py py-class docutils literal"><span class="pre">farg.controller.Controller</span></tt></a>. It is
+possible to configure the controller in a number of ways. Before we look at the configuration,
+here is a brief outline of the main function provided by the controller, namely,
+<a class="reference internal" href="../developer/controller.html#farg.controller.Controller.Step" title="farg.controller.Controller.Step"><tt class="xref py py-meth docutils literal"><span class="pre">farg.controller.Controller.Step()</span></tt></a>.</p>
+<p>A step involves choosing a codelet from the coderack and running it. The codelet has access to
+each of the components owned by the controller (namely, the coderack, stream, ltm, and
+workspace). The action of the codelet can have any number of effects including the creation
+of more codelets, directing the application&#8217;s attention somewhere (a notion explored later
+when we look at streams), create structures in the workspace, or extend the LTM or pump
+activation into some concept.</p>
+<p>Furthermore, after each step, more codelets are probabilistically added to the coderack. The
+class variable <a class="reference internal" href="../developer/controller.html#farg.controller.Controller.routine_codelets_to_add" title="farg.controller.Controller.routine_codelets_to_add"><tt class="xref py py-attr docutils literal"><span class="pre">farg.controller.Controller.routine_codelets_to_add</span></tt></a> contains 3-tuples
+(class, urgency, probability) specifying the class of the new codelet, its urgency, and the
+probability with which to add it.</p>
+<p>In the next few paragraphs, we will look at customizing a hypothetical controller called Foo.
+Its code will begin thus:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="o">...</span>  <span class="c"># customization here</span>
+</pre></div>
+</div>
+<p>The simplest customization is to specify codelets to be added after each step:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="p">((</span><span class="n">CodeletFamilyBar</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span>
+                             <span class="p">(</span><span class="n">CodeletFamilyBat</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Another customization is to use a non-default class for the coderack or the stream. This
+should in general not be required, and the default classes <a class="reference internal" href="../developer/coderack.html#farg.coderack.Coderack" title="farg.coderack.Coderack"><tt class="xref py py-class docutils literal"><span class="pre">farg.coderack.Coderack</span></tt></a>
+and <a class="reference internal" href="../developer/stream.html#farg.stream.Stream" title="farg.stream.Stream"><tt class="xref py py-class docutils literal"><span class="pre">farg.stream.Stream</span></tt></a> should be adequate. But the customization is available if
+needed. No argument is passed to the constructor of these classes to create the coderack or
+the stream:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">coderack_class</span> <span class="o">=</span> <span class="n">SomeClass</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">stream_class</span> <span class="o">=</span> <span class="n">SomeOtherClass</span>
+</pre></div>
+</div>
+<p>The workspace class can be specified as follows. If it is not Null, it will be
+initialized with a dictionary that is passed in the workspace_arguments argument
+of the controller&#8217;s constructor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">workspace_class</span> <span class="o">=</span> <span class="n">YetAnotherClass</span>  <span class="c"># Default: None</span>
+</pre></div>
+</div>
+<p>The LTM&#8217;s name can be specified as below. The LTM manager will be used to load
+this (if not already loaded) and to initialize it if it is empty:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ltm_name</span> <span class="o">=</span> <span class="s">&#39;LtmName&#39;</span>  <span class="c"># Default: None</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="the-ui">
+<h2>The UI<a class="headerlink" href="#the-ui" title="Permalink to this headline">¶</a></h2>
+<p>A UI can be graphical or not. At any time, at most one UI is active, and it is
+shared by all controllers. It can be accessed as:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ui</span>  <span class="c"># Points to the UI (usually a GUI).</span>
 </pre></div>
 </div>
-</li>
-<li><p class="first">Keeps a pointer to a coderack:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">coderack</span>  <span class="c"># Created when controller is initialized</span>
-</pre></div>
+<p>The UI provides the important method called AskQuestion. This can be used by the
+controller to ask for confirmation of the answer, for instance. In case of a
+graphical UI, this could result in the user being asked the question. In other
+cases (such as in automated testing), the UI may be given enough knowledge to
+answer the question itself. See the UI documentation for details.</p>
 </div>
-</li>
-<li><p class="first">Keeps a pointer to a stream. This stream is of the class specified at
-construction:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">stream</span>
-</pre></div>
+<div class="section" id="the-stopping-condition">
+<h2>The Stopping Condition<a class="headerlink" href="#the-stopping-condition" title="Permalink to this headline">¶</a></h2>
+<p>It is possible to specify a stopping condition for a controller. This is useful for testing
+when weighing a potential change. When contemplating the change, it is useful to see how long
+it takes with the change and without the change until some significant event occurs (such as
+the discovery of the answer, for instance). This will be discussed elsewhere.</p>
 </div>
-</li>
-<li><p class="first">Keeps a pointer to an LTM. This can be <em>None</em>:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ltm</span>
-</pre></div>
+<div class="section" id="the-constructor">
+<h2>The Constructor<a class="headerlink" href="#the-constructor" title="Permalink to this headline">¶</a></h2>
+<p>The constructor takes the following named arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li>ui (required)</li>
+<li>controller_depth. The top controller has depth 0, its subspaces have depth 1, and so
+forth. The default is 0.</li>
+<li>parent_controller. If present, it points to the controller that created this subspace.
+Defaults to None (which indicates a top-level controller).</li>
+<li>workspace_arguments. If present, this should be a dict() and will be used to initialize
+the workspace.</li>
+<li>stopping_condition. If present, this should be a function that takes the controller as
+the only input and returns true or false.</li>
+</ul>
+</div></blockquote>
 </div>
-</li>
-<li><p class="first">It is possible to ask the controller to add certain codelets at each step.
-This is specified at construction using an iterable consisting of any
-number of 3-tuples (family, urgency, probability-of-addition):</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">routine_codelets_to_add</span>
-</pre></div>
-</div>
-</li>
-<li><p class="first">The constructor becomes clearer in terms of the bullets above. The
-<em>stream_class</em> controls the type of stream created, the
-<em>routine_codelets_to_add</em> controls codelets added at each stage, and
-<em>ltm_name</em> helps choose which LTM to load, if any:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Controller</span><span class="p">(</span><span class="n">stream_class</span><span class="o">=</span><span class="n">Stream</span><span class="p">,</span>
-               <span class="n">routine_codelets_to_add</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
-               <span class="n">ltm_name</span><span class="o">=</span><span class="bp">None</span><span class="p">)</span>
-</pre></div>
-</div>
-</li>
+<div class="section" id="available-attributes-and-methods">
+<h2>Available attributes and methods<a class="headerlink" href="#available-attributes-and-methods" title="Permalink to this headline">¶</a></h2>
+<blockquote>
+<div><ul>
 <li><p class="first">The epoch of the controller &#8212; how many steps it has taken &#8212; is
 maintained:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span>
@@ -115,15 +173,14 @@ keeps a pointer to a controller:</p>
 </div>
 </li>
 <li><p class="first">Finally, it provides a Step method. It executes the next (stochastically
-chosen) step in the model.</p>
-<p>This should catch all farg-related exceptions and prevent them from
-bubbling to the UI:</p>
+chosen) step in the model:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">Step</span><span class="p">()</span>
 </pre></div>
 </div>
 </li>
 </ul>
 </div></blockquote>
+</div>
 </div>
 
 
@@ -132,12 +189,24 @@ bubbling to the UI:</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Controller</a><ul>
+<li><a class="reference internal" href="#customizing-the-controller-class">Customizing the controller class</a></li>
+<li><a class="reference internal" href="#the-ui">The UI</a></li>
+<li><a class="reference internal" href="#the-stopping-condition">The Stopping Condition</a></li>
+<li><a class="reference internal" href="#the-constructor">The Constructor</a></li>
+<li><a class="reference internal" href="#available-attributes-and-methods">Available attributes and methods</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
-  <p class="topless"><a href="ui.html"
-                        title="previous chapter">The User Interface</a></p>
+  <p class="topless"><a href="api_index.html"
+                        title="previous chapter">The Core API</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="subspace.html"
-                        title="next chapter">Subspace</a></p>
+  <p class="topless"><a href="run_mode.html"
+                        title="next chapter">Run Mode</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
     <li><a href="../_sources/api/controller.txt"
@@ -170,10 +239,10 @@ bubbling to the UI:</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="subspace.html" title="Subspace"
+          <a href="run_mode.html" title="Run Mode"
              >next</a> |</li>
         <li class="right" >
-          <a href="ui.html" title="The User Interface"
+          <a href="api_index.html" title="The Core API"
              >previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
           <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
