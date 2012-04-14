@@ -4,6 +4,7 @@ from third_party import gflags
 from tkinter import *
 from tkinter.messagebox import askyesno
 from tkinter.ttk import *
+import logging
 import threading
 
 gflags.DEFINE_integer('gui_canvas_height', 500,
@@ -56,7 +57,12 @@ class GUI:
 
   def UpdateDisplay(self):
     for item in self.items_to_refresh:
-      item.ReDraw()
+      try:
+        item.ReDraw()
+      except RuntimeError as e:
+        # This may occur because the object being updates may have changed. Log a warning
+        # and continue.
+        logging.warn('Runtime error while updating: %s' % e)
     self.codelet_count_var.set('%d' % self.controller.steps_taken)
 
   def SetupWindows(self):
