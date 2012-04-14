@@ -31,7 +31,6 @@ class Subspace(metaclass=SubspaceMeta):
   def __init__(self, parent_controller, nsteps, workspace_arguments):
     self.controller = self.controller_class(
         ui=parent_controller.ui,
-        state_lock=None,
         controller_depth=(parent_controller.controller_depth + 1),
         workspace_arguments=workspace_arguments,
         parent_controller=parent_controller)

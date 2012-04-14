@@ -1,14 +1,13 @@
-#!/usr/bin/python
 # Copyright (C) 2011, 2012  Abhijit Mahabal
-
+#
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
 # Foundation, either version 3 of the License, or (at your option) any later version.
-
+#
 # This program is distributed in the hope that it will be useful, but WITHOUT ANY
 # WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
 # A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
+#
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
@@ -60,6 +59,10 @@ class SeqseeMain(Main):
     """
     FLAGS.sequence = [int(x) for x in FLAGS.sequence]
     FLAGS.unrevealed_terms = [int(x) for x in FLAGS.unrevealed_terms]
+    if not(FLAGS.sequence) and (FLAGS.run_mode == 'gui' or FLAGS.run_mode == 'single'):
+      print('No terms specified for the input sequence. Use --sequence="...", '
+            'where the ... represents a space separated list of input integers.')
+      sys.exit(1)
 
 if __name__ == '__main__':
   SeqseeMain().main(sys.argv)

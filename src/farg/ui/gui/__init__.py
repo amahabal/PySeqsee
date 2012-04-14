@@ -32,13 +32,12 @@ class GUI:
   central_pane_class = CentralPane
 
   def __init__(self, *, controller_class, stopping_condition_fn=None):
-    self.state_lock = threading.Lock()
     self.run_state_lock = threading.Lock()
     self.pause_stepping = False
     self.quitting = False
     self.stepping_thread = None
 
-    self.controller = controller_class(ui=self, state_lock=self.state_lock,
+    self.controller = controller_class(ui=self,
                                        controller_depth=0,
                                        stopping_condition=stopping_condition_fn)
     self.mw = mw = Tk()

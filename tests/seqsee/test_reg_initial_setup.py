@@ -18,8 +18,7 @@ FLAGS.unrevealed_terms = []
 class TestRegtestInitialSetup(unittest.TestCase):
   def test_sanity(self):
     ui = BatchUI(controller_class=SeqseeController)
-    state_lock = threading.Lock()
-    controller = SeqseeController(ui=ui, state_lock=state_lock, controller_depth=0)
+    controller = SeqseeController(ui=ui, controller_depth=0)
     self.assertTrue(isinstance(controller.workspace, Workspace))
     self.assertTrue(isinstance(controller.coderack, Coderack))
     self.assertTrue(isinstance(controller.stream, Stream))
@@ -28,8 +27,7 @@ class TestRegtestInitialSetup(unittest.TestCase):
 
   def test_ws(self):
     ui = BatchUI(controller_class=SeqseeController)
-    state_lock = threading.Lock()
-    controller = SeqseeController(ui=ui, state_lock=state_lock, controller_depth=0)
+    controller = SeqseeController(ui=ui, controller_depth=0)
     workspace = controller.workspace
     workspace.InsertElements(1, 1, 2, 1, 2, 3)
     self.assertEqual(6, workspace.num_elements)

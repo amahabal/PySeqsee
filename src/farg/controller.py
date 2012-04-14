@@ -51,7 +51,7 @@ class Controller(object):
   #: Name of LTM used by the controller. If None, no LTM is created.
   ltm_name = None
 
-  def __init__(self, *, ui, state_lock=None, controller_depth=0,
+  def __init__(self, *, ui, controller_depth=0,
                parent_controller=None, workspace_arguments=None,
                stopping_condition=None):
     #: How deeply in the stack this controller is. The top-level controller has a depth
@@ -59,8 +59,6 @@ class Controller(object):
     self.controller_depth = controller_depth
     #: If this is a controller of a subspace, this points to parent_controller.
     self.parent_controller = parent_controller
-    #: Lock used for any real work (i.e., in step).
-    self.state_lock = state_lock
     #: The coderack.
     self.coderack = self.coderack_class(10)
     #: The stream.
@@ -123,11 +121,7 @@ class Controller(object):
     for _ in range(n_steps):
       if self.ui.pause_stepping:
         return
-      if self.state_lock is not None:
-        with self.state_lock:
-          self.Step()
-      else:
-        self.Step()
+      self.Step()
 
   def AddCodelet(self, *, family, urgency, arguments_dict=None):
     """Adds a codelet to the coderack."""

@@ -19,12 +19,6 @@ from farg.ui.gui import GUI
 from farg.ui.gui.central_pane import CentralPane
 from farg.ui.gui.views.coderack_view import CoderackView
 from farg.ui.gui.views.stream_view import StreamView
-from third_party import gflags
-
-gflags.DEFINE_boolean('gui_show_ltm', False,
-                      "Whether to show the LTM (it's expensive!)")
-
-FLAGS = gflags.FLAGS
 
 class SeqseeCentralPane(CentralPane):
   default_initial_view = 'ws'
