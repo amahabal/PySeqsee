@@ -60,7 +60,7 @@
 <h1>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
 <dt id="farg.controller.Controller">
-<em class="property">class </em><tt class="descclassname">farg.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>ui</em>, <em>state_lock</em>, <em>controller_depth</em>, <em>parent_controller</em>, <em>workspace_arguments</em>, <em>stopping_condition</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">farg.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>ui</em>, <em>controller_depth</em>, <em>parent_controller</em>, <em>workspace_arguments</em>, <em>stopping_condition</em><big>)</big><a class="reference internal" href="../_modules/farg/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.controller.Controller" title="Permalink to this definition">¶</a></dt>
 <dd><p>A controller is responsible for controlling the Coderack.
 The Coderack, in turn, by the action of codelets, marshals the various pieces of a space
 or of an entire application.  These pieces include the stream, the long-term memory, and
@@ -133,12 +133,6 @@ of 0, Subspaces it spawns 1, and so forth.</p>
 <tt class="descname">routine_codelets_to_add</tt><em class="property"> = ()</em><a class="headerlink" href="#farg.controller.Controller.routine_codelets_to_add" title="Permalink to this definition">¶</a></dt>
 <dd><p>This is a list containing 3-tuples made up of (family, urgency, probability).
 The probability is ignored during a Step if the coderack is empty.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="farg.controller.Controller.state_lock">
-<tt class="descname">state_lock</tt><em class="property"> = None</em><a class="headerlink" href="#farg.controller.Controller.state_lock" title="Permalink to this definition">¶</a></dt>
-<dd><p>Lock used for any real work (i.e., in step).</p>
 </dd></dl>
 
 <dl class="attribute">

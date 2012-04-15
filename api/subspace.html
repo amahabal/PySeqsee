@@ -58,37 +58,60 @@
             
   <div class="section" id="subspace">
 <h1>Subspace<a class="headerlink" href="#subspace" title="Permalink to this headline">¶</a></h1>
-<p>This is the base class from which subspace classes subclass. To call a subspace &#8212; say,
-SubspaceFoo &#8212; just construct a subclass object, and it will take care of the rest:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">return_value</span> <span class="o">=</span> <span class="n">SubspaceFoo</span><span class="p">(</span><span class="n">parent_controller</span><span class="p">,</span> <span class="n">nsteps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span>
-                           <span class="n">args</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">a</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">b</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<p>A subspace is created for a specific task (think &#8220;explaining an answer&#8221; or &#8220;estimating if
+we have solved the problem&#8221;.</p>
+<p><tt class="xref py py-class docutils literal"><span class="pre">farg.subspace.Subspace</span></tt> is the base class from which any particular subspace
+is derived. To create a new type of subspace, we subclass like this:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">SubspaceFoo</span><span class="p">(</span><span class="n">Subspace</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot;This subspace does Foo.&quot;&quot;&quot;</span>
+   <span class="k">pass</span>  <span class="c"># More details below</span>
 </pre></div>
 </div>
-<p>The subclass should define a method that will do a quick survey over available methods
-to come up with a quick solution or a recommendation for deeper exploration:</p>
-<div class="highlight-python"><pre>class SubspaceFoo(Subspace):
-  ...
-  @staticmethod
-  def QuickReconn(arg1, arg2):
-    # do something.</pre>
-</div>
-<p>When QuickReconn suggests deeper exploration, a coderack, stream, and workspace are set up,
-as well as a controller. These are available:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">controller</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">workspace</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">coderack</span>
-<span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">stream</span>
+<p>In order to use the subspace, you will say elsewhere:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">response</span> <span class="o">=</span> <span class="n">SubspaceFoo</span><span class="p">(</span><span class="n">controller</span><span class="p">,</span> <span class="n">workspace_arguments</span><span class="o">=</span><span class="nb">dict</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">3</span><span class="p">))</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
 </pre></div>
 </div>
-<p>The controller&#8217;s parent controller is also set up here, and it can be accessed thus:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">parent_controller</span>
-</pre></div>
+<p>This has the following effect, in this order:</p>
+<ol class="arabic">
+<li><p class="first">If the class defines a method QuickReconn, it is called. It will try to do a quick and
+superficial job of completing the task. This returns a QuickReconnResponse object, which
+can be one of three things:</p>
+<ul class="simple">
+<li>An indication that an answer has been found</li>
+<li>An indication that the superficial exploration showed that no answer will be found</li>
+<li>A request for deeper exploration. Deeper exploration involves a system very similar to
+the system for the entire application &#8212; that is, a controller, stream, coderack, ltm,
+and workspace will be setup, and multiple codelets will attempt to reach an answer.</li>
+</ul>
+<p>If it is one of the first two responses, either the answer or <cite>None</cite> is returned, as
+appropriate. Otherwise, the extra machinery of controller and so forth is set up.</p>
+</li>
+<li><p class="first">The InitializeCoderack method is called. If there is any chance that the QuickReconn
+method will return the third response (deeper exploration), this method must be
+defined. This will add one or more codelets to the coderack.</p>
+</li>
+<li><p class="first">The controller is started. Its codelets can raise <cite>AnswerFound</cite> or <cite>NoAnswerCanBeFound</cite>
+exceptions to return an answer. If the maximum number of allowed codelets is reached
+without either exception, <cite>None</cite> is returned.</p>
+</li>
+</ol>
+<div class="section" id="quickreconn">
+<h2>QuickReconn<a class="headerlink" href="#quickreconn" title="Permalink to this headline">¶</a></h2>
+<p>This method has access to the parent controller (and therefore its workspace and other pieces),
+to the workspace arguments passed in, and the number of steps allowed for the controller:</p>
+<div class="highlight-python"><pre>self.parent_controller
+self.workspace_arguments:
+self.nsteps</pre>
 </div>
-<p>The coderack should be initialized by the InitializeCoderack method, which can access the
-coderack through the controller:</p>
+</div>
+<div class="section" id="initializing-the-coderack">
+<h2>Initializing the Coderack<a class="headerlink" href="#initializing-the-coderack" title="Permalink to this headline">¶</a></h2>
+<p>When InitializeCoderack is called, the controller has already been set up. A typical
+initialization function looks like:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">def</span> <span class="nf">InitializeCoderack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-  <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="o">...</span><span class="p">)</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">SomeCodeletFamily</span><span class="p">,</span> <span class="n">urgency</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="nb">dict</span><span class="p">())</span>
 </pre></div>
+</div>
 </div>
 </div>
 
@@ -98,6 +121,15 @@ coderack through the controller:</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Subspace</a><ul>
+<li><a class="reference internal" href="#quickreconn">QuickReconn</a></li>
+<li><a class="reference internal" href="#initializing-the-coderack">Initializing the Coderack</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="run_mode.html"
                         title="previous chapter">Run Mode</a></p>
