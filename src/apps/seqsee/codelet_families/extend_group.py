@@ -48,7 +48,7 @@ class CF_ExtendGroup(CodeletFamily):
         should_continue = SubspaceGoBeyondKnown(
             controller,
             workspace_arguments=dict(basis_of_extension=item,
-                                     suggested_terms=magnitudes))
+                                     suggested_terms=magnitudes)).Run()
         if not should_continue:
           return
       else:
@@ -87,9 +87,9 @@ class CF_ExtendGroup(CodeletFamily):
       SubspaceDealWithConflictingGroups(
           controller,
           workspace_arguments=dict(new_group=new_group,
-                                   incumbents=e.conflicting_groups))
+                                   incumbents=e.conflicting_groups)).Run()
     except CannotReplaceSubgroupException as e:
       SubspaceDealWithConflictingGroups(
           controller,
           workspace_arguments=dict(new_group=new_group,
-                                   incumbents=e.supergroups))
+                                   incumbents=e.supergroups)).Run()

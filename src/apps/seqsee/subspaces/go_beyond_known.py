@@ -50,10 +50,6 @@ class SubspaceGoBeyondKnown(Subspace):
         self.basis_of_extension = basis_of_extension
         self.suggested_terms = suggested_terms
 
-  @staticmethod
-  def QuickReconn(**arguments):
-    pass
-
   def InitializeCoderack(self):
     self.controller.AddCodelet(family=CF_InitialEvaluation, urgency=100)
 

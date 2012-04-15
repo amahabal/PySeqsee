@@ -48,9 +48,5 @@ class SubspaceDealWithConflictingGroups(Subspace):
         self.new_group = new_group
         self.incumbents = incumbents
 
-  @staticmethod
-  def QuickReconn(**arguments):
-    pass
-
   def InitializeCoderack(self):
     self.controller.AddCodelet(family=CF_FightIncumbents, urgency=100)

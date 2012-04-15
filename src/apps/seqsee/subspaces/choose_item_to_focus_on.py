@@ -11,8 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-from farg.subspace import Subspace
-from farg.exceptions import AnswerFoundException
+from farg.subspace import QuickReconnResults, Subspace
 from farg.util import WeightedChoice
 
 def ThingsToChooseFrom(ws):
@@ -27,8 +26,10 @@ def ThingsToChooseFrom(ws):
     yield (gp, gp.strength)
 
 class SubspaceSelectObjectToFocusOn(Subspace):
-  @staticmethod
-  def QuickReconn(**arguments):
-    parent_ws = arguments['parent_controller'].workspace
-    raise AnswerFoundException(WeightedChoice(ThingsToChooseFrom(parent_ws)),
-                               codelet_count=0)
+  def QuickReconn(self):
+    parent_ws = self.parent_controller.workspace
+    choice = WeightedChoice(ThingsToChooseFrom(parent_ws))
+    if choice:
+      return QuickReconnResults.AnswerFound(choice)
+    else:
+      return QuickReconnResults.NoAnswerCanBeFound()

@@ -26,7 +26,7 @@ class CF_GroupFromRelation(CodeletFamily):
       SubspaceDealWithConflictingGroups(
           controller,
           workspace_arguments=dict(new_group=anchored,
-                                   incumbents=e.conflicting_groups))
+                                   incumbents=e.conflicting_groups)).Run()
 
 class CF_DescribeAs(CodeletFamily):
   """Attempt to describe item as belonging to category."""

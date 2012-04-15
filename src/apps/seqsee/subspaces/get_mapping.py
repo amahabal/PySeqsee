@@ -17,7 +17,7 @@ from apps.seqsee.relation import Relation
 from farg.codelet import CodeletFamily
 from farg.controller import Controller
 from farg.exceptions import AnswerFoundException, NoAnswerException
-from farg.subspace import Subspace
+from farg.subspace import QuickReconnResults, Subspace
 from farg.util import WeightedShuffle, WeightedChoice
 import logging
 import random
@@ -128,14 +128,18 @@ class SubspaceFindMapping(Subspace):
         self.right = right
         self.category = category
 
-  @staticmethod
-  def QuickReconn(**arguments):
+  def QuickReconn(self):
+    arguments = self.workspace_arguments
+    if not arguments:
+      arguments = dict()
     if 'category' in arguments and arguments['category']:
       mapping = arguments['category'].GetMapping(arguments['left'], arguments['right'])
     else:
       mapping = GetNaiveMapping(arguments['left'], arguments['right'])
     if mapping:
-      raise AnswerFoundException(mapping, codelet_count=0)
+      return QuickReconnResults.AnswerFound(mapping)
+    else:
+      return QuickReconnResults.DeeperExplorationNeeded()
 
   def InitializeCoderack(self):
     self.controller.AddCodelet(family=CF_NumericCase, urgency=100)
@@ -150,7 +154,7 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
     mapping = SubspaceFindMapping(controller,
                                   workspace_arguments=dict(left=left.object,
                                                            right=right.object,
-                                                           category=None));
+                                                           category=None)).Run();
     if mapping:
       # TODO(# --- Jan 29, 2012): The relation should be formed with a probability dependent
       # on the distance between the nodes.

@@ -18,14 +18,18 @@ class TestSubspace(unittest.TestCase):
 
     _ui = BatchUI(controller_class=Controller)
     controller = _ui.controller
-    mapping = SubspaceFindMapping(controller, 3,
-                                  dict(left=a3, right=a4, category=Ascending()))
+    mapping = SubspaceFindMapping(controller, nsteps=3,
+                                  workspace_arguments=dict(left=a3,
+                                                           right=a4,
+                                                           category=Ascending())).Run()
     self.assertTrue(isinstance(mapping, StructuralMapping))
     self.assertEqual(Ascending(), mapping.category)
     self.assertEqual(None, mapping.slippages)
 
-    mapping = SubspaceFindMapping(controller, 3,
-                                  dict(left=a5, right=a19_21, category=Ascending()))
+    mapping = SubspaceFindMapping(controller, nsteps=3,
+                                  workspace_arguments=dict(left=a5,
+                                                           right=a19_21,
+                                                           category=Ascending())).Run()
     self.assertEqual(None, mapping)
 
   def test_with_slippages(self):
@@ -34,8 +38,9 @@ class TestSubspace(unittest.TestCase):
 
     _ui = BatchUI(controller_class=Controller)
     controller = _ui.controller
-    mapping = SubspaceFindMapping(controller, 10,
-                                  dict(left=a17_19, right=a19_21, category=Ascending()))
+    mapping = SubspaceFindMapping(
+        controller, nsteps=10,
+        workspace_arguments=dict(left=a17_19, right=a19_21, category=Ascending())).Run()
     self.assertTrue(isinstance(mapping, StructuralMapping))
     self.assertEqual(Ascending(), mapping.category)
     slippages_dict = dict(mapping.slippages)

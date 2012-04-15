@@ -12,7 +12,6 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.controller import Controller
-from farg.meta import SubspaceMeta
 from farg.exceptions import AnswerFoundException, NoAnswerException
 
 class QuickReconnResults:
@@ -32,11 +31,23 @@ class QuickReconnResults:
     self.state = state
     self.answer = answer
 
+  @staticmethod
+  def DeeperExplorationNeeded():
+    return QuickReconnResults(QuickReconnResults.kDeeperExplorationNeeded)
 
-class Subspace2:
+  @staticmethod
+  def AnswerFound(answer):
+    return QuickReconnResults(QuickReconnResults.kAnswerFound, answer=answer)
+
+  @staticmethod
+  def NoAnswerCanBeFound():
+    return QuickReconnResults(QuickReconnResults.kAnswerCannotBeFound)
+
+
+class Subspace:
   controller_class = Controller
 
-  def __init__(self, parent_controller, *, nsteps=5, workspace_arguments):
+  def __init__(self, parent_controller, *, nsteps=5, workspace_arguments=None):
     """Initializes the subspace by just storing the arguments."""
     self.parent_controller = parent_controller
     self.nsteps = nsteps
@@ -61,6 +72,7 @@ class Subspace2:
         controller_depth=(parent_controller.controller_depth + 1),
         workspace_arguments=self.workspace_arguments,
         parent_controller=parent_controller)
+    self.InitializeCoderack()
     try:
       self.controller.RunUptoNSteps(self.nsteps)
     except AnswerFoundException as e:
@@ -69,33 +81,10 @@ class Subspace2:
       return None
     return None
 
-
-class Subspace(metaclass=SubspaceMeta):
-  controller_class = Controller
-
-  @staticmethod
-  def QuickReconn(**args):
-    raise Exception(
-        'QuickReconn from class Subspace called. This is surely a bug: this method'
-        'should have been overridden in a derived class, if only as a no-op (i.e., just'
-        'a simple "pass")')
+  def QuickReconn(self):
+    return QuickReconnResults(QuickReconnResults.kDeeperExplorationNeeded)
 
   def InitializeCoderack(self):
     raise Exception(
         'InitializeCoderack from class Subspace called. This is surely a bug: this method'
         'should have been overridden in a derived class to set up the initial codelet.')
-
-  def RoutineCodeletsToAdd(self):
-    return None
-
-  def __init__(self, parent_controller, nsteps, workspace_arguments):
-    self.controller = self.controller_class(
-        ui=parent_controller.ui,
-        controller_depth=(parent_controller.controller_depth + 1),
-        workspace_arguments=workspace_arguments,
-        parent_controller=parent_controller)
-    self.max_number_of_steps = nsteps
-    self.InitializeCoderack()
-
-  def Run(self):
-    self.controller.RunUptoNSteps(self.max_number_of_steps)

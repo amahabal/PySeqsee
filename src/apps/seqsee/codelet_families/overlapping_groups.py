@@ -45,9 +45,9 @@ class CF_ActOnOverlappingGroups(CodeletFamily):
           SubspaceDealWithConflictingGroups(
               controller,
               workspace_arguments=dict(new_group=new_group,
-                                       incumbents=e.conflicting_groups))
+                                       incumbents=e.conflicting_groups)).Run()
         except CannotReplaceSubgroupException as e:
           SubspaceDealWithConflictingGroups(
               controller,
               workspace_arguments=dict(new_group=new_group,
-                                       incumbents=e.supergroups))
+                                       incumbents=e.supergroups)).Run()
