@@ -4,7 +4,9 @@ How to install PySeqsee
 Requirements
 ---------------
 
-* Python 3.1 or higher. You can download this from http://python.org
+* Python 3.1 or higher. You can download this from http://python.org if you don't already
+  have it (most Linux systems should already have this installed, probably
+  at `/usr/bin/python3`). 
 
 On Linux (or other Unix-like system)
 ----------------------------------------
@@ -27,7 +29,7 @@ Remember to get Python 3 (the default at the top is Python 2). You might need to
 install git (see http://help.github.com/win-set-up-git/ You only need to install it,
 no need to bother with ssh setup or whatnot, unless you want to upload code yourself).
 
-You will then use git to fetch git@github.com:amahabal/PySeqsee.git.
+You will then use git to fetch https://github.com/amahabal/PySeqsee.git.
 
 Diagnosing issues:
 -------------------
