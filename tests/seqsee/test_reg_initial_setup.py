@@ -29,7 +29,7 @@ class TestRegtestInitialSetup(unittest.TestCase):
     ui = BatchUI(controller_class=SeqseeController)
     controller = SeqseeController(ui=ui, controller_depth=0)
     workspace = controller.workspace
-    workspace.InsertElements(1, 1, 2, 1, 2, 3)
+    workspace.InsertElements((1, 1, 2, 1, 2, 3))
     self.assertEqual(6, workspace.num_elements)
 
     first_el = workspace.elements[0]

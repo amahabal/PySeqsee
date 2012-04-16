@@ -38,3 +38,9 @@ class CategorizableMixin(object):
     """Returns a list of discovered categories common to this and the other categorizable."""
     return set(self.categories.keys()).intersection(list(other.categories.keys()))
 
+  def AddCategoriesFrom(self, other):
+    """Copy categories in |other| to |self|"""
+    my_categories = self.categories
+    for cat, binding in other.categories.items():
+      if not cat in my_categories:
+        my_categories[cat] = binding

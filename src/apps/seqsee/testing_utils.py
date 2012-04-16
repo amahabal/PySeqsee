@@ -23,7 +23,7 @@ class MockSeqseeController(Controller):
     Controller.__init__(self, ui=None)
     workspace = self.workspace = Workspace()
     self.ltm = LTMGraph()
-    workspace.InsertElements(*items)
+    workspace.InsertElements(items)
 
 # Too many public methods because of unittest. pylint: disable=R0904
 class FringeOverlapTest(FringeAndCodeletsTest):
@@ -50,5 +50,5 @@ class FringeOverlapTest(FringeAndCodeletsTest):
   @staticmethod
   def SetupTestingWS(items):
     workspace = Workspace()
-    workspace.InsertElements(*items)
+    workspace.InsertElements(items)
     return workspace

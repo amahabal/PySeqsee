@@ -57,5 +57,5 @@ class SeqseeController(Controller):
 
   def __init__(self, **args):
     Controller.__init__(self, **args)
-    self.workspace.InsertElements(*FLAGS.sequence)
+    self.workspace.InsertElements(FLAGS.sequence)
     self.unrevealed_terms = FLAGS.unrevealed_terms

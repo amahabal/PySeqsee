@@ -51,14 +51,14 @@ class TestWorkspace(unittest.TestCase):
     self.assertEqual(1, ws.num_elements)
     self.assertEqual(5, ws.elements[0].object.magnitude)
 
-    ws.InsertElements(6, 7)
+    ws.InsertElements((6, 7))
     self.assertEqual(6, ws.elements[1].object.magnitude)
     self.assertEqual((1, 1), ws.elements[1].Span())
     self.assertEqual(3, ws.num_elements)
 
   def test_insert_group(self):
     ws = Workspace()
-    ws.InsertElements(5, 6)
+    ws.InsertElements((5, 6))
     gp = SAnchored.Create(*ws.elements[:])
     self.assertEqual((0, 1), gp.Span())
     self.assertEqual((5, 6), gp.Structure())
@@ -68,7 +68,7 @@ class TestWorkspace(unittest.TestCase):
 
   def test_conflicting_groups_simple(self):
     ws = Workspace()
-    ws.InsertElements(*list(range(0, 10)))
+    ws.InsertElements(range(0, 10))
     helper_create_and_insert_groups(ws, (1, 2, 3), (4, 5, 6))
     self.assertEqual(2, len(ws.groups))
 
@@ -86,7 +86,7 @@ class TestWorkspace(unittest.TestCase):
 
   def test_conflicting_groups_more_complex(self):
     ws = Workspace()
-    ws.InsertElements(*list(range(0, 10)))
+    ws.InsertElements(range(0, 10))
     helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))
     self.assertEqual(4, len(ws.groups))
 
@@ -114,7 +114,7 @@ class TestWorkspace(unittest.TestCase):
 
   def test_supergroups(self):
     ws = Workspace()
-    ws.InsertElements(*list(range(0, 10)))
+    ws.InsertElements(range(0, 10))
     helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))
     self.assertEqual(1, len(tuple(ws.GetSuperGroups(ws.elements[1]))))
     g1 = helper_create_group_given_spans_of_items(ws, (1, 3))
@@ -126,7 +126,7 @@ class TestWorkspace(unittest.TestCase):
 
   def test_plonk_into_place(self):
     ws = Workspace()
-    ws.InsertElements(7, 8, 7, 8, 9)
+    ws.InsertElements((7, 8, 7, 8, 9))
 
     # Plonk an element... returns existing element.
     elt = SAnchored(SElement(8), (), 3, 3)
@@ -169,7 +169,7 @@ class TestWorkspace(unittest.TestCase):
                                  SAnchored(SElement(9), (), 9, 9))
 
     ws = Workspace()
-    ws.InsertElements(*list(range(0, 10)))
+    ws.InsertElements(range(0, 10))
     helper_create_and_insert_groups(ws, ((1, 2, 3), (4, 5, 6), (7, 8)))
     existing_group = list(ws.GetGroupsWithSpan(Exactly(7), Exactly(8)))[0]
     # Cannot replace a group which is not the topmost.
@@ -177,7 +177,7 @@ class TestWorkspace(unittest.TestCase):
                       ws.Replace, existing_group, new_group)
 
     ws = Workspace()
-    ws.InsertElements(*list(range(0, 10)))
+    ws.InsertElements(range(0, 10))
     helper_create_and_insert_groups(ws, (7, 8))
     existing_group = list(ws.GetGroupsWithSpan(Exactly(7), Exactly(8)))[0]
     ws.Replace(existing_group, new_group)

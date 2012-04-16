@@ -19,13 +19,18 @@ def ThingsToChooseFrom(ws):
   # QUALITY TODO(Feb 14, 2012): This should be a subspace. What do we choose from, what
   # to pay attention to?
   # QUALITY TODO(Feb 14, 2012): Explore role of relations.
-  # TODO(#34 --- Dec 28, 2011): Need notion of strength. Will bias these weights.
   for element in ws.elements:
     yield (element, 20)
   for gp in ws.groups:
     yield (gp, gp.strength)
 
 class SubspaceSelectObjectToFocusOn(Subspace):
+  """Select object in workspace to focus on."""
+
+  # This is a place-holder for a real space. For now, it has simply been upgraded from
+  # a codelet and all work is done by QuickReconn.
+
+
   def QuickReconn(self):
     parent_ws = self.parent_controller.workspace
     choice = WeightedChoice(ThingsToChooseFrom(parent_ws))

@@ -1,13 +1,13 @@
 # Copyright (C) 2011, 2012  Abhijit Mahabal
-
+#
 # This program is free software: you can redistribute it and/or modify it under
 # the terms of the GNU General Public License as published by the Free Software
 # Foundation, either version 3 of the License, or (at your option) any later version.
-
+#
 # This program is distributed in the hope that it will be useful, but WITHOUT ANY
 # WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR
 # A PARTICULAR PURPOSE.  See the GNU General Public License for more details.
-
+#
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
@@ -60,20 +60,27 @@ class Workspace(object):
   def InsertElement(self, element):
     """Insert an element beyond the last element."""
     assert isinstance(element, SElement)
-    anchored = SAnchored(element, [], self.num_elements,
-                         self.num_elements, is_sequence_element=True)
+    anchored = SAnchored(sobj=element,
+                         items=[],
+                         start_pos=self.num_elements,
+                         end_pos=self.num_elements,
+                         is_sequence_element=True)
     self.num_elements += 1
     self.elements.append(anchored)
 
-  def InsertElements(self, *integers):
+  def InsertElements(self, integers):
     """Utility for adding lots of integers as elements."""
     for item in integers:
       self.InsertElement(SElement(item))
 
   def CheckForPresence(self, start_pos, element_magnitudes):
-    if start_pos + len(element_magnitudes) > len(self.elements):
-      # TODO(# --- Feb 14, 2012): Going beyond known. Need something more drastic.
-      return False
+    """Checks for presence of elements starting at |start_pos|.
+
+    |element_magnitudes| contains integers.
+    """
+    assert start_pos + len(element_magnitudes) <= len(self.elements), (
+        "CheckForPresence called with elements extending beyond known. "
+        "This case should have been checked for by caller.")
     for idx, magnitude in enumerate(element_magnitudes, start_pos):
       if self.elements[idx].object.magnitude != magnitude:
         return False
@@ -110,13 +117,20 @@ class Workspace(object):
     groups_at_this_location = list(self.GetGroupsWithSpan(Exactly(group.start_pos),
                                                           Exactly(group.end_pos)))
     if groups_at_this_location:
+      # Merge current group into the group at this location, as it were. This merging only
+      # adds the underlying mapping. However, if we extend groups to make multiple
+      # underlying mappings possible, this needs to be updated too.
       group_at_this_location = groups_at_this_location[0] # There can be only 1
       if (group.object.underlying_mapping and
           not group_at_this_location.object.underlying_mapping):
         group_at_this_location.object.underlying_mapping = group.object.underlying_mapping
+      # We should also merge all pieces of the group into the corresponding existing pieces.
+      for x in group.items:
+        self._PlonkIntoPlace(x)  # Ignore output, we don't need it.
+      group_at_this_location.object.AddCategoriesFrom(group.object)
       return group_at_this_location
 
-    # Construct one
+    # Group does not exist, create one.
     pieces = [self._PlonkIntoPlace(x) for x in group.items]
     new_object = SAnchored.Create(*pieces,
                                   underlying_mapping=group.object.underlying_mapping)
