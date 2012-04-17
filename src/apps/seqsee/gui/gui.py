@@ -19,6 +19,7 @@ from farg.ui.gui import GUI
 from farg.ui.gui.central_pane import CentralPane
 from farg.ui.gui.views.coderack_view import CoderackView
 from farg.ui.gui.views.stream_view import StreamView
+from farg.ui.gui.views.ltm_view import LTMView
 
 class SeqseeCentralPane(CentralPane):
   default_initial_view = 'ws'
@@ -30,6 +31,9 @@ class SeqseeCentralPane(CentralPane):
       'ws_cr_st':  lambda pane: pane.SetThreeWaySplit(WorkspaceView,
                                                       CoderackView,
                                                       StreamView),
+       'ws_ltm_st':  lambda pane: pane.SetThreeWaySplit(WorkspaceView,
+                                                       LTMView,
+                                                       StreamView),
        'ws_gr_st':  lambda pane: pane.SetThreeWaySplit(WorkspaceView,
                                                        GroupsView,
                                                        StreamView),
