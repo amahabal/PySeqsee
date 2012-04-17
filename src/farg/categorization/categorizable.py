@@ -39,7 +39,7 @@ class CategorizableMixin(object):
     return set(self.categories.keys()).intersection(list(other.categories.keys()))
 
   def AddCategoriesFrom(self, other):
-    """Copy categories in |other| to |self|"""
+    """Copy categories in 'other' to 'self'"""
     my_categories = self.categories
     for cat, binding in other.categories.items():
       if not cat in my_categories:

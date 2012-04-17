@@ -74,9 +74,9 @@ class Workspace(object):
       self.InsertElement(SElement(item))
 
   def CheckForPresence(self, start_pos, element_magnitudes):
-    """Checks for presence of elements starting at |start_pos|.
+    """Checks for presence of elements starting at 'start_pos'.
 
-    |element_magnitudes| contains integers.
+    'element_magnitudes' contains integers.
     """
     assert start_pos + len(element_magnitudes) <= len(self.elements), (
         "CheckForPresence called with elements extending beyond known. "
@@ -101,6 +101,13 @@ class Workspace(object):
       return self._PlonkIntoPlace(group)
 
   def DeleteGroup(self, gp):
+    """Deletes group gp and any relations that it is a part of.
+
+    'gp' should not be part of some other group, otherwise an exception is raised."""
+    for supergroup in self.GetSuperGroups(gp):
+      raise Exception("Delete group called on %s when supergroup (%s) present" %
+                      (gp, supergroup))
+
     self.groups.discard(gp)
     for other_gp in self.groups:
       relations_to_discard = set()
@@ -134,7 +141,6 @@ class Workspace(object):
     pieces = [self._PlonkIntoPlace(x) for x in group.items]
     new_object = SAnchored.Create(*pieces,
                                   underlying_mapping=group.object.underlying_mapping)
-    # TODO(# --- Jan 30, 2012): Copy categories as well.
     self.groups.add(new_object)
     return new_object
 
@@ -172,7 +178,7 @@ class Workspace(object):
         yield self.SomeMaximalSuperGroup(group_at_this_location)
         return
 
-    # See if any subgroup conflicts.
+    # If we get here, no group at this exact location. See if any subgroup conflicts.
     gp_items = set(gp.items)
     for subgroup in gp_items:
       conflicts = list(self.GetConflictingGroups(subgroup))
@@ -188,10 +194,10 @@ class Workspace(object):
     existsing_group_items = set()
     for item in gp_items:
       # If a group exists with these ends, keep it in existing groups.
-      objects_with_same_span = list(self.GetGroupsWithSpan(Exactly(item.start_pos),
-                                                           Exactly(item.end_pos)))
-      if objects_with_same_span:
-        existsing_group_items.add(objects_with_same_span[0])
+      for existing_group in self.GetGroupsWithSpan(Exactly(item.start_pos),
+                                                   Exactly(item.end_pos)):
+        # There can be at most one
+        existsing_group_items.add(existing_group)
 
     for other_group in self.groups:
       other_gp_items = set(other_group.items)
