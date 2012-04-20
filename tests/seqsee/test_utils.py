@@ -1,5 +1,5 @@
 import unittest
-from apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
+from farg.apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 
 class TestUtils(unittest.TestCase):
   def test_utility_functions(self):

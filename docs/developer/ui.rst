@@ -1,6 +1,6 @@
 The Graphic User Interface
 ==========================
 
-.. autoclass:: farg.ui.gui.GUI
+.. autoclass:: farg.core.ui.gui.GUI
   :members:
   :private-members:

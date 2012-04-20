@@ -1,7 +1,7 @@
-from farg.controller import Controller
-from farg.focusable_mixin import FocusableMixin
-from farg.stream import Stream
-from farg.ui.batch_ui import BatchUI
+from farg.core.controller import Controller
+from farg.core.focusable_mixin import FocusableMixin
+from farg.core.stream import Stream
+from farg.core.ui.batch_ui import BatchUI
 import unittest
 
 class MyFocusable(FocusableMixin):

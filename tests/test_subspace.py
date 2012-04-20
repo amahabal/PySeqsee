@@ -1,10 +1,10 @@
-from apps.seqsee.categories import Ascending
-from apps.seqsee.subspaces.get_mapping import SubspaceFindMapping
-from apps.seqsee.mapping import StructuralMapping
-from apps.seqsee.sobject import SObject
-from farg.controller import Controller
+from farg.apps.seqsee.categories import Ascending
+from farg.apps.seqsee.mapping import StructuralMapping
+from farg.apps.seqsee.sobject import SObject
+from farg.apps.seqsee.subspaces.get_mapping import SubspaceFindMapping
+from farg.core.controller import Controller
+from farg.core.ui.batch_ui import BatchUI
 import unittest
-from farg.ui.batch_ui import BatchUI
 
 
 class TestSubspace(unittest.TestCase):

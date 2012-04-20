@@ -1,7 +1,7 @@
 Codelets
 ==========
 
-.. automodule:: farg.codelet
+.. automodule:: farg.core.codelet
   :members:
   :undoc-members:
 

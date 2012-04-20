@@ -1,0 +1,9 @@
+from farg.core.ui.batch_ui import BatchUI
+from farg.third_party import gflags
+
+FLAGS = gflags.FLAGS
+
+class {application_class}BatchUI(BatchUI):
+  def RegisterQuestionHandlers(self):
+    # Add handlers for questions.
+    pass

@@ -1,7 +1,7 @@
-from apps.seqsee.categories import Ascending, MappingBasedCategory, Number, Prime, SizeNCategory
-from apps.seqsee.mapping import NumericMapping, StructuralMapping
-from apps.seqsee.sobject import SObject
-from farg.categorization.categorizable import CategorizableMixin
+from farg.apps.seqsee.categories import Ascending, MappingBasedCategory, Number, Prime, SizeNCategory
+from farg.apps.seqsee.mapping import NumericMapping, StructuralMapping
+from farg.apps.seqsee.sobject import SObject
+from farg.core.categorization.categorizable import CategorizableMixin
 import unittest
 
 class TestSeqseeCategories(unittest.TestCase):

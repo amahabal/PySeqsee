@@ -1,6 +1,6 @@
 Utility Functions
 =====================
 
-.. automodule:: apps.seqsee.util
+.. automodule:: farg.apps.seqsee.util
   :members:
   :undoc-members:

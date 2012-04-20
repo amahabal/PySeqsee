@@ -1,12 +1,12 @@
-from apps.seqsee import run_seqsee
-from apps.seqsee.anchored import SAnchored
-from apps.seqsee.controller import SeqseeController
-from apps.seqsee.sobject import SElement, SGroup
-from apps.seqsee.workspace import Workspace
-from farg.coderack import Coderack
-from farg.stream import Stream
-from farg.ui.batch_ui import BatchUI
-from third_party import gflags
+from farg.apps.seqsee import run_seqsee
+from farg.apps.seqsee.anchored import SAnchored
+from farg.apps.seqsee.controller import SeqseeController
+from farg.apps.seqsee.sobject import SElement, SGroup
+from farg.apps.seqsee.workspace import Workspace
+from farg.core.coderack import Coderack
+from farg.core.stream import Stream
+from farg.core.ui.batch_ui import BatchUI
+from farg.third_party import gflags
 import threading
 import unittest
 

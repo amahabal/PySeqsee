@@ -1,6 +1,6 @@
 import unittest
 
-from farg.codelet import Codelet, CodeletFamily
+from farg.core.codelet import Codelet, CodeletFamily
 
 class Controller(object):
   def __init__(self):

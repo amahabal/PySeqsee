@@ -1,6 +1,6 @@
 Controller
 ==========
 
-.. autoclass:: farg.controller.Controller
+.. autoclass:: farg.core.controller.Controller
   :members:
 

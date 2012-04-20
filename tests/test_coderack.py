@@ -1,6 +1,6 @@
-from farg.codelet import Codelet, CodeletFamily
-from farg.coderack import Coderack, CoderackEmptyException
-from farg.exceptions import FargError
+from farg.core.codelet import Codelet, CodeletFamily
+from farg.core.coderack import Coderack, CoderackEmptyException
+from farg.core.exceptions import FargError
 import unittest
 
 

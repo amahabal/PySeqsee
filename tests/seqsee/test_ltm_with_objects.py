@@ -2,13 +2,13 @@ import unittest
 import os
 import tempfile
 
-from farg.ltm.edge import LTMEdge
-from farg.ltm.graph import LTMGraph
-from farg.ltm.node import LTMNode
-from farg.ltm.storable import LTMStorableMixin
+from farg.core.ltm.edge import LTMEdge
+from farg.core.ltm.graph import LTMGraph
+from farg.core.ltm.node import LTMNode
+from farg.core.ltm.storable import LTMStorableMixin
 
-from apps.seqsee.sobject import SObject, SElement, SGroup, LTMStorableSObject
-from apps.seqsee.anchored import SAnchored
+from farg.apps.seqsee.sobject import SObject, SElement, SGroup, LTMStorableSObject
+from farg.apps.seqsee.anchored import SAnchored
 
 class LTMTestBase(unittest.TestCase):
   def setUp(self):

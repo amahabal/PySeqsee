@@ -1,18 +1,18 @@
 Long-term Memory
 ==================
 
-.. automodule:: farg.ltm.node
+.. automodule:: farg.core.ltm.node
   :members:
   :undoc-members:
 
-.. automodule:: farg.ltm.storable
+.. automodule:: farg.core.ltm.storable
   :members:
   :undoc-members:
 
-.. automodule:: farg.ltm.edge
+.. automodule:: farg.core.ltm.edge
   :members:
   :undoc-members:
 
-.. automodule:: farg.ltm.graph
+.. automodule:: farg.core.ltm.graph
   :members:
   :undoc-members:

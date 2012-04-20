@@ -1,7 +1,6 @@
-from apps.seqsee.categories import Number, MappingBasedCategory
-from apps.seqsee.mapping import NumericMapping
-from apps.seqsee.testing_utils import FringeOverlapTest, MockSeqseeController, \
-  CodeletPresenceSpec
+from farg.apps.seqsee.categories import Number, MappingBasedCategory
+from farg.apps.seqsee.mapping import NumericMapping
+from farg.apps.seqsee.testing_utils import FringeOverlapTest, MockSeqseeController, CodeletPresenceSpec
 
 # Too many public methods because of unittest. pylint: disable=R0904
 class FringeOverlapTestForAnchored(FringeOverlapTest):
@@ -33,7 +32,7 @@ class FringeOverlapTestForAnchored(FringeOverlapTest):
     group2.object.DescribeAs(ascending_group)
     self.AssertFringeContains(controller, group1, { numeric_succesor_mapping: 0.9 })
 
-    from apps.seqsee.subspaces.get_mapping import CF_FindAnchoredSimilarity
+    from farg.apps.seqsee.subspaces.get_mapping import CF_FindAnchoredSimilarity
     self.AssertFringeOverlap(
         controller, group1, group2, 0.4,
         expected_similarity_affordances=(
@@ -42,6 +41,6 @@ class FringeOverlapTestForAnchored(FringeOverlapTest):
 
     controller.stream.FocusOn(group2)
     controller.Step()
-    from apps.seqsee.codelet_families.all import CF_FocusOn
+    from farg.apps.seqsee.codelet_families.all import CF_FocusOn
     self.AssertCodeletPresent(CodeletPresenceSpec(CF_FocusOn),
                               controller.coderack._codelets)

@@ -1,0 +1,26 @@
+from farg.apps.{application_name}.workspace import {application_class}Workspace
+from farg.core.controller import Controller
+from farg.core.ltm.manager import LTMManager
+from farg.third_party import gflags
+import sys
+FLAGS = gflags.FLAGS
+
+# EDIT-ME: Define any controller-specific flags.
+
+kLTMName = '{application_name}.main'
+
+def Initialize{application_class}LTM(ltm):
+  """Called if ltm was empty (had no nodes)."""
+  pass
+
+LTMManager.RegisterInitializer(kLTMName, Initialize{application_class}LTM)
+
+class {application_class}Controller(Controller):
+  """Controller for {application_class}."""
+  # EDIT-ME: possibly set up routine_codelets_to_add.
+  workspace_class = {application_class}Workspace
+  ltm_name = kLTMName
+
+  def __init__(self, **args):
+    Controller.__init__(self, **args)
+

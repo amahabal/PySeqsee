@@ -1,0 +1,56 @@
+#!/usr/bin/python
+from farg.apps.{application_name}.batch_ui import {application_class}BatchUI
+from farg.apps.{application_name}.controller import {application_class}Controller
+from farg.apps.{application_name}.gui.gui import {application_class}GUI
+from farg.apps.{application_name}.read_input_spec import {application_class}ReadInputSpec
+from farg.apps.{application_name}.stopping_conditions import {application_class}StoppingConditions
+from farg.core.main import Main
+from farg.third_party import gflags
+import sys
+
+FLAGS = gflags.FLAGS
+
+gflags.DEFINE_string('input', '', 'input')
+gflags.DEFINE_string('expected_output', '', 'Expected output')
+
+
+# Add any custom flags. See ... for syntax.
+
+class {application_class}Main(Main):
+  """
+  The entry point into the {application_class} app. This controls all the modes of running
+  {application_class} --- GUI, batch, and a side-by-side comparison with different flags.
+  """
+  #: The GUI class when running in GUI mode. The UI is responsible for interfacing between the
+  #: user and the controller.
+  gui_class = {application_class}GUI
+
+  #: When running in batch mode, this class provides the UI. It also simulates the user: if
+  #: the controller has a question that would have been fielded by the real user in GUI (such
+  #: as "Are these the next terms?"), this UI tries to answer it based on future terms that
+  #: have been provided to it.
+  batch_ui_class = {application_class}BatchUI
+
+  #: This class handles the central loop of the program. Its sole job is to mindlessly run
+  #: codelets which do the real work. In that sense, this is a "dumb" controller.
+  controller_class = {application_class}Controller
+
+  #: Lists stopping conditions that may be provided on the command-line in batch or SxS modes
+  #: to get a sense of how long a program runs until this condition is met.
+  #: Examples of conditions: A group spanning all terms is formed; a relation is formed
+  #: with a certain type, and so forth.
+  stopping_conditions_class = {application_class}StoppingConditions
+
+  #: In batch/sxs modes, the various input sequences are read from a file. This class
+  #: converts the file to input specifications.
+  input_spec_reader_class = {application_class}ReadInputSpec
+
+  def ProcessCustomFlags(self):
+    """
+    Process {application_class} specific flags.
+    """
+    pass
+
+if __name__ == '__main__':
+  {application_class}Main().main(sys.argv)
+

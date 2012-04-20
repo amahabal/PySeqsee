@@ -1,15 +1,15 @@
 Categories
 ==================
 
-.. automodule:: farg.categorization.category
+.. automodule:: farg.core.categorization.category
   :members:
   :undoc-members:
 
-.. automodule:: farg.categorization.binding
+.. automodule:: farg.core.categorization.binding
   :members:
   :undoc-members:
 
-.. automodule:: farg.categorization.categorizable
+.. automodule:: farg.core.categorization.categorizable
   :members:
   :undoc-members:
 
@@ -17,7 +17,7 @@ Categories
 Categories in Seqsee
 =====================
 
-.. automodule:: apps.seqsee.categories
+.. automodule:: farg.apps.seqsee.categories
   :members:
   :undoc-members:
 
