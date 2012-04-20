@@ -1,5 +1,5 @@
 Exceptions
 ===========
 
-.. automodule:: farg.exceptions
+.. automodule:: farg.core.exceptions
   :members:

@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Codelets &mdash; PySeqsee 0.1 documentation</title>
+    <title>Codelets &mdash; PySeqsee 0.1.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1',
+        VERSION:     '0.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.1.2 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
     <link rel="next" title="Stream of Thought" href="stream.html" />
     <link rel="prev" title="Coderack" href="coderack.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="coderack.html" title="Coderack"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,16 +56,16 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-farg.codelet">
-<span id="codelets"></span><h1>Codelets<a class="headerlink" href="#module-farg.codelet" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-farg.core.codelet">
+<span id="codelets"></span><h1>Codelets<a class="headerlink" href="#module-farg.core.codelet" title="Permalink to this headline">¶</a></h1>
 <p>Base classes for Codelet families and for codelet.</p>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
 <p class="last">Keep eyes open for freshness issues; these have not been ported from Perl.</p>
 </div>
 <dl class="class">
-<dt id="farg.codelet.Codelet">
-<em class="property">class </em><tt class="descclassname">farg.codelet.</tt><tt class="descname">Codelet</tt><big>(</big><em>family</em>, <em>controller</em>, <em>urgency</em>, <em>arguments_dict=None</em><big>)</big><a class="reference internal" href="../_modules/farg/codelet.html#Codelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.codelet.Codelet" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.codelet.Codelet">
+<em class="property">class </em><tt class="descclassname">farg.core.codelet.</tt><tt class="descname">Codelet</tt><big>(</big><em>family</em>, <em>controller</em>, <em>urgency</em>, <em>arguments_dict=None</em><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#Codelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.Codelet" title="Permalink to this definition">¶</a></dt>
 <dd><p>A codelet is a unit of action in Seqsee. A codelet belongs to a codelet family which
 defines what it does. The codelet has an urgency that controls how likely the codelet
 is to run (based on the urgency of other codelets waiting to run), and it has a
@@ -82,15 +82,15 @@ place it on the coderack:</p>
 </pre></div>
 </div>
 <dl class="method">
-<dt id="farg.codelet.Codelet.Run">
-<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/codelet.html#Codelet.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.codelet.Codelet.Run" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.codelet.Codelet.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#Codelet.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.Codelet.Run" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="farg.codelet.CodeletFamily">
-<em class="property">class </em><tt class="descclassname">farg.codelet.</tt><tt class="descname">CodeletFamily</tt><a class="reference internal" href="../_modules/farg/codelet.html#CodeletFamily"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.codelet.CodeletFamily" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.codelet.CodeletFamily">
+<em class="property">class </em><tt class="descclassname">farg.core.codelet.</tt><tt class="descname">CodeletFamily</tt><a class="reference internal" href="../_modules/farg/core/codelet.html#CodeletFamily"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.CodeletFamily" title="Permalink to this definition">¶</a></dt>
 <dd><p>A codelet family is a class that defines what happens when you run a codelet of that
 family.</p>
 <p>Codelet family names typically start with CF.</p>
@@ -160,7 +160,7 @@ family.</p>
         <li class="right" >
           <a href="coderack.html" title="Coderack"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>

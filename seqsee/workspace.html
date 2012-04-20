@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Workspace &mdash; PySeqsee 0.1 documentation</title>
+    <title>Workspace &mdash; PySeqsee 0.1.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1',
+        VERSION:     '0.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.1.2 documentation" href="../index.html" />
     <link rel="up" title="The Flagship App: Seqsee" href="seqsee_index.html" />
     <link rel="next" title="Utility Functions" href="utility_functions.html" />
     <link rel="prev" title="Relations and Mappings" href="relations.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="relations.html" title="Relations and Mappings"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="seqsee_index.html" accesskey="U">The Flagship App: Seqsee</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,8 +56,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-apps.seqsee.workspace">
-<span id="workspace"></span><h1>Workspace<a class="headerlink" href="#module-apps.seqsee.workspace" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-farg.apps.seqsee.workspace">
+<span id="workspace"></span><h1>Workspace<a class="headerlink" href="#module-farg.apps.seqsee.workspace" title="Permalink to this headline">¶</a></h1>
 <p>The workspace is the virtual blackboard on which various codelets make annotations about
 relationships that have been seen between entities and groups that have been formed.</p>
 <p>The workspace contains three main types of objects: elements such as a &#8220;7&#8221;, groups such
@@ -76,36 +76,38 @@ inconsistent state, it is not added and a ConflictingGroupException is raised.  
 the consistency guarantee implies that adding the group may involve adding all its
 subgroups, and one of these may conflict with an existing group.</p>
 <dl class="class">
-<dt id="apps.seqsee.workspace.Workspace">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.workspace.</tt><tt class="descname">Workspace</tt><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.workspace.</tt><tt class="descname">Workspace</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.CalculateSupergroupMap">
-<tt class="descname">CalculateSupergroupMap</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.CalculateSupergroupMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.CalculateSupergroupMap" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.CalculateSupergroupMap">
+<tt class="descname">CalculateSupergroupMap</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.CalculateSupergroupMap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.CalculateSupergroupMap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Calculates a map from anchored elements to their supergroups.</p>
 <p>Generated for immediate use and not kept updated. Regenrate for each use.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.CheckForPresence">
-<tt class="descname">CheckForPresence</tt><big>(</big><em>start_pos</em>, <em>element_magnitudes</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.CheckForPresence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.CheckForPresence" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.CheckForPresence">
+<tt class="descname">CheckForPresence</tt><big>(</big><em>start_pos</em>, <em>element_magnitudes</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.CheckForPresence"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.CheckForPresence" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks for presence of elements starting at &#8216;start_pos&#8217;.</p>
 <p>&#8216;element_magnitudes&#8217; contains integers.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.DebugRelations">
-<tt class="descname">DebugRelations</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.DebugRelations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.DebugRelations" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.DebugRelations">
+<tt class="descname">DebugRelations</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.DebugRelations"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.DebugRelations" title="Permalink to this definition">¶</a></dt>
 <dd><p>Print debugging information to Stderr.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.DeleteGroup">
-<tt class="descname">DeleteGroup</tt><big>(</big><em>gp</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.DeleteGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.DeleteGroup" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dt id="farg.apps.seqsee.workspace.Workspace.DeleteGroup">
+<tt class="descname">DeleteGroup</tt><big>(</big><em>gp</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.DeleteGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.DeleteGroup" title="Permalink to this definition">¶</a></dt>
+<dd><p>Deletes group gp and any relations that it is a part of.</p>
+<p>&#8216;gp&#8217; should not be part of some other group, otherwise an exception is raised.</p>
+</dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.GetConflictingGroups">
-<tt class="descname">GetConflictingGroups</tt><big>(</big><em>gp</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.GetConflictingGroups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetConflictingGroups" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.GetConflictingGroups">
+<tt class="descname">GetConflictingGroups</tt><big>(</big><em>gp</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.GetConflictingGroups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.GetConflictingGroups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get a list of groups conflicting with given group.</p>
 <p>Only maximal groups are returned, where the relative order is based on being a
 subgroup (i.e., if A is a part of B, and both conflict, B is returned; note that if A
@@ -114,73 +116,73 @@ conflicts with the group under consideration, so does B).
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.GetGroupsWithSpan">
-<tt class="descname">GetGroupsWithSpan</tt><big>(</big><em>left_fn</em>, <em>right_fn</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.GetGroupsWithSpan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetGroupsWithSpan" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.GetGroupsWithSpan">
+<tt class="descname">GetGroupsWithSpan</tt><big>(</big><em>left_fn</em>, <em>right_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.GetGroupsWithSpan"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.GetGroupsWithSpan" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get all groups which match the constraints set by the predicate functions for each
 end.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.GetItemAt">
-<tt class="descname">GetItemAt</tt><big>(</big><em>start_pos</em>, <em>end_pos</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.GetItemAt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetItemAt" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.GetItemAt">
+<tt class="descname">GetItemAt</tt><big>(</big><em>start_pos</em>, <em>end_pos</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.GetItemAt"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.GetItemAt" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the sole object with this span. Throws FargError if not found.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.GetSuperGroups">
-<tt class="descname">GetSuperGroups</tt><big>(</big><em>anchored</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.GetSuperGroups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.GetSuperGroups" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.GetSuperGroups">
+<tt class="descname">GetSuperGroups</tt><big>(</big><em>anchored</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.GetSuperGroups"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.GetSuperGroups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns those group that contain the given anchored as a direct element.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.InsertElement">
-<tt class="descname">InsertElement</tt><big>(</big><em>element</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.InsertElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.InsertElement" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.InsertElement">
+<tt class="descname">InsertElement</tt><big>(</big><em>element</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.InsertElement"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.InsertElement" title="Permalink to this definition">¶</a></dt>
 <dd><p>Insert an element beyond the last element.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.InsertElements">
-<tt class="descname">InsertElements</tt><big>(</big><em>integers</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.InsertElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.InsertElements" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.InsertElements">
+<tt class="descname">InsertElements</tt><big>(</big><em>integers</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.InsertElements"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.InsertElements" title="Permalink to this definition">¶</a></dt>
 <dd><p>Utility for adding lots of integers as elements.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.InsertGroup">
-<tt class="descname">InsertGroup</tt><big>(</big><em>group</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.InsertGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.InsertGroup" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.InsertGroup">
+<tt class="descname">InsertGroup</tt><big>(</big><em>group</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.InsertGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.InsertGroup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Inserts a group into the workspace. It must not conflict with an existing group, else
 a ConflictingGroupException is raised.</p>
 <p>Returns a new group formed from things added to the workspace.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.Replace">
-<tt class="descname">Replace</tt><big>(</big><em>original_gps</em>, <em>new_group</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.Replace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.Replace" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.Replace">
+<tt class="descname">Replace</tt><big>(</big><em>original_gps</em>, <em>new_group</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.Replace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.Replace" title="Permalink to this definition">¶</a></dt>
 <dd><p>Replace original group with new group unless the new group is going to cause conflicts.</p>
 <p>If the new group will cause conflicts, a ConflictingGroupException is raised.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.workspace.Workspace.SomeMaximalSuperGroup">
-<tt class="descname">SomeMaximalSuperGroup</tt><big>(</big><em>gp</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/workspace.html#Workspace.SomeMaximalSuperGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.workspace.Workspace.SomeMaximalSuperGroup" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.SomeMaximalSuperGroup">
+<tt class="descname">SomeMaximalSuperGroup</tt><big>(</big><em>gp</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace.SomeMaximalSuperGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.SomeMaximalSuperGroup" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns some super* group, if any, or returns self.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="apps.seqsee.workspace.Workspace.elements">
-<tt class="descname">elements</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.workspace.Workspace.elements" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.elements">
+<tt class="descname">elements</tt><em class="property"> = None</em><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.elements" title="Permalink to this definition">¶</a></dt>
 <dd><p>All elements. Each is a <tt class="xref py py-class docutils literal"><span class="pre">SAnchored</span></tt> object.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="apps.seqsee.workspace.Workspace.groups">
-<tt class="descname">groups</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.workspace.Workspace.groups" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.groups">
+<tt class="descname">groups</tt><em class="property"> = None</em><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.groups" title="Permalink to this definition">¶</a></dt>
 <dd><p>Groups (excluding single element groups).
 Each is a <tt class="xref py py-class docutils literal"><span class="pre">SAnchored</span></tt> object.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="apps.seqsee.workspace.Workspace.num_elements">
-<tt class="descname">num_elements</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.workspace.Workspace.num_elements" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.workspace.Workspace.num_elements">
+<tt class="descname">num_elements</tt><em class="property"> = None</em><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.num_elements" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of elements.</p>
 </dd></dl>
 
@@ -237,7 +239,7 @@ Each is a <tt class="xref py py-class docutils literal"><span class="pre">SAncho
         <li class="right" >
           <a href="relations.html" title="Relations and Mappings"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="seqsee_index.html" >The Flagship App: Seqsee</a> &raquo;</li> 
       </ul>
     </div>

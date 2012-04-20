@@ -18,8 +18,8 @@ Change to the directory where you want to put PySeqsee and type::
 This will create a directory called PySeqsee. To test that everything works,
 you can type::
 
-  cd PySeqsee/src
-  /usr/bin/python3 apps/seqsee/run_seqsee.py --sequence="2 3 5 7 11"
+  cd PySeqsee
+  /usr/bin/python3 farg/apps/seqsee/run_seqsee.py --sequence="2 3 5 7 11"
 
 On Windows
 --------------
@@ -41,6 +41,11 @@ If you see an error message that ends with::
   SyntaxError: invalid syntax
 
 The likely reason is that you used Python 2 instead of Python 3.
+
+If you get a message about being unable to load some module, check your
+PYTHONPATH. On Linux, you may need to run::
+
+  export PYTHONPATH=".:$PYTHONPATH"
 
 If something goes wrong
 -------------------------

@@ -1,6 +1,6 @@
 Workspace
 ===============================
 
-.. automodule:: apps.seqsee.workspace
+.. automodule:: farg.apps.seqsee.workspace
   :members:
   :undoc-members:

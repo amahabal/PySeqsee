@@ -1,0 +1,224 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>farg.apps.seqsee.mapping &mdash; PySeqsee 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1.2 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for farg.apps.seqsee.mapping</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
+<span class="c">#</span>
+<span class="c"># This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c"># the terms of the GNU General Public License as published by the Free Software</span>
+<span class="c"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
+<span class="c"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License along with this</span>
+<span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;A way to specify how two entities are related.&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">farg.core.ltm.storable</span> <span class="kn">import</span> <span class="n">LTMStorableMixin</span>
+<span class="kn">from</span> <span class="nn">farg.core.meta</span> <span class="kn">import</span> <span class="n">MemoizedConstructor</span>
+
+<div class="viewcode-block" id="Mapping"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.Mapping">[docs]</a><span class="k">class</span> <span class="nc">Mapping</span><span class="p">(</span><span class="n">LTMStorableMixin</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MemoizedConstructor</span><span class="p">):</span>
+  <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="NumericMapping"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.NumericMapping">[docs]</a><span class="k">class</span> <span class="nc">NumericMapping</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">category</span><span class="p">):</span>
+    <span class="c">#: A string such as &quot;succ&quot; or &quot;same&quot;. There are only 5 distinct values used in the Perl</span>
+    <span class="c">#: version: *succ*, *pred*, *same*, *flip*, and *noflip*.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+    <span class="c">#: A category (such as &quot;Prime&quot;) on which this mapping is based.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">category</span>
+
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;NumericMapping(</span><span class="si">%s</span><span class="s"> </span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+
+<div class="viewcode-block" id="NumericMapping.BriefLabel"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.NumericMapping.BriefLabel">[docs]</a>  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;{</span><span class="si">%s</span><span class="s">} </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">)</span>
+</div>
+  <span class="n">_flipmap_</span> <span class="o">=</span> <span class="p">{</span> <span class="s">&#39;succ&#39;</span><span class="p">:</span> <span class="s">&#39;pred&#39;</span><span class="p">,</span> <span class="s">&#39;pred&#39;</span><span class="p">:</span> <span class="s">&#39;succ&#39;</span><span class="p">,</span> <span class="s">&#39;same&#39;</span><span class="p">:</span> <span class="s">&#39;same&#39;</span><span class="p">,</span> <span class="s">&#39;flip&#39;</span><span class="p">:</span> <span class="s">&#39;flip&#39;</span><span class="p">,</span>
+                <span class="s">&#39;noflip&#39;</span><span class="p">:</span> <span class="s">&#39;noflip&#39;</span><span class="p">}</span>
+
+
+<div class="viewcode-block" id="NumericMapping.FlippedVersion"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.NumericMapping.FlippedVersion">[docs]</a>  <span class="k">def</span> <span class="nf">FlippedVersion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">NumericMapping</span><span class="p">(</span><span class="n">NumericMapping</span><span class="o">.</span><span class="n">_flipmap_</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">name</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="NumericMapping.Apply"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.NumericMapping.Apply">[docs]</a>  <span class="k">def</span> <span class="nf">Apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">ApplyMapping</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="NumericMapping.DifferenceString"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.NumericMapping.DifferenceString">[docs]</a>  <span class="k">def</span> <span class="nf">DifferenceString</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">old_val</span><span class="p">,</span> <span class="n">new_val</span><span class="p">):</span>
+    <span class="n">diff</span> <span class="o">=</span> <span class="n">new_val</span> <span class="o">-</span> <span class="n">old_val</span>
+    <span class="k">if</span> <span class="n">diff</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&quot;succ&quot;</span>
+    <span class="k">elif</span> <span class="n">diff</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&quot;same&quot;</span>
+    <span class="k">elif</span> <span class="n">diff</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
+      <span class="k">return</span> <span class="s">&quot;pred&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="NumericMapping.IsPairConsistent"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.NumericMapping.IsPairConsistent">[docs]</a>  <span class="k">def</span> <span class="nf">IsPairConsistent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">item1</span><span class="p">)</span><span class="o">.</span><span class="n">Structure</span><span class="p">()</span> <span class="o">==</span> <span class="n">item2</span><span class="o">.</span><span class="n">Structure</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="NumericMapping.LTMDependentContent"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.NumericMapping.LTMDependentContent">[docs]</a>  <span class="k">def</span> <span class="nf">LTMDependentContent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,)</span>
+</div></div>
+<div class="viewcode-block" id="StructuralMapping"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping">[docs]</a><span class="k">class</span> <span class="nc">StructuralMapping</span><span class="p">(</span><span class="n">Mapping</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">,</span> <span class="n">bindings_mapping</span><span class="p">,</span> <span class="n">slippages</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">no_flipped_version</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
+               <span class="n">flipped_version</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="c">#: A category, such as ascending, on which mapping is based.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">category</span>
+    <span class="c">#: A dictionary of attribute to a mapping: how is the value of each attribute </span>
+    <span class="c">#: transformed?</span>
+    <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bindings_mapping</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">bindings_mapping</span> <span class="o">=</span> <span class="n">bindings_mapping</span>
+    <span class="c">#: If an attribute comes from a different attribute, that information is here.</span>
+    <span class="c">#: Thus, if the new `start` is the successor of the old `end`, then there will be an </span>
+    <span class="c">#: entry start =&gt; end in the slippages dictionary, as well as a start =&gt; succ in the</span>
+    <span class="c">#: bindings_mapping dictionary.</span>
+    <span class="k">assert</span> <span class="ow">not</span><span class="p">(</span><span class="n">slippages</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slippages</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">slippages</span> <span class="o">=</span> <span class="n">slippages</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">no_flipped_version</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">flipped_version</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="StructuralMapping.BriefLabel"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping.BriefLabel">[docs]</a>  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;[</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="StructuralMapping.Apply"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping.Apply">[docs]</a>  <span class="k">def</span> <span class="nf">Apply</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+    <span class="n">bindings</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">bindings</span><span class="p">:</span>
+      <span class="k">return</span>
+    <span class="n">new_bindings</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bindings_mapping</span><span class="p">:</span>
+      <span class="n">new_binding_for_attribute</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">bindings</span><span class="o">.</span><span class="n">GetBindingsForAttribute</span><span class="p">(</span><span class="n">attribute</span><span class="p">))</span>
+      <span class="n">new_bindings</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_binding_for_attribute</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">new_bindings</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="StructuralMapping.IsPairConsistent"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping.IsPairConsistent">[docs]</a>  <span class="k">def</span> <span class="nf">IsPairConsistent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Is the pair of items consistent with this mapping?</span>
+<span class="sd">    </span>
+<span class="sd">    .. ToDo:: This is a cop-out, currently; when extending Seqsee, I should revisit this.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">item1</span><span class="p">)</span><span class="o">.</span><span class="n">Structure</span><span class="p">()</span> <span class="o">==</span> <span class="n">item2</span><span class="o">.</span><span class="n">Structure</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="StructuralMapping.FlippedVersion"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping.FlippedVersion">[docs]</a>  <span class="k">def</span> <span class="nf">FlippedVersion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_flipped_version</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">None</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">flipped_version</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">flipped_version</span>
+    <span class="n">flipped</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetFlippedVersion</span><span class="p">()</span>
+    <span class="k">if</span> <span class="n">flipped</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">flipped_version</span> <span class="o">=</span> <span class="n">flipped</span>
+      <span class="k">return</span> <span class="n">flipped</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">no_flipped_version</span> <span class="o">=</span> <span class="bp">True</span>
+      <span class="k">return</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="StructuralMapping.GetFlippedVersion"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping.GetFlippedVersion">[docs]</a>  <span class="k">def</span> <span class="nf">GetFlippedVersion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">new_bindings_mappings</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">mapping</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bindings_mapping</span><span class="p">:</span>
+      <span class="n">flipped</span> <span class="o">=</span> <span class="n">mapping</span><span class="o">.</span><span class="n">FlippedVersion</span><span class="p">()</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">flipped</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">None</span>
+      <span class="n">new_bindings_mappings</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">flipped</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">slippages</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">StructuralMapping</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">new_bindings_mappings</span><span class="o">.</span><span class="n">items</span><span class="p">())))</span>
+    <span class="c"># TODO(# --- Feb 16, 2012): Flip items with slippages when possible.</span>
+    <span class="k">return</span> <span class="bp">None</span>
+</div>
+<div class="viewcode-block" id="StructuralMapping.LTMDependentContent"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping.LTMDependentContent">[docs]</a>  <span class="k">def</span> <span class="nf">LTMDependentContent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

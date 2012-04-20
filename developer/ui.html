@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The Graphic User Interface &mdash; PySeqsee 0.1 documentation</title>
+    <title>The Graphic User Interface &mdash; PySeqsee 0.1.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1',
+        VERSION:     '0.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.1.2 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
     <link rel="next" title="The Flagship App: Seqsee" href="../seqsee/seqsee_index.html" />
     <link rel="prev" title="Categories" href="categories.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="categories.html" title="Categories"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -59,30 +59,30 @@
   <div class="section" id="the-graphic-user-interface">
 <h1>The Graphic User Interface<a class="headerlink" href="#the-graphic-user-interface" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="farg.ui.gui.GUI">
-<em class="property">class </em><tt class="descclassname">farg.ui.gui.</tt><tt class="descname">GUI</tt><big>(</big><em>controller_class</em>, <em>stopping_condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/ui/gui.html#GUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ui.gui.GUI" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ui.gui.GUI">
+<em class="property">class </em><tt class="descclassname">farg.core.ui.gui.</tt><tt class="descname">GUI</tt><big>(</big><em>controller_class</em>, <em>stopping_condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.GUI" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="farg.ui.gui.GUI.PopulateButtonPane">
-<tt class="descname">PopulateButtonPane</tt><big>(</big><em>frame</em><big>)</big><a class="reference internal" href="../_modules/farg/ui/gui.html#GUI.PopulateButtonPane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ui.gui.GUI.PopulateButtonPane" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ui.gui.GUI.PopulateButtonPane">
+<tt class="descname">PopulateButtonPane</tt><big>(</big><em>frame</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.PopulateButtonPane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.GUI.PopulateButtonPane" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds buttons to the top row.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ui.gui.GUI.PopulateCentralPane">
-<tt class="descname">PopulateCentralPane</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ui/gui.html#GUI.PopulateCentralPane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ui.gui.GUI.PopulateCentralPane" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ui.gui.GUI.PopulateCentralPane">
+<tt class="descname">PopulateCentralPane</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.PopulateCentralPane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.GUI.PopulateCentralPane" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets up the display in the central part.</p>
 <p>If an item must be refreshed, add it to items_to_refresh.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ui.gui.GUI.PopulateInteractionPane">
-<tt class="descname">PopulateInteractionPane</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ui/gui.html#GUI.PopulateInteractionPane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ui.gui.GUI.PopulateInteractionPane" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ui.gui.GUI.PopulateInteractionPane">
+<tt class="descname">PopulateInteractionPane</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.PopulateInteractionPane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.GUI.PopulateInteractionPane" title="Permalink to this definition">¶</a></dt>
 <dd><p>Sets up the interaction pane at the bottom.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="farg.ui.gui.GUI.central_pane_class">
-<tt class="descname">central_pane_class</tt><a class="headerlink" href="#farg.ui.gui.GUI.central_pane_class" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ui.gui.GUI.central_pane_class">
+<tt class="descname">central_pane_class</tt><a class="headerlink" href="#farg.core.ui.gui.GUI.central_pane_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">CentralPane</span></tt></p>
 </dd></dl>
 
@@ -139,7 +139,7 @@
         <li class="right" >
           <a href="categories.html" title="Categories"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>

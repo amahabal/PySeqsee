@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Categories &mdash; PySeqsee 0.1 documentation</title>
+    <title>Categories &mdash; PySeqsee 0.1.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1',
+        VERSION:     '0.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.1.2 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
     <link rel="next" title="The Graphic User Interface" href="ui.html" />
     <link rel="prev" title="Exceptions" href="exceptions.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="exceptions.html" title="Exceptions"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,8 +56,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-farg.categorization.category">
-<span id="categories"></span><h1>Categories<a class="headerlink" href="#module-farg.categorization.category" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-farg.core.categorization.category">
+<span id="categories"></span><h1>Categories<a class="headerlink" href="#module-farg.core.categorization.category" title="Permalink to this headline">¶</a></h1>
 <p>Classes to deal with categories and their instances, including the base class for
 categories.</p>
 <p>An example will help describe all that happens here. We will use the category &#8216;Ascending&#8217;
@@ -74,8 +74,8 @@ store the discovered categories and their bindings.</p>
 </pre></div>
 </div>
 <dl class="class">
-<dt id="farg.categorization.category.Category">
-<em class="property">class </em><tt class="descclassname">farg.categorization.category.</tt><tt class="descname">Category</tt><a class="reference internal" href="../_modules/farg/categorization/category.html#Category"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.category.Category" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.categorization.category.Category">
+<em class="property">class </em><tt class="descclassname">farg.core.categorization.category.</tt><tt class="descname">Category</tt><a class="reference internal" href="../_modules/farg/core/categorization/category.html#Category"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.category.Category" title="Permalink to this definition">¶</a></dt>
 <dd><p>The base class of any category in the FARG system.</p>
 <p>Any derivative class must define the following class methods:</p>
 <ul class="simple">
@@ -84,17 +84,17 @@ store the discovered categories and their bindings.</p>
 <li>ApplyMapping (given a mapping and a categorizable, returns a new item).</li>
 </ul>
 <dl class="method">
-<dt id="farg.categorization.category.Category.IsInstance">
-<tt class="descname">IsInstance</tt><big>(</big><em>object</em><big>)</big><a class="reference internal" href="../_modules/farg/categorization/category.html#Category.IsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.category.Category.IsInstance" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.categorization.category.Category.IsInstance">
+<tt class="descname">IsInstance</tt><big>(</big><em>object</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/category.html#Category.IsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.category.Category.IsInstance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is object an instance of this category?</p>
 <p>If it is not, <cite>None</cite> is returned. If it is, a binding object is returned.</p>
 </dd></dl>
 
 </dd></dl>
 
-<span class="target" id="module-farg.categorization.binding"></span><dl class="class">
-<dt id="farg.categorization.binding.Binding">
-<em class="property">class </em><tt class="descclassname">farg.categorization.binding.</tt><tt class="descname">Binding</tt><big>(</big><em>**bindings</em><big>)</big><a class="reference internal" href="../_modules/farg/categorization/binding.html#Binding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.binding.Binding" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-farg.core.categorization.binding"></span><dl class="class">
+<dt id="farg.core.categorization.binding.Binding">
+<em class="property">class </em><tt class="descclassname">farg.core.categorization.binding.</tt><tt class="descname">Binding</tt><big>(</big><em>**bindings</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/binding.html#Binding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.binding.Binding" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specification of how an instance is a member of some category.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -104,57 +104,57 @@ etc. Here, all are part of the same hash, along with &#8220;regular&#8221; attri
 Perl, where some bits were calculated by the constructor.</p>
 </div>
 <dl class="method">
-<dt id="farg.categorization.binding.Binding.GetBindingsForAttribute">
-<tt class="descname">GetBindingsForAttribute</tt><big>(</big><em>attribute_name</em><big>)</big><a class="reference internal" href="../_modules/farg/categorization/binding.html#Binding.GetBindingsForAttribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.binding.Binding.GetBindingsForAttribute" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.categorization.binding.Binding.GetBindingsForAttribute">
+<tt class="descname">GetBindingsForAttribute</tt><big>(</big><em>attribute_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/binding.html#Binding.GetBindingsForAttribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.binding.Binding.GetBindingsForAttribute" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get the binding of a single attribute.</p>
 </dd></dl>
 
 </dd></dl>
 
-<span class="target" id="module-farg.categorization.categorizable"></span><dl class="class">
-<dt id="farg.categorization.categorizable.CategorizableMixin">
-<em class="property">class </em><tt class="descclassname">farg.categorization.categorizable.</tt><tt class="descname">CategorizableMixin</tt><a class="reference internal" href="../_modules/farg/categorization/categorizable.html#CategorizableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.categorizable.CategorizableMixin" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-farg.core.categorization.categorizable"></span><dl class="class">
+<dt id="farg.core.categorization.categorizable.CategorizableMixin">
+<em class="property">class </em><tt class="descclassname">farg.core.categorization.categorizable.</tt><tt class="descname">CategorizableMixin</tt><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for things which can belong to categories.</p>
 <dl class="method">
-<dt id="farg.categorization.categorizable.CategorizableMixin.AddCategoriesFrom">
-<tt class="descname">AddCategoriesFrom</tt><big>(</big><em>other</em><big>)</big><a class="headerlink" href="#farg.categorization.categorizable.CategorizableMixin.AddCategoriesFrom" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.categorization.categorizable.CategorizableMixin.AddCategoriesFrom">
+<tt class="descname">AddCategoriesFrom</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.AddCategoriesFrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin.AddCategoriesFrom" title="Permalink to this definition">¶</a></dt>
 <dd><p>Copy categories in &#8216;other&#8217; to &#8216;self&#8217;</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.categorization.categorizable.CategorizableMixin.AddCategory">
-<tt class="descname">AddCategory</tt><big>(</big><em>category</em>, <em>binding</em><big>)</big><a class="reference internal" href="../_modules/farg/categorization/categorizable.html#CategorizableMixin.AddCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.categorizable.CategorizableMixin.AddCategory" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.categorization.categorizable.CategorizableMixin.AddCategory">
+<tt class="descname">AddCategory</tt><big>(</big><em>category</em>, <em>binding</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.AddCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin.AddCategory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a category (with the specified binding) to the object.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.categorization.categorizable.CategorizableMixin.DescribeAs">
-<tt class="descname">DescribeAs</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/categorization/categorizable.html#CategorizableMixin.DescribeAs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.categorizable.CategorizableMixin.DescribeAs" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.categorization.categorizable.CategorizableMixin.DescribeAs">
+<tt class="descname">DescribeAs</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.DescribeAs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin.DescribeAs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Describes item as instance of category, and remembers the binding if one is found.</p>
 <p>Returns the binding.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.categorization.categorizable.CategorizableMixin.GetBindingsForCategory">
-<tt class="descname">GetBindingsForCategory</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/categorization/categorizable.html#CategorizableMixin.GetBindingsForCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.categorizable.CategorizableMixin.GetBindingsForCategory" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.categorization.categorizable.CategorizableMixin.GetBindingsForCategory">
+<tt class="descname">GetBindingsForCategory</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.GetBindingsForCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin.GetBindingsForCategory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Gets bindings. If not an instance of category, raises an exception.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.categorization.categorizable.CategorizableMixin.GetCommonCategoriesSet">
-<tt class="descname">GetCommonCategoriesSet</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/farg/categorization/categorizable.html#CategorizableMixin.GetCommonCategoriesSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.categorizable.CategorizableMixin.GetCommonCategoriesSet" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.categorization.categorizable.CategorizableMixin.GetCommonCategoriesSet">
+<tt class="descname">GetCommonCategoriesSet</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.GetCommonCategoriesSet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin.GetCommonCategoriesSet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of discovered categories common to this and the other categorizable.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.categorization.categorizable.CategorizableMixin.IsKnownAsInstanceOf">
-<tt class="descname">IsKnownAsInstanceOf</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/categorization/categorizable.html#CategorizableMixin.IsKnownAsInstanceOf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.categorizable.CategorizableMixin.IsKnownAsInstanceOf" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.categorization.categorizable.CategorizableMixin.IsKnownAsInstanceOf">
+<tt class="descname">IsKnownAsInstanceOf</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.IsKnownAsInstanceOf"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin.IsKnownAsInstanceOf" title="Permalink to this definition">¶</a></dt>
 <dd><p>True if known to be an instance of category.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.categorization.categorizable.CategorizableMixin.RemoveCategory">
-<tt class="descname">RemoveCategory</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/categorization/categorizable.html#CategorizableMixin.RemoveCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.categorization.categorizable.CategorizableMixin.RemoveCategory" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.categorization.categorizable.CategorizableMixin.RemoveCategory">
+<tt class="descname">RemoveCategory</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.RemoveCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin.RemoveCategory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Removes the category: the item will not (currently) be considered a member of that
 category.</p>
 </dd></dl>
@@ -162,8 +162,8 @@ category.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="module-apps.seqsee.categories">
-<span id="categories-in-seqsee"></span><h1>Categories in Seqsee<a class="headerlink" href="#module-apps.seqsee.categories" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-farg.apps.seqsee.categories">
+<span id="categories-in-seqsee"></span><h1>Categories in Seqsee<a class="headerlink" href="#module-farg.apps.seqsee.categories" title="Permalink to this headline">¶</a></h1>
 <p>Seqsee-specific categories.</p>
 <p>These will include (not all implemented yet):</p>
 <ul class="simple">
@@ -208,158 +208,158 @@ Construct that returns a category (i.e., a subclass of Category).</p>
 </pre></div>
 </div>
 <dl class="class">
-<dt id="apps.seqsee.categories.Ascending">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">Ascending</tt><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Ascending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Ascending" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Ascending">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">Ascending</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Ascending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Ascending" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="apps.seqsee.categories.Ascending.AreAttributesSufficientToBuild">
-<tt class="descname">AreAttributesSufficientToBuild</tt><big>(</big><em>attributes</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Ascending.AreAttributesSufficientToBuild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Ascending.AreAttributesSufficientToBuild" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Ascending.AreAttributesSufficientToBuild">
+<tt class="descname">AreAttributesSufficientToBuild</tt><big>(</big><em>attributes</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Ascending.AreAttributesSufficientToBuild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Ascending.AreAttributesSufficientToBuild" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.Ascending.BriefLabel">
-<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Ascending.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Ascending.BriefLabel" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Ascending.BriefLabel">
+<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Ascending.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Ascending.BriefLabel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.Ascending.Create">
-<tt class="descname">Create</tt><big>(</big><em>bindings</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Ascending.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Ascending.Create" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Ascending.Create">
+<tt class="descname">Create</tt><big>(</big><em>bindings</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Ascending.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Ascending.Create" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.Ascending.StructuralIsInstance">
-<tt class="descname">StructuralIsInstance</tt><big>(</big><em>structure</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Ascending.StructuralIsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Ascending.StructuralIsInstance" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Ascending.StructuralIsInstance">
+<tt class="descname">StructuralIsInstance</tt><big>(</big><em>structure</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Ascending.StructuralIsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Ascending.StructuralIsInstance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="function">
-<dt id="apps.seqsee.categories.GetNaiveMapping">
-<tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">GetNaiveMapping</tt><big>(</big><em>v1</em>, <em>v2</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#GetNaiveMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.GetNaiveMapping" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.GetNaiveMapping">
+<tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">GetNaiveMapping</tt><big>(</big><em>v1</em>, <em>v2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#GetNaiveMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.GetNaiveMapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="class">
-<dt id="apps.seqsee.categories.MappingBasedCategory">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">MappingBasedCategory</tt><big>(</big><em>mapping</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#MappingBasedCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.MappingBasedCategory" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.MappingBasedCategory">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">MappingBasedCategory</tt><big>(</big><em>mapping</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#MappingBasedCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.MappingBasedCategory" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="apps.seqsee.categories.MappingBasedCategory.AreAttributesSufficientToBuild">
-<tt class="descname">AreAttributesSufficientToBuild</tt><big>(</big><em>attributes</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#MappingBasedCategory.AreAttributesSufficientToBuild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.MappingBasedCategory.AreAttributesSufficientToBuild" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.MappingBasedCategory.AreAttributesSufficientToBuild">
+<tt class="descname">AreAttributesSufficientToBuild</tt><big>(</big><em>attributes</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#MappingBasedCategory.AreAttributesSufficientToBuild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.MappingBasedCategory.AreAttributesSufficientToBuild" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.MappingBasedCategory.BriefLabel">
-<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#MappingBasedCategory.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.MappingBasedCategory.BriefLabel" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.MappingBasedCategory.BriefLabel">
+<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#MappingBasedCategory.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.MappingBasedCategory.BriefLabel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.MappingBasedCategory.Create">
-<tt class="descname">Create</tt><big>(</big><em>bindings</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#MappingBasedCategory.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.MappingBasedCategory.Create" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.MappingBasedCategory.Create">
+<tt class="descname">Create</tt><big>(</big><em>bindings</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#MappingBasedCategory.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.MappingBasedCategory.Create" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.MappingBasedCategory.IsDegenerateInstance">
-<tt class="descname">IsDegenerateInstance</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#MappingBasedCategory.IsDegenerateInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.MappingBasedCategory.IsDegenerateInstance" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.MappingBasedCategory.IsDegenerateInstance">
+<tt class="descname">IsDegenerateInstance</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#MappingBasedCategory.IsDegenerateInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.MappingBasedCategory.IsDegenerateInstance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.MappingBasedCategory.IsInstance">
-<tt class="descname">IsInstance</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#MappingBasedCategory.IsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.MappingBasedCategory.IsInstance" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.MappingBasedCategory.IsInstance">
+<tt class="descname">IsInstance</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#MappingBasedCategory.IsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.MappingBasedCategory.IsInstance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="apps.seqsee.categories.Number">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">Number</tt><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Number" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Number">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">Number</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Number"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Number" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="apps.seqsee.categories.Number.ApplyMapping">
-<tt class="descname">ApplyMapping</tt><big>(</big><em>mapping</em>, <em>item</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Number.ApplyMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Number.ApplyMapping" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Number.ApplyMapping">
+<tt class="descname">ApplyMapping</tt><big>(</big><em>mapping</em>, <em>item</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Number.ApplyMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Number.ApplyMapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.Number.BriefLabel">
-<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Number.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Number.BriefLabel" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Number.BriefLabel">
+<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Number.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Number.BriefLabel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.Number.GetMapping">
-<tt class="descname">GetMapping</tt><big>(</big><em>item1</em>, <em>item2</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Number.GetMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Number.GetMapping" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Number.GetMapping">
+<tt class="descname">GetMapping</tt><big>(</big><em>item1</em>, <em>item2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Number.GetMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Number.GetMapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.Number.NumericIsInstance">
-<tt class="descname">NumericIsInstance</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Number.NumericIsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Number.NumericIsInstance" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Number.NumericIsInstance">
+<tt class="descname">NumericIsInstance</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Number.NumericIsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Number.NumericIsInstance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="apps.seqsee.categories.NumericCategory">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">NumericCategory</tt><a class="reference internal" href="../_modules/apps/seqsee/categories.html#NumericCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.NumericCategory" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.NumericCategory">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">NumericCategory</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#NumericCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.NumericCategory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for categories whose instances are SElements, and membership depends only on 
 the magnitude.</p>
 <dl class="method">
-<dt id="apps.seqsee.categories.NumericCategory.IsInstance">
-<tt class="descname">IsInstance</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#NumericCategory.IsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.NumericCategory.IsInstance" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.NumericCategory.IsInstance">
+<tt class="descname">IsInstance</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#NumericCategory.IsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.NumericCategory.IsInstance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="apps.seqsee.categories.PrecomputedNumberList">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">PrecomputedNumberList</tt><a class="reference internal" href="../_modules/apps/seqsee/categories.html#PrecomputedNumberList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.PrecomputedNumberList" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.PrecomputedNumberList">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">PrecomputedNumberList</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#PrecomputedNumberList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.PrecomputedNumberList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Categories such as Prime and Fibonacci which are provided as a pre-computed list.</p>
 <dl class="method">
-<dt id="apps.seqsee.categories.PrecomputedNumberList.ApplyMapping">
-<tt class="descname">ApplyMapping</tt><big>(</big><em>mapping</em>, <em>item</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#PrecomputedNumberList.ApplyMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.PrecomputedNumberList.ApplyMapping" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.PrecomputedNumberList.ApplyMapping">
+<tt class="descname">ApplyMapping</tt><big>(</big><em>mapping</em>, <em>item</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#PrecomputedNumberList.ApplyMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.PrecomputedNumberList.ApplyMapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.PrecomputedNumberList.BriefLabel">
-<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#PrecomputedNumberList.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.PrecomputedNumberList.BriefLabel" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.PrecomputedNumberList.BriefLabel">
+<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#PrecomputedNumberList.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.PrecomputedNumberList.BriefLabel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.PrecomputedNumberList.GetMapping">
-<tt class="descname">GetMapping</tt><big>(</big><em>item1</em>, <em>item2</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#PrecomputedNumberList.GetMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.PrecomputedNumberList.GetMapping" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.PrecomputedNumberList.GetMapping">
+<tt class="descname">GetMapping</tt><big>(</big><em>item1</em>, <em>item2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#PrecomputedNumberList.GetMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.PrecomputedNumberList.GetMapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.PrecomputedNumberList.NumericIsInstance">
-<tt class="descname">NumericIsInstance</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#PrecomputedNumberList.NumericIsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.PrecomputedNumberList.NumericIsInstance" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.PrecomputedNumberList.NumericIsInstance">
+<tt class="descname">NumericIsInstance</tt><big>(</big><em>val</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#PrecomputedNumberList.NumericIsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.PrecomputedNumberList.NumericIsInstance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="apps.seqsee.categories.PrecomputedNumberList.brief_label">
-<tt class="descname">brief_label</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.categories.PrecomputedNumberList.brief_label" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.PrecomputedNumberList.brief_label">
+<tt class="descname">brief_label</tt><em class="property"> = None</em><a class="headerlink" href="#farg.apps.seqsee.categories.PrecomputedNumberList.brief_label" title="Permalink to this definition">¶</a></dt>
 <dd><p>A brief label must be provided.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="apps.seqsee.categories.PrecomputedNumberList.number_list">
-<tt class="descname">number_list</tt><em class="property"> = None</em><a class="headerlink" href="#apps.seqsee.categories.PrecomputedNumberList.number_list" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.PrecomputedNumberList.number_list">
+<tt class="descname">number_list</tt><em class="property"> = None</em><a class="headerlink" href="#farg.apps.seqsee.categories.PrecomputedNumberList.number_list" title="Permalink to this definition">¶</a></dt>
 <dd><p>Must be provided with a number list.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="apps.seqsee.categories.Prime">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">Prime</tt><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Prime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Prime" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Prime">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">Prime</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Prime"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Prime" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="attribute">
-<dt id="apps.seqsee.categories.Prime.brief_label">
-<tt class="descname">brief_label</tt><em class="property"> = 'Prime'</em><a class="headerlink" href="#apps.seqsee.categories.Prime.brief_label" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Prime.brief_label">
+<tt class="descname">brief_label</tt><em class="property"> = 'Prime'</em><a class="headerlink" href="#farg.apps.seqsee.categories.Prime.brief_label" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="apps.seqsee.categories.Prime.number_list">
-<tt class="descname">number_list</tt><em class="property"> = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]</em><a class="headerlink" href="#apps.seqsee.categories.Prime.number_list" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Prime.number_list">
+<tt class="descname">number_list</tt><em class="property"> = [2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97]</em><a class="headerlink" href="#farg.apps.seqsee.categories.Prime.number_list" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="apps.seqsee.categories.SeqseeObjectCategory">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">SeqseeObjectCategory</tt><a class="reference internal" href="../_modules/apps/seqsee/categories.html#SeqseeObjectCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.SeqseeObjectCategory" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.SeqseeObjectCategory">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">SeqseeObjectCategory</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#SeqseeObjectCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.SeqseeObjectCategory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base for categories whose instances are groups in Seqsee.</p>
 <p>Any derivative class must define the following class methods:</p>
 <ul class="simple">
@@ -367,94 +367,94 @@ the magnitude.</p>
 <li>ApplyMapping (given a mapping and a categorizable, returns a new item).</li>
 </ul>
 <dl class="method">
-<dt id="apps.seqsee.categories.SeqseeObjectCategory.ApplyMapping">
-<tt class="descname">ApplyMapping</tt><big>(</big><em>categorizable</em>, <em>mapping</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#SeqseeObjectCategory.ApplyMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.SeqseeObjectCategory.ApplyMapping" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.SeqseeObjectCategory.ApplyMapping">
+<tt class="descname">ApplyMapping</tt><big>(</big><em>categorizable</em>, <em>mapping</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#SeqseeObjectCategory.ApplyMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.SeqseeObjectCategory.ApplyMapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apply a mapping to a categorizable to obtain a different categorizable.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.SeqseeObjectCategory.FindMapping">
-<tt class="descname">FindMapping</tt><big>(</big><em>categorizable1</em>, <em>categorizable2</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#SeqseeObjectCategory.FindMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.SeqseeObjectCategory.FindMapping" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.SeqseeObjectCategory.FindMapping">
+<tt class="descname">FindMapping</tt><big>(</big><em>categorizable1</em>, <em>categorizable2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#SeqseeObjectCategory.FindMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.SeqseeObjectCategory.FindMapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds a mapping between two objects based on a particular category.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="apps.seqsee.categories.SizeNCategory">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">SizeNCategory</tt><big>(</big><em>size</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#SizeNCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.SizeNCategory" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.SizeNCategory">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">SizeNCategory</tt><big>(</big><em>size</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#SizeNCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.SizeNCategory" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
-<dt id="apps.seqsee.categories.SizeNCategory.AreAttributesSufficientToBuild">
-<tt class="descname">AreAttributesSufficientToBuild</tt><big>(</big><em>attributes</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#SizeNCategory.AreAttributesSufficientToBuild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.SizeNCategory.AreAttributesSufficientToBuild" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.SizeNCategory.AreAttributesSufficientToBuild">
+<tt class="descname">AreAttributesSufficientToBuild</tt><big>(</big><em>attributes</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#SizeNCategory.AreAttributesSufficientToBuild"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.SizeNCategory.AreAttributesSufficientToBuild" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.SizeNCategory.BriefLabel">
-<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#SizeNCategory.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.SizeNCategory.BriefLabel" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.SizeNCategory.BriefLabel">
+<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#SizeNCategory.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.SizeNCategory.BriefLabel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.SizeNCategory.Create">
-<tt class="descname">Create</tt><big>(</big><em>bindings</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#SizeNCategory.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.SizeNCategory.Create" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.SizeNCategory.Create">
+<tt class="descname">Create</tt><big>(</big><em>bindings</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#SizeNCategory.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.SizeNCategory.Create" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.SizeNCategory.StructuralIsInstance">
-<tt class="descname">StructuralIsInstance</tt><big>(</big><em>structure</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#SizeNCategory.StructuralIsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.SizeNCategory.StructuralIsInstance" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.SizeNCategory.StructuralIsInstance">
+<tt class="descname">StructuralIsInstance</tt><big>(</big><em>structure</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#SizeNCategory.StructuralIsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.SizeNCategory.StructuralIsInstance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="apps.seqsee.categories.Squares">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">Squares</tt><a class="reference internal" href="../_modules/apps/seqsee/categories.html#Squares"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.Squares" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Squares">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">Squares</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Squares"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Squares" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="attribute">
-<dt id="apps.seqsee.categories.Squares.brief_label">
-<tt class="descname">brief_label</tt><em class="property"> = 'Square'</em><a class="headerlink" href="#apps.seqsee.categories.Squares.brief_label" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Squares.brief_label">
+<tt class="descname">brief_label</tt><em class="property"> = 'Square'</em><a class="headerlink" href="#farg.apps.seqsee.categories.Squares.brief_label" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="apps.seqsee.categories.Squares.number_list">
-<tt class="descname">number_list</tt><em class="property"> = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 324, 361, 400, 441, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1024, 1089, 1156, 1225, 1296, 1369, 1444, 1521, 1600, 1681, 1764, 1849, 1936, 2025, 2116, 2209, 2304, 2401, 2500, 2601, 2704, 2809, 2916, 3025, 3136, 3249, 3364, 3481, 3600, 3721, 3844, 3969, 4096, 4225, 4356, 4489, 4624, 4761, 4900, 5041, 5184, 5329, 5476, 5625, 5776, 5929, 6084, 6241, 6400, 6561, 6724, 6889, 7056, 7225, 7396, 7569, 7744, 7921, 8100, 8281, 8464, 8649, 8836, 9025, 9216, 9409, 9604, 9801]</em><a class="headerlink" href="#apps.seqsee.categories.Squares.number_list" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.Squares.number_list">
+<tt class="descname">number_list</tt><em class="property"> = [1, 4, 9, 16, 25, 36, 49, 64, 81, 100, 121, 144, 169, 196, 225, 256, 289, 324, 361, 400, 441, 484, 529, 576, 625, 676, 729, 784, 841, 900, 961, 1024, 1089, 1156, 1225, 1296, 1369, 1444, 1521, 1600, 1681, 1764, 1849, 1936, 2025, 2116, 2209, 2304, 2401, 2500, 2601, 2704, 2809, 2916, 3025, 3136, 3249, 3364, 3481, 3600, 3721, 3844, 3969, 4096, 4225, 4356, 4489, 4624, 4761, 4900, 5041, 5184, 5329, 5476, 5625, 5776, 5929, 6084, 6241, 6400, 6561, 6724, 6889, 7056, 7225, 7396, 7569, 7744, 7921, 8100, 8281, 8464, 8649, 8836, 9025, 9216, 9409, 9604, 9801]</em><a class="headerlink" href="#farg.apps.seqsee.categories.Squares.number_list" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="apps.seqsee.categories.StructuralCategory">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">StructuralCategory</tt><a class="reference internal" href="../_modules/apps/seqsee/categories.html#StructuralCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.StructuralCategory" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.StructuralCategory">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">StructuralCategory</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#StructuralCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.StructuralCategory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class whose membership depends on the structure (e.g., ascending, mountain).</p>
 <dl class="method">
-<dt id="apps.seqsee.categories.StructuralCategory.GetMapping">
-<tt class="descname">GetMapping</tt><big>(</big><em>item1</em>, <em>item2</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#StructuralCategory.GetMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.StructuralCategory.GetMapping" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.StructuralCategory.GetMapping">
+<tt class="descname">GetMapping</tt><big>(</big><em>item1</em>, <em>item2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#StructuralCategory.GetMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.StructuralCategory.GetMapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.StructuralCategory.GetMappingBetweenBindings">
-<tt class="descname">GetMappingBetweenBindings</tt><big>(</big><em>binding1</em>, <em>binding2</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#StructuralCategory.GetMappingBetweenBindings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.StructuralCategory.GetMappingBetweenBindings" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.StructuralCategory.GetMappingBetweenBindings">
+<tt class="descname">GetMappingBetweenBindings</tt><big>(</big><em>binding1</em>, <em>binding2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#StructuralCategory.GetMappingBetweenBindings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.StructuralCategory.GetMappingBetweenBindings" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get mapping between a pair of bindings. This should eventually be replaced by a space
 (as discussed in the last chapter of the dissertation). For now, I have a simple
 mechanism.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="apps.seqsee.categories.StructuralCategory.IsInstance">
-<tt class="descname">IsInstance</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/apps/seqsee/categories.html#StructuralCategory.IsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.StructuralCategory.IsInstance" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.StructuralCategory.IsInstance">
+<tt class="descname">IsInstance</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#StructuralCategory.IsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.StructuralCategory.IsInstance" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="apps.seqsee.categories.TriangularNumbers">
-<em class="property">class </em><tt class="descclassname">apps.seqsee.categories.</tt><tt class="descname">TriangularNumbers</tt><a class="reference internal" href="../_modules/apps/seqsee/categories.html#TriangularNumbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#apps.seqsee.categories.TriangularNumbers" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.TriangularNumbers">
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">TriangularNumbers</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#TriangularNumbers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.TriangularNumbers" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="attribute">
-<dt id="apps.seqsee.categories.TriangularNumbers.brief_label">
-<tt class="descname">brief_label</tt><em class="property"> = 'TriangularNumber'</em><a class="headerlink" href="#apps.seqsee.categories.TriangularNumbers.brief_label" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.TriangularNumbers.brief_label">
+<tt class="descname">brief_label</tt><em class="property"> = 'TriangularNumber'</em><a class="headerlink" href="#farg.apps.seqsee.categories.TriangularNumbers.brief_label" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="apps.seqsee.categories.TriangularNumbers.number_list">
-<tt class="descname">number_list</tt><em class="property"> = [1.0, 3.0, 6.0, 10.0, 15.0, 21.0, 28.0, 36.0, 45.0, 55.0, 66.0, 78.0, 91.0, 105.0, 120.0, 136.0, 153.0, 171.0, 190.0, 210.0, 231.0, 253.0, 276.0, 300.0, 325.0, 351.0, 378.0, 406.0, 435.0, 465.0, 496.0, 528.0, 561.0, 595.0, 630.0, 666.0, 703.0, 741.0, 780.0, 820.0, 861.0, 903.0, 946.0, 990.0, 1035.0, 1081.0, 1128.0, 1176.0, 1225.0, 1275.0, 1326.0, 1378.0, 1431.0, 1485.0, 1540.0, 1596.0, 1653.0, 1711.0, 1770.0, 1830.0, 1891.0, 1953.0, 2016.0, 2080.0, 2145.0, 2211.0, 2278.0, 2346.0, 2415.0, 2485.0, 2556.0, 2628.0, 2701.0, 2775.0, 2850.0, 2926.0, 3003.0, 3081.0, 3160.0, 3240.0, 3321.0, 3403.0, 3486.0, 3570.0, 3655.0, 3741.0, 3828.0, 3916.0, 4005.0, 4095.0, 4186.0, 4278.0, 4371.0, 4465.0, 4560.0, 4656.0, 4753.0, 4851.0, 4950.0]</em><a class="headerlink" href="#apps.seqsee.categories.TriangularNumbers.number_list" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.apps.seqsee.categories.TriangularNumbers.number_list">
+<tt class="descname">number_list</tt><em class="property"> = [1.0, 3.0, 6.0, 10.0, 15.0, 21.0, 28.0, 36.0, 45.0, 55.0, 66.0, 78.0, 91.0, 105.0, 120.0, 136.0, 153.0, 171.0, 190.0, 210.0, 231.0, 253.0, 276.0, 300.0, 325.0, 351.0, 378.0, 406.0, 435.0, 465.0, 496.0, 528.0, 561.0, 595.0, 630.0, 666.0, 703.0, 741.0, 780.0, 820.0, 861.0, 903.0, 946.0, 990.0, 1035.0, 1081.0, 1128.0, 1176.0, 1225.0, 1275.0, 1326.0, 1378.0, 1431.0, 1485.0, 1540.0, 1596.0, 1653.0, 1711.0, 1770.0, 1830.0, 1891.0, 1953.0, 2016.0, 2080.0, 2145.0, 2211.0, 2278.0, 2346.0, 2415.0, 2485.0, 2556.0, 2628.0, 2701.0, 2775.0, 2850.0, 2926.0, 3003.0, 3081.0, 3160.0, 3240.0, 3321.0, 3403.0, 3486.0, 3570.0, 3655.0, 3741.0, 3828.0, 3916.0, 4005.0, 4095.0, 4186.0, 4278.0, 4371.0, 4465.0, 4560.0, 4656.0, 4753.0, 4851.0, 4950.0]</em><a class="headerlink" href="#farg.apps.seqsee.categories.TriangularNumbers.number_list" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
@@ -471,7 +471,7 @@ mechanism.</p>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Categories</a></li>
-<li><a class="reference internal" href="#module-apps.seqsee.categories">Categories in Seqsee</a><ul>
+<li><a class="reference internal" href="#module-farg.apps.seqsee.categories">Categories in Seqsee</a><ul>
 <li><a class="reference internal" href="#numeric-categories">Numeric Categories</a></li>
 <li><a class="reference internal" href="#structural-categories">Structural Categories</a></li>
 <li><a class="reference internal" href="#parametrized-categories">Parametrized Categories</a></li>
@@ -522,7 +522,7 @@ mechanism.</p>
         <li class="right" >
           <a href="exceptions.html" title="Exceptions"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>

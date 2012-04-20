@@ -1,0 +1,295 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>farg.apps.seqsee.sobject &mdash; PySeqsee 0.1.2 documentation</title>
+    
+    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../../',
+        VERSION:     '0.1.2',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1.2 documentation" href="../../../../index.html" />
+    <link rel="up" title="Module code" href="../../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for farg.apps.seqsee.sobject</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
+<span class="c">#</span>
+<span class="c"># This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c"># the terms of the GNU General Public License as published by the Free Software</span>
+<span class="c"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
+<span class="c"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License along with this</span>
+<span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;Represents a group or a single number in a sequence.</span>
+
+<span class="sd">.. warning:: This is an implementation of the SObject in Perl, but differs significantly in</span>
+<span class="sd">     the ways described below.</span>
+
+<span class="sd">   * The class hierarchy is different. Whereas previously I had a messed up SElement isa</span>
+<span class="sd">     SAnchored isa SObject, now positioned stuff merely holds an SObject instance instead of</span>
+<span class="sd">     inheriting.</span>
+<span class="sd">   * With this, the responsibility of objects (now SElement and SGroup, both subclasses of</span>
+<span class="sd">     SObject) is to maintain structure and structure related information (such as</span>
+<span class="sd">     categories), and not positional or specific use information (such as metonyms).</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span> <span class="nn">farg.core.categorization.categorizable</span> <span class="kn">import</span> <span class="n">CategorizableMixin</span>
+<span class="kn">from</span> <span class="nn">farg.core.exceptions</span> <span class="kn">import</span> <span class="n">FargError</span>
+<span class="kn">from</span> <span class="nn">farg.core.ltm.storable</span> <span class="kn">import</span> <span class="n">LTMStorableMixin</span>
+<span class="kn">from</span> <span class="nn">farg.core.meta</span> <span class="kn">import</span> <span class="n">MemoizedConstructor</span>
+<span class="kn">from</span> <span class="nn">farg.core.util</span> <span class="kn">import</span> <span class="n">Squash</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
+
+<div class="viewcode-block" id="LTMStorableSObject"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.LTMStorableSObject">[docs]</a><span class="k">class</span> <span class="nc">LTMStorableSObject</span><span class="p">(</span><span class="n">LTMStorableMixin</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">MemoizedConstructor</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">structure</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">structure</span> <span class="o">=</span> <span class="n">structure</span>
+
+<div class="viewcode-block" id="LTMStorableSObject.BriefLabel"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.LTMStorableSObject.BriefLabel">[docs]</a>  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;Obj:</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">structure</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="SObject"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SObject">[docs]</a><span class="k">class</span> <span class="nc">SObject</span><span class="p">(</span><span class="n">CategorizableMixin</span><span class="p">,</span> <span class="n">LTMStorableMixin</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Base class of objects --- groups or elements.</span>
+<span class="sd">  </span>
+<span class="sd">     This is an abstract class. SGroup and SElement are concrete subclasses.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_group</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
+    <span class="n">CategorizableMixin</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="c">#: A number between 0 and 100.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">strength</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="c">#: Is this a group? Even SElements can occasionally act like groups.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">is_group</span> <span class="o">=</span> <span class="n">is_group</span>
+
+  <span class="nd">@staticmethod</span>
+<div class="viewcode-block" id="SObject.Create"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SObject.Create">[docs]</a>  <span class="k">def</span> <span class="nf">Create</span><span class="p">(</span><span class="o">*</span><span class="n">items</span><span class="p">):</span>  <span class="c"># pylint: disable=W0142</span>
+    <span class="sd">&quot;&quot;&quot;Creates an SObject given the items, which can be integers, lists, or other SObjects.</span>
+<span class="sd">       * An integer is converted to an SElement.</span>
+<span class="sd">       * Create([x, y, z]) is equivalent to Create(x, y, z)</span>
+<span class="sd">       * Create(x, y, z) forms an SGroup made up of Create(x), Create(y) and Create(z)</span>
+<span class="sd">       * Create(an Sobject) results in a DeepCopy of the SObject</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;Empty group creation attempted. An error at the moment&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="n">item</span> <span class="o">=</span> <span class="n">items</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+      <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SElement</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+      <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">)</span>
+      <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="o">*</span><span class="n">item</span><span class="p">)</span>
+      <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">SObject</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">DeepCopy</span><span class="p">()</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;Bad argument to Create: </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="n">item</span><span class="o">.</span><span class="n">__repr__</span><span class="p">())</span>
+    <span class="c"># So there are multiple items...</span>
+    <span class="n">new_items</span> <span class="o">=</span> <span class="p">[</span><span class="n">SObject</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">items</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">SGroup</span><span class="p">(</span><span class="n">items</span><span class="o">=</span><span class="n">new_items</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SObject.GetLTMStorableContent"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SObject.GetLTMStorableContent">[docs]</a>  <span class="k">def</span> <span class="nf">GetLTMStorableContent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="c"># TODO(#24 --- Dec 28, 2011): Document (in LTM?) what GetStorable means.</span>
+    <span class="n">structure</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Structure</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">LTMStorableSObject</span><span class="p">(</span><span class="n">structure</span><span class="o">=</span><span class="n">structure</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SObject.Structure"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SObject.Structure">[docs]</a>  <span class="k">def</span> <span class="nf">Structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c"># pylint: disable=R0201</span>
+    <span class="sd">&quot;&quot;&quot;Should be overridden by subclasses to return an int or tuple representing the</span>
+<span class="sd">       structure.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&quot;Structure should have been overridden.&quot;</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SObject.GetFringeFromLTM"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SObject.GetFringeFromLTM">[docs]</a>  <span class="k">def</span> <span class="nf">GetFringeFromLTM</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fringe for the element (now based off the LTM).&quot;&quot;&quot;</span>
+    <span class="c"># TODO(# --- Dec 30, 2011): Need codelets to add LTM edges where they are missing.</span>
+    <span class="n">my_node</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="n">my_node</span><span class="o">.</span><span class="n">Spike</span><span class="p">(</span><span class="mi">50</span><span class="p">,</span> <span class="n">controller</span><span class="o">.</span><span class="n">steps_taken</span><span class="p">)</span>
+    <span class="n">fringe</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="n">fringe</span><span class="p">[</span><span class="n">my_node</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="n">outgoing_related_edges</span> <span class="o">=</span> <span class="n">my_node</span><span class="o">.</span><span class="n">GetOutgoingEdgesOfTypeRelated</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">outgoing_related_edges</span><span class="p">:</span>
+      <span class="c"># TODO(# --- Dec 30, 2011): Edges should have strength, and it should influence this.</span>
+      <span class="n">fringe</span><span class="p">[</span><span class="n">edge</span><span class="o">.</span><span class="n">to_node</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="k">return</span> <span class="n">fringe</span>
+
+</div></div>
+<div class="viewcode-block" id="SGroup"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SGroup">[docs]</a><span class="k">class</span> <span class="nc">SGroup</span><span class="p">(</span><span class="n">SObject</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;A subclass of SObject representing things with an internal structure.&quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">underlying_mapping</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">items</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="n">SObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_group</span><span class="o">=</span><span class="bp">True</span><span class="p">)</span>
+    <span class="c">#: Underlying mapping on which object is based.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">underlying_mapping</span> <span class="o">=</span> <span class="n">underlying_mapping</span>
+    <span class="c">#: Items in the object</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+      <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">items</span> <span class="o">=</span> <span class="n">items</span>
+
+<div class="viewcode-block" id="SGroup.DeepCopy"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SGroup.DeepCopy">[docs]</a>  <span class="k">def</span> <span class="nf">DeepCopy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Makes a copy of the group.&quot;&quot;&quot;</span>
+    <span class="c"># TODO(#25 --- Dec 28, 2011): Should copy categories, too. Perhaps a method in</span>
+    <span class="c"># CategorizableMixin (CopyCategoriesFromCopy?). Also fix SElements below.</span>
+    <span class="n">new_items</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="o">.</span><span class="n">DeepCopy</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
+    <span class="n">new_object</span> <span class="o">=</span> <span class="n">SGroup</span><span class="p">(</span><span class="n">items</span><span class="o">=</span><span class="n">new_items</span><span class="p">,</span>
+                        <span class="n">underlying_mapping</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">underlying_mapping</span><span class="p">)</span>
+    <span class="c"># .. ToDo:: Copy categories as well.</span>
+    <span class="k">return</span> <span class="n">new_object</span>
+</div>
+<div class="viewcode-block" id="SGroup.Structure"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SGroup.Structure">[docs]</a>  <span class="k">def</span> <span class="nf">Structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;A tuple representations of the group.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">Structure</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SGroup.GetFringe"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SGroup.GetFringe">[docs]</a>  <span class="k">def</span> <span class="nf">GetFringe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fringe for the group.&quot;&quot;&quot;</span>
+    <span class="c"># TODO(#27 --- Dec 28, 2011): The categories are also a relevant part of the fringe.</span>
+    <span class="n">fringe</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">underlying_mapping</span><span class="p">:</span>
+      <span class="n">fringe</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">underlying_mapping</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+    <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">_bindings</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="c"># QUALITY TODO(Feb 10, 2012): Activation in the LTM matters.</span>
+      <span class="n">fringe</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">fringe</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetFringeFromLTM</span><span class="p">(</span><span class="n">controller</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">fringe</span>
+</div>
+<div class="viewcode-block" id="SGroup.Length"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SGroup.Length">[docs]</a>  <span class="k">def</span> <span class="nf">Length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">Length</span><span class="p">()</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SGroup.FlattenedMagnitudes"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SGroup.FlattenedMagnitudes">[docs]</a>  <span class="k">def</span> <span class="nf">FlattenedMagnitudes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">flattened</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">part</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
+      <span class="n">flattened</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">part</span><span class="o">.</span><span class="n">FlattenedMagnitudes</span><span class="p">())</span>
+    <span class="k">return</span> <span class="n">flattened</span>
+</div>
+<div class="viewcode-block" id="SGroup.CalculateStrength"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SGroup.CalculateStrength">[docs]</a>  <span class="k">def</span> <span class="nf">CalculateStrength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The strength of a group is made up of a few components, including the strength of</span>
+<span class="sd">       its parts and the strength of the underlying_mapping.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">strength</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">CalculateStrength</span><span class="p">(</span><span class="n">controller</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">controller</span> <span class="ow">and</span> <span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="p">:</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">underlying_mapping</span><span class="p">:</span>
+        <span class="n">node</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">underlying_mapping</span><span class="p">)</span>
+        <span class="n">activation</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">GetActivation</span><span class="p">(</span><span class="n">controller</span><span class="o">.</span><span class="n">steps_taken</span><span class="p">)</span>
+        <span class="n">strength</span> <span class="o">+=</span> <span class="mi">30</span> <span class="o">*</span> <span class="n">activation</span>
+    <span class="k">return</span> <span class="n">Squash</span><span class="p">(</span><span class="n">strength</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+</div></div>
+<div class="viewcode-block" id="SElement"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SElement">[docs]</a><span class="k">class</span> <span class="nc">SElement</span><span class="p">(</span><span class="n">SObject</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;A subclass of SObject, where there is a single element, which is a number.&quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">):</span>
+    <span class="n">SObject</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">is_group</span><span class="o">=</span><span class="bp">False</span><span class="p">)</span>
+    <span class="c">#: An integer representing the number help by the SElement.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">=</span> <span class="n">magnitude</span>
+    <span class="c"># .. ToDO:: (handle strength, primality, etc).</span>
+    <span class="c"># .. ToDo:: Copy categories as well.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">underlying_mapping</span> <span class="o">=</span> <span class="bp">None</span>
+
+<div class="viewcode-block" id="SElement.DeepCopy"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SElement.DeepCopy">[docs]</a>  <span class="k">def</span> <span class="nf">DeepCopy</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Makes a copy.&quot;&quot;&quot;</span>
+    <span class="c"># .. ToDo:: The copying business is likely indequate.</span>
+    <span class="k">return</span> <span class="n">SElement</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="SElement.Structure"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SElement.Structure">[docs]</a>  <span class="k">def</span> <span class="nf">Structure</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;The structure is the magnitude.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span>
+</div>
+<div class="viewcode-block" id="SElement.GetFringe"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SElement.GetFringe">[docs]</a>  <span class="k">def</span> <span class="nf">GetFringe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Fringe for the element (now based off the LTM).&quot;&quot;&quot;</span>
+    <span class="n">fringe</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">_bindings</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">categories</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="c"># QUALITY TODO(Feb 10, 2012): Activation in the LTM matters.</span>
+      <span class="n">fringe</span><span class="p">[</span><span class="n">category</span><span class="p">]</span> <span class="o">=</span> <span class="mf">0.8</span>
+    <span class="n">fringe</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetFringeFromLTM</span><span class="p">(</span><span class="n">controller</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">fringe</span>
+</div>
+<div class="viewcode-block" id="SElement.Length"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SElement.Length">[docs]</a>  <span class="k">def</span> <span class="nf">Length</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="mi">1</span>
+</div>
+<div class="viewcode-block" id="SElement.FlattenedMagnitudes"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SElement.FlattenedMagnitudes">[docs]</a>  <span class="k">def</span> <span class="nf">FlattenedMagnitudes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span><span class="p">,)</span>
+</div>
+<div class="viewcode-block" id="SElement.CalculateStrength"><a class="viewcode-back" href="../../../../seqsee/objects.html#farg.apps.seqsee.sobject.SElement.CalculateStrength">[docs]</a>  <span class="k">def</span> <span class="nf">CalculateStrength</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="c"># QUALITY TODO(Feb 18, 2012): WHat should &quot;strength&quot; mean? Should elements that have been</span>
+    <span class="c"># accounted for have a different strength?</span>
+    <span class="k">return</span> <span class="mf">16.8067226891</span> <span class="c"># i.e., Squash(20, 100)</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
+          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

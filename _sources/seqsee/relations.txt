@@ -1,11 +1,11 @@
 Relations and Mappings
 ===============================
 
-.. automodule:: apps.seqsee.mapping
+.. automodule:: farg.apps.seqsee.mapping
   :members:
   :undoc-members:
 
 
-.. automodule:: apps.seqsee.relation
+.. automodule:: farg.apps.seqsee.relation
   :members:
   :undoc-members:

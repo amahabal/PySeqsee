@@ -1,6 +1,6 @@
 Coderack
 =========
 
-.. automodule:: farg.coderack
+.. automodule:: farg.core.coderack
   :members:
   :undoc-members:

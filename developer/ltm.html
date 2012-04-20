@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Long-term Memory &mdash; PySeqsee 0.1 documentation</title>
+    <title>Long-term Memory &mdash; PySeqsee 0.1.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1',
+        VERSION:     '0.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.1.2 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
     <link rel="next" title="Subspaces" href="subspaces.html" />
     <link rel="prev" title="Stream of Thought" href="stream.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="stream.html" title="Stream of Thought"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,11 +56,11 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-farg.ltm.node">
-<span id="long-term-memory"></span><h1>Long-term Memory<a class="headerlink" href="#module-farg.ltm.node" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-farg.core.ltm.node">
+<span id="long-term-memory"></span><h1>Long-term Memory<a class="headerlink" href="#module-farg.core.ltm.node" title="Permalink to this headline">¶</a></h1>
 <dl class="class">
-<dt id="farg.ltm.node.LTMNode">
-<em class="property">class </em><tt class="descclassname">farg.ltm.node.</tt><tt class="descname">LTMNode</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode">
+<em class="property">class </em><tt class="descclassname">farg.core.ltm.node.</tt><tt class="descname">LTMNode</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode" title="Permalink to this definition">¶</a></dt>
 <dd><p>Represents a single concept stored in an LTM.</p>
 <p>Each node has a core &#8212; content that is being remembered and connected to other concepts.</p>
 <p>This content must be derived from a subclass of LTMStorableMixin. The reason for this is to
@@ -80,56 +80,51 @@ calculate.</p>
 activation decays at every timestep, we do not bother updating it everytime, relying on a
 just in time calculation.</p>
 <dl class="method">
-<dt id="farg.ltm.node.LTMNode.GetActivation">
-<tt class="descname">GetActivation</tt><big>(</big><em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.GetActivation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.GetActivation" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.GetActivation">
+<tt class="descname">GetActivation</tt><big>(</big><em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetActivation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.GetActivation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get activation. This is f(raw_activation), where f is a predefined mapping.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.node.LTMNode.GetOutgoingEdges">
-<tt class="descname">GetOutgoingEdges</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.GetOutgoingEdges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.GetOutgoingEdges" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.GetOutgoingEdges">
+<tt class="descname">GetOutgoingEdges</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetOutgoingEdges"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.GetOutgoingEdges" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get outgoing edges from the node.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.node.LTMNode.GetOutgoingEdgesOfType">
-<tt class="descname">GetOutgoingEdgesOfType</tt><big>(</big><em>edge_type</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.GetOutgoingEdgesOfType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.GetOutgoingEdgesOfType" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.GetOutgoingEdgesOfType">
+<tt class="descname">GetOutgoingEdgesOfType</tt><big>(</big><em>edge_type</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetOutgoingEdgesOfType"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.GetOutgoingEdgesOfType" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get outgoing edges of particular type.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.node.LTMNode.GetOutgoingEdgesOfTypeIsa">
-<tt class="descname">GetOutgoingEdgesOfTypeIsa</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.GetOutgoingEdgesOfTypeIsa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.GetOutgoingEdgesOfTypeIsa" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.GetOutgoingEdgesOfTypeIsa">
+<tt class="descname">GetOutgoingEdgesOfTypeIsa</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetOutgoingEdgesOfTypeIsa"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.GetOutgoingEdgesOfTypeIsa" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get outgoing edges of type &#8216;isa&#8217;.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.node.LTMNode.GetOutgoingEdgesOfTypeRelated">
-<tt class="descname">GetOutgoingEdgesOfTypeRelated</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.GetOutgoingEdgesOfTypeRelated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.GetOutgoingEdgesOfTypeRelated" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.GetOutgoingEdgesOfTypeRelated">
+<tt class="descname">GetOutgoingEdgesOfTypeRelated</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetOutgoingEdgesOfTypeRelated"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.GetOutgoingEdgesOfTypeRelated" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get outgoing edges of type &#8216;related&#8217;.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.node.LTMNode.GetRawActivation">
-<tt class="descname">GetRawActivation</tt><big>(</big><em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.GetRawActivation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.GetRawActivation" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.GetRawActivation">
+<tt class="descname">GetRawActivation</tt><big>(</big><em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetRawActivation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.GetRawActivation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get raw activation.</p>
 <p>Time is needed to calculate decay, if any, since the stored activation may be stale.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.node.LTMNode.GetXDot">
-<tt class="descname">GetXDot</tt><big>(</big><em>idx</em>, <em>is_center=False</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.GetXDot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.GetXDot" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="farg.ltm.node.LTMNode.IncrementDepth">
-<tt class="descname">IncrementDepth</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.IncrementDepth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.IncrementDepth" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.IncrementDepth">
+<tt class="descname">IncrementDepth</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.IncrementDepth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.IncrementDepth" title="Permalink to this definition">¶</a></dt>
 <dd><p>Increment depth of node by 1.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.node.LTMNode.Spike">
-<tt class="descname">Spike</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.Spike"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.Spike" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.Spike">
+<tt class="descname">Spike</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.Spike"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.Spike" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update activation by this amount (after processing any pending decays), and also 
 spread an appropriate component to nearby nodes.</p>
 <div class="admonition-todo admonition" id="index-0">
@@ -139,15 +134,15 @@ spread an appropriate component to nearby nodes.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.node.LTMNode.SpikeNonSpreading">
-<tt class="descname">SpikeNonSpreading</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/node.html#LTMNode.SpikeNonSpreading"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.node.LTMNode.SpikeNonSpreading" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.SpikeNonSpreading">
+<tt class="descname">SpikeNonSpreading</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.SpikeNonSpreading"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.SpikeNonSpreading" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update activation by this amount (after processing any pending decays, but do not
 propagate further.)</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="farg.ltm.node.LTMNode.depth_reciprocal">
-<tt class="descname">depth_reciprocal</tt><em class="property"> = None</em><a class="headerlink" href="#farg.ltm.node.LTMNode.depth_reciprocal" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.depth_reciprocal">
+<tt class="descname">depth_reciprocal</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.ltm.node.LTMNode.depth_reciprocal" title="Permalink to this definition">¶</a></dt>
 <dd><p>Depth of a node controls how quickly it accumulates or decays activation. The greater
 the depth, the slower this happens. Starts out at 5 and can go up from there.
 What is stored here is the reciprocal of depth, as that is what is needed in
@@ -156,129 +151,129 @@ calculations.</p>
 
 </dd></dl>
 
-<span class="target" id="module-farg.ltm.storable"></span><dl class="class">
-<dt id="farg.ltm.storable.LTMStorableMixin">
-<em class="property">class </em><tt class="descclassname">farg.ltm.storable.</tt><tt class="descname">LTMStorableMixin</tt><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMStorableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-farg.core.ltm.storable"></span><dl class="class">
+<dt id="farg.core.ltm.storable.LTMStorableMixin">
+<em class="property">class </em><tt class="descclassname">farg.core.ltm.storable.</tt><tt class="descname">LTMStorableMixin</tt><a class="reference internal" href="../_modules/farg/core/ltm/storable.html#LTMStorableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.storable.LTMStorableMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>Any class whose instances should be stored in LTM must adhere to certain semantics,
 and subclass from this class. Typically, it would also use MemoizedConstructor as a
 metaclass.</p>
 <p>For a given set of arguments, this class ensures that only a single object is created.</p>
 <dl class="method">
-<dt id="farg.ltm.storable.LTMStorableMixin.BriefLabel">
-<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMStorableMixin.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.BriefLabel" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.storable.LTMStorableMixin.BriefLabel">
+<tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/storable.html#LTMStorableMixin.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.storable.LTMStorableMixin.BriefLabel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.storable.LTMStorableMixin.GetLTMStorableContent">
-<tt class="descname">GetLTMStorableContent</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMStorableMixin.GetLTMStorableContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.GetLTMStorableContent" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.storable.LTMStorableMixin.GetLTMStorableContent">
+<tt class="descname">GetLTMStorableContent</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/storable.html#LTMStorableMixin.GetLTMStorableContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.storable.LTMStorableMixin.GetLTMStorableContent" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.storable.LTMStorableMixin.LTMDependentContent">
-<tt class="descname">LTMDependentContent</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMStorableMixin.LTMDependentContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.LTMDependentContent" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.storable.LTMStorableMixin.LTMDependentContent">
+<tt class="descname">LTMDependentContent</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/storable.html#LTMStorableMixin.LTMDependentContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.storable.LTMStorableMixin.LTMDependentContent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns nodes whose existence is necessary for fully defining this node.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.storable.LTMStorableMixin.LTMDisplayLabel">
-<tt class="descname">LTMDisplayLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/storable.html#LTMStorableMixin.LTMDisplayLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.storable.LTMStorableMixin.LTMDisplayLabel" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.storable.LTMStorableMixin.LTMDisplayLabel">
+<tt class="descname">LTMDisplayLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/storable.html#LTMStorableMixin.LTMDisplayLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.storable.LTMStorableMixin.LTMDisplayLabel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 </dd></dl>
 
-<span class="target" id="module-farg.ltm.edge"></span><dl class="class">
-<dt id="farg.ltm.edge.LTMEdge">
-<em class="property">class </em><tt class="descclassname">farg.ltm.edge.</tt><tt class="descname">LTMEdge</tt><big>(</big><em>to_node</em>, <em>edge_type</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/edge.html#LTMEdge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.edge.LTMEdge" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-farg.core.ltm.edge"></span><dl class="class">
+<dt id="farg.core.ltm.edge.LTMEdge">
+<em class="property">class </em><tt class="descclassname">farg.core.ltm.edge.</tt><tt class="descname">LTMEdge</tt><big>(</big><em>to_node</em>, <em>edge_type</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/edge.html#LTMEdge"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.edge.LTMEdge" title="Permalink to this definition">¶</a></dt>
 <dd><p>Represents the connection between a pair of concepts.</p>
 <p>An edge is directed, and it is stored in the node for which this is an outgoing edge.</p>
 <dl class="attribute">
-<dt id="farg.ltm.edge.LTMEdge.LTM_EDGE_CAN_BE_SEEN_AS">
-<tt class="descname">LTM_EDGE_CAN_BE_SEEN_AS</tt><em class="property"> = 'can_be_seen_as'</em><a class="headerlink" href="#farg.ltm.edge.LTMEdge.LTM_EDGE_CAN_BE_SEEN_AS" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.edge.LTMEdge.LTM_EDGE_CAN_BE_SEEN_AS">
+<tt class="descname">LTM_EDGE_CAN_BE_SEEN_AS</tt><em class="property"> = 'can_be_seen_as'</em><a class="headerlink" href="#farg.core.ltm.edge.LTMEdge.LTM_EDGE_CAN_BE_SEEN_AS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="farg.ltm.edge.LTMEdge.LTM_EDGE_TYPE_FOLLOWS">
-<tt class="descname">LTM_EDGE_TYPE_FOLLOWS</tt><em class="property"> = 'follows'</em><a class="headerlink" href="#farg.ltm.edge.LTMEdge.LTM_EDGE_TYPE_FOLLOWS" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.edge.LTMEdge.LTM_EDGE_TYPE_FOLLOWS">
+<tt class="descname">LTM_EDGE_TYPE_FOLLOWS</tt><em class="property"> = 'follows'</em><a class="headerlink" href="#farg.core.ltm.edge.LTMEdge.LTM_EDGE_TYPE_FOLLOWS" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="farg.ltm.edge.LTMEdge.LTM_EDGE_TYPE_ISA">
-<tt class="descname">LTM_EDGE_TYPE_ISA</tt><em class="property"> = 'is_a'</em><a class="headerlink" href="#farg.ltm.edge.LTMEdge.LTM_EDGE_TYPE_ISA" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.edge.LTMEdge.LTM_EDGE_TYPE_ISA">
+<tt class="descname">LTM_EDGE_TYPE_ISA</tt><em class="property"> = 'is_a'</em><a class="headerlink" href="#farg.core.ltm.edge.LTMEdge.LTM_EDGE_TYPE_ISA" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="attribute">
-<dt id="farg.ltm.edge.LTMEdge.LTM_EDGE_TYPE_RELATED">
-<tt class="descname">LTM_EDGE_TYPE_RELATED</tt><em class="property"> = 'related'</em><a class="headerlink" href="#farg.ltm.edge.LTMEdge.LTM_EDGE_TYPE_RELATED" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.edge.LTMEdge.LTM_EDGE_TYPE_RELATED">
+<tt class="descname">LTM_EDGE_TYPE_RELATED</tt><em class="property"> = 'related'</em><a class="headerlink" href="#farg.core.ltm.edge.LTMEdge.LTM_EDGE_TYPE_RELATED" title="Permalink to this definition">¶</a></dt>
 <dd><p>Some predefined types of edges.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="farg.ltm.edge.LTMEdge.edge_type">
-<tt class="descname">edge_type</tt><em class="property"> = None</em><a class="headerlink" href="#farg.ltm.edge.LTMEdge.edge_type" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.edge.LTMEdge.edge_type">
+<tt class="descname">edge_type</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.ltm.edge.LTMEdge.edge_type" title="Permalink to this definition">¶</a></dt>
 <dd><p>Type of the edge.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="farg.ltm.edge.LTMEdge.to_node">
-<tt class="descname">to_node</tt><em class="property"> = None</em><a class="headerlink" href="#farg.ltm.edge.LTMEdge.to_node" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.edge.LTMEdge.to_node">
+<tt class="descname">to_node</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.ltm.edge.LTMEdge.to_node" title="Permalink to this definition">¶</a></dt>
 <dd><p>Other end of the node.</p>
 </dd></dl>
 
 </dd></dl>
 
-<span class="target" id="module-farg.ltm.graph"></span><dl class="class">
-<dt id="farg.ltm.graph.LTMGraph">
-<em class="property">class </em><tt class="descclassname">farg.ltm.graph.</tt><tt class="descname">LTMGraph</tt><big>(</big><em>filename=None</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/graph.html#LTMGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.graph.LTMGraph" title="Permalink to this definition">¶</a></dt>
+<span class="target" id="module-farg.core.ltm.graph"></span><dl class="class">
+<dt id="farg.core.ltm.graph.LTMGraph">
+<em class="property">class </em><tt class="descclassname">farg.core.ltm.graph.</tt><tt class="descname">LTMGraph</tt><big>(</big><em>filename=None</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph" title="Permalink to this definition">¶</a></dt>
 <dd><p>Represents a full LTM graph (consisting of nodes and edges).</p>
 <dl class="method">
-<dt id="farg.ltm.graph.LTMGraph.AddEdgeBetweenContent">
-<tt class="descname">AddEdgeBetweenContent</tt><big>(</big><em>from_content</em>, <em>to_content</em>, <em>edge_type='related'</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/graph.html#LTMGraph.AddEdgeBetweenContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.graph.LTMGraph.AddEdgeBetweenContent" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.graph.LTMGraph.AddEdgeBetweenContent">
+<tt class="descname">AddEdgeBetweenContent</tt><big>(</big><em>from_content</em>, <em>to_content</em>, <em>edge_type='related'</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.AddEdgeBetweenContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.AddEdgeBetweenContent" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.graph.LTMGraph.AddNode">
-<tt class="descname">AddNode</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/graph.html#LTMGraph.AddNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.graph.LTMGraph.AddNode" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.graph.LTMGraph.AddNode">
+<tt class="descname">AddNode</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.AddNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.AddNode" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.graph.LTMGraph.Dump">
-<tt class="descname">Dump</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/graph.html#LTMGraph.Dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.graph.LTMGraph.Dump" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.graph.LTMGraph.Dump">
+<tt class="descname">Dump</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.Dump"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.Dump" title="Permalink to this definition">¶</a></dt>
 <dd><p>Writes out content to file if file attribute is set.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.graph.LTMGraph.GetGraphAroundNodeXDot">
-<tt class="descname">GetGraphAroundNodeXDot</tt><big>(</big><em>node_position</em>, <em>depth=3</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/graph.html#LTMGraph.GetGraphAroundNodeXDot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.graph.LTMGraph.GetGraphAroundNodeXDot" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.graph.LTMGraph.GetGraphAroundNodeXDot">
+<tt class="descname">GetGraphAroundNodeXDot</tt><big>(</big><em>node_position</em>, <em>depth=3</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.GetGraphAroundNodeXDot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.GetGraphAroundNodeXDot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get XDot of node outward from given node position upto given depth.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.graph.LTMGraph.GetGraphXDOT">
-<tt class="descname">GetGraphXDOT</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/graph.html#LTMGraph.GetGraphXDOT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.graph.LTMGraph.GetGraphXDOT" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.graph.LTMGraph.GetGraphXDOT">
+<tt class="descname">GetGraphXDOT</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.GetGraphXDOT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.GetGraphXDOT" title="Permalink to this definition">¶</a></dt>
 <dd><p>Generates XDOT for entire graph.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.graph.LTMGraph.GetNodeForContent">
-<tt class="descname">GetNodeForContent</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/graph.html#LTMGraph.GetNodeForContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.graph.LTMGraph.GetNodeForContent" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.graph.LTMGraph.GetNodeForContent">
+<tt class="descname">GetNodeForContent</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.GetNodeForContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.GetNodeForContent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns node for content; creates one if it does not exist.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.graph.LTMGraph.IsEmpty">
-<tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/ltm/graph.html#LTMGraph.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.graph.LTMGraph.IsEmpty" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.graph.LTMGraph.IsEmpty">
+<tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.IsEmpty" title="Permalink to this definition">¶</a></dt>
 <dd><p>True if there are zero-nodes.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.ltm.graph.LTMGraph.SpikeForContent">
-<tt class="descname">SpikeForContent</tt><big>(</big><em>content</em>, <em>amount</em><big>)</big><a class="reference internal" href="../_modules/farg/ltm/graph.html#LTMGraph.SpikeForContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.ltm.graph.LTMGraph.SpikeForContent" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.graph.LTMGraph.SpikeForContent">
+<tt class="descname">SpikeForContent</tt><big>(</big><em>content</em>, <em>amount</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.SpikeForContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.SpikeForContent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Spike node indicated by content by amount.</p>
 </dd></dl>
 
 <dl class="attribute">
-<dt id="farg.ltm.graph.LTMGraph.nodes">
-<tt class="descname">nodes</tt><em class="property"> = None</em><a class="headerlink" href="#farg.ltm.graph.LTMGraph.nodes" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.graph.LTMGraph.nodes">
+<tt class="descname">nodes</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.nodes" title="Permalink to this definition">¶</a></dt>
 <dd><p>Nodes in the graph. Each is a LTMNode.</p>
 </dd></dl>
 
@@ -335,7 +330,7 @@ metaclass.</p>
         <li class="right" >
           <a href="stream.html" title="Stream of Thought"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>

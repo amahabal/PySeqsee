@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Exceptions &mdash; PySeqsee 0.1 documentation</title>
+    <title>Exceptions &mdash; PySeqsee 0.1.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1',
+        VERSION:     '0.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.1.2 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
     <link rel="next" title="Categories" href="categories.html" />
     <link rel="prev" title="Subspaces" href="subspaces.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="subspaces.html" title="Subspaces"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,54 +56,54 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-farg.exceptions">
-<span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-farg.exceptions" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-farg.core.exceptions">
+<span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-farg.core.exceptions" title="Permalink to this headline">¶</a></h1>
 <dl class="exception">
-<dt id="farg.exceptions.AnswerFoundException">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">AnswerFoundException</tt><big>(</big><em>answer</em>, <em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/exceptions.html#AnswerFoundException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.exceptions.AnswerFoundException" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.exceptions.AnswerFoundException">
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">AnswerFoundException</tt><big>(</big><em>answer</em>, <em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#AnswerFoundException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.AnswerFoundException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised by a subspace when it believes that an answer has been found.</p>
 </dd></dl>
 
 <dl class="exception">
-<dt id="farg.exceptions.BatchModeStopException">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">BatchModeStopException</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/exceptions.html#BatchModeStopException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.exceptions.BatchModeStopException" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.exceptions.BatchModeStopException">
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">BatchModeStopException</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#BatchModeStopException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.BatchModeStopException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class of ways of stopping during batch mode.</p>
 </dd></dl>
 
 <dl class="exception">
-<dt id="farg.exceptions.CannotReplaceSubgroupException">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">CannotReplaceSubgroupException</tt><big>(</big><em>supergroups</em><big>)</big><a class="reference internal" href="../_modules/farg/exceptions.html#CannotReplaceSubgroupException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.exceptions.CannotReplaceSubgroupException" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.exceptions.CannotReplaceSubgroupException">
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">CannotReplaceSubgroupException</tt><big>(</big><em>supergroups</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#CannotReplaceSubgroupException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.CannotReplaceSubgroupException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Attempt to replace a group that is a subgroup.</p>
 </dd></dl>
 
 <dl class="exception">
-<dt id="farg.exceptions.ConflictingGroupException">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">ConflictingGroupException</tt><big>(</big><em>conflicting_groups</em><big>)</big><a class="reference internal" href="../_modules/farg/exceptions.html#ConflictingGroupException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.exceptions.ConflictingGroupException" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.exceptions.ConflictingGroupException">
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">ConflictingGroupException</tt><big>(</big><em>conflicting_groups</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#ConflictingGroupException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.ConflictingGroupException" title="Permalink to this definition">¶</a></dt>
 <dd><p>If an attempt is made to add a group to the workspace that conflicts some existing
 group(s), this exception is raised.</p>
 </dd></dl>
 
 <dl class="exception">
-<dt id="farg.exceptions.FargError">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">FargError</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="../_modules/farg/exceptions.html#FargError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.exceptions.FargError" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.exceptions.FargError">
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">FargError</tt><big>(</big><em>msg</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#FargError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.FargError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for untrappable errors (indicating bugs).</p>
 </dd></dl>
 
 <dl class="exception">
-<dt id="farg.exceptions.FargException">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">FargException</tt><a class="reference internal" href="../_modules/farg/exceptions.html#FargException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.exceptions.FargException" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.exceptions.FargException">
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">FargException</tt><a class="reference internal" href="../_modules/farg/core/exceptions.html#FargException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.FargException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for FARG-specific exceptions.</p>
 </dd></dl>
 
 <dl class="exception">
-<dt id="farg.exceptions.NoAnswerException">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">NoAnswerException</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/exceptions.html#NoAnswerException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.exceptions.NoAnswerException" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.exceptions.NoAnswerException">
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">NoAnswerException</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#NoAnswerException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.NoAnswerException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised by a subspace when it is realized that no answer is forthcoming.</p>
 </dd></dl>
 
 <dl class="exception">
-<dt id="farg.exceptions.YesNoException">
-<em class="property">exception </em><tt class="descclassname">farg.exceptions.</tt><tt class="descname">YesNoException</tt><big>(</big><em>question_string</em>, <em>callback</em><big>)</big><a class="reference internal" href="../_modules/farg/exceptions.html#YesNoException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.exceptions.YesNoException" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.exceptions.YesNoException">
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">YesNoException</tt><big>(</big><em>question_string</em>, <em>callback</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#YesNoException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.YesNoException" title="Permalink to this definition">¶</a></dt>
 <dd><p>An exception that requests the UI to ask a yes/no question.</p>
 <p>When the user answers, a callback is made to the controller with this info.</p>
 </dd></dl>
@@ -159,7 +159,7 @@ group(s), this exception is raised.</p>
         <li class="right" >
           <a href="subspaces.html" title="Subspaces"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>

@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Coderack &mdash; PySeqsee 0.1 documentation</title>
+    <title>Coderack &mdash; PySeqsee 0.1.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1',
+        VERSION:     '0.1.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.1.2 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
     <link rel="next" title="Codelets" href="codelets.html" />
     <link rel="prev" title="Controller" href="controller.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="controller.html" title="Controller"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -56,8 +56,8 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="module-farg.coderack">
-<span id="coderack"></span><h1>Coderack<a class="headerlink" href="#module-farg.coderack" title="Permalink to this headline">¶</a></h1>
+  <div class="section" id="module-farg.core.coderack">
+<span id="coderack"></span><h1>Coderack<a class="headerlink" href="#module-farg.core.coderack" title="Permalink to this headline">¶</a></h1>
 <p>The Coderack in Seqsee is like a todo list.  It consists of promising 
 actions to take next, each associated with a number indicating the degree 
 of promise.  Seqsee chooses an item and runs it, and in that process of 
@@ -73,27 +73,27 @@ understand even simple sequences.</p>
 actions over the next few hours, the Coderack&#8217;s contents indicate the 
 directions Seqsee will pursue in the near future.</p>
 <dl class="class">
-<dt id="farg.coderack.Coderack">
-<em class="property">class </em><tt class="descclassname">farg.coderack.</tt><tt class="descname">Coderack</tt><big>(</big><em>max_capacity</em><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.coderack.Coderack">
+<em class="property">class </em><tt class="descclassname">farg.core.coderack.</tt><tt class="descname">Coderack</tt><big>(</big><em>max_capacity</em><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.coderack.Coderack" title="Permalink to this definition">¶</a></dt>
 <dd><p>Implements the coderack &#8212; the collection of codelets waiting to run.</p>
 <div class="admonition-todo admonition" id="index-0">
 <p class="first admonition-title">Todo</p>
 <p class="last">Choose the codelet to expunge based on a better criteria than uniformly randomly.</p>
 </div>
 <dl class="method">
-<dt id="farg.coderack.Coderack.AddCodelet">
-<tt class="descname">AddCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack.AddCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack.AddCodelet" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.coderack.Coderack.AddCodelet">
+<tt class="descname">AddCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack.AddCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.coderack.Coderack.AddCodelet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds codelet to coderack. Removes some existing codelet if needed.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.coderack.Coderack.CodeletCount">
-<tt class="descname">CodeletCount</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack.CodeletCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack.CodeletCount" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.coderack.Coderack.CodeletCount">
+<tt class="descname">CodeletCount</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack.CodeletCount"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.coderack.Coderack.CodeletCount" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="method">
-<dt id="farg.coderack.Coderack.ForceNextCodelet">
-<tt class="descname">ForceNextCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack.ForceNextCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack.ForceNextCodelet" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.coderack.Coderack.ForceNextCodelet">
+<tt class="descname">ForceNextCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack.ForceNextCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.coderack.Coderack.ForceNextCodelet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Force codelet to be the next one retrieved by GetCodelet.</p>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -105,24 +105,24 @@ thereafter.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.coderack.Coderack.GetCodelet">
-<tt class="descname">GetCodelet</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack.GetCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack.GetCodelet" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.coderack.Coderack.GetCodelet">
+<tt class="descname">GetCodelet</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack.GetCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.coderack.Coderack.GetCodelet" title="Permalink to this definition">¶</a></dt>
 <dd><p>Randomly selects a codelet (biased by urgency).
 Requires the coderack to be nonempty.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.coderack.Coderack.IsEmpty">
-<tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/coderack.html#Coderack.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.Coderack.IsEmpty" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.coderack.Coderack.IsEmpty">
+<tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.coderack.Coderack.IsEmpty" title="Permalink to this definition">¶</a></dt>
 <dd><p>True if contains no codelets.</p>
 </dd></dl>
 
 </dd></dl>
 
 <dl class="exception">
-<dt id="farg.coderack.CoderackEmptyException">
-<em class="property">exception </em><tt class="descclassname">farg.coderack.</tt><tt class="descname">CoderackEmptyException</tt><a class="reference internal" href="../_modules/farg/coderack.html#CoderackEmptyException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.coderack.CoderackEmptyException" title="Permalink to this definition">¶</a></dt>
-<dd><p>Raised if <a class="reference internal" href="#farg.coderack.Coderack.GetCodelet" title="farg.coderack.Coderack.GetCodelet"><tt class="xref py py-func docutils literal"><span class="pre">GetCodelet()</span></tt></a> called on an empty coderack.</p>
+<dt id="farg.core.coderack.CoderackEmptyException">
+<em class="property">exception </em><tt class="descclassname">farg.core.coderack.</tt><tt class="descname">CoderackEmptyException</tt><a class="reference internal" href="../_modules/farg/core/coderack.html#CoderackEmptyException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.coderack.CoderackEmptyException" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised if <a class="reference internal" href="#farg.core.coderack.Coderack.GetCodelet" title="farg.core.coderack.Coderack.GetCodelet"><tt class="xref py py-func docutils literal"><span class="pre">GetCodelet()</span></tt></a> called on an empty coderack.</p>
 </dd></dl>
 
 </div>
@@ -176,7 +176,7 @@ Requires the coderack to be nonempty.</p>
         <li class="right" >
           <a href="controller.html" title="Controller"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>
