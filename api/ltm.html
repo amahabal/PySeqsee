@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Long-term Memory &mdash; PySeqsee 0.1.2 documentation</title>
+    <title>Long-term Memory &mdash; PySeqsee 0.1.3a0 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.2',
+        VERSION:     '0.1.3a0',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1.2 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../index.html" />
     <link rel="up" title="The Core API" href="api_index.html" />
     <link rel="next" title="Category" href="category.html" />
     <link rel="prev" title="Codelet Family" href="codelet_family.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="codelet_family.html" title="Codelet Family"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
           <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
       </ul>
     </div>  
@@ -58,8 +58,20 @@
             
   <div class="section" id="long-term-memory">
 <h1>Long-term Memory<a class="headerlink" href="#long-term-memory" title="Permalink to this headline">¶</a></h1>
-<p>LTM in Farg consists of multiple graphs, one per type of subspace.</p>
-<ul>
+<p>Long-term memory in Farg consists of multiple graphs, one per type of subspace.
+Each graph contains nodes (for example, nodes for categories, mappings,
+individual numbers, or whatever else) and edges (that connect nodes, and have
+types).</p>
+<div class="section" id="activations">
+<h2>Activations<a class="headerlink" href="#activations" title="Permalink to this headline">¶</a></h2>
+<p>With each node is associated a number between 0 and 1 called its activation. The
+activation can be considered as the level of belief that the concept is relevant
+to the problem at hand.</p>
+<p>As evidence mounts for a node&#8217;s relevance, its activation climbs. This is
+sigmoidal. That is, the activation initially climbs very slowly as evidence
+mounts &#8212; that is, a small amount of evidence leads to near-zero activation. The
+following chart (whose x-axis will be explained momentarily) illustrates this:</p>
+<img src="http://chart.apis.google.com/chart?chxr=0,0,1&chxt=y,x&chs=440x220&cht=lxy&chco=3072F3&chds=0,100,0,1&chd=t:0,10,20,30,40,50,60,70,80,90,100|0.003,0.018,0.043,0.093,0.22,0.562,0.811,0.895,0.932,0.952,0.964&chdl=Activation&chdlp=b&chls=2,4,1&chma=5,5,5,25&chtt=Activation+given+evidence" width="440" height="220" alt="Activation given evidence" /><ul>
 <li><p class="first">To construct, a filename is passed in. If missing, an empty graph will be created:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">graph</span> <span class="o">=</span> <span class="n">LTMGraph</span><span class="p">(</span><span class="s">&quot;foo.ltm&quot;</span><span class="p">)</span>
 </pre></div>
@@ -87,6 +99,7 @@
 </li>
 </ul>
 </div>
+</div>
 
 
           </div>
@@ -94,6 +107,14 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Long-term Memory</a><ul>
+<li><a class="reference internal" href="#activations">Activations</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="codelet_family.html"
                         title="previous chapter">Codelet Family</a></p>
@@ -137,7 +158,7 @@
         <li class="right" >
           <a href="codelet_family.html" title="Codelet Family"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.2 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
           <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
       </ul>
     </div>
