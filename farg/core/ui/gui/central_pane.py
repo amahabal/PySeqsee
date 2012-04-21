@@ -57,6 +57,10 @@ class CentralPane(Canvas):
     self.ReDraw()
 
   def SetNamedView(self, name):
+    if not name in self.named_views:
+      print("Unrecognized view %s" % name)
+      print("Available views: ", list(self.named_views.keys()))
+      sys.exit(1)
     self.named_views[name](self)
 
   def NamedViewCmd(self, name):
