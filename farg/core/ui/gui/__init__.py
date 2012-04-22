@@ -3,10 +3,11 @@ from farg.core.ltm.manager import LTMManager
 from farg.core.ui.gui.central_pane import CentralPane
 from farg.third_party import gflags
 from tkinter import *
-from tkinter.messagebox import askyesno
+from tkinter.messagebox import askyesno, showinfo
 from tkinter.ttk import *
 import logging
 import threading
+from farg.core.exceptions import AnswerFoundException
 
 gflags.DEFINE_integer('gui_canvas_height', 500,
                       'Height of the central canvas')
@@ -20,13 +21,19 @@ class RunForNSteps(threading.Thread):
   
   Checking each time if we have not been asked to pause."""
 
-  def __init__(self, *, controller, num_steps=1000):
+  def __init__(self, *, controller, gui, num_steps=1000):
     threading.Thread.__init__(self)
     self.controller = controller
     self.num_steps = num_steps
+    self.gui = gui
 
   def run(self):
-    self.controller.RunUptoNSteps(self.num_steps)
+    try:
+      self.controller.RunUptoNSteps(self.num_steps)
+    except AnswerFoundException:
+      # We should exit.
+      self.gui.quitting_called_from_thread = True
+      return
 
 class GUI:
 
@@ -37,6 +44,7 @@ class GUI:
     self.run_state_lock = threading.Lock()
     self.pause_stepping = False
     self.quitting = False
+    self.quitting_called_from_thread = False
     self.stepping_thread = None
 
     self.controller = controller_class(ui=self,
@@ -57,6 +65,8 @@ class GUI:
     self.RegisterQuestionHandlers()
 
   def UpdateDisplay(self):
+    if self.quitting_called_from_thread:
+      self.Quit()
     for item in self.items_to_refresh:
       try:
         item.ReDraw()
@@ -82,12 +92,14 @@ class GUI:
           return
         else:
           self.stepping_thread = None
-      self.stepping_thread = RunForNSteps(controller=self.controller, num_steps=num_steps)
+      self.stepping_thread = RunForNSteps(controller=self.controller, num_steps=num_steps,
+                                          gui=self)
       self.pause_stepping = False
       self.stepping_thread.start()
 
+
   def StartThreaded(self):
-    self.StepsInAnotherThread(1000)
+    self.StepsInAnotherThread(10000)
 
   def Pause(self):
     with self.run_state_lock:
@@ -139,3 +151,6 @@ class GUI:
     def boolean_question_handler(question, ui):
       return askyesno('', question.question_string)
     BooleanQuestion.Ask = boolean_question_handler
+
+  def DisplayMessage(self, message):
+    showinfo('', message)

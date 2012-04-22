@@ -10,30 +10,24 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-
-from farg.core.ltm.manager import LTMManager
+from farg.core.subspace import Subspace, QuickReconnResults
 from farg.third_party import gflags
+
 FLAGS = gflags.FLAGS
 
-class BatchUI:
-  def __init__(self, *, controller_class, stopping_condition_fn=None):
-    self.pause_stepping = False
-    self.quitting = False
-    self.stepping_thread = None
+class SubspaceAreWeDone(Subspace):
+  """Checks if we should stop because we have found or explained the answer.
+  
+     Currently a hack, stops when 10 new terms have been correctly predicted.
+  """
+  from farg.core.controller import Controller
+  controller_class = Controller
 
-    self.controller = controller_class(ui=self, controller_depth=0,
-                                       stopping_condition=stopping_condition_fn)
-    self.RegisterQuestionHandlers()
-
-  def AskQuestion(self, question):
-    return question.Ask(self)
-
-  def RegisterQuestionHandlers(self):
-    pass
-
-  def Run(self):
-    self.controller.RunUptoNSteps(FLAGS.max_steps)
-    LTMManager.SaveAllOpenLTMS()
-
-  def DisplayMessage(self, message):
-    pass
+  def QuickReconn(self):
+    parent_ws = self.parent_controller.workspace
+    current_known_elements = parent_ws.num_elements
+    initial_known_elements = len(FLAGS.sequence)
+    if current_known_elements >= initial_known_elements + 10:
+      return QuickReconnResults.AnswerFound(True)
+    else:
+      return QuickReconnResults.AnswerFound(False)

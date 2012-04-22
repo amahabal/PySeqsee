@@ -40,6 +40,9 @@ class CF_AskQuestion(CodeletFamily):
     if controller.ui.AskQuestion(question):
       unknown_terms = workspace.unknown_terms
       workspace.seqsee_ws.InsertElements(unknown_terms)
+      from farg.apps.seqsee.codelet_families.all import CF_AreWeDone
+      controller.parent_controller.AddCodelet(family=CF_AreWeDone,
+                                              urgency=50)
       raise AnswerFoundException(True, codelet_count=controller.steps_taken)
 
 class SubspaceGoBeyondKnown(Subspace):

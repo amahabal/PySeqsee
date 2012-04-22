@@ -14,7 +14,8 @@
 from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
 from farg.core.codelet import CodeletFamily
-from farg.core.exceptions import ConflictingGroupException
+from farg.core.exceptions import ConflictingGroupException, AnswerFoundException
+from farg.apps.seqsee.subspaces.are_we_done import SubspaceAreWeDone
 
 class CF_FocusOn(CodeletFamily):
   """Causes the required focusable to be added to the stream."""
@@ -47,6 +48,18 @@ class CF_DescribeAs(CodeletFamily):
   def Run(cls, controller, item, category):
     if not item.IsKnownAsInstanceOf(category):
       item.DescribeAs(category)
+
+class CF_AreWeDone(CodeletFamily):
+  """Check using a subspace if we are done. If yes, quit."""
+  @classmethod
+  def Run(cls, controller):
+    answer = SubspaceAreWeDone(controller).Run()
+    if answer:
+      controller.ui.DisplayMessage("In its current nascent stage, Seqsee decides that it "
+                                   "has found the solution as soon as it has added 10 new "
+                                   "terms. This is something that needs fixing. Quitting.")
+      raise AnswerFoundException("AnswerFound", codelet_count=controller.steps_taken)
+
 
 class CF_RemoveSpuriousRelations(CodeletFamily):
   """Removes relations between all pairs (A, B) where both belong to supuergroups but their
