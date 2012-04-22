@@ -125,7 +125,7 @@ class LTMNode(object):
         self._raw_activation = 0
     self._time_of_activation_update = current_time
 
-  def SpikeNonSpreading(self, amount, current_time):
+  def IncreaseActivationButDontSpread(self, amount, *, current_time):
     """Update activation by this amount (after processing any pending decays, but do not
        propagate further.)"""
     self._ProcessDecays(current_time)
@@ -134,16 +134,16 @@ class LTMNode(object):
       self.IncrementDepth()
       self._raw_activation = 90
 
-  def Spike(self, amount, current_time):
+  def IncreaseActivation(self, amount, *, current_time):
     """Update activation by this amount (after processing any pending decays), and also 
        spread an appropriate component to nearby nodes.
     
     .. todo:: Should spread to depth 2. Not done correctly. Nor is the amount spread accurate.
     """
-    self.SpikeNonSpreading(amount, current_time)
+    self.IncreaseActivationButDontSpread(amount, current_time=current_time)
     for edge in self.outgoing_edges:
       to_node = edge.to_node
-      to_node.SpikeNonSpreading(0.25 * amount, current_time)
+      to_node.IncreaseActivationButDontSpread(0.25 * amount, current_time=current_time)
     return self.GetActivation(current_time)
 
   def GetRawActivation(self, current_time):

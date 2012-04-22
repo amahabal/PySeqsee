@@ -160,12 +160,12 @@ class TestLTM2(LTMTestBase):
     self.assertEqual(0, node_c1.GetRawActivation(current_time=0))
 
     # Spiking c1 does not send activation back to m1 (edge is unidirectional).
-    node_c1.Spike(10, current_time=0)
+    node_c1.IncreaseActivation(10, current_time=0)
     self.assertEqual(0, node_m1.GetRawActivation(current_time=0))
     self.assertEqual(2, node_c1.GetRawActivation(current_time=0))
 
     # Spiking m1, though, sends activation to c1 as well.
-    node_m1.Spike(10, current_time=0)
+    node_m1.IncreaseActivation(10, current_time=0)
     self.assertEqual(2, node_m1.GetRawActivation(current_time=0))
     self.assertTrue(2 < node_c1.GetRawActivation(current_time=0))
 

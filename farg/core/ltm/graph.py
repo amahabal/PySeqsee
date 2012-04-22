@@ -108,10 +108,11 @@ class LTMGraph(object):
       self.GetNodeForContent(dependent_content)
     return new_node
 
-  def SpikeForContent(self, content, amount):
-    """Spike node indicated by content by amount."""
+  def IncreaseActivationForContent(self, content, amount):
+    """IncreaseActivation node indicated by content by amount."""
     storable_content = content.GetLTMStorableContent()
-    self.GetNodeForContent(storable_content).Spike(amount, self._timesteps)
+    self.GetNodeForContent(storable_content).IncreaseActivation(amount,
+                                                                current_time=self._timesteps)
 
   def AddEdgeBetweenContent(self, from_content, to_content,
                             edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):

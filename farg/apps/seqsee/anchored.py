@@ -202,5 +202,5 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
   def OnFocus(self, controller):
     """Updates the strength of the object when it is focused upon."""
     if self.object.underlying_mapping and controller and controller.ltm:
-      controller.ltm.SpikeForContent(self.object.underlying_mapping, 10)
+      controller.ltm.IncreaseActivationForContent(self.object.underlying_mapping, 10)
     self.strength = self.object.CalculateStrength(controller)

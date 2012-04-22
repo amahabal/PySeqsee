@@ -47,6 +47,20 @@ It thus needs to keep track of when last a node's activation was calculated::
   node._time_of_activation_update
   node.GetActivation()  # Decays as appropriate and updates _time_of_activation_update
 
+Activation spread
+------------------
+
+What can be a node
+--------------------
+
+Types of edges
+----------------
+
+The LTM is "active"
+--------------------
+
+API
+-------
 
 * To construct, a filename is passed in. If missing, an empty graph will be created::
 
