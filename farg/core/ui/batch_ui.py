@@ -11,6 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+from farg.core.ltm.manager import LTMManager
 from farg.third_party import gflags
 FLAGS = gflags.FLAGS
 
@@ -32,3 +33,4 @@ class BatchUI:
 
   def Run(self):
     self.controller.RunUptoNSteps(FLAGS.max_steps)
+    LTMManager.SaveAllOpenLTMS()

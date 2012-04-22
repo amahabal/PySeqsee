@@ -1,4 +1,5 @@
 from farg.core.question.question import BooleanQuestion
+from farg.core.ltm.manager import LTMManager
 from farg.core.ui.gui.central_pane import CentralPane
 from farg.third_party import gflags
 from tkinter import *
@@ -101,6 +102,7 @@ class GUI:
       self.pause_stepping = True
     self.Pause()
     self.mw.quit()
+    LTMManager.SaveAllOpenLTMS()
 
   def PopulateButtonPane(self, frame):
     """Adds buttons to the top row."""
