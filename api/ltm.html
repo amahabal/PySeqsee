@@ -71,7 +71,59 @@ to the problem at hand.</p>
 sigmoidal. That is, the activation initially climbs very slowly as evidence
 mounts &#8212; that is, a small amount of evidence leads to near-zero activation. The
 following chart (whose x-axis will be explained momentarily) illustrates this:</p>
-<img src="http://chart.apis.google.com/chart?chxr=0,0,1&chxt=y,x&chs=440x220&cht=lxy&chco=3072F3&chds=0,100,0,1&chd=t:0,10,20,30,40,50,60,70,80,90,100|0.003,0.018,0.043,0.093,0.22,0.562,0.811,0.895,0.932,0.952,0.964&chdl=Activation&chdlp=b&chls=2,4,1&chma=5,5,5,25&chtt=Activation+given+evidence" width="440" height="220" alt="Activation given evidence" /><ul>
+<img src="http://chart.apis.google.com/chart?chxr=0,0,1&chxt=y,x&chs=440x220&cht=lxy&chco=3072F3&chds=0,100,0,1&chd=t:0,10,20,30,40,50,60,70,80,90,100|0.003,0.018,0.043,0.093,0.22,0.562,0.811,0.895,0.932,0.952,0.964&chdl=Activation&chdlp=b&chls=2,4,1&chma=5,5,5,25&chtt=Activation+given+evidence" width="440" height="220" alt="Activation given evidence" /></div>
+<div class="section" id="evidence-space">
+<h2>Evidence Space<a class="headerlink" href="#evidence-space" title="Permalink to this headline">¶</a></h2>
+<p>Although the activation of the node is an important number, PySeqsee does all its
+calculations in another space, the evidence space (which is what the x-axis in the
+chart above represents). A codelet may add activation to a node, but this is specified in
+evidence space. Relevant method:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">node</span><span class="o">.</span><span class="n">AddActivation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c"># This&#39;d change activation from 0.22 to 0.56, or from</span>
+                       <span class="c"># 0.003 to 0.018.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="decay">
+<h2>Decay<a class="headerlink" href="#decay" title="Permalink to this headline">¶</a></h2>
+<p>Activation decays over time. To ease calculations, the LTM keeps track of the
+number of timesteps elapsed. This is available thus:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">ltm</span><span class="o">.</span><span class="n">_timesteps</span>
+</pre></div>
+</div>
+<p>When the activation of a node is requested, its activation is decreased appropriately.
+It thus needs to keep track of when last a node&#8217;s activation was calculated:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">node</span><span class="o">.</span><span class="n">_time_of_activation_update</span>
+<span class="n">node</span><span class="o">.</span><span class="n">GetActivation</span><span class="p">()</span>  <span class="c"># Decays as appropriate and updates _time_of_activation_update</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="activation-spread">
+<h2>Activation spread<a class="headerlink" href="#activation-spread" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="what-can-be-a-node">
+<h2>What can be a node<a class="headerlink" href="#what-can-be-a-node" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="memoizedconstructor-metaclass">
+<h3>MemoizedConstructor Metaclass<a class="headerlink" href="#memoizedconstructor-metaclass" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="ltmstorablemixin">
+<h3>LTMSTorableMixin<a class="headerlink" href="#ltmstorablemixin" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="getltmstorablecontent">
+<h3>GetLTMStorableContent<a class="headerlink" href="#getltmstorablecontent" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="ltmdependentcontent">
+<h3>LTMDependentContent<a class="headerlink" href="#ltmdependentcontent" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
+<div class="section" id="types-of-edges">
+<h2>Types of edges<a class="headerlink" href="#types-of-edges" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="the-ltm-is-active">
+<h2>The LTM is &#8220;active&#8221;<a class="headerlink" href="#the-ltm-is-active" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="api">
+<h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
+<ul>
 <li><p class="first">To construct, a filename is passed in. If missing, an empty graph will be created:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="n">graph</span> <span class="o">=</span> <span class="n">LTMGraph</span><span class="p">(</span><span class="s">&quot;foo.ltm&quot;</span><span class="p">)</span>
 </pre></div>
@@ -111,6 +163,19 @@ following chart (whose x-axis will be explained momentarily) illustrates this:</
   <ul>
 <li><a class="reference internal" href="#">Long-term Memory</a><ul>
 <li><a class="reference internal" href="#activations">Activations</a></li>
+<li><a class="reference internal" href="#evidence-space">Evidence Space</a></li>
+<li><a class="reference internal" href="#decay">Decay</a></li>
+<li><a class="reference internal" href="#activation-spread">Activation spread</a></li>
+<li><a class="reference internal" href="#what-can-be-a-node">What can be a node</a><ul>
+<li><a class="reference internal" href="#memoizedconstructor-metaclass">MemoizedConstructor Metaclass</a></li>
+<li><a class="reference internal" href="#ltmstorablemixin">LTMSTorableMixin</a></li>
+<li><a class="reference internal" href="#getltmstorablecontent">GetLTMStorableContent</a></li>
+<li><a class="reference internal" href="#ltmdependentcontent">LTMDependentContent</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#types-of-edges">Types of edges</a></li>
+<li><a class="reference internal" href="#the-ltm-is-active">The LTM is &#8220;active&#8221;</a></li>
+<li><a class="reference internal" href="#api">API</a></li>
 </ul>
 </li>
 </ul>

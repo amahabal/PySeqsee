@@ -87,15 +87,27 @@ no need to bother with ssh setup or whatnot, unless you want to upload code your
 </div>
 <div class="section" id="diagnosing-issues">
 <h2>Diagnosing issues:<a class="headerlink" href="#diagnosing-issues" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="invalid-syntax">
+<h3>Invalid Syntax<a class="headerlink" href="#invalid-syntax" title="Permalink to this headline">¶</a></h3>
 <p>If you see an error message that ends with:</p>
 <div class="highlight-python"><pre>class Subspace(metaclass=SubspaceMeta):
                          ^
 SyntaxError: invalid syntax</pre>
 </div>
 <p>The likely reason is that you used Python 2 instead of Python 3.</p>
+</div>
+<div class="section" id="no-module-named-tkinter">
+<h3>No module named _tkinter<a class="headerlink" href="#no-module-named-tkinter" title="Permalink to this headline">¶</a></h3>
+<p>You may need to install Tkinter. On <a href="#id1"><span class="problematic" id="id2">*</span></a>nix:</p>
+<div class="highlight-python"><pre>sudo apt-get install python3-tk</pre>
+</div>
+</div>
+<div class="section" id="importerror-no-module-named-farg">
+<h3>ImportError: No module named farg...<a class="headerlink" href="#importerror-no-module-named-farg" title="Permalink to this headline">¶</a></h3>
 <p>If you get a message about being unable to load some module, check your
 PYTHONPATH. On Linux, you may need to run:</p>
 <div class="highlight-python"><pre>export PYTHONPATH=&quot;.:$PYTHONPATH&quot;</pre>
+</div>
 </div>
 </div>
 <div class="section" id="if-something-goes-wrong">
@@ -116,7 +128,12 @@ PYTHONPATH. On Linux, you may need to run:</p>
 <li><a class="reference internal" href="#requirements">Requirements</a></li>
 <li><a class="reference internal" href="#on-linux-or-other-unix-like-system">On Linux (or other Unix-like system)</a></li>
 <li><a class="reference internal" href="#on-windows">On Windows</a></li>
-<li><a class="reference internal" href="#diagnosing-issues">Diagnosing issues:</a></li>
+<li><a class="reference internal" href="#diagnosing-issues">Diagnosing issues:</a><ul>
+<li><a class="reference internal" href="#invalid-syntax">Invalid Syntax</a></li>
+<li><a class="reference internal" href="#no-module-named-tkinter">No module named _tkinter</a></li>
+<li><a class="reference internal" href="#importerror-no-module-named-farg">ImportError: No module named farg...</a></li>
+</ul>
+</li>
 <li><a class="reference internal" href="#if-something-goes-wrong">If something goes wrong</a></li>
 </ul>
 </li>

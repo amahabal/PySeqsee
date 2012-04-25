@@ -158,8 +158,7 @@ version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>nof
 
 </dd></dl>
 
-<span class="target" id="module-farg.apps.seqsee.relation"></span><p>A relation is a specific instance of a mapping.</p>
-<dl class="class">
+<span class="target" id="module-farg.apps.seqsee.relation"></span><dl class="class">
 <dt id="farg.apps.seqsee.relation.Relation">
 <em class="property">class </em><tt class="descclassname">farg.apps.seqsee.relation.</tt><tt class="descname">Relation</tt><big>(</big><em>first</em>, <em>second</em>, <em>mapping</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/relation.html#Relation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.relation.Relation" title="Permalink to this definition">¶</a></dt>
 <dd><dl class="method">
@@ -185,9 +184,24 @@ version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>nof
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="farg.apps.seqsee.relation.Relation.GetMappingSet">
+<tt class="descname">GetMappingSet</tt><big>(</big><big>)</big><a class="headerlink" href="#farg.apps.seqsee.relation.Relation.GetMappingSet" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the set of mappings. Currently, this is a singleton, but in order to see
+relations between &#8220;2&#8221; and &#8220;3&#8221; flexibly as &#8220;next number&#8221; as well as &#8220;next prime&#8221;, multiple
+relations will need to be supported.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="farg.apps.seqsee.relation.Relation.GetSimilarityAffordances">
 <tt class="descname">GetSimilarityAffordances</tt><big>(</big><em>focusable</em>, <em>other_fringe</em>, <em>my_fringe</em>, <em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/relation.html#Relation.GetSimilarityAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.relation.Relation.GetSimilarityAffordances" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.apps.seqsee.relation.Relation.OnFocus">
+<tt class="descname">OnFocus</tt><big>(</big><em>controller</em><big>)</big><a class="headerlink" href="#farg.apps.seqsee.relation.Relation.OnFocus" title="Permalink to this definition">¶</a></dt>
+<dd><p>When the relation is focused on, and is not adjacent, send activation to the
+&#8220;distance&#8221; node.</p>
+</dd></dl>
 
 <dl class="attribute">
 <dt id="farg.apps.seqsee.relation.Relation.first">

@@ -117,14 +117,8 @@ just in time calculation.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.core.ltm.node.LTMNode.IncrementDepth">
-<tt class="descname">IncrementDepth</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.IncrementDepth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.IncrementDepth" title="Permalink to this definition">¶</a></dt>
-<dd><p>Increment depth of node by 1.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.ltm.node.LTMNode.Spike">
-<tt class="descname">Spike</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.Spike"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.Spike" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.IncreaseActivation">
+<tt class="descname">IncreaseActivation</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="headerlink" href="#farg.core.ltm.node.LTMNode.IncreaseActivation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update activation by this amount (after processing any pending decays), and also 
 spread an appropriate component to nearby nodes.</p>
 <div class="admonition-todo admonition" id="index-0">
@@ -134,10 +128,16 @@ spread an appropriate component to nearby nodes.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.core.ltm.node.LTMNode.SpikeNonSpreading">
-<tt class="descname">SpikeNonSpreading</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.SpikeNonSpreading"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.SpikeNonSpreading" title="Permalink to this definition">¶</a></dt>
+<dt id="farg.core.ltm.node.LTMNode.IncreaseActivationButDontSpread">
+<tt class="descname">IncreaseActivationButDontSpread</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="headerlink" href="#farg.core.ltm.node.LTMNode.IncreaseActivationButDontSpread" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update activation by this amount (after processing any pending decays, but do not
 propagate further.)</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ltm.node.LTMNode.IncrementDepth">
+<tt class="descname">IncrementDepth</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.IncrementDepth"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.IncrementDepth" title="Permalink to this definition">¶</a></dt>
+<dd><p>Increment depth of node by 1.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -242,6 +242,12 @@ metaclass.</p>
 </dd></dl>
 
 <dl class="method">
+<dt id="farg.core.ltm.graph.LTMGraph.GetActivationForContent">
+<tt class="descname">GetActivationForContent</tt><big>(</big><em>content</em><big>)</big><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.GetActivationForContent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get activation for content.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="farg.core.ltm.graph.LTMGraph.GetGraphAroundNodeXDot">
 <tt class="descname">GetGraphAroundNodeXDot</tt><big>(</big><em>node_position</em>, <em>depth=3</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.GetGraphAroundNodeXDot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.GetGraphAroundNodeXDot" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get XDot of node outward from given node position upto given depth.</p>
@@ -260,15 +266,20 @@ metaclass.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.core.ltm.graph.LTMGraph.IsEmpty">
-<tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.IsEmpty" title="Permalink to this definition">¶</a></dt>
-<dd><p>True if there are zero-nodes.</p>
+<dt id="farg.core.ltm.graph.LTMGraph.IncreaseActivationForContent">
+<tt class="descname">IncreaseActivationForContent</tt><big>(</big><em>content</em>, <em>amount</em><big>)</big><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.IncreaseActivationForContent" title="Permalink to this definition">¶</a></dt>
+<dd><p>IncreaseActivation node indicated by content by amount.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.core.ltm.graph.LTMGraph.SpikeForContent">
-<tt class="descname">SpikeForContent</tt><big>(</big><em>content</em>, <em>amount</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.SpikeForContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.SpikeForContent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Spike node indicated by content by amount.</p>
+<dt id="farg.core.ltm.graph.LTMGraph.IsContentSufficientlyActive">
+<tt class="descname">IsContentSufficientlyActive</tt><big>(</big><em>content</em>, <em>threshold</em><big>)</big><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.IsContentSufficientlyActive" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ltm.graph.LTMGraph.IsEmpty">
+<tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.IsEmpty" title="Permalink to this definition">¶</a></dt>
+<dd><p>True if there are zero-nodes.</p>
 </dd></dl>
 
 <dl class="attribute">
