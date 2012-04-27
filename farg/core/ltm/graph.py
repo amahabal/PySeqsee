@@ -114,6 +114,11 @@ class LTMGraph(object):
     self.GetNodeForContent(storable_content).IncreaseActivation(amount,
                                                                 current_time=self._timesteps)
 
+  def GetActivationForContent(self, content):
+    """Get activation for content."""
+    storable_content = content.GetLTMStorableContent()
+    return self.GetNodeForContent(storable_content).GetActivation(self._timesteps)
+
   def AddEdgeBetweenContent(self, from_content, to_content,
                             edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
     node = self.GetNodeForContent(from_content.GetLTMStorableContent())
@@ -125,6 +130,10 @@ class LTMGraph(object):
         # Already exists, bail out.
         return
     node.outgoing_edges.append(LTMEdge(to_node, edge_type))
+
+  def IsContentSufficientlyActive(self, content, *, threshold=0.8):
+    activation = self.GetNodeForContent(content).GetActivation(current_time=self._timesteps)
+    return activation >= threshold
 
   def GetGraphXDOT(self):
     """Generates XDOT for entire graph."""

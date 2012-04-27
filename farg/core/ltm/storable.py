@@ -25,7 +25,7 @@ class LTMStorableMixin(object):
     return self.BriefLabel()
 
   def BriefLabel(self):
-    raise Exception("BriefLabel should have been imported by subclass %s" % self.__class__)
+    raise Exception("BriefLabel should have been implemented by subclass %s" % self.__class__)
 
   def LTMDependentContent(self):
     """Returns nodes whose existence is necessary for fully defining this node."""

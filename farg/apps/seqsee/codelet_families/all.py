@@ -16,6 +16,7 @@ from farg.apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDeal
 from farg.core.codelet import CodeletFamily
 from farg.core.exceptions import ConflictingGroupException, AnswerFoundException
 from farg.apps.seqsee.subspaces.are_we_done import SubspaceAreWeDone
+from farg.apps.seqsee.subspaces.is_this_interlaced import SubspaceIsThisInterlaced
 
 class CF_FocusOn(CodeletFamily):
   """Causes the required focusable to be added to the stream."""
@@ -59,6 +60,16 @@ class CF_AreWeDone(CodeletFamily):
                                    "has found the solution as soon as it has added 10 new "
                                    "terms. This is something that needs fixing. Quitting.")
       raise AnswerFoundException("AnswerFound", codelet_count=controller.steps_taken)
+
+
+class CF_IsThisInterlaced(CodeletFamily):
+  """Check using a subspace if we may be looking at an interlaced sequence."""
+  @classmethod
+  def Run(cls, controller, distance):
+    if distance.UnitIsElements():
+      SubspaceIsThisInterlaced(controller,
+                               nsteps=20,
+                               workspace_arguments=dict(distance=distance)).Run()
 
 
 class CF_RemoveSpuriousRelations(CodeletFamily):

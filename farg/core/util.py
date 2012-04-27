@@ -50,6 +50,16 @@ def WeightedChoice(choices):
     upto += w
   assert False, "Shouldn't get here"
 
+def SelectWeightedByActivation(ltm, choices):
+  choices = ((x, ltm.GetActivationForContent(x)) for x in choices)
+  return WeightedChoice(choices)
+
+def UnweightedChoice(choices):
+  """choices is an iterable from which an item will be chosen uniformly."""
+  choices = list(choices)  # Needed since we need to choose nth element and need length.
+  r = random.uniform(0, len(choices))
+  return choices[int(r)]
+
 def WeightedShuffle(choices):
   """Choices is an iterable of 2-tuples, where the second value is the weight.
   

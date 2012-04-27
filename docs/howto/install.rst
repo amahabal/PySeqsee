@@ -34,6 +34,9 @@ You will then use git to fetch https://github.com/amahabal/PySeqsee.git.
 Diagnosing issues:
 -------------------
 
+Invalid Syntax
+***************
+
 If you see an error message that ends with::
 
   class Subspace(metaclass=SubspaceMeta):
@@ -42,10 +45,23 @@ If you see an error message that ends with::
 
 The likely reason is that you used Python 2 instead of Python 3.
 
+No module named _tkinter
+*************************
+
+You may need to install Tkinter. On *nix::
+
+  sudo apt-get install python3-tk
+
+
+ImportError: No module named farg...
+***************************************
+
 If you get a message about being unable to load some module, check your
 PYTHONPATH. On Linux, you may need to run::
 
   export PYTHONPATH=".:$PYTHONPATH"
+
+
 
 If something goes wrong
 -------------------------

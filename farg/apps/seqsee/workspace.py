@@ -141,6 +141,7 @@ class Workspace(object):
     pieces = [self._PlonkIntoPlace(x) for x in group.items]
     new_object = SAnchored.Create(*pieces,
                                   underlying_mapping=group.object.underlying_mapping)
+    new_object.object.AddCategoriesFrom(group.object)
     self.groups.add(new_object)
     return new_object
 

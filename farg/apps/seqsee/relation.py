@@ -10,6 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+from farg.apps.seqsee.distance import DistanceInElements
 
 """A relation is a specific instance of a mapping."""
 
@@ -32,6 +33,13 @@ class Relation(FocusableMixin):
     """Returns a 2-tuple of the two ends."""
     return (self.first, self.second)
 
+  def GetMappingSet(self):
+    """Returns the set of mappings. Currently, this is a singleton, but in order to see
+    relations between "2" and "3" flexibly as "next number" as well as "next prime", multiple
+    relations will need to be supported.
+    """
+    return set((self.mapping,))
+
   def AreEndsContiguous(self):
     """Are the two ends right next to each other (i.e., true if no hole)."""
     return self.first.end_pos + 1 == self.second.start_pos
@@ -43,12 +51,28 @@ class Relation(FocusableMixin):
   def GetAffordances(self, controller):
     # TODO(# --- Jan 3, 2012): Too eager, tone this down later.
     from farg.apps.seqsee.codelet_families.all import CF_GroupFromRelation
+    from farg.apps.seqsee.codelet_families.all import CF_IsThisInterlaced
     if self.AreEndsContiguous():
       return (Codelet(CF_GroupFromRelation, controller, 50, dict(relation=self)),)
     else:
-      return ()
+      distance_in_elements = self.second.start_pos - self.first.end_pos - 1
+      distance_object = DistanceInElements(value=distance_in_elements)
+      if controller.ltm.IsContentSufficientlyActive(distance_object):
+        return (Codelet(CF_IsThisInterlaced, controller, 50,
+                        dict(distance=distance_object)),)
+      else:
+        return ()
 
   def GetSimilarityAffordances(self, focusable, other_fringe, my_fringe, controller):
     return ()
 
+  def OnFocus(self, controller):
+    """When the relation is focused on, and is not adjacent, send activation to the
+       "distance" node.
+    """
+    if not self.AreEndsContiguous():
+      distance_in_elements = self.second.start_pos - self.first.end_pos - 1
+      distance_object = DistanceInElements(value=distance_in_elements)
+      # TODO(# --- Apr 22, 2012): Need to do something for group distances, too.
+      controller.ltm.IncreaseActivationForContent(distance_object, 5)
 
