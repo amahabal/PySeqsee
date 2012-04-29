@@ -28,7 +28,7 @@ class MockSeqseeController(Controller):
 class FringeOverlapTest(FringeAndCodeletsTest):
 
   @staticmethod
-  def HelperCreateAndInsertGroup(workspace, specification, underlying_mapping=None):
+  def HelperCreateAndInsertGroup(workspace, specification, underlying_mapping_set=None):
     """Utility for quickly creating groups.
 
        Each element in the specification is a tuple consisting of integers or of other
@@ -43,7 +43,8 @@ class FringeOverlapTest(FringeAndCodeletsTest):
     else:
       anchored_items = list(FringeOverlapTest.HelperCreateAndInsertGroup(workspace, x)
                             for x in specification)
-      new_group = SAnchored.Create(*anchored_items, underlying_mapping=underlying_mapping)
+      new_group = SAnchored.Create(anchored_items,
+                                   underlying_mapping_set=underlying_mapping_set)
       return workspace.InsertGroup(new_group)
 
   @staticmethod

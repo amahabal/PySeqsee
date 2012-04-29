@@ -105,10 +105,13 @@ class SObject(CategorizableMixin, LTMStorableMixin):
 
 class SGroup(SObject):
   """A subclass of SObject representing things with an internal structure."""
-  def __init__(self, underlying_mapping=None, items=None):
+  def __init__(self, underlying_mapping_set=None, items=None):
     SObject.__init__(self, is_group=True)
     #: Underlying mapping on which object is based.
-    self.underlying_mapping = underlying_mapping
+    if underlying_mapping_set:
+      self.underlying_mapping_set = underlying_mapping_set
+    else:
+      self.underlying_mapping_set = set()
     #: Items in the object
     if not items:
       items = []
@@ -119,8 +122,11 @@ class SGroup(SObject):
     # TODO(#25 --- Dec 28, 2011): Should copy categories, too. Perhaps a method in
     # CategorizableMixin (CopyCategoriesFromCopy?). Also fix SElements below.
     new_items = [x.DeepCopy() for x in self.items]
-    new_object = SGroup(items=new_items,
-                        underlying_mapping=self.underlying_mapping)
+    if self.underlying_mapping_set:
+      new_object = SGroup(items=new_items,
+                          underlying_mapping_set=set(self.underlying_mapping_set))
+    else:
+      new_object = SGroup(items=new_items)
     # .. ToDo:: Copy categories as well.
     return new_object
 
@@ -132,8 +138,9 @@ class SGroup(SObject):
     """Fringe for the group."""
     # TODO(#27 --- Dec 28, 2011): The categories are also a relevant part of the fringe.
     fringe = dict()
-    if self.underlying_mapping:
-      fringe[self.underlying_mapping] = 1.0
+    if self.underlying_mapping_set:
+      for mapping in self.underlying_mapping_set:
+        fringe[mapping] = 1.0
     for category, _bindings in self.categories.items():
       # QUALITY TODO(Feb 10, 2012): Activation in the LTM matters.
       fringe[category] = 0.8
@@ -151,14 +158,13 @@ class SGroup(SObject):
 
   def CalculateStrength(self, controller=None):
     """The strength of a group is made up of a few components, including the strength of
-       its parts and the strength of the underlying_mapping.
+       its parts and the strength of the underlying_mapping_set.
     """
     strength = sum(x.CalculateStrength(controller) for x in self.items)
     if controller and controller.ltm:
-      if self.underlying_mapping:
-        node = controller.ltm.GetNodeForContent(self.underlying_mapping)
-        activation = node.GetActivation(controller.steps_taken)
-        strength += 30 * activation
+      if self.underlying_mapping_set:
+        for mapping in self.underlying_mapping_set:
+          strength += 30 * controller.ltm.GetActivationForContent(mapping)
     return Squash(strength, 100)
 
 class SElement(SObject):
@@ -169,7 +175,7 @@ class SElement(SObject):
     self.magnitude = magnitude
     # .. ToDO:: (handle strength, primality, etc).
     # .. ToDo:: Copy categories as well.
-    self.underlying_mapping = None
+    self.underlying_mapping_set = None
 
   def DeepCopy(self):
     """Makes a copy."""

@@ -100,15 +100,13 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
       return SAnchored(sobject, new_parts, start_pos, pos - 1)
 
   @staticmethod
-  def Create(*items, **kwargs):
+  def Create(items, *, underlying_mapping_set=None):
     """Given a list of items, each a SAnchored, creates another SAnchored, provided that the
        items are contiguous. Raises a NonAdjacentGroupElementsException if they are
        non-adjacent.
        
-       The only acceptable kwarg is 'underlying_mapping'
+       The only acceptable kwarg is 'underlying_mapping_set'
     """
-    underlying_mapping = kwargs.pop('underlying_mapping', None)
-    assert(not kwargs)
     if not items:
       raise FargError("Empty group creation attempted. An error at the moment.")
     if len(items) == 1:
@@ -131,10 +129,12 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
         raise NonAdjacentGroupElementsException(items=items)
       right_edge = right
     new_object = SObject.Create(list(x.object for x in items))
-    new_object.underlying_mapping = underlying_mapping
-    if underlying_mapping:
+    new_object.underlying_mapping_set = (
+        underlying_mapping_set if underlying_mapping_set else set())
+    if underlying_mapping_set:
       from farg.apps.seqsee.categories import MappingBasedCategory
-      new_object.DescribeAs(MappingBasedCategory(mapping=underlying_mapping))
+      for mapping in underlying_mapping_set:
+        new_object.DescribeAs(MappingBasedCategory(mapping=mapping))
     return SAnchored(new_object, items, left_edge, right_edge)
 
   def AddRelation(self, relation):
@@ -175,7 +175,7 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
         from farg.apps.seqsee.codelet_families.all import CF_DescribeAs
         codelets.append(Codelet(CF_DescribeAs, controller, 25,
                                 dict(item=self.object, category=category)))
-    if self.object.underlying_mapping:
+    if self.object.underlying_mapping_set:
       from farg.apps.seqsee.codelet_families.extend_group import CF_ExtendGroup
       codelets.append(Codelet(CF_ExtendGroup, controller, 25,
                               dict(item=self)))
@@ -201,6 +201,7 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
 
   def OnFocus(self, controller):
     """Updates the strength of the object when it is focused upon."""
-    if self.object.underlying_mapping and controller and controller.ltm:
-      controller.ltm.IncreaseActivationForContent(self.object.underlying_mapping, 10)
+    if self.object.underlying_mapping_set and controller and controller.ltm:
+      for mapping in self.object.underlying_mapping_set:
+        controller.ltm.IncreaseActivationForContent(mapping, 5)
     self.strength = self.object.CalculateStrength(controller)

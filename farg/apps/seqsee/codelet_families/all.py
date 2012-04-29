@@ -33,8 +33,8 @@ class CF_GroupFromRelation(CodeletFamily):
     from farg.apps.seqsee.util import GreaterThanEq, LessThanEq
     if tuple(controller.workspace.GetGroupsWithSpan(LessThanEq(left), GreaterThanEq(right))):
       return
-    anchored = SAnchored.Create(relation.first, relation.second,
-                                underlying_mapping=relation.mapping)
+    anchored = SAnchored.Create((relation.first, relation.second),
+                                underlying_mapping_set=relation.mapping_set)
     try:
       controller.workspace.InsertGroup(anchored)
     except ConflictingGroupException as e:

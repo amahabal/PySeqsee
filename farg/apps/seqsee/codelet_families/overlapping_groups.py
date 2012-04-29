@@ -28,17 +28,19 @@ class CF_ActOnOverlappingGroups(CodeletFamily):
       return
     if set(left.items).intersection(set(right.items)):
       # So overlap, and share elements.
-      left_underlying = left.object.underlying_mapping
-      right_underlying = right.object.underlying_mapping
+      left_underlying_set = left.object.underlying_mapping_set
+      right_underlying_set = right.object.underlying_mapping_set
       # TODO(# --- Jan 28, 2012): Even if the following fails, there is reason to try and
       # see how the two may be made to agree.
-      if left_underlying and left_underlying == right_underlying:
+      if left_underlying_set and left_underlying_set.intersection(right_underlying_set):
         # This calls out for merging!
         new_group_items = sorted(set(left.items).union(set(right.items)),
                                  key=lambda x: x.start_pos)
         logger.debug("New group items: %s",
                      '; '.join(str(x) for x in new_group_items))
-        new_group = SAnchored.Create(*new_group_items, underlying_mapping=left_underlying)
+        new_group = SAnchored.Create(
+            new_group_items,
+            underlying_mapping_set=left_underlying_set.intersection(right_underlying_set))
         try:
           controller.workspace.Replace((left, right), new_group)
         except ConflictingGroupException as e:

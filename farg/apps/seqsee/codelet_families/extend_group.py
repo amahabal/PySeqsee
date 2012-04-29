@@ -12,7 +12,7 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.core.codelet import CodeletFamily
-from farg.core.util import Toss
+from farg.core.util import Toss, SelectWeightedByActivation
 from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.subspaces.go_beyond_known import SubspaceGoBeyondKnown
 
@@ -28,9 +28,12 @@ class CF_ExtendGroup(CodeletFamily):
       extend_right = False
 
     parts = item.items
-    underlying_mapping = item.object.underlying_mapping
+    underlying_mapping_set = item.object.underlying_mapping_set
+    if not underlying_mapping_set:
+      return
+    mapping = SelectWeightedByActivation(controller.ltm, underlying_mapping_set)
     if extend_right:
-      next_part = underlying_mapping.Apply(parts[-1].object)
+      next_part = mapping.Apply(parts[-1].object)
       if not next_part:
         return
       magnitudes = next_part.FlattenedMagnitudes()
@@ -58,7 +61,7 @@ class CF_ExtendGroup(CodeletFamily):
       new_parts = list(parts[:])
       new_parts.append(next_part_anchored)
     else:
-      flipped = underlying_mapping.FlippedVersion()
+      flipped = mapping.FlippedVersion()
       if not flipped:
         return
       previous_part = flipped.Apply(parts[0].object)
@@ -74,8 +77,8 @@ class CF_ExtendGroup(CodeletFamily):
                                               previous_part)
       new_parts = [prev_part_anchored]
       new_parts.extend(parts)
-    new_group = SAnchored.Create(*new_parts,
-                                 underlying_mapping=underlying_mapping)
+    new_group = SAnchored.Create(new_parts,
+                                 underlying_mapping_set={mapping})
 
     from farg.core.exceptions import ConflictingGroupException
     from farg.core.exceptions import CannotReplaceSubgroupException

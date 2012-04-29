@@ -41,7 +41,7 @@ class TestRegtestInitialSetup(unittest.TestCase):
     self.assertTrue(first_el.is_sequence_element)
     self.assertFalse(first_el.items)
 
-    gp = SAnchored.Create(workspace.elements[1], workspace.elements[2])
+    gp = SAnchored.Create((workspace.elements[1], workspace.elements[2]))
     self.assertTrue(isinstance(gp, SAnchored))
     self.assertTrue(isinstance(gp.object, SGroup))
     self.assertEqual((1, 2), gp.object.Structure())

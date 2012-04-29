@@ -26,8 +26,10 @@ class FringeOverlapTestForAnchored(FringeOverlapTest):
     workspace = controller.workspace
     numeric_succesor_mapping = NumericMapping('succ', Number())
     ascending_group = MappingBasedCategory(mapping=numeric_succesor_mapping)
-    group1 = self.HelperCreateAndInsertGroup(workspace, (0, 1, 2), numeric_succesor_mapping)
-    group2 = self.HelperCreateAndInsertGroup(workspace, (3, 4, 5), numeric_succesor_mapping)
+    group1 = self.HelperCreateAndInsertGroup(workspace, (0, 1, 2),
+                                             {numeric_succesor_mapping})
+    group2 = self.HelperCreateAndInsertGroup(workspace, (3, 4, 5),
+                                             {numeric_succesor_mapping})
     group1.object.DescribeAs(ascending_group)
     group2.object.DescribeAs(ascending_group)
     self.AssertFringeContains(controller, group1, { numeric_succesor_mapping: 0.9 })

@@ -39,21 +39,21 @@ class TestSObject(unittest.TestCase):
     o3_anc = SAnchored(o3, [], 5, 5)
 
     # Create expects anchored objects...
-    self.assertRaises(FargError, SAnchored.Create, o1)
+    self.assertRaises(FargError, SAnchored.Create, (o1,))
 
     # With a single arg, the object is returned unchanged.
-    self.assertEqual(o1_anc, SAnchored.Create(o1_anc))
+    self.assertEqual(o1_anc, SAnchored.Create((o1_anc,)))
 
     # With multiple args, we expect the positions of these to be adjacent.
     self.assertRaises(NonAdjacentGroupElementsException,
-                      SAnchored.Create, o1_anc, o3_anc)
+                      SAnchored.Create, (o1_anc, o3_anc))
 
     # This also implies that elements may not be repeated:
     self.assertRaises(NonAdjacentGroupElementsException,
-                      SAnchored.Create, o1_anc, o1_anc)
+                      SAnchored.Create, (o1_anc, o1_anc))
 
     # If ranges are fine, the group is constructed fine:
-    o123_anc = SAnchored.Create(o1_anc, o2_anc, o3_anc)
+    o123_anc = SAnchored.Create((o1_anc, o2_anc, o3_anc))
     self.assertEqual((3, 5), o123_anc.Span())
     self.assertEqual((3, 40, 30), o123_anc.Structure())
 

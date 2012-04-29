@@ -158,7 +158,7 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
     if mapping:
       # TODO(# --- Jan 29, 2012): The relation should be formed with a probability dependent
       # on the distance between the nodes.
-      relation = Relation(left, right, mapping)
+      relation = Relation(left, right, mapping_set=set((mapping,)))
       right.AddRelation(relation)
       left.AddRelation(relation)
       controller.ltm.AddEdgeBetweenContent(left.object, right.object, 'related')

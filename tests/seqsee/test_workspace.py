@@ -22,7 +22,7 @@ def helper_create_and_insert_group(ws, specification):
     return ws.elements[specification]
   else:
     anchored_items = list(helper_create_and_insert_group(ws, x) for x in specification)
-    new_group = SAnchored.Create(*anchored_items)
+    new_group = SAnchored.Create(anchored_items)
     ws.InsertGroup(new_group)
     return new_group
 
@@ -39,7 +39,7 @@ def helper_create_group_given_spans_of_items(ws, *spans):
     else:
       matching_groups = ws.GetGroupsWithSpan(Exactly(span[0]), Exactly(span[1]))
       anchored_items.append(next(matching_groups))
-  return SAnchored.Create(*anchored_items)
+  return SAnchored.Create(anchored_items)
 
 class TestWorkspace(unittest.TestCase):
   def test_sanity(self):
@@ -58,7 +58,7 @@ class TestWorkspace(unittest.TestCase):
   def test_insert_group(self):
     ws = Workspace()
     ws.InsertElements((5, 6))
-    gp = SAnchored.Create(*ws.elements[:])
+    gp = SAnchored.Create(ws.elements[:])
     self.assertEqual((0, 1), gp.Span())
     self.assertEqual((5, 6), gp.Structure())
 
@@ -147,9 +147,9 @@ class TestWorkspace(unittest.TestCase):
         category=MappingBasedCategory(mapping=numeric_successor),
         bindings_mapping=frozenset((('length', numeric_successor),
                                     ('start', numeric_sameness))))
-    gp1 = SAnchored.Create(elt0, elt1, underlying_mapping=numeric_successor)
-    gp2 = SAnchored.Create(elt2, elt3, elt4, underlying_mapping=numeric_successor)
-    gp3 = SAnchored.Create(gp1, gp2, underlying_mapping=next_ascending)
+    gp1 = SAnchored.Create((elt0, elt1), underlying_mapping_set={numeric_successor})
+    gp2 = SAnchored.Create((elt2, elt3, elt4), underlying_mapping_set={numeric_successor})
+    gp3 = SAnchored.Create((gp1, gp2), underlying_mapping_set={next_ascending})
 
     self.assertTrue(gp1.object.IsKnownAsInstanceOf(successor_mapping_based_cat))
 
@@ -158,14 +158,14 @@ class TestWorkspace(unittest.TestCase):
     existing_groups = list(ws.GetGroupsWithSpan(Exactly(0), Exactly(1)))
     self.assertEqual(existing_groups[0], plonked.items[0])
     self.assertTrue(plonked.items[0].object.IsKnownAsInstanceOf(successor_mapping_based_cat))
-    self.assertEqual(numeric_successor, plonked.items[0].object.underlying_mapping)
-    self.assertEqual(next_ascending, plonked.object.underlying_mapping)
+    self.assertTrue(numeric_successor in plonked.items[0].object.underlying_mapping_set)
+    self.assertTrue(next_ascending in plonked.object.underlying_mapping_set)
 
 
   def test_replacement(self):
-    new_group = SAnchored.Create(SAnchored(SElement(7), (), 7, 7),
-                                 SAnchored(SElement(8), (), 8, 8),
-                                 SAnchored(SElement(9), (), 9, 9))
+    new_group = SAnchored.Create((SAnchored(SElement(7), (), 7, 7),
+                                  SAnchored(SElement(8), (), 8, 8),
+                                  SAnchored(SElement(9), (), 9, 9)))
 
     ws = Workspace()
     ws.InsertElements(range(0, 10))
@@ -186,10 +186,10 @@ class TestWorkspace(unittest.TestCase):
     # So now (7, 8, 9) is a group. Let's add a group (5, 6) and try and extend it to 5:8
     helper_create_and_insert_groups(ws, (5, 6))
     existing_group = list(ws.GetGroupsWithSpan(Exactly(5), Exactly(6)))[0]
-    new_group = SAnchored.Create(SAnchored(SElement(5), (), 5, 5),
-                                 SAnchored(SElement(6), (), 6, 6),
-                                 SAnchored(SElement(7), (), 7, 7),
-                                 SAnchored(SElement(8), (), 8, 8))
+    new_group = SAnchored.Create((SAnchored(SElement(5), (), 5, 5),
+                                  SAnchored(SElement(6), (), 6, 6),
+                                  SAnchored(SElement(7), (), 7, 7),
+                                  SAnchored(SElement(8), (), 8, 8)))
     self.assertRaises(ConflictingGroupException,
                       ws.Replace, existing_group, new_group)
     # The original group still exists

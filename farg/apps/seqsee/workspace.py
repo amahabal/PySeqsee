@@ -128,9 +128,10 @@ class Workspace(object):
       # adds the underlying mapping. However, if we extend groups to make multiple
       # underlying mappings possible, this needs to be updated too.
       group_at_this_location = groups_at_this_location[0] # There can be only 1
-      if (group.object.underlying_mapping and
-          not group_at_this_location.object.underlying_mapping):
-        group_at_this_location.object.underlying_mapping = group.object.underlying_mapping
+      if (group.object.underlying_mapping_set and
+          not group_at_this_location.object.underlying_mapping_set):
+        group_at_this_location.object.underlying_mapping_set = set(
+            group.object.underlying_mapping_set)
       # We should also merge all pieces of the group into the corresponding existing pieces.
       for x in group.items:
         self._PlonkIntoPlace(x)  # Ignore output, we don't need it.
@@ -139,8 +140,9 @@ class Workspace(object):
 
     # Group does not exist, create one.
     pieces = [self._PlonkIntoPlace(x) for x in group.items]
-    new_object = SAnchored.Create(*pieces,
-                                  underlying_mapping=group.object.underlying_mapping)
+    new_object = SAnchored.Create(pieces,
+                                  underlying_mapping_set=set(
+                                      group.object.underlying_mapping_set))
     new_object.object.AddCategoriesFrom(group.object)
     self.groups.add(new_object)
     return new_object
