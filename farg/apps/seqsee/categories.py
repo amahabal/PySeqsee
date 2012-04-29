@@ -212,13 +212,13 @@ class PrecomputedNumberList(NumericCategory):
     if name == 'pred':
       val = self._PrevNumber(item.magnitude)
       if val:
-        return SObject.Create(val)
+        return SObject.Create((val,))
       else:
         return None
     if name == 'succ':
       val = self._NextNumber(item.magnitude)
       if val:
-        return SObject.Create(val)
+        return SObject.Create((val,))
       else:
         return None
 
