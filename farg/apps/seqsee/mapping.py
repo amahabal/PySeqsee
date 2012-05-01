@@ -81,6 +81,13 @@ class StructuralMapping(Mapping):
     self.no_flipped_version = False
     self.flipped_version = None
 
+  def __str__(self):
+    pieces = 'Structural: [%s] %s' % (self.category.BriefLabel(), self.bindings_mapping)
+    if self.slippages:
+      pieces = pieces + 'Slippages: ' + str(self.slippages)
+    return pieces
+
+
   def BriefLabel(self):
     return '[%s]' % self.category.BriefLabel()
 
@@ -91,6 +98,8 @@ class StructuralMapping(Mapping):
     new_bindings = {}
     for attribute, v in self.bindings_mapping:
       new_binding_for_attribute = v.Apply(bindings.GetBindingsForAttribute(attribute))
+      if not new_binding_for_attribute:
+        return
       new_bindings[attribute] = new_binding_for_attribute
     return self.category.Create(new_bindings)
 

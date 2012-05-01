@@ -150,9 +150,9 @@ class Number(NumericCategory):
     if name == 'same':
       return item.DeepCopy()
     if name == 'pred':
-      return SObject.Create(item.magnitude - 1)
+      return SObject.Create([item.magnitude - 1])
     if name == 'succ':
-      return SObject.Create(item.magnitude + 1)
+      return SObject.Create([item.magnitude + 1])
 
 class PrecomputedNumberList(NumericCategory):
   """Categories such as Prime and Fibonacci which are provided as a pre-computed list."""
@@ -212,13 +212,13 @@ class PrecomputedNumberList(NumericCategory):
     if name == 'pred':
       val = self._PrevNumber(item.magnitude)
       if val:
-        return SObject.Create((val,))
+        return SObject.Create([val])
       else:
         return None
     if name == 'succ':
       val = self._NextNumber(item.magnitude)
       if val:
-        return SObject.Create((val,))
+        return SObject.Create([val])
       else:
         return None
 
@@ -234,7 +234,7 @@ class Squares(PrecomputedNumberList):
 
 class TriangularNumbers(PrecomputedNumberList):
   brief_label = 'TriangularNumber'
-  number_list = [ x * (x + 1) / 2 for x in range(1, 100)]
+  number_list = [ int(x * (x + 1) / 2) for x in range(1, 100)]
 
 class Ascending(StructuralCategory):
 
@@ -251,9 +251,9 @@ class Ascending(StructuralCategory):
     for idx, v in enumerate(structure[1:], 1):
       if v != structure[idx - 1] + 1:
         return None
-    return Binding(start=SObject.Create(structure[0]),
-                   end=SObject.Create(structure[-1]),
-                   length=SObject.Create(structure[-1] - structure[0] + 1))
+    return Binding(start=SObject.Create([structure[0]]),
+                   end=SObject.Create([structure[-1]]),
+                   length=SObject.Create([structure[-1] - structure[0] + 1]))
 
 
   def Create(self, bindings):
@@ -310,7 +310,7 @@ class SizeNCategory(StructuralCategory):
       return None
     bindings = {}
     for idx, item in enumerate(structure, 1):
-      bindings['pos_%d' % idx] = SObject.Create(item)
+      bindings['pos_%d' % idx] = SObject.Create([item])
     return Binding(**bindings)
 
 
@@ -332,6 +332,9 @@ class MappingBasedCategory(StructuralCategory):
   def BriefLabel(self):
     return 'MBC(%s)' % self.mapping.BriefLabel()
 
+  def __str__(self):
+    return self.BriefLabel()
+
   def IsInstance(self, item):
     if isinstance(item, SElement):
       # Probably the wrong thing to do.
@@ -344,13 +347,13 @@ class MappingBasedCategory(StructuralCategory):
       if not self.mapping.IsPairConsistent(item.items[idx - 1], itempart):
         return self.IsDegenerateInstance(item)
     # Okay, so valid.
-    return Binding(start=item.items[0], length=SObject.Create(len(item.items)))
+    return Binding(start=item.items[0], length=SObject.Create([len(item.items)]))
 
 
   def IsDegenerateInstance(self, item):
     if not item.DescribeAs(self.mapping.category):
       return None
-    return Binding(start=item, length=SObject.Create(1))
+    return Binding(start=item, length=SObject.Create([1]))
 
 
   def AreAttributesSufficientToBuild(self, attributes):
@@ -358,7 +361,7 @@ class MappingBasedCategory(StructuralCategory):
 
 
   def Create(self, bindings):
-    items = [SObject.Create(bindings['start'])]
+    items = [SObject.Create([bindings['start']])]
     for _i in range(1, bindings['length'].magnitude):
       if not items[-1].DescribeAs(self.mapping.category):
         raise FargException("Unable to create object")

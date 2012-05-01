@@ -53,7 +53,7 @@ class SObject(CategorizableMixin, LTMStorableMixin):
     self.is_group = is_group
 
   @staticmethod
-  def Create(*items):  # pylint: disable=W0142
+  def Create(items):  # pylint: disable=W0142
     """Creates an SObject given the items, which can be integers, lists, or other SObjects.
        * An integer is converted to an SElement.
        * Create([x, y, z]) is equivalent to Create(x, y, z)
@@ -67,15 +67,15 @@ class SObject(CategorizableMixin, LTMStorableMixin):
       if isinstance(item, int):
         return SElement(item)
       elif isinstance(item, list):
-        return SObject.Create(*item)
+        return SObject.Create(item)
       elif isinstance(item, tuple):
-        return SObject.Create(*item)
+        return SObject.Create(item)
       elif isinstance(item, SObject):
         return item.DeepCopy()
       else:
         raise FargError("Bad argument to Create: %s" % item.__repr__())
     # So there are multiple items...
-    new_items = [SObject.Create(x) for x in items]
+    new_items = [SObject.Create([x]) for x in items]
     return SGroup(items=new_items)
 
   def GetLTMStorableContent(self):
@@ -129,6 +129,9 @@ class SGroup(SObject):
       new_object = SGroup(items=new_items)
     # .. ToDo:: Copy categories as well.
     return new_object
+
+  def __str__(self):
+    return str(self.Structure())
 
   def Structure(self):
     """A tuple representations of the group."""

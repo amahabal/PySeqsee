@@ -65,6 +65,10 @@ class RunStats:
     @param data_string: Consists of a status (say, SuccessfulCompletion), optionally
        followed by the codelet count when that happened.
     """
+    if data_string.decode('utf-8').startswith('ERROR'):
+      self.stats_per_state['ERROR'].AddData(codelet_count=0)
+      print("========\n%s\n====" % data_string.decode('utf-8'))
+      return
     pieces = data_string.split()
     if len(pieces) == 1:
       self.stats_per_state[pieces[0]].AddData(codelet_count=0)

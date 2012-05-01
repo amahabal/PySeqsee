@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-from farg.core.exceptions import BatchModeStopException
+from farg.core.exceptions import BatchModeStopException, FargError
 from farg.core.run_mode.non_interactive import RunModeNonInteractive
 from farg.third_party import gflags
 from io import StringIO
@@ -39,6 +39,9 @@ class RunModeSingle(RunModeNonInteractive):
     except BatchModeStopException as e:
       classname = str(e.__class__).split('.')[-1][:-2]
       output_status = '%s %d' % (classname, e.codelet_count)
+    except FargError as e:
+      print(e)
+      output_status = 'ERROR %s' % e
     else:
       output_status = 'MaxCodeletsReached'
     finally:

@@ -46,7 +46,7 @@ class TestWorkspace(unittest.TestCase):
     ws = Workspace()
     self.assertEqual(0, ws.num_elements)
 
-    ws.InsertElement(SObject.Create(5))
+    ws.InsertElement(SObject.Create([5]))
     self.assertEqual(1, ws.num_elements)
     self.assertEqual(5, ws.elements[0].object.magnitude)
 

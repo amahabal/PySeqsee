@@ -17,9 +17,13 @@ from itertools import takewhile
 class FargError(Exception):
   """Base class for untrappable errors (indicating bugs)."""
   def __init__(self, msg):
+    self.msg = msg
     self.stack_trace = list(takewhile((lambda x: x.find('FargError.__init__') == -1),
                                       traceback.format_stack(limit=8)))
-    print('FargError: ', msg)
+    print("FargError: %s:%s" % (msg, self.stack_trace))
+
+  def __str__(self, *args, **kwargs):
+    return "FargError:" + self.msg + str(self.stack_trace)
 
 class FargException(Exception):
   """Base class for FARG-specific exceptions."""
