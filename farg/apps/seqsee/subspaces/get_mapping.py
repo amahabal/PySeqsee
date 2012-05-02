@@ -18,9 +18,12 @@ from farg.core.codelet import CodeletFamily
 from farg.core.controller import Controller
 from farg.core.exceptions import AnswerFoundException, NoAnswerException
 from farg.core.subspace import QuickReconnResults, Subspace
-from farg.core.util import WeightedShuffle, WeightedChoice
+from farg.core.util import WeightedShuffle, WeightedChoice, Toss
 import logging
 import random
+
+from farg.third_party import gflags
+FLAGS = gflags.FLAGS
 
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
 
@@ -149,8 +152,9 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
   @classmethod
   def Run(cls, controller, left, right):
     if left.GetRelationTo(right):
-      # Relation exists, bail out.
-      return
+      # Relation exists, possibly bail out.
+      if Toss(FLAGS.double_mapping_resistance):
+        return
     mapping = SubspaceFindMapping(controller,
                                   workspace_arguments=dict(left=left.object,
                                                            right=right.object,
@@ -158,9 +162,16 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
     if mapping:
       # TODO(# --- Jan 29, 2012): The relation should be formed with a probability dependent
       # on the distance between the nodes.
-      relation = Relation(left, right, mapping_set=set((mapping,)))
-      right.AddRelation(relation)
-      left.AddRelation(relation)
+      relations = left.GetRelationTo(right)
+      if relations:
+        relation = relations[0]
+        if mapping not in relation.mapping_set:
+          # New relation, yay!
+          relation.mapping_set.add(mapping)
+      else:
+        relation = Relation(left, right, mapping_set={mapping})
+        right.AddRelation(relation)
+        left.AddRelation(relation)
       controller.ltm.AddEdgeBetweenContent(left.object, right.object, 'related')
       controller.ltm.AddEdgeBetweenContent(right.object, left.object, 'related')
       from farg.apps.seqsee.codelet_families.all import CF_FocusOn
