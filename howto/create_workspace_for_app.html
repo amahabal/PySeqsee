@@ -58,6 +58,80 @@
             
   <div class="section" id="how-to-create-a-workspace">
 <h1>How to create a workspace<a class="headerlink" href="#how-to-create-a-workspace" title="Permalink to this headline">¶</a></h1>
+<p>The workspace is the virtual blackboard on which various codelets make
+annotations about their observations and relationships that they have observed.
+The workspace will store the pieces of the problem at hand and of the solution
+being developed.</p>
+<p>In this section, I assume that you have started creating a new app called Cat.
+Please note that the skeleton app generated already contains a file for the
+workspace.</p>
+<div class="section" id="initializing-the-workspace">
+<h2>Initializing the workspace<a class="headerlink" href="#initializing-the-workspace" title="Permalink to this headline">¶</a></h2>
+<p>When you start the cat application using:</p>
+<div class="highlight-python"><pre>python3 run_cat.py &lt;flags&gt;</pre>
+</div>
+<p>the flags can be used to specify the input. The generated app has a flag called
+&#8216;&#8211;input&#8217; and a flag called &#8216;&#8211;expected_output&#8217; for use in automated tests. You
+may choose to use names, or you can create a different flags that better reflect
+your domain. Seqsee uses the flags &#8216;sequence&#8217; and &#8216;unrevealed_terms&#8217;.</p>
+<p>These flags are available in the FLAGS variable. You can access them thus:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="kn">import</span> <span class="n">gflags</span>
+<span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
+<span class="n">FLAGS</span><span class="o">.</span><span class="n">input</span>
+</pre></div>
+</div>
+<p>In the &#8220;main&#8221; class (in this example, CatMain in &#8220;run_cat.py&#8221;), you can define
+the method ProcessCustomFlags to do any processing at startup. Seqsee uses this
+function to convert the input string to a more useful form, a list of numbers.</p>
+</div>
+<div class="section" id="objects-in-a-workspace">
+<h2>Objects in a workspace<a class="headerlink" href="#objects-in-a-workspace" title="Permalink to this headline">¶</a></h2>
+<p>The way Seqsee works can be described very roughly as follows. The workspace
+initially contains numbers from the input sequence. It repeatedly &#8220;focuses on&#8221;
+objects in the workspace (initially just numbers, but latter this also includes
+other structures that get built up), and such focusing triggers certain actions
+either directly or via similarity to recently-focused-upon objects.</p>
+<p>For Seqsee to focus on something, it must be an instance of the mixin class
+FocusableMixin. This class provides the following over-ridable methods.</p>
+<div class="section" id="getfringe">
+<h3>GetFringe<a class="headerlink" href="#getfringe" title="Permalink to this headline">¶</a></h3>
+<p>I quote from the Seqsee Dissertation:</p>
+<blockquote>
+<div><p>In his  Principles of Psychology, James (1890) described the fringe as a
+penumbra of vague experiences, sometimes using the terms  psychic overtones
+or suffusion. Consider the concept of Vietnam. When that concept is evoked, it
+does not come alone. It brings along with it, to various degrees, such concepts
+as war, Agent Orange, and Iraq; or perhaps  the beautiful beaches and the
+brilliant green rice paddies and women in conical hats; or perhaps just idle facts
+like &#8220;its capital is Hanoi&#8221; and &#8220;it is near China&#8221;. To each person the package that
+is Vietnam is differently filled, but for most, it is not empty. If I next mention
+another place, it would appear more or less similar, depending on how, in the
+reader&#8217;s mind, its package overlaps with the reader&#8217;s version of the Vietnam
+package. Florida with its beaches, China with its rice paddies, Kosovo with its
+war, or even New York with its &#8220;I enjoyed my vacation there&#8221; may appear
+similar.</p>
+<p>Concepts in Seqsee also have such fringes (&#8220;packages&#8221;) of related
+concepts. If Seqsee has noticed that, by squinting, the group &#8220;(1 1) 2 3&#8221;  can be
+seen as the ascending group &#8220;1 2 3&#8221;, then the fringe of &#8220;(1 1) 2 3&#8221; will contain,
+among other things, the concept ascending group, the concept blemished version
+of an ascending group, and the concept &#8220;1 2 3&#8221;-group. In this context, the group
+&#8220;4 5 6 (7 7) 8&#8221;, being both ascending and blemished-ascending, will appear more
+similar to this group than the merely ascending &#8220;5 6 7&#8221; does.</p>
+</div></blockquote>
+<p>GetFringe returns the fringe of an object. It is passed in the constructor, and
+through it, it has access to the LTM, the coderack, or whatever else it needs. It should
+return a list of 2-tuples, the fringe element and its intensity.</p>
+</div>
+<div class="section" id="getaffordances">
+<h3>GetAffordances<a class="headerlink" href="#getaffordances" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="getsimilarityaffordances">
+<h3>GetSimilarityAffordances<a class="headerlink" href="#getsimilarityaffordances" title="Permalink to this headline">¶</a></h3>
+</div>
+<div class="section" id="onfocus">
+<h3>OnFocus<a class="headerlink" href="#onfocus" title="Permalink to this headline">¶</a></h3>
+</div>
+</div>
 </div>
 
 
@@ -66,6 +140,21 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to create a workspace</a><ul>
+<li><a class="reference internal" href="#initializing-the-workspace">Initializing the workspace</a></li>
+<li><a class="reference internal" href="#objects-in-a-workspace">Objects in a workspace</a><ul>
+<li><a class="reference internal" href="#getfringe">GetFringe</a></li>
+<li><a class="reference internal" href="#getaffordances">GetAffordances</a></li>
+<li><a class="reference internal" href="#getsimilarityaffordances">GetSimilarityAffordances</a></li>
+<li><a class="reference internal" href="#onfocus">OnFocus</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="flags.html"
                         title="previous chapter">How to add flags to the application</a></p>

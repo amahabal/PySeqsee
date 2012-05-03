@@ -131,13 +131,13 @@ categories), and not positional or specific use information (such as metonyms).<
 
 <dl class="class">
 <dt id="farg.apps.seqsee.sobject.SGroup">
-<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.sobject.</tt><tt class="descname">SGroup</tt><big>(</big><em>underlying_mapping=None</em>, <em>items=None</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/sobject.html#SGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.sobject.SGroup" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><tt class="descclassname">farg.apps.seqsee.sobject.</tt><tt class="descname">SGroup</tt><big>(</big><em>underlying_mapping_set=None</em>, <em>items=None</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/sobject.html#SGroup"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.sobject.SGroup" title="Permalink to this definition">¶</a></dt>
 <dd><p>A subclass of SObject representing things with an internal structure.</p>
 <dl class="method">
 <dt id="farg.apps.seqsee.sobject.SGroup.CalculateStrength">
 <tt class="descname">CalculateStrength</tt><big>(</big><em>controller=None</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/sobject.html#SGroup.CalculateStrength"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.sobject.SGroup.CalculateStrength" title="Permalink to this definition">¶</a></dt>
 <dd><p>The strength of a group is made up of a few components, including the strength of
-its parts and the strength of the underlying_mapping.</p>
+its parts and the strength of the underlying_mapping_set.</p>
 </dd></dl>
 
 <dl class="method">
@@ -168,12 +168,6 @@ its parts and the strength of the underlying_mapping.</p>
 <dd><p>A tuple representations of the group.</p>
 </dd></dl>
 
-<dl class="attribute">
-<dt id="farg.apps.seqsee.sobject.SGroup.underlying_mapping">
-<tt class="descname">underlying_mapping</tt><em class="property"> = None</em><a class="headerlink" href="#farg.apps.seqsee.sobject.SGroup.underlying_mapping" title="Permalink to this definition">¶</a></dt>
-<dd><p>Underlying mapping on which object is based.</p>
-</dd></dl>
-
 </dd></dl>
 
 <dl class="class">
@@ -183,7 +177,7 @@ its parts and the strength of the underlying_mapping.</p>
 <p>This is an abstract class. SGroup and SElement are concrete subclasses.</p>
 <dl class="staticmethod">
 <dt id="farg.apps.seqsee.sobject.SObject.Create">
-<em class="property">static </em><tt class="descname">Create</tt><big>(</big><em>*items</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/sobject.html#SObject.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.sobject.SObject.Create" title="Permalink to this definition">¶</a></dt>
+<em class="property">static </em><tt class="descname">Create</tt><big>(</big><em>items</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/sobject.html#SObject.Create"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.sobject.SObject.Create" title="Permalink to this definition">¶</a></dt>
 <dd><p>Creates an SObject given the items, which can be integers, lists, or other SObjects.
 * An integer is converted to an SElement.
 * Create([x, y, z]) is equivalent to Create(x, y, z)
