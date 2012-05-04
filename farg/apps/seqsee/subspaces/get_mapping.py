@@ -23,6 +23,7 @@ import logging
 import random
 
 from farg.third_party import gflags
+from farg.apps.seqsee.sobject import SGroup
 FLAGS = gflags.FLAGS
 
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.

@@ -101,7 +101,7 @@ class StructuralCategory(SeqseeObjectCategory):
   """Base class whose membership depends on the structure (e.g., ascending, mountain)."""
 
   def IsInstance(self, item):
-    return self.StructuralIsInstance(item.Structure())
+    return self.StructuralIsInstance(item.Structure(), item)
 
 
   def GetMapping(self, item1, item2):
@@ -244,7 +244,7 @@ class Ascending(StructuralCategory):
     return 'Ascending'
 
 
-  def StructuralIsInstance(self, structure):
+  def StructuralIsInstance(self, structure, item):
     depth = StructureDepth(structure)
     if depth >= 2: return None
     if depth == 0:
@@ -305,14 +305,15 @@ class SizeNCategory(StructuralCategory):
   def BriefLabel(self):
     return 'SizeN(%d)' % self.size
 
-  def StructuralIsInstance(self, structure):
+  def StructuralIsInstance(self, structure, item):
     if isinstance(structure, int):
       return None
     if len(structure) != self.size:
       return None
     bindings = {}
-    for idx, item in enumerate(structure, 1):
-      bindings['pos_%d' % idx] = SObject.Create([item])
+    for idx, structure_item in enumerate(structure, 1):
+      bindings['pos_%d' % idx] = SObject.Create([structure_item])
+      bindings['pos_%d' % idx].AddCategoriesFrom(item.items[idx - 1])
     return Binding(**bindings)
 
 
