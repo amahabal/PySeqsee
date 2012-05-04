@@ -122,14 +122,45 @@ similar to this group than the merely ascending &#8220;5 6 7&#8221; does.</p>
 through it, it has access to the LTM, the coderack, or whatever else it needs. It should
 return a list of 2-tuples, the fringe element and its intensity.</p>
 </div>
-<div class="section" id="getaffordances">
-<h3>GetAffordances<a class="headerlink" href="#getaffordances" title="Permalink to this headline">¶</a></h3>
-</div>
 <div class="section" id="getsimilarityaffordances">
 <h3>GetSimilarityAffordances<a class="headerlink" href="#getsimilarityaffordances" title="Permalink to this headline">¶</a></h3>
+<p>When two items are focused on, one soon after the other, and it happens
+that their fringes overlap, this method suggests codelets that may be
+created to explore the similarity.  For example, in Seqsee, it &#8220;1 2 3&#8221; is seen
+soon after &#8220;4 5 6&#8221;, the fringes would overlap since both are ascending groups. In
+this case, the &#8216;GetSimilarityAffordances&#8217; for the <em>previous object</em> (in this case,
+&#8220;4 5 6&#8221;) is called with three extra arguments: the current focus (&#8220;1 2 3&#8221;), and
+the fringes of the two objects. It should returns a list of codelets, 0 or more
+of which may finally get added to the coderack.</p>
+<p>Since a current focus can overlap with multiple recent items, the GetSimilarityAffordances
+method of each is called. They all suggest potential codelets, with an associated urgency.
+Approximately two of these are stochastically chosen, biased by their urgency.</p>
+</div>
+<div class="section" id="getaffordances">
+<h3>GetAffordances<a class="headerlink" href="#getaffordances" title="Permalink to this headline">¶</a></h3>
+<p>The following quote from Donald Norman&#8217;s <em>The Design of Everyday Things</em>
+(2002, p. 9) describes affordances:</p>
+<blockquote>
+<div><p>The term affordance refers to the perceived and actual properties of the
+thing, primarily those fundamental properties that determine just how the
+thing could possibly be used.</p>
+<p>Affordances provide strong clues for the operations of things.  Plates are
+for pushing.  Knobs are for turning.  Slots are for inserting things into.
+Balls are for throwing or bouncing.</p>
+</div></blockquote>
+<p>All manner of objects &#8212; both physical entities and mental constructs &#8212;
+have affordances (here used in the limited sense of &#8216;possible actions suggested
+by the object&#8217;). A humorous example is suggested by Mark Twain&#8217;s advice to
+writers, &#8220;If you find an adjective, kill it&#8221;, and another by Jeremy Silman&#8217;s advice
+to chess players (1998, p. 4): &#8220;The existence of an open center should be likened
+to a neon sign saying, &#8216;Castle immediately! Castle immediately!&#8217;&#8221;</p>
+<p>The GetAffordances method is called when an object is focused upon, and it should
+return a list of codelets that could be run in response to observing this object.</p>
 </div>
 <div class="section" id="onfocus">
 <h3>OnFocus<a class="headerlink" href="#onfocus" title="Permalink to this headline">¶</a></h3>
+<p>This is a utility method that is called when an object is focused upon, and is
+primarily useful for book-keeping.</p>
 </div>
 </div>
 </div>
@@ -146,8 +177,8 @@ return a list of 2-tuples, the fringe element and its intensity.</p>
 <li><a class="reference internal" href="#initializing-the-workspace">Initializing the workspace</a></li>
 <li><a class="reference internal" href="#objects-in-a-workspace">Objects in a workspace</a><ul>
 <li><a class="reference internal" href="#getfringe">GetFringe</a></li>
-<li><a class="reference internal" href="#getaffordances">GetAffordances</a></li>
 <li><a class="reference internal" href="#getsimilarityaffordances">GetSimilarityAffordances</a></li>
+<li><a class="reference internal" href="#getaffordances">GetAffordances</a></li>
 <li><a class="reference internal" href="#onfocus">OnFocus</a></li>
 </ul>
 </li>

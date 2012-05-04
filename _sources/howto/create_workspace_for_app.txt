@@ -75,11 +75,49 @@ GetFringe returns the fringe of an object. It is passed in the constructor, and
 through it, it has access to the LTM, the coderack, or whatever else it needs. It should
 return a list of 2-tuples, the fringe element and its intensity.
     
-GetAffordances
-***************
     
 GetSimilarityAffordances
 *************************
     
+When two items are focused on, one soon after the other, and it happens 
+that their fringes overlap, this method suggests codelets that may be 
+created to explore the similarity.  For example, in Seqsee, it "1 2 3" is seen
+soon after "4 5 6", the fringes would overlap since both are ascending groups. In
+this case, the 'GetSimilarityAffordances' for the *previous object* (in this case, 
+"4 5 6") is called with three extra arguments: the current focus ("1 2 3"), and
+the fringes of the two objects. It should returns a list of codelets, 0 or more
+of which may finally get added to the coderack.
+
+Since a current focus can overlap with multiple recent items, the GetSimilarityAffordances
+method of each is called. They all suggest potential codelets, with an associated urgency.
+Approximately two of these are stochastically chosen, biased by their urgency.
+
+GetAffordances
+***************
+
+The following quote from Donald Norman's *The Design of Everyday Things*
+(2002, p. 9) describes affordances:
+
+        The term affordance refers to the perceived and actual properties of the 
+        thing, primarily those fundamental properties that determine just how the 
+        thing could possibly be used.
+
+        Affordances provide strong clues for the operations of things.  Plates are 
+        for pushing.  Knobs are for turning.  Slots are for inserting things into.  
+        Balls are for throwing or bouncing.  
+
+All manner of objects --- both physical entities and mental constructs ---
+have affordances (here used in the limited sense of 'possible actions suggested 
+by the object'). A humorous example is suggested by Mark Twain's advice to
+writers, "If you find an adjective, kill it", and another by Jeremy Silman's advice 
+to chess players (1998, p. 4): "The existence of an open center should be likened 
+to a neon sign saying, 'Castle immediately! Castle immediately!'"
+
+The GetAffordances method is called when an object is focused upon, and it should
+return a list of codelets that could be run in response to observing this object.
+
 OnFocus
-********    
+********
+
+This is a utility method that is called when an object is focused upon, and is
+primarily useful for book-keeping.
