@@ -74,11 +74,11 @@ dictionary of arguments that will be used when running the codelet (if ever).</p
 codelet family must be capable of handling these.</p>
 <p>There are two ways of constructing. The first creates the codelet but does not yet
 place it on the coderack:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The second method is to call AddCodelet on the controller:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
 </pre></div>
 </div>
 <dl class="method">

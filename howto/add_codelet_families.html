@@ -58,6 +58,50 @@
             
   <div class="section" id="how-to-add-a-new-type-of-codelet">
 <h1>How to add a new type of codelet<a class="headerlink" href="#how-to-add-a-new-type-of-codelet" title="Permalink to this headline">¶</a></h1>
+<p>To define a new type of codelet, a new Codelet Family needs to be created:</p>
+<div class="highlight-python"><pre>from farg.core.codelet import CodeletFamily
+class CF_NewCodeletFamily(CodeletFamily):
+  @classmethod
+  def Run(cls, controller):
+    # Do something useful.</pre>
+</div>
+<p>The codelet family above has codelets that take no arguments. To create such
+codelets, you will do the following:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="c"># To create codelet without adding it immediately to any coderack.</span>
+<span class="c"># 20 is the urgency, a number between 0 and 100</span>
+<span class="n">cl</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">CF_NewCodeletFamily</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+
+<span class="c"># To create and immediately add it to the coderack of a controller:</span>
+<span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">CF_NewCodeletFamily</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>To create codelets that take arguments, you will define them like this:</p>
+<div class="highlight-python"><pre>from farg.core.codelet import CodeletFamily
+class CF_NewCodeletFamily(CodeletFamily):
+  @classmethod
+  def Run(cls, controller, foo, bar):
+    # Do something useful.</pre>
+</div>
+<p>Here, the two arguments are &#8216;foo&#8217; and &#8216;bar&#8217;, and both will always be passed by
+name. To create codelets:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">cl</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">CF_NewCodeletFamily</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">CF_NewCodeletFamily</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>As defined, both arguments are required. If not provided, there will be a run-time
+error <em>when the codelet is run</em>. To make arguments optional, and do be explicit
+about the named-only nature of arguments, you could say:</p>
+<div class="highlight-python"><pre>from farg.core.codelet import CodeletFamily
+class CF_NewCodeletFamily(CodeletFamily):
+  @classmethod
+  def Run(cls, controller, *, foo, bar=5):
+    # Do something useful.</pre>
+</div>
+<p>Above, &#8216;foo&#8217; is required, but &#8216;bar&#8217; is optional, defaulting to 5.</p>
+<div class="section" id="where-to-add-code">
+<h2>Where to add code<a class="headerlink" href="#where-to-add-code" title="Permalink to this headline">¶</a></h2>
+<p>The convention is to add code in the codelet_families directory under the app.</p>
+</div>
 </div>
 
 
@@ -66,6 +110,14 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to add a new type of codelet</a><ul>
+<li><a class="reference internal" href="#where-to-add-code">Where to add code</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="workspace_display.html"
                         title="previous chapter">How to display the workspace in the GUI</a></p>

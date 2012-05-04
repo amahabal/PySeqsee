@@ -58,6 +58,34 @@
             
   <div class="section" id="how-to-ask-the-user-a-question">
 <h1>How to ask the user a question<a class="headerlink" href="#how-to-ask-the-user-a-question" title="Permalink to this headline">¶</a></h1>
+<p>You may need to interact with the user in the GUI mode (or even, during testing,
+with a <em>simulated</em> user &#8212; Seqsee, for instance, is really a conversation, and
+&#8220;asks questions&#8221; even during testing).</p>
+<p>Any question is an instance of a subclass of Question in &#8216;farg.core.question.question&#8217;.
+An example is &#8216;AreTheseTheNextTermsQuestion&#8217; in Seqsee.</p>
+<div class="section" id="to-ask-the-question">
+<h2>To Ask The Question<a class="headerlink" href="#to-ask-the-question" title="Permalink to this headline">¶</a></h2>
+<p>If &#8216;question&#8217; is an instance of the subclass of Question, you can ask it thus:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">controller</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">AskQuestion</span><span class="p">(</span><span class="n">question</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>What this does depends on the question handlers that have been installed in the
+UI. The GUI and the Batch UI will probably have different versions. The skeleton
+app generator creates two files &#8212; batch_ui.py and gui/gui.py &#8212; where you may
+add a RegisterQuestionHandlers method. How it works is a bit hacky: for each class
+of question it needs to handle, say, &#8216;FooQuestion&#8217;, it defines a function and
+inserts it into the class:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">BatchUI</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">RegisterQuestionHandlers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">HandleFooQuestion</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">ui</span><span class="p">):</span>
+      <span class="o">...</span>
+    <span class="n">FooQuestion</span><span class="o">.</span><span class="n">Ask</span> <span class="o">=</span> <span class="n">HandleFooQuestion</span>
+</pre></div>
+</div>
+<p>This allows inheritance. For the GUI case, a handler for BooleanQuestion is in
+the core and does not need to be explicitly defined (although you would need to
+define one for the BatchUI).</p>
+</div>
 </div>
 
 
@@ -66,6 +94,14 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to ask the user a question</a><ul>
+<li><a class="reference internal" href="#to-ask-the-question">To Ask The Question</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="create_subspaces.html"
                         title="previous chapter">How to create and use a subspace</a></p>
