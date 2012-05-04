@@ -43,5 +43,6 @@ class GroupsView(ListBasedView):
     self.canvas.tag_bind(gp_widget_id, '<1>',
                          lambda e: ShowGroupDetails(controller,
                                                     gp))
-
+    categories_string = '; '.join(x.BriefLabel() for x in gp.object.categories.keys())
+    self.canvas.create_text(x + 5, y + 15, anchor=NW, text=categories_string)
 

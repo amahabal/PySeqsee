@@ -83,6 +83,8 @@ class SeqseeObjectCategory(Category):
     """Apply a mapping to a categorizable to obtain a different categorizable."""
     raise FargError("IsInstance makes no sense on base category.")
 
+  def __str__(self):
+    return self.BriefLabel()
 
 class NumericCategory(SeqseeObjectCategory):
   """Base class for categories whose instances are SElements, and membership depends only on 

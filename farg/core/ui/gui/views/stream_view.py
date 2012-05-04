@@ -37,15 +37,22 @@ class StreamView(ListBasedView):
     """Returns a 2-tuple: A top message, and a list of items."""
     stream = controller.stream
     items = sorted(list(stream.foci.items()), reverse=True, key=lambda item: item[1])
-    return (items, 'Stream: %d prior foci' % len(stream.foci), dict())
+    item_fringes = defaultdict(list)
+    for fringe_element, item_to_strength_dict in stream.stored_fringes.items():
+      for item, strength in item_to_strength_dict.items():
+        item_fringes[item].append(fringe_element)
+    return (items, 'Stream: %d prior foci' % len(stream.foci), dict(fringes=item_fringes))
 
   def DrawItem(self, widget_x, widget_y, item, extra_dict, controller):
     """Given x, y within the current widget and an item, draws it."""
+    item_fringes = extra_dict['fringes']
     focus, strength = item
     x, y = self.CanvasCoordinates(widget_x, widget_y)
     text_id = self.canvas.create_text(x, y, text='%2.3f %s' % (strength, focus),
                                       anchor=NW)
     self.canvas.tag_bind(text_id, '<1>', lambda e: ShowFocusableDetails(controller,
                                                                         focus))
-
+    fringe_string_for_item = '; '.join(str(x) for x in item_fringes[focus])
+    self.canvas.create_text(x + 5, y + 15, anchor=NW, text=fringe_string_for_item,
+                            width=self.width - widget_x - 5)
 
