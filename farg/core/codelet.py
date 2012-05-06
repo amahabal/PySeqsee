@@ -50,11 +50,11 @@ class Codelet(object):
      There are two ways of constructing. The first creates the codelet but does not yet
      place it on the coderack::
      
-       c = Codelet(family, controller, urgency, other_arg=10, other_arg2=15)
+       c = Codelet(family, controller, urgency, dict(other_arg=10, other_arg2=15))
        
      The second method is to call AddCodelet on the controller::
      
-       controller.AddCodelet(family, urgency, other_arg=10, other_arg2=15)
+       controller.AddCodelet(family, urgency, dict(other_arg=10, other_arg2=15))
   """
   def __init__(self, family, controller, urgency, arguments_dict=None):
     self.family = family

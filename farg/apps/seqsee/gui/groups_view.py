@@ -21,8 +21,17 @@ def ShowGroupDetails(controller, group):
   tb = Text(top, height=50, width=50)
   tb.pack()
   tb.insert(END, str(group) + "\n")
+  tb.insert(END, "======= Relations\n")
   for rel in group.relations:
-    tb.insert(END, "Reln: %s\n" % rel)
+    other_end = rel.first if rel.second == group else rel.second
+    tb.insert(END, "\n%s\n" % other_end)
+    for mapping in rel.mapping_set:
+      tb.insert(END, "\t%s\n" % mapping)
+  tb.insert(END, "\n======= Categories \n")
+  for cat, binding in group.object.categories.items():
+    tb.insert(END, "\nCategory %s ==>\n" % str(cat))
+    for key, val in binding.bindings.items():
+      tb.insert(END, "\t%s --> %s\n" % (key, str(val)))
 
 class GroupsView(ListBasedView):
 
