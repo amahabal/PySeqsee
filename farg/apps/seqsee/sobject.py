@@ -127,7 +127,7 @@ class SGroup(SObject):
                           underlying_mapping_set=set(self.underlying_mapping_set))
     else:
       new_object = SGroup(items=new_items)
-    # .. ToDo:: Copy categories as well.
+    # new_object.AddCategoriesFrom(self)
     return new_object
 
   def __str__(self):
@@ -183,7 +183,9 @@ class SElement(SObject):
   def DeepCopy(self):
     """Makes a copy."""
     # .. ToDo:: The copying business is likely indequate.
-    return SElement(self.magnitude)
+    new_element = SElement(self.magnitude)
+    # new_element.AddCategoriesFrom(self)
+    return new_element
 
   def Structure(self):
     """The structure is the magnitude."""
@@ -208,3 +210,7 @@ class SElement(SObject):
     # QUALITY TODO(Feb 18, 2012): WHat should "strength" mean? Should elements that have been
     # accounted for have a different strength?
     return 16.8067226891 # i.e., Squash(20, 100)
+
+  def __str__(self):
+    categories_string = '; '.join(str(x) for x in self.categories.keys())
+    return '%d (%s)' % (self.magnitude, categories_string)

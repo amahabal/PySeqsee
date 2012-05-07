@@ -24,6 +24,7 @@ import random
 
 from farg.third_party import gflags
 from farg.apps.seqsee.sobject import SGroup
+import sys
 FLAGS = gflags.FLAGS
 
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
@@ -60,6 +61,7 @@ class CF_ChooseCategory(CodeletFamily):
         ws.category = cat
       else:
         raise NoAnswerException(codelet_count=controller.steps_taken)
+    # We may or may need to look at bindings, given the category.
     controller.AddCodelet(family=CF_GetBindings, urgency=100)
 
 class CF_GetBindings(CodeletFamily):
@@ -101,6 +103,9 @@ class CF_ExplainValues(CodeletFamily):
     b2 = ws.b2
     b2_dict = b2.bindings
     unexplained_attributes = [x for x in list(b2_dict.keys()) if x not in attribute_explanations]
+    if not unexplained_attributes:
+      print("HIT PROBLEM!!")
+      import pdb; pdb.set_trace()
     one_attribute = random.choice(unexplained_attributes)
     logger.debug("Chose attribute %s for explanation.", one_attribute)
     attribute_value = b2_dict[one_attribute]

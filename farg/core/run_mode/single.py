@@ -17,6 +17,8 @@ from farg.third_party import gflags
 from io import StringIO
 import sys
 
+gflags.DEFINE_boolean('eat_output', True, "If true, eat up most output")
+
 FLAGS = gflags.FLAGS
 
 class RunModeSingle(RunModeNonInteractive):
@@ -32,7 +34,8 @@ class RunModeSingle(RunModeNonInteractive):
 
   def Run(self):
     saved_stdout = sys.stdout
-    sys.stdout = StringIO()
+    if FLAGS.eat_output:
+      sys.stdout = StringIO()
     output_status = ''
     try:
       self.ui.Run()

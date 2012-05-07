@@ -27,6 +27,7 @@ class RunModeBatch(RunModeNonInteractive):
                      stopping_condition_granularity=FLAGS.stopping_condition_granularity,
                      run_mode="single",
                      max_steps=FLAGS.max_steps,
+                     eat_output=FLAGS.eat_output,
                      )
     arguments.update(one_input_spec_arguments.arguments_dict)
     return arguments

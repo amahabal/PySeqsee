@@ -253,9 +253,12 @@ class Ascending(StructuralCategory):
     for idx, v in enumerate(structure[1:], 1):
       if v != structure[idx - 1] + 1:
         return None
-    return Binding(start=SObject.Create([structure[0]]),
-                   end=SObject.Create([structure[-1]]),
-                   length=SObject.Create([structure[-1] - structure[0] + 1]))
+    bindings = Binding(start=SObject.Create([structure[0]]),
+                       end=SObject.Create([structure[-1]]),
+                       length=SObject.Create([structure[-1] - structure[0] + 1]))
+    bindings.GetBindingsForAttribute("start").AddCategoriesFrom(item.items[0])
+    bindings.GetBindingsForAttribute("end").AddCategoriesFrom(item.items[-1])
+    return bindings
 
 
   def Create(self, bindings):
@@ -349,8 +352,9 @@ class MappingBasedCategory(StructuralCategory):
     for idx, itempart in enumerate(item.items[1:], 1):
       if not self.mapping.IsPairConsistent(item.items[idx - 1], itempart):
         return self.IsDegenerateInstance(item)
-    # Okay, so valid.
-    return Binding(start=item.items[0], length=SObject.Create([len(item.items)]))
+    # Okay, so valid
+    return Binding(start=item.items[0].DeepCopy(),
+                   length=SObject.Create([len(item.items)]))
 
 
   def IsDegenerateInstance(self, item):
@@ -367,9 +371,15 @@ class MappingBasedCategory(StructuralCategory):
     items = [SObject.Create([bindings['start']])]
     for _i in range(1, bindings['length'].magnitude):
       if not items[-1].DescribeAs(self.mapping.category):
-        raise FargException("Unable to create object")
+        #        msg = 'Unable to create object. Cat: %s. Item (%s) not a %s' % (
+        #              str(self), str(items[-1]), str(self.mapping.category))
+        #        msg = msg + "Start: %s, Length: %s" % (str(bindings['start']),
+        #                                               str(bindings['length']))
+        #        raise FargException(msg)
+        return None
       next_item = self.mapping.Apply(items[-1])
       if not next_item:
-        raise FargException("Unable to create object")
+        # raise FargException("Unable to create object")
+        return None
       items.append(next_item)
     return SObject.Create(items)

@@ -27,9 +27,12 @@ class FargError(Exception):
 
 class FargException(Exception):
   """Base class for FARG-specific exceptions."""
-  def __init__(self):
+  def __init__(self, msg=''):
     self.stack_trace = list(takewhile((lambda x: x.find('FargException.__init__') == -1),
                                       traceback.format_stack(limit=8)))
+    self.msg = msg
+  def __str__(self):
+    return 'FargException: %s' % self.msg
 
 class BatchModeStopException(Exception):
   """Base class of ways of stopping during batch mode."""
