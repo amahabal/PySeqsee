@@ -61,8 +61,15 @@ class CF_ChooseCategory(CodeletFamily):
         ws.category = cat
       else:
         raise NoAnswerException(codelet_count=controller.steps_taken)
-    # We may or may need to look at bindings, given the category.
-    controller.AddCodelet(family=CF_GetBindings, urgency=100)
+    # We may or may need to look at bindings, given the category. However, if the category
+    # defines a way to get the mapping, it should be used:
+    mapping = ws.category.GetMapping(v1, v2)
+    if mapping:
+      raise AnswerFoundException(mapping, codelet_count=controller.steps_taken)
+    elif ws.category.CategoryControlsMapping:
+      raise NoAnswerException(codelet_count=controller.steps_taken)
+    else:
+      controller.AddCodelet(family=CF_GetBindings, urgency=100)
 
 class CF_GetBindings(CodeletFamily):
   @classmethod

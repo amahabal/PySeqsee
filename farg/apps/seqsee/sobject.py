@@ -127,7 +127,7 @@ class SGroup(SObject):
                           underlying_mapping_set=set(self.underlying_mapping_set))
     else:
       new_object = SGroup(items=new_items)
-    # new_object.AddCategoriesFrom(self)
+    new_object.AddCategoriesFrom(self)
     return new_object
 
   def __str__(self):
@@ -184,7 +184,7 @@ class SElement(SObject):
     """Makes a copy."""
     # .. ToDo:: The copying business is likely indequate.
     new_element = SElement(self.magnitude)
-    # new_element.AddCategoriesFrom(self)
+    new_element.AddCategoriesFrom(self)
     return new_element
 
   def Structure(self):

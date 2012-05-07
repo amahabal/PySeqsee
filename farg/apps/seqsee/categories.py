@@ -75,6 +75,10 @@ class SeqseeObjectCategory(Category):
      * FindMapping (given two categorizables, returns a mapping between the two)
      * ApplyMapping (given a mapping and a categorizable, returns a new item). 
   """
+
+  # HACK! If true for a class, indicates that a mapping between bindings need not be used.
+  CategoryControlsMapping = False
+
   def FindMapping(self, categorizable1, categorizable2):
     """Finds a mapping between two objects based on a particular category."""
     raise FargError("IsInstance makes no sense on base category.")
@@ -90,6 +94,8 @@ class NumericCategory(SeqseeObjectCategory):
   """Base class for categories whose instances are SElements, and membership depends only on 
      the magnitude.
   """
+
+  CategoryControlsMapping = True
 
   def IsInstance(self, item):
     if not isinstance(item, SElement):
