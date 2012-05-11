@@ -58,23 +58,6 @@
             
   <div class="section" id="module-farg.apps.seqsee.workspace">
 <span id="workspace"></span><h1>Workspace<a class="headerlink" href="#module-farg.apps.seqsee.workspace" title="Permalink to this headline">¶</a></h1>
-<p>The workspace is the virtual blackboard on which various codelets make annotations about
-relationships that have been seen between entities and groups that have been formed.</p>
-<p>The workspace contains three main types of objects: elements such as a &#8220;7&#8221;, groups such
-as &#8220;(2 3)&#8221; and relations between these entities.  The relationships are not directly
-entered into the workspace.  They are kept with the groups and elements between which the
-relationship holds.</p>
-<p>The workspace makes a consistency guarantee that no groups conflict with each other at any
-time.  It is important to note that overlap does not necessarily imply a conflict.  If the
-overlap between two groups forms a complete unit within each group, no conflict exists.</p>
-<p>For a group in the workspace, it is a required that its parts be a part of the workspace
-as well.  Also, it is not permissible for two distinct groups to be at the same location.
-What this means is that for overlapping groups the overlap itself represents a group or
-an element in the workspace.</p>
-<p>The method InsertGroup is used to add new groups.  If adding this group leads to an
-inconsistent state, it is not added and a ConflictingGroupException is raised.  Note that
-the consistency guarantee implies that adding the group may involve adding all its
-subgroups, and one of these may conflict with an existing group.</p>
 <dl class="class">
 <dt id="farg.apps.seqsee.workspace.Workspace">
 <em class="property">class </em><tt class="descclassname">farg.apps.seqsee.workspace.</tt><tt class="descname">Workspace</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/workspace.html#Workspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace" title="Permalink to this definition">¶</a></dt>
@@ -113,6 +96,19 @@ subgroups, and one of these may conflict with an existing group.</p>
 subgroup (i.e., if A is a part of B, and both conflict, B is returned; note that if A
 conflicts with the group under consideration, so does B).
 .. Note:: This can be sped up if I am keeping track of supergroups.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.apps.seqsee.workspace.Workspace.GetGroupDistance">
+<tt class="descname">GetGroupDistance</tt><big>(</big><em>left</em>, <em>right</em><big>)</big><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.GetGroupDistance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Get group-based distance between two points. If right = left + 1, this is 0.
+Otherwise it is greedily calculated using the largest groups that fit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.apps.seqsee.workspace.Workspace.GetGroupDistanceMagnitude">
+<tt class="descname">GetGroupDistanceMagnitude</tt><big>(</big><em>left</em>, <em>right</em><big>)</big><a class="headerlink" href="#farg.apps.seqsee.workspace.Workspace.GetGroupDistanceMagnitude" title="Permalink to this definition">¶</a></dt>
+<dd><p>Helper for the function above.</p>
 </dd></dl>
 
 <dl class="method">

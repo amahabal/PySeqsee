@@ -1,11 +1,58 @@
 Evaluation: Batch mode and side-by-side mode
 ==============================================
 
-How to set up evalution input
---------------------------------
+I will again assume a hypothetical app named 'cat'.
+
+The batch mode is useful for running the program multiple times on various inputs
+and collecting the statistics. To use this mode, you need to add::
+
+  --run_mode=batch
+
+The Side-by-side mode allows comparison of two settings of the program by running
+the program multiple times on various inputs. It is specified using::
+
+  --run_mode=sxs
+
+
+Flags shared by both SxS and Batch
+-----------------------------------
+
+--num_iterations=N
+********************
+
+How many times to run for each input.
+
+--max_steps=N
+****************
+
+Maximum number of steps to run for each.
+
+--input_spec_file=filename
+***************************
+
+File containing inputs on which to run. The format of this file is described
+below.
 
 Reading the input
 *******************
+
+The class that reads the input is a subclass of ReadInputSpec in 'farg/core/read_input_spec.py'.
+If your input is line based, you can get by with just overriding 'ReadLine'. Non-comment
+non-empty lines are sent to this function, and it should return a SpecificationForOneRun object.
+This merely has a name for the input and command line flags to be used during the run.
+
+For Seqsee, the line reader splits on '|' and returns a SpecificationForOneRun::
+
+  def ReadLine(self, line):
+    if not '|' in line:
+      return
+    input, continuation = (x.split() for x in line.strip().split('|'))
+    yield SpecificationForOneRun(' '.join(input),  # name
+                                 dict(sequence=' '.join(input),
+                                      unrevealed_terms=' '.join(continuation)))
+
+If your input does not fit well on a single line, you can override the ReadFile
+method and you can parse it in whatever way and return a bunch of SpecificationForOneRun.
 
 Running in Batch mode
 ------------------------

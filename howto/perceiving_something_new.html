@@ -1,0 +1,201 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Adding ability to perceive something &mdash; PySeqsee 0.1.3a0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.3a0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../index.html" />
+    <link rel="up" title="How to ..." href="howto_index.html" />
+    <link rel="next" title="Theory" href="../theory/theory_index.html" />
+    <link rel="prev" title="Evaluation: Batch mode and side-by-side mode" href="batch_and_sxs.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../theory/theory_index.html" title="Theory"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="batch_and_sxs.html" title="Evaluation: Batch mode and side-by-side mode"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+          <li><a href="howto_index.html" accesskey="U">How to ...</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="adding-ability-to-perceive-something">
+<h1>Adding ability to perceive something<a class="headerlink" href="#adding-ability-to-perceive-something" title="Permalink to this headline">¶</a></h1>
+<p>Recently (May 2011), I added the ability to see interlaced sequences such as:</p>
+<div class="highlight-python"><pre>Sequence A)  1 7 2 8 3 9</pre>
+</div>
+<p>and (parantheses added for readability):</p>
+<div class="highlight-python"><pre>Sequence B)  (1 7 6) (4 11 10) (9 13 15) (16 17 21)</pre>
+</div>
+<p>It does not yet see:</p>
+<div class="highlight-python"><pre>Sequence C) ((1) 7) ((1 2) 8) ((1 2 3) 9)</pre>
+</div>
+<p>I will use the recent addition as a case study in adding the ability to see
+something that Seqsee did not previously see.</p>
+<p>A key philosophy of this entire work is &#8220;No brute force&#8221;.  That is, no
+deep exploration should be undertaken by Seqsee without a good cause.
+What Seqsee uses is similar in spirit to how one goes about doing math, as
+described by George Pólya.  in his books Mathematics and Plausible
+Inference.  Pólya makes a strong case for the idea that mathematics
+proceeds by educated guesses, and he suggests ways of estimating the
+strength of a guess.  Imagine that a mathematician has guessed a new
+theorem based on some observation, but has not yet proved the guess to
+be correct.  If the guess leads to some prediction that turns out to be
+true, the guess is rendered more palatable, more plausible.  If the guess
+predicts something surprising that also turns out to be true, this confers
+a higher degree of credibility on the guess.  If, furthermore, the guess
+is seen to be analogous to some well-known result, it becomes yet more
+trustworthy.  Pólya offers dozens of detailed examples (including a
+translation of some of Euler&#8217;s writings to the same effect), showing how a
+multitude of tiny facts can add up to a fair amount of trust or distrust
+in an initial guess, and how these kinds of instincts guide mathematicians
+at all stages.  In its far humbler pursuit of extrapolating sequences, I
+like to think, Seqsee acts in a similar way.</p>
+<p>We thus need to accumulate evidence that a sequence is possibly an interlaced sequence.
+Where might such evidence be found?</p>
+<p>A hallmark of the interlacing of n sequences is the presence of relations
+whose ends are not adjacent.  In Sequence B above, Seqsee will probably
+discover that 1 and 4 are related (they are successive squares), 7 and 11
+are related (successive primes), and 15 and 21 are related (successive
+triangular numbers).  Each of these relations have two intervening numbers
+between the two ends (for example, &#8220;7&#8221; and &#8220;6&#8221; are present between &#8220;1&#8221; and
+&#8220;4&#8221;), suggesting an interlacing of three sequences.</p>
+<p>With the latest change, whenever Seqsee is focusing on a long-distance
+relation, it pumps a tiny bit of activation into the long-term memory
+concept corresponding to an appropriate number of interlaced sequences.
+If this node is sufficiently active, it will have realized that
+interlacing might be at play in the sequence at hand and will launch a
+subspace to explore this.  The details of how that works do not concern us
+here since we are focused on how that concept is awaken rather that what
+it does thereafter.</p>
+<p>The reason Seqsee does not see Sequence C as of this writing is that
+evidence for more complex interlacing is not accumulated.  One way of
+awakening the relevant concept is noting that the number of intervening
+items between &#8220;7&#8221; and &#8220;8&#8221; in that sequence can be seen as &#8220;2 elements&#8221;
+(namely, &#8220;1&#8221; and &#8220;2&#8221;), or as &#8220;1 group&#8221; (namely, &#8220;(1 2)&#8221;).  If it could see
+the latter, the two-ness of that sequence (which is more hidden than it is
+for Sequence A) will be perceived.</p>
+<div class="section" id="accumulation-of-evidence-is-pervasive">
+<h2>Accumulation of evidence is pervasive<a class="headerlink" href="#accumulation-of-evidence-is-pervasive" title="Permalink to this headline">¶</a></h2>
+<p>This idea of slowly awakening a concept based on other tangential activity is present everywhere in Seqsee. Some examples:</p>
+<ul class="simple">
+<li>The relevance of categories such as Prime is seen this way.  Given a
+sequence where primality is relevant, Seqsee will not automatically see
+all primes as being primes.  Whenever a &#8220;7&#8221; is focused on, because of the
+link between it and &#8220;Prime&#8221; in the LTM, the node for &#8220;Prime&#8221; gets some
+activation.  If many primes are present, this activation will climb
+quickly.  When it has become sufficiently active, &#8220;7&#8221; or other primes may
+get described as primes, thereby adding &#8220;Prime&#8221; to its fringe.  This in
+turn will allow it to be seen as similar to &#8220;11&#8221; by virtue of being a
+prime.  One the notion Prime is active, it can cause it to see other
+things as prime that it could not before (since it did not have an edge
+between, say, &#8220;13&#8221; and &#8220;Prime&#8221;).  Extending rightward from (7, 11), Seqsee
+will try to describe the next number as Prime.</li>
+</ul>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Adding ability to perceive something</a><ul>
+<li><a class="reference internal" href="#accumulation-of-evidence-is-pervasive">Accumulation of evidence is pervasive</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="batch_and_sxs.html"
+                        title="previous chapter">Evaluation: Batch mode and side-by-side mode</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../theory/theory_index.html"
+                        title="next chapter">Theory</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/howto/perceiving_something_new.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../theory/theory_index.html" title="Theory"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="batch_and_sxs.html" title="Evaluation: Batch mode and side-by-side mode"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+          <li><a href="howto_index.html" >How to ...</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

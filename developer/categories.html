@@ -164,49 +164,6 @@ category.</p>
 </div>
 <div class="section" id="module-farg.apps.seqsee.categories">
 <span id="categories-in-seqsee"></span><h1>Categories in Seqsee<a class="headerlink" href="#module-farg.apps.seqsee.categories" title="Permalink to this headline">¶</a></h1>
-<p>Seqsee-specific categories.</p>
-<p>These will include (not all implemented yet):</p>
-<ul class="simple">
-<li>Numeric Categories:<ul>
-<li>Number</li>
-<li>Prime</li>
-<li>Even and Odd</li>
-</ul>
-</li>
-<li>Structural Categories:<ul>
-<li>Ascending</li>
-<li>Descending</li>
-<li>Mountain</li>
-<li>Size2, Size3, etc.</li>
-</ul>
-</li>
-<li>Mapping Based Categories:<ul>
-<li>Given a mapping, a category can be defined whose elements are such that successive 
-elements are associated by this mapping.</li>
-</ul>
-</li>
-</ul>
-<div class="section" id="numeric-categories">
-<h2>Numeric Categories<a class="headerlink" href="#numeric-categories" title="Permalink to this headline">¶</a></h2>
-<p>Members may only be SElements, and membership depends only on the magnitude of the SElement. 
-These derive from NumericCategory, and must define the class method NumericIsInstance.</p>
-</div>
-<div class="section" id="structural-categories">
-<h2>Structural Categories<a class="headerlink" href="#structural-categories" title="Permalink to this headline">¶</a></h2>
-<p>Members are SObjects (may be groups or elements), and membership depends only on the 
-structure. These derive from StructuralCategory, and must define class method 
-StructuralIsInstance.</p>
-</div>
-<div class="section" id="parametrized-categories">
-<h2>Parametrized Categories<a class="headerlink" href="#parametrized-categories" title="Permalink to this headline">¶</a></h2>
-<p>This is a category &#8220;factory&#8221;: subclasses of ParametrizedCategory must define a classmethod
-Construct that returns a category (i.e., a subclass of Category).</p>
-<p>If FooCategory is a subclass of ParametrizedCategory, we could say:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">cat1</span> <span class="o">=</span> <span class="n">FooCategory</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>
-<span class="c"># cat1 is subclass of Category.</span>
-<span class="n">cat2</span> <span class="o">=</span> <span class="n">FooCategory</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">x</span><span class="o">=</span><span class="mi">3</span><span class="p">)</span>  <span class="c"># Returns the same cached class.</span>
-</pre></div>
-</div>
 <dl class="class">
 <dt id="farg.apps.seqsee.categories.Ascending">
 <em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">Ascending</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Ascending"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Ascending" title="Permalink to this definition">¶</a></dt>
@@ -231,11 +188,6 @@ Construct that returns a category (i.e., a subclass of Category).</p>
 <dd></dd></dl>
 
 </dd></dl>
-
-<dl class="function">
-<dt id="farg.apps.seqsee.categories.GetNaiveMapping">
-<tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">GetNaiveMapping</tt><big>(</big><em>v1</em>, <em>v2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#GetNaiveMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.GetNaiveMapping" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
 
 <dl class="class">
 <dt id="farg.apps.seqsee.categories.MappingBasedCategory">
@@ -281,6 +233,12 @@ Construct that returns a category (i.e., a subclass of Category).</p>
 <dd></dd></dl>
 
 <dl class="method">
+<dt id="farg.apps.seqsee.categories.Number.FindMapping">
+<tt class="descname">FindMapping</tt><big>(</big><em>item1</em>, <em>item2</em>, <em>controller</em>, <em>seqsee_ltm</em><big>)</big><a class="headerlink" href="#farg.apps.seqsee.categories.Number.FindMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find mapping between two instances of Number.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="farg.apps.seqsee.categories.Number.GetMapping">
 <tt class="descname">GetMapping</tt><big>(</big><em>item1</em>, <em>item2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#Number.GetMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.Number.GetMapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
@@ -297,6 +255,11 @@ Construct that returns a category (i.e., a subclass of Category).</p>
 <em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">NumericCategory</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#NumericCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.NumericCategory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for categories whose instances are SElements, and membership depends only on 
 the magnitude.</p>
+<dl class="attribute">
+<dt id="farg.apps.seqsee.categories.NumericCategory.CategoryControlsMapping">
+<tt class="descname">CategoryControlsMapping</tt><em class="property"> = True</em><a class="headerlink" href="#farg.apps.seqsee.categories.NumericCategory.CategoryControlsMapping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="farg.apps.seqsee.categories.NumericCategory.IsInstance">
 <tt class="descname">IsInstance</tt><big>(</big><em>item</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#NumericCategory.IsInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.NumericCategory.IsInstance" title="Permalink to this definition">¶</a></dt>
@@ -317,6 +280,12 @@ the magnitude.</p>
 <dt id="farg.apps.seqsee.categories.PrecomputedNumberList.BriefLabel">
 <tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#PrecomputedNumberList.BriefLabel"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.PrecomputedNumberList.BriefLabel" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.apps.seqsee.categories.PrecomputedNumberList.FindMapping">
+<tt class="descname">FindMapping</tt><big>(</big><em>item1</em>, <em>item2</em>, <em>controller</em>, <em>seqsee_ltm</em><big>)</big><a class="headerlink" href="#farg.apps.seqsee.categories.PrecomputedNumberList.FindMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find mapping between two instances of the same precomputed list.</p>
+</dd></dl>
 
 <dl class="method">
 <dt id="farg.apps.seqsee.categories.PrecomputedNumberList.GetMapping">
@@ -372,9 +341,14 @@ the magnitude.</p>
 <dd><p>Apply a mapping to a categorizable to obtain a different categorizable.</p>
 </dd></dl>
 
+<dl class="attribute">
+<dt id="farg.apps.seqsee.categories.SeqseeObjectCategory.CategoryControlsMapping">
+<tt class="descname">CategoryControlsMapping</tt><em class="property"> = False</em><a class="headerlink" href="#farg.apps.seqsee.categories.SeqseeObjectCategory.CategoryControlsMapping" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 <dl class="method">
 <dt id="farg.apps.seqsee.categories.SeqseeObjectCategory.FindMapping">
-<tt class="descname">FindMapping</tt><big>(</big><em>categorizable1</em>, <em>categorizable2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#SeqseeObjectCategory.FindMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.SeqseeObjectCategory.FindMapping" title="Permalink to this definition">¶</a></dt>
+<tt class="descname">FindMapping</tt><big>(</big><em>categorizable1</em>, <em>categorizable2</em>, <em>seqsee_ltm</em>, <em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#SeqseeObjectCategory.FindMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.SeqseeObjectCategory.FindMapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Finds a mapping between two objects based on a particular category.</p>
 </dd></dl>
 
@@ -425,17 +399,15 @@ the magnitude.</p>
 <em class="property">class </em><tt class="descclassname">farg.apps.seqsee.categories.</tt><tt class="descname">StructuralCategory</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#StructuralCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.StructuralCategory" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class whose membership depends on the structure (e.g., ascending, mountain).</p>
 <dl class="method">
+<dt id="farg.apps.seqsee.categories.StructuralCategory.FindMapping">
+<tt class="descname">FindMapping</tt><big>(</big><em>item1</em>, <em>item2</em>, <em>controller</em>, <em>seqsee_ltm</em><big>)</big><a class="headerlink" href="#farg.apps.seqsee.categories.StructuralCategory.FindMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find mapping between two instances of a structual category.</p>
+</dd></dl>
+
+<dl class="method">
 <dt id="farg.apps.seqsee.categories.StructuralCategory.GetMapping">
 <tt class="descname">GetMapping</tt><big>(</big><em>item1</em>, <em>item2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#StructuralCategory.GetMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.StructuralCategory.GetMapping" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
-
-<dl class="method">
-<dt id="farg.apps.seqsee.categories.StructuralCategory.GetMappingBetweenBindings">
-<tt class="descname">GetMappingBetweenBindings</tt><big>(</big><em>binding1</em>, <em>binding2</em><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/categories.html#StructuralCategory.GetMappingBetweenBindings"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.categories.StructuralCategory.GetMappingBetweenBindings" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get mapping between a pair of bindings. This should eventually be replaced by a space
-(as discussed in the last chapter of the dissertation). For now, I have a simple
-mechanism.</p>
-</dd></dl>
 
 <dl class="method">
 <dt id="farg.apps.seqsee.categories.StructuralCategory.IsInstance">
@@ -460,7 +432,6 @@ mechanism.</p>
 </dd></dl>
 
 </div>
-</div>
 
 
           </div>
@@ -471,12 +442,7 @@ mechanism.</p>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Categories</a></li>
-<li><a class="reference internal" href="#module-farg.apps.seqsee.categories">Categories in Seqsee</a><ul>
-<li><a class="reference internal" href="#numeric-categories">Numeric Categories</a></li>
-<li><a class="reference internal" href="#structural-categories">Structural Categories</a></li>
-<li><a class="reference internal" href="#parametrized-categories">Parametrized Categories</a></li>
-</ul>
-</li>
+<li><a class="reference internal" href="#module-farg.apps.seqsee.categories">Categories in Seqsee</a></li>
 </ul>
 
   <h4>Previous topic</h4>

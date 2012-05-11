@@ -58,7 +58,19 @@
             
   <div class="section" id="module-farg.apps.seqsee.mapping">
 <span id="relations-and-mappings"></span><h1>Relations and Mappings<a class="headerlink" href="#module-farg.apps.seqsee.mapping" title="Permalink to this headline">¶</a></h1>
-<p>A way to specify how two entities are related.</p>
+<dl class="function">
+<dt id="farg.apps.seqsee.mapping.FindMapping">
+<tt class="descclassname">farg.apps.seqsee.mapping.</tt><tt class="descname">FindMapping</tt><big>(</big><em>o1</em>, <em>o2</em>, <em>controller</em>, <em>seqsee_ltm</em>, <em>category</em><big>)</big><a class="headerlink" href="#farg.apps.seqsee.mapping.FindMapping" title="Permalink to this definition">¶</a></dt>
+<dd><p>Find mapping between the two entities.</p>
+<p>&#64;param o1: The first entity.
+&#64;param o2: The second entity.
+&#64;param controller: A controller. Needed in case subspaces have to be created.
+&#64;param seqsee_ltm: We need access to the global LTM in order to know, say, that the &#8220;7&#8221; we</p>
+<blockquote>
+<div>see can be treated as a prime.</div></blockquote>
+<p>&#64;param category: If a category on which to base the diff has already been chosen.</p>
+</dd></dl>
+
 <dl class="class">
 <dt id="farg.apps.seqsee.mapping.Mapping">
 <em class="property">class </em><tt class="descclassname">farg.apps.seqsee.mapping.</tt><tt class="descname">Mapping</tt><a class="reference internal" href="../_modules/farg/apps/seqsee/mapping.html#Mapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.mapping.Mapping" title="Permalink to this definition">¶</a></dt>
@@ -165,6 +177,13 @@ version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>nof
 <dt id="farg.apps.seqsee.relation.Relation.AreEndsContiguous">
 <tt class="descname">AreEndsContiguous</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/apps/seqsee/relation.html#Relation.AreEndsContiguous"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.relation.Relation.AreEndsContiguous" title="Permalink to this definition">¶</a></dt>
 <dd><p>Are the two ends right next to each other (i.e., true if no hole).</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.apps.seqsee.relation.Relation.ChooseDistanceObject">
+<tt class="descname">ChooseDistanceObject</tt><big>(</big><em>controller</em><big>)</big><a class="headerlink" href="#farg.apps.seqsee.relation.Relation.ChooseDistanceObject" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chooses a distance object. If a group is present between the edges, either of group
+or elemental distance may be chosen. Otherwise the element distance is chosen.</p>
 </dd></dl>
 
 <dl class="method">
