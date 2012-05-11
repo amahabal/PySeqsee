@@ -3,6 +3,10 @@ from farg.apps.seqsee.mapping import NumericMapping, StructuralMapping
 from farg.apps.seqsee.sobject import SObject
 from farg.core.categorization.categorizable import CategorizableMixin
 import unittest
+from farg.core.ltm.graph import LTMGraph
+from farg.core.controller import Controller
+from farg.core.ui.batch_ui import BatchUI
+from farg.apps.seqsee.testing_utils import MockSeqseeController
 
 class TestSeqseeCategories(unittest.TestCase):
   def test_sanity(self):
@@ -64,13 +68,17 @@ class TestSeqseeCategories(unittest.TestCase):
     binding3 = group.DescribeAs(Ascending())
     self.assertEqual(binding3, binding2)
 
-    element5 = SObject.Create([3, 4, 5])
-    element7 = SObject.Create([3, 4, 5, 6])
-    mapping = Ascending().GetMapping(element5, element7)
+    element5 = SObject.Create([13, 14, 15])
+    element7 = SObject.Create([13, 14, 15, 16])
+    _ui = BatchUI(controller_class=Controller)
+    controller = _ui.controller
+    controller.ltm = LTMGraph()
+    mapping = Ascending().FindMapping(element5, element7, controller=controller,
+                                      seqsee_ltm=controller.ltm)
     self.assertTrue(isinstance(mapping, StructuralMapping))
     self.assertEqual(Ascending(), mapping.category)
 
-    self.assertEqual((3, 4, 5, 6, 7), mapping.Apply(element7).Structure())
+    self.assertEqual((13, 14, 15, 16, 17), mapping.Apply(element7).Structure())
 
   def test_sizen(self):
     Size2 = SizeNCategory(size=2)
@@ -104,7 +112,12 @@ class TestSeqseeCategories(unittest.TestCase):
 
     element5 = SObject.Create([3, 5])
     element6 = SObject.Create([3, 6])
-    mapping = Size2.GetMapping(element5, element6)
+    _ui = BatchUI(controller_class=Controller)
+    controller = _ui.controller
+    controller.ltm = LTMGraph()
+    mapping = Size2.FindMapping(element5, element6,
+                                controller=controller,
+                                seqsee_ltm=controller.ltm)
     self.assertTrue(isinstance(mapping, StructuralMapping))
     self.assertEqual(Size2, mapping.category)
 
@@ -153,11 +166,14 @@ class TestSeqseeCategories(unittest.TestCase):
     binding3 = group.DescribeAs(SecondSucc)
     self.assertEqual(binding3, binding2)
 
-    element5 = SObject.Create([(3, 5), (3, 6)])
-    element6 = SObject.Create([(4, 6), (4, 7), (4, 8)])
-    mapping = SecondSucc.GetMapping(element5, element6)
+    element5 = SObject.Create([(13, 5), (13, 6)])
+    element6 = SObject.Create([(14, 6), (14, 7), (14, 8)])
+    controller = MockSeqseeController()
+    mapping = SecondSucc.FindMapping(element5, element6,
+                                     controller=controller,
+                                     seqsee_ltm=controller.ltm)
     self.assertTrue(isinstance(mapping, StructuralMapping))
     self.assertEqual(SecondSucc, mapping.category)
 
-    self.assertEqual(((5, 7), (5, 8), (5, 9), (5, 10)), mapping.Apply(element6).Structure())
+    self.assertEqual(((15, 7), (15, 8), (15, 9), (15, 10)), mapping.Apply(element6).Structure())
 

@@ -28,6 +28,8 @@ class RunModeBatch(RunModeNonInteractive):
                      run_mode="single",
                      max_steps=FLAGS.max_steps,
                      eat_output=FLAGS.eat_output,
+                     use_stored_ltm=FLAGS.use_stored_ltm,
+                     double_mapping_resistance=FLAGS.double_mapping_resistance,
                      )
     arguments.update(one_input_spec_arguments.arguments_dict)
     return arguments

@@ -30,4 +30,5 @@ class Binding(object):
     return self.bindings[attribute_name]
 
   def __str__(self):
-    return 'Bindings: %s' % self.bindings
+    serialided_dict = dict((k, str(v)) for k, v in self.bindings.items())
+    return 'Bindings: %s' % serialided_dict

@@ -24,4 +24,5 @@ class RunModeNonInteractive(RunMode):
     arguments.extend('--%s=%s' % (str(k), str(v)) for k, v in cmdline_arguments_dict.items())
     if extra_arguments:
       arguments.append(extra_arguments)
+    # print(arguments)
     return subprocess.check_output(arguments)

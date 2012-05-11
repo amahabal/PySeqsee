@@ -179,6 +179,8 @@ class SElement(SObject):
     # .. ToDO:: (handle strength, primality, etc).
     # .. ToDo:: Copy categories as well.
     self.underlying_mapping_set = None
+    from farg.apps.seqsee.categories import Number
+    self.DescribeAs(Number())
 
   def DeepCopy(self):
     """Makes a copy."""

@@ -11,8 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-from farg.apps.seqsee.categories import GetNaiveMapping, Number
-from farg.apps.seqsee.mapping import NumericMapping, StructuralMapping
+from farg.apps.seqsee.mapping import NumericMapping, StructuralMapping, FindMapping
 from farg.apps.seqsee.relation import Relation
 from farg.core.codelet import CodeletFamily
 from farg.core.controller import Controller
@@ -30,64 +29,6 @@ FLAGS = gflags.FLAGS
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
 
 logger = logging.getLogger(__name__)
-
-
-class CF_NumericCase(CodeletFamily):
-  @classmethod
-  def Run(cls, controller):
-    ws = controller.workspace
-    v1 = ws.left
-    v2 = ws.right
-    if isinstance(v1, int) and isinstance(v2, int):
-      diff_string = NumericMapping.DifferenceString(v1, v2)
-      if diff_string:
-        return NumericMapping(name=diff_string, category=Number)
-      else:
-        raise NoAnswerException(codelet_count=controller.steps_taken)
-    controller.AddCodelet(family=CF_ChooseCategory, urgency=100)
-
-class CF_ChooseCategory(CodeletFamily):
-  @classmethod
-  def Run(cls, controller):
-    ws = controller.workspace
-    v1 = ws.left
-    v2 = ws.right
-
-    if not ws.category:
-      common_categories = v1.GetCommonCategoriesSet(v2)
-      if common_categories:
-        # ... ToDo: Don't merely use the first category!
-        cat = WeightedChoice((x, 1) for x in common_categories)
-        ws.category = cat
-      else:
-        raise NoAnswerException(codelet_count=controller.steps_taken)
-    # We may or may need to look at bindings, given the category. However, if the category
-    # defines a way to get the mapping, it should be used:
-    mapping = ws.category.GetMapping(v1, v2)
-    if mapping:
-      raise AnswerFoundException(mapping, codelet_count=controller.steps_taken)
-    elif ws.category.CategoryControlsMapping:
-      raise NoAnswerException(codelet_count=controller.steps_taken)
-    else:
-      controller.AddCodelet(family=CF_GetBindings, urgency=100)
-
-class CF_GetBindings(CodeletFamily):
-  @classmethod
-  def Run(cls, controller):
-    ws = controller.workspace
-    v1 = ws.left
-    v2 = ws.right
-    category = ws.category
-    b1 = v1.GetBindingsForCategory(category)
-    if not b1:
-      raise NoAnswerException(codelet_count=controller.steps_taken)
-    ws.b1 = b1
-    b2 = v2.GetBindingsForCategory(category)
-    if not b2:
-      raise NoAnswerException(codelet_count=controller.steps_taken)
-    ws.b2 = b2
-    ws.attribute_explanations = {}
-    controller.AddCodelet(family=CF_ExplainValues, urgency=100)
 
 class CF_ExplainValues(CodeletFamily):
   @staticmethod
@@ -107,25 +48,23 @@ class CF_ExplainValues(CodeletFamily):
   def Run(cls, controller):
     ws = controller.workspace
     attribute_explanations = ws.attribute_explanations
-    b2 = ws.b2
+    b2 = ws.binding2
     b2_dict = b2.bindings
-    unexplained_attributes = [x for x in list(b2_dict.keys()) if x not in attribute_explanations]
-    if not unexplained_attributes:
-      print("HIT PROBLEM!!")
-      import pdb; pdb.set_trace()
+    unexplained_attributes = [x for x in list(b2_dict.keys())
+                              if x not in attribute_explanations]
     one_attribute = random.choice(unexplained_attributes)
     logger.debug("Chose attribute %s for explanation.", one_attribute)
     attribute_value = b2_dict[one_attribute]
     logger.debug("Will love to explain this value: %s", str(attribute_value))
     # Pick an ordering of attributes (biased in some way... how, and how to implement bias?)
     # I wish there was a weighted choice in random :)
-    b1 = ws.b1
+    b1 = ws.binding1
     b1_dict = b1.bindings
     attributes_to_use = dict([(a, 1) for a in list(b1_dict.keys())])
     attributes_to_use[one_attribute] += 3
     for attribute_to_use in WeightedShuffle(list(attributes_to_use.items())):
-      mapping = GetNaiveMapping(b1_dict[attribute_to_use], b2_dict[one_attribute])
-      logger.debug("Used %s, saw mapping %s", attribute_to_use, str(mapping))
+      mapping = FindMapping(b1_dict[attribute_to_use], b2_dict[one_attribute],
+                            controller=controller, seqsee_ltm=ws.seqsee_ltm)
       if mapping:
         attribute_explanations[one_attribute] = (attribute_to_use, mapping)
         if ws.category.AreAttributesSufficientToBuild(list(attribute_explanations.keys())):
@@ -136,42 +75,43 @@ class CF_ExplainValues(CodeletFamily):
     controller.AddCodelet(family=CF_ExplainValues, urgency=100)
 
 
-class SubspaceFindMapping(Subspace):
+class SubspaceFindBindingMapping(Subspace):
+  """
+  Subspace to find mapping based on a pair of bindings.
+  """
   class controller_class(Controller):
     class workspace_class:
-      def __init__(self, left, right, category=None):
-        self.left = left
-        self.right = right
-        self.category = category
+      """
+      Workspace for finding a mapping based on a pair of bindings.
+      """
+      def __init__(self, *, category, binding1, binding2, seqsee_ltm):
+        """
+        Initialize workspace.
 
-  def QuickReconn(self):
-    arguments = self.workspace_arguments
-    if not arguments:
-      arguments = dict()
-    if 'category' in arguments and arguments['category']:
-      mapping = arguments['category'].GetMapping(arguments['left'], arguments['right'])
-    else:
-      mapping = GetNaiveMapping(arguments['left'], arguments['right'])
-    if mapping:
-      return QuickReconnResults.AnswerFound(mapping)
-    else:
-      return QuickReconnResults.DeeperExplorationNeeded()
+        @param category: Category on which bindings are based.
+        @param binding1: The binding for first object.
+        @param binding2: The binding for the second object.
+        @param seqsee_ltm: Seqsee's main LTM, needed to compare relative activations of
+            various entities.
+        """
+        self.category = category
+        self.binding1 = binding1
+        self.binding2 = binding2
+        self.seqsee_ltm = seqsee_ltm
+        self.attribute_explanations = dict()
 
   def InitializeCoderack(self):
-    self.controller.AddCodelet(family=CF_NumericCase, urgency=100)
-
+    self.controller.AddCodelet(family=CF_ExplainValues, urgency=100)
 
 class CF_FindAnchoredSimilarity(CodeletFamily):
   @classmethod
-  def Run(cls, controller, left, right):
+  def Run(cls, controller, left, right, seqsee_ltm):
     if left.GetRelationTo(right):
       # Relation exists, possibly bail out.
       if Toss(FLAGS.double_mapping_resistance):
         return
-    mapping = SubspaceFindMapping(controller,
-                                  workspace_arguments=dict(left=left.object,
-                                                           right=right.object,
-                                                           category=None)).Run();
+    mapping = FindMapping(left.object, right.object, controller=controller,
+                          seqsee_ltm=seqsee_ltm)
     if mapping:
       # TODO(# --- Jan 29, 2012): The relation should be formed with a probability dependent
       # on the distance between the nodes.

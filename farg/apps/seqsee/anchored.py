@@ -197,7 +197,7 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
       urgency = 100.0 / (right.start_pos - left.end_pos)  # denominator is at least 1.
       from farg.apps.seqsee.subspaces.get_mapping import CF_FindAnchoredSimilarity
       return [Codelet(CF_FindAnchoredSimilarity, controller, urgency,
-                      dict(left=left, right=right))]
+                      dict(left=left, right=right, seqsee_ltm=controller.ltm))]
 
   def OnFocus(self, controller):
     """Updates the strength of the object when it is focused upon."""

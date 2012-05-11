@@ -10,6 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+from farg.apps.seqsee.subspaces.get_mapping import SubspaceFindBindingMapping
 
 """Seqsee-specific categories.
 
@@ -79,7 +80,7 @@ class SeqseeObjectCategory(Category):
   # HACK! If true for a class, indicates that a mapping between bindings need not be used.
   CategoryControlsMapping = False
 
-  def FindMapping(self, categorizable1, categorizable2):
+  def FindMapping(self, categorizable1, categorizable2, *, seqsee_ltm, controller):
     """Finds a mapping between two objects based on a particular category."""
     raise FargError("IsInstance makes no sense on base category.")
 
@@ -117,23 +118,17 @@ class StructuralCategory(SeqseeObjectCategory):
     if not binding2: return None
     return self.GetMappingBetweenBindings(binding1, binding2)
 
-
-  def GetMappingBetweenBindings(self, binding1, binding2):
-    """Get mapping between a pair of bindings. This should eventually be replaced by a space
-       (as discussed in the last chapter of the dissertation). For now, I have a simple
-       mechanism.
-    """
-    bindings_mapping = {}
-    for k, v in binding1.bindings.items():
-      if k in binding2.bindings:
-        v2 = binding2.bindings[k]
-        possible_mapping = GetNaiveMapping(v, v2)
-        if possible_mapping:
-          bindings_mapping[k] = possible_mapping
-    if self.AreAttributesSufficientToBuild(list(bindings_mapping.keys())):
-      return StructuralMapping(category=self,
-                               bindings_mapping=frozenset(list(bindings_mapping.items())))
-    return None
+  def FindMapping(self, item1, item2, *, controller, seqsee_ltm):
+    """Find mapping between two instances of a structual category."""
+    binding1 = item1.DescribeAs(self)
+    if not binding1: return None
+    binding2 = item2.DescribeAs(self)
+    if not binding2: return None
+    return SubspaceFindBindingMapping(controller, nsteps=10,
+                                      workspace_arguments=dict(seqsee_ltm=seqsee_ltm,
+                                                               category=self,
+                                                               binding1=binding1,
+                                                               binding2=binding2)).Run()
 
 class Number(NumericCategory):
 
@@ -143,6 +138,14 @@ class Number(NumericCategory):
   def NumericIsInstance(self, val):
     return Binding()
 
+  def FindMapping(self, item1, item2, *, controller, seqsee_ltm):
+    """Find mapping between two instances of Number."""
+    magnitude_1, magnitude_2 = item1.magnitude, item2.magnitude
+    diff_string = NumericMapping.DifferenceString(magnitude_1, magnitude_2)
+    if diff_string:
+      return NumericMapping(diff_string, Number())
+    else:
+      return None
 
   def GetMapping(self, item1, item2):
     index1, index2 = item1.magnitude, item2.magnitude
@@ -171,6 +174,22 @@ class PrecomputedNumberList(NumericCategory):
   #: A brief label must be provided.
   brief_label = None
 
+  def FindMapping(self, item1, item2, *, controller, seqsee_ltm):
+    """Find mapping between two instances of the same precomputed list."""
+    binding1 = item1.DescribeAs(self)
+    if not binding1: return None
+    binding2 = item2.DescribeAs(self)
+    if not binding2: return None
+
+    index1, index2 = (binding1.GetBindingsForAttribute('index'),
+                      binding2.GetBindingsForAttribute('index'))
+    diff_string = NumericMapping.DifferenceString(index1, index2)
+    if diff_string:
+      return NumericMapping(diff_string, self)
+    else:
+      return None
+
+
   def __init__(self):
     NumericCategory.__init__(self)
 
@@ -196,7 +215,12 @@ class PrecomputedNumberList(NumericCategory):
   def _PrevNumber(self, val):
     if val <= self.smallest_known_element:
       return None
-    return self.number_list[self.number_list.index(val) - 1]
+    if val not in self.number_list:
+      return None
+    index = self.number_list.index(val)
+    if index < 1:
+      return None
+    return self.number_list[index - 1]
 
   def GetMapping(self, item1, item2):
     binding1 = item1.DescribeAs(self)
@@ -286,22 +310,6 @@ class Ascending(StructuralCategory):
 
   def AreAttributesSufficientToBuild(self, attributes):
     return len(set(attributes).intersection(set(['start', 'end', 'length']))) >= 2
-
-def GetNaiveMapping(v1, v2):
-  if isinstance(v1, int) and isinstance(v2, int):
-    diff_string = NumericMapping.DifferenceString(v1, v2)
-    if diff_string:
-      return NumericMapping(name=diff_string, category=Number())
-    else:
-      return None
-  common_categories = v1.GetCommonCategoriesSet(v2)
-  if common_categories:
-    # ... ToDo: Don't merely use the first category!
-    cat = list(common_categories)[0]
-    return cat.GetMapping(v1, v2)
-  if isinstance(v1, SElement) and isinstance(v2, SElement):
-    return GetNaiveMapping(v1.magnitude, v2.magnitude)
-  return None
 
 
 class SizeNCategory(StructuralCategory):

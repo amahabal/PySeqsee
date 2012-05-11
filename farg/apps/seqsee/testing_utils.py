@@ -16,13 +16,15 @@ from farg.apps.seqsee.workspace import Workspace
 from farg.core.ltm.graph import LTMGraph
 from farg.core.controller import Controller
 from farg.core.testing_utils import FringeAndCodeletsTest, CodeletPresenceSpec
+from farg.core.ui.batch_ui import BatchUI
 
 class MockSeqseeController(Controller):
-  def __init__(self, items):
-    Controller.__init__(self, ui=None)
+  def __init__(self, items=None):
+    Controller.__init__(self, ui=BatchUI(controller_class=Controller))
     workspace = self.workspace = Workspace()
     self.ltm = LTMGraph()
-    workspace.InsertElements(items)
+    if items:
+      workspace.InsertElements(items)
 
 # Too many public methods because of unittest. pylint: disable=R0904
 class FringeOverlapTest(FringeAndCodeletsTest):

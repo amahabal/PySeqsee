@@ -10,6 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+from farg.core.util import SelectWeightedByActivation
 
 """A way to specify how two entities are related."""
 
@@ -108,7 +109,10 @@ class StructuralMapping(Mapping):
     
     .. ToDo:: This is a cop-out, currently; when extending Seqsee, I should revisit this.
     """
-    return self.Apply(item1).Structure() == item2.Structure()
+    resulting_item = self.Apply(item1)
+    if not resulting_item:
+      return False
+    return resulting_item.Structure() == item2.Structure()
 
   def FlippedVersion(self):
     if self.no_flipped_version:
@@ -137,3 +141,26 @@ class StructuralMapping(Mapping):
 
   def LTMDependentContent(self):
     return (self.category,)
+
+def FindMapping(o1, o2, *, controller, seqsee_ltm, category=None):
+  """
+  Find mapping between the two entities.
+
+  @param o1: The first entity.
+  @param o2: The second entity.
+  @param controller: A controller. Needed in case subspaces have to be created.
+  @param seqsee_ltm: We need access to the global LTM in order to know, say, that the "7" we
+     see can be treated as a prime.
+  @param category: If a category on which to base the diff has already been chosen.
+  """
+  if category:
+    return category.FindMapping(o1, o2, controller=controller, seqsee_ltm=seqsee_ltm)
+  else:
+    # Choose the category first.
+    common_categories = o1.GetCommonCategoriesSet(o2)
+    if common_categories:
+      category = SelectWeightedByActivation(seqsee_ltm, common_categories)
+      return category.FindMapping(o1, o2, controller=controller, seqsee_ltm=seqsee_ltm)
+    else:
+      return None
+
