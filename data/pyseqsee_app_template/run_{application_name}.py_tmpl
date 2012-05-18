@@ -10,11 +10,20 @@ import sys
 
 FLAGS = gflags.FLAGS
 
+# Flags for specifying the input and, for use in testing, expected output.
 gflags.DEFINE_string('input', '', 'input')
 gflags.DEFINE_string('expected_output', '', 'Expected output')
 
 
-# Add any custom flags. See ... for syntax.
+# Add any custom flags. For full documentation, see
+#    http://python-gflags.googlecode.com/svn/trunk/gflags.py
+# In brief, flags may be defined using any of:
+#  gflags.DEFINE_boolean(name, default, help)
+#  gflags.DEFINE_float(name, default, help, [lower_bound, upper_bound])
+#  gflags.DEFINE_integer(name, default, help, [lower_bound, upper_bound])
+#  gflags.DEFINE_string(name, default, help)
+#  gflags.DEFINE_enum(name, default, enum_values, help)
+
 
 class {application_class}Main(Main):
   """

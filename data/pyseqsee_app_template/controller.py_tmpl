@@ -21,6 +21,10 @@ class {application_class}Controller(Controller):
   workspace_class = {application_class}Workspace
   ltm_name = kLTMName
 
-  def __init__(self, **args):
-    Controller.__init__(self, **args)
+  def __init__(self, *, ui, controller_depth=0,
+               parent_controller=None, workspace_arguments=None,
+               stopping_condition=None):
+    Controller.__init__(self, ui=ui, parent_controller=parent_controller,
+                        workspace_arguments=workspace_arguments,
+                        stopping_condition=stopping_condition)
 

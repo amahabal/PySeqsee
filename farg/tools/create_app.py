@@ -15,7 +15,11 @@ class VarWithConstraints(Var):
   def validate(self, response):
     validated_value = Var.validate(self, response)
     if not self.constraint(validated_value):
-      raise ValidateError('Response "%s" did not match constraint.' % response)
+      constraints = ("\n=====Constraints:\nFor application name: should be lowercase.\n"
+                     "For class name: its lowercase version should match the app name, not "
+                     "counting underscores (that is, they can be 'foo' and 'F_O_o')")
+      raise ValidateError('Response "%s" did not match constraint. %s' % (response,
+                                                                          constraints))
     return validated_value
 
 def ApplicationNameConstraint(app_name):
@@ -41,6 +45,16 @@ class FARGApp(Skeleton):
             "PySeqsee installed. (Currently, only the first of these works for this script).")
   variables = []
 
+  def CapitalizeName(self, application_name):
+    """Convert application_name to uppercase.
+
+       underscores are dropped, and letters after underscores are uppercases.
+    """
+    return ''.join(x[0].upper() + x[1:] for x in application_name.split('_'))
+
+  def AreNamesConsistent(self, dst_dir, class_name):
+    return dst_dir.lower().replace('_', '') == class_name.lower().replace('_', '')
+
   def run(self, dst_dir, run_dry=False, install_prefix=''):
     """
     Override run to use a different dst_dir: apps/dst_dir, and to bail out if it exists.
@@ -57,10 +71,11 @@ class FARGApp(Skeleton):
                                              constraint=ApplicationNameConstraint,
                                              default=dst_dir))
     self.set_variables['application_name'] = dst_dir
-    self.variables.append(VarWithConstraints('application_class',
-                                             description='capitalized version of %s' % dst_dir,
-                                             constraint=(lambda x: dst_dir == x.lower()),
-                                             default=dst_dir[0].upper() + dst_dir[1:]))
+    self.variables.append(VarWithConstraints(
+        'application_class',
+        description='capitalized version of %s' % dst_dir,
+        constraint=lambda x: self.AreNamesConsistent(x, dst_dir),
+        default=self.CapitalizeName(dst_dir)))
     Skeleton.run(self, new_dst_dir, run_dry)
 
 if __name__ == '__main__':
