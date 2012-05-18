@@ -176,7 +176,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_time_of_activation_update</span> <span class="o">=</span> <span class="n">current_time</span>
 
-<div class="viewcode-block" id="LTMNode.SpikeNonSpreading"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.node.LTMNode.SpikeNonSpreading">[docs]</a>  <span class="k">def</span> <span class="nf">SpikeNonSpreading</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>
+<div class="viewcode-block" id="LTMNode.IncreaseActivationButDontSpread"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.node.LTMNode.IncreaseActivationButDontSpread">[docs]</a>  <span class="k">def</span> <span class="nf">IncreaseActivationButDontSpread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Update activation by this amount (after processing any pending decays, but do not</span>
 <span class="sd">       propagate further.)&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">_ProcessDecays</span><span class="p">(</span><span class="n">current_time</span><span class="p">)</span>
@@ -185,16 +185,16 @@
       <span class="bp">self</span><span class="o">.</span><span class="n">IncrementDepth</span><span class="p">()</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">=</span> <span class="mi">90</span>
 </div>
-<div class="viewcode-block" id="LTMNode.Spike"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.node.LTMNode.Spike">[docs]</a>  <span class="k">def</span> <span class="nf">Spike</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>
+<div class="viewcode-block" id="LTMNode.IncreaseActivation"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.node.LTMNode.IncreaseActivation">[docs]</a>  <span class="k">def</span> <span class="nf">IncreaseActivation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Update activation by this amount (after processing any pending decays), and also </span>
 <span class="sd">       spread an appropriate component to nearby nodes.</span>
 <span class="sd">    </span>
 <span class="sd">    .. todo:: Should spread to depth 2. Not done correctly. Nor is the amount spread accurate.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">SpikeNonSpreading</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">IncreaseActivationButDontSpread</span><span class="p">(</span><span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="o">=</span><span class="n">current_time</span><span class="p">)</span>
     <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">outgoing_edges</span><span class="p">:</span>
       <span class="n">to_node</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">to_node</span>
-      <span class="n">to_node</span><span class="o">.</span><span class="n">SpikeNonSpreading</span><span class="p">(</span><span class="mf">0.25</span> <span class="o">*</span> <span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="p">)</span>
+      <span class="n">to_node</span><span class="o">.</span><span class="n">IncreaseActivationButDontSpread</span><span class="p">(</span><span class="mf">0.25</span> <span class="o">*</span> <span class="n">amount</span><span class="p">,</span> <span class="n">current_time</span><span class="o">=</span><span class="n">current_time</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetActivation</span><span class="p">(</span><span class="n">current_time</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="LTMNode.GetRawActivation"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.node.LTMNode.GetRawActivation">[docs]</a>  <span class="k">def</span> <span class="nf">GetRawActivation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>

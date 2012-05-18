@@ -50,13 +50,15 @@
             
   <h1>Source code for farg.core.ui.gui</h1><div class="highlight"><pre>
 <span class="kn">from</span> <span class="nn">farg.core.question.question</span> <span class="kn">import</span> <span class="n">BooleanQuestion</span>
+<span class="kn">from</span> <span class="nn">farg.core.ltm.manager</span> <span class="kn">import</span> <span class="n">LTMManager</span>
 <span class="kn">from</span> <span class="nn">farg.core.ui.gui.central_pane</span> <span class="kn">import</span> <span class="n">CentralPane</span>
 <span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="kn">import</span> <span class="n">gflags</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="kn">import</span> <span class="o">*</span>
-<span class="kn">from</span> <span class="nn">tkinter.messagebox</span> <span class="kn">import</span> <span class="n">askyesno</span>
+<span class="kn">from</span> <span class="nn">tkinter.messagebox</span> <span class="kn">import</span> <span class="n">askyesno</span><span class="p">,</span> <span class="n">showinfo</span>
 <span class="kn">from</span> <span class="nn">tkinter.ttk</span> <span class="kn">import</span> <span class="o">*</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">threading</span>
+<span class="kn">from</span> <span class="nn">farg.core.exceptions</span> <span class="kn">import</span> <span class="n">AnswerFoundException</span>
 
 <span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_integer</span><span class="p">(</span><span class="s">&#39;gui_canvas_height&#39;</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span>
                       <span class="s">&#39;Height of the central canvas&#39;</span><span class="p">)</span>
@@ -70,13 +72,19 @@
 <span class="sd">  </span>
 <span class="sd">  Checking each time if we have not been asked to pause.&quot;&quot;&quot;</span>
 
-  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">gui</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="mi">1000</span><span class="p">):</span>
     <span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="n">controller</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span> <span class="o">=</span> <span class="n">num_steps</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">gui</span> <span class="o">=</span> <span class="n">gui</span>
 
   <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">RunUptoNSteps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">RunUptoNSteps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span><span class="p">)</span>
+    <span class="k">except</span> <span class="n">AnswerFoundException</span><span class="p">:</span>
+      <span class="c"># We should exit.</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">gui</span><span class="o">.</span><span class="n">quitting_called_from_thread</span> <span class="o">=</span> <span class="bp">True</span>
+      <span class="k">return</span>
 
 <div class="viewcode-block" id="GUI"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.gui.GUI">[docs]</a><span class="k">class</span> <span class="nc">GUI</span><span class="p">:</span>
 
@@ -87,6 +95,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">run_state_lock</span> <span class="o">=</span> <span class="n">threading</span><span class="o">.</span><span class="n">Lock</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">pause_stepping</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">quitting</span> <span class="o">=</span> <span class="bp">False</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">quitting_called_from_thread</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">stepping_thread</span> <span class="o">=</span> <span class="bp">None</span>
 
     <span class="bp">self</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="n">controller_class</span><span class="p">(</span><span class="n">ui</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
@@ -107,6 +116,8 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">RegisterQuestionHandlers</span><span class="p">()</span>
 
   <span class="k">def</span> <span class="nf">UpdateDisplay</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quitting_called_from_thread</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">Quit</span><span class="p">()</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">items_to_refresh</span><span class="p">:</span>
       <span class="k">try</span><span class="p">:</span>
         <span class="n">item</span><span class="o">.</span><span class="n">ReDraw</span><span class="p">()</span>
@@ -132,12 +143,14 @@
           <span class="k">return</span>
         <span class="k">else</span><span class="p">:</span>
           <span class="bp">self</span><span class="o">.</span><span class="n">stepping_thread</span> <span class="o">=</span> <span class="bp">None</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">stepping_thread</span> <span class="o">=</span> <span class="n">RunForNSteps</span><span class="p">(</span><span class="n">controller</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="n">num_steps</span><span class="p">)</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">stepping_thread</span> <span class="o">=</span> <span class="n">RunForNSteps</span><span class="p">(</span><span class="n">controller</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="p">,</span> <span class="n">num_steps</span><span class="o">=</span><span class="n">num_steps</span><span class="p">,</span>
+                                          <span class="n">gui</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">pause_stepping</span> <span class="o">=</span> <span class="bp">False</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">stepping_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 
+
   <span class="k">def</span> <span class="nf">StartThreaded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">StepsInAnotherThread</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">StepsInAnotherThread</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
 
   <span class="k">def</span> <span class="nf">Pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_state_lock</span><span class="p">:</span>
@@ -152,6 +165,7 @@
       <span class="bp">self</span><span class="o">.</span><span class="n">pause_stepping</span> <span class="o">=</span> <span class="bp">True</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">Pause</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">mw</span><span class="o">.</span><span class="n">quit</span><span class="p">()</span>
+    <span class="n">LTMManager</span><span class="o">.</span><span class="n">SaveAllOpenLTMS</span><span class="p">()</span>
 
 <div class="viewcode-block" id="GUI.PopulateButtonPane"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.gui.GUI.PopulateButtonPane">[docs]</a>  <span class="k">def</span> <span class="nf">PopulateButtonPane</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">frame</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Adds buttons to the top row.&quot;&quot;&quot;</span>
@@ -187,7 +201,10 @@
   <span class="k">def</span> <span class="nf">RegisterQuestionHandlers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">def</span> <span class="nf">boolean_question_handler</span><span class="p">(</span><span class="n">question</span><span class="p">,</span> <span class="n">ui</span><span class="p">):</span>
       <span class="k">return</span> <span class="n">askyesno</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">question</span><span class="o">.</span><span class="n">question_string</span><span class="p">)</span>
-    <span class="n">BooleanQuestion</span><span class="o">.</span><span class="n">Ask</span> <span class="o">=</span> <span class="n">boolean_question_handler</span></div>
+    <span class="n">BooleanQuestion</span><span class="o">.</span><span class="n">Ask</span> <span class="o">=</span> <span class="n">boolean_question_handler</span>
+
+  <span class="k">def</span> <span class="nf">DisplayMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+    <span class="n">showinfo</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div>
 </pre></div>
 
           </div>

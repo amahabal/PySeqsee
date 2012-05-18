@@ -61,6 +61,7 @@
 <span class="c">#</span>
 <span class="c"># You should have received a copy of the GNU General Public License along with this</span>
 <span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+<span class="kn">from</span> <span class="nn">farg.core.util</span> <span class="kn">import</span> <span class="n">SelectWeightedByActivation</span>
 
 <span class="sd">&quot;&quot;&quot;A way to specify how two entities are related.&quot;&quot;&quot;</span>
 
@@ -132,6 +133,13 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">no_flipped_version</span> <span class="o">=</span> <span class="bp">False</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">flipped_version</span> <span class="o">=</span> <span class="bp">None</span>
 
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">pieces</span> <span class="o">=</span> <span class="s">&#39;Structural: [</span><span class="si">%s</span><span class="s">] </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">bindings_mapping</span><span class="p">)</span>
+    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">slippages</span><span class="p">:</span>
+      <span class="n">pieces</span> <span class="o">=</span> <span class="n">pieces</span> <span class="o">+</span> <span class="s">&#39;Slippages: &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">slippages</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">pieces</span>
+
+
 <div class="viewcode-block" id="StructuralMapping.BriefLabel"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping.BriefLabel">[docs]</a>  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s">&#39;[</span><span class="si">%s</span><span class="s">]&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">()</span>
 </div>
@@ -142,6 +150,8 @@
     <span class="n">new_bindings</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="k">for</span> <span class="n">attribute</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">bindings_mapping</span><span class="p">:</span>
       <span class="n">new_binding_for_attribute</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">bindings</span><span class="o">.</span><span class="n">GetBindingsForAttribute</span><span class="p">(</span><span class="n">attribute</span><span class="p">))</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">new_binding_for_attribute</span><span class="p">:</span>
+        <span class="k">return</span>
       <span class="n">new_bindings</span><span class="p">[</span><span class="n">attribute</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_binding_for_attribute</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">new_bindings</span><span class="p">)</span>
 </div>
@@ -150,7 +160,10 @@
 <span class="sd">    </span>
 <span class="sd">    .. ToDo:: This is a cop-out, currently; when extending Seqsee, I should revisit this.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">item1</span><span class="p">)</span><span class="o">.</span><span class="n">Structure</span><span class="p">()</span> <span class="o">==</span> <span class="n">item2</span><span class="o">.</span><span class="n">Structure</span><span class="p">()</span>
+    <span class="n">resulting_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">item1</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">resulting_item</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">False</span>
+    <span class="k">return</span> <span class="n">resulting_item</span><span class="o">.</span><span class="n">Structure</span><span class="p">()</span> <span class="o">==</span> <span class="n">item2</span><span class="o">.</span><span class="n">Structure</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="StructuralMapping.FlippedVersion"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping.FlippedVersion">[docs]</a>  <span class="k">def</span> <span class="nf">FlippedVersion</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">no_flipped_version</span><span class="p">:</span>
@@ -178,8 +191,30 @@
     <span class="k">return</span> <span class="bp">None</span>
 </div>
 <div class="viewcode-block" id="StructuralMapping.LTMDependentContent"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping.LTMDependentContent">[docs]</a>  <span class="k">def</span> <span class="nf">LTMDependentContent</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,)</span></div></div>
-</pre></div>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">category</span><span class="p">,)</span>
+</div></div>
+<div class="viewcode-block" id="FindMapping"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.FindMapping">[docs]</a><span class="k">def</span> <span class="nf">FindMapping</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">seqsee_ltm</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">  Find mapping between the two entities.</span>
+
+<span class="sd">  @param o1: The first entity.</span>
+<span class="sd">  @param o2: The second entity.</span>
+<span class="sd">  @param controller: A controller. Needed in case subspaces have to be created.</span>
+<span class="sd">  @param seqsee_ltm: We need access to the global LTM in order to know, say, that the &quot;7&quot; we</span>
+<span class="sd">     see can be treated as a prime.</span>
+<span class="sd">  @param category: If a category on which to base the diff has already been chosen.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
+    <span class="k">return</span> <span class="n">category</span><span class="o">.</span><span class="n">FindMapping</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">controller</span><span class="p">,</span> <span class="n">seqsee_ltm</span><span class="o">=</span><span class="n">seqsee_ltm</span><span class="p">)</span>
+  <span class="k">else</span><span class="p">:</span>
+    <span class="c"># Choose the category first.</span>
+    <span class="n">common_categories</span> <span class="o">=</span> <span class="n">o1</span><span class="o">.</span><span class="n">GetCommonCategoriesSet</span><span class="p">(</span><span class="n">o2</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">common_categories</span><span class="p">:</span>
+      <span class="n">category</span> <span class="o">=</span> <span class="n">SelectWeightedByActivation</span><span class="p">(</span><span class="n">seqsee_ltm</span><span class="p">,</span> <span class="n">common_categories</span><span class="p">)</span>
+      <span class="k">return</span> <span class="n">category</span><span class="o">.</span><span class="n">FindMapping</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">controller</span><span class="p">,</span> <span class="n">seqsee_ltm</span><span class="o">=</span><span class="n">seqsee_ltm</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">None</span>
+</pre></div></div>
 
           </div>
         </div>

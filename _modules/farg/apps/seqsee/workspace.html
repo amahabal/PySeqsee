@@ -61,6 +61,7 @@
 <span class="c">#</span>
 <span class="c"># You should have received a copy of the GNU General Public License along with this</span>
 <span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+<span class="kn">from</span> <span class="nn">farg.apps.seqsee.distance</span> <span class="kn">import</span> <span class="n">DistanceInGroups</span>
 
 <span class="sd">&quot;&quot;&quot;The workspace is the virtual blackboard on which various codelets make annotations about</span>
 <span class="sd">   relationships that have been seen between entities and groups that have been formed.</span>
@@ -91,7 +92,7 @@
 
 <span class="kn">from</span> <span class="nn">farg.apps.seqsee.anchored</span> <span class="kn">import</span> <span class="n">SAnchored</span>
 <span class="kn">from</span> <span class="nn">farg.apps.seqsee.sobject</span> <span class="kn">import</span> <span class="n">SElement</span>
-<span class="kn">from</span> <span class="nn">farg.apps.seqsee.util</span> <span class="kn">import</span> <span class="n">Exactly</span>
+<span class="kn">from</span> <span class="nn">farg.apps.seqsee.util</span> <span class="kn">import</span> <span class="n">Exactly</span><span class="p">,</span> <span class="n">LessThan</span>
 <span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">farg.core.exceptions</span> <span class="kn">import</span> <span class="n">FargError</span><span class="p">,</span> <span class="n">ConflictingGroupException</span><span class="p">,</span> <span class="n">CannotReplaceSubgroupException</span>
 <span class="kn">import</span> <span class="nn">logging</span>
@@ -179,9 +180,10 @@
       <span class="c"># adds the underlying mapping. However, if we extend groups to make multiple</span>
       <span class="c"># underlying mappings possible, this needs to be updated too.</span>
       <span class="n">group_at_this_location</span> <span class="o">=</span> <span class="n">groups_at_this_location</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="c"># There can be only 1</span>
-      <span class="k">if</span> <span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">underlying_mapping</span> <span class="ow">and</span>
-          <span class="ow">not</span> <span class="n">group_at_this_location</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">underlying_mapping</span><span class="p">):</span>
-        <span class="n">group_at_this_location</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">underlying_mapping</span> <span class="o">=</span> <span class="n">group</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">underlying_mapping</span>
+      <span class="k">if</span> <span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">underlying_mapping_set</span> <span class="ow">and</span>
+          <span class="ow">not</span> <span class="n">group_at_this_location</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">underlying_mapping_set</span><span class="p">):</span>
+        <span class="n">group_at_this_location</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">underlying_mapping_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span>
+            <span class="n">group</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">underlying_mapping_set</span><span class="p">)</span>
       <span class="c"># We should also merge all pieces of the group into the corresponding existing pieces.</span>
       <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_PlonkIntoPlace</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>  <span class="c"># Ignore output, we don&#39;t need it.</span>
@@ -190,8 +192,10 @@
 
     <span class="c"># Group does not exist, create one.</span>
     <span class="n">pieces</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">_PlonkIntoPlace</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">items</span><span class="p">]</span>
-    <span class="n">new_object</span> <span class="o">=</span> <span class="n">SAnchored</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="o">*</span><span class="n">pieces</span><span class="p">,</span>
-                                  <span class="n">underlying_mapping</span><span class="o">=</span><span class="n">group</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">underlying_mapping</span><span class="p">)</span>
+    <span class="n">new_object</span> <span class="o">=</span> <span class="n">SAnchored</span><span class="o">.</span><span class="n">Create</span><span class="p">(</span><span class="n">pieces</span><span class="p">,</span>
+                                  <span class="n">underlying_mapping_set</span><span class="o">=</span><span class="nb">set</span><span class="p">(</span>
+                                      <span class="n">group</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">underlying_mapping_set</span><span class="p">))</span>
+    <span class="n">new_object</span><span class="o">.</span><span class="n">object</span><span class="o">.</span><span class="n">AddCategoriesFrom</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">object</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">new_object</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">new_object</span>
 
@@ -206,6 +210,23 @@
     <span class="k">for</span> <span class="n">gp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">elements</span><span class="p">:</span>
       <span class="k">if</span> <span class="n">left_fn</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">start_pos</span><span class="p">)</span> <span class="ow">and</span> <span class="n">right_fn</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">end_pos</span><span class="p">):</span>
         <span class="k">yield</span> <span class="n">gp</span>
+</div>
+<div class="viewcode-block" id="Workspace.GetGroupDistance"><a class="viewcode-back" href="../../../../seqsee/workspace.html#farg.apps.seqsee.workspace.Workspace.GetGroupDistance">[docs]</a>  <span class="k">def</span> <span class="nf">GetGroupDistance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Get group-based distance between two points. If right = left + 1, this is 0.</span>
+<span class="sd">       Otherwise it is greedily calculated using the largest groups that fit.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">DistanceInGroups</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">GetGroupDistanceMagnitude</span><span class="p">(</span><span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="Workspace.GetGroupDistanceMagnitude"><a class="viewcode-back" href="../../../../seqsee/workspace.html#farg.apps.seqsee.workspace.Workspace.GetGroupDistanceMagnitude">[docs]</a>  <span class="k">def</span> <span class="nf">GetGroupDistanceMagnitude</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left</span><span class="p">,</span> <span class="n">right</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Helper for the function above.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">right</span> <span class="o">==</span> <span class="n">left</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:</span>
+      <span class="k">return</span> <span class="mi">0</span>
+    <span class="n">rightward_groups</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetGroupsWithSpan</span><span class="p">(</span><span class="n">Exactly</span><span class="p">(</span><span class="n">left</span> <span class="o">+</span> <span class="mi">1</span><span class="p">),</span> <span class="n">LessThan</span><span class="p">(</span><span class="n">right</span><span class="p">)))</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">rightward_groups</span><span class="p">:</span>
+      <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetGroupsWithSpan</span><span class="p">(</span><span class="n">left</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="n">new_left</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">end_pos</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">rightward_groups</span><span class="p">)</span>
+      <span class="k">return</span> <span class="mi">1</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetGroupDistanceMagnitude</span><span class="p">(</span><span class="n">new_left</span><span class="p">,</span> <span class="n">right</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Workspace.GetConflictingGroups"><a class="viewcode-back" href="../../../../seqsee/workspace.html#farg.apps.seqsee.workspace.Workspace.GetConflictingGroups">[docs]</a>  <span class="k">def</span> <span class="nf">GetConflictingGroups</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">gp</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get a list of groups conflicting with given group.</span>

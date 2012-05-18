@@ -101,11 +101,11 @@
 <span class="sd">     There are two ways of constructing. The first creates the codelet but does not yet</span>
 <span class="sd">     place it on the coderack::</span>
 <span class="sd">     </span>
-<span class="sd">       c = Codelet(family, controller, urgency, other_arg=10, other_arg2=15)</span>
+<span class="sd">       c = Codelet(family, controller, urgency, dict(other_arg=10, other_arg2=15))</span>
 <span class="sd">       </span>
 <span class="sd">     The second method is to call AddCodelet on the controller::</span>
 <span class="sd">     </span>
-<span class="sd">       controller.AddCodelet(family, urgency, other_arg=10, other_arg2=15)</span>
+<span class="sd">       controller.AddCodelet(family, urgency, dict(other_arg=10, other_arg2=15))</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">arguments_dict</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">family</span> <span class="o">=</span> <span class="n">family</span>

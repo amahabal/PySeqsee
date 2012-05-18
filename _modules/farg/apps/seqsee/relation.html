@@ -61,46 +61,94 @@
 <span class="c">#</span>
 <span class="c"># You should have received a copy of the GNU General Public License along with this</span>
 <span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
-
-<span class="sd">&quot;&quot;&quot;A relation is a specific instance of a mapping.&quot;&quot;&quot;</span>
-
+<span class="kn">from</span> <span class="nn">farg.apps.seqsee.distance</span> <span class="kn">import</span> <span class="n">DistanceInElements</span>
+<span class="kn">from</span> <span class="nn">farg.apps.seqsee.util</span> <span class="kn">import</span> <span class="n">GreaterThan</span><span class="p">,</span> <span class="n">LessThan</span>
+<span class="kn">from</span> <span class="nn">farg.core.util</span> <span class="kn">import</span> <span class="n">SelectWeightedByActivation</span>
 <span class="kn">from</span> <span class="nn">farg.core.codelet</span> <span class="kn">import</span> <span class="n">Codelet</span>
 <span class="kn">from</span> <span class="nn">farg.core.focusable_mixin</span> <span class="kn">import</span> <span class="n">FocusableMixin</span>
 
+<span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="kn">import</span> <span class="n">gflags</span>
+
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_boolean</span><span class="p">(</span><span class="s">&quot;use_group_distances&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span>
+                      <span class="s">&quot;If true, distance between objects may be measured in groups. &quot;</span>
+                      <span class="s">&quot;For example, distance between 7 and 8 in &#39;7 1 2 8&#39; can be seen as &quot;</span>
+                      <span class="s">&quot;2 intervening elements or 1 intervening group.&quot;</span><span class="p">)</span>
+
+<span class="sd">&quot;&quot;&quot;A relation is a specific instance of a mapping.&quot;&quot;&quot;</span>
+
+
 <div class="viewcode-block" id="Relation"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation">[docs]</a><span class="k">class</span> <span class="nc">Relation</span><span class="p">(</span><span class="n">FocusableMixin</span><span class="p">):</span>
-  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="n">mapping</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapping_set</span><span class="p">):</span>
     <span class="c">#: The object on the left.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">first</span>
     <span class="c">#: The object on the right.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">second</span> <span class="o">=</span> <span class="n">second</span>
-    <span class="c">#: The mapping to transform the left object to the right object.</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span> <span class="o">=</span> <span class="n">mapping</span>
+    <span class="c">#: The set of mappings any of which transform the left object to the right object.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span> <span class="o">=</span> <span class="n">mapping_set</span>
 
   <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">--&gt;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">--&gt;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Relation.Ends"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.Ends">[docs]</a>  <span class="k">def</span> <span class="nf">Ends</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns a 2-tuple of the two ends.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Relation.GetMappingSet"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.GetMappingSet">[docs]</a>  <span class="k">def</span> <span class="nf">GetMappingSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns the set of mappings. Currently, this is a singleton, but in order to see</span>
+<span class="sd">    relations between &quot;2&quot; and &quot;3&quot; flexibly as &quot;next number&quot; as well as &quot;next prime&quot;, multiple</span>
+<span class="sd">    relations will need to be supported.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span>
 </div>
 <div class="viewcode-block" id="Relation.AreEndsContiguous"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.AreEndsContiguous">[docs]</a>  <span class="k">def</span> <span class="nf">AreEndsContiguous</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Are the two ends right next to each other (i.e., true if no hole).&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">end_pos</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">start_pos</span>
 </div>
 <div class="viewcode-block" id="Relation.GetFringe"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.GetFringe">[docs]</a>  <span class="k">def</span> <span class="nf">GetFringe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
-    <span class="n">mapping_node</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mapping</span><span class="p">)</span>
-    <span class="k">return</span> <span class="p">{</span><span class="n">mapping_node</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">}</span>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Relation.ChooseDistanceObject"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.ChooseDistanceObject">[docs]</a>  <span class="k">def</span> <span class="nf">ChooseDistanceObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Chooses a distance object. If a group is present between the edges, either of group</span>
+<span class="sd">       or elemental distance may be chosen. Otherwise the element distance is chosen.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">AreEndsContiguous</span><span class="p">())</span>
+    <span class="n">distance_in_elements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">start_pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">end_pos</span> <span class="o">-</span> <span class="mi">1</span>
+    <span class="n">distance_object</span> <span class="o">=</span> <span class="n">DistanceInElements</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">distance_in_elements</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">use_group_distances</span><span class="p">:</span>
+      <span class="n">workspace</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">workspace</span>
+      <span class="n">groups_between_two</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">workspace</span><span class="o">.</span><span class="n">GetGroupsWithSpan</span><span class="p">(</span><span class="n">GreaterThan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">end_pos</span><span class="p">),</span>
+                                                            <span class="n">LessThan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">start_pos</span><span class="p">)))</span>
+      <span class="k">if</span> <span class="n">groups_between_two</span><span class="p">:</span>
+        <span class="n">group_distance</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">GetGroupDistance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">end_pos</span><span class="p">,</span>
+                                                    <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">start_pos</span><span class="p">)</span>
+        <span class="n">distance_object</span> <span class="o">=</span> <span class="n">SelectWeightedByActivation</span><span class="p">(</span><span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="p">,</span> <span class="p">(</span><span class="n">distance_object</span><span class="p">,</span>
+                                                                      <span class="n">group_distance</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">distance_object</span>
 </div>
 <div class="viewcode-block" id="Relation.GetAffordances"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.GetAffordances">[docs]</a>  <span class="k">def</span> <span class="nf">GetAffordances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
     <span class="c"># TODO(# --- Jan 3, 2012): Too eager, tone this down later.</span>
     <span class="kn">from</span> <span class="nn">farg.apps.seqsee.codelet_families.all</span> <span class="kn">import</span> <span class="n">CF_GroupFromRelation</span>
+    <span class="kn">from</span> <span class="nn">farg.apps.seqsee.codelet_families.all</span> <span class="kn">import</span> <span class="n">CF_IsThisInterlaced</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">AreEndsContiguous</span><span class="p">():</span>
       <span class="k">return</span> <span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">CF_GroupFromRelation</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">relation</span><span class="o">=</span><span class="bp">self</span><span class="p">)),)</span>
     <span class="k">else</span><span class="p">:</span>
-      <span class="k">return</span> <span class="p">()</span>
+      <span class="n">distance_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ChooseDistanceObject</span><span class="p">(</span><span class="n">controller</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">IsContentSufficientlyActive</span><span class="p">(</span><span class="n">distance_object</span><span class="p">):</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">CF_IsThisInterlaced</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span>
+                        <span class="nb">dict</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="n">distance_object</span><span class="p">)),)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Relation.GetSimilarityAffordances"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.GetSimilarityAffordances">[docs]</a>  <span class="k">def</span> <span class="nf">GetSimilarityAffordances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">focusable</span><span class="p">,</span> <span class="n">other_fringe</span><span class="p">,</span> <span class="n">my_fringe</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
     <span class="k">return</span> <span class="p">()</span>
+</div>
+<div class="viewcode-block" id="Relation.OnFocus"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.OnFocus">[docs]</a>  <span class="k">def</span> <span class="nf">OnFocus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;When the relation is focused on, and is not adjacent, send activation to the</span>
+<span class="sd">       &quot;distance&quot; node.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">AreEndsContiguous</span><span class="p">():</span>
+      <span class="n">distance_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ChooseDistanceObject</span><span class="p">(</span><span class="n">controller</span><span class="p">)</span>
+      <span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">IncreaseActivationForContent</span><span class="p">(</span><span class="n">distance_object</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
 </pre></div></div></div>
 
           </div>
