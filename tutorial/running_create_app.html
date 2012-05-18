@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to ... &mdash; PySeqsee 0.1.3a0 documentation</title>
+    <title>Creating the Application Skeleton &mdash; PySeqsee 0.1.3a0 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -26,8 +26,9 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../index.html" />
-    <link rel="next" title="How to install PySeqsee" href="install.html" />
-    <link rel="prev" title="Creating the Application Skeleton" href="../tutorial/running_create_app.html" /> 
+    <link rel="up" title="Creating a New FARG Application" href="tutorial_index.html" />
+    <link rel="next" title="Adding Input Flags" href="adding_input_flags.html" />
+    <link rel="prev" title="Creating a New FARG Application" href="tutorial_index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,12 +41,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="install.html" title="How to install PySeqsee"
+          <a href="adding_input_flags.html" title="Adding Input Flags"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../tutorial/running_create_app.html" title="Creating the Application Skeleton"
+          <a href="tutorial_index.html" title="Creating a New FARG Application"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+          <li><a href="tutorial_index.html" accesskey="U">Creating a New FARG Application</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,28 +56,34 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="how-to">
-<h1>How to ...<a class="headerlink" href="#how-to" title="Permalink to this headline">¶</a></h1>
-<p>This section describes how to achieve various things, both mundane and otherwise
-(e.g., both &#8220;how to install pySeqsee&#8221; and &#8220;how to design with subspaces&#8221; will be
-addressed).</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Still to be written, for the most part.</p>
+  <div class="section" id="creating-the-application-skeleton">
+<h1>Creating the Application Skeleton<a class="headerlink" href="#creating-the-application-skeleton" title="Permalink to this headline">¶</a></h1>
+<p>Here is a session I used to create the initial skeleton:</p>
+<div class="highlight-python"><pre>~/pyseqsee$ p3 farg/tools/pyseqsee_create_app.py numeric_bongard
+Using templates in  /home/amahabal/pyseqsee/data/pyseqsee_app_template
+New Destination:  farg/apps/numeric_bongard
+Enter Application Class (capitalized version of numeric_bongard) [&#x27;NumericBongard&#x27;]:</pre>
 </div>
-<div class="toctree-wrapper compound">
-<ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">How to install PySeqsee</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_new_app.html">How to create a new application</a></li>
-<li class="toctree-l1"><a class="reference internal" href="flags.html">How to add flags to the application</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_workspace_for_app.html">How to create a workspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workspace_display.html">How to display the workspace in the GUI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_codelet_families.html">How to add a new type of codelet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_subspaces.html">How to create and use a subspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ask_question.html">How to ask the user a question</a></li>
-<li class="toctree-l1"><a class="reference internal" href="batch_and_sxs.html">Evaluation: Batch mode and side-by-side mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="perceiving_something_new.html">Adding ability to perceive something</a></li>
-</ul>
+<div class="section" id="generated-files">
+<h2>Generated files<a class="headerlink" href="#generated-files" title="Permalink to this headline">¶</a></h2>
+<p>The command generated a bunch of files:</p>
+<div class="highlight-python"><pre>farg/apps/numeric_bongard:
+        batch_ui.py
+        controller.py
+        read_input_spec.py
+        run_numeric_bongard.py
+        stopping_conditions.py
+        testing_input.txt
+        workspace.py
+
+farg/apps/numeric_bongard/codelet_families:
+        __init__.py
+
+farg/apps/numeric_bongard/gui:
+        gui.py
+        __init__.py
+        workspace_view.py</pre>
+</div>
 </div>
 </div>
 
@@ -85,15 +93,23 @@ addressed).</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Creating the Application Skeleton</a><ul>
+<li><a class="reference internal" href="#generated-files">Generated files</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../tutorial/running_create_app.html"
-                        title="previous chapter">Creating the Application Skeleton</a></p>
+  <p class="topless"><a href="tutorial_index.html"
+                        title="previous chapter">Creating a New FARG Application</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="install.html"
-                        title="next chapter">How to install PySeqsee</a></p>
+  <p class="topless"><a href="adding_input_flags.html"
+                        title="next chapter">Adding Input Flags</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/howto/howto_index.txt"
+    <li><a href="../_sources/tutorial/running_create_app.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -123,12 +139,13 @@ addressed).</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="install.html" title="How to install PySeqsee"
+          <a href="adding_input_flags.html" title="Adding Input Flags"
              >next</a> |</li>
         <li class="right" >
-          <a href="../tutorial/running_create_app.html" title="Creating the Application Skeleton"
+          <a href="tutorial_index.html" title="Creating a New FARG Application"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+          <li><a href="tutorial_index.html" >Creating a New FARG Application</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

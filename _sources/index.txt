@@ -47,6 +47,7 @@ Contents:
    :maxdepth: 2
 
    overview/overview_index
+   tutorial/tutorial_index
    howto/howto_index
    theory/theory_index
    api/api_index

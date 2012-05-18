@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to ... &mdash; PySeqsee 0.1.3a0 documentation</title>
+    <title>Creating a New FARG Application &mdash; PySeqsee 0.1.3a0 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -26,8 +26,8 @@
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../index.html" />
-    <link rel="next" title="How to install PySeqsee" href="install.html" />
-    <link rel="prev" title="Creating the Application Skeleton" href="../tutorial/running_create_app.html" /> 
+    <link rel="next" title="Creating the Application Skeleton" href="running_create_app.html" />
+    <link rel="prev" title="A brief motivation and overview of PySeqsee" href="../overview/overview_index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,10 +40,10 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="install.html" title="How to install PySeqsee"
+          <a href="running_create_app.html" title="Creating the Application Skeleton"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../tutorial/running_create_app.html" title="Creating the Application Skeleton"
+          <a href="../overview/overview_index.html" title="A brief motivation and overview of PySeqsee"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li> 
       </ul>
@@ -54,27 +54,34 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="how-to">
-<h1>How to ...<a class="headerlink" href="#how-to" title="Permalink to this headline">¶</a></h1>
-<p>This section describes how to achieve various things, both mundane and otherwise
-(e.g., both &#8220;how to install pySeqsee&#8221; and &#8220;how to design with subspaces&#8221; will be
-addressed).</p>
-<div class="admonition warning">
-<p class="first admonition-title">Warning</p>
-<p class="last">Still to be written, for the most part.</p>
+  <div class="section" id="creating-a-new-farg-application">
+<h1>Creating a New FARG Application<a class="headerlink" href="#creating-a-new-farg-application" title="Permalink to this headline">¶</a></h1>
+<p>This tutorial will describe the process of creating a full new application. It will
+attempt to touch all aspects of the process.</p>
+<p>The application developed in this tutorial may be called &#8220;Numeric Bongard&#8221;. Unlike
+Bongard problems, this will not be images.</p>
+<p>I imagine a command-line such as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">run_numeric_bongard</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s">&quot;2 8 4 16&quot;</span>
+</pre></div>
+</div>
+<p>And it should print something out about evens and odds.</p>
+<p>This is a rich domain:</p>
+<div class="highlight-python"><pre>--left=&quot;3 7 11&quot; --right=&quot;9 15 21&quot;  ==&gt; prime/composite
+--left=&quot;3 7 11&quot; --right=&quot;5 13 17&quot;  ==&gt; 3 mod 4 vs 1 mod 4
+--left=&quot;3 7 11&quot; --right=&quot;2 5 13 17&quot;  ==&gt; 3 mod 4 vs not(3 mod 4)
+--left=&quot;3 7 11&quot; --right=&quot;2 5 13 17 15&quot;  ==&gt; 3 mod 4 primes vs not(3 mod 4 primes)</pre>
 </div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="install.html">How to install PySeqsee</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_new_app.html">How to create a new application</a></li>
-<li class="toctree-l1"><a class="reference internal" href="flags.html">How to add flags to the application</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_workspace_for_app.html">How to create a workspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="workspace_display.html">How to display the workspace in the GUI</a></li>
-<li class="toctree-l1"><a class="reference internal" href="add_codelet_families.html">How to add a new type of codelet</a></li>
-<li class="toctree-l1"><a class="reference internal" href="create_subspaces.html">How to create and use a subspace</a></li>
-<li class="toctree-l1"><a class="reference internal" href="ask_question.html">How to ask the user a question</a></li>
-<li class="toctree-l1"><a class="reference internal" href="batch_and_sxs.html">Evaluation: Batch mode and side-by-side mode</a></li>
-<li class="toctree-l1"><a class="reference internal" href="perceiving_something_new.html">Adding ability to perceive something</a></li>
+<li class="toctree-l1"><a class="reference internal" href="running_create_app.html">Creating the Application Skeleton</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="running_create_app.html#generated-files">Generated files</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="adding_input_flags.html">Adding Input Flags</a></li>
+<li class="toctree-l1"><a class="reference internal" href="setting_up_workspace.html">Setting up Workspace</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="setting_up_workspace.html#updating-the-ui">Updating the UI</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -86,14 +93,14 @@ addressed).</p>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../tutorial/running_create_app.html"
-                        title="previous chapter">Creating the Application Skeleton</a></p>
+  <p class="topless"><a href="../overview/overview_index.html"
+                        title="previous chapter">A brief motivation and overview of PySeqsee</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="install.html"
-                        title="next chapter">How to install PySeqsee</a></p>
+  <p class="topless"><a href="running_create_app.html"
+                        title="next chapter">Creating the Application Skeleton</a></p>
   <h3>This Page</h3>
   <ul class="this-page-menu">
-    <li><a href="../_sources/howto/howto_index.txt"
+    <li><a href="../_sources/tutorial/tutorial_index.txt"
            rel="nofollow">Show Source</a></li>
   </ul>
 <div id="searchbox" style="display: none">
@@ -123,10 +130,10 @@ addressed).</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="install.html" title="How to install PySeqsee"
+          <a href="running_create_app.html" title="Creating the Application Skeleton"
              >next</a> |</li>
         <li class="right" >
-          <a href="../tutorial/running_create_app.html" title="Creating the Application Skeleton"
+          <a href="../overview/overview_index.html" title="A brief motivation and overview of PySeqsee"
              >previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li> 
       </ul>
