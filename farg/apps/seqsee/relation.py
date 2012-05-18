@@ -11,11 +11,20 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 from farg.apps.seqsee.distance import DistanceInElements
+from farg.apps.seqsee.util import GreaterThan, LessThan
+from farg.core.util import SelectWeightedByActivation
+from farg.core.codelet import Codelet
+from farg.core.focusable_mixin import FocusableMixin
+
+from farg.third_party import gflags
+
+gflags.DEFINE_boolean("use_group_distances", False,
+                      "If true, distance between objects may be measured in groups. "
+                      "For example, distance between 7 and 8 in '7 1 2 8' can be seen as "
+                      "2 intervening elements or 1 intervening group.")
 
 """A relation is a specific instance of a mapping."""
 
-from farg.core.codelet import Codelet
-from farg.core.focusable_mixin import FocusableMixin
 
 class Relation(FocusableMixin):
   def __init__(self, first, second, *, mapping_set):
@@ -47,6 +56,24 @@ class Relation(FocusableMixin):
   def GetFringe(self, controller):
     return dict((controller.ltm.GetNodeForContent(x), 1.0) for x in self.mapping_set)
 
+  def ChooseDistanceObject(self, controller):
+    """Chooses a distance object. If a group is present between the edges, either of group
+       or elemental distance may be chosen. Otherwise the element distance is chosen.
+    """
+    assert(not self.AreEndsContiguous())
+    distance_in_elements = self.second.start_pos - self.first.end_pos - 1
+    distance_object = DistanceInElements(value=distance_in_elements)
+    if gflags.FLAGS.use_group_distances:
+      workspace = controller.workspace
+      groups_between_two = list(workspace.GetGroupsWithSpan(GreaterThan(self.first.end_pos),
+                                                            LessThan(self.second.start_pos)))
+      if groups_between_two:
+        group_distance = workspace.GetGroupDistance(self.first.end_pos,
+                                                    self.second.start_pos)
+        distance_object = SelectWeightedByActivation(controller.ltm, (distance_object,
+                                                                      group_distance))
+    return distance_object
+
   def GetAffordances(self, controller):
     # TODO(# --- Jan 3, 2012): Too eager, tone this down later.
     from farg.apps.seqsee.codelet_families.all import CF_GroupFromRelation
@@ -54,8 +81,7 @@ class Relation(FocusableMixin):
     if self.AreEndsContiguous():
       return (Codelet(CF_GroupFromRelation, controller, 50, dict(relation=self)),)
     else:
-      distance_in_elements = self.second.start_pos - self.first.end_pos - 1
-      distance_object = DistanceInElements(value=distance_in_elements)
+      distance_object = self.ChooseDistanceObject(controller)
       if controller.ltm.IsContentSufficientlyActive(distance_object):
         return (Codelet(CF_IsThisInterlaced, controller, 50,
                         dict(distance=distance_object)),)
@@ -70,8 +96,6 @@ class Relation(FocusableMixin):
        "distance" node.
     """
     if not self.AreEndsContiguous():
-      distance_in_elements = self.second.start_pos - self.first.end_pos - 1
-      distance_object = DistanceInElements(value=distance_in_elements)
-      # TODO(# --- Apr 22, 2012): Need to do something for group distances, too.
+      distance_object = self.ChooseDistanceObject(controller)
       controller.ltm.IncreaseActivationForContent(distance_object, 5)
 

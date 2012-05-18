@@ -28,7 +28,7 @@ gflags.DEFINE_spaceseplist('sequence', '',
 gflags.DEFINE_spaceseplist('unrevealed_terms', '',
                            'A space separated list of integers')
 
-gflags.DEFINE_float("double_mapping_resistance", 1.0,
+gflags.DEFINE_float("double_mapping_resistance", 0.5,
                     "Probability of not seeking a relation between two objects when a "
                     "relation exists", 0.0, 1.0)
 

@@ -66,10 +66,9 @@ class CF_IsThisInterlaced(CodeletFamily):
   """Check using a subspace if we may be looking at an interlaced sequence."""
   @classmethod
   def Run(cls, controller, distance):
-    if distance.UnitIsElements():
-      SubspaceIsThisInterlaced(controller,
-                               nsteps=20,
-                               workspace_arguments=dict(distance=distance)).Run()
+    SubspaceIsThisInterlaced(controller,
+                             nsteps=20,
+                             workspace_arguments=dict(distance=distance)).Run()
 
 
 class CF_RemoveSpuriousRelations(CodeletFamily):

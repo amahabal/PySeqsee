@@ -10,6 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+from farg.apps.seqsee.distance import DistanceInGroups
 
 """The workspace is the virtual blackboard on which various codelets make annotations about
    relationships that have been seen between entities and groups that have been formed.
@@ -40,7 +41,7 @@
 
 from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.sobject import SElement
-from farg.apps.seqsee.util import Exactly
+from farg.apps.seqsee.util import Exactly, LessThan
 from collections import defaultdict
 from farg.core.exceptions import FargError, ConflictingGroupException, CannotReplaceSubgroupException
 import logging
@@ -158,6 +159,23 @@ class Workspace(object):
     for gp in self.elements:
       if left_fn(gp.start_pos) and right_fn(gp.end_pos):
         yield gp
+
+  def GetGroupDistance(self, left, right):
+    """Get group-based distance between two points. If right = left + 1, this is 0.
+       Otherwise it is greedily calculated using the largest groups that fit.
+    """
+    return DistanceInGroups(value=self.GetGroupDistanceMagnitude(left, right))
+
+  def GetGroupDistanceMagnitude(self, left, right):
+    """Helper for the function above."""
+    if right == left + 1:
+      return 0
+    rightward_groups = list(self.GetGroupsWithSpan(Exactly(left + 1), LessThan(right)))
+    if not rightward_groups:
+      return 1 + self.GetGroupsWithSpan(left + 1, right)
+    else:
+      new_left = max(x.end_pos for x in rightward_groups)
+      return 1 + self.GetGroupDistanceMagnitude(new_left, right)
 
   def GetConflictingGroups(self, gp):
     """Get a list of groups conflicting with given group.
