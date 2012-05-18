@@ -13,6 +13,7 @@ def main():
   if (os.path.exists('farg') and os.path.isdir('farg') and
       os.path.exists(subdir) and os.path.isdir(subdir)):
     install_prefix = subdir
+
   else:
     install_prefix = ''
     print('!!!!!!!!!!!!!!!!!!!!!!!', "\n",
@@ -25,7 +26,6 @@ def main():
     print('Expected exactly one argument (the name of the script). Got %d instead (%s)' %
           (len(sys.argv) - 1, sys.argv[1:]))
     sys.exit(1)
-
   create_app.FARGApp().run(sys.argv[1], install_prefix=install_prefix)
 
 if __name__ == '__main__':

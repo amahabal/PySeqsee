@@ -63,20 +63,7 @@ class FARGApp(Skeleton):
                                              default=dst_dir[0].upper() + dst_dir[1:]))
     Skeleton.run(self, new_dst_dir, run_dry)
 
-
-def main():
-  """Basic command line bootstrap for the BasicModule Skeleton"""
-  # Check that there is an apps subdirectory.
-  if not(os.path.exists('farg')) or not (os.path.isdir('farg')):
-    raise Exception('Should be called from a directory containing farg')
-  subdir = os.path.join('farg', 'apps')
-  if not(os.path.exists(subdir)) or not (os.path.isdir(subdir)):
-    raise Exception('Should be called from a directory containing %s' % subdir)
-
-  if len(sys.argv) != 2:
-    raise Exception('Expected exactly one argument (name of app to create)')
-
-  FARGApp().run(sys.argv[1])
-
 if __name__ == '__main__':
-  main()
+  print("\n============= ERROR ==============")
+  print("This file should no longer be executed. Instead, use pyseqsee_create_app.py "
+        "in this directory.")
