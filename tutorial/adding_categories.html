@@ -1,0 +1,165 @@
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Adding Categories &mdash; PySeqsee 0.1.3a0 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.1.3a0',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../index.html" />
+    <link rel="up" title="Creating a New FARG Application" href="tutorial_index.html" />
+    <link rel="next" title="How to ..." href="../howto/howto_index.html" />
+    <link rel="prev" title="Setting up Workspace" href="setting_up_workspace.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../howto/howto_index.html" title="How to ..."
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="setting_up_workspace.html" title="Setting up Workspace"
+             accesskey="P">previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+          <li><a href="tutorial_index.html" accesskey="U">Creating a New FARG Application</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="adding-categories">
+<h1>Adding Categories<a class="headerlink" href="#adding-categories" title="Permalink to this headline">¶</a></h1>
+<p>Categories will play a starring role in reaching a solution for a numeric bongard
+problem. We want to be able to describe a number as any of the following, just to
+pick a few examples:</p>
+<ul class="simple">
+<li>Prime</li>
+<li>Composite</li>
+<li>Odd</li>
+<li>Even</li>
+<li>Not a prime (e.g., 1)</li>
+<li>Triangular (i.e, n(n+1)/2 for some n)</li>
+<li>Square</li>
+<li>Power of 2</li>
+<li>&#8220;Small&#8221;</li>
+<li>3 mod 4</li>
+<li>Positive</li>
+</ul>
+<p>To this end, we will make Element an instance of Categorizable. Specifically, in
+the file workspace.py we will change the class to become:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="kn">from</span> <span class="nn">farg.core.categorization.categorizable</span> <span class="kn">import</span> <span class="n">CategorizableMixin</span>
+
+<span class="k">class</span> <span class="nc">Element</span><span class="p">(</span><span class="n">CategorizableMixin</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Class to store individual elements of the left and right sets.&quot;&quot;&quot;</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">=</span> <span class="n">magnitude</span>
+</pre></div>
+</div>
+<p>This allows us later to mark elements as belonging to specific categories. The
+syntax for doing so is described by this snippet:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">element</span> <span class="o">=</span> <span class="n">Element</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="c"># Assume that we have defined a category &#39;Prime&#39; somewhere (described below).</span>
+
+<span class="c"># This adds a category. &#39;how&#39; explains how this is a category. In Seqsee, the</span>
+<span class="c"># &#39;how&#39; for an ascending group includes the start and end element. For prime,</span>
+<span class="c"># for this application, it could be empty.</span>
+<span class="n">element</span><span class="o">.</span><span class="n">AddCategory</span><span class="p">(</span><span class="n">Prime</span><span class="p">,</span> <span class="n">how</span><span class="p">)</span>  <span class="c"># &#39;how&#39; is described below</span>
+
+<span class="c"># This call attempts to describe the element as being a prime. It will call the</span>
+<span class="c"># IsInstance method of the category.</span>
+<span class="n">element</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">Prime</span><span class="p">)</span>
+
+<span class="c"># The following is true or false:</span>
+<span class="n">element</span><span class="o">.</span><span class="n">IsKnownInstanceOf</span><span class="p">(</span><span class="n">Prime</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="setting_up_workspace.html"
+                        title="previous chapter">Setting up Workspace</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../howto/howto_index.html"
+                        title="next chapter">How to ...</a></p>
+  <h3>This Page</h3>
+  <ul class="this-page-menu">
+    <li><a href="../_sources/tutorial/adding_categories.txt"
+           rel="nofollow">Show Source</a></li>
+  </ul>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="../howto/howto_index.html" title="How to ..."
+             >next</a> |</li>
+        <li class="right" >
+          <a href="setting_up_workspace.html" title="Setting up Workspace"
+             >previous</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+          <li><a href="tutorial_index.html" >Creating a New FARG Application</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>
