@@ -12,9 +12,10 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.apps.seqsee.anchored import SAnchored
+from farg.apps.seqsee.exceptions import ConflictingGroupException
 from farg.apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
 from farg.core.codelet import CodeletFamily
-from farg.core.exceptions import ConflictingGroupException, AnswerFoundException
+from farg.core.exceptions import AnswerFoundException
 from farg.apps.seqsee.subspaces.are_we_done import SubspaceAreWeDone
 from farg.apps.seqsee.subspaces.is_this_interlaced import SubspaceIsThisInterlaced
 

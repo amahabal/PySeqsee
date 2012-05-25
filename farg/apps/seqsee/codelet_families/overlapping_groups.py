@@ -14,7 +14,7 @@
 from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
 from farg.core.codelet import CodeletFamily
-from farg.core.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
+from farg.apps.seqsee.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
 import logging
 
 

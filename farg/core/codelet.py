@@ -40,7 +40,7 @@ class CodeletFamily(metaclass=ABCMeta):
   @abstractmethod
   def Run(self, controller):
     """Runs the codelet. Subclasses should overrride this, and arrange to handle any specific
-       arguments it needs. These arguments are guarenteed to be passed in as keyword
+       arguments it needs. These arguments are guaranteed to be passed in as keyword
        arguments.
     """
     pass

@@ -91,7 +91,7 @@ class CF_IsThisAnInterlacedSequence(CodeletFamily):
   def CreateGroupings(cls, controller):
     from farg.apps.seqsee.anchored import SAnchored
     from farg.apps.seqsee.sobject import SGroup
-    from farg.core.exceptions import ConflictingGroupException
+    from farg.apps.seqsee.exceptions import ConflictingGroupException
     workspace = controller.workspace
     parent_workspace = controller.parent_controller.workspace
     d = workspace.distance.value + 1

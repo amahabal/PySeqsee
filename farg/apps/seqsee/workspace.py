@@ -10,7 +10,6 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-from farg.apps.seqsee.distance import DistanceInGroups
 
 """The workspace is the virtual blackboard on which various codelets make annotations about
    relationships that have been seen between entities and groups that have been formed.
@@ -39,11 +38,13 @@ from farg.apps.seqsee.distance import DistanceInGroups
       This is likely to be quite inefficient. Keep an eye open for how slow this actually is.
 """
 
+from collections import defaultdict
 from farg.apps.seqsee.anchored import SAnchored
+from farg.apps.seqsee.distance import DistanceInGroups
 from farg.apps.seqsee.sobject import SElement
 from farg.apps.seqsee.util import Exactly, LessThan
-from collections import defaultdict
-from farg.core.exceptions import FargError, ConflictingGroupException, CannotReplaceSubgroupException
+from farg.core.exceptions import FargError
+from farg.apps.seqsee.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
 import logging
 
 logger = logging.getLogger(__name__)

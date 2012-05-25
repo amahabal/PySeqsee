@@ -5,7 +5,7 @@ from farg.apps.seqsee.mapping import NumericMapping, StructuralMapping
 from farg.apps.seqsee.sobject import SObject, SElement
 from farg.apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 from farg.apps.seqsee.workspace import Workspace
-from farg.core.exceptions import FargError, ConflictingGroupException, CannotReplaceSubgroupException
+from farg.apps.seqsee.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
 import unittest
 
 def helper_create_and_insert_group(ws, specification):

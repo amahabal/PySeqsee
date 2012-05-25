@@ -80,8 +80,8 @@ class CF_ExtendGroup(CodeletFamily):
     new_group = SAnchored.Create(new_parts,
                                  underlying_mapping_set={mapping})
 
-    from farg.core.exceptions import ConflictingGroupException
-    from farg.core.exceptions import CannotReplaceSubgroupException
+    from farg.apps.seqsee.exceptions import ConflictingGroupException
+    from farg.apps.seqsee.exceptions import CannotReplaceSubgroupException
     from farg.apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
     try:
       controller.workspace.Replace(item, new_group)
