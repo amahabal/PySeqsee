@@ -12,7 +12,7 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.third_party import gflags
-from tkinter import *
+from tkinter import ALL, Canvas, Menu
 
 gflags.DEFINE_string('gui_initial_view', '',
                      'In GUI mode, what should the initial mode be?')

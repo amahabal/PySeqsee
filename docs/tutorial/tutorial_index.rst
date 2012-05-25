@@ -26,3 +26,4 @@ This is a rich domain::
    running_create_app
    adding_input_flags
    setting_up_workspace
+   adding_categories
