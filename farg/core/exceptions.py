@@ -14,6 +14,14 @@
 import traceback
 from itertools import takewhile
 
+
+class ShouldBeImplementedBySubclass(Exception):
+  """Exception indicating a method required to be implemented by a subclass."""
+
+  def __init__(self):
+    Exception.__init__(self)
+
+
 class FargError(Exception):
   """Base class for untrappable errors (indicating bugs)."""
   def __init__(self, msg):

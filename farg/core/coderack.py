@@ -34,7 +34,7 @@ import random
 from farg.core.exceptions import FargError, FargException
 
 import logging
-logger = logging.getLogger(__name__)
+kLogger = logging.getLogger(__name__)
 
 
 class CoderackEmptyException(FargException):
@@ -47,7 +47,7 @@ class Coderack(object):
   .. todo:: Choose the codelet to expunge based on a better criteria than uniformly randomly.
   """
 
-  def __init__(self, max_capacity):
+  def __init__(self, max_capacity=10):
     #: Maximum number of codelets that the coderack can hold.
     self._max_capacity = max_capacity
     #: Sum of urgencies of all codelets in coderack.
@@ -60,6 +60,7 @@ class Coderack(object):
     self._forced_next_codelet = None
 
   def CodeletCount(self):
+    """Current number of codelets."""
     return self._codelet_count
 
   def IsEmpty(self):
@@ -88,7 +89,7 @@ class Coderack(object):
 
   def AddCodelet(self, codelet):
     """Adds codelet to coderack. Removes some existing codelet if needed."""
-    logger.debug('Codelet added: %s', str(codelet.family))
+    kLogger.debug('Codelet added: %s', str(codelet.family))
     if self._codelet_count == self._max_capacity:
       self._ExpungeSomeCodelet()
     self._codelets.add(codelet)
@@ -118,6 +119,6 @@ class Coderack(object):
   def _ExpungeSomeCodelet(self):
     """Removes a codelet, chosen uniformly randomly."""
     codelet = random.choice(list(self._codelets))
-    logger.info('Coderack over capacity: expunged codelet of family %s.' %
-                codelet.family.__name__)
+    kLogger.info('Coderack over capacity: expunged codelet of family %s.' %
+                 codelet.family.__name__)
     self._RemoveCodelet(codelet)

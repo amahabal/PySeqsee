@@ -11,6 +11,8 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+"""This file defines the core controller."""
+
 from farg.core.codelet import Codelet
 from farg.core.coderack import Coderack
 from farg.core.exceptions import StoppingConditionMet
@@ -26,20 +28,106 @@ gflags.DEFINE_integer('stopping_condition_granularity', 5,
                       " number of codelets.")
 
 class Controller(object):
-  """A controller is responsible for controlling the Coderack.
-     The Coderack, in turn, by the action of codelets, marshals the various pieces of a space
-     or of an entire application.  These pieces include the stream, the long-term memory, and
-     any pieces added by subclasses (a workspace will typically be added).
-
-     A controller provides the method 'Step'.  This does two things.  First, it may add
-     routine codelets.  The controller's constructor specifies what codelets to add and with
-     what likelihood.  If the Coderack is empty, the codelets are added regardless of the
-     likelihood.  Second, a codelet is selected from the Coderack and executed.  This codelet
-     may access the stream, the long-term memory, or the workspace and could even add other
-     codelets which the next call to 'Step' may execute.
+  """A controller is the purely mechanical (read "dumb") loop that controls the
+    entire application as well as individual subspaces that the application may
+    create to tackle subproblems. Each subspace gets its own controller.
+    
+    Each controller has its own coderack, stream, long-term memory, and workspace.
+    These may be accessed thus, respectively::
+    
+      self.coderack
+      self.stream
+      self.ltm
+      self.workspace
+    
+    **Customizing the controller class**
+    
+    A controller is an instance of a subclass of :py:class:`~farg.core.controller.Controller`.
+    It is possible to configure the controller in a number of ways. Before we look at the
+    configuration, here is a brief outline of the main function provided by the controller,
+    namely, :py:meth:`~farg.core.controller.Controller.Step`.
+    
+    A step involves choosing a codelet from the coderack and running it. The codelet has access to
+    each of the components owned by the controller (namely, the coderack, stream, ltm, and
+    workspace). The action of the codelet can have any number of effects including the creation
+    of more codelets, directing the application's attention somewhere (a notion explored later
+    when we look at streams), create structures in the workspace, or extend the LTM or pump
+    activation into some concept.
+    
+    Furthermore, after each step, more codelets are probabilistically added to the coderack. The
+    class variable :py:attr:`~farg.core.controller.Controller.routine_codelets_to_add` contains 3-tuples
+    (class, urgency, probability) specifying the class of the new codelet, its urgency, and the
+    probability with which to add it.
+    
+    In the next few paragraphs, we will look at customizing a hypothetical controller called Foo.
+    Its code will begin thus::
+    
+      class Foo(farg.controller.Controller):
+        ...  # customization here
+    
+    The simplest customization is to specify codelets to be added after each step::
+    
+      class Foo(farg.controller.Controller):
+        routine_codelets_to_add = ((CodeletFamilyBar, 30, 0.3),
+                                   (CodeletFamilyBat, 80, 0.2))
+    
+    Another customization is to use a non-default class for the coderack or the stream. This
+    should in general not be required, and the default classes :py:class:`~farg.core.coderack.Coderack`
+    and :py:class:`~farg.core.stream.Stream` should be adequate. But the customization is available if
+    needed. No argument is passed to the constructor of these classes to create the coderack or
+    the stream::
+    
+      class Foo(farg.controller.Controller):
+        self.coderack_class = SomeClass
+        self.stream_class = SomeOtherClass
+    
+    The workspace class can be specified as follows. If it is not Null, it will be
+    initialized with a dictionary that is passed in the workspace_arguments argument
+    of the controller's constructor::
+    
+      self.workspace_class = YetAnotherClass  # Default: None
+    
+    The LTM's name can be specified as below. The LTM manager will be used to load
+    this (if not already loaded) and to initialize it if it is empty::
+    
+      self.ltm_name = 'LtmName'  # Default: None
+    
+    **The UI**
+    
+    A UI can be graphical or not. At any time, at most one UI is active, and it is
+    shared by all controllers. It can be accessed as::
+      
+      self.ui  # Points to the UI (usually a GUI).
+    
+    The UI provides the important method called :py:meth:`~farg.core.ui.gui.GUI.AskQuestion`.
+    This can be used by the controller to ask for confirmation of the answer, for instance.
+    In case of a graphical UI, this could result in the user being asked the question. In other
+    cases (such as in automated testing), the UI may be given enough knowledge to
+    answer the question itself. See the UI documentation for details.
+    
+    **The Stopping Condition**
+    
+    It is possible to specify a stopping condition for a controller. This is useful for testing
+    when weighing a potential change. When contemplating the change, it is useful to see how long
+    it takes with the change and without the change until some significant event occurs (such as
+    the discovery of the answer, for instance). This will be discussed elsewhere.
+    
+    **The Constructor**
+    
+    The constructor takes the following named arguments:
+    
+      * ui (required)
+      * controller_depth. The top controller has depth 0, its subspaces have depth 1, and so
+        forth. The default is 0.
+      * parent_controller. If present, it points to the controller that created this subspace.
+        Defaults to None (which indicates a top-level controller).
+      * workspace_arguments. If present, this should be a dict() and will be used to initialize
+        the workspace.
+      * stopping_condition. If present, this should be a function that takes the controller as
+        the only input and returns true or false.
   """
-
-  #: What type of stream is owned by the controller.
+  #: What type of stream is owned by the controller. Defaults to
+  #: :py:class:`farg.core.stream.Stream`
   stream_class = Stream
   #: What type of coderack is owned by the controller.
   coderack_class = Coderack
@@ -60,14 +148,15 @@ class Controller(object):
     #: If this is a controller of a subspace, this points to parent_controller.
     self.parent_controller = parent_controller
     #: The coderack.
-    self.coderack = self.coderack_class(10)
+    self.coderack = self.coderack_class()
     #: The stream.
     self.stream = self.stream_class(self)
     if self.workspace_class:
       if workspace_arguments is None:
         workspace_arguments = dict()
-      #: Workspace
-      self.workspace = self.workspace_class(**workspace_arguments)
+      #: Workspace, constructed if workspace_class is defined. The workspace is constructed
+      #: using workspace_arguments.
+      self.workspace = self.workspace_class(**workspace_arguments)  # pylint: disable=E1102
     if self.ltm_name:
       #: LTM, if any
       self.ltm = LTMManager.GetLTM(self.ltm_name)

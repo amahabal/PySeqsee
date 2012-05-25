@@ -145,6 +145,7 @@ class GUI:
     pass
 
   def AskQuestion(self, question):
+    """Asks the question (by delegating to the Ask method of the question)."""
     return question.Ask(self)
 
   def RegisterQuestionHandlers(self):

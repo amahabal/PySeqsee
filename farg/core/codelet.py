@@ -11,32 +11,39 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-"""Base classes for Codelet families and for codelet.
+"""Classes defining a Codelet and the base class for all Codelet families."""
 
-.. ToDo:: Keep eyes open for freshness issues; these have not been ported from Perl.
-"""
+from abc import ABCMeta, abstractmethod
 
-class CodeletFamily(object):
+class CodeletFamily(metaclass=ABCMeta):
   """A codelet family is a class that defines what happens when you run a codelet of that
      family.
      
      Codelet family names typically start with CF.
      
      A codelet family subclasses this class and looks like this::
-     
+
+       from farg.core.codelet import CodeletFamily     
        class CF_Foo(CodeletFamily):
          "Documentation describes what it does, what codelets it may create, what things
           it may cause to focus on, and any subspace it may be a part of.
          "
          
          @classmethod
-         def Run(self, controller, other_arg1, other_arg2):
+         def Run(self, controller, *, other_arg1, other_arg2):
            "Run may take extra arguments (such as other_arg1 above). The extra arguments
             will be passed by name only. These are set in the constructor of the codelet.
            "
            DoSomething()
   """
-  pass
+
+  @abstractmethod
+  def Run(self, controller):
+    """Runs the codelet. Subclasses should overrride this, and arrange to handle any specific
+       arguments it needs. These arguments are guarenteed to be passed in as keyword
+       arguments.
+    """
+    pass
 
 class Codelet(object):
   """A codelet is a unit of action in Seqsee. A codelet belongs to a codelet family which
@@ -63,5 +70,6 @@ class Codelet(object):
     self.controller = controller
 
   def Run(self):
+    """Runs the codelet."""
     self.controller.most_recent_codelet = self
     return self.family.Run(self.controller, **self.args)
