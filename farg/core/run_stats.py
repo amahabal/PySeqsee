@@ -17,18 +17,22 @@ Collects stats for multiple run with a single setting.
 
 from collections import defaultdict
 
-def mean(numbers):
+def Mean(numbers):
+  """Returns the average of the input, 0 if empty."""
   if not numbers:
     return 0
   return sum(numbers) / len(numbers)
 
-def median(numbers):
-  l = len(numbers)
-  n = sorted(numbers)
-  if l % 2 == 0:
-    return (n[int(l / 2)] + n[int(l / 2) - 1]) / 2.0
+def Median(numbers):
+  """Returns the median of the input, 0 if empty."""
+  length = len(numbers)
+  if length == 0:
+    return 0
+  sorted_numbers = sorted(numbers)
+  if length % 2 == 0:
+    return (sorted_numbers[int(length / 2)] + sorted_numbers[int(length / 2) - 1]) / 2.0
   else:
-    return n[int((l - 1) / 2)]
+    return sorted_numbers[int((length - 1) / 2)]
 
 class StatsForSingleState:
   """Stats for a single state (e.g., "SuccessfulCompletion") of a single run."""
@@ -46,10 +50,10 @@ class StatsForSingleState:
   def __str__(self):
     counts = sorted(self.codelet_counts)
     return 'Count: %d, Avg: %.2f, Min: %.2f, Max: %.2f, Median: %.2f, %s' % (len(counts),
-                                                                             mean(counts),
+                                                                             Mean(counts),
                                                                              min(counts),
                                                                              max(counts),
-                                                                             median(counts),
+                                                                             Median(counts),
                                                                              counts)
 
 class RunStats:
@@ -81,3 +85,34 @@ class RunStats:
     """
     individual_strings = ('%s: %s' % (k, str(v)) for k, v in self.stats_per_state.items())
     return "\n".join(individual_strings)
+
+class AllStats:
+  """Stats for all inputs for each iteration thus far."""
+  def __init__(self, *, left_name, right_name):
+    """
+    Initialize stats. The names will typically be "Base" and "Expt", or "Previous" and
+    "Current".
+    """
+    self.left_name = left_name
+    self.right_name = right_name
+
+    #: Order in which inputs have been seen.
+    self.input_order = []
+
+    #: Stats for the left side.
+    self.left_stats = defaultdict(RunStats)
+
+    #: Stats for the right side.
+    self.right_stats = defaultdict(RunStats)
+
+  def GetLeftStatsFor(self, input):
+    """Get left stats for input. Create (empty) if not present."""
+    if input not in self.input_order:
+      self.input_order.append(input)
+    return self.left_stats[input]
+
+  def GetRightStatsFor(self, input):
+    """Get right stats for input. Create (empty) if not present."""
+    if input not in self.input_order:
+      self.input_order.append(input)
+    return self.right_stats[input]
