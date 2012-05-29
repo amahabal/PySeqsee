@@ -63,6 +63,10 @@ class RunStats:
   def __init__(self):
     self.stats_per_state = defaultdict(StatsForSingleState)
 
+  def IsEmpty(self):
+    """Returns true if no data has been added."""
+    return not bool(self.stats_per_state)
+
   def AddData(self, data_string):
     """
     Add a data point.
@@ -105,14 +109,14 @@ class AllStats:
     #: Stats for the right side.
     self.right_stats = defaultdict(RunStats)
 
-  def GetLeftStatsFor(self, input):
-    """Get left stats for input. Create (empty) if not present."""
-    if input not in self.input_order:
-      self.input_order.append(input)
-    return self.left_stats[input]
+  def GetLeftStatsFor(self, input_to_run):
+    """Get left stats for input_to_run. Create (empty) if not present."""
+    if input_to_run not in self.input_order:
+      self.input_order.append(input_to_run)
+    return self.left_stats[input_to_run]
 
-  def GetRightStatsFor(self, input):
-    """Get right stats for input. Create (empty) if not present."""
-    if input not in self.input_order:
-      self.input_order.append(input)
-    return self.right_stats[input]
+  def GetRightStatsFor(self, input_to_run):
+    """Get right stats for input_to_run. Create (empty) if not present."""
+    if input_to_run not in self.input_order:
+      self.input_order.append(input_to_run)
+    return self.right_stats[input_to_run]
