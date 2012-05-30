@@ -16,12 +16,18 @@ Collects stats for multiple run with a single setting.
 """
 
 from collections import defaultdict
+from math import sqrt
 
 def Mean(numbers):
   """Returns the average of the input, 0 if empty."""
   if not numbers:
     return 0
   return sum(numbers) / len(numbers)
+
+def Variance(numbers):
+  assert(len(numbers) >= 2)
+  count = len(numbers)
+  return (sum(x * x for x in numbers) - (sum(numbers) / count)) / (count - 1)
 
 def Median(numbers):
   """Returns the median of the input, 0 if empty."""
@@ -62,6 +68,8 @@ class RunStats:
   """
   def __init__(self):
     self.stats_per_state = defaultdict(StatsForSingleState)
+    self.count = 0
+    self.successful_codelet_count = 0
 
   def IsEmpty(self):
     """Returns true if no data has been added."""
@@ -82,6 +90,9 @@ class RunStats:
       self.stats_per_state[pieces[0]].AddData(codelet_count=0)
     else:
       self.stats_per_state[pieces[0]].AddData(codelet_count=int(pieces[1]))
+    self.count = self.count + 1
+    if pieces[0] == b'SuccessfulCompletion':
+      self.successful_codelet_count = self.successful_codelet_count + 1
 
   def __str__(self):
     """
@@ -89,6 +100,26 @@ class RunStats:
     """
     individual_strings = ('%s: %s' % (k, str(v)) for k, v in self.stats_per_state.items())
     return "\n".join(individual_strings)
+
+def Descriptor(*, t, df, less="Less", more="More"):
+  """Given t and degrees of freedom, returns "More", "Less", or "", at roughtly 95%
+     confidence.
+  """
+  if df < 5:
+    return ""
+  if df < 10:
+    if abs(t) > 2.3:
+      return more if t > 0 else less
+    return ""
+  if df < 20:
+    if abs(t) > 2.1:
+      return more if t > 0 else less
+    return ""
+  if abs(t) > 1.98:
+    return more if t > 0 else less
+  return ""
+
+
 
 class AllStats:
   """Stats for all inputs for each iteration thus far."""
@@ -108,6 +139,50 @@ class AllStats:
 
     #: Stats for the right side.
     self.right_stats = defaultdict(RunStats)
+
+  def GetTStatsDict(self, left_numbers, right_numbers):
+    left_mean = Mean(left_numbers)
+    right_mean = Mean(right_numbers)
+    left_variance = Variance(left_numbers)
+    right_variance = Variance(right_numbers)
+    n1 = len(left_numbers)
+    n2 = len(right_numbers)
+    df = n1 + n2 - 2
+    svar = ((n1 - 1) * left_variance + (n2 - 1) * right_variance) / float(df)
+    t = (right_mean - left_mean) / sqrt(svar * (1.0 / n1 + 1.0 / n2))
+    return  dict(left_mean=left_mean,
+                 right_mean=right_mean,
+                 left_variance=left_variance,
+                 right_variance=right_variance,
+                 n1=n1,
+                 n2=n2,
+                 df=df,
+                 t=t)
+
+  def GetComparitiveStats(self, for_input):
+    left_stats = self.left_stats[for_input]
+    right_stats = self.right_stats[for_input]
+    left_successful_codelets = left_stats.stats_per_state[b'SuccessfulCompletion'].codelet_counts
+    right_successful_codelets = right_stats.stats_per_state[b'SuccessfulCompletion'].codelet_counts
+    if len(left_successful_codelets) < 2 or len(right_successful_codelets) < 2:
+      return (None, None)
+    codelet_count_stats = self.GetTStatsDict(left_successful_codelets,
+                                             right_successful_codelets)
+    descriptor = Descriptor(t=codelet_count_stats['t'],
+                            df=codelet_count_stats['df'],
+                            less="Faster", more="Slower")
+    codelet_count_stats['descriptor'] = descriptor
+
+    success_stats = self.GetTStatsDict([1 if x < len(left_successful_codelets) else 0
+                                        for x in range(left_stats.count)],
+                                       [1 if x < len(right_successful_codelets) else 0
+                                        for x in range(right_stats.count)])
+    descriptor = Descriptor(t=success_stats['t'],
+                            df=success_stats['df'],
+                            more="More Success", less="Less Success")
+    success_stats['descriptor'] = descriptor
+    return (codelet_count_stats, success_stats)
+
 
   def GetLeftStatsFor(self, input_to_run):
     """Get left stats for input_to_run. Create (empty) if not present."""

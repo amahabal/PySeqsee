@@ -12,8 +12,9 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.core.run_mode.run_mode import RunMode
-from farg.core.run_stats import AllStats, Mean, Median
+from farg.core.run_stats import AllStats, Mean, Median, Variance
 from farg.third_party import gflags
+from math import sqrt
 from tkinter import ACTIVE, BOTH, Button, Canvas, END, Frame, LEFT, Listbox, N, NW, RIGHT, Scrollbar, Tk, TOP, VERTICAL, Y
 import subprocess
 import sys
@@ -47,7 +48,7 @@ class RunMultipleTimes(threading.Thread):
     self.RunAll()
 
 # A few constants used by the GUI
-kCanvasHeight = 420
+kCanvasHeight = 520
 kCanvasWidth = 500
 kBaseYOffset = 20
 kExptYOffset = kBaseYOffset + ((kCanvasHeight - kBaseYOffset) / 3)
@@ -164,6 +165,9 @@ class MultipleRunGUI:
                              stats=self.stats.GetLeftStatsFor(self.display_details_for))
     self.DisplayOneSideStats(y=kExptYOffset, label=self.stats.right_name,
                              stats=self.stats.GetRightStatsFor(self.display_details_for))
+    self.DisplayInferenceStats(self.stats,
+                               self.display_details_for,
+                               y=kInferenceStatsYOffset)
 
   def DisplayOneSideStats(self, *, y, label, stats):
     self.canvas.create_text(10, y, anchor=NW, text=label)
@@ -228,6 +232,38 @@ class MultipleRunGUI:
       median_codelet_count = Median(codelet_counts)
       self.canvas.create_text(x, y + 15, anchor=NW, text='Mean: %3.2f' % mean_codelet_count)
       self.canvas.create_text(x, y + 30, anchor=NW, text='Median: %3.2f' % median_codelet_count)
+
+  def DisplayInferenceStats(self, stats, for_input, y):
+    codelet_stats, success_stats = stats.GetComparitiveStats(for_input)
+    if not codelet_stats or not success_stats:
+      return
+    self.canvas.create_text(10, y, anchor=NW,
+                            text='means: (%3.2f, %3.2f), variance: (%3.2f, %3.2f)' %
+                            (codelet_stats['left_mean'],
+                             codelet_stats['right_mean'],
+                             codelet_stats['left_variance'],
+                             codelet_stats['right_variance']))
+    self.canvas.create_text(10, y + 20, anchor=NW,
+                            text='Counts: (%d, %d), k=%d, t=%3.2f, %s' %
+                            (codelet_stats['n1'],
+                             codelet_stats['n2'],
+                             codelet_stats['df'],
+                             codelet_stats['t'],
+                             codelet_stats['descriptor']))
+
+    self.canvas.create_text(10, y + 40, anchor=NW,
+                            text='means: (%3.2f, %3.2f), variance: (%3.2f, %3.2f)' %
+                            (success_stats['left_mean'],
+                             success_stats['right_mean'],
+                             success_stats['left_variance'],
+                             success_stats['right_variance']))
+    self.canvas.create_text(10, y + 60, anchor=NW,
+                            text='Counts: (%d, %d), k=%d, t=%3.2f, %s' %
+                            (success_stats['n1'],
+                             success_stats['n2'],
+                             success_stats['df'],
+                             success_stats['t'],
+                             success_stats['descriptor']))
 
 
 class RunModeNonInteractive(RunMode):
