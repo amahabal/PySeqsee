@@ -27,7 +27,8 @@ def Mean(numbers):
 def Variance(numbers):
   assert(len(numbers) >= 2)
   count = len(numbers)
-  return (sum(x * x for x in numbers) - (sum(numbers) / count)) / (count - 1)
+  mean = sum(numbers) / count
+  return sum((x - mean) * (x - mean) for x in numbers) / count
 
 def Median(numbers):
   """Returns the median of the input, 0 if empty."""
@@ -140,6 +141,9 @@ class AllStats:
     #: Stats for the right side.
     self.right_stats = defaultdict(RunStats)
 
+    #: Memoized Stats
+    self.memoized_stats = defaultdict(tuple)
+
   def GetTStatsDict(self, left_numbers, right_numbers):
     left_mean = Mean(left_numbers)
     right_mean = Mean(right_numbers)
@@ -149,7 +153,10 @@ class AllStats:
     n2 = len(right_numbers)
     df = n1 + n2 - 2
     svar = ((n1 - 1) * left_variance + (n2 - 1) * right_variance) / float(df)
-    t = (right_mean - left_mean) / sqrt(svar * (1.0 / n1 + 1.0 / n2))
+    if svar:
+      t = (right_mean - left_mean) / sqrt(svar * (1.0 / n1 + 1.0 / n2))
+    else:
+      t = 0
     return  dict(left_mean=left_mean,
                  right_mean=right_mean,
                  left_variance=left_variance,
@@ -162,6 +169,11 @@ class AllStats:
   def GetComparitiveStats(self, for_input):
     left_stats = self.left_stats[for_input]
     right_stats = self.right_stats[for_input]
+    memoized = self.memoized_stats[for_input]
+    if memoized:
+      left_count, right_count, codelet_stats, success_stats = memoized
+      if left_count == left_stats.count and right_count == right_stats.count:
+        return (codelet_stats, success_stats)
     left_successful_codelets = left_stats.stats_per_state[b'SuccessfulCompletion'].codelet_counts
     right_successful_codelets = right_stats.stats_per_state[b'SuccessfulCompletion'].codelet_counts
     if len(left_successful_codelets) < 2 or len(right_successful_codelets) < 2:
@@ -181,8 +193,15 @@ class AllStats:
                             df=success_stats['df'],
                             more="More Success", less="Less Success")
     success_stats['descriptor'] = descriptor
+    self.memoized_stats[for_input] = (left_stats.count, right_stats.count,
+                                      codelet_count_stats, success_stats)
     return (codelet_count_stats, success_stats)
 
+  def IsRightBetter(self, for_input):
+    codelet_count_stats, success_stats = self.GetComparitiveStats(for_input)
+    if not codelet_count_stats:
+      return ("", "")
+    return (codelet_count_stats['descriptor'], success_stats['descriptor'])
 
   def GetLeftStatsFor(self, input_to_run):
     """Get left stats for input_to_run. Create (empty) if not present."""

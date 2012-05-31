@@ -39,15 +39,14 @@ class SxSRunMultipleTimes(RunMultipleTimes):
       name = one_input_spec.name
       common_arguments = self.GetSubprocessArguments(one_input_spec)
 
-      left_stats = self.gui.stats.GetLeftStatsFor(name)
       for _idx in range(FLAGS.num_iterations):
+        left_stats = self.gui.stats.GetLeftStatsFor(name)
         if self.gui.quitting:
           return
         result = RunModeNonInteractive.DoSingleRun(common_arguments, FLAGS.base_flags)
         left_stats.AddData(result)
 
-      right_stats = self.gui.stats.GetRightStatsFor(name)
-      for _idx in range(FLAGS.num_iterations):
+        right_stats = self.gui.stats.GetRightStatsFor(name)
         if self.gui.quitting:
           return
         result = RunModeNonInteractive.DoSingleRun(common_arguments, FLAGS.exp_flags)

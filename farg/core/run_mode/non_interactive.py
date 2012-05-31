@@ -152,6 +152,26 @@ class MultipleRunGUI:
       return
     for idx, input in enumerate(inputs):
       self.listbox.insert(END, input)
+      d1, d2 = self.stats.IsRightBetter(input)
+      #print(input, d1, d2)
+      color = '#FFFFFF'
+      if not d1:
+        if d2 == 'More Success':
+          color = '#00FF00'
+        elif d2 == 'Less Success':
+          color = '#FF0000'
+      elif d1 == 'Faster':
+        if d2 == 'Less Success':
+          color = '#FFFF00'
+        else:
+          color = '#00FF00'
+      else:
+        if d2 == 'More Success':
+          color = '#FFFF00'
+        else:
+          color = '#FF0000'
+      self.listbox.itemconfigure(idx, background=color)
+
       if input == self.display_details_for:
         self.listbox.selection_set(idx)
     if self.display_details_for:
