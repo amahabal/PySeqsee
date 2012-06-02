@@ -145,15 +145,15 @@ class AllStats:
     self.memoized_stats = defaultdict(tuple)
 
   def GetTStatsDict(self, left_numbers, right_numbers):
-    left_mean = Mean(left_numbers)
-    right_mean = Mean(right_numbers)
-    left_variance = Variance(left_numbers)
-    right_variance = Variance(right_numbers)
     n1 = len(left_numbers)
     n2 = len(right_numbers)
+    left_mean = Mean(left_numbers) if n1 else 0
+    right_mean = Mean(right_numbers) if n2 else 0
+    left_variance = Variance(left_numbers) if n1 > 1 else 0
+    right_variance = Variance(right_numbers) if n2 > 1 else 0
     df = n1 + n2 - 2
-    svar = ((n1 - 1) * left_variance + (n2 - 1) * right_variance) / float(df)
-    if svar:
+    svar = ((n1 - 1) * left_variance + (n2 - 1) * right_variance) / float(df) if df else 0
+    if svar and n1 and n2:
       t = (right_mean - left_mean) / sqrt(svar * (1.0 / n1 + 1.0 / n2))
     else:
       t = 0
@@ -176,8 +176,6 @@ class AllStats:
         return (codelet_stats, success_stats)
     left_successful_codelets = left_stats.stats_per_state[b'SuccessfulCompletion'].codelet_counts
     right_successful_codelets = right_stats.stats_per_state[b'SuccessfulCompletion'].codelet_counts
-    if len(left_successful_codelets) < 2 or len(right_successful_codelets) < 2:
-      return (None, None)
     codelet_count_stats = self.GetTStatsDict(left_successful_codelets,
                                              right_successful_codelets)
     descriptor = Descriptor(t=codelet_count_stats['t'],

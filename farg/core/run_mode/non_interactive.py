@@ -12,13 +12,13 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.core.run_mode.run_mode import RunMode
-from farg.core.run_stats import AllStats, Mean, Median, Variance
+from farg.core.run_stats import AllStats, Mean, Median
 from farg.third_party import gflags
-from math import sqrt
-from tkinter import ACTIVE, BOTH, Button, Canvas, END, Frame, LEFT, Listbox, N, NW, RIGHT, Scrollbar, Tk, TOP, VERTICAL, Y
+from tkinter import Button, Canvas, Frame, Listbox, Scrollbar, Tk
 import subprocess
 import sys
 import threading
+from tkinter.constants import BOTH, END, LEFT, N, NW, RIGHT, SINGLE, TOP, VERTICAL, Y
 
 FLAGS = gflags.FLAGS
 
@@ -92,7 +92,8 @@ class MultipleRunGUI:
     #: listbox on left listing inputs.
     frame = Frame(details_frame)
     scrollbar = Scrollbar(frame, orient=VERTICAL)
-    listbox = Listbox(frame, yscrollcommand=scrollbar.set, height=25, width=70)
+    listbox = Listbox(frame, yscrollcommand=scrollbar.set, height=25, width=70,
+                      selectforeground=None, selectmode=SINGLE)
     scrollbar.config(command=listbox.yview)
     scrollbar.pack(side=RIGHT, fill=Y)
     listbox.pack(side=LEFT, fill=BOTH, expand=1)
@@ -111,6 +112,7 @@ class MultipleRunGUI:
     self.mw.bind('<KeyPress-q>', lambda e: self.Quit())
     self.mw.bind('<KeyPress-r>', lambda e: self.KickOffRun())
     self.Refresher()
+    self.mw.after(1000, self.KickOffRun)
 
   def SelectForDisplay(self, event):
     self.display_details_for = self.listbox.get(self.listbox.curselection()[0])
@@ -151,7 +153,10 @@ class MultipleRunGUI:
     if not inputs:
       return
     for idx, input in enumerate(inputs):
-      self.listbox.insert(END, input)
+      if input == self.display_details_for:
+        self.listbox.insert(END, '%s   <---' % input)
+      else:
+        self.listbox.insert(END, input)
       d1, d2 = self.stats.IsRightBetter(input)
       #print(input, d1, d2)
       color = '#FFFFFF'
@@ -172,8 +177,6 @@ class MultipleRunGUI:
           color = '#FF0000'
       self.listbox.itemconfigure(idx, background=color)
 
-      if input == self.display_details_for:
-        self.listbox.selection_set(idx)
     if self.display_details_for:
       self.DisplayDetails()
 
