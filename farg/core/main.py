@@ -94,7 +94,7 @@ class Main:
       homedir = os.path.expanduser('~')
       if not os.path.exists(homedir):
         print ("Could not locate home directory for storing LTM files."
-               "You could explicitely specify an existing directory to use by using"
+               "You could explicitly specify an existing directory to use by using"
                "the flag --ltm_directory. Quitting.")
         sys.exit(1)
       FLAGS.ltm_directory = os.path.join(homedir, '.pyseqsee')

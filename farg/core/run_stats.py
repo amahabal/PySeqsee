@@ -174,8 +174,10 @@ class AllStats:
       left_count, right_count, codelet_stats, success_stats = memoized
       if left_count == left_stats.count and right_count == right_stats.count:
         return (codelet_stats, success_stats)
-    left_successful_codelets = left_stats.stats_per_state[b'SuccessfulCompletion'].codelet_counts
-    right_successful_codelets = right_stats.stats_per_state[b'SuccessfulCompletion'].codelet_counts
+    left_successful_codelets = (
+        left_stats.stats_per_state[b'SuccessfulCompletion'].codelet_counts)
+    right_successful_codelets = (
+        right_stats.stats_per_state[b'SuccessfulCompletion'].codelet_counts)
     codelet_count_stats = self.GetTStatsDict(left_successful_codelets,
                                              right_successful_codelets)
     descriptor = Descriptor(t=codelet_count_stats['t'],
