@@ -1,0 +1,41 @@
+Changes in PySeqsee in reverse chronological order:
+
+June 5, 2012, Release 0.2
+===========================
+
+34 commits with these highlights:
+
+* A shiny new batch mode and SxS mode GUI with pretty pie charts and stats comparing with
+  previous runs.
+* More documentation. A lot more is still needed, but the How To section is somewhat improved.
+* Enriched the skeleton app generator and started a tutorial explaining how a new app can
+  be created.
+* A new standard location now for saving files such as LTMs and statistics of batch runs.
+  These will be in ~/.pyseqsee/{app_name}.
+
+Seqsee:
+
+* A lot of cleanup, ability to see pseudo-periodic sequences such as "1 7 2 8 3 9"
+* Allowing multiple mappings between groups. Allows Seqsee to get out of ruts (for example,
+  in "2 3 5 7 11...", if it saw 2-3 as being numeric successor instead of Prime successor,
+  it could previously get stuck. Now it doesn't.)
+* More consistent use of categories. This allowed Seqsee to see "1 7 2 11 3 13", which it
+  did not despite the previous change.
+* A lot of code cleanup.
+* The UI is richer, with more things visible.
+* FindMapping completely refactored.
+
+April 20, 2012, Releases 0.1.1 and 0.1.2
+===========================================
+
+12 commits with these highlights:
+ 
+* Refactored subspaces, added documentation.
+* Significant improvements to Seqsee.
+* Moved code around so that everything lives under farg/
+* Released to Pypi
+
+April 13, 2012, Release 0.1
+=============================
+
+Initial release and announcement sent to FARG.
