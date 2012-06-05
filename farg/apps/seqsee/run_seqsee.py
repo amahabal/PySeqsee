@@ -37,6 +37,9 @@ class SeqseeMain(Main):
   The entry point into the Seqsee app. This controls all the modes of running Seqsee --- GUI,
   batch, and a side-by-side comparison with different flags.
   """
+  #: The lowercase name of the program, used for such things as directory for ltm files
+  #: and stats for batch runs.
+  application_name = 'seqsee'
   #: The GUI class when running in GUI mode. The UI is responsible for interfacing between the
   #: user and the controller.
   gui_class = SeqseeGUI

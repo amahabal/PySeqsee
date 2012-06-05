@@ -14,7 +14,7 @@
 from farg.core.run_mode.run_mode import RunMode
 from farg.core.run_stats import AllStats, Mean, Median
 from farg.third_party import gflags
-from tkinter import Button, Canvas, Frame, Listbox, Scrollbar, Tk
+from tkinter import Button, Canvas, Frame, Label, Listbox, Scrollbar, Tk
 import subprocess
 import sys
 import threading
@@ -45,7 +45,9 @@ class RunMultipleTimes(threading.Thread):
 
        Merely delegates to RunAll, which should be overriden by subclass.
     """
+    self.gui.status_label.configure(text='Running')
     self.RunAll()
+    self.gui.status_label.configure(text='Complete')
 
 # A few constants used by the GUI
 kCanvasHeight = 520
@@ -122,6 +124,8 @@ class MultipleRunGUI:
     button_bar = Frame(mw)
     button_bar.pack(side=TOP)
     Button(button_bar, text="Run", command=self.KickOffRun).pack(side=LEFT)
+    self.status_label = Label(button_bar, text='Not Started')
+    self.status_label.pack(side=LEFT)
 
   def SetupArgumentsBar(self, mw):
     """Sets up area to choose filename and other parameters of the run."""

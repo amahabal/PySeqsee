@@ -45,10 +45,16 @@ gflags.DEFINE_integer('num_iterations', 10,
 gflags.DEFINE_integer('max_steps', 1000,
                       "In batch and SxS mode, number of steps per run", 1)
 
+gflags.DEFINE_string('persistent_directory', '',
+                     'Directory in which to hold files that persist between runs, such as'
+                     'ltm files or statistics about performance on batch runs. '
+                     'If not passed, ~/.pyseqsee/{application_name} is used.')
 gflags.DEFINE_string('ltm_directory', '',
-                     'Directory to hold LTM files. If this flag is passes, the directory'
-                     'it points to must exist. If not passed, ~/.pyseqsee would be used,'
-                     ' and created if necessary')
+                     'Directory to hold LTM files. '
+                     'If not passed, FLAGS.persistent_directory/ltm is used')
+gflags.DEFINE_string('stats_directory', '',
+                     'Directory to hold statistics from prior batch runs. '
+                     'If not passed, FLAGS.persistent_directory/stats is used')
 
 
 class Main:
@@ -83,6 +89,27 @@ class Main:
   #: that takes a controller and returns a bool).
   stopping_conditions_class = StoppingConditions
 
+  def VerifyPersistentDirectoryPath(self):
+    """Verify (or create) the persistent directory."""
+    directory = FLAGS.persistent_directory
+    if not directory:
+      homedir = os.path.expanduser('~')
+      if not os.path.exists(homedir):
+        print ("Could not locate home directory for storing LTM files."
+               "You could explicitly specify an existing directory to use by using"
+               "the flag --ltm_directory. Quitting.")
+        sys.exit(1)
+      pyseqsee_home = os.path.join(homedir, '.pyseqsee')
+      if not os.path.exists(pyseqsee_home):
+        print('Creating directory for storing pyseqsee files: %s' % pyseqsee_home)
+        os.mkdir(pyseqsee_home)
+      directory = os.path.join(pyseqsee_home, self.application_name)
+    if not os.path.exists(directory):
+      print('Creating directory for storing persistent files for the %s app: %s' %
+            (self.application_name, directory))
+      os.mkdir(directory)
+    FLAGS.persistent_directory = directory
+
   def VerifyLTMPath(self):
     """Create a directory for ltms unless flag provided. If provided, verify it exists."""
     if FLAGS.ltm_directory:
@@ -90,17 +117,25 @@ class Main:
         print ("LTM directory '%s' does not exist." % FLAGS.ltm_directory)
         sys.exit(1)
     else:
-      # Locate it in users's home.
-      homedir = os.path.expanduser('~')
-      if not os.path.exists(homedir):
-        print ("Could not locate home directory for storing LTM files."
-               "You could explicitly specify an existing directory to use by using"
-               "the flag --ltm_directory. Quitting.")
-        sys.exit(1)
-      FLAGS.ltm_directory = os.path.join(homedir, '.pyseqsee')
+      self.VerifyPersistentDirectoryPath()
+      FLAGS.ltm_directory = os.path.join(FLAGS.persistent_directory, 'ltm')
       if not os.path.exists(FLAGS.ltm_directory):
         print('Creating directory for storing ltms: %s' % FLAGS.ltm_directory)
         os.mkdir(FLAGS.ltm_directory)
+
+  def VerifyStatsPath(self):
+    """Create a directory for batch stats unless flag provided. If provided,
+       verify it exists."""
+    if FLAGS.stats_directory:
+      if not os.path.exists(FLAGS.stats_directory):
+        print ("Stats directory '%s' does not exist." % FLAGS.stats_directory)
+        sys.exit(1)
+    else:
+      self.VerifyPersistentDirectoryPath()
+      FLAGS.stats_directory = os.path.join(FLAGS.persistent_directory, 'stats')
+      if not os.path.exists(FLAGS.stats_directory):
+        print('Creating directory for storing stats: %s' % FLAGS.stats_directory)
+        os.mkdir(FLAGS.stats_directory)
 
 
   def VerifyStoppingConditionSanity(self):
@@ -172,7 +207,9 @@ class Main:
         sys.exit(1)
 
     self.VerifyStoppingConditionSanity()
+    self.VerifyPersistentDirectoryPath()
     self.VerifyLTMPath()
+    self.VerifyStatsPath()
     self.run_mode = self.CreateRunModeInstance()
 
     if FLAGS.debug:
@@ -186,6 +223,7 @@ class Main:
     """
     Apps can override this to process app-specific flags.
     """
+    pass
 
   def Run(self):
     self.run_mode.Run()

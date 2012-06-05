@@ -30,6 +30,10 @@ class {application_class}Main(Main):
   The entry point into the {application_class} app. This controls all the modes of running
   {application_class} --- GUI, batch, and a side-by-side comparison with different flags.
   """
+  #: The lowercase name of the program, used for such things as directory for ltm files
+  #: and stats for batch runs.
+  application_name = '{application_name}'
+
   #: The GUI class when running in GUI mode. The UI is responsible for interfacing between the
   #: user and the controller.
   gui_class = {application_class}GUI

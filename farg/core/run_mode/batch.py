@@ -67,14 +67,18 @@ class BatchRunMultipleTimes(RunMultipleTimes):
     pickle.dump(self.gui.stats.right_stats, outfile)
 
   def GetPreviousSavedFilename(self):
-    """Returns the filename from which to read stats of previous run, if any.
-    
-    Currently a stop-gap dummy file."""
-    return '/tmp/stats'
+    """Returns the filename from which to read stats of previous run, if any."""
+    from os import listdir
+    files = listdir(FLAGS.stats_directory)
+    if files:
+      return os.path.join(FLAGS.stats_directory, max(files))
+    return ''
 
   def GetSaveFilename(self):
-    """Filename to store current stats in. Currently, a stop-gap dummy file."""
-    return '/tmp/stats'
+    """Filename to store current stats in."""
+    import time
+    timestamp = time.strftime('%Y-%m-%d-%H-%M-%S')
+    return os.path.join(FLAGS.stats_directory, timestamp)
 
 class RunModeBatch(RunModeNonInteractive):
   def __init__(self, *, controller_class, input_spec):
