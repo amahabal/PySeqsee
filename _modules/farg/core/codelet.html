@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.codelet &mdash; PySeqsee 0.1.3a0 documentation</title>
+    <title>farg.core.codelet &mdash; PySeqsee 0.2 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.1.3a0',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../../../index.html" />
+    <link rel="top" title="PySeqsee 0.2 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -62,33 +62,40 @@
 <span class="c"># You should have received a copy of the GNU General Public License along with this</span>
 <span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
 
-<span class="sd">&quot;&quot;&quot;Base classes for Codelet families and for codelet.</span>
+<span class="sd">&quot;&quot;&quot;Classes defining a Codelet and the base class for all Codelet families.&quot;&quot;&quot;</span>
 
-<span class="sd">.. ToDo:: Keep eyes open for freshness issues; these have not been ported from Perl.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
 
-<div class="viewcode-block" id="CodeletFamily"><a class="viewcode-back" href="../../../developer/codelets.html#farg.core.codelet.CodeletFamily">[docs]</a><span class="k">class</span> <span class="nc">CodeletFamily</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="CodeletFamily"><a class="viewcode-back" href="../../../developer/codelets.html#farg.core.codelet.CodeletFamily">[docs]</a><span class="k">class</span> <span class="nc">CodeletFamily</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A codelet family is a class that defines what happens when you run a codelet of that</span>
 <span class="sd">     family.</span>
 <span class="sd">     </span>
 <span class="sd">     Codelet family names typically start with CF.</span>
 <span class="sd">     </span>
 <span class="sd">     A codelet family subclasses this class and looks like this::</span>
-<span class="sd">     </span>
+
+<span class="sd">       from farg.core.codelet import CodeletFamily     </span>
 <span class="sd">       class CF_Foo(CodeletFamily):</span>
 <span class="sd">         &quot;Documentation describes what it does, what codelets it may create, what things</span>
 <span class="sd">          it may cause to focus on, and any subspace it may be a part of.</span>
 <span class="sd">         &quot;</span>
 <span class="sd">         </span>
 <span class="sd">         @classmethod</span>
-<span class="sd">         def Run(self, controller, other_arg1, other_arg2):</span>
+<span class="sd">         def Run(self, controller, *, other_arg1, other_arg2):</span>
 <span class="sd">           &quot;Run may take extra arguments (such as other_arg1 above). The extra arguments</span>
 <span class="sd">            will be passed by name only. These are set in the constructor of the codelet.</span>
 <span class="sd">           &quot;</span>
 <span class="sd">           DoSomething()</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="k">pass</span>
-</div>
+
+  <span class="nd">@abstractmethod</span>
+<div class="viewcode-block" id="CodeletFamily.Run"><a class="viewcode-back" href="../../../developer/codelets.html#farg.core.codelet.CodeletFamily.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Runs the codelet. Subclasses should overrride this, and arrange to handle any specific</span>
+<span class="sd">       arguments it needs. These arguments are guaranteed to be passed in as keyword</span>
+<span class="sd">       arguments.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</div></div>
 <div class="viewcode-block" id="Codelet"><a class="viewcode-back" href="../../../developer/codelets.html#farg.core.codelet.Codelet">[docs]</a><span class="k">class</span> <span class="nc">Codelet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;A codelet is a unit of action in Seqsee. A codelet belongs to a codelet family which</span>
 <span class="sd">     defines what it does. The codelet has an urgency that controls how likely the codelet</span>
@@ -114,6 +121,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="n">controller</span>
 
 <div class="viewcode-block" id="Codelet.Run"><a class="viewcode-back" href="../../../developer/codelets.html#farg.core.codelet.Codelet.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Runs the codelet.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">most_recent_codelet</span> <span class="o">=</span> <span class="bp">self</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">family</span><span class="o">.</span><span class="n">Run</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="p">,</span> <span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">args</span><span class="p">)</span></div></div>
 </pre></div>
@@ -149,12 +157,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 06, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

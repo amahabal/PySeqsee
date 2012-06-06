@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Codelets &mdash; PySeqsee 0.1.3a0 documentation</title>
+    <title>Codelets &mdash; PySeqsee 0.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.3a0',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.2 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
     <link rel="next" title="Stream of Thought" href="stream.html" />
     <link rel="prev" title="Coderack" href="coderack.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="coderack.html" title="Coderack"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -58,11 +58,7 @@
             
   <div class="section" id="module-farg.core.codelet">
 <span id="codelets"></span><h1>Codelets<a class="headerlink" href="#module-farg.core.codelet" title="Permalink to this headline">¶</a></h1>
-<p>Base classes for Codelet families and for codelet.</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Keep eyes open for freshness issues; these have not been ported from Perl.</p>
-</div>
+<p>Classes defining a Codelet and the base class for all Codelet families.</p>
 <dl class="class">
 <dt id="farg.core.codelet.Codelet">
 <em class="property">class </em><tt class="descclassname">farg.core.codelet.</tt><tt class="descname">Codelet</tt><big>(</big><em>family</em>, <em>controller</em>, <em>urgency</em>, <em>arguments_dict=None</em><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#Codelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.Codelet" title="Permalink to this definition">¶</a></dt>
@@ -84,7 +80,8 @@ place it on the coderack:</p>
 <dl class="method">
 <dt id="farg.core.codelet.Codelet.Run">
 <tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#Codelet.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.Codelet.Run" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p>Runs the codelet.</p>
+</dd></dl>
 
 </dd></dl>
 
@@ -95,18 +92,27 @@ place it on the coderack:</p>
 family.</p>
 <p>Codelet family names typically start with CF.</p>
 <p>A codelet family subclasses this class and looks like this:</p>
-<div class="highlight-python"><pre>class CF_Foo(CodeletFamily):
+<div class="highlight-python"><pre>from farg.core.codelet import CodeletFamily     
+class CF_Foo(CodeletFamily):
   &quot;Documentation describes what it does, what codelets it may create, what things
    it may cause to focus on, and any subspace it may be a part of.
   &quot;
   
   @classmethod
-  def Run(self, controller, other_arg1, other_arg2):
+  def Run(self, controller, *, other_arg1, other_arg2):
     &quot;Run may take extra arguments (such as other_arg1 above). The extra arguments
      will be passed by name only. These are set in the constructor of the codelet.
     &quot;
     DoSomething()</pre>
 </div>
+<dl class="method">
+<dt id="farg.core.codelet.CodeletFamily.Run">
+<tt class="descname">Run</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#CodeletFamily.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.CodeletFamily.Run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the codelet. Subclasses should overrride this, and arrange to handle any specific
+arguments it needs. These arguments are guaranteed to be passed in as keyword
+arguments.</p>
+</dd></dl>
+
 </dd></dl>
 
 </div>
@@ -160,12 +166,13 @@ family.</p>
         <li class="right" >
           <a href="coderack.html" title="Coderack"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 06, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

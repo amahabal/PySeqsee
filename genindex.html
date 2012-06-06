@@ -10,7 +10,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Index &mdash; PySeqsee 0.1.3a0 documentation</title>
+    <title>Index &mdash; PySeqsee 0.2 documentation</title>
     
     <link rel="stylesheet" href="_static/default.css" type="text/css" />
     <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
@@ -18,7 +18,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '',
-        VERSION:     '0.1.3a0',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -27,7 +27,7 @@
     <script type="text/javascript" src="_static/jquery.js"></script>
     <script type="text/javascript" src="_static/underscore.js"></script>
     <script type="text/javascript" src="_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="index.html" /> 
+    <link rel="top" title="PySeqsee 0.2 documentation" href="index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -39,7 +39,7 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PySeqsee 0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -71,7 +71,6 @@
  | <a href="#T"><strong>T</strong></a>
  | <a href="#U"><strong>U</strong></a>
  | <a href="#W"><strong>W</strong></a>
- | <a href="#Y"><strong>Y</strong></a>
  
 </div>
 <h2 id="A">A</h2>
@@ -153,6 +152,10 @@
 
       
   <dt><a href="developer/categories.html#farg.apps.seqsee.categories.Ascending">Ascending (class in farg.apps.seqsee.categories)</a>
+  </dt>
+
+      
+  <dt><a href="developer/ui.html#farg.core.ui.gui.GUI.AskQuestion">AskQuestion() (farg.core.ui.gui.GUI method)</a>
   </dt>
 
   </dl></td>
@@ -248,10 +251,6 @@
   </dt>
 
       
-  <dt><a href="developer/exceptions.html#farg.core.exceptions.CannotReplaceSubgroupException">CannotReplaceSubgroupException</a>
-  </dt>
-
-      
   <dt><a href="developer/categories.html#farg.core.categorization.categorizable.CategorizableMixin">CategorizableMixin (class in farg.core.categorization.categorizable)</a>
   </dt>
 
@@ -323,10 +322,6 @@
 
       
   <dt><a href="developer/coderack.html#farg.core.coderack.CoderackEmptyException">CoderackEmptyException</a>
-  </dt>
-
-      
-  <dt><a href="developer/exceptions.html#farg.core.exceptions.ConflictingGroupException">ConflictingGroupException</a>
   </dt>
 
       
@@ -632,14 +627,6 @@
   </dt>
 
       
-  <dt><a href="developer/ltm.html#farg.core.ltm.graph.LTMGraph.GetGraphAroundNodeXDot">GetGraphAroundNodeXDot() (farg.core.ltm.graph.LTMGraph method)</a>
-  </dt>
-
-      
-  <dt><a href="developer/ltm.html#farg.core.ltm.graph.LTMGraph.GetGraphXDOT">GetGraphXDOT() (farg.core.ltm.graph.LTMGraph method)</a>
-  </dt>
-
-      
   <dt><a href="seqsee/workspace.html#farg.apps.seqsee.workspace.Workspace.GetGroupDistance">GetGroupDistance() (farg.apps.seqsee.workspace.Workspace method)</a>
   </dt>
 
@@ -651,12 +638,12 @@
   <dt><a href="seqsee/workspace.html#farg.apps.seqsee.workspace.Workspace.GetGroupsWithSpan">GetGroupsWithSpan() (farg.apps.seqsee.workspace.Workspace method)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="seqsee/workspace.html#farg.apps.seqsee.workspace.Workspace.GetItemAt">GetItemAt() (farg.apps.seqsee.workspace.Workspace method)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="seqsee/objects.html#farg.apps.seqsee.sobject.SObject.GetLTMStorableContent">GetLTMStorableContent() (farg.apps.seqsee.sobject.SObject method)</a>
   </dt>
@@ -949,14 +936,18 @@
   <dt><a href="seqsee/relations.html#farg.apps.seqsee.mapping.Mapping">Mapping (class in farg.apps.seqsee.mapping)</a>
   </dt>
 
-  </dl></td>
-  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="seqsee/relations.html#farg.apps.seqsee.relation.Relation.mapping_set">mapping_set (farg.apps.seqsee.relation.Relation attribute)</a>
   </dt>
 
+  </dl></td>
+  <td style="width: 33%" valign="top"><dl>
       
   <dt><a href="developer/categories.html#farg.apps.seqsee.categories.MappingBasedCategory">MappingBasedCategory (class in farg.apps.seqsee.categories)</a>
+  </dt>
+
+      
+  <dt><a href="developer/exceptions.html#farg.core.exceptions.FargError.msg">msg (farg.core.exceptions.FargError attribute)</a>
   </dt>
 
   </dl></td>
@@ -1093,6 +1084,12 @@
   <dt><a href="developer/codelets.html#farg.core.codelet.Codelet.Run">Run() (farg.core.codelet.Codelet method)</a>
   </dt>
 
+      <dd><dl>
+        
+  <dt><a href="developer/codelets.html#farg.core.codelet.CodeletFamily.Run">(farg.core.codelet.CodeletFamily method)</a>
+  </dt>
+
+      </dl></dd>
       
   <dt><a href="developer/controller.html#farg.core.controller.Controller.RunUptoNSteps">RunUptoNSteps() (farg.core.controller.Controller method)</a>
   </dt>
@@ -1254,16 +1251,6 @@
   </dl></td>
 </tr></table>
 
-<h2 id="Y">Y</h2>
-<table style="width: 100%" class="indextable genindextable"><tr>
-  <td style="width: 33%" valign="top"><dl>
-      
-  <dt><a href="developer/exceptions.html#farg.core.exceptions.YesNoException">YesNoException</a>
-  </dt>
-
-  </dl></td>
-</tr></table>
-
 
 
           </div>
@@ -1300,11 +1287,12 @@
         <li class="right" >
           <a href="py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li> 
+        <li><a href="index.html">PySeqsee 0.2 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 06, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

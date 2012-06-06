@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Long-term Memory &mdash; PySeqsee 0.1.3a0 documentation</title>
+    <title>Long-term Memory &mdash; PySeqsee 0.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.3a0',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.2 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
     <link rel="next" title="Subspaces" href="subspaces.html" />
     <link rel="prev" title="Stream of Thought" href="stream.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="stream.html" title="Stream of Thought"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -121,10 +121,6 @@ just in time calculation.</p>
 <tt class="descname">IncreaseActivation</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.IncreaseActivation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.IncreaseActivation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update activation by this amount (after processing any pending decays), and also 
 spread an appropriate component to nearby nodes.</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Should spread to depth 2. Not done correctly. Nor is the amount spread accurate.</p>
-</div>
 </dd></dl>
 
 <dl class="method">
@@ -248,18 +244,6 @@ metaclass.</p>
 </dd></dl>
 
 <dl class="method">
-<dt id="farg.core.ltm.graph.LTMGraph.GetGraphAroundNodeXDot">
-<tt class="descname">GetGraphAroundNodeXDot</tt><big>(</big><em>node_position</em>, <em>depth=3</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.GetGraphAroundNodeXDot"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.GetGraphAroundNodeXDot" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get XDot of node outward from given node position upto given depth.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.ltm.graph.LTMGraph.GetGraphXDOT">
-<tt class="descname">GetGraphXDOT</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.GetGraphXDOT"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.GetGraphXDOT" title="Permalink to this definition">¶</a></dt>
-<dd><p>Generates XDOT for entire graph.</p>
-</dd></dl>
-
-<dl class="method">
 <dt id="farg.core.ltm.graph.LTMGraph.GetNodeForContent">
 <tt class="descname">GetNodeForContent</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.GetNodeForContent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.graph.LTMGraph.GetNodeForContent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns node for content; creates one if it does not exist.</p>
@@ -341,12 +325,13 @@ metaclass.</p>
         <li class="right" >
           <a href="stream.html" title="Stream of Thought"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 06, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Controller &mdash; PySeqsee 0.1.3a0 documentation</title>
+    <title>Controller &mdash; PySeqsee 0.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.3a0',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.2 documentation" href="../index.html" />
     <link rel="up" title="Developer Documentation" href="developer_index.html" />
     <link rel="next" title="Coderack" href="coderack.html" />
     <link rel="prev" title="Developer Documentation" href="developer_index.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="developer_index.html" title="Developer Documentation"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
@@ -61,16 +61,96 @@
 <dl class="class">
 <dt id="farg.core.controller.Controller">
 <em class="property">class </em><tt class="descclassname">farg.core.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>ui</em>, <em>controller_depth</em>, <em>parent_controller</em>, <em>workspace_arguments</em>, <em>stopping_condition</em><big>)</big><a class="reference internal" href="../_modules/farg/core/controller.html#Controller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.controller.Controller" title="Permalink to this definition">¶</a></dt>
-<dd><p>A controller is responsible for controlling the Coderack.
-The Coderack, in turn, by the action of codelets, marshals the various pieces of a space
-or of an entire application.  These pieces include the stream, the long-term memory, and
-any pieces added by subclasses (a workspace will typically be added).</p>
-<p>A controller provides the method &#8216;Step&#8217;.  This does two things.  First, it may add
-routine codelets.  The controller&#8217;s constructor specifies what codelets to add and with
-what likelihood.  If the Coderack is empty, the codelets are added regardless of the
-likelihood.  Second, a codelet is selected from the Coderack and executed.  This codelet
-may access the stream, the long-term memory, or the workspace and could even add other
-codelets which the next call to &#8216;Step&#8217; may execute.</p>
+<dd><p>A controller is the purely mechanical (read &#8220;dumb&#8221;) loop that controls the
+entire application as well as individual subspaces that the application may
+create to tackle subproblems. Each subspace gets its own controller.</p>
+<p>Each controller has its own coderack, stream, long-term memory, and workspace.
+These may be accessed thus, respectively:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">coderack</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">stream</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">ltm</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">workspace</span>
+</pre></div>
+</div>
+<p><strong>Customizing the controller class</strong></p>
+<p>A controller is an instance of a subclass of <a class="reference internal" href="#farg.core.controller.Controller" title="farg.core.controller.Controller"><tt class="xref py py-class docutils literal"><span class="pre">Controller</span></tt></a>.
+It is possible to configure the controller in a number of ways. Before we look at the
+configuration, here is a brief outline of the main function provided by the controller,
+namely, <a class="reference internal" href="#farg.core.controller.Controller.Step" title="farg.core.controller.Controller.Step"><tt class="xref py py-meth docutils literal"><span class="pre">Step()</span></tt></a>.</p>
+<p>A step involves choosing a codelet from the coderack and running it. The codelet has access to
+each of the components owned by the controller (namely, the coderack, stream, ltm, and
+workspace). The action of the codelet can have any number of effects including the creation
+of more codelets, directing the application&#8217;s attention somewhere (a notion explored later
+when we look at streams), create structures in the workspace, or extend the LTM or pump
+activation into some concept.</p>
+<p>Furthermore, after each step, more codelets are probabilistically added to the coderack. The
+class variable <a class="reference internal" href="#farg.core.controller.Controller.routine_codelets_to_add" title="farg.core.controller.Controller.routine_codelets_to_add"><tt class="xref py py-attr docutils literal"><span class="pre">routine_codelets_to_add</span></tt></a> contains 3-tuples
+(class, urgency, probability) specifying the class of the new codelet, its urgency, and the
+probability with which to add it.</p>
+<p>In the next few paragraphs, we will look at customizing a hypothetical controller called Foo.
+Its code will begin thus:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="o">...</span>  <span class="c"># customization here</span>
+</pre></div>
+</div>
+<p>The simplest customization is to specify codelets to be added after each step:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="p">((</span><span class="n">CodeletFamilyBar</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span>
+                             <span class="p">(</span><span class="n">CodeletFamilyBat</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Another customization is to use a non-default class for the coderack or the stream. This
+should in general not be required, and the default classes <a class="reference internal" href="coderack.html#farg.core.coderack.Coderack" title="farg.core.coderack.Coderack"><tt class="xref py py-class docutils literal"><span class="pre">Coderack</span></tt></a>
+and <a class="reference internal" href="stream.html#farg.core.stream.Stream" title="farg.core.stream.Stream"><tt class="xref py py-class docutils literal"><span class="pre">Stream</span></tt></a> should be adequate. But the customization is available if
+needed. No argument is passed to the constructor of these classes to create the coderack or
+the stream:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">coderack_class</span> <span class="o">=</span> <span class="n">SomeClass</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">stream_class</span> <span class="o">=</span> <span class="n">SomeOtherClass</span>
+</pre></div>
+</div>
+<p>The workspace class can be specified as follows. If it is not Null, it will be
+initialized with a dictionary that is passed in the workspace_arguments argument
+of the controller&#8217;s constructor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">workspace_class</span> <span class="o">=</span> <span class="n">YetAnotherClass</span>  <span class="c"># Default: None</span>
+</pre></div>
+</div>
+<p>The LTM&#8217;s name can be specified as below. The LTM manager will be used to load
+this (if not already loaded) and to initialize it if it is empty:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ltm_name</span> <span class="o">=</span> <span class="s">&#39;LtmName&#39;</span>  <span class="c"># Default: None</span>
+</pre></div>
+</div>
+<p><strong>The UI</strong></p>
+<p>A UI can be graphical or not. At any time, at most one UI is active, and it is
+shared by all controllers. It can be accessed as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ui</span>  <span class="c"># Points to the UI (usually a GUI).</span>
+</pre></div>
+</div>
+<p>The UI provides the important method called <a class="reference internal" href="ui.html#farg.core.ui.gui.GUI.AskQuestion" title="farg.core.ui.gui.GUI.AskQuestion"><tt class="xref py py-meth docutils literal"><span class="pre">AskQuestion()</span></tt></a>.
+This can be used by the controller to ask for confirmation of the answer, for instance.
+In case of a graphical UI, this could result in the user being asked the question. In other
+cases (such as in automated testing), the UI may be given enough knowledge to
+answer the question itself. See the UI documentation for details.</p>
+<p><strong>The Stopping Condition</strong></p>
+<p>It is possible to specify a stopping condition for a controller. This is useful for testing
+when weighing a potential change. When contemplating the change, it is useful to see how long
+it takes with the change and without the change until some significant event occurs (such as
+the discovery of the answer, for instance). This will be discussed elsewhere.</p>
+<p><strong>The Constructor</strong></p>
+<p>The constructor takes the following named arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li>ui (required)</li>
+<li>controller_depth. The top controller has depth 0, its subspaces have depth 1, and so
+forth. The default is 0.</li>
+<li>parent_controller. If present, it points to the controller that created this subspace.
+Defaults to None (which indicates a top-level controller).</li>
+<li>workspace_arguments. If present, this should be a dict() and will be used to initialize
+the workspace.</li>
+<li>stopping_condition. If present, this should be a function that takes the controller as
+the only input and returns true or false.</li>
+</ul>
+</div></blockquote>
 <dl class="method">
 <dt id="farg.core.controller.Controller.AddCodelet">
 <tt class="descname">AddCodelet</tt><big>(</big><em>family</em>, <em>urgency</em>, <em>arguments_dict</em><big>)</big><a class="reference internal" href="../_modules/farg/core/controller.html#Controller.AddCodelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.controller.Controller.AddCodelet" title="Permalink to this definition">¶</a></dt>
@@ -156,7 +236,8 @@ The probability is ignored during a Step if the coderack is empty.</p>
 <dl class="attribute">
 <dt id="farg.core.controller.Controller.stream_class">
 <tt class="descname">stream_class</tt><a class="headerlink" href="#farg.core.controller.Controller.stream_class" title="Permalink to this definition">¶</a></dt>
-<dd><p>What type of stream is owned by the controller.</p>
+<dd><p>What type of stream is owned by the controller. Defaults to
+<a class="reference internal" href="stream.html#farg.core.stream.Stream" title="farg.core.stream.Stream"><tt class="xref py py-class docutils literal"><span class="pre">farg.core.stream.Stream</span></tt></a></p>
 <p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Stream</span></tt></p>
 </dd></dl>
 
@@ -171,7 +252,8 @@ spawned by this space shall inherit the ui.</p>
 <dl class="attribute">
 <dt id="farg.core.controller.Controller.workspace">
 <tt class="descname">workspace</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.controller.Controller.workspace" title="Permalink to this definition">¶</a></dt>
-<dd><p>Workspace</p>
+<dd><p>Workspace, constructed if workspace_class is defined. The workspace is constructed
+using workspace_arguments.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -233,12 +315,13 @@ spawned by this space shall inherit the ui.</p>
         <li class="right" >
           <a href="developer_index.html" title="Developer Documentation"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 06, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

@@ -16,10 +16,10 @@ These may be accessed thus, respectively::
 Customizing the controller class
 ---------------------------------
 
-A controller is an instance of a subclass of :py:class:`farg.controller.Controller`. It is
+A controller is an instance of a subclass of :py:class:`~farg.core.controller.Controller`. It is
 possible to configure the controller in a number of ways. Before we look at the configuration,
 here is a brief outline of the main function provided by the controller, namely,
-:py:meth:`farg.controller.Controller.Step`.
+:py:meth:`~farg.core.controller.Controller.Step`.
 
 A step involves choosing a codelet from the coderack and running it. The codelet has access to
 each of the components owned by the controller (namely, the coderack, stream, ltm, and
@@ -29,7 +29,7 @@ when we look at streams), create structures in the workspace, or extend the LTM 
 activation into some concept.
 
 Furthermore, after each step, more codelets are probabilistically added to the coderack. The
-class variable :py:attr:`farg.controller.Controller.routine_codelets_to_add` contains 3-tuples
+class variable :py:attr:`~farg.core.controller.Controller.routine_codelets_to_add` contains 3-tuples
 (class, urgency, probability) specifying the class of the new codelet, its urgency, and the
 probability with which to add it.
 
@@ -46,8 +46,8 @@ The simplest customization is to specify codelets to be added after each step::
                                (CodeletFamilyBat, 80, 0.2))
 
 Another customization is to use a non-default class for the coderack or the stream. This
-should in general not be required, and the default classes :py:class:`farg.coderack.Coderack`
-and :py:class:`farg.stream.Stream` should be adequate. But the customization is available if
+should in general not be required, and the default classes :py:class:`~farg.core.coderack.Coderack`
+and :py:class:`~farg.core.stream.Stream` should be adequate. But the customization is available if
 needed. No argument is passed to the constructor of these classes to create the coderack or
 the stream::
 
@@ -74,8 +74,8 @@ shared by all controllers. It can be accessed as::
   
   self.ui  # Points to the UI (usually a GUI).
 
-The UI provides the important method called AskQuestion. This can be used by the
-controller to ask for confirmation of the answer, for instance. In case of a
+The UI provides the important method called :py:meth:`~farg.core.ui.gui.GUI.AskQuestion`. This can be
+used by the controller to ask for confirmation of the answer, for instance. In case of a
 graphical UI, this could result in the user being asked the question. In other
 cases (such as in automated testing), the UI may be given enough knowledge to
 answer the question itself. See the UI documentation for details.

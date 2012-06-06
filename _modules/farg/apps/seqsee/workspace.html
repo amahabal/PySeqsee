@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.apps.seqsee.workspace &mdash; PySeqsee 0.1.3a0 documentation</title>
+    <title>farg.apps.seqsee.workspace &mdash; PySeqsee 0.2 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.1.3a0',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../../../../index.html" />
+    <link rel="top" title="PySeqsee 0.2 documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -61,7 +61,6 @@
 <span class="c">#</span>
 <span class="c"># You should have received a copy of the GNU General Public License along with this</span>
 <span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
-<span class="kn">from</span> <span class="nn">farg.apps.seqsee.distance</span> <span class="kn">import</span> <span class="n">DistanceInGroups</span>
 
 <span class="sd">&quot;&quot;&quot;The workspace is the virtual blackboard on which various codelets make annotations about</span>
 <span class="sd">   relationships that have been seen between entities and groups that have been formed.</span>
@@ -90,11 +89,13 @@
 <span class="sd">      This is likely to be quite inefficient. Keep an eye open for how slow this actually is.</span>
 <span class="sd">&quot;&quot;&quot;</span>
 
+<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
 <span class="kn">from</span> <span class="nn">farg.apps.seqsee.anchored</span> <span class="kn">import</span> <span class="n">SAnchored</span>
+<span class="kn">from</span> <span class="nn">farg.apps.seqsee.distance</span> <span class="kn">import</span> <span class="n">DistanceInGroups</span>
 <span class="kn">from</span> <span class="nn">farg.apps.seqsee.sobject</span> <span class="kn">import</span> <span class="n">SElement</span>
 <span class="kn">from</span> <span class="nn">farg.apps.seqsee.util</span> <span class="kn">import</span> <span class="n">Exactly</span><span class="p">,</span> <span class="n">LessThan</span>
-<span class="kn">from</span> <span class="nn">collections</span> <span class="kn">import</span> <span class="n">defaultdict</span>
-<span class="kn">from</span> <span class="nn">farg.core.exceptions</span> <span class="kn">import</span> <span class="n">FargError</span><span class="p">,</span> <span class="n">ConflictingGroupException</span><span class="p">,</span> <span class="n">CannotReplaceSubgroupException</span>
+<span class="kn">from</span> <span class="nn">farg.core.exceptions</span> <span class="kn">import</span> <span class="n">FargError</span>
+<span class="kn">from</span> <span class="nn">farg.apps.seqsee.exceptions</span> <span class="kn">import</span> <span class="n">ConflictingGroupException</span><span class="p">,</span> <span class="n">CannotReplaceSubgroupException</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 
 <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="n">__name__</span><span class="p">)</span>
@@ -382,12 +383,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 06, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Controller &mdash; PySeqsee 0.1.3a0 documentation</title>
+    <title>Controller &mdash; PySeqsee 0.2 documentation</title>
     
     <link rel="stylesheet" href="../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.1.3a0',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../index.html" />
+    <link rel="top" title="PySeqsee 0.2 documentation" href="../index.html" />
     <link rel="up" title="The Core API" href="api_index.html" />
     <link rel="next" title="Run Mode" href="run_mode.html" />
     <link rel="prev" title="The Core API" href="api_index.html" /> 
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="api_index.html" title="The Core API"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
       </ul>
     </div>  
@@ -71,10 +71,10 @@ These may be accessed thus, respectively:</p>
 </div>
 <div class="section" id="customizing-the-controller-class">
 <h2>Customizing the controller class<a class="headerlink" href="#customizing-the-controller-class" title="Permalink to this headline">¶</a></h2>
-<p>A controller is an instance of a subclass of <tt class="xref py py-class docutils literal"><span class="pre">farg.controller.Controller</span></tt>. It is
+<p>A controller is an instance of a subclass of <a class="reference internal" href="../developer/controller.html#farg.core.controller.Controller" title="farg.core.controller.Controller"><tt class="xref py py-class docutils literal"><span class="pre">Controller</span></tt></a>. It is
 possible to configure the controller in a number of ways. Before we look at the configuration,
 here is a brief outline of the main function provided by the controller, namely,
-<tt class="xref py py-meth docutils literal"><span class="pre">farg.controller.Controller.Step()</span></tt>.</p>
+<a class="reference internal" href="../developer/controller.html#farg.core.controller.Controller.Step" title="farg.core.controller.Controller.Step"><tt class="xref py py-meth docutils literal"><span class="pre">Step()</span></tt></a>.</p>
 <p>A step involves choosing a codelet from the coderack and running it. The codelet has access to
 each of the components owned by the controller (namely, the coderack, stream, ltm, and
 workspace). The action of the codelet can have any number of effects including the creation
@@ -82,7 +82,7 @@ of more codelets, directing the application&#8217;s attention somewhere (a notio
 when we look at streams), create structures in the workspace, or extend the LTM or pump
 activation into some concept.</p>
 <p>Furthermore, after each step, more codelets are probabilistically added to the coderack. The
-class variable <tt class="xref py py-attr docutils literal"><span class="pre">farg.controller.Controller.routine_codelets_to_add</span></tt> contains 3-tuples
+class variable <a class="reference internal" href="../developer/controller.html#farg.core.controller.Controller.routine_codelets_to_add" title="farg.core.controller.Controller.routine_codelets_to_add"><tt class="xref py py-attr docutils literal"><span class="pre">routine_codelets_to_add</span></tt></a> contains 3-tuples
 (class, urgency, probability) specifying the class of the new codelet, its urgency, and the
 probability with which to add it.</p>
 <p>In the next few paragraphs, we will look at customizing a hypothetical controller called Foo.
@@ -98,8 +98,8 @@ Its code will begin thus:</p>
 </pre></div>
 </div>
 <p>Another customization is to use a non-default class for the coderack or the stream. This
-should in general not be required, and the default classes <tt class="xref py py-class docutils literal"><span class="pre">farg.coderack.Coderack</span></tt>
-and <tt class="xref py py-class docutils literal"><span class="pre">farg.stream.Stream</span></tt> should be adequate. But the customization is available if
+should in general not be required, and the default classes <a class="reference internal" href="../developer/coderack.html#farg.core.coderack.Coderack" title="farg.core.coderack.Coderack"><tt class="xref py py-class docutils literal"><span class="pre">Coderack</span></tt></a>
+and <a class="reference internal" href="../developer/stream.html#farg.core.stream.Stream" title="farg.core.stream.Stream"><tt class="xref py py-class docutils literal"><span class="pre">Stream</span></tt></a> should be adequate. But the customization is available if
 needed. No argument is passed to the constructor of these classes to create the coderack or
 the stream:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
@@ -126,8 +126,8 @@ shared by all controllers. It can be accessed as:</p>
 <div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ui</span>  <span class="c"># Points to the UI (usually a GUI).</span>
 </pre></div>
 </div>
-<p>The UI provides the important method called AskQuestion. This can be used by the
-controller to ask for confirmation of the answer, for instance. In case of a
+<p>The UI provides the important method called <a class="reference internal" href="../developer/ui.html#farg.core.ui.gui.GUI.AskQuestion" title="farg.core.ui.gui.GUI.AskQuestion"><tt class="xref py py-meth docutils literal"><span class="pre">AskQuestion()</span></tt></a>. This can be
+used by the controller to ask for confirmation of the answer, for instance. In case of a
 graphical UI, this could result in the user being asked the question. In other
 cases (such as in automated testing), the UI may be given enough knowledge to
 answer the question itself. See the UI documentation for details.</p>
@@ -244,12 +244,13 @@ chosen) step in the model:</p>
         <li class="right" >
           <a href="api_index.html" title="The Core API"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 06, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

@@ -8,7 +8,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.ltm.graph &mdash; PySeqsee 0.1.3a0 documentation</title>
+    <title>farg.core.ltm.graph &mdash; PySeqsee 0.2 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -16,7 +16,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.1.3a0',
+        VERSION:     '0.2',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +25,7 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.1.3a0 documentation" href="../../../../index.html" />
+    <link rel="top" title="PySeqsee 0.2 documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -184,61 +184,7 @@
 </div>
 <div class="viewcode-block" id="LTMGraph.IsContentSufficientlyActive"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.graph.LTMGraph.IsContentSufficientlyActive">[docs]</a>  <span class="k">def</span> <span class="nf">IsContentSufficientlyActive</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">threshold</span><span class="o">=</span><span class="mf">0.8</span><span class="p">):</span>
     <span class="n">activation</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="n">content</span><span class="p">)</span><span class="o">.</span><span class="n">GetActivation</span><span class="p">(</span><span class="n">current_time</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_timesteps</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">activation</span> <span class="o">&gt;=</span> <span class="n">threshold</span>
-</div>
-<div class="viewcode-block" id="LTMGraph.GetGraphXDOT"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.graph.LTMGraph.GetGraphXDOT">[docs]</a>  <span class="k">def</span> <span class="nf">GetGraphXDOT</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Generates XDOT for entire graph.&quot;&quot;&quot;</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">node_to_pos</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">))</span>
-    <span class="k">for</span> <span class="n">node</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">:</span>
-      <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">GetXDot</span><span class="p">(</span><span class="n">node_to_pos</span><span class="p">[</span><span class="n">node</span><span class="p">]))</span>
-      <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">node</span><span class="o">.</span><span class="n">outgoing_edges</span><span class="p">:</span>
-        <span class="n">other_node</span> <span class="o">=</span> <span class="n">edge</span><span class="o">.</span><span class="n">to_node</span>
-        <span class="k">try</span><span class="p">:</span>
-          <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;node_</span><span class="si">%d</span><span class="s"> -&gt; node_</span><span class="si">%d</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node_to_pos</span><span class="p">[</span><span class="n">node</span><span class="p">],</span> <span class="n">node_to_pos</span><span class="p">[</span><span class="n">other_node</span><span class="p">]))</span>
-        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
-          <span class="k">print</span><span class="p">(</span><span class="s">&quot;Key error: </span><span class="si">%s</span><span class="s">  ==&gt; </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">(),</span>
-                                           <span class="n">other_node</span><span class="o">.</span><span class="n">content</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">(),</span>
-                                           <span class="n">edge</span><span class="o">.</span><span class="n">edge_type</span><span class="p">))</span>
-          <span class="k">print</span><span class="p">((</span><span class="n">node</span><span class="p">,</span> <span class="n">other_node</span><span class="p">))</span>
-          <span class="k">print</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">)</span>
-    <span class="k">return</span> <span class="s">&quot;&quot;&quot;</span>
-<span class="s">      digraph G {</span>
-<span class="s">      </span><span class="si">%s</span><span class="s"></span>
-<span class="s">      }</span>
-<span class="s">      &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span>
-</div>
-<div class="viewcode-block" id="LTMGraph.GetGraphAroundNodeXDot"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.graph.LTMGraph.GetGraphAroundNodeXDot">[docs]</a>  <span class="k">def</span> <span class="nf">GetGraphAroundNodeXDot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node_position</span><span class="p">,</span> <span class="n">depth</span><span class="o">=</span><span class="mi">3</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Get XDot of node outward from given node position upto given depth.&quot;&quot;&quot;</span>
-    <span class="n">nodes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span>
-    <span class="n">node_to_pos</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">((</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="p">))</span>
-    <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">nodes</span><span class="p">[</span><span class="n">node_position</span><span class="p">]</span><span class="o">.</span><span class="n">GetXDot</span><span class="p">(</span><span class="n">node_position</span><span class="p">)]</span>
-    <span class="n">nodes_to_depth</span> <span class="o">=</span> <span class="p">{</span> <span class="n">node_position</span><span class="p">:</span> <span class="mi">0</span> <span class="p">}</span>
-    <span class="n">nodes_at_depth</span> <span class="o">=</span> <span class="p">[[</span><span class="n">node_position</span><span class="p">]]</span>
-    <span class="k">for</span> <span class="n">depth</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">depth</span><span class="p">):</span>
-      <span class="n">nodes_at_this_depth</span> <span class="o">=</span> <span class="p">[]</span>
-      <span class="k">for</span> <span class="n">node_at_previous_depth</span> <span class="ow">in</span> <span class="n">nodes_at_depth</span><span class="p">[</span><span class="n">depth</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]:</span>
-        <span class="n">edges</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">node_at_previous_depth</span><span class="p">]</span><span class="o">.</span><span class="n">outgoing_edges</span>
-        <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
-          <span class="n">other_node</span> <span class="o">=</span> <span class="n">node_to_pos</span><span class="p">[</span><span class="n">edge</span><span class="o">.</span><span class="n">to_node</span><span class="p">]</span>
-          <span class="k">if</span> <span class="n">other_node</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">nodes_to_depth</span><span class="p">:</span>
-            <span class="n">nodes_to_depth</span><span class="p">[</span><span class="n">other_node</span><span class="p">]</span> <span class="o">=</span> <span class="n">depth</span>
-            <span class="n">nodes_at_this_depth</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">other_node</span><span class="p">)</span>
-            <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodes</span><span class="p">[</span><span class="n">other_node</span><span class="p">]</span><span class="o">.</span><span class="n">GetXDot</span><span class="p">(</span><span class="n">other_node</span><span class="p">))</span>
-          <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;node_</span><span class="si">%d</span><span class="s"> -&gt; node_</span><span class="si">%d</span><span class="s">;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node_at_previous_depth</span><span class="p">,</span> <span class="n">other_node</span><span class="p">))</span>
-      <span class="n">nodes_at_depth</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">nodes_at_this_depth</span><span class="p">)</span>
-    <span class="c"># For the &quot;leaf&quot; nodes, add edges (without adding nodes)</span>
-    <span class="k">for</span> <span class="n">node_at_previous_depth</span> <span class="ow">in</span> <span class="n">nodes_at_depth</span><span class="p">[</span><span class="n">depth</span><span class="p">]:</span>
-      <span class="n">edges</span> <span class="o">=</span> <span class="n">nodes</span><span class="p">[</span><span class="n">node_at_previous_depth</span><span class="p">]</span><span class="o">.</span><span class="n">outgoing_edges</span>
-      <span class="k">for</span> <span class="n">edge</span> <span class="ow">in</span> <span class="n">edges</span><span class="p">:</span>
-        <span class="n">other_node</span> <span class="o">=</span> <span class="n">node_to_pos</span><span class="p">[</span><span class="n">edge</span><span class="o">.</span><span class="n">to_node</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">other_node</span> <span class="ow">in</span> <span class="n">nodes_to_depth</span><span class="p">:</span>
-          <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s">&#39;node_</span><span class="si">%d</span><span class="s"> -&gt; node_</span><span class="si">%d</span><span class="s">;&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">node_at_previous_depth</span><span class="p">,</span> <span class="n">other_node</span><span class="p">))</span>
-    <span class="k">return</span> <span class="s">&quot;&quot;&quot;</span>
-<span class="s">      digraph G {</span>
-<span class="s">      </span><span class="si">%s</span><span class="s"></span>
-<span class="s">      }</span>
-<span class="s">      &quot;&quot;&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">))</span></div></div>
+    <span class="k">return</span> <span class="n">activation</span> <span class="o">&gt;=</span> <span class="n">threshold</span></div></div>
 </pre></div>
 
           </div>
@@ -272,12 +218,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.1.3a0 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 06, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
