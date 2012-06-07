@@ -10,24 +10,24 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+"""The Coderack --- waiting room for codelets. 
 
-"""
-The Coderack in Seqsee is like a todo list.  It consists of promising 
-actions to take next, each associated with a number indicating the degree 
-of promise.  Seqsee chooses an item and runs it, and in that process of 
-running it may come up with other promising actions that are then added to 
-the Coderack.  
+The Coderack in Seqsee is like a todo list.  It consists of promising
+actions to take next, each associated with a number indicating the degree
+of promise.  Seqsee chooses an item and runs it, and in that process of
+running it may come up with other promising actions that are then added to
+the Coderack.
 
-The probability of choosing an item depends on its promise.  Higher 
-promise actions are likelier to be chosen, but it is still possible for 
-ignore promise actions to occasionally get chosen.  
+The probability of choosing an item depends on its promise.  Higher
+promise actions are likelier to be chosen, but it is still possible for
+ignore promise actions to occasionally get chosen.
 
-Each action is called a codelet.  As that term suggests, the action is a 
-tiny and targeted.  In fact, Seqsee requires several dozens of codelets to 
-understand even simple sequences.  
+Each action is called a codelet.  As that term suggests, the action is a
+tiny and targeted.  In fact, Seqsee requires several dozens of codelets to
+understand even simple sequences.
 
-Just as the contents of a person's to do list can strongly suggest their 
-actions over the next few hours, the Coderack's contents indicate the 
+Just as the contents of a person's to do list can strongly suggest their
+actions over the next few hours, the Coderack's contents indicate the
 directions Seqsee will pursue in the near future.
 """
 import random
@@ -41,9 +41,10 @@ class CoderackEmptyException(FargException):
   """Raised if :func:`~Coderack.GetCodelet` called on an empty coderack."""
   pass
 
+
 class Coderack(object):
   """Implements the coderack --- the collection of codelets waiting to run.
-  
+
   .. todo:: Choose the codelet to expunge based on a better criteria than uniformly randomly.
   """
 
@@ -65,7 +66,7 @@ class Coderack(object):
 
   def IsEmpty(self):
     """True if contains no codelets."""
-    return (self._codelet_count == 0)
+    return self._codelet_count == 0
 
   def GetCodelet(self):
     """Randomly selects a codelet (biased by urgency).
@@ -98,16 +99,16 @@ class Coderack(object):
 
   def ForceNextCodelet(self, codelet):
     """Force codelet to be the next one retrieved by GetCodelet.
-    
+
      .. Note::
-    
+
         This mechanism should only be used during testing. It is unsafe in that if the
         codelet is expunged (because of new codelets being added), the program can crash.
         This will never happen if the next codelet is marked and GetCodelet called soon
         thereafter.
     """
     if codelet not in self._codelets:
-      raise FargError("Cannot mark a non-existant codelet as the next to retrieve.")
+      raise FargError('Cannot mark a non-existant codelet as the next to retrieve.')
     self._forced_next_codelet = codelet
 
   def _RemoveCodelet(self, codelet):

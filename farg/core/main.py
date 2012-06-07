@@ -42,7 +42,7 @@ gflags.DEFINE_string('input_spec_file', None,
                      'This will be read by an instance of input_spec_reader_class.')
 gflags.DEFINE_integer('num_iterations', 10,
                       "In batch and SxS mode, number of iterations to run", 1)
-gflags.DEFINE_integer('max_steps', 1000,
+gflags.DEFINE_integer('max_steps', 20000,
                       "In batch and SxS mode, number of steps per run", 1)
 
 gflags.DEFINE_string('persistent_directory', '',
