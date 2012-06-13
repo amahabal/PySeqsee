@@ -92,7 +92,7 @@ class ListBasedView(ViewPort):
 
   def GetAllItemsToDisplay(self, _controller):
     """Obtain a 2-tuple (items, top-message) to display.
-    
+
        Should be over-ridden by the derived class.
     """
     raise FargError("GetAllItemsToDisplay not implemented by %s", self.__class__)

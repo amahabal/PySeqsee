@@ -10,7 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-"""The Coderack --- waiting room for codelets. 
+"""The Coderack --- waiting room for codelets.
 
 The Coderack in Seqsee is like a todo list.  It consists of promising
 actions to take next, each associated with a number indicating the degree
@@ -70,7 +70,14 @@ class Coderack(object):
 
   def GetCodelet(self):
     """Randomly selects a codelet (biased by urgency).
-       Requires the coderack to be nonempty.
+
+    Requires the coderack to be nonempty.
+
+    Returns:
+      selected codelet.
+
+    Raises:
+      CoderackEmptyException: Coderack was empty.
     """
     if self._forced_next_codelet:
       codelet = self._forced_next_codelet
@@ -100,12 +107,18 @@ class Coderack(object):
   def ForceNextCodelet(self, codelet):
     """Force codelet to be the next one retrieved by GetCodelet.
 
-     .. Note::
+    Args:
+      codelet: The codelet to force as the return value of the next GetCodelet.
 
-        This mechanism should only be used during testing. It is unsafe in that if the
-        codelet is expunged (because of new codelets being added), the program can crash.
-        This will never happen if the next codelet is marked and GetCodelet called soon
-        thereafter.
+    Raises:
+      FargError: codelet is not in fact present in the coderack.
+
+    .. Note::
+
+      This mechanism should only be used during testing. It is unsafe in that if the
+      codelet is expunged (because of new codelets being added), the program can crash.
+      This will never happen if the next codelet is marked and GetCodelet called soon
+      thereafter.
     """
     if codelet not in self._codelets:
       raise FargError('Cannot mark a non-existant codelet as the next to retrieve.')

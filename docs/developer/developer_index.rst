@@ -17,4 +17,5 @@ Contents:
    categories
    ui
 
+   run_mode
 

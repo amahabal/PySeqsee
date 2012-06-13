@@ -13,14 +13,14 @@
 
 class Binding(object):
   """Specification of how an instance is a member of some category.
-  
+
   .. Note::
-  
+
     In the Perl version, the bindings had special slots for squinting, position, metotype
     etc. Here, all are part of the same hash, along with "regular" attributes such as length.
-  
+
     This also means that the caller of the constructor needs to do all the work, unlike in
-    Perl, where some bits were calculated by the constructor. 
+    Perl, where some bits were calculated by the constructor.
   """
   def __init__(self, **bindings):
     self.bindings = dict(bindings)

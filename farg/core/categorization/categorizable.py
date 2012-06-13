@@ -36,7 +36,7 @@ class CategorizableMixin(object):
 
   def DescribeAs(self, category):
     """Describes item as instance of category, and remembers the binding if one is found.
-    
+
     Returns the binding.
     """
     if category in self.categories:

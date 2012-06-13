@@ -24,7 +24,7 @@ FLAGS = gflags.FLAGS
 class RunModeSingle(RunModeNonInteractive):
   """
   Run mode for a single run as part of a batch run or a SxS run.
-  
+
   This class is responsible for running the program once, suppressing its output, and
   producing an easy to parse string.
   """

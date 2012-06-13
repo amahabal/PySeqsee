@@ -42,7 +42,7 @@ class LTMStorableSObject(LTMStorableMixin, metaclass=MemoizedConstructor):
 
 class SObject(CategorizableMixin, LTMStorableMixin):
   """Base class of objects --- groups or elements.
-  
+
      This is an abstract class. SGroup and SElement are concrete subclasses.
   """
   def __init__(self, is_group=False):

@@ -21,30 +21,30 @@ These will include (not all implemented yet):
   * Number
   * Prime
   * Even and Odd
-  
+
 * Structural Categories:
 
   * Ascending
   * Descending
   * Mountain
   * Size2, Size3, etc.
-  
+
 * Mapping Based Categories:
 
-  * Given a mapping, a category can be defined whose elements are such that successive 
+  * Given a mapping, a category can be defined whose elements are such that successive
     elements are associated by this mapping.
 
 Numeric Categories
 --------------------
 
-Members may only be SElements, and membership depends only on the magnitude of the SElement. 
+Members may only be SElements, and membership depends only on the magnitude of the SElement.
 These derive from NumericCategory, and must define the class method NumericIsInstance.
 
 Structural Categories
 -----------------------
 
-Members are SObjects (may be groups or elements), and membership depends only on the 
-structure. These derive from StructuralCategory, and must define class method 
+Members are SObjects (may be groups or elements), and membership depends only on the
+structure. These derive from StructuralCategory, and must define class method
 StructuralIsInstance.
 
 Parametrized Categories
@@ -74,7 +74,7 @@ class SeqseeObjectCategory(Category):
      Any derivative class must define the following class methods:
 
      * FindMapping (given two categorizables, returns a mapping between the two)
-     * ApplyMapping (given a mapping and a categorizable, returns a new item). 
+     * ApplyMapping (given a mapping and a categorizable, returns a new item).
   """
 
   # HACK! If true for a class, indicates that a mapping between bindings need not be used.
@@ -92,7 +92,7 @@ class SeqseeObjectCategory(Category):
     return self.BriefLabel()
 
 class NumericCategory(SeqseeObjectCategory):
-  """Base class for categories whose instances are SElements, and membership depends only on 
+  """Base class for categories whose instances are SElements, and membership depends only on
      the magnitude.
   """
 

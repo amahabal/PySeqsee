@@ -13,22 +13,22 @@
 
 """Classes defining a Codelet and the base class for all Codelet families."""
 
-from abc import ABCMeta, abstractmethod
+from abc import ABCMeta, abstractmethod  # Metaclass confuses pylint: disable=W0611
+
 
 class CodeletFamily(metaclass=ABCMeta):
-  """A codelet family is a class that defines what happens when you run a codelet of that
-     family.
-     
+  """A codelet family is a class that defines what a codelet of that family does when run.
+
      Codelet family names typically start with CF.
-     
+
      A codelet family subclasses this class and looks like this::
 
-       from farg.core.codelet import CodeletFamily     
+       from farg.core.codelet import CodeletFamily
        class CF_Foo(CodeletFamily):
          "Documentation describes what it does, what codelets it may create, what things
           it may cause to focus on, and any subspace it may be a part of.
          "
-         
+
          @classmethod
          def Run(self, controller, *, other_arg1, other_arg2):
            "Run may take extra arguments (such as other_arg1 above). The extra arguments
@@ -37,32 +37,44 @@ class CodeletFamily(metaclass=ABCMeta):
            DoSomething()
   """
 
+  def __init__(self):
+    pass
+
   @abstractmethod
   def Run(self, controller):
-    """Runs the codelet. Subclasses should overrride this, and arrange to handle any specific
-       arguments it needs. These arguments are guaranteed to be passed in as keyword
-       arguments.
+    """Runs the codelet.
+
+    Subclasses should overrride this, and arrange to handle any specific arguments it needs.
+    These arguments are guaranteed to be passed in as keyword arguments.
+
+    Args:
+      controller: The controller that will be used to run the codelet. The controller can
+        be used to access the workspace, coderack, and other such resources.
     """
     pass
 
-class Codelet(object):
-  """A codelet is a unit of action in Seqsee. A codelet belongs to a codelet family which
-     defines what it does. The codelet has an urgency that controls how likely the codelet
-     is to run (based on the urgency of other codelets waiting to run), and it has a
-     dictionary of arguments that will be used when running the codelet (if ever).
 
-     If extra arguments are passed while constructing the codelet, the Run() method of the
-     codelet family must be capable of handling these. 
-     
-     There are two ways of constructing. The first creates the codelet but does not yet
-     place it on the coderack::
-     
-       c = Codelet(family, controller, urgency, dict(other_arg=10, other_arg2=15))
-       
-     The second method is to call AddCodelet on the controller::
-     
-       controller.AddCodelet(family, urgency, dict(other_arg=10, other_arg2=15))
+class Codelet(object):
+  """A codelet is a unit of action in Seqsee.
+
+  A codelet belongs to a codelet family which defines what it does. The codelet has an
+  urgency that controls how likely the codelet is to run (based on the urgency of other
+  codelets waiting to run), and it has a dictionary of arguments that will be used when
+  running the codelet (if ever).
+
+  If extra arguments are passed while constructing the codelet, the Run() method of the
+  codelet family must be capable of handling these.
+
+  There are two ways of constructing. The first creates the codelet but does not yet
+  place it on the coderack::
+
+    c = Codelet(family, controller, urgency, dict(other_arg=10, other_arg2=15))
+
+  The second method is to call AddCodelet on the controller::
+
+    controller.AddCodelet(family, urgency, dict(other_arg=10, other_arg2=15))
   """
+
   def __init__(self, family, controller, urgency, arguments_dict=None):
     self.family = family
     self.urgency = urgency

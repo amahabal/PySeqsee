@@ -43,10 +43,10 @@ class LTMGraph(object):
 
   def _LoadNodes(self, unpickler):
     """Load all nodes from the unpickler.
-    
-    Each thing unpickled is a LTMNode. Because that class defines a __setstate__, it is used 
+
+    Each thing unpickled is a LTMNode. Because that class defines a __setstate__, it is used
     to setup the state of the created node.
-    
+
     While pickling, the content of that node (in a mangled state, see below) and its class is
     stored. When unpickling (this method), __setstate__ of LTMNode calls Create on this class
     (defined in LTMStorableMixin), and it ensures a proper non-duplicate initialization.

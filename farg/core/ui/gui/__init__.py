@@ -18,7 +18,7 @@ FLAGS = gflags.FLAGS
 
 class RunForNSteps(threading.Thread):
   """Runs controller for upto n steps.
-  
+
   Checking each time if we have not been asked to pause."""
 
   def __init__(self, *, controller, gui, num_steps=1000):
@@ -128,7 +128,7 @@ class GUI:
 
   def PopulateCentralPane(self):
     """Sets up the display in the central part.
-    
+
     If an item must be refreshed, add it to items_to_refresh."""
     height = FLAGS.gui_canvas_height
     width = FLAGS.gui_canvas_width

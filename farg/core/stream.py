@@ -20,22 +20,22 @@ class Stream(object):
   """Implements the Stream of Thought.
 
      The main public function here is FocusOn(), called with::
-       
+
        stream.FocusOn(focusable)
-       
+
      where focusable must be an instance of the interface FocusableMixin. FocusableMixin
      defines three methods: GetFringe(), GetAffordances(), and GetSimilarityAffordances().
-     
+
      The net effect of the call to FocusOn is to influence future processing in two ways:
-     
+
        * By adding codelets, as described below.
        * By modifying the context in which future FocusOn()s work. This is implicit in the
          description of GetSimilarityAffordances() below.
-         
+
      A blow-by-blow account of what happens:
-     
+
        * The fringe of the focusable is obtained via a call to GetFringe().
-       * If this fringe overlaps a prior stored fringe sufficiently, 
+       * If this fringe overlaps a prior stored fringe sufficiently,
          GetSimilarityAffordances() is called on the prior focusable and can create codelets,
          but not just yet add these to the coderack.
        * GetAffordances() may generate more codelets that haven't yet been added.
@@ -90,7 +90,7 @@ class Stream(object):
 
   def _PrepareForFocusing(self, focusable):
     """Does legwork for focusing; if focusable is a recent focus, removes it."""
-    # If already stored, delete it. 
+    # If already stored, delete it.
     if focusable in self.foci:
       self._RemovePriorFocus(focusable)
 

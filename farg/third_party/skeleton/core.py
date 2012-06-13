@@ -486,7 +486,7 @@ class Var(object):
         """Prompt user for variable value and return the validated value
 
         It will keep prompting the user until it receive a valid value.
-        By default, a value is valid if it is not a empty string string or if 
+        By default, a value is valid if it is not a empty string string or if
         the variable has a default.
 
         If the user value is empty and the variable has a default, the default
@@ -551,7 +551,7 @@ class Bool(Var):
         """Checks the response is either Y, YES, N or NO, or that the variable
         has a default value.
 
-        Raises a ValidateError exception if the response wasn't recognized or 
+        Raises a ValidateError exception if the response wasn't recognized or
         if no value was given and one is required.
 
         """

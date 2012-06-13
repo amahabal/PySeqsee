@@ -34,7 +34,7 @@ class FocusableMixin(object):
     """When the fringe of a stored focus overlaps the fringe of a newly focused entity,
        this function is called. Here, self is the older focus, and my_fringe is its fringe.
        focusable is the new focusable, and other_fringe is its fringe.
-       
+
        This should return a list of codelets that follow-up on this potential similarity.
     """
     raise FargError("Focusable mixin's GetSimilarityAffordances() was not over-ridden.")

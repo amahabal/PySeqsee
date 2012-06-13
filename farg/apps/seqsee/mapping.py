@@ -68,12 +68,12 @@ class StructuralMapping(Mapping):
                flipped_version=None):
     #: A category, such as ascending, on which mapping is based.
     self.category = category
-    #: A dictionary of attribute to a mapping: how is the value of each attribute 
+    #: A dictionary of attribute to a mapping: how is the value of each attribute
     #: transformed?
     assert isinstance(bindings_mapping, frozenset)
     self.bindings_mapping = bindings_mapping
     #: If an attribute comes from a different attribute, that information is here.
-    #: Thus, if the new `start` is the successor of the old `end`, then there will be an 
+    #: Thus, if the new `start` is the successor of the old `end`, then there will be an
     #: entry start => end in the slippages dictionary, as well as a start => succ in the
     #: bindings_mapping dictionary.
     assert not(slippages) or isinstance(slippages, frozenset)
@@ -106,7 +106,7 @@ class StructuralMapping(Mapping):
 
   def IsPairConsistent(self, item1, item2):
     """Is the pair of items consistent with this mapping?
-    
+
     .. ToDo:: This is a cop-out, currently; when extending Seqsee, I should revisit this.
     """
     resulting_item = self.Apply(item1)

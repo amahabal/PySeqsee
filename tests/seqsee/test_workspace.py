@@ -10,11 +10,11 @@ import unittest
 
 def helper_create_and_insert_group(ws, specification):
   """Utility for quickly creating groups.
-  
+
   Each element in the specification is a tuple consisting of integers or of other similarly
   structured tuples. Each generates a group, where the integers correspond to position in the
   workspace.
-  
+
   A degenerate case is when the specification is an integer, in which case the WS element is
   returned.
   """

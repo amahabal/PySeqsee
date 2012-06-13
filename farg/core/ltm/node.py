@@ -26,23 +26,23 @@ class LTMNode(object):
   """Represents a single concept stored in an LTM.
 
   Each node has a core --- content that is being remembered and connected to other concepts.
-  
+
   This content must be derived from a subclass of LTMStorableMixin. The reason for this is to
   ensure proper creation. Creation of nodes occurs in two ways --- either via the
   constructor,. or by vivification during unpickling (that is, by the __init__ method or
   by __setstate__ method.
-  
+
   There are two important numbers associated with a node. These are the activation (a number
   between 0 and 1 that represents how important that concept currently appears for the
   current problem), and its depth (an integer typically greater than 5 that represents the
   difficulty of raising or lowering activation --- deep concept's activation rises slowly and
   falls slowly.)
-  
+
   In practice, two substitutes for these are stored: "raw activation" (which is a number
   between 0 and 100 which is converted by a sigmoid to a real activation), and the reciprocal
   of the depth (since that eases computation a bit). Raw activation makes things easier to
   calculate.
-  
+
   The calculation of activation is lazy --- it is calculated when needed. Although the
   activation decays at every timestep, we do not bother updating it everytime, relying on a
   just in time calculation.
@@ -50,11 +50,11 @@ class LTMNode(object):
 
   def __init__(self, content):
     """Initializes the node.
-    
+
     .. note::
-    
+
       Any change here must be reflected in the __getstate__ and __setstate__ methods.
-      
+
     """
     self.content = content
     self.outgoing_edges = []
@@ -76,24 +76,24 @@ class LTMNode(object):
   def __getstate__(self):
     """This saves the class name of content and (mangled) __dict__, to be reconstructed
     using Create().
-    
+
     Mangling consists of replacing any value with the node of which that value is the content.
-    
+
     .. Note::
-    
+
       Mangling cannot be done by the node. It is a graph-wide calculation. The mangling
       happens prior to calling dump() by the ltm.LTM pickler.
-    
-    This is needed since we wish to pass everything we are reviving through Create() of 
-    appropriate classes, and pickle has its own ideas of how to recreate. I wish to limit 
-    complexity to this class (rather than spreading to many), hence modifying how other 
+
+    This is needed since we wish to pass everything we are reviving through Create() of
+    appropriate classes, and pickle has its own ideas of how to recreate. I wish to limit
+    complexity to this class (rather than spreading to many), hence modifying how other
     classes get pickled is not an option.
     """
     content = self.content
     return (content.__class__, content.__dict__, self.outgoing_edges, self.depth_reciprocal)
 
   def __setstate__(self, state):
-    """This vivifies the object, using Create() and unmangling any values: that is, values 
+    """This vivifies the object, using Create() and unmangling any values: that is, values
        that are nodes are replaced by their contents.
     """
     clsname, instance_dict, outgoing_edges, depth_reciprocal = state
@@ -135,9 +135,9 @@ class LTMNode(object):
       self._raw_activation = 90
 
   def IncreaseActivation(self, amount, *, current_time):
-    """Update activation by this amount (after processing any pending decays), and also 
+    """Update activation by this amount (after processing any pending decays), and also
        spread an appropriate component to nearby nodes.
-    
+
     .. todo:: Should spread to depth 2. Not done correctly. Nor is the amount spread accurate.
     """
     self.IncreaseActivationButDontSpread(amount, current_time=current_time)
@@ -148,7 +148,7 @@ class LTMNode(object):
 
   def GetRawActivation(self, current_time):
     """Get raw activation.
-    
+
        Time is needed to calculate decay, if any, since the stored activation may be stale.
     """
     self._ProcessDecays(current_time)

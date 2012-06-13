@@ -17,7 +17,7 @@ FLAGS = gflags.FLAGS
 
 class SubspaceAreWeDone(Subspace):
   """Checks if we should stop because we have found or explained the answer.
-  
+
      Currently a hack, stops when 10 new terms have been correctly predicted.
   """
   from farg.core.controller import Controller

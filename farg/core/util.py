@@ -25,9 +25,9 @@ def Toss(x):
 
 def ChooseAboutN(n, choices):
   """Choose in a way that the expected number of choices is n.
-  
+
   Choices is an iterable of 2-tuples, where the second value is the weight.
-  
+
   An example to show how it works: let choices contain 5 things with weights 10, 20, 30
   40, and 50 (thus summing to 150), and let n=3. Then we will keep the first item in the
   output with probability 3 * 10/150 (i.e., 20%).
@@ -62,7 +62,7 @@ def UnweightedChoice(choices):
 
 def WeightedShuffle(choices):
   """Choices is an iterable of 2-tuples, where the second value is the weight.
-  
+
   Returns a shuffle of the first elements based on the weight."""
   total = sum(weight for item, weight in choices)
   while total > 0:

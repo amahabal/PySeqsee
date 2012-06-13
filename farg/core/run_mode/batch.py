@@ -36,7 +36,6 @@ class BatchRunMultipleTimes(RunMultipleTimes):
 
   def RunAll(self):
     self.gui.stats.left_stats = self.LoadPreviousStats()
-    print("Run started")
     for one_input_spec in self.input_spec:
       name = one_input_spec.name
       arguments = self.GetSubprocessArguments(one_input_spec)

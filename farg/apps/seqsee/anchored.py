@@ -33,7 +33,7 @@ class NonAdjacentGroupElementsException(FargException):
 # pylint: disable=R0902
 class SAnchored(LTMStorableMixin, FocusableMixin):
   """An object with position information.
-  
+
   .. warning:: This way of doing things differs from the way in Perl, where I was
     subclassing instead of just having an sobject as a member.
   """
@@ -104,7 +104,7 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
     """Given a list of items, each a SAnchored, creates another SAnchored, provided that the
        items are contiguous. Raises a NonAdjacentGroupElementsException if they are
        non-adjacent.
-       
+
        The only acceptable kwarg is 'underlying_mapping_set'
     """
     if not items:
