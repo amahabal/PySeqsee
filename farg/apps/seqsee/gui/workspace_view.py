@@ -23,7 +23,7 @@ class WorkspaceView(ViewPort):
 
   # Many local variables here.
   # pylint: disable=R0914
-  def ReDrawView(self, controller):
+  def ReDraw(self, controller):
     workspace = controller.workspace
     anchors_for_relations = dict()
     revealed_terms = [x.object.magnitude for x in workspace.elements]

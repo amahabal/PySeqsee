@@ -43,8 +43,9 @@ class SeqseeGUI(GUI):
 
   central_pane_class = SeqseeCentralPane
 
-  def __init__(self, **kwargs):
-    GUI.__init__(self, **kwargs)
+  def __init__(self, *, controller_class, stopping_condition_fn=None):
+    GUI.__init__(self, controller_class=controller_class,
+                 stopping_condition_fn=stopping_condition_fn)
 
     # Key bindings
     self.mw.bind('<KeyPress-d>', lambda e: self.controller.workspace.DebugRelations())

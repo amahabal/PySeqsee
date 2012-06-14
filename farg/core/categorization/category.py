@@ -11,8 +11,9 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-"""Classes to deal with categories and their instances, including the base class for
-categories.
+"""Classes to deal with categories and their instances.
+
+Including the base class for categories.
 
 An example will help describe all that happens here. We will use the category 'Ascending'
 from Seqsee. Instances of this category are objects such as '(1 2 3)' and '(7 8 9 10)'.
@@ -28,12 +29,12 @@ Adding a category to an instance::
 The following also returns a binding, but does not store the membership information::
 
   bindings = category.IsInstance(item)
-
 """
 
-from farg.core.exceptions import FargError
-from farg.core.meta import MemoizedConstructor
+from abc import abstractmethod
+from farg.core.meta import MemoizedConstructor  # Metaclass confuses pylint: disable=W0611
 from farg.core.ltm.storable import LTMStorableMixin
+
 
 class Category(LTMStorableMixin, metaclass=MemoizedConstructor):
   """The base class of any category in the FARG system.
@@ -41,14 +42,17 @@ class Category(LTMStorableMixin, metaclass=MemoizedConstructor):
   Any derivative class must define the following class methods:
 
   * IsInstance (which would return a binding),
-  * FindMapping (given two categorizables, returns a mapping between the two)
-  * ApplyMapping (given a mapping and a categorizable, returns a new item).
   """
 
-  def IsInstance(self, object):
+  @abstractmethod
+  def IsInstance(self, entity):
     """Is object an instance of this category?
 
-    If it is not, `None` is returned. If it is, a binding object is returned.
-    """
-    raise FargError("IsInstance makes no sense on base category.")
+    Args:
+      entity: The entity whose membership in self is being tested.
 
+    Returns:
+      If it is not an instance, None is returned. Otherwise, a
+      :py:class:`~farg.core.categorization.binding.Binding` object is returned.
+    """
+    pass

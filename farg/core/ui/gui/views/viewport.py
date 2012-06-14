@@ -10,18 +10,44 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+"""Viewport defines a section of a canvas for displaying some information.
 
-class ViewPort(object):
+The coordinates (left, top) and (bottom, right) define a rectangular section of the canvas.
+
+This is an abstract class where a few methods need to be plugged in.
+"""
+
+from abc import ABCMeta, abstractmethod    # Metaclass confuses pylint: disable=W0611
+
+
+class ViewPort(metaclass=ABCMeta):
+  """Viewport defines a section of a canvas for displaying some information."""
+
   def __init__(self, canvas, left, bottom, width, height):
+    """Defines section of a canvas for displaying the list.
+
+    Args:
+      canvas: Canvas where the view is drawn.
+      left:
+      bottom:
+      width:
+      height: Define the section of the canvas where view will be drawn.
+    """
     self.left = left
     self.bottom = bottom
     self.height = height
     self.width = width
     self.canvas = canvas
 
-  def ReDraw(self, controller):
-    # Should delete things with particular identifiers. I will let canvas delete, for now.
-    self.ReDrawView(controller)
-
   def CanvasCoordinates(self, x, y):
+    """Converts coordinates in this view to canvas coordinates."""
     return (self.left + x, self.bottom + y)
+
+  @abstractmethod
+  def ReDraw(self, controller):
+    """Redraw this view.
+
+    Args:
+      controller: The controller for the main application.
+    """
+    pass

@@ -65,5 +65,5 @@ class {application_class}Main(Main):
     pass
 
 if __name__ == '__main__':
-  {application_class}Main().main(sys.argv)
+  {application_class}Main(sys.argv).Run()
 

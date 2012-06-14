@@ -12,6 +12,12 @@ class MyFocusable(FocusableMixin):
   def GetFringe(self, controller):
     return { self.x: 0.7, self.y: 0.4 }
 
+  def GetAffordances(self, controller):
+    return ()
+
+  def GetSimilarityAffordances(self, focusable, other_fringe, my_fringe, controller):
+    return ()
+
 class TestStream(unittest.TestCase):
   def test_basic(self):
 

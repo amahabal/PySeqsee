@@ -5,7 +5,7 @@ class WorkspaceView(ViewPort):
   def __init__(self, canvas, left, bottom, width, height):
     ViewPort.__init__(self, canvas, left, bottom, width, height)
 
-  def ReDrawView(self, controller):
+  def ReDraw(self, controller):
     """Redraw the workspace if it is being displayed. This is not called otherwise.
 
     The attributes that you have access to include self.width, self.height and a method to

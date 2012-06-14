@@ -10,7 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-
+"""Defines class for "Node" of an LTM."""
 import math
 
 #: Maps raw activation (an integer) to real activation.
@@ -19,8 +19,9 @@ import math
 #:  '0.220', '0.562', '0.811', '0.895', # For 40, 50, 60, 70
 #:  '0.932', '0.952', '0.964']  # For 80, 90, 100
 _RAW_ACTIVATION_TO_REAL_ACTIVATION = [
-    0.4815 + 0.342 * math.atan2(12 * (0.01 * x - 0.5), 1)
-    for x in range(2, 203)]
+  0.4815 + 0.342 * math.atan2(12 * (0.01 * x - 0.5), 1)
+  for x in range(2, 203)]
+
 
 class LTMNode(object):
   """Represents a single concept stored in an LTM.
@@ -29,8 +30,8 @@ class LTMNode(object):
 
   This content must be derived from a subclass of LTMStorableMixin. The reason for this is to
   ensure proper creation. Creation of nodes occurs in two ways --- either via the
-  constructor,. or by vivification during unpickling (that is, by the __init__ method or
-  by __setstate__ method.
+  constructor,. or by vivification during unpickling (that is, by the __init__ method or by
+  __setstate__ method.
 
   There are two important numbers associated with a node. These are the activation (a number
   between 0 and 1 that represents how important that concept currently appears for the
@@ -50,6 +51,9 @@ class LTMNode(object):
 
   def __init__(self, content):
     """Initializes the node.
+
+    Args:
+      content: Create a node using content.
 
     .. note::
 
@@ -74,10 +78,10 @@ class LTMNode(object):
     return 'Node(%s)' % self.content.BriefLabel()
 
   def __getstate__(self):
-    """This saves the class name of content and (mangled) __dict__, to be reconstructed
-    using Create().
+    """Saves the class name of content and (mangled) __dict__, to be reconstructed later.
 
-    Mangling consists of replacing any value with the node of which that value is the content.
+    Mangling consists of replacing any value with the node of which that value is the
+    content.
 
     .. Note::
 
@@ -88,13 +92,21 @@ class LTMNode(object):
     appropriate classes, and pickle has its own ideas of how to recreate. I wish to limit
     complexity to this class (rather than spreading to many), hence modifying how other
     classes get pickled is not an option.
+
+    Returns:
+      4-tuple: class of content, dict of content, the outgoing edges, and depth reciprocal.
     """
     content = self.content
     return (content.__class__, content.__dict__, self.outgoing_edges, self.depth_reciprocal)
 
   def __setstate__(self, state):
-    """This vivifies the object, using Create() and unmangling any values: that is, values
-       that are nodes are replaced by their contents.
+    """This vivifies the object, using Create() and unmangling any values.
+
+    That is, values that are nodes are replaced by their contents.
+
+    Args:
+      state: A 4-tuple (classname, arguments to pass to constructor of classname,
+                        outgoing edges, reciprocal of depth).
     """
     clsname, instance_dict, outgoing_edges, depth_reciprocal = state
     LTMNode._Unmangle(instance_dict)
@@ -126,8 +138,7 @@ class LTMNode(object):
     self._time_of_activation_update = current_time
 
   def IncreaseActivationButDontSpread(self, amount, *, current_time):
-    """Update activation by this amount (after processing any pending decays, but do not
-       propagate further.)"""
+    """Update activation by this amount (after processing any decays). No spreadings."""
     self._ProcessDecays(current_time)
     self._raw_activation += amount * self.depth_reciprocal
     if self._raw_activation > 100:
@@ -135,12 +146,26 @@ class LTMNode(object):
       self._raw_activation = 90
 
   def IncreaseActivation(self, amount, *, current_time):
-    """Update activation by this amount (after processing any pending decays), and also
-       spread an appropriate component to nearby nodes.
+    """Update activation by this amount (after processing any pending decays), and spread.
 
-    .. todo:: Should spread to depth 2. Not done correctly. Nor is the amount spread accurate.
+    Activation is spread an appropriate component to nearby nodes.
+
+    Args:
+      amount: Amount by which to increase. Will typically be a small integer.
+
+    Keyword-only Args:
+      current_time: Time when this method was called. Needed to process any pending decays.
+
+    Returns:
+      Activation at this time.
+
+    .. todo::
+
+      Should spread to depth 2. Not done correctly. Nor is the amount spread
+      accurate.
     """
-    self.IncreaseActivationButDontSpread(amount, current_time=current_time)
+    self.IncreaseActivationButDontSpread(amount, #pylint:disable=E1123,C6010
+                                         current_time=current_time)
     for edge in self.outgoing_edges:
       to_node = edge.to_node
       to_node.IncreaseActivationButDontSpread(0.25 * amount, current_time=current_time)
@@ -149,7 +174,13 @@ class LTMNode(object):
   def GetRawActivation(self, current_time):
     """Get raw activation.
 
-       Time is needed to calculate decay, if any, since the stored activation may be stale.
+    Time is needed to calculate decay, if any, since the stored activation may be stale.
+
+    Args:
+      current_time: Number of codelets run thus far.
+
+    Returns:
+      Raw activation (number between 0 and 100). Real activation is a sigmoid of this.
     """
     self._ProcessDecays(current_time)
     return self._raw_activation

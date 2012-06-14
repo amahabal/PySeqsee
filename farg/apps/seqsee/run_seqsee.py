@@ -72,4 +72,4 @@ class SeqseeMain(Main):
       sys.exit(1)
 
 if __name__ == '__main__':
-  SeqseeMain().main(sys.argv)
+  SeqseeMain(sys.argv).Run()
