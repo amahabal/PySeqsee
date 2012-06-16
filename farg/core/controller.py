@@ -117,7 +117,8 @@ class Controller:
 
   The constructor takes the following named arguments:
 
-    * ui (required) * controller_depth. The top controller has depth 0, its subspaces have
+    * ui (required)
+    * controller_depth. The top controller has depth 0, its subspaces have
       depth 1, and so forth. The default is 0.
     * parent_controller. If present, it points to the controller that created this
       subspace. Defaults to None (which indicates a top-level controller).
@@ -127,9 +128,10 @@ class Controller:
       as the only input and returns true or false.
   """
   #: What type of stream is owned by the controller. Defaults to
-  #: :py:class:`farg.core.stream.Stream`
+  #: :py:class:`~farg.core.stream.Stream`
   stream_class = Stream  # This is not "constant" as thought by pylint: disable=C6409
-  #: What type of coderack is owned by the controller.
+  #: What type of coderack is owned by the controller. Defaults to
+  #: :py:class:`~farg.core.coderack.Coderack`.
   coderack_class = Coderack  # pylint: disable=C6409
   #: What type of workspace is owned by the controller. With None, gets no workspace.
   workspace_class = None   # pylint: disable=C6409
@@ -181,7 +183,8 @@ class Controller:
     codelet.
 
     Args:
-      force: If true, the third field of the 3-tuple ("probability of adding") is ignored.
+      force:
+        If true, the third field of the 3-tuple ("probability of adding") is ignored.
 
     The codelets are added with a certain probability (specified in the third term of the
     tuple), but this can be over-ridden with force (or if the coderack is empty).
@@ -211,7 +214,8 @@ class Controller:
     """Takes up to N steps.
 
     Args:
-      n_steps: Number of steps to take. Steps taken by subspaces created by this controller
+      n_steps:
+        Number of steps to take. Steps taken by subspaces created by this controller
         are not counted.
 
     In these, it is possible that an answer is found and an exception raised.
@@ -222,7 +226,17 @@ class Controller:
       self.Step()
 
   def AddCodelet(self, *, family, urgency, arguments_dict=None):
-    """Adds a codelet to the coderack."""
+    """Adds a codelet to the coderack.
+    
+    Keyword-only Args:
+      family:
+        Family of codelet. Subclass of :py:class:`~farg.core.codelet.CodeletFamily`.
+      urgency:
+        Number between 0 and 100 indicating urgency.
+      arguments_dict:
+        A dictionary of extra arguments to pass to the codelet. See details in the
+        documentation of :py:class:`~farg.core.codelet.CodeletFamily`.
+    """
     if arguments_dict is None:
       arguments_dict = {}
     codelet = Codelet(family=family, controller=self,

@@ -17,17 +17,18 @@ from farg.third_party import gflags
 from io import StringIO
 import sys
 
-gflags.DEFINE_boolean('eat_output', True, "If true, eat up most output")
+gflags.DEFINE_boolean('eat_output', True, 'If true, eat up most output.')
 
 FLAGS = gflags.FLAGS
 
+
 class RunModeSingle(RunModeNonInteractive):
-  """
-  Run mode for a single run as part of a batch run or a SxS run.
+  """Run mode for a single run as part of a batch run or a SxS run.
 
   This class is responsible for running the program once, suppressing its output, and
   producing an easy to parse string.
   """
+
   def __init__(self, *, controller_class, ui_class, stopping_condition_fn):
     self.ui = ui_class(controller_class=controller_class,
                        stopping_condition_fn=stopping_condition_fn)
@@ -39,15 +40,15 @@ class RunModeSingle(RunModeNonInteractive):
     output_status = ''
     try:
       self.ui.Run()
-    except BatchModeStopException as e:
-      classname = str(e.__class__).split('.')[-1][:-2]
-      output_status = '%s %d' % (classname, e.codelet_count)
-    except FargError as e:
-      print(e)
-      output_status = 'ERROR %s' % e
-    except FargException as e:
-      print(e)
-      output_status = 'ERROR %s' % e
+    except BatchModeStopException as error:
+      classname = str(error.__class__).split('.')[-1][:-2]
+      output_status = '%s %d' % (classname, error.codelet_count)
+    except FargError as error:
+      print(error)
+      output_status = 'ERROR %s' % error
+    except FargException as error:
+      print(error)
+      output_status = 'ERROR %s' % error
     else:
       output_status = 'MaxCodeletsReached'
     finally:

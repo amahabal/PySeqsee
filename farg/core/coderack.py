@@ -20,7 +20,7 @@ the Coderack.
 
 The probability of choosing an item depends on its promise.  Higher
 promise actions are likelier to be chosen, but it is still possible for
-ignore promise actions to occasionally get chosen.
+lower promise actions to occasionally get chosen.
 
 Each action is called a codelet.  As that term suggests, the action is a
 tiny and targeted.  In fact, Seqsee requires several dozens of codelets to
@@ -108,10 +108,12 @@ class Coderack(object):
     """Force codelet to be the next one retrieved by GetCodelet.
 
     Args:
-      codelet: The codelet to force as the return value of the next GetCodelet.
+      codelet:
+        The codelet to force as the return value of the next GetCodelet.
 
     Raises:
-      FargError: codelet is not in fact present in the coderack.
+      FargError:
+        codelet is not in fact present in the coderack.
 
     .. Note::
 

@@ -11,43 +11,86 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-"""Manage stopping conditions."""
+"""Manage stopping conditions.
+
+For debugging or testing reasons, one may want to run an application until a particular
+condition is met. This module manages stopping conditions.
+"""
+
 
 class StoppingConditionNotFound(Exception):
+  """Raised when requested stopping condition has not been registered."""
+
   def __init__(self, name):
+    Exception.__init__(self)
+    #: Name of condition.
     self.name = name
 
   def __str__(self):
     return 'No stopping condition registered for %s' % self.name
 
 
-class StoppingConditions:
+class StoppingConditions:  # No __init__. pylint:disable=W0232
   """Manage the set of stopping conditions."""
 
   #: The known set of stopping conditions.
-  conditions = dict()
+  conditions = dict()  # Not a constant. pylint: disable=C6409
 
   @classmethod
-  def RegisterStoppingCondition(self, condition_name, condition_fn):
-    """Remember a new stopping condition."""
-    self.conditions[condition_name] = condition_fn
+  def RegisterStoppingCondition(cls, condition_name, condition_fn):
+    """Remember a new stopping condition.
+
+    Args:
+      condition_name: Name of the stopping condition.
+      condition_fn: A function that gets the controller as its only argument.
+    """
+    cls.conditions[condition_name] = condition_fn
 
   @classmethod
-  def GetStoppingCondition(self, condition_name):
-    """Returns a stopping condition function. Raises an exception if none found."""
-    if condition_name in self.conditions:
-      return self.conditions[condition_name]
+  def GetStoppingCondition(cls, condition_name):
+    """Returns a stopping condition function given name.
+
+    Args:
+      condition_name: Name of stopping condition.
+
+    Returns:
+      A function taking a single argument (a controller).
+
+    Raises:
+      StoppingConditionNotFound: if name not found.
+    """
+    if condition_name in cls.conditions:
+      return cls.conditions[condition_name]
     else:
       raise StoppingConditionNotFound(condition_name)
 
   @classmethod
-  def StoppingConditionsList(self):
+  def StoppingConditionsList(cls):
     """Returns list of known stopping conditions."""
-    return list(self.conditions.keys())
+    return list(cls.conditions.keys())
+
 
 def RegisterStoppingCondition(stopping_conditions_class, *, condition_name):
-  def decorator(func):
+  """Decorator for registering a stopping condition on a class.
+
+  Args:
+    stopping_conditions_class: The class for which stopping condition is being defined.
+
+  Keyword-only Args:
+    condition_name: Name of the stopping condition.
+
+  Returns:
+    A decorated function identical to input. Decoration useful only for its side-effect.
+
+  Usage::
+
+    @RegisterStoppingCondition(SomeSubclassOfStoppingConditions, condition_name='foo')
+    def CheckFoo(controller):
+      ... do something ...
+  """
+
+  def Decorator(func):
+    """Return input after registering it."""
     stopping_conditions_class.RegisterStoppingCondition(condition_name, func)
     return func
-  return decorator
-
+  return Decorator

@@ -27,10 +27,11 @@ class FringeAndCodeletsTest(unittest.TestCase):
   def AssertFringeContains(self, controller, item, expected_fringe_components):
     """Checks for the presence of particular components in the fringe.
 
-       Args:
-         item: The item whose fringe is being tested.
-         expected_fringe_components: An iterable of two-tuples (fringe element and minimum
-             intensity)).
+    Args:
+      item:
+        The item whose fringe is being tested.
+      expected_fringe_components:
+         An iterable of two-tuples (fringe element and minimum intensity).
     """
     fringe = item.GetFringe(controller)
     for fringe_element, min_expected_intensity in expected_fringe_components.items():
@@ -46,13 +47,18 @@ class FringeAndCodeletsTest(unittest.TestCase):
     """Checks that the fringes of two items overlap and have certain similarity affordances.
 
     Args:
-      controller: controller that contains the stream, LTM and so forth.
-      prior_focus: The previous focus in the stream (will have intensity 1)
-      current_focus: The current item being focused upon.
-      min_expected_overlap: Minimum expected overlap between the fringes.
-      expected_similarity_affordances: what codelets are expected? This is specified as a
-          iterable of codelet-matchers (that is, as family, min_urgency, max_urgency,
-          and some required arguments, or a subset thereof).
+      controller:
+        controller that contains the stream, LTM and so forth.
+      prior_focus:
+        The previous focus in the stream (will have intensity 1)
+      current_focus:
+        The current item being focused upon.
+      min_expected_overlap:
+        Minimum expected overlap between the fringes.
+      expected_similarity_affordances:
+        what codelets are expected? This is specified as a iterable of codelet-matchers
+        (that is, as family, min_urgency, max_urgency, and some required arguments, or a
+        subset thereof).
     """
     stream = controller.stream
     stream.Clear()
@@ -77,8 +83,8 @@ class FringeAndCodeletsTest(unittest.TestCase):
     """Checks for codelets with given specification in container_to_check, which is a list of
        codelets.
 
-       Specifications is an iterable of individual specification, each of which is a
-       CodeletPresenceSpec.
+    Specifications is an iterable of individual specification, each of which is a
+    CodeletPresenceSpec.
     """
     for codelet_presence_spec in specifications:
       self.AssertCodeletPresent(codelet_presence_spec, container_to_check)

@@ -11,15 +11,27 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+"""View for displaying nodes in an ltm."""
+
 from farg.core.ui.gui.views.list_based_view import ListBasedView
 from tkinter import NW
 
+
 class LTMView(ListBasedView):
+  """View for displaying nodes in an ltm."""
 
   items_per_page = 10
 
   def GetAllItemsToDisplay(self, controller):
-    """Returns a 2-tuple: A top message, and a list of items."""
+    """A list of things to display.
+
+    Args:
+      controller: Controller for the application.
+
+    Returns:
+      A 3-tuple: Items, a top message, and a dictionary of extra information. The extra
+        information is the number of timesteps taken in the ltm.
+    """
     ltm = controller.ltm
     items_with_activations = []
     epoch = ltm._timesteps

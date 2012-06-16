@@ -14,13 +14,15 @@
 from farg.core.controller import Controller
 from farg.core.exceptions import AnswerFoundException, NoAnswerException
 
-class QuickReconnResults:
-  """Result of quick reconnaisance before really starting a subspace. Can be one of three
-     things:
 
-     * Deepeer exploration is needed.
-     * Exploration not needed. An answer has been found.
-     * Exploration not needed. No answer is likely to be found.
+class QuickReconnResults:
+  """Result of quick reconnaisance before starting a subspace.
+
+  This can be one of three things:
+
+  * Deepeer exploration is needed.
+  * Exploration not needed. An answer has been found.
+  * Exploration not needed. No answer is likely to be found.
   """
 
   kDeeperExplorationNeeded = 1
@@ -68,10 +70,10 @@ class Subspace:
     # So we need deeper exploration.
     parent_controller = self.parent_controller
     self.controller = self.controller_class(
-        ui=parent_controller.ui,
-        controller_depth=(parent_controller.controller_depth + 1),
-        workspace_arguments=self.workspace_arguments,
-        parent_controller=parent_controller)
+      ui=parent_controller.ui,
+      controller_depth=(parent_controller.controller_depth + 1),
+      workspace_arguments=self.workspace_arguments,
+      parent_controller=parent_controller)
     self.InitializeCoderack()
     try:
       self.controller.RunUptoNSteps(self.nsteps)
@@ -86,5 +88,5 @@ class Subspace:
 
   def InitializeCoderack(self):
     raise Exception(
-        'InitializeCoderack from class Subspace called. This is surely a bug: this method'
-        'should have been overridden in a derived class to set up the initial codelet.')
+      'InitializeCoderack from class Subspace called. This is surely a bug: this method'
+      'should have been overridden in a derived class to set up the initial codelet.')

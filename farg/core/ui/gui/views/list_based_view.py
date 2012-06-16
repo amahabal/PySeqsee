@@ -136,10 +136,15 @@ class ListBasedView(ViewPort, metaclass=ABCMeta):
     """Draws item given co-ordinates in *this* widgets coordinate system.
 
     Args:
-      x: x-coordinate for the top-left, within this view, where the item is to be drawn.
-      y: y-coordinate for the top-left, within this view, where the item is to be drawn.
-      item: item to be drawn.
-      extra_dict: Any extra key-value pairs to be passed in to influence the display.
-      controller: The controller for the main application.
+      x:
+        x-coordinate for the top-left, within this view, where the item is to be drawn.
+      y:
+        y-coordinate for the top-left, within this view, where the item is to be drawn.
+      item:
+        item to be drawn.
+      extra_dict:
+        Any extra key-value pairs to be passed in to influence the display.
+      controller:
+        The controller for the main application.
     """
     pass

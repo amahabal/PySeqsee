@@ -19,22 +19,30 @@ from abc import ABCMeta, abstractmethod  # Metaclass confuses pylint: disable=W0
 class CodeletFamily(metaclass=ABCMeta):
   """A codelet family is a class that defines what a codelet of that family does when run.
 
-     Codelet family names typically start with CF.
+  Codelet family names typically start with CF.
 
-     A codelet family subclasses this class and looks like this::
+  A codelet family subclasses this class and looks like this::
 
-       from farg.core.codelet import CodeletFamily
-       class CF_Foo(CodeletFamily):
-         "Documentation describes what it does, what codelets it may create, what things
-          it may cause to focus on, and any subspace it may be a part of.
-         "
+    from farg.core.codelet import CodeletFamily
+    class CF_Foo(CodeletFamily):
+      '''One line documentation of what codelets of this family do.
 
-         @classmethod
-         def Run(self, controller, *, other_arg1, other_arg2):
-           "Run may take extra arguments (such as other_arg1 above). The extra arguments
-            will be passed by name only. These are set in the constructor of the codelet.
-           "
-           DoSomething()
+      Documentation describes what it does, what codelets it may create, what things
+      it may cause to focus on, and any subspace it may be a part of.
+      '''
+
+      @classmethod
+      def Run(self, controller, *, other_arg1, other_arg2):
+        '''One line documentation of what codelets of this family do.
+
+        Run may take extra arguments (such as other_arg1 above). The extra arguments
+        will be passed by name only. These are set in the constructor of the codelet.
+        '''
+       DoSomething()
+
+  To create a codelet of this family, one would do::
+
+    c = Codelet(CF_Foo, controller, urgency, dict(other_arg=10, other_arg2=15))
   """
 
   def __init__(self):
@@ -48,7 +56,8 @@ class CodeletFamily(metaclass=ABCMeta):
     These arguments are guaranteed to be passed in as keyword arguments.
 
     Args:
-      controller: The controller that will be used to run the codelet. The controller can
+      controller:
+        The controller that will be used to run the codelet. The controller can
         be used to access the workspace, coderack, and other such resources.
     """
     pass
@@ -57,16 +66,17 @@ class CodeletFamily(metaclass=ABCMeta):
 class Codelet(object):
   """A codelet is a unit of action in Seqsee.
 
-  A codelet belongs to a codelet family which defines what it does. The codelet has an
-  urgency that controls how likely the codelet is to run (based on the urgency of other
-  codelets waiting to run), and it has a dictionary of arguments that will be used when
-  running the codelet (if ever).
+  A codelet belongs to a codelet family whose **Run** method defines what it does. The
+  codelet has an urgency that controls how likely the codelet is to run (based on the urgency
+  of other codelets waiting to run), and it has a dictionary of arguments that will be used
+  when running the codelet (if ever).
 
   If extra arguments are passed while constructing the codelet, the Run() method of the
-  codelet family must be capable of handling these.
+  codelet family must be capable of handling these. See example in documentation of
+  :py:class:`CodeletFamily`.
 
-  There are two ways of constructing. The first creates the codelet but does not yet
-  place it on the coderack::
+  There are two ways of constructing a codelet. The first creates the codelet but does not
+  yet place it on the coderack::
 
     c = Codelet(family, controller, urgency, dict(other_arg=10, other_arg2=15))
 
@@ -76,9 +86,16 @@ class Codelet(object):
   """
 
   def __init__(self, family, controller, urgency, arguments_dict=None):
+    #: Family of the codelet. Subclass of :py:class:`CodeletFamily`.
     self.family = family
+    #: A number between 0 and 100 indicating urgency of the codelet. Higher urgency codelets
+    #: are likelier to be chosen for running.
     self.urgency = urgency
+    #: A dictionary of arguments to be passed to the Run method of the codelet family. These
+    #: would be passed as named arguments.
     self.args = arguments_dict if arguments_dict is not None else {}
+    #: The controller that will be used to run this. This is the controller of the subspace
+    #: the codelet is in.
     self.controller = controller
 
   def Run(self):

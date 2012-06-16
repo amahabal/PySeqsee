@@ -13,6 +13,17 @@ the program multiple times on various inputs. It is specified using::
 
   --run_mode=sxs
 
+Screenshot
+------------
+
+Here is a screenshot of a batch mode run of Seqsee where the previous run had
+been hobbled, resulting in the current run being better. The left column shown
+input sequences, color coded to show what sequences improved (green) or got worse
+(red). White indicates no significant change (at 95% confidence).
+
+.. image:: ../images/batch_diff.png
+  :height: 300px
+  :align: center
 
 Flags shared by both SxS and Batch
 -----------------------------------

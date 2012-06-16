@@ -146,12 +146,13 @@ def FindMapping(o1, o2, *, controller, seqsee_ltm, category=None):
   """
   Find mapping between the two entities.
 
-  @param o1: The first entity.
-  @param o2: The second entity.
-  @param controller: A controller. Needed in case subspaces have to be created.
-  @param seqsee_ltm: We need access to the global LTM in order to know, say, that the "7" we
-     see can be treated as a prime.
-  @param category: If a category on which to base the diff has already been chosen.
+  Args:
+    o1: The first entity.
+    o2: The second entity.
+    controller: A controller. Needed in case subspaces have to be created.
+    seqsee_ltm: We need access to the global LTM in order to know, say, that the "7" we 
+    see can be treated as a prime.
+    category: If a category on which to base the diff has already been chosen.
   """
   if category:
     return category.FindMapping(o1, o2, controller=controller, seqsee_ltm=seqsee_ltm)

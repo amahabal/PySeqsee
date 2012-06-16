@@ -10,6 +10,7 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+"""View for displaying codelets in a coderack."""
 
 from collections import defaultdict
 from farg.core.ui.gui.views.list_based_view import ListBasedView
@@ -18,20 +19,31 @@ from tkinter.constants import END
 
 
 def ShowCodeletFamilyDetails(controller, family):
+  """A toplevel for showing codelets in one family."""
   coderack = controller.coderack
   codelets = [x for x in coderack._codelets if x.family == family]
   top = Toplevel()
-  tb = Text(top, height=50, width=50)
-  tb.pack()
+  textbox = Text(top, height=50, width=50)
+  textbox.pack()
   for codelet in codelets:
-    tb.insert(END, '%.1f\n' % codelet.urgency)
+    textbox.insert(END, '%.1f\n' % codelet.urgency)
     for arg, val in codelet.args.items():
-      tb.insert(END, '\t%s\t%s\n' % (arg, val))
+      textbox.insert(END, '\t%s\t%s\n' % (arg, val))
+
 
 class CoderackView(ListBasedView):
+  """View for displaying codelets in a coderack."""
 
   def GetAllItemsToDisplay(self, controller):
-    """Returns a 2-tuple: A top message, and a list of items."""
+    """A list of things to display.
+
+    Args:
+      controller: Controller for the application.
+
+    Returns:
+      A 3-tuple: Items, a top message, and a dictionary of extra information. The extra
+        information is the sum of urgencies of all codelets.
+    """
     coderack = controller.coderack
     families_to_urgency_sum = defaultdict(float)
     families_to_codelet_counts = defaultdict(int)
@@ -59,7 +71,5 @@ class CoderackView(ListBasedView):
                             anchor=NW)
     rect_id = self.canvas.create_rectangle(x, y, x + urgency_fraction, y + 10,
                                            fill='#0000FF')
-    self.canvas.tag_bind(rect_id, '<1>', lambda e: ShowCodeletFamilyDetails(controller,
-                                                                            family))
-
-
+    self.canvas.tag_bind(rect_id, '<1>',
+                         lambda e: ShowCodeletFamilyDetails(controller, family))
