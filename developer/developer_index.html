@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Developer Documentation &mdash; PySeqsee 0.2 documentation</title>
+    <title>Developer Documentation &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,9 +24,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../index.html" />
-    <link rel="next" title="Controller" href="controller.html" />
-    <link rel="prev" title="Category" href="../api/category.html" /> 
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -39,13 +37,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="controller.html" title="Controller"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="../api/category.html" title="Category"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -69,6 +61,56 @@
 <li class="toctree-l1"><a class="reference internal" href="categories.html">Categories</a></li>
 <li class="toctree-l1"><a class="reference internal" href="categories.html#module-farg.apps.seqsee.categories">Categories in Seqsee</a></li>
 <li class="toctree-l1"><a class="reference internal" href="ui.html">The Graphic User Interface</a></li>
+<li class="toctree-l1"><a class="reference internal" href="run_mode.html">Run-mode</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="run_mode.html#module-farg.core.run_mode.non_interactive">Batch and SxS modes</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="all_core.html">Temporary File For All Developer Docs</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#codelet">Codelet</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#coderack">Coderack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#controller">Controller</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#exceptions">Exceptions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.focusable_mixin">Focusable Mixin</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.main">Main</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.meta">Meta</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.read_input_spec">Read Input Spec</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#run-stats">Run Stats</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.stopping_conditions">Stopping Conditions</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#stream">Stream</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.subspace">Subspace</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.testing_utils">Testing Utils</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.util">Util</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.categorization">Categorization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#categorization-binding">Categorization &#8212; Binding</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#categorization-categorizable">Categorization &#8212; Categorizable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#categorization-category">Categorization &#8212; Category</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ltm">LTM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#ltm-edge">LTM &#8212; Edge</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#ltm-graph">LTM &#8212; Graph</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ltm.manager">LTM &#8212; Manager</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#ltm-node">LTM &#8212; Node</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#ltm-storable">LTM &#8212; Storable</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.question">Question</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.question.question">Question &#8212; Question</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.run_mode">Run Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.run_mode.batch">Run Mode &#8212; Batch</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.run_mode.gui">Run Mode &#8212; GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#run-mode-non-interactive">Run Mode &#8212; Non Interactive</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.run_mode.run_mode">Run Mode &#8212; Run Mode</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.run_mode.single">Run Mode &#8212; Single</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.run_mode.sxs">Run Mode &#8212; SxS</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ui">UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ui.batch_ui">UI &#8212; Batch UI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#ui-gui">UI &#8212; GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ui.gui.central_pane">UI &#8212; GUI &#8212; Central Pane</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ui.gui.views">UI &#8212; GUI &#8212; Views</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ui.gui.views.viewport">UI &#8212; GUI &#8212; Views &#8212; Viewport</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ui.gui.views.list_based_view">UI &#8212; GUI &#8212; Views  &#8212; List based</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ui.gui.views.coderack_view">UI &#8212; GUI &#8212; Views &#8212; Coderack</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ui.gui.views.ltm_view">UI &#8212; GUI &#8212; Views &#8212; LTM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="all_core.html#module-farg.core.ui.gui.views.stream_view">UI &#8212; GUI &#8212; Views &#8212; Stream</a></li>
+</ul>
+</li>
 </ul>
 </div>
 </div>
@@ -79,17 +121,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../api/category.html"
-                        title="previous chapter">Category</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="controller.html"
-                        title="next chapter">Controller</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/developer/developer_index.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
@@ -116,18 +150,12 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="controller.html" title="Controller"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="../api/category.html" title="Category"
-             >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

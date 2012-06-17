@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.apps.seqsee.mapping &mdash; PySeqsee 0.2 documentation</title>
+    <title>farg.apps.seqsee.mapping &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +24,8 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../../../../index.html" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -119,12 +119,12 @@
                <span class="n">flipped_version</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="c">#: A category, such as ascending, on which mapping is based.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">category</span> <span class="o">=</span> <span class="n">category</span>
-    <span class="c">#: A dictionary of attribute to a mapping: how is the value of each attribute </span>
+    <span class="c">#: A dictionary of attribute to a mapping: how is the value of each attribute</span>
     <span class="c">#: transformed?</span>
     <span class="k">assert</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">bindings_mapping</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">bindings_mapping</span> <span class="o">=</span> <span class="n">bindings_mapping</span>
     <span class="c">#: If an attribute comes from a different attribute, that information is here.</span>
-    <span class="c">#: Thus, if the new `start` is the successor of the old `end`, then there will be an </span>
+    <span class="c">#: Thus, if the new `start` is the successor of the old `end`, then there will be an</span>
     <span class="c">#: entry start =&gt; end in the slippages dictionary, as well as a start =&gt; succ in the</span>
     <span class="c">#: bindings_mapping dictionary.</span>
     <span class="k">assert</span> <span class="ow">not</span><span class="p">(</span><span class="n">slippages</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">slippages</span><span class="p">,</span> <span class="nb">frozenset</span><span class="p">)</span>
@@ -157,7 +157,7 @@
 </div>
 <div class="viewcode-block" id="StructuralMapping.IsPairConsistent"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.mapping.StructuralMapping.IsPairConsistent">[docs]</a>  <span class="k">def</span> <span class="nf">IsPairConsistent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item1</span><span class="p">,</span> <span class="n">item2</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Is the pair of items consistent with this mapping?</span>
-<span class="sd">    </span>
+
 <span class="sd">    .. ToDo:: This is a cop-out, currently; when extending Seqsee, I should revisit this.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">resulting_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">Apply</span><span class="p">(</span><span class="n">item1</span><span class="p">)</span>
@@ -197,12 +197,13 @@
   <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">  Find mapping between the two entities.</span>
 
-<span class="sd">  @param o1: The first entity.</span>
-<span class="sd">  @param o2: The second entity.</span>
-<span class="sd">  @param controller: A controller. Needed in case subspaces have to be created.</span>
-<span class="sd">  @param seqsee_ltm: We need access to the global LTM in order to know, say, that the &quot;7&quot; we</span>
-<span class="sd">     see can be treated as a prime.</span>
-<span class="sd">  @param category: If a category on which to base the diff has already been chosen.</span>
+<span class="sd">  Args:</span>
+<span class="sd">    o1: The first entity.</span>
+<span class="sd">    o2: The second entity.</span>
+<span class="sd">    controller: A controller. Needed in case subspaces have to be created.</span>
+<span class="sd">    seqsee_ltm: We need access to the global LTM in order to know, say, that the &quot;7&quot; we </span>
+<span class="sd">    see can be treated as a prime.</span>
+<span class="sd">    category: If a category on which to base the diff has already been chosen.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">if</span> <span class="n">category</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">category</span><span class="o">.</span><span class="n">FindMapping</span><span class="p">(</span><span class="n">o1</span><span class="p">,</span> <span class="n">o2</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="n">controller</span><span class="p">,</span> <span class="n">seqsee_ltm</span><span class="o">=</span><span class="n">seqsee_ltm</span><span class="p">)</span>
@@ -221,6 +222,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search.html" method="get">
@@ -247,13 +251,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

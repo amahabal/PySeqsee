@@ -1,0 +1,194 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>farg.core.stopping_conditions &mdash; PySeqsee 0.2.1a1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for farg.core.stopping_conditions</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
+<span class="c">#</span>
+<span class="c"># This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c"># the terms of the GNU General Public License as published by the Free Software</span>
+<span class="c"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
+<span class="c"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License along with this</span>
+<span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;Manage stopping conditions.</span>
+
+<span class="sd">For debugging or testing reasons, one may want to run an application until a particular</span>
+<span class="sd">condition is met. This module manages stopping conditions.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="StoppingConditionNotFound"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.stopping_conditions.StoppingConditionNotFound">[docs]</a><span class="k">class</span> <span class="nc">StoppingConditionNotFound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Raised when requested stopping condition has not been registered.&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
+    <span class="ne">Exception</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="c">#: Name of condition.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+
+  <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s">&#39;No stopping condition registered for </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span>
+
+</div>
+<div class="viewcode-block" id="StoppingConditions"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.stopping_conditions.StoppingConditions">[docs]</a><span class="k">class</span> <span class="nc">StoppingConditions</span><span class="p">:</span>  <span class="c"># No __init__. pylint:disable=W0232</span>
+  <span class="sd">&quot;&quot;&quot;Manage the set of stopping conditions.&quot;&quot;&quot;</span>
+
+  <span class="c">#: The known set of stopping conditions.</span>
+  <span class="n">conditions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c"># Not a constant. pylint: disable=C6409</span>
+
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="StoppingConditions.RegisterStoppingCondition"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.stopping_conditions.StoppingConditions.RegisterStoppingCondition">[docs]</a>  <span class="k">def</span> <span class="nf">RegisterStoppingCondition</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">condition_name</span><span class="p">,</span> <span class="n">condition_fn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Remember a new stopping condition.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      condition_name: Name of the stopping condition.</span>
+<span class="sd">      condition_fn: A function that gets the controller as its only argument.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">cls</span><span class="o">.</span><span class="n">conditions</span><span class="p">[</span><span class="n">condition_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">condition_fn</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="StoppingConditions.GetStoppingCondition"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.stopping_conditions.StoppingConditions.GetStoppingCondition">[docs]</a>  <span class="k">def</span> <span class="nf">GetStoppingCondition</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">condition_name</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns a stopping condition function given name.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      condition_name: Name of stopping condition.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      A function taking a single argument (a controller).</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">      StoppingConditionNotFound: if name not found.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">condition_name</span> <span class="ow">in</span> <span class="n">cls</span><span class="o">.</span><span class="n">conditions</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">cls</span><span class="o">.</span><span class="n">conditions</span><span class="p">[</span><span class="n">condition_name</span><span class="p">]</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="n">StoppingConditionNotFound</span><span class="p">(</span><span class="n">condition_name</span><span class="p">)</span>
+</div>
+  <span class="nd">@classmethod</span>
+<div class="viewcode-block" id="StoppingConditions.StoppingConditionsList"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.stopping_conditions.StoppingConditions.StoppingConditionsList">[docs]</a>  <span class="k">def</span> <span class="nf">StoppingConditionsList</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Returns list of known stopping conditions.&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">conditions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+</div></div>
+<div class="viewcode-block" id="RegisterStoppingCondition"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.stopping_conditions.RegisterStoppingCondition">[docs]</a><span class="k">def</span> <span class="nf">RegisterStoppingCondition</span><span class="p">(</span><span class="n">stopping_conditions_class</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">condition_name</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Decorator for registering a stopping condition on a class.</span>
+
+<span class="sd">  Args:</span>
+<span class="sd">    stopping_conditions_class: The class for which stopping condition is being defined.</span>
+
+<span class="sd">  Keyword-only Args:</span>
+<span class="sd">    condition_name: Name of the stopping condition.</span>
+
+<span class="sd">  Returns:</span>
+<span class="sd">    A decorated function identical to input. Decoration useful only for its side-effect.</span>
+
+<span class="sd">  Usage::</span>
+
+<span class="sd">    @RegisterStoppingCondition(SomeSubclassOfStoppingConditions, condition_name=&#39;foo&#39;)</span>
+<span class="sd">    def CheckFoo(controller):</span>
+<span class="sd">      ... do something ...</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">Decorator</span><span class="p">(</span><span class="n">func</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Return input after registering it.&quot;&quot;&quot;</span>
+    <span class="n">stopping_conditions_class</span><span class="o">.</span><span class="n">RegisterStoppingCondition</span><span class="p">(</span><span class="n">condition_name</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">func</span>
+  <span class="k">return</span> <span class="n">Decorator</span></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 17, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

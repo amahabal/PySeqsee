@@ -1,0 +1,210 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>farg.core.testing_utils &mdash; PySeqsee 0.2.1a1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for farg.core.testing_utils</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
+<span class="c">#</span>
+<span class="c"># This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c"># the terms of the GNU General Public License as published by the Free Software</span>
+<span class="c"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
+<span class="c"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License along with this</span>
+<span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+
+<span class="kn">import</span> <span class="nn">unittest</span>
+
+<div class="viewcode-block" id="CodeletPresenceSpec"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.CodeletPresenceSpec">[docs]</a><span class="k">class</span> <span class="nc">CodeletPresenceSpec</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">family</span> <span class="o">=</span> <span class="n">family</span>
+    <span class="k">if</span> <span class="n">arguments</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">arguments</span> <span class="o">=</span> <span class="n">arguments</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">arguments</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
+</div>
+<div class="viewcode-block" id="FringeAndCodeletsTest"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.FringeAndCodeletsTest">[docs]</a><span class="k">class</span> <span class="nc">FringeAndCodeletsTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Contains methods for testing the fringe of items.&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="FringeAndCodeletsTest.AssertFringeContains"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeContains">[docs]</a>  <span class="k">def</span> <span class="nf">AssertFringeContains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">expected_fringe_components</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks for the presence of particular components in the fringe.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      item:</span>
+<span class="sd">        The item whose fringe is being tested.</span>
+<span class="sd">      expected_fringe_components:</span>
+<span class="sd">         An iterable of two-tuples (fringe element and minimum intensity).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">fringe</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">GetFringe</span><span class="p">(</span><span class="n">controller</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">fringe_element</span><span class="p">,</span> <span class="n">min_expected_intensity</span> <span class="ow">in</span> <span class="n">expected_fringe_components</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">fringe_element</span> <span class="ow">in</span> <span class="n">fringe</span><span class="p">,</span>
+                      <span class="s">&#39;Fringe element </span><span class="si">%s</span><span class="s"> in fringe&#39;</span> <span class="o">%</span> <span class="n">fringe_element</span><span class="p">)</span>
+      <span class="n">actual_intensity</span> <span class="o">=</span> <span class="n">fringe</span><span class="p">[</span><span class="n">fringe_element</span><span class="p">]</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">actual_intensity</span> <span class="o">&gt;=</span> <span class="n">min_expected_intensity</span><span class="p">,</span>
+                      <span class="s">&#39;Actual intensity (</span><span class="si">%f</span><span class="s">) for </span><span class="si">%s</span><span class="s"> is less than minimum expected (</span><span class="si">%f</span><span class="s">)&#39;</span> <span class="o">%</span>
+                           <span class="p">(</span><span class="n">actual_intensity</span><span class="p">,</span> <span class="n">fringe_element</span><span class="p">,</span> <span class="n">min_expected_intensity</span><span class="p">))</span>
+</div>
+<div class="viewcode-block" id="FringeAndCodeletsTest.AssertFringeOverlap"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeOverlap">[docs]</a>  <span class="k">def</span> <span class="nf">AssertFringeOverlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">prior_focus</span><span class="p">,</span> <span class="n">current_focus</span><span class="p">,</span> <span class="n">min_expected_overlap</span><span class="p">,</span>
+                          <span class="n">expected_similarity_affordances</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks that the fringes of two items overlap and have certain similarity affordances.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      controller:</span>
+<span class="sd">        controller that contains the stream, LTM and so forth.</span>
+<span class="sd">      prior_focus:</span>
+<span class="sd">        The previous focus in the stream (will have intensity 1)</span>
+<span class="sd">      current_focus:</span>
+<span class="sd">        The current item being focused upon.</span>
+<span class="sd">      min_expected_overlap:</span>
+<span class="sd">        Minimum expected overlap between the fringes.</span>
+<span class="sd">      expected_similarity_affordances:</span>
+<span class="sd">        what codelets are expected? This is specified as a iterable of codelet-matchers</span>
+<span class="sd">        (that is, as family, min_urgency, max_urgency, and some required arguments, or a</span>
+<span class="sd">        subset thereof).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">stream</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">stream</span>
+    <span class="n">stream</span><span class="o">.</span><span class="n">Clear</span><span class="p">()</span>
+    <span class="n">stream</span><span class="o">.</span><span class="n">StoreFringeAndCalculateOverlap</span><span class="p">(</span><span class="n">prior_focus</span><span class="p">)</span>
+    <span class="n">hits_map</span> <span class="o">=</span> <span class="n">stream</span><span class="o">.</span><span class="n">StoreFringeAndCalculateOverlap</span><span class="p">(</span><span class="n">current_focus</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">prior_focus</span> <span class="ow">in</span> <span class="n">hits_map</span><span class="p">,</span>
+                    <span class="s">&quot;Expected overlap of fringes of </span><span class="si">%s</span><span class="s"> and </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">prior_focus</span><span class="p">,</span>
+                                                                  <span class="n">current_focus</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">assertTrue</span><span class="p">(</span><span class="n">hits_map</span><span class="p">[</span><span class="n">prior_focus</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="n">min_expected_overlap</span><span class="p">,</span>
+                    <span class="s">&quot;Fringe overlap between </span><span class="si">%s</span><span class="s"> and </span><span class="si">%s</span><span class="s"> lower (</span><span class="si">%f</span><span class="s">) than expected (</span><span class="si">%f</span><span class="s">)&quot;</span> <span class="o">%</span>
+                    <span class="p">(</span><span class="n">prior_focus</span><span class="p">,</span> <span class="n">current_focus</span><span class="p">,</span> <span class="n">hits_map</span><span class="p">[</span><span class="n">prior_focus</span><span class="p">],</span>
+                     <span class="n">min_expected_overlap</span><span class="p">))</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">AssertCodeletsPresent</span><span class="p">(</span>
+        <span class="n">expected_similarity_affordances</span><span class="p">,</span>
+        <span class="nb">list</span><span class="p">(</span><span class="n">prior_focus</span><span class="o">.</span><span class="n">GetSimilarityAffordances</span><span class="p">(</span>
+            <span class="n">other</span><span class="o">=</span><span class="n">current_focus</span><span class="p">,</span>
+            <span class="n">other_fringe</span><span class="o">=</span><span class="n">stream</span><span class="o">.</span><span class="n">stored_fringes</span><span class="p">[</span><span class="n">current_focus</span><span class="p">],</span>
+            <span class="n">my_fringe</span><span class="o">=</span><span class="n">stream</span><span class="o">.</span><span class="n">stored_fringes</span><span class="p">[</span><span class="n">prior_focus</span><span class="p">],</span>
+            <span class="n">controller</span><span class="o">=</span><span class="n">controller</span><span class="p">)))</span>
+</div>
+<div class="viewcode-block" id="FringeAndCodeletsTest.AssertCodeletsPresent"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletsPresent">[docs]</a>  <span class="k">def</span> <span class="nf">AssertCodeletsPresent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifications</span><span class="p">,</span> <span class="n">container_to_check</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Checks for codelets with given specification in container_to_check, which is a list of</span>
+<span class="sd">       codelets.</span>
+
+<span class="sd">    Specifications is an iterable of individual specification, each of which is a</span>
+<span class="sd">    CodeletPresenceSpec.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">codelet_presence_spec</span> <span class="ow">in</span> <span class="n">specifications</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">AssertCodeletPresent</span><span class="p">(</span><span class="n">codelet_presence_spec</span><span class="p">,</span> <span class="n">container_to_check</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="FringeAndCodeletsTest.AssertCodeletPresent"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletPresent">[docs]</a>  <span class="k">def</span> <span class="nf">AssertCodeletPresent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codelet_presence_spec</span><span class="p">,</span> <span class="n">container_to_check</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Check if codelet matching spec is present in a list of codelets.&quot;&quot;&quot;</span>
+    <span class="n">expected_family</span> <span class="o">=</span> <span class="n">codelet_presence_spec</span><span class="o">.</span><span class="n">family</span>
+    <span class="n">expected_arguments_dict</span> <span class="o">=</span> <span class="n">codelet_presence_spec</span><span class="o">.</span><span class="n">arguments</span>
+    <span class="k">for</span> <span class="n">codelet</span> <span class="ow">in</span> <span class="n">container_to_check</span><span class="p">:</span>
+      <span class="k">if</span> <span class="n">codelet</span><span class="o">.</span><span class="n">family</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">expected_family</span><span class="p">:</span>
+        <span class="k">continue</span>
+      <span class="n">arguments</span> <span class="o">=</span> <span class="n">codelet</span><span class="o">.</span><span class="n">args</span>
+      <span class="n">arguments_matched</span> <span class="o">=</span> <span class="bp">True</span>
+      <span class="k">for</span> <span class="n">argument</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">expected_arguments_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="n">argument</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">arguments</span><span class="p">:</span>
+          <span class="n">arguments_matched</span> <span class="o">=</span> <span class="bp">False</span>
+          <span class="k">break</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">arguments</span><span class="p">[</span><span class="n">argument</span><span class="p">]:</span>
+          <span class="n">arguments_matched</span> <span class="o">=</span> <span class="bp">False</span>
+          <span class="k">break</span>
+      <span class="k">if</span> <span class="n">arguments_matched</span><span class="p">:</span>
+        <span class="k">return</span>  <span class="c"># A matching codelet was found.</span>
+    <span class="c"># Nothing matched!</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">fail</span><span class="p">(</span><span class="s">&quot;No codelet found matching family=</span><span class="si">%s</span><span class="s"> where arguments contain </span><span class="si">%s</span><span class="s">&quot;</span> <span class="o">%</span>
+              <span class="p">(</span><span class="n">expected_family</span><span class="p">,</span> <span class="n">expected_arguments_dict</span><span class="p">))</span>
+</pre></div></div></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 17, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

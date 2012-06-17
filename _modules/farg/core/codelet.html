@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.codelet &mdash; PySeqsee 0.2 documentation</title>
+    <title>farg.core.codelet &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../../../index.html" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -64,60 +64,89 @@
 
 <span class="sd">&quot;&quot;&quot;Classes defining a Codelet and the base class for all Codelet families.&quot;&quot;&quot;</span>
 
-<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span> <span class="nn">abc</span> <span class="kn">import</span> <span class="n">ABCMeta</span><span class="p">,</span> <span class="n">abstractmethod</span>  <span class="c"># Metaclass confuses pylint: disable=W0611</span>
+
 
 <div class="viewcode-block" id="CodeletFamily"><a class="viewcode-back" href="../../../developer/codelets.html#farg.core.codelet.CodeletFamily">[docs]</a><span class="k">class</span> <span class="nc">CodeletFamily</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">ABCMeta</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;A codelet family is a class that defines what happens when you run a codelet of that</span>
-<span class="sd">     family.</span>
-<span class="sd">     </span>
-<span class="sd">     Codelet family names typically start with CF.</span>
-<span class="sd">     </span>
-<span class="sd">     A codelet family subclasses this class and looks like this::</span>
+  <span class="sd">&quot;&quot;&quot;A codelet family is a class that defines what a codelet of that family does when run.</span>
 
-<span class="sd">       from farg.core.codelet import CodeletFamily     </span>
-<span class="sd">       class CF_Foo(CodeletFamily):</span>
-<span class="sd">         &quot;Documentation describes what it does, what codelets it may create, what things</span>
-<span class="sd">          it may cause to focus on, and any subspace it may be a part of.</span>
-<span class="sd">         &quot;</span>
-<span class="sd">         </span>
-<span class="sd">         @classmethod</span>
-<span class="sd">         def Run(self, controller, *, other_arg1, other_arg2):</span>
-<span class="sd">           &quot;Run may take extra arguments (such as other_arg1 above). The extra arguments</span>
-<span class="sd">            will be passed by name only. These are set in the constructor of the codelet.</span>
-<span class="sd">           &quot;</span>
-<span class="sd">           DoSomething()</span>
+<span class="sd">  Codelet family names typically start with CF.</span>
+
+<span class="sd">  A codelet family subclasses this class and looks like this::</span>
+
+<span class="sd">    from farg.core.codelet import CodeletFamily</span>
+<span class="sd">    class CF_Foo(CodeletFamily):</span>
+<span class="sd">      &#39;&#39;&#39;One line documentation of what codelets of this family do.</span>
+
+<span class="sd">      Documentation describes what it does, what codelets it may create, what things</span>
+<span class="sd">      it may cause to focus on, and any subspace it may be a part of.</span>
+<span class="sd">      &#39;&#39;&#39;</span>
+
+<span class="sd">      @classmethod</span>
+<span class="sd">      def Run(self, controller, *, other_arg1, other_arg2):</span>
+<span class="sd">        &#39;&#39;&#39;One line documentation of what codelets of this family do.</span>
+
+<span class="sd">        Run may take extra arguments (such as other_arg1 above). The extra arguments</span>
+<span class="sd">        will be passed by name only. These are set in the constructor of the codelet.</span>
+<span class="sd">        &#39;&#39;&#39;</span>
+<span class="sd">       DoSomething()</span>
+
+<span class="sd">  To create a codelet of this family, one would do::</span>
+
+<span class="sd">    c = Codelet(CF_Foo, controller, urgency, dict(other_arg=10, other_arg2=15))</span>
 <span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">pass</span>
 
   <span class="nd">@abstractmethod</span>
 <div class="viewcode-block" id="CodeletFamily.Run"><a class="viewcode-back" href="../../../developer/codelets.html#farg.core.codelet.CodeletFamily.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Runs the codelet. Subclasses should overrride this, and arrange to handle any specific</span>
-<span class="sd">       arguments it needs. These arguments are guaranteed to be passed in as keyword</span>
-<span class="sd">       arguments.</span>
+    <span class="sd">&quot;&quot;&quot;Runs the codelet.</span>
+
+<span class="sd">    Subclasses should overrride this, and arrange to handle any specific arguments it needs.</span>
+<span class="sd">    These arguments are guaranteed to be passed in as keyword arguments.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      controller:</span>
+<span class="sd">        The controller that will be used to run the codelet. The controller can</span>
+<span class="sd">        be used to access the workspace, coderack, and other such resources.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">pass</span>
+
 </div></div>
 <div class="viewcode-block" id="Codelet"><a class="viewcode-back" href="../../../developer/codelets.html#farg.core.codelet.Codelet">[docs]</a><span class="k">class</span> <span class="nc">Codelet</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;A codelet is a unit of action in Seqsee. A codelet belongs to a codelet family which</span>
-<span class="sd">     defines what it does. The codelet has an urgency that controls how likely the codelet</span>
-<span class="sd">     is to run (based on the urgency of other codelets waiting to run), and it has a</span>
-<span class="sd">     dictionary of arguments that will be used when running the codelet (if ever).</span>
+  <span class="sd">&quot;&quot;&quot;A codelet is a unit of action in Seqsee.</span>
 
-<span class="sd">     If extra arguments are passed while constructing the codelet, the Run() method of the</span>
-<span class="sd">     codelet family must be capable of handling these. </span>
-<span class="sd">     </span>
-<span class="sd">     There are two ways of constructing. The first creates the codelet but does not yet</span>
-<span class="sd">     place it on the coderack::</span>
-<span class="sd">     </span>
-<span class="sd">       c = Codelet(family, controller, urgency, dict(other_arg=10, other_arg2=15))</span>
-<span class="sd">       </span>
-<span class="sd">     The second method is to call AddCodelet on the controller::</span>
-<span class="sd">     </span>
-<span class="sd">       controller.AddCodelet(family, urgency, dict(other_arg=10, other_arg2=15))</span>
+<span class="sd">  A codelet belongs to a codelet family whose **Run** method defines what it does. The</span>
+<span class="sd">  codelet has an urgency that controls how likely the codelet is to run (based on the urgency</span>
+<span class="sd">  of other codelets waiting to run), and it has a dictionary of arguments that will be used</span>
+<span class="sd">  when running the codelet (if ever).</span>
+
+<span class="sd">  If extra arguments are passed while constructing the codelet, the Run() method of the</span>
+<span class="sd">  codelet family must be capable of handling these. See example in documentation of</span>
+<span class="sd">  :py:class:`CodeletFamily`.</span>
+
+<span class="sd">  There are two ways of constructing a codelet. The first creates the codelet but does not</span>
+<span class="sd">  yet place it on the coderack::</span>
+
+<span class="sd">    c = Codelet(family, controller, urgency, dict(other_arg=10, other_arg2=15))</span>
+
+<span class="sd">  The second method is to call AddCodelet on the controller::</span>
+
+<span class="sd">    controller.AddCodelet(family, urgency, dict(other_arg=10, other_arg2=15))</span>
 <span class="sd">  &quot;&quot;&quot;</span>
+
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">arguments_dict</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+    <span class="c">#: Family of the codelet. Subclass of :py:class:`CodeletFamily`.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">family</span> <span class="o">=</span> <span class="n">family</span>
+    <span class="c">#: A number between 0 and 100 indicating urgency of the codelet. Higher urgency codelets</span>
+    <span class="c">#: are likelier to be chosen for running.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">urgency</span> <span class="o">=</span> <span class="n">urgency</span>
+    <span class="c">#: A dictionary of arguments to be passed to the Run method of the codelet family. These</span>
+    <span class="c">#: would be passed as named arguments.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">args</span> <span class="o">=</span> <span class="n">arguments_dict</span> <span class="k">if</span> <span class="n">arguments_dict</span> <span class="ow">is</span> <span class="ow">not</span> <span class="bp">None</span> <span class="k">else</span> <span class="p">{}</span>
+    <span class="c">#: The controller that will be used to run this. This is the controller of the subspace</span>
+    <span class="c">#: the codelet is in.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="n">controller</span>
 
 <div class="viewcode-block" id="Codelet.Run"><a class="viewcode-back" href="../../../developer/codelets.html#farg.core.codelet.Codelet.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -131,6 +160,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
@@ -157,13 +189,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

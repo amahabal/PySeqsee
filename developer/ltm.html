@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Long-term Memory &mdash; PySeqsee 0.2 documentation</title>
+    <title>Long-term Memory &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,10 +24,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../index.html" />
-    <link rel="up" title="Developer Documentation" href="developer_index.html" />
-    <link rel="next" title="Subspaces" href="subspaces.html" />
-    <link rel="prev" title="Stream of Thought" href="stream.html" /> 
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,14 +37,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="subspaces.html" title="Subspaces"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="stream.html" title="Stream of Thought"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -58,6 +48,7 @@
             
   <div class="section" id="module-farg.core.ltm.node">
 <span id="long-term-memory"></span><h1>Long-term Memory<a class="headerlink" href="#module-farg.core.ltm.node" title="Permalink to this headline">¶</a></h1>
+<p>Defines class for &#8220;Node&#8221; of an LTM.</p>
 <dl class="class">
 <dt id="farg.core.ltm.node.LTMNode">
 <em class="property">class </em><tt class="descclassname">farg.core.ltm.node.</tt><tt class="descname">LTMNode</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode" title="Permalink to this definition">¶</a></dt>
@@ -65,8 +56,8 @@
 <p>Each node has a core &#8212; content that is being remembered and connected to other concepts.</p>
 <p>This content must be derived from a subclass of LTMStorableMixin. The reason for this is to
 ensure proper creation. Creation of nodes occurs in two ways &#8212; either via the
-constructor,. or by vivification during unpickling (that is, by the __init__ method or
-by __setstate__ method.</p>
+constructor,. or by vivification during unpickling (that is, by the __init__ method or by
+__setstate__ method.</p>
 <p>There are two important numbers associated with a node. These are the activation (a number
 between 0 and 1 that represents how important that concept currently appears for the
 current problem), and its depth (an integer typically greater than 5 that represents the
@@ -114,20 +105,33 @@ just in time calculation.</p>
 <tt class="descname">GetRawActivation</tt><big>(</big><em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetRawActivation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.GetRawActivation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get raw activation.</p>
 <p>Time is needed to calculate decay, if any, since the stored activation may be stale.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>current_time: Number of codelets run thus far.</dd>
+<dt>Returns:</dt>
+<dd>Raw activation (number between 0 and 100). Real activation is a sigmoid of this.</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.ltm.node.LTMNode.IncreaseActivation">
 <tt class="descname">IncreaseActivation</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.IncreaseActivation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.IncreaseActivation" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update activation by this amount (after processing any pending decays), and also 
-spread an appropriate component to nearby nodes.</p>
+<dd><p>Update activation by this amount (after processing any pending decays), and spread.</p>
+<p>Activation is spread an appropriate component to nearby nodes.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>amount: Amount by which to increase. Will typically be a small integer.</dd>
+<dt>Keyword-only Args:</dt>
+<dd>current_time: Time when this method was called. Needed to process any pending decays.</dd>
+<dt>Returns:</dt>
+<dd>Activation at this time.</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.ltm.node.LTMNode.IncreaseActivationButDontSpread">
 <tt class="descname">IncreaseActivationButDontSpread</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.IncreaseActivationButDontSpread"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.IncreaseActivationButDontSpread" title="Permalink to this definition">¶</a></dt>
-<dd><p>Update activation by this amount (after processing any pending decays, but do not
-propagate further.)</p>
+<dd><p>Update activation by this amount (after processing any decays). No spreadings.</p>
 </dd></dl>
 
 <dl class="method">
@@ -282,17 +286,9 @@ metaclass.</p>
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="stream.html"
-                        title="previous chapter">Stream of Thought</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="subspaces.html"
-                        title="next chapter">Subspaces</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/developer/ltm.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
@@ -319,19 +315,12 @@ metaclass.</p>
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="subspaces.html" title="Subspaces"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="stream.html" title="Stream of Thought"
-             >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

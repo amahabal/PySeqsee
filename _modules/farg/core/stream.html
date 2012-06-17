@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.stream &mdash; PySeqsee 0.2 documentation</title>
+    <title>farg.core.stream &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../../../index.html" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -71,22 +71,22 @@
   <span class="sd">&quot;&quot;&quot;Implements the Stream of Thought.</span>
 
 <span class="sd">     The main public function here is FocusOn(), called with::</span>
-<span class="sd">       </span>
+
 <span class="sd">       stream.FocusOn(focusable)</span>
-<span class="sd">       </span>
+
 <span class="sd">     where focusable must be an instance of the interface FocusableMixin. FocusableMixin</span>
 <span class="sd">     defines three methods: GetFringe(), GetAffordances(), and GetSimilarityAffordances().</span>
-<span class="sd">     </span>
+
 <span class="sd">     The net effect of the call to FocusOn is to influence future processing in two ways:</span>
-<span class="sd">     </span>
+
 <span class="sd">       * By adding codelets, as described below.</span>
 <span class="sd">       * By modifying the context in which future FocusOn()s work. This is implicit in the</span>
 <span class="sd">         description of GetSimilarityAffordances() below.</span>
-<span class="sd">         </span>
+
 <span class="sd">     A blow-by-blow account of what happens:</span>
-<span class="sd">     </span>
+
 <span class="sd">       * The fringe of the focusable is obtained via a call to GetFringe().</span>
-<span class="sd">       * If this fringe overlaps a prior stored fringe sufficiently, </span>
+<span class="sd">       * If this fringe overlaps a prior stored fringe sufficiently,</span>
 <span class="sd">         GetSimilarityAffordances() is called on the prior focusable and can create codelets,</span>
 <span class="sd">         but not just yet add these to the coderack.</span>
 <span class="sd">       * GetAffordances() may generate more codelets that haven&#39;t yet been added.</span>
@@ -141,7 +141,7 @@
 
   <span class="k">def</span> <span class="nf">_PrepareForFocusing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">focusable</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Does legwork for focusing; if focusable is a recent focus, removes it.&quot;&quot;&quot;</span>
-    <span class="c"># If already stored, delete it. </span>
+    <span class="c"># If already stored, delete it.</span>
     <span class="k">if</span> <span class="n">focusable</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">foci</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_RemovePriorFocus</span><span class="p">(</span><span class="n">focusable</span><span class="p">)</span>
 
@@ -197,6 +197,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
@@ -223,13 +226,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

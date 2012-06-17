@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.ltm.graph &mdash; PySeqsee 0.2 documentation</title>
+    <title>farg.core.ltm.graph &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +24,8 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../../../../index.html" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -94,10 +94,10 @@
 
   <span class="k">def</span> <span class="nf">_LoadNodes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">unpickler</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Load all nodes from the unpickler.</span>
-<span class="sd">    </span>
-<span class="sd">    Each thing unpickled is a LTMNode. Because that class defines a __setstate__, it is used </span>
+
+<span class="sd">    Each thing unpickled is a LTMNode. Because that class defines a __setstate__, it is used</span>
 <span class="sd">    to setup the state of the created node.</span>
-<span class="sd">    </span>
+
 <span class="sd">    While pickling, the content of that node (in a mangled state, see below) and its class is</span>
 <span class="sd">    stored. When unpickling (this method), __setstate__ of LTMNode calls Create on this class</span>
 <span class="sd">    (defined in LTMStorableMixin), and it ensures a proper non-duplicate initialization.</span>
@@ -192,6 +192,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search.html" method="get">
@@ -218,13 +221,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

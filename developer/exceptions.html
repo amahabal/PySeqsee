@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Exceptions &mdash; PySeqsee 0.2 documentation</title>
+    <title>Exceptions &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,10 +24,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../index.html" />
-    <link rel="up" title="Developer Documentation" href="developer_index.html" />
-    <link rel="next" title="Categories" href="categories.html" />
-    <link rel="prev" title="Subspaces" href="subspaces.html" /> 
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,14 +37,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="categories.html" title="Categories"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="subspaces.html" title="Subspaces"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -58,6 +48,12 @@
             
   <div class="section" id="module-farg.core.exceptions">
 <span id="exceptions"></span><h1>Exceptions<a class="headerlink" href="#module-farg.core.exceptions" title="Permalink to this headline">¶</a></h1>
+<p>Exception classes in FARG core.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Exceptions specific to an individual application should live in that application&#8217;s
+directory.</p>
+</div>
 <dl class="exception">
 <dt id="farg.core.exceptions.AnswerFoundException">
 <em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">AnswerFoundException</tt><big>(</big><em>answer</em>, <em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#AnswerFoundException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.AnswerFoundException" title="Permalink to this definition">¶</a></dt>
@@ -68,6 +64,13 @@
 <dt id="farg.core.exceptions.BatchModeStopException">
 <em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">BatchModeStopException</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#BatchModeStopException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.BatchModeStopException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class of ways of stopping during batch mode.</p>
+<p>Look at the subclasses (in this file) for details.</p>
+<dl class="attribute">
+<dt id="farg.core.exceptions.BatchModeStopException.codelet_count">
+<tt class="descname">codelet_count</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.exceptions.BatchModeStopException.codelet_count" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of codelets that had been run when the exception was raised.</p>
+</dd></dl>
+
 </dd></dl>
 
 <dl class="exception">
@@ -94,6 +97,20 @@
 <dd><p>Raised by a subspace when it is realized that no answer is forthcoming.</p>
 </dd></dl>
 
+<dl class="exception">
+<dt id="farg.core.exceptions.StoppingConditionMet">
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">StoppingConditionMet</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#StoppingConditionMet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.StoppingConditionMet" title="Permalink to this definition">¶</a></dt>
+<dd><p>When a stopping condition is specified, this indicates that it has been reached.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt id="farg.core.exceptions.SuccessfulCompletion">
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">SuccessfulCompletion</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#SuccessfulCompletion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.SuccessfulCompletion" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when the problem has been fully solved.</p>
+<p>What fully solved means depends on the application, of course. For Seqsee, this means
+currently means &#8220;Sequence has been extended to all known terms.&#8221;.</p>
+</dd></dl>
+
 </div>
 
 
@@ -102,17 +119,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="subspaces.html"
-                        title="previous chapter">Subspaces</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="categories.html"
-                        title="next chapter">Categories</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/developer/exceptions.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
@@ -139,19 +148,12 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="categories.html" title="Categories"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="subspaces.html" title="Subspaces"
-             >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

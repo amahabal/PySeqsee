@@ -1,0 +1,2739 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Temporary File For All Developer Docs &mdash; PySeqsee 0.2.1a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <div class="section" id="temporary-file-for-all-developer-docs">
+<h1>Temporary File For All Developer Docs<a class="headerlink" href="#temporary-file-for-all-developer-docs" title="Permalink to this headline">¶</a></h1>
+<p>Should be changed, just one convenient place with everything.</p>
+<div class="section" id="codelet">
+<h2>Codelet<a class="headerlink" href="#codelet" title="Permalink to this headline">¶</a></h2>
+<p>Classes defining a Codelet and the base class for all Codelet families.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.codelet.</tt><tt class="descname">Codelet</tt><big>(</big><em>family</em>, <em>controller</em>, <em>urgency</em>, <em>arguments_dict=None</em><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#Codelet"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>A codelet is a unit of action in Seqsee.</p>
+<p>A codelet belongs to a codelet family whose <strong>Run</strong> method defines what it does. The
+codelet has an urgency that controls how likely the codelet is to run (based on the urgency
+of other codelets waiting to run), and it has a dictionary of arguments that will be used
+when running the codelet (if ever).</p>
+<p>If extra arguments are passed while constructing the codelet, the Run() method of the
+codelet family must be capable of handling these. See example in documentation of
+<a class="reference internal" href="codelets.html#farg.core.codelet.CodeletFamily" title="farg.core.codelet.CodeletFamily"><tt class="xref py py-class docutils literal"><span class="pre">CodeletFamily</span></tt></a>.</p>
+<p>There are two ways of constructing a codelet. The first creates the codelet but does not
+yet place it on the coderack:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The second method is to call AddCodelet on the controller:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt>
+<tt class="descclassname">Codelet.</tt><tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#Codelet.Run"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Runs the codelet.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Codelet.</tt><tt class="descname">args</tt><em class="property"> = None</em></dt>
+<dd><p>A dictionary of arguments to be passed to the Run method of the codelet family. These
+would be passed as named arguments.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Codelet.</tt><tt class="descname">controller</tt><em class="property"> = None</em></dt>
+<dd><p>The controller that will be used to run this. This is the controller of the subspace
+the codelet is in.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Codelet.</tt><tt class="descname">family</tt><em class="property"> = None</em></dt>
+<dd><p>Family of the codelet. Subclass of <a class="reference internal" href="codelets.html#farg.core.codelet.CodeletFamily" title="farg.core.codelet.CodeletFamily"><tt class="xref py py-class docutils literal"><span class="pre">CodeletFamily</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Codelet.</tt><tt class="descname">urgency</tt><em class="property"> = None</em></dt>
+<dd><p>A number between 0 and 100 indicating urgency of the codelet. Higher urgency codelets
+are likelier to be chosen for running.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.codelet.</tt><tt class="descname">CodeletFamily</tt><a class="reference internal" href="../_modules/farg/core/codelet.html#CodeletFamily"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>A codelet family is a class that defines what a codelet of that family does when run.</p>
+<p>Codelet family names typically start with CF.</p>
+<p>A codelet family subclasses this class and looks like this:</p>
+<div class="highlight-python"><pre>from farg.core.codelet import CodeletFamily
+class CF_Foo(CodeletFamily):
+  &#x27;&#x27;&#x27;One line documentation of what codelets of this family do.
+
+  Documentation describes what it does, what codelets it may create, what things
+  it may cause to focus on, and any subspace it may be a part of.
+  &#x27;&#x27;&#x27;
+
+  @classmethod
+  def Run(self, controller, *, other_arg1, other_arg2):
+    &#x27;&#x27;&#x27;One line documentation of what codelets of this family do.
+
+    Run may take extra arguments (such as other_arg1 above). The extra arguments
+    will be passed by name only. These are set in the constructor of the codelet.
+    &#x27;&#x27;&#x27;
+   DoSomething()</pre>
+</div>
+<p>To create a codelet of this family, one would do:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">CF_Foo</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
+</pre></div>
+</div>
+<dl class="method">
+<dt>
+<tt class="descclassname">CodeletFamily.</tt><tt class="descname">Run</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#CodeletFamily.Run"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Runs the codelet.</p>
+<p>Subclasses should overrride this, and arrange to handle any specific arguments it needs.
+These arguments are guaranteed to be passed in as keyword arguments.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>controller:</dt>
+<dd>The controller that will be used to run the codelet. The controller can
+be used to access the workspace, coderack, and other such resources.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="coderack">
+<h2>Coderack<a class="headerlink" href="#coderack" title="Permalink to this headline">¶</a></h2>
+<p>The Coderack &#8212; waiting room for codelets.</p>
+<p>The Coderack in Seqsee is like a todo list.  It consists of promising
+actions to take next, each associated with a number indicating the degree
+of promise.  Seqsee chooses an item and runs it, and in that process of
+running it may come up with other promising actions that are then added to
+the Coderack.</p>
+<p>The probability of choosing an item depends on its promise.  Higher
+promise actions are likelier to be chosen, but it is still possible for
+lower promise actions to occasionally get chosen.</p>
+<p>Each action is called a codelet.  As that term suggests, the action is a
+tiny and targeted.  In fact, Seqsee requires several dozens of codelets to
+understand even simple sequences.</p>
+<p>Just as the contents of a person&#8217;s to do list can strongly suggest their
+actions over the next few hours, the Coderack&#8217;s contents indicate the
+directions Seqsee will pursue in the near future.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.coderack.</tt><tt class="descname">Coderack</tt><big>(</big><em>max_capacity=10</em><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Implements the coderack &#8212; the collection of codelets waiting to run.</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">Coderack.</tt><tt class="descname">AddCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack.AddCodelet"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Adds codelet to coderack. Removes some existing codelet if needed.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">Coderack.</tt><tt class="descname">CodeletCount</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack.CodeletCount"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Current number of codelets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">Coderack.</tt><tt class="descname">ForceNextCodelet</tt><big>(</big><em>codelet</em><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack.ForceNextCodelet"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Force codelet to be the next one retrieved by GetCodelet.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>codelet:</dt>
+<dd>The codelet to force as the return value of the next GetCodelet.</dd>
+</dl>
+</dd>
+<dt>Raises:</dt>
+<dd><dl class="first last docutils">
+<dt>FargError:</dt>
+<dd>codelet is not in fact present in the coderack.</dd>
+</dl>
+</dd>
+</dl>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">This mechanism should only be used during testing. It is unsafe in that if the
+codelet is expunged (because of new codelets being added), the program can crash.
+This will never happen if the next codelet is marked and GetCodelet called soon
+thereafter.</p>
+</div>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">Coderack.</tt><tt class="descname">GetCodelet</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack.GetCodelet"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Randomly selects a codelet (biased by urgency).</p>
+<p>Requires the coderack to be nonempty.</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>selected codelet.</dd>
+<dt>Raises:</dt>
+<dd>CoderackEmptyException: Coderack was empty.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">Coderack.</tt><tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/coderack.html#Coderack.IsEmpty"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>True if contains no codelets.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt>
+<em class="property">exception </em><tt class="descclassname">farg.core.coderack.</tt><tt class="descname">CoderackEmptyException</tt><a class="reference internal" href="../_modules/farg/core/coderack.html#CoderackEmptyException"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Raised if <a class="reference internal" href="coderack.html#farg.core.coderack.Coderack.GetCodelet" title="farg.core.coderack.Coderack.GetCodelet"><tt class="xref py py-func docutils literal"><span class="pre">GetCodelet()</span></tt></a> called on an empty coderack.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="controller">
+<h2>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h2>
+<p>This file defines the core controller.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.controller.</tt><tt class="descname">Controller</tt><big>(</big><em>ui</em>, <em>controller_depth</em>, <em>parent_controller</em>, <em>workspace_arguments</em>, <em>stopping_condition</em><big>)</big><a class="reference internal" href="../_modules/farg/core/controller.html#Controller"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Purely mechanical (read &#8220;dumb&#8221;) loop to control entire app or individual subspaces.</p>
+<p>Each subspace gets its own controller.</p>
+<p>Each controller has its own coderack, stream, long-term memory, and workspace. These may be
+accessed thus, respectively:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">coderack</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">stream</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">ltm</span>
+<span class="bp">self</span><span class="o">.</span><span class="n">workspace</span>
+</pre></div>
+</div>
+<p><strong>Customizing the controller class</strong></p>
+<p>A controller is an instance of a subclass of <a class="reference internal" href="controller.html#farg.core.controller.Controller" title="farg.core.controller.Controller"><tt class="xref py py-class docutils literal"><span class="pre">Controller</span></tt></a>.
+It is possible to configure the controller in a number of ways. Before we look at the
+configuration, here is a brief outline of the main function provided by the controller,
+namely, <a class="reference internal" href="controller.html#farg.core.controller.Controller.Step" title="farg.core.controller.Controller.Step"><tt class="xref py py-meth docutils literal"><span class="pre">Step()</span></tt></a>.</p>
+<p>A step involves choosing a codelet from the coderack and running it. The codelet has access
+to each of the components owned by the controller (namely, the coderack, stream, ltm, and
+workspace). The action of the codelet can have any number of effects including the creation
+of more codelets, directing the application&#8217;s attention somewhere (a notion explored later
+when we look at streams), create structures in the workspace, or extend the LTM or pump
+activation into some concept.</p>
+<p>Furthermore, after each step, more codelets are probabilistically added to the coderack.
+The class variable <a class="reference internal" href="controller.html#farg.core.controller.Controller.routine_codelets_to_add" title="farg.core.controller.Controller.routine_codelets_to_add"><tt class="xref py py-attr docutils literal"><span class="pre">routine_codelets_to_add</span></tt></a>
+contains 3-tuples (class, urgency, probability) specifying the class of the new codelet,
+its urgency, and the probability with which to add it.</p>
+<p>In the next few paragraphs, we will look at customizing a hypothetical controller called
+Foo. Its code will begin thus:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="o">...</span>  <span class="c"># customization here</span>
+</pre></div>
+</div>
+<p>The simplest customization is to specify codelets to be added after each step:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="p">((</span><span class="n">CodeletFamilyBar</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span>
+                             <span class="p">(</span><span class="n">CodeletFamilyBat</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>Another customization is to use a non-default class for the coderack or the stream. This
+should in general not be required, and the default classes
+<a class="reference internal" href="coderack.html#farg.core.coderack.Coderack" title="farg.core.coderack.Coderack"><tt class="xref py py-class docutils literal"><span class="pre">Coderack</span></tt></a> and <a class="reference internal" href="stream.html#farg.core.stream.Stream" title="farg.core.stream.Stream"><tt class="xref py py-class docutils literal"><span class="pre">Stream</span></tt></a> should be
+adequate. But the customization is available if needed. No argument is passed to the
+constructor of these classes to create the coderack or the stream:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">coderack_class</span> <span class="o">=</span> <span class="n">SomeClass</span>
+  <span class="bp">self</span><span class="o">.</span><span class="n">stream_class</span> <span class="o">=</span> <span class="n">SomeOtherClass</span>
+</pre></div>
+</div>
+<p>The workspace class can be specified as follows. If it is not Null, it will be initialized
+with a dictionary that is passed in the workspace_arguments argument of the controller&#8217;s
+constructor:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">workspace_class</span> <span class="o">=</span> <span class="n">YetAnotherClass</span>  <span class="c"># Default: None</span>
+</pre></div>
+</div>
+<p>The LTM&#8217;s name can be specified as below. The LTM manager will be used to load this (if not
+already loaded) and to initialize it if it is empty:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ltm_name</span> <span class="o">=</span> <span class="s">&#39;LtmName&#39;</span>  <span class="c"># Default: None</span>
+</pre></div>
+</div>
+<p><strong>The UI</strong></p>
+<p>A UI can be graphical or not. At any time, at most one UI is active, and it is shared by
+all controllers. It can be accessed as:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ui</span>  <span class="c"># Points to the UI (usually a GUI).</span>
+</pre></div>
+</div>
+<p>The UI provides the important method called <a class="reference internal" href="ui.html#farg.core.ui.gui.GUI.AskQuestion" title="farg.core.ui.gui.GUI.AskQuestion"><tt class="xref py py-meth docutils literal"><span class="pre">AskQuestion()</span></tt></a>.
+This can be used by the controller to ask for confirmation of the answer, for instance. In
+case of a graphical UI, this could result in the user being asked the question. In other
+cases (such as in automated testing), the UI may be given enough knowledge to answer the
+question itself. See the UI documentation for details.</p>
+<p><strong>The Stopping Condition</strong></p>
+<p>It is possible to specify a stopping condition for a controller. This is useful for testing
+when weighing a potential change. When contemplating the change, it is useful to see how
+long it takes with the change and without the change until some significant event occurs
+(such as the discovery of the answer, for instance). This will be discussed elsewhere.</p>
+<p><strong>The Constructor</strong></p>
+<p>The constructor takes the following named arguments:</p>
+<blockquote>
+<div><ul class="simple">
+<li>ui (required)</li>
+<li>controller_depth. The top controller has depth 0, its subspaces have
+depth 1, and so forth. The default is 0.</li>
+<li>parent_controller. If present, it points to the controller that created this
+subspace. Defaults to None (which indicates a top-level controller).</li>
+<li>workspace_arguments. If present, this should be a dict() and will be used to
+initialize the workspace.</li>
+<li>stopping_condition. If present, this should be a function that takes the controller
+as the only input and returns true or false.</li>
+</ul>
+</div></blockquote>
+<dl class="method">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">AddCodelet</tt><big>(</big><em>family</em>, <em>urgency</em>, <em>arguments_dict</em><big>)</big><a class="reference internal" href="../_modules/farg/core/controller.html#Controller.AddCodelet"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Adds a codelet to the coderack.</p>
+<dl class="docutils">
+<dt>Keyword-only Args:</dt>
+<dd><dl class="first last docutils">
+<dt>family:</dt>
+<dd>Family of codelet. Subclass of <a class="reference internal" href="codelets.html#farg.core.codelet.CodeletFamily" title="farg.core.codelet.CodeletFamily"><tt class="xref py py-class docutils literal"><span class="pre">CodeletFamily</span></tt></a>.</dd>
+<dt>urgency:</dt>
+<dd>Number between 0 and 100 indicating urgency.</dd>
+<dt>arguments_dict:</dt>
+<dd>A dictionary of extra arguments to pass to the codelet. See details in the
+documentation of <a class="reference internal" href="codelets.html#farg.core.codelet.CodeletFamily" title="farg.core.codelet.CodeletFamily"><tt class="xref py py-class docutils literal"><span class="pre">CodeletFamily</span></tt></a>.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">RunUptoNSteps</tt><big>(</big><em>n_steps</em><big>)</big><a class="reference internal" href="../_modules/farg/core/controller.html#Controller.RunUptoNSteps"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Takes up to N steps.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>n_steps:</dt>
+<dd>Number of steps to take. Steps taken by subspaces created by this controller
+are not counted.</dd>
+</dl>
+</dd>
+</dl>
+<p>In these, it is possible that an answer is found and an exception raised.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">Step</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/controller.html#Controller.Step"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Executes the next (stochastically chosen) step in the model.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">coderack</tt><em class="property"> = None</em></dt>
+<dd><p>The coderack.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">coderack_class</tt></dt>
+<dd><p>What type of coderack is owned by the controller. Defaults to
+<a class="reference internal" href="coderack.html#farg.core.coderack.Coderack" title="farg.core.coderack.Coderack"><tt class="xref py py-class docutils literal"><span class="pre">Coderack</span></tt></a>.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Coderack</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">controller_depth</tt><em class="property"> = None</em></dt>
+<dd><p>How deeply in the stack this controller is. The top-level controller has a depth
+of 0, Subspaces it spawns 1, and so forth.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">ltm</tt><em class="property"> = None</em></dt>
+<dd><p>LTM, if any</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">ltm_name</tt><em class="property"> = None</em></dt>
+<dd><p>Name of LTM used by the controller. If None, no LTM is created.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">parent_controller</tt><em class="property"> = None</em></dt>
+<dd><p>If this is a controller of a subspace, this points to parent_controller.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">routine_codelets_to_add</tt><em class="property"> = ()</em></dt>
+<dd><p>This is a list containing 3-tuples made up of (family, urgency, probability).
+The probability is ignored during a Step if the coderack is empty.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">steps_taken</tt><em class="property"> = None</em></dt>
+<dd><p>Number of steps taken</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">stopping_condition</tt><em class="property"> = None</em></dt>
+<dd><p>Stopping condition (for SxS and batch modes).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">stream</tt><em class="property"> = None</em></dt>
+<dd><p>The stream.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">stream_class</tt></dt>
+<dd><p>What type of stream is owned by the controller. Defaults to
+<a class="reference internal" href="stream.html#farg.core.stream.Stream" title="farg.core.stream.Stream"><tt class="xref py py-class docutils literal"><span class="pre">Stream</span></tt></a></p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Stream</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">ui</tt><em class="property"> = None</em></dt>
+<dd><p>The UI running this controller. May be a GUI or a Guided UI (which knows how to
+answer questions that&#8217;d normally be answered by a user in a GUI). Any subspace
+spawned by this space shall inherit the ui.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">workspace</tt><em class="property"> = None</em></dt>
+<dd><p>Workspace, constructed if workspace_class is defined. The workspace is constructed
+using workspace_arguments.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Controller.</tt><tt class="descname">workspace_class</tt><em class="property"> = None</em></dt>
+<dd><p>What type of workspace is owned by the controller. With None, gets no workspace.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="exceptions">
+<h2>Exceptions<a class="headerlink" href="#exceptions" title="Permalink to this headline">¶</a></h2>
+<p>Exception classes in FARG core.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">Exceptions specific to an individual application should live in that application&#8217;s
+directory.</p>
+</div>
+<dl class="exception">
+<dt>
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">AnswerFoundException</tt><big>(</big><em>answer</em>, <em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#AnswerFoundException"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Raised by a subspace when it believes that an answer has been found.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt>
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">BatchModeStopException</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#BatchModeStopException"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Base class of ways of stopping during batch mode.</p>
+<p>Look at the subclasses (in this file) for details.</p>
+<dl class="attribute">
+<dt>
+<tt class="descclassname">BatchModeStopException.</tt><tt class="descname">codelet_count</tt><em class="property"> = None</em></dt>
+<dd><p>Number of codelets that had been run when the exception was raised.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt>
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">FargError</tt><big>(</big><em>msg=''</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#FargError"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Base class for untrappable errors (indicating bugs).</p>
+<dl class="attribute">
+<dt>
+<tt class="descclassname">FargError.</tt><tt class="descname">msg</tt><em class="property"> = None</em></dt>
+<dd><p>Message to be displayed.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="exception">
+<dt>
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">FargException</tt><a class="reference internal" href="../_modules/farg/core/exceptions.html#FargException"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Base class for FARG-specific exceptions.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt>
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">NoAnswerException</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#NoAnswerException"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Raised by a subspace when it is realized that no answer is forthcoming.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt>
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">StoppingConditionMet</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#StoppingConditionMet"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>When a stopping condition is specified, this indicates that it has been reached.</p>
+</dd></dl>
+
+<dl class="exception">
+<dt>
+<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">SuccessfulCompletion</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#SuccessfulCompletion"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Raised when the problem has been fully solved.</p>
+<p>What fully solved means depends on the application, of course. For Seqsee, this means
+currently means &#8220;Sequence has been extended to all known terms.&#8221;.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.focusable_mixin">
+<span id="focusable-mixin"></span><h2>Focusable Mixin<a class="headerlink" href="#module-farg.core.focusable_mixin" title="Permalink to this headline">¶</a></h2>
+<p>Mixin class to be added to anything that can be the focus in the stream.</p>
+<dl class="class">
+<dt id="farg.core.focusable_mixin.FocusableMixin">
+<em class="property">class </em><tt class="descclassname">farg.core.focusable_mixin.</tt><tt class="descname">FocusableMixin</tt><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>A mixin for things that want to be part of the stream.</p>
+<p>It is a pure interface &#8212; all methods die horribly when called unless over-ridden.</p>
+<dl class="method">
+<dt id="farg.core.focusable_mixin.FocusableMixin.GetAffordances">
+<tt class="descname">GetAffordances</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetAffordances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of codelets that make sense for this type of object.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>controller: controller for this subspace (or whole app if this is the top space).</dd>
+<dt>Returns:</dt>
+<dd>A list of codelets for actions that may be taken on this focusable.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.focusable_mixin.FocusableMixin.GetFringe">
+<tt class="descname">GetFringe</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetFringe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetFringe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the fringe of the item.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>controller: controller for this subspace (or whole app if this is the top space).</dd>
+<dt>Returns:</dt>
+<dd>A dictionary keyed by fringe elements and with floats as values (indicating intensity
+of the element within the fringe).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.focusable_mixin.FocusableMixin.GetSimilarityAffordances">
+<tt class="descname">GetSimilarityAffordances</tt><big>(</big><em>focusable</em>, <em>other_fringe</em>, <em>my_fringe</em>, <em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetSimilarityAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetSimilarityAffordances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Potential actions to take in response to a fringe overlap.</p>
+<p>When the fringe of a stored focus overlaps the fringe of a newly focused entity,
+this function is called. Here, self is the older focus, and my_fringe is its fringe.
+focusable is the new focusable, and other_fringe is its fringe.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>focusable: The most recent focus.
+other_fringe: Fringe of &#8216;focusable&#8217;.
+my_fringe: Fringe of &#8216;self&#8217;, which is the older focusable.
+controller: controller for this subspace (or whole app if this is the top space).</dd>
+<dt>Returns:</dt>
+<dd>A list of codelets that follow-up on this potential similarity.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.focusable_mixin.FocusableMixin.OnFocus">
+<tt class="descname">OnFocus</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.OnFocus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.OnFocus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Any book-keeping or other sundry actions on focused-upon object may be done here.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>controller: controller for this subspace (or whole app if this is the top space).</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.main">
+<span id="main"></span><h2>Main<a class="headerlink" href="#module-farg.core.main" title="Permalink to this headline">¶</a></h2>
+<p>Class to set up and start running the application based on flags.</p>
+<dl class="class">
+<dt id="farg.core.main.Main">
+<em class="property">class </em><tt class="descclassname">farg.core.main.</tt><tt class="descname">Main</tt><big>(</big><em>argv</em><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main" title="Permalink to this definition">¶</a></dt>
+<dd><p>The Base class for the Main class of an application.</p>
+<p>Based on flags, it sets up the appropriate run mode (which start GUIs if needed).
+It also does a sanity check on flags and creates certain directories if needed.</p>
+<dl class="method">
+<dt id="farg.core.main.Main.CreateRunModeInstance">
+<tt class="descname">CreateRunModeInstance</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.CreateRunModeInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.CreateRunModeInstance" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a Runmode instance from the flags.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.main.Main.ProcessCustomFlags">
+<tt class="descname">ProcessCustomFlags</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.ProcessCustomFlags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.ProcessCustomFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Apps can override this to process app-specific flags.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.main.Main.ProcessFlags">
+<tt class="descname">ProcessFlags</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.ProcessFlags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.ProcessFlags" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called after flags have been read in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.main.Main.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.Run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start the run.</p>
+<p>For Batch mode and SxS, this means running the app several times, whereas for gui mode
+this means launching a UI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.main.Main.VerifyLTMPath">
+<tt class="descname">VerifyLTMPath</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyLTMPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyLTMPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create a directory for ltms unless flag provided. If provided, verify it exists.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.main.Main.VerifyPersistentDirectoryPath">
+<tt class="descname">VerifyPersistentDirectoryPath</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyPersistentDirectoryPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyPersistentDirectoryPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify (or create) the persistent directory.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.main.Main.VerifyStatsPath">
+<tt class="descname">VerifyStatsPath</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyStatsPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyStatsPath" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create directory for batch stats unless provided. If provided, verify it exists.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.main.Main.VerifyStoppingConditionSanity">
+<tt class="descname">VerifyStoppingConditionSanity</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyStoppingConditionSanity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyStoppingConditionSanity" title="Permalink to this definition">¶</a></dt>
+<dd><p>Verify that stopping conditions are specified only in modes where they make sense.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.application_name">
+<tt class="descname">application_name</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.application_name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of application. Must be provided by the derivative class.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.batch_ui_class">
+<tt class="descname">batch_ui_class</tt><a class="headerlink" href="#farg.core.main.Main.batch_ui_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Batch UI class to use for running in non-interactive mode. It should be able to handle
+any questions that may be generated by its codelets.
+Subclasses of Main can override this, probably with a subclass of its value here.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">BatchUI</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.controller_class">
+<tt class="descname">controller_class</tt><a class="headerlink" href="#farg.core.main.Main.controller_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>The controller runs the show by scheduling codelets to run.
+Subclasses of Main can override this, probably with a subclass of its value here.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Controller</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.gui_class">
+<tt class="descname">gui_class</tt><a class="headerlink" href="#farg.core.main.Main.gui_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>GUI class to use for the tkinter GUI.
+Subclasses of Main can override this, probably with a subclass of its value here.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">GUI</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.input_spec_reader_class">
+<tt class="descname">input_spec_reader_class</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.input_spec_reader_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>In batch and sxs modes, the inputs over which to run are specified in a file.
+These will be converted to flags passed to individual runs. An input reader should
+be specified for the file to series of flags conversion.
+These will usually be a subclass of ReadInputSpec.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.run_mode">
+<tt class="descname">run_mode</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.run_mode" title="Permalink to this definition">¶</a></dt>
+<dd><p>The mode for the program (gui, batch, sxs, etc). This is an instance of
+<tt class="xref py py-class docutils literal"><span class="pre">RunMode</span></tt>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.run_mode_batch_class">
+<tt class="descname">run_mode_batch_class</tt><a class="headerlink" href="#farg.core.main.Main.run_mode_batch_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to use for running in Batch mode.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">RunModeBatch</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.run_mode_gui_class">
+<tt class="descname">run_mode_gui_class</tt><a class="headerlink" href="#farg.core.main.Main.run_mode_gui_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to use for running in GUI mode.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">RunModeGUI</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.run_mode_single_run_class">
+<tt class="descname">run_mode_single_run_class</tt><a class="headerlink" href="#farg.core.main.Main.run_mode_single_run_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to use for running in single mode.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">RunModeSingle</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.run_mode_sxs_class">
+<tt class="descname">run_mode_sxs_class</tt><a class="headerlink" href="#farg.core.main.Main.run_mode_sxs_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to use for running in SxS mode.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">RunModeSxS</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.stopping_condition_fn">
+<tt class="descname">stopping_condition_fn</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.stopping_condition_fn" title="Permalink to this definition">¶</a></dt>
+<dd><p>If not none, this is a function is a stopping condition for stopping the app.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.main.Main.stopping_conditions_class">
+<tt class="descname">stopping_conditions_class</tt><a class="headerlink" href="#farg.core.main.Main.stopping_conditions_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>A mapping between stopping condition names and their implmentation (which is a funtion
+that takes a controller and returns a bool).</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">StoppingConditions</span></tt></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.meta">
+<span id="meta"></span><h2>Meta<a class="headerlink" href="#module-farg.core.meta" title="Permalink to this headline">¶</a></h2>
+<p>Metaclass that makes the constructor memoized.</p>
+<p>That is, if the constructor is called twice with identical arguments, the same instance is
+returned in both cases.</p>
+<dl class="class">
+<dt id="farg.core.meta.MemoizedConstructor">
+<em class="property">class </em><tt class="descclassname">farg.core.meta.</tt><tt class="descname">MemoizedConstructor</tt><big>(</big><em>mcs</em>, <em>name</em>, <em>bases</em>, <em>class_dict</em><big>)</big><a class="reference internal" href="../_modules/farg/core/meta.html#MemoizedConstructor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.meta.MemoizedConstructor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Metaclass that makes the constructor memoized.</p>
+<p>That is, if the constructor is called twice with identical arguments, the same instance is
+returned in both cases.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.read_input_spec">
+<span id="read-input-spec"></span><h2>Read Input Spec<a class="headerlink" href="#module-farg.core.read_input_spec" title="Permalink to this headline">¶</a></h2>
+<p>Basic Input specification reader.</p>
+<p>When running batch or sxs, the application should be run on several different inputs (usually
+with expected outputs specified). The class in this module can be used directly or extended
+to parse such a file.</p>
+<dl class="class">
+<dt id="farg.core.read_input_spec.ReadInputSpec">
+<em class="property">class </em><tt class="descclassname">farg.core.read_input_spec.</tt><tt class="descname">ReadInputSpec</tt><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec" title="Permalink to this definition">¶</a></dt>
+<dd><p>Basic Input specification reader.</p>
+<p>Features of this reader:</p>
+<blockquote>
+<div><ul class="simple">
+<li>One input per line.</li>
+<li>Empty lines and those starting with # are ignored.</li>
+<li>Lines are split on the first &#8216;|&#8217;, and the left part becomes the input, the right is the
+expected output.</li>
+</ul>
+</div></blockquote>
+<p>This can be subclassed to read a different type of file.</p>
+<dl class="method">
+<dt id="farg.core.read_input_spec.ReadInputSpec.ReadFile">
+<tt class="descname">ReadFile</tt><big>(</big><em>filename</em><big>)</big><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec.ReadFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec.ReadFile" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads in specification from a file.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.read_input_spec.ReadInputSpec.ReadLine">
+<tt class="descname">ReadLine</tt><big>(</big><em>line</em><big>)</big><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec.ReadLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec.ReadLine" title="Permalink to this definition">¶</a></dt>
+<dd><p>Read a single non-empty non-comment line, converting it to a Specification.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.read_input_spec.ReadInputSpec.ReadLines">
+<tt class="descname">ReadLines</tt><big>(</big><em>filelike</em><big>)</big><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec.ReadLines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec.ReadLines" title="Permalink to this definition">¶</a></dt>
+<dd><p>Reads specification from string iterator.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.read_input_spec.SpecificationForOneRun">
+<em class="property">class </em><tt class="descclassname">farg.core.read_input_spec.</tt><tt class="descname">SpecificationForOneRun</tt><big>(</big><em>name</em>, <em>arguments_dict</em><big>)</big><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#SpecificationForOneRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.SpecificationForOneRun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Specification of input flags for a single run.</p>
+<dl class="attribute">
+<dt id="farg.core.read_input_spec.SpecificationForOneRun.arguments_dict">
+<tt class="descname">arguments_dict</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.read_input_spec.SpecificationForOneRun.arguments_dict" title="Permalink to this definition">¶</a></dt>
+<dd><p>The dictionary of arguments to be passed to the application for that input. Typically,
+this will contain two keys: &#8216;input&#8217; and &#8216;expected output&#8217;, but could be anything,
+depending on the application.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.read_input_spec.SpecificationForOneRun.name">
+<tt class="descname">name</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.read_input_spec.SpecificationForOneRun.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of the input, for display purposes.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="run-stats">
+<h2>Run Stats<a class="headerlink" href="#run-stats" title="Permalink to this headline">¶</a></h2>
+<p>Collects stats for multiple run with a single setting.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">AllStats</tt><big>(</big><em>left_name</em>, <em>right_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Stats for all inputs for each iteration thus far.</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">AllStats.</tt><tt class="descname">GetComparitiveStats</tt><big>(</big><em>for_input</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetComparitiveStats"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>For a given input name, returns comparitive stats along two dimensions.</p>
+<p>Specifically, it returns two dicts (see output of <a class="reference internal" href="run_mode.html#farg.core.run_stats.GetTStatsDict" title="farg.core.run_stats.GetTStatsDict"><tt class="xref py py-func docutils literal"><span class="pre">GetTStatsDict()</span></tt></a> for details),
+one comparing running times when there was success, and one comparing how frequently
+each was successful.</p>
+<p>Memoizes the result, and recalculates only if more data is available.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>for_input: The string representation of the input (for indexing into left_stats and</dt>
+<dd>right_stats)</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>A 2-tuple (codelet_count_stats, success_stats).</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">AllStats.</tt><tt class="descname">GetLeftStatsFor</tt><big>(</big><em>input_to_run</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetLeftStatsFor"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get left stats for input_to_run. Create (empty) if not present.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">AllStats.</tt><tt class="descname">GetRightStatsFor</tt><big>(</big><em>input_to_run</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetRightStatsFor"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get right stats for input_to_run. Create (empty) if not present.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">AllStats.</tt><tt class="descname">IsRightBetter</tt><big>(</big><em>for_input</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.IsRightBetter"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Checks if the right-hand side is better for given input string.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>for_input: The string representation of the input (for indexing into left_stats and</dt>
+<dd>right_stats)</dd>
+</dl>
+</dd>
+<dt>Returns:</dt>
+<dd>A 2-tuple (codelet_string, success_string).
+<em>codelet_string</em> can be &#8216;&#8217;, &#8216;faster&#8217;, or &#8216;slower&#8217;.
+<em>success_string</em> can be &#8216;&#8217;, &#8216;More Success&#8217;, or &#8216;Less Success&#8217;.</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">AllStats.</tt><tt class="descname">input_order</tt><em class="property"> = None</em></dt>
+<dd><p>Order in which inputs have been seen.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">AllStats.</tt><tt class="descname">left_stats</tt><em class="property"> = None</em></dt>
+<dd><p>Stats for the left side.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">AllStats.</tt><tt class="descname">memoized_stats</tt><em class="property"> = None</em></dt>
+<dd><p>Memoized Stats</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">AllStats.</tt><tt class="descname">right_stats</tt><em class="property"> = None</em></dt>
+<dd><p>Stats for the right side.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Descriptor</tt><big>(</big><em>t</em>, <em>df</em>, <em>less</em>, <em>more</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Descriptor"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Given t and degs of freedom, returns &#8216;More&#8217;, &#8216;Less&#8217;, or &#8216;&#8217;, at nearly 95% confidence.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">GetTStatsDict</tt><big>(</big><em>left_numbers</em>, <em>right_numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#GetTStatsDict"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Given two sets of numbers, returns a dict with a variety of stats.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>left_numbers: A list of numbers.
+right_numbers: A list of numbers.</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>A dictionary with the following keys:</dt>
+<dd><ul class="first last simple">
+<li><em>n1</em> and <em>n2</em>: Counts of elements in the two inputs.</li>
+<li><em>left_mean</em> and <em>right_mean</em>: Means of the numbers.</li>
+<li><em>left_variance</em> and <em>right_variance</em>: If at least two numbers present, variance is
+added.</li>
+<li><em>dof</em>: Degrees of freedom.</li>
+<li><em>t</em>: The t-statistics.</li>
+</ul>
+</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Mean</tt><big>(</big><em>numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Mean"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Returns the average of the input, 0 if empty.</p>
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Median</tt><big>(</big><em>numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Median"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Returns the median of the input, 0 if empty.</p>
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">RunStats</tt><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Stats for multiple runs with a single setting.</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">RunStats.</tt><tt class="descname">AddData</tt><big>(</big><em>data_string</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats.AddData"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Add a data point. This is parsed to determine outcome and number of codelets.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>data_string: Consists of a status (say, SuccessfulCompletion), optionally</dt>
+<dd>followed by the codelet count when that happened.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">RunStats.</tt><tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats.IsEmpty"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Returns true if no data has been added.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">StatsForSingleState</tt><a class="reference internal" href="../_modules/farg/core/run_stats.html#StatsForSingleState"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Stats for a single state (e.g., &#8220;SuccessfulCompletion&#8221;) of a single run.</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">StatsForSingleState.</tt><tt class="descname">AddData</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#StatsForSingleState.AddData"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Adds codelet count to data (for this particulr outcome for this particular input).</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>param codelet_count: Number of steps needed to reach this state. Can be 0 if it makes
+no sense for that state.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Variance</tt><big>(</big><em>numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Variance"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Variance of a bunch of numbers, error if fewer than 2 numbers given.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.stopping_conditions">
+<span id="stopping-conditions"></span><h2>Stopping Conditions<a class="headerlink" href="#module-farg.core.stopping_conditions" title="Permalink to this headline">¶</a></h2>
+<p>Manage stopping conditions.</p>
+<p>For debugging or testing reasons, one may want to run an application until a particular
+condition is met. This module manages stopping conditions.</p>
+<dl class="function">
+<dt id="farg.core.stopping_conditions.RegisterStoppingCondition">
+<tt class="descclassname">farg.core.stopping_conditions.</tt><tt class="descname">RegisterStoppingCondition</tt><big>(</big><em>stopping_conditions_class</em>, <em>condition_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#RegisterStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.RegisterStoppingCondition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Decorator for registering a stopping condition on a class.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>stopping_conditions_class: The class for which stopping condition is being defined.</dd>
+<dt>Keyword-only Args:</dt>
+<dd>condition_name: Name of the stopping condition.</dd>
+<dt>Returns:</dt>
+<dd>A decorated function identical to input. Decoration useful only for its side-effect.</dd>
+</dl>
+<p>Usage:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="nd">@RegisterStoppingCondition</span><span class="p">(</span><span class="n">SomeSubclassOfStoppingConditions</span><span class="p">,</span> <span class="n">condition_name</span><span class="o">=</span><span class="s">&#39;foo&#39;</span><span class="p">)</span>
+<span class="k">def</span> <span class="nf">CheckFoo</span><span class="p">(</span><span class="n">controller</span><span class="p">):</span>
+  <span class="o">...</span> <span class="n">do</span> <span class="n">something</span> <span class="o">...</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="exception">
+<dt id="farg.core.stopping_conditions.StoppingConditionNotFound">
+<em class="property">exception </em><tt class="descclassname">farg.core.stopping_conditions.</tt><tt class="descname">StoppingConditionNotFound</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditionNotFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditionNotFound" title="Permalink to this definition">¶</a></dt>
+<dd><p>Raised when requested stopping condition has not been registered.</p>
+<dl class="attribute">
+<dt id="farg.core.stopping_conditions.StoppingConditionNotFound.name">
+<tt class="descname">name</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditionNotFound.name" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of condition.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.stopping_conditions.StoppingConditions">
+<em class="property">class </em><tt class="descclassname">farg.core.stopping_conditions.</tt><tt class="descname">StoppingConditions</tt><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>Manage the set of stopping conditions.</p>
+<dl class="classmethod">
+<dt id="farg.core.stopping_conditions.StoppingConditions.GetStoppingCondition">
+<em class="property">classmethod </em><tt class="descname">GetStoppingCondition</tt><big>(</big><em>condition_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.GetStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.GetStoppingCondition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a stopping condition function given name.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>condition_name: Name of stopping condition.</dd>
+<dt>Returns:</dt>
+<dd>A function taking a single argument (a controller).</dd>
+<dt>Raises:</dt>
+<dd>StoppingConditionNotFound: if name not found.</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="farg.core.stopping_conditions.StoppingConditions.RegisterStoppingCondition">
+<em class="property">classmethod </em><tt class="descname">RegisterStoppingCondition</tt><big>(</big><em>condition_name</em>, <em>condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.RegisterStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.RegisterStoppingCondition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Remember a new stopping condition.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>condition_name: Name of the stopping condition.
+condition_fn: A function that gets the controller as its only argument.</dd>
+</dl>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="farg.core.stopping_conditions.StoppingConditions.StoppingConditionsList">
+<em class="property">classmethod </em><tt class="descname">StoppingConditionsList</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.StoppingConditionsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.StoppingConditionsList" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns list of known stopping conditions.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.stopping_conditions.StoppingConditions.conditions">
+<tt class="descname">conditions</tt><em class="property"> = {}</em><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.conditions" title="Permalink to this definition">¶</a></dt>
+<dd><p>The known set of stopping conditions.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="stream">
+<h2>Stream<a class="headerlink" href="#stream" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.stream.</tt><tt class="descname">Stream</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stream.html#Stream"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Implements the Stream of Thought.</p>
+<p>The main public function here is FocusOn(), called with:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">stream</span><span class="o">.</span><span class="n">FocusOn</span><span class="p">(</span><span class="n">focusable</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>where focusable must be an instance of the interface FocusableMixin. FocusableMixin
+defines three methods: GetFringe(), GetAffordances(), and GetSimilarityAffordances().</p>
+<p>The net effect of the call to FocusOn is to influence future processing in two ways:</p>
+<blockquote>
+<div><ul class="simple">
+<li>By adding codelets, as described below.</li>
+<li>By modifying the context in which future FocusOn()s work. This is implicit in the
+description of GetSimilarityAffordances() below.</li>
+</ul>
+</div></blockquote>
+<p>A blow-by-blow account of what happens:</p>
+<blockquote>
+<div><ul class="simple">
+<li>The fringe of the focusable is obtained via a call to GetFringe().</li>
+<li>If this fringe overlaps a prior stored fringe sufficiently,
+GetSimilarityAffordances() is called on the prior focusable and can create codelets,
+but not just yet add these to the coderack.</li>
+<li>GetAffordances() may generate more codelets that haven&#8217;t yet been added.</li>
+<li>Of these potential codelets, about 2 are chosen (biased by urgency) for addition to
+the coderack.</li>
+</ul>
+</div></blockquote>
+<dl class="method">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">Clear</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/stream.html#Stream.Clear"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Clears all state.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">FociCount</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/stream.html#Stream.FociCount"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Counts the number of recent items focused upon.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">FocusOn</tt><big>(</big><em>focusable</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stream.html#Stream.FocusOn"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Focus on focusable, and act on a fringe-hit.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">StoreFringeAndCalculateOverlap</tt><big>(</big><em>focusable</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stream.html#Stream.StoreFringeAndCalculateOverlap"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Calculates a hit map: from prior focusable to strength.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">controller</tt><em class="property"> = None</em></dt>
+<dd><p>Controller for the stream (needed to take fringe-hit based actions)</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">foci</tt><em class="property"> = None</em></dt>
+<dd><p>Maps foci (i.e., things focused upon recently) to strength.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">kDecayRatio</tt><em class="property"> = 0.95</em></dt>
+<dd><p>The factor by which the strength of a prior episode goes down each time a new episode
+is seen.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">kMaxFocusableCount</tt><em class="property"> = 10</em></dt>
+<dd><p>Maximum number of focusables to keep around.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">kMinOverlapToTriggerSimilarity</tt><em class="property"> = 0.1</em></dt>
+<dd><p>Minimum overlap with previous focusable to trigger GetSimilarityAffordances()</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">kRelatedItemThreshold</tt><em class="property"> = 0.01</em></dt>
+<dd><p>Minimum level of similarity to consider two episodes as potentially related.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">Stream.</tt><tt class="descname">stored_fringes</tt><em class="property"> = None</em></dt>
+<dd><p>Maps fringe elements to a dict (which is a dict from focus to strength).</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.subspace">
+<span id="subspace"></span><h2>Subspace<a class="headerlink" href="#module-farg.core.subspace" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.subspace.QuickReconnResults">
+<em class="property">class </em><tt class="descclassname">farg.core.subspace.</tt><tt class="descname">QuickReconnResults</tt><big>(</big><em>state</em>, <em>answer</em><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#QuickReconnResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.QuickReconnResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Result of quick reconnaisance before starting a subspace.</p>
+<p>This can be one of three things:</p>
+<ul class="simple">
+<li>Deepeer exploration is needed.</li>
+<li>Exploration not needed. An answer has been found.</li>
+<li>Exploration not needed. No answer is likely to be found.</li>
+</ul>
+<dl class="staticmethod">
+<dt id="farg.core.subspace.QuickReconnResults.AnswerFound">
+<em class="property">static </em><tt class="descname">AnswerFound</tt><big>(</big><em>answer</em><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#QuickReconnResults.AnswerFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.AnswerFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="farg.core.subspace.QuickReconnResults.DeeperExplorationNeeded">
+<em class="property">static </em><tt class="descname">DeeperExplorationNeeded</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#QuickReconnResults.DeeperExplorationNeeded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.DeeperExplorationNeeded" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="farg.core.subspace.QuickReconnResults.NoAnswerCanBeFound">
+<em class="property">static </em><tt class="descname">NoAnswerCanBeFound</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#QuickReconnResults.NoAnswerCanBeFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.NoAnswerCanBeFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.subspace.QuickReconnResults.kAnswerCannotBeFound">
+<tt class="descname">kAnswerCannotBeFound</tt><em class="property"> = 3</em><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.kAnswerCannotBeFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.subspace.QuickReconnResults.kAnswerFound">
+<tt class="descname">kAnswerFound</tt><em class="property"> = 2</em><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.kAnswerFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.subspace.QuickReconnResults.kDeeperExplorationNeeded">
+<tt class="descname">kDeeperExplorationNeeded</tt><em class="property"> = 1</em><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.kDeeperExplorationNeeded" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.subspace.Subspace">
+<em class="property">class </em><tt class="descclassname">farg.core.subspace.</tt><tt class="descname">Subspace</tt><big>(</big><em>parent_controller</em>, <em>nsteps</em>, <em>workspace_arguments</em><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#Subspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.Subspace" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.subspace.Subspace.InitializeCoderack">
+<tt class="descname">InitializeCoderack</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#Subspace.InitializeCoderack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.Subspace.InitializeCoderack" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.subspace.Subspace.QuickReconn">
+<tt class="descname">QuickReconn</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#Subspace.QuickReconn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.Subspace.QuickReconn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.subspace.Subspace.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#Subspace.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.Subspace.Run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the subspace by first trying to quickly estimate need for deeper exploration.</p>
+<p>If deeper exploration is called for, sets up the controller, workspace, and so forth,
+and runs the controller for upto the specified number of steps.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.subspace.Subspace.controller_class">
+<tt class="descname">controller_class</tt><a class="headerlink" href="#farg.core.subspace.Subspace.controller_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Controller</span></tt></p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.testing_utils">
+<span id="testing-utils"></span><h2>Testing Utils<a class="headerlink" href="#module-farg.core.testing_utils" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.testing_utils.CodeletPresenceSpec">
+<em class="property">class </em><tt class="descclassname">farg.core.testing_utils.</tt><tt class="descname">CodeletPresenceSpec</tt><big>(</big><em>family</em>, <em>arguments=None</em><big>)</big><a class="reference internal" href="../_modules/farg/core/testing_utils.html#CodeletPresenceSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.testing_utils.CodeletPresenceSpec" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="farg.core.testing_utils.FringeAndCodeletsTest">
+<em class="property">class </em><tt class="descclassname">farg.core.testing_utils.</tt><tt class="descname">FringeAndCodeletsTest</tt><big>(</big><em>methodName='runTest'</em><big>)</big><a class="reference internal" href="../_modules/farg/core/testing_utils.html#FringeAndCodeletsTest"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.testing_utils.FringeAndCodeletsTest" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains methods for testing the fringe of items.</p>
+<dl class="method">
+<dt id="farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletPresent">
+<tt class="descname">AssertCodeletPresent</tt><big>(</big><em>codelet_presence_spec</em>, <em>container_to_check</em><big>)</big><a class="reference internal" href="../_modules/farg/core/testing_utils.html#FringeAndCodeletsTest.AssertCodeletPresent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletPresent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Check if codelet matching spec is present in a list of codelets.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletsPresent">
+<tt class="descname">AssertCodeletsPresent</tt><big>(</big><em>specifications</em>, <em>container_to_check</em><big>)</big><a class="reference internal" href="../_modules/farg/core/testing_utils.html#FringeAndCodeletsTest.AssertCodeletsPresent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletsPresent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for codelets with given specification in container_to_check, which is a list of
+codelets.</p>
+<p>Specifications is an iterable of individual specification, each of which is a
+CodeletPresenceSpec.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeContains">
+<tt class="descname">AssertFringeContains</tt><big>(</big><em>controller</em>, <em>item</em>, <em>expected_fringe_components</em><big>)</big><a class="reference internal" href="../_modules/farg/core/testing_utils.html#FringeAndCodeletsTest.AssertFringeContains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeContains" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks for the presence of particular components in the fringe.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>item:</dt>
+<dd>The item whose fringe is being tested.</dd>
+<dt>expected_fringe_components:</dt>
+<dd>An iterable of two-tuples (fringe element and minimum intensity).</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeOverlap">
+<tt class="descname">AssertFringeOverlap</tt><big>(</big><em>controller</em>, <em>prior_focus</em>, <em>current_focus</em>, <em>min_expected_overlap</em>, <em>expected_similarity_affordances</em><big>)</big><a class="reference internal" href="../_modules/farg/core/testing_utils.html#FringeAndCodeletsTest.AssertFringeOverlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeOverlap" title="Permalink to this definition">¶</a></dt>
+<dd><p>Checks that the fringes of two items overlap and have certain similarity affordances.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>controller:</dt>
+<dd>controller that contains the stream, LTM and so forth.</dd>
+<dt>prior_focus:</dt>
+<dd>The previous focus in the stream (will have intensity 1)</dd>
+<dt>current_focus:</dt>
+<dd>The current item being focused upon.</dd>
+<dt>min_expected_overlap:</dt>
+<dd>Minimum expected overlap between the fringes.</dd>
+<dt>expected_similarity_affordances:</dt>
+<dd>what codelets are expected? This is specified as a iterable of codelet-matchers
+(that is, as family, min_urgency, max_urgency, and some required arguments, or a
+subset thereof).</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.util">
+<span id="util"></span><h2>Util<a class="headerlink" href="#module-farg.core.util" title="Permalink to this headline">¶</a></h2>
+<p>General utilities.</p>
+<dl class="function">
+<dt id="farg.core.util.ChooseAboutN">
+<tt class="descclassname">farg.core.util.</tt><tt class="descname">ChooseAboutN</tt><big>(</big><em>n</em>, <em>choices</em><big>)</big><a class="reference internal" href="../_modules/farg/core/util.html#ChooseAboutN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.ChooseAboutN" title="Permalink to this definition">¶</a></dt>
+<dd><p>Choose in a way that the expected number of choices is n.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>n: The expected number of responses.
+choices: an iterable of 2-tuples, where the second value is the weight.</dd>
+</dl>
+<p>An example to show how it works: let choices contain 5 things with weights 10, 20, 30
+40, and 50 (thus summing to 150), and let n=3. Then we will keep the first item in the
+output with probability 3 * 10/150 (i.e., 20%).</p>
+<dl class="docutils">
+<dt>Returns:</dt>
+<dd>A list of a roughly n-sized subset of choices.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="farg.core.util.HSVToColorString">
+<tt class="descclassname">farg.core.util.</tt><tt class="descname">HSVToColorString</tt><big>(</big><em>hue</em>, <em>saturation</em>, <em>value</em><big>)</big><a class="reference internal" href="../_modules/farg/core/util.html#HSVToColorString"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.HSVToColorString" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert from HSV to RGB color space.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="farg.core.util.SelectWeightedByActivation">
+<tt class="descclassname">farg.core.util.</tt><tt class="descname">SelectWeightedByActivation</tt><big>(</big><em>ltm</em>, <em>choices</em><big>)</big><a class="reference internal" href="../_modules/farg/core/util.html#SelectWeightedByActivation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.SelectWeightedByActivation" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given an ltm and nodes in ltm, chooses one biased by activation.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="farg.core.util.Squash">
+<tt class="descclassname">farg.core.util.</tt><tt class="descname">Squash</tt><big>(</big><em>val</em>, <em>cap</em><big>)</big><a class="reference internal" href="../_modules/farg/core/util.html#Squash"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.Squash" title="Permalink to this definition">¶</a></dt>
+<dd><p>Use a sigmoidal squashing function to squash to 100.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="farg.core.util.Toss">
+<tt class="descclassname">farg.core.util.</tt><tt class="descname">Toss</tt><big>(</big><em>x</em><big>)</big><a class="reference internal" href="../_modules/farg/core/util.html#Toss"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.Toss" title="Permalink to this definition">¶</a></dt>
+<dd><p>x is a number between 0 and 1. Returns true with probability x.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="farg.core.util.UnweightedChoice">
+<tt class="descclassname">farg.core.util.</tt><tt class="descname">UnweightedChoice</tt><big>(</big><em>choices</em><big>)</big><a class="reference internal" href="../_modules/farg/core/util.html#UnweightedChoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.UnweightedChoice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chooses one item uniformly randomly from is an iterable.</p>
+</dd></dl>
+
+<dl class="function">
+<dt id="farg.core.util.WeightedChoice">
+<tt class="descclassname">farg.core.util.</tt><tt class="descname">WeightedChoice</tt><big>(</big><em>choices</em><big>)</big><a class="reference internal" href="../_modules/farg/core/util.html#WeightedChoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.WeightedChoice" title="Permalink to this definition">¶</a></dt>
+<dd><p>Chooses an item, biased by weight.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>choices: an iterable of 2-tuples, where the second value is the weight.</dd>
+<dt>Returns:</dt>
+<dd>An element of choices.</dd>
+</dl>
+</dd></dl>
+
+<dl class="function">
+<dt id="farg.core.util.WeightedShuffle">
+<tt class="descclassname">farg.core.util.</tt><tt class="descname">WeightedShuffle</tt><big>(</big><em>choices</em><big>)</big><a class="reference internal" href="../_modules/farg/core/util.html#WeightedShuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.WeightedShuffle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Shuffle items by weight.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>choices: an iterable of 2-tuples, where the second value is the weight.</dd>
+<dt>Yields:</dt>
+<dd>Repeatedly yields first elements of the 2-tuple, resulting, when complete, in a shuffle.</dd>
+</dl>
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.categorization">
+<span id="categorization"></span><h2>Categorization<a class="headerlink" href="#module-farg.core.categorization" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="categorization-binding">
+<h2>Categorization &#8212; Binding<a class="headerlink" href="#categorization-binding" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.categorization.binding.</tt><tt class="descname">Binding</tt><big>(</big><em>**bindings</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/binding.html#Binding"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Specification of how an instance is a member of some category.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>In the Perl version, the bindings had special slots for squinting, position, metotype
+etc. Here, all are part of the same hash, along with &#8220;regular&#8221; attributes such as length.</p>
+<p class="last">This also means that the caller of the constructor needs to do all the work, unlike in
+Perl, where some bits were calculated by the constructor.</p>
+</div>
+<dl class="method">
+<dt>
+<tt class="descclassname">Binding.</tt><tt class="descname">GetBindingsForAttribute</tt><big>(</big><em>attribute_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/binding.html#Binding.GetBindingsForAttribute"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get the binding of a single attribute.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="categorization-categorizable">
+<h2>Categorization &#8212; Categorizable<a class="headerlink" href="#categorization-categorizable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.categorization.categorizable.</tt><tt class="descname">CategorizableMixin</tt><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Base class for things which can belong to categories.</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">CategorizableMixin.</tt><tt class="descname">AddCategoriesFrom</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.AddCategoriesFrom"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Copy categories in &#8216;other&#8217; to &#8216;self&#8217;</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">CategorizableMixin.</tt><tt class="descname">AddCategory</tt><big>(</big><em>category</em>, <em>binding</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.AddCategory"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Add a category (with the specified binding) to the object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">CategorizableMixin.</tt><tt class="descname">DescribeAs</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.DescribeAs"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Describes item as instance of category, and remembers the binding if one is found.</p>
+<p>Returns the binding.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">CategorizableMixin.</tt><tt class="descname">GetBindingsForCategory</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.GetBindingsForCategory"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Gets bindings. If not an instance of category, raises an exception.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">CategorizableMixin.</tt><tt class="descname">GetCommonCategoriesSet</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.GetCommonCategoriesSet"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Returns a list of discovered categories common to this and the other categorizable.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">CategorizableMixin.</tt><tt class="descname">IsKnownAsInstanceOf</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.IsKnownAsInstanceOf"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>True if known to be an instance of category.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">CategorizableMixin.</tt><tt class="descname">RemoveCategory</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.RemoveCategory"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Removes the category: the item will not (currently) be considered a member of that
+category.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="categorization-category">
+<h2>Categorization &#8212; Category<a class="headerlink" href="#categorization-category" title="Permalink to this headline">¶</a></h2>
+<p>Classes to deal with categories and their instances.</p>
+<p>Including the base class for categories.</p>
+<p>An example will help describe all that happens here. We will use the category &#8216;Ascending&#8217;
+from Seqsee. Instances of this category are objects such as &#8216;(1 2 3)&#8217; and &#8216;(7 8 9 10)&#8217;.
+Objects need to have CategorizableMixin in their class hierarchy: it provides methods to
+store the discovered categories and their bindings.</p>
+<p>A category is a class (deriving from Category).</p>
+<p>Adding a category to an instance:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">bindings</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The following also returns a binding, but does not store the membership information:</p>
+<div class="highlight-python"><div class="highlight"><pre><span class="n">bindings</span> <span class="o">=</span> <span class="n">category</span><span class="o">.</span><span class="n">IsInstance</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+</pre></div>
+</div>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.categorization.category.</tt><tt class="descname">Category</tt><a class="reference internal" href="../_modules/farg/core/categorization/category.html#Category"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>The base class of any category in the FARG system.</p>
+<p>Any derivative class must define the following class methods:</p>
+<ul class="simple">
+<li>IsInstance (which would return a binding),</li>
+</ul>
+<dl class="method">
+<dt>
+<tt class="descclassname">Category.</tt><tt class="descname">IsInstance</tt><big>(</big><em>entity</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/category.html#Category.IsInstance"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Is object an instance of this category?</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>entity: The entity whose membership in self is being tested.</dd>
+<dt>Returns:</dt>
+<dd>If it is not an instance, None is returned. Otherwise, a
+<a class="reference internal" href="categories.html#farg.core.categorization.binding.Binding" title="farg.core.categorization.binding.Binding"><tt class="xref py py-class docutils literal"><span class="pre">Binding</span></tt></a> object is returned.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.ltm">
+<span id="ltm"></span><h2>LTM<a class="headerlink" href="#module-farg.core.ltm" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="ltm-edge">
+<h2>LTM &#8212; Edge<a class="headerlink" href="#ltm-edge" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.ltm.edge.</tt><tt class="descname">LTMEdge</tt><big>(</big><em>to_node</em>, <em>edge_type</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/edge.html#LTMEdge"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Represents the connection between a pair of concepts.</p>
+<p>An edge is directed, and it is stored in the node for which this is an outgoing edge.</p>
+<dl class="attribute">
+<dt>
+<tt class="descclassname">LTMEdge.</tt><tt class="descname">LTM_EDGE_CAN_BE_SEEN_AS</tt><em class="property"> = 'can_be_seen_as'</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">LTMEdge.</tt><tt class="descname">LTM_EDGE_TYPE_FOLLOWS</tt><em class="property"> = 'follows'</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">LTMEdge.</tt><tt class="descname">LTM_EDGE_TYPE_ISA</tt><em class="property"> = 'is_a'</em></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">LTMEdge.</tt><tt class="descname">LTM_EDGE_TYPE_RELATED</tt><em class="property"> = 'related'</em></dt>
+<dd><p>Some predefined types of edges.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">LTMEdge.</tt><tt class="descname">edge_type</tt><em class="property"> = None</em></dt>
+<dd><p>Type of the edge.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">LTMEdge.</tt><tt class="descname">to_node</tt><em class="property"> = None</em></dt>
+<dd><p>Other end of the node.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ltm-graph">
+<h2>LTM &#8212; Graph<a class="headerlink" href="#ltm-graph" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.ltm.graph.</tt><tt class="descname">LTMGraph</tt><big>(</big><em>filename=None</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Represents a full LTM graph (consisting of nodes and edges).</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMGraph.</tt><tt class="descname">AddEdgeBetweenContent</tt><big>(</big><em>from_content</em>, <em>to_content</em>, <em>edge_type='related'</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.AddEdgeBetweenContent"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMGraph.</tt><tt class="descname">AddNode</tt><big>(</big><em>node</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.AddNode"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMGraph.</tt><tt class="descname">Dump</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.Dump"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Writes out content to file if file attribute is set.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMGraph.</tt><tt class="descname">GetActivationForContent</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.GetActivationForContent"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get activation for content.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMGraph.</tt><tt class="descname">GetNodeForContent</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.GetNodeForContent"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Returns node for content; creates one if it does not exist.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMGraph.</tt><tt class="descname">IncreaseActivationForContent</tt><big>(</big><em>content</em>, <em>amount</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.IncreaseActivationForContent"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>IncreaseActivation node indicated by content by amount.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMGraph.</tt><tt class="descname">IsContentSufficientlyActive</tt><big>(</big><em>content</em>, <em>threshold</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.IsContentSufficientlyActive"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMGraph.</tt><tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/graph.html#LTMGraph.IsEmpty"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>True if there are zero-nodes.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">LTMGraph.</tt><tt class="descname">nodes</tt><em class="property"> = None</em></dt>
+<dd><p>Nodes in the graph. Each is a LTMNode.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.ltm.manager">
+<span id="ltm-manager"></span><h2>LTM &#8212; Manager<a class="headerlink" href="#module-farg.core.ltm.manager" title="Permalink to this headline">¶</a></h2>
+<p>Manages the set of LTMs.</p>
+<dl class="class">
+<dt id="farg.core.ltm.manager.LTMManager">
+<em class="property">class </em><tt class="descclassname">farg.core.ltm.manager.</tt><tt class="descname">LTMManager</tt><a class="reference internal" href="../_modules/farg/core/ltm/manager.html#LTMManager"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.manager.LTMManager" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="classmethod">
+<dt id="farg.core.ltm.manager.LTMManager.GetLTM">
+<em class="property">classmethod </em><tt class="descname">GetLTM</tt><big>(</big><em>ltm_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/manager.html#LTMManager.GetLTM"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.manager.LTMManager.GetLTM" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="classmethod">
+<dt id="farg.core.ltm.manager.LTMManager.RegisterInitializer">
+<em class="property">classmethod </em><tt class="descname">RegisterInitializer</tt><big>(</big><em>ltm_name</em>, <em>initializer_function</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/manager.html#LTMManager.RegisterInitializer"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.manager.LTMManager.RegisterInitializer" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers an initializer to call if a loaded LTM is empty. The function takes a
+single argument, the LTM.</p>
+</dd></dl>
+
+<dl class="classmethod">
+<dt id="farg.core.ltm.manager.LTMManager.SaveAllOpenLTMS">
+<em class="property">classmethod </em><tt class="descname">SaveAllOpenLTMS</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/manager.html#LTMManager.SaveAllOpenLTMS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.manager.LTMManager.SaveAllOpenLTMS" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ltm.manager.LTMManager.loaded_ltms">
+<tt class="descname">loaded_ltms</tt><em class="property"> = {}</em><a class="headerlink" href="#farg.core.ltm.manager.LTMManager.loaded_ltms" title="Permalink to this definition">¶</a></dt>
+<dd><p>What LTMs have been loaded.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ltm-node">
+<h2>LTM &#8212; Node<a class="headerlink" href="#ltm-node" title="Permalink to this headline">¶</a></h2>
+<p>Defines class for &#8220;Node&#8221; of an LTM.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.ltm.node.</tt><tt class="descname">LTMNode</tt><big>(</big><em>content</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Represents a single concept stored in an LTM.</p>
+<p>Each node has a core &#8212; content that is being remembered and connected to other concepts.</p>
+<p>This content must be derived from a subclass of LTMStorableMixin. The reason for this is to
+ensure proper creation. Creation of nodes occurs in two ways &#8212; either via the
+constructor,. or by vivification during unpickling (that is, by the __init__ method or by
+__setstate__ method.</p>
+<p>There are two important numbers associated with a node. These are the activation (a number
+between 0 and 1 that represents how important that concept currently appears for the
+current problem), and its depth (an integer typically greater than 5 that represents the
+difficulty of raising or lowering activation &#8212; deep concept&#8217;s activation rises slowly and
+falls slowly.)</p>
+<p>In practice, two substitutes for these are stored: &#8220;raw activation&#8221; (which is a number
+between 0 and 100 which is converted by a sigmoid to a real activation), and the reciprocal
+of the depth (since that eases computation a bit). Raw activation makes things easier to
+calculate.</p>
+<p>The calculation of activation is lazy &#8212; it is calculated when needed. Although the
+activation decays at every timestep, we do not bother updating it everytime, relying on a
+just in time calculation.</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMNode.</tt><tt class="descname">GetActivation</tt><big>(</big><em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetActivation"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get activation. This is f(raw_activation), where f is a predefined mapping.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMNode.</tt><tt class="descname">GetOutgoingEdges</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetOutgoingEdges"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get outgoing edges from the node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMNode.</tt><tt class="descname">GetOutgoingEdgesOfType</tt><big>(</big><em>edge_type</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetOutgoingEdgesOfType"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get outgoing edges of particular type.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMNode.</tt><tt class="descname">GetOutgoingEdgesOfTypeIsa</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetOutgoingEdgesOfTypeIsa"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get outgoing edges of type &#8216;isa&#8217;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMNode.</tt><tt class="descname">GetOutgoingEdgesOfTypeRelated</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetOutgoingEdgesOfTypeRelated"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get outgoing edges of type &#8216;related&#8217;.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMNode.</tt><tt class="descname">GetRawActivation</tt><big>(</big><em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetRawActivation"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Get raw activation.</p>
+<p>Time is needed to calculate decay, if any, since the stored activation may be stale.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>current_time: Number of codelets run thus far.</dd>
+<dt>Returns:</dt>
+<dd>Raw activation (number between 0 and 100). Real activation is a sigmoid of this.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMNode.</tt><tt class="descname">IncreaseActivation</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.IncreaseActivation"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Update activation by this amount (after processing any pending decays), and spread.</p>
+<p>Activation is spread an appropriate component to nearby nodes.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>amount: Amount by which to increase. Will typically be a small integer.</dd>
+<dt>Keyword-only Args:</dt>
+<dd>current_time: Time when this method was called. Needed to process any pending decays.</dd>
+<dt>Returns:</dt>
+<dd>Activation at this time.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMNode.</tt><tt class="descname">IncreaseActivationButDontSpread</tt><big>(</big><em>amount</em>, <em>current_time</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.IncreaseActivationButDontSpread"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Update activation by this amount (after processing any decays). No spreadings.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMNode.</tt><tt class="descname">IncrementDepth</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.IncrementDepth"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Increment depth of node by 1.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">LTMNode.</tt><tt class="descname">depth_reciprocal</tt><em class="property"> = None</em></dt>
+<dd><p>Depth of a node controls how quickly it accumulates or decays activation. The greater
+the depth, the slower this happens. Starts out at 5 and can go up from there.
+What is stored here is the reciprocal of depth, as that is what is needed in
+calculations.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ltm-storable">
+<h2>LTM &#8212; Storable<a class="headerlink" href="#ltm-storable" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.ltm.storable.</tt><tt class="descname">LTMStorableMixin</tt><a class="reference internal" href="../_modules/farg/core/ltm/storable.html#LTMStorableMixin"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Any class whose instances should be stored in LTM must adhere to certain semantics,
+and subclass from this class. Typically, it would also use MemoizedConstructor as a
+metaclass.</p>
+<p>For a given set of arguments, this class ensures that only a single object is created.</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMStorableMixin.</tt><tt class="descname">BriefLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/storable.html#LTMStorableMixin.BriefLabel"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMStorableMixin.</tt><tt class="descname">GetLTMStorableContent</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/storable.html#LTMStorableMixin.GetLTMStorableContent"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMStorableMixin.</tt><tt class="descname">LTMDependentContent</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/storable.html#LTMStorableMixin.LTMDependentContent"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Returns nodes whose existence is necessary for fully defining this node.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">LTMStorableMixin.</tt><tt class="descname">LTMDisplayLabel</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ltm/storable.html#LTMStorableMixin.LTMDisplayLabel"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.question">
+<span id="question"></span><h2>Question<a class="headerlink" href="#module-farg.core.question" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-farg.core.question.question">
+<span id="question-question"></span><h2>Question &#8212; Question<a class="headerlink" href="#module-farg.core.question.question" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.question.question.BooleanQuestion">
+<em class="property">class </em><tt class="descclassname">farg.core.question.question.</tt><tt class="descname">BooleanQuestion</tt><big>(</big><em>question_string</em><big>)</big><a class="reference internal" href="../_modules/farg/core/question/question.html#BooleanQuestion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.question.question.BooleanQuestion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="farg.core.question.question.Question">
+<em class="property">class </em><tt class="descclassname">farg.core.question.question.</tt><tt class="descname">Question</tt><a class="reference internal" href="../_modules/farg/core/question/question.html#Question"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.question.question.Question" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.run_mode">
+<span id="run-mode"></span><h2>Run Mode<a class="headerlink" href="#module-farg.core.run_mode" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-farg.core.run_mode.batch">
+<span id="run-mode-batch"></span><h2>Run Mode &#8212; Batch<a class="headerlink" href="#module-farg.core.run_mode.batch" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.batch.</tt><tt class="descname">BatchRunMultipleTimes</tt><big>(</big><em>input_spec</em>, <em>gui</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiple-runner specialized for batch.</p>
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.GetPreviousSavedFilename">
+<tt class="descname">GetPreviousSavedFilename</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.GetPreviousSavedFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.GetPreviousSavedFilename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the filename from which to read stats of previous run, if any.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.GetSaveFilename">
+<tt class="descname">GetSaveFilename</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.GetSaveFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.GetSaveFilename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filename to store current stats in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.GetSubprocessArguments">
+<tt class="descname">GetSubprocessArguments</tt><big>(</big><em>one_input_spec_arguments</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.GetSubprocessArguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.GetSubprocessArguments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.LoadPreviousStats">
+<tt class="descname">LoadPreviousStats</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.LoadPreviousStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.LoadPreviousStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load stats from previous run, if any.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.RunAll">
+<tt class="descname">RunAll</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.RunAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.RunAll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.SaveCurrent">
+<tt class="descname">SaveCurrent</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.SaveCurrent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.SaveCurrent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current stats for future comparison.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.run_mode.batch.RunModeBatch">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.batch.</tt><tt class="descname">RunModeBatch</tt><big>(</big><em>controller_class</em>, <em>input_spec</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#RunModeBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.RunModeBatch" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.run_mode.batch.RunModeBatch.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#RunModeBatch.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.RunModeBatch.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.run_mode.gui">
+<span id="run-mode-gui"></span><h2>Run Mode &#8212; GUI<a class="headerlink" href="#module-farg.core.run_mode.gui" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.gui.RunModeGUI">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.gui.</tt><tt class="descname">RunModeGUI</tt><big>(</big><em>controller_class</em>, <em>ui_class</em>, <em>stopping_condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/gui.html#RunModeGUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.gui.RunModeGUI" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.run_mode.gui.RunModeGUI.Refresher">
+<tt class="descname">Refresher</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/gui.html#RunModeGUI.Refresher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.gui.RunModeGUI.Refresher" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.gui.RunModeGUI.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/gui.html#RunModeGUI.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.gui.RunModeGUI.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="run-mode-non-interactive">
+<h2>Run Mode &#8212; Non Interactive<a class="headerlink" href="#run-mode-non-interactive" title="Permalink to this headline">¶</a></h2>
+<p>Sets up GUI displaying statistics for batch or SxS modes.</p>
+<p>Sets up a window where all inputs and their progress may be tracked.</p>
+<p>The inputs are shown in the left panel, and possibly color-coded according to whether the
+current run is progressing better than the prior run. For SxS, &#8220;prior run&#8221; is the base side,
+whereas in the batch mode it is the last time the batch mode was run.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.non_interactive.</tt><tt class="descname">MultipleRunGUI</tt><big>(</big><em>multiple_runner_class</em>, <em>input_spec</em>, <em>left_name</em>, <em>right_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>GUI for batch and SxS modes for displaying the stats.</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">CreateHistogram</tt><big>(</big><em>x_offset</em>, <em>y_offset</em>, <em>stats</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.CreateHistogram"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Create histogram of codelet run times.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>x_offset: X-offset for Pie.
+y_offset: Y-offset for Pie.
+stats: Stats to display. Instance of <a class="reference internal" href="run_mode.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">RunStats</span></tt></a>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">CreatePieChart</tt><big>(</big><em>x_offset</em>, <em>y_offset</em>, <em>stats</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.CreatePieChart"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Create PieChart.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>x_offset: X-offset for Pie.
+y_offset: Y-offset for Pie.
+stats: Stats to display. Instance of <a class="reference internal" href="run_mode.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">RunStats</span></tt></a>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">DisplayBasicStats</tt><big>(</big><em>x_offset</em>, <em>y_offset</em>, <em>stats</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.DisplayBasicStats"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Display basic stats (mean run time, success rate, etc.) for one side.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>x_offset: X-offset for Pie.
+y_offset: Y-offset for Pie.
+stats: Stats to display. Instance of <a class="reference internal" href="run_mode.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">RunStats</span></tt></a>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">DisplayDetails</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.DisplayDetails"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Show detailed statistics of one input.</p>
+<p>Details are shown for whatever input is present in self.display_details_for.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">DisplayInferenceStats</tt><big>(</big><em>stats</em>, <em>for_input</em>, <em>y</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.DisplayInferenceStats"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Display inference stats: Is right hand side better than left?</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>stats: Instance of <a class="reference internal" href="run_mode.html#farg.core.run_stats.AllStats" title="farg.core.run_stats.AllStats"><tt class="xref py py-class docutils literal"><span class="pre">AllStats</span></tt></a>.
+for_input: What input string are we comparing the two sides?
+y: Y-offset of top of this display.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">DisplayOneSideStats</tt><big>(</big><em>y</em>, <em>label</em>, <em>stats</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.DisplayOneSideStats"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Display stats for one of the to sides for one input.</p>
+<p>y: Y-offset where to display.
+label: Name of the side. Will probably be one of &#8220;previous&#8221;, &#8220;current&#8221;, &#8220;base&#8221;, or
+&#8220;expt&#8221;.
+stats: Statistics for this run. This is a <a class="reference internal" href="run_mode.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">farg.core.run_stats.RunStats</span></tt></a>
+object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">KickOffRun</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.KickOffRun"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Start run if it has not already started.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">Quit</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.Quit"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Called when the user has indicated that the application should Quit.</p>
+<p>Waits for any ongoing run to finish, and then destroys windows.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">Refresher</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.Refresher"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Repeatedly refreshes the display.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">SelectForDisplay</tt><big>(</big><em>_event</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.SelectForDisplay"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Event-handler called when an input was selected for detailed display.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">UpdateDisplay</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.UpdateDisplay"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Displays the Stats.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">canvas</tt><em class="property"> = None</em></dt>
+<dd><p>Canvas on right for details</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">display_details_for</tt><em class="property"> = None</em></dt>
+<dd><p>which input are we displaying the details of?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">frame</tt><em class="property"> = None</em></dt>
+<dd><p>listbox on left listing inputs.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">input_spec</tt><em class="property"> = None</em></dt>
+<dd><p>The input_spec is an iterable of
+<a class="reference internal" href="#farg.core.read_input_spec.SpecificationForOneRun" title="farg.core.read_input_spec.SpecificationForOneRun"><tt class="xref py py-class docutils literal"><span class="pre">farg.core.read_input_spec.SpecificationForOneRun</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">multiple_runner_class</tt><em class="property"> = None</em></dt>
+<dd><p>Class responsible for the actual running multiple times.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">mw</tt><em class="property"> = None</em></dt>
+<dd><p>Main window</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">quitting</tt><em class="property"> = None</em></dt>
+<dd><p>Are we in the process of quitting?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">run_started</tt><em class="property"> = None</em></dt>
+<dd><p>Has a run started? Used to ensure single run.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">stats</tt><em class="property"> = None</em></dt>
+<dd><p>Statistics thus far, grouped by input.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">MultipleRunGUI.</tt><tt class="descname">thread</tt><em class="property"> = None</em></dt>
+<dd><p>Thread used for running</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.non_interactive.</tt><tt class="descname">RunModeNonInteractive</tt><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunModeNonInteractive"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>The RunMode that will start a GUI and start running the app multiple times.</p>
+<dl class="classmethod">
+<dt>
+<em class="property">classmethod </em><tt class="descclassname">RunModeNonInteractive.</tt><tt class="descname">DoSingleRun</tt><big>(</big><em>cmdline_arguments_dict</em>, <em>extra_arguments=None</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunModeNonInteractive.DoSingleRun"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Execute the application once.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>cmdline_arguments_dict: Dictionary of arguments to pass process.
+extra_arguments: extra arguments that will be added, too.</dd>
+<dt>Returns:</dt>
+<dd>A string, representing output status and number of codelets.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.non_interactive.</tt><tt class="descname">RunMultipleTimes</tt><big>(</big><em>input_spec</em>, <em>gui</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunMultipleTimes"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Class to run the application several times on a set of inputs.</p>
+<p>This is the thread that does all the work (except the UI) for batch and SxS modes.</p>
+<p>It keeps a pointer to the GUI and updates the stats (owned by the UI).</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">RunMultipleTimes.</tt><tt class="descname">RunAll</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunMultipleTimes.RunAll"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Run all the inputs as many times as appropriate.</p>
+<p>Should be over-ridden by subclasses. SxS and Batch would differ slightly here.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">RunMultipleTimes.</tt><tt class="descname">gui</tt><em class="property"> = None</em></dt>
+<dd><p>Points to the GUI controlling the run. The GUI maintains the statistics that this
+class&#8217;s actions update.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">RunMultipleTimes.</tt><tt class="descname">input_spec</tt><em class="property"> = None</em></dt>
+<dd><p>The input_spec is an iterable of
+<a class="reference internal" href="#farg.core.read_input_spec.SpecificationForOneRun" title="farg.core.read_input_spec.SpecificationForOneRun"><tt class="xref py py-class docutils literal"><span class="pre">farg.core.read_input_spec.SpecificationForOneRun</span></tt></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">RunMultipleTimes.</tt><tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunMultipleTimes.run"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>The method of the thread class that is started by Start().</p>
+<p>Merely delegates to RunAll, which should be overriden by subclass.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt>
+<tt class="descclassname">farg.core.run_mode.non_interactive.</tt><tt class="descname">StateToColor</tt><big>(</big><em>state</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#StateToColor"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Convert state string to color for PieChart.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.run_mode.run_mode">
+<span id="run-mode-run-mode"></span><h2>Run Mode &#8212; Run Mode<a class="headerlink" href="#module-farg.core.run_mode.run_mode" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.run_mode.RunMode">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.run_mode.</tt><tt class="descname">RunMode</tt><a class="reference internal" href="../_modules/farg/core/run_mode/run_mode.html#RunMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.run_mode.RunMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>A RunMode controlls how the app is run &#8212; as GUI, in a batch mode, as a SxS, and so
+forth.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.run_mode.single">
+<span id="run-mode-single"></span><h2>Run Mode &#8212; Single<a class="headerlink" href="#module-farg.core.run_mode.single" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.single.RunModeSingle">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.single.</tt><tt class="descname">RunModeSingle</tt><big>(</big><em>controller_class</em>, <em>ui_class</em>, <em>stopping_condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/single.html#RunModeSingle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.single.RunModeSingle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run mode for a single run as part of a batch run or a SxS run.</p>
+<p>This class is responsible for running the program once, suppressing its output, and
+producing an easy to parse string.</p>
+<dl class="method">
+<dt id="farg.core.run_mode.single.RunModeSingle.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/single.html#RunModeSingle.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.single.RunModeSingle.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.run_mode.sxs">
+<span id="run-mode-sxs"></span><h2>Run Mode &#8212; SxS<a class="headerlink" href="#module-farg.core.run_mode.sxs" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.sxs.RunModeSxS">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.sxs.</tt><tt class="descname">RunModeSxS</tt><big>(</big><em>controller_class</em>, <em>input_spec</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#RunModeSxS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.RunModeSxS" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.run_mode.sxs.RunModeSxS.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#RunModeSxS.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.RunModeSxS.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.run_mode.sxs.SxSRunMultipleTimes">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.sxs.</tt><tt class="descname">SxSRunMultipleTimes</tt><big>(</big><em>input_spec</em>, <em>gui</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#SxSRunMultipleTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.SxSRunMultipleTimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiple-runner specialized for SxS.</p>
+<dl class="method">
+<dt id="farg.core.run_mode.sxs.SxSRunMultipleTimes.GetSubprocessArguments">
+<tt class="descname">GetSubprocessArguments</tt><big>(</big><em>one_input_spec_arguments</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#SxSRunMultipleTimes.GetSubprocessArguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.SxSRunMultipleTimes.GetSubprocessArguments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.sxs.SxSRunMultipleTimes.RunAll">
+<tt class="descname">RunAll</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#SxSRunMultipleTimes.RunAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.SxSRunMultipleTimes.RunAll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.ui">
+<span id="ui"></span><h2>UI<a class="headerlink" href="#module-farg.core.ui" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-farg.core.ui.batch_ui">
+<span id="ui-batch-ui"></span><h2>UI &#8212; Batch UI<a class="headerlink" href="#module-farg.core.ui.batch_ui" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.ui.batch_ui.BatchUI">
+<em class="property">class </em><tt class="descclassname">farg.core.ui.batch_ui.</tt><tt class="descname">BatchUI</tt><big>(</big><em>controller_class</em>, <em>stopping_condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/batch_ui.html#BatchUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.batch_ui.BatchUI" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.ui.batch_ui.BatchUI.AskQuestion">
+<tt class="descname">AskQuestion</tt><big>(</big><em>question</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/batch_ui.html#BatchUI.AskQuestion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.batch_ui.BatchUI.AskQuestion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.batch_ui.BatchUI.DisplayMessage">
+<tt class="descname">DisplayMessage</tt><big>(</big><em>message</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/batch_ui.html#BatchUI.DisplayMessage"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.batch_ui.BatchUI.DisplayMessage" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.batch_ui.BatchUI.RegisterQuestionHandlers">
+<tt class="descname">RegisterQuestionHandlers</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/batch_ui.html#BatchUI.RegisterQuestionHandlers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.batch_ui.BatchUI.RegisterQuestionHandlers" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.batch_ui.BatchUI.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/batch_ui.html#BatchUI.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.batch_ui.BatchUI.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="ui-gui">
+<h2>UI &#8212; GUI<a class="headerlink" href="#ui-gui" title="Permalink to this headline">¶</a></h2>
+<p>Defines the base GUI for the GUI run-mode.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.ui.gui.</tt><tt class="descname">GUI</tt><big>(</big><em>controller_class</em>, <em>stopping_condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Base-class of GUI for an application.</p>
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">AskQuestion</tt><big>(</big><em>question</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.AskQuestion"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Asks the question (by delegating to the Ask method of the question).</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">DisplayMessage</tt><big>(</big><em>message</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.DisplayMessage"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">Pause</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.Pause"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">PopulateButtonPane</tt><big>(</big><em>frame</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.PopulateButtonPane"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Adds buttons to the top row.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">PopulateCentralPane</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.PopulateCentralPane"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Sets up the display in the central part.</p>
+<p>If an item must be refreshed, add it to items_to_refresh.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">PopulateInteractionPane</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.PopulateInteractionPane"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Sets up the interaction pane at the bottom.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">Quit</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.Quit"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Called when quitting. Ensures that all threads have exited, and LTMs saved.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">RegisterQuestionHandlers</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.RegisterQuestionHandlers"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Registers how to ask a given type of question.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">SetupWindows</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.SetupWindows"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Sets up frames in the GUI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">StartThreaded</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.StartThreaded"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">StepsInAnotherThread</tt><big>(</big><em>num_steps</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.StepsInAnotherThread"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">UpdateDisplay</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.UpdateDisplay"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Refresh the display. Erases everything and draws it again.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">buttons_pane</tt><em class="property"> = None</em></dt>
+<dd><p>Button pane.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">central_pane</tt><em class="property"> = None</em></dt>
+<dd><p>Central pane (a canvas).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">central_pane_class</tt></dt>
+<dd><p>Class handling the central part of the display.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">CentralPane</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">codelet_count_var</tt><em class="property"> = None</em></dt>
+<dd><p>A Tk variable tracking codelet count.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">GUI.</tt><tt class="descname">geometry</tt><em class="property"> = '810x700-0+0'</em></dt>
+<dd><p>Size and location of the window.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><tt class="descclassname">farg.core.ui.gui.</tt><tt class="descname">RunForNSteps</tt><big>(</big><em>controller</em>, <em>gui</em>, <em>num_steps</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#RunForNSteps"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Runs controller for up to n steps.</p>
+<p>This does not update the GUI directly; It however results in changing the state of the
+attribute &#8220;controller&#8221; that it holds. This is shared by the GUI and used to update itself.</p>
+<p>Before each step, checks that we have not been asked to pause.</p>
+<dl class="attribute">
+<dt>
+<tt class="descclassname">RunForNSteps.</tt><tt class="descname">controller</tt><em class="property"> = None</em></dt>
+<dd><p>Controller for the whole app.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">RunForNSteps.</tt><tt class="descname">gui</tt><em class="property"> = None</em></dt>
+<dd><p>GUI being displayed. We need this to communicate some state (such as &#8220;we have found
+an answer and can now quit.&#8221;).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<tt class="descclassname">RunForNSteps.</tt><tt class="descname">num_steps</tt><em class="property"> = None</em></dt>
+<dd><p>Number of steps taken so far.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<tt class="descclassname">RunForNSteps.</tt><tt class="descname">run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#RunForNSteps.run"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.ui.gui.central_pane">
+<span id="ui-gui-central-pane"></span><h2>UI &#8212; GUI &#8212; Central Pane<a class="headerlink" href="#module-farg.core.ui.gui.central_pane" title="Permalink to this headline">¶</a></h2>
+<p>Central pane of the UI display.</p>
+<p>This is basically a canvas that can hold multiple views (such as Coderack view, Workspace
+view, and so forth). Each view is an instance of a subclass of
+<a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><tt class="xref py py-class docutils literal"><span class="pre">ViewPort</span></tt></a>.</p>
+<dl class="class">
+<dt id="farg.core.ui.gui.central_pane.CentralPane">
+<em class="property">class </em><tt class="descclassname">farg.core.ui.gui.central_pane.</tt><tt class="descname">CentralPane</tt><big>(</big><em>master</em>, <em>controller</em>, <em>height</em>, <em>width</em>, <em>background</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane" title="Permalink to this definition">¶</a></dt>
+<dd><p>The central pane of the Tk-based UI. This can hold several displays.</p>
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.NamedViewCmd">
+<tt class="descname">NamedViewCmd</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.NamedViewCmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.NamedViewCmd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.ReDraw">
+<tt class="descname">ReDraw</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.ReDraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.ReDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redraw all active views on pane.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.SetFullView">
+<tt class="descname">SetFullView</tt><big>(</big><em>view_class</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetFullView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetFullView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set central pane to contain a single view.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>view_class: A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><tt class="xref py py-class docutils literal"><span class="pre">ViewPort</span></tt></a>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.SetNamedView">
+<tt class="descname">SetNamedView</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetNamedView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetNamedView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the named view by calling the function shored in named_views.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.SetThreeWaySplit">
+<tt class="descname">SetThreeWaySplit</tt><big>(</big><em>view_class1</em>, <em>view_class2</em>, <em>view_class3</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetThreeWaySplit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetThreeWaySplit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set central pane to contain a three view, one on top and two on the bottom.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>view_class1: A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><tt class="xref py py-class docutils literal"><span class="pre">ViewPort</span></tt></a>.
+view_class2: Another subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><tt class="xref py py-class docutils literal"><span class="pre">ViewPort</span></tt></a>.
+view_class3: Also a subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><tt class="xref py py-class docutils literal"><span class="pre">ViewPort</span></tt></a>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.SetVerticallySplitView">
+<tt class="descname">SetVerticallySplitView</tt><big>(</big><em>view_class1</em>, <em>view_class2</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetVerticallySplitView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetVerticallySplitView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set central pane to contain a two view, one on top the other on the bottom.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>view_class1: A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><tt class="xref py py-class docutils literal"><span class="pre">ViewPort</span></tt></a>.
+view_class2: Another subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><tt class="xref py py-class docutils literal"><span class="pre">ViewPort</span></tt></a>.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.SetupMenu">
+<tt class="descname">SetupMenu</tt><big>(</big><em>parent</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetupMenu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetupMenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create menu for the central pane.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.default_initial_view">
+<tt class="descname">default_initial_view</tt><em class="property"> = ''</em><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.default_initial_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of initial view.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.named_views">
+<tt class="descname">named_views</tt><em class="property"> = {}</em><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.named_views" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary from names to functions that sets views. A view is made up of a set of
+viewports, each an instance of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><tt class="xref py py-class docutils literal"><span class="pre">ViewPort</span></tt></a>.
+Methods are available in this class to create views (e.g., SetFullView and
+SetVerticallySplitView). See farg.apps.seqsee.gui.gui.py for an example.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.ui.gui.views">
+<span id="ui-gui-views"></span><h2>UI &#8212; GUI &#8212; Views<a class="headerlink" href="#module-farg.core.ui.gui.views" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-farg.core.ui.gui.views.viewport">
+<span id="ui-gui-views-viewport"></span><h2>UI &#8212; GUI &#8212; Views &#8212; Viewport<a class="headerlink" href="#module-farg.core.ui.gui.views.viewport" title="Permalink to this headline">¶</a></h2>
+<p>Viewport defines a section of a canvas for displaying some information.</p>
+<p>The coordinates (left, top) and (bottom, right) define a rectangular section of the canvas.</p>
+<p>This is an abstract class where a few methods need to be plugged in.</p>
+<dl class="class">
+<dt id="farg.core.ui.gui.views.viewport.ViewPort">
+<em class="property">class </em><tt class="descclassname">farg.core.ui.gui.views.viewport.</tt><tt class="descname">ViewPort</tt><big>(</big><em>canvas</em>, <em>left</em>, <em>bottom</em>, <em>width</em>, <em>height</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/viewport.html#ViewPort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.viewport.ViewPort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Viewport defines a section of a canvas for displaying some information.</p>
+<dl class="method">
+<dt id="farg.core.ui.gui.views.viewport.ViewPort.CanvasCoordinates">
+<tt class="descname">CanvasCoordinates</tt><big>(</big><em>x</em>, <em>y</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/viewport.html#ViewPort.CanvasCoordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.viewport.ViewPort.CanvasCoordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts coordinates in this view to canvas coordinates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.viewport.ViewPort.ReDraw">
+<tt class="descname">ReDraw</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/viewport.html#ViewPort.ReDraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.viewport.ViewPort.ReDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redraw this view.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>controller: The controller for the main application.</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.ui.gui.views.list_based_view">
+<span id="ui-gui-views-list-based"></span><h2>UI &#8212; GUI &#8212; Views  &#8212; List based<a class="headerlink" href="#module-farg.core.ui.gui.views.list_based_view" title="Permalink to this headline">¶</a></h2>
+<p>Defines a class that can act as a base class for displaying lists of things.</p>
+<p>Examples of such things include codelets in a coderack and recent foci in the stream.</p>
+<dl class="class">
+<dt id="farg.core.ui.gui.views.list_based_view.ListBasedView">
+<em class="property">class </em><tt class="descclassname">farg.core.ui.gui.views.list_based_view.</tt><tt class="descname">ListBasedView</tt><big>(</big><em>canvas</em>, <em>left</em>, <em>bottom</em>, <em>width</em>, <em>height</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView" title="Permalink to this definition">¶</a></dt>
+<dd><p>A base class for views that show a bunch of objects and which require pagination.</p>
+<dl class="method">
+<dt id="farg.core.ui.gui.views.list_based_view.ListBasedView.DrawItem">
+<tt class="descname">DrawItem</tt><big>(</big><em>x</em>, <em>y</em>, <em>item</em>, <em>extra_dict</em>, <em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView.DrawItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.DrawItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws item given co-ordinates in <em>this</em> widgets coordinate system.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>x:</dt>
+<dd>x-coordinate for the top-left, within this view, where the item is to be drawn.</dd>
+<dt>y:</dt>
+<dd>y-coordinate for the top-left, within this view, where the item is to be drawn.</dd>
+<dt>item:</dt>
+<dd>item to be drawn.</dd>
+<dt>extra_dict:</dt>
+<dd>Any extra key-value pairs to be passed in to influence the display.</dd>
+<dt>controller:</dt>
+<dd>The controller for the main application.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.list_based_view.ListBasedView.GetAllItemsToDisplay">
+<tt class="descname">GetAllItemsToDisplay</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain a 3-tuple (items, top-message, extra_dict) to display.</p>
+<p>Should be over-ridden by the derived class.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>controller: The controller for the main application.</dd>
+<dt>Returns:</dt>
+<dd>A 3-tuple. The first value is a list of items to display (on all pages). The second
+is a message to be displayed at the top. The third is a dictionary for passing in
+arbitrary information, which is passed on to DrawItem.</dd>
+</dl>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.list_based_view.ListBasedView.ReDrawView">
+<tt class="descname">ReDrawView</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView.ReDrawView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.ReDrawView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redraw this view.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>controller: The controller for the main application.</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.views.list_based_view.ListBasedView.items_per_page">
+<tt class="descname">items_per_page</tt><em class="property"> = 5</em><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.items_per_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of items to show per page.</p>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.ui.gui.views.coderack_view">
+<span id="ui-gui-views-coderack"></span><h2>UI &#8212; GUI &#8212; Views &#8212; Coderack<a class="headerlink" href="#module-farg.core.ui.gui.views.coderack_view" title="Permalink to this headline">¶</a></h2>
+<p>View for displaying codelets in a coderack.</p>
+<dl class="class">
+<dt id="farg.core.ui.gui.views.coderack_view.CoderackView">
+<em class="property">class </em><tt class="descclassname">farg.core.ui.gui.views.coderack_view.</tt><tt class="descname">CoderackView</tt><big>(</big><em>canvas</em>, <em>left</em>, <em>bottom</em>, <em>width</em>, <em>height</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/coderack_view.html#CoderackView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.coderack_view.CoderackView" title="Permalink to this definition">¶</a></dt>
+<dd><p>View for displaying codelets in a coderack.</p>
+<dl class="method">
+<dt id="farg.core.ui.gui.views.coderack_view.CoderackView.DrawItem">
+<tt class="descname">DrawItem</tt><big>(</big><em>widget_x</em>, <em>widget_y</em>, <em>item</em>, <em>extra_dict</em>, <em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/coderack_view.html#CoderackView.DrawItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.coderack_view.CoderackView.DrawItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given x, y within the current widget and an item, draws it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.coderack_view.CoderackView.GetAllItemsToDisplay">
+<tt class="descname">GetAllItemsToDisplay</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/coderack_view.html#CoderackView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.coderack_view.CoderackView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of things to display.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>controller: Controller for the application.</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>A 3-tuple: Items, a top message, and a dictionary of extra information. The extra</dt>
+<dd>information is the sum of urgencies of all codelets.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="farg.core.ui.gui.views.coderack_view.ShowCodeletFamilyDetails">
+<tt class="descclassname">farg.core.ui.gui.views.coderack_view.</tt><tt class="descname">ShowCodeletFamilyDetails</tt><big>(</big><em>controller</em>, <em>family</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/coderack_view.html#ShowCodeletFamilyDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.coderack_view.ShowCodeletFamilyDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>A toplevel for showing codelets in one family.</p>
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.ui.gui.views.ltm_view">
+<span id="ui-gui-views-ltm"></span><h2>UI &#8212; GUI &#8212; Views &#8212; LTM<a class="headerlink" href="#module-farg.core.ui.gui.views.ltm_view" title="Permalink to this headline">¶</a></h2>
+<p>View for displaying nodes in an ltm.</p>
+<dl class="class">
+<dt id="farg.core.ui.gui.views.ltm_view.LTMView">
+<em class="property">class </em><tt class="descclassname">farg.core.ui.gui.views.ltm_view.</tt><tt class="descname">LTMView</tt><big>(</big><em>canvas</em>, <em>left</em>, <em>bottom</em>, <em>width</em>, <em>height</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/ltm_view.html#LTMView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.ltm_view.LTMView" title="Permalink to this definition">¶</a></dt>
+<dd><p>View for displaying nodes in an ltm.</p>
+<dl class="method">
+<dt id="farg.core.ui.gui.views.ltm_view.LTMView.DrawItem">
+<tt class="descname">DrawItem</tt><big>(</big><em>widget_x</em>, <em>widget_y</em>, <em>item</em>, <em>extra_dict</em>, <em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/ltm_view.html#LTMView.DrawItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.ltm_view.LTMView.DrawItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given x, y within the current widget and an item, draws it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.ltm_view.LTMView.GetAllItemsToDisplay">
+<tt class="descname">GetAllItemsToDisplay</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/ltm_view.html#LTMView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.ltm_view.LTMView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of things to display.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>controller: Controller for the application.</dd>
+<dt>Returns:</dt>
+<dd><dl class="first last docutils">
+<dt>A 3-tuple: Items, a top message, and a dictionary of extra information. The extra</dt>
+<dd>information is the number of timesteps taken in the ltm.</dd>
+</dl>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.views.ltm_view.LTMView.items_per_page">
+<tt class="descname">items_per_page</tt><em class="property"> = 10</em><a class="headerlink" href="#farg.core.ui.gui.views.ltm_view.LTMView.items_per_page" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.ui.gui.views.stream_view">
+<span id="ui-gui-views-stream"></span><h2>UI &#8212; GUI &#8212; Views &#8212; Stream<a class="headerlink" href="#module-farg.core.ui.gui.views.stream_view" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="farg.core.ui.gui.views.stream_view.ShowFocusableDetails">
+<tt class="descclassname">farg.core.ui.gui.views.stream_view.</tt><tt class="descname">ShowFocusableDetails</tt><big>(</big><em>controller</em>, <em>focusable</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/stream_view.html#ShowFocusableDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.stream_view.ShowFocusableDetails" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="farg.core.ui.gui.views.stream_view.StreamView">
+<em class="property">class </em><tt class="descclassname">farg.core.ui.gui.views.stream_view.</tt><tt class="descname">StreamView</tt><big>(</big><em>canvas</em>, <em>left</em>, <em>bottom</em>, <em>width</em>, <em>height</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/stream_view.html#StreamView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.stream_view.StreamView" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.ui.gui.views.stream_view.StreamView.DrawItem">
+<tt class="descname">DrawItem</tt><big>(</big><em>widget_x</em>, <em>widget_y</em>, <em>item</em>, <em>extra_dict</em>, <em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/stream_view.html#StreamView.DrawItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.stream_view.StreamView.DrawItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given x, y within the current widget and an item, draws it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.stream_view.StreamView.GetAllItemsToDisplay">
+<tt class="descname">GetAllItemsToDisplay</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui/views/stream_view.html#StreamView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.stream_view.StreamView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a 2-tuple: A top message, and a list of items.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.views.stream_view.StreamView.items_per_page">
+<tt class="descname">items_per_page</tt><em class="property"> = 3</em><a class="headerlink" href="#farg.core.ui.gui.views.stream_view.StreamView.items_per_page" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Temporary File For All Developer Docs</a><ul>
+<li><a class="reference internal" href="#codelet">Codelet</a></li>
+<li><a class="reference internal" href="#coderack">Coderack</a></li>
+<li><a class="reference internal" href="#controller">Controller</a></li>
+<li><a class="reference internal" href="#exceptions">Exceptions</a></li>
+<li><a class="reference internal" href="#module-farg.core.focusable_mixin">Focusable Mixin</a></li>
+<li><a class="reference internal" href="#module-farg.core.main">Main</a></li>
+<li><a class="reference internal" href="#module-farg.core.meta">Meta</a></li>
+<li><a class="reference internal" href="#module-farg.core.read_input_spec">Read Input Spec</a></li>
+<li><a class="reference internal" href="#run-stats">Run Stats</a></li>
+<li><a class="reference internal" href="#module-farg.core.stopping_conditions">Stopping Conditions</a></li>
+<li><a class="reference internal" href="#stream">Stream</a></li>
+<li><a class="reference internal" href="#module-farg.core.subspace">Subspace</a></li>
+<li><a class="reference internal" href="#module-farg.core.testing_utils">Testing Utils</a></li>
+<li><a class="reference internal" href="#module-farg.core.util">Util</a></li>
+<li><a class="reference internal" href="#module-farg.core.categorization">Categorization</a></li>
+<li><a class="reference internal" href="#categorization-binding">Categorization &#8212; Binding</a></li>
+<li><a class="reference internal" href="#categorization-categorizable">Categorization &#8212; Categorizable</a></li>
+<li><a class="reference internal" href="#categorization-category">Categorization &#8212; Category</a></li>
+<li><a class="reference internal" href="#module-farg.core.ltm">LTM</a></li>
+<li><a class="reference internal" href="#ltm-edge">LTM &#8212; Edge</a></li>
+<li><a class="reference internal" href="#ltm-graph">LTM &#8212; Graph</a></li>
+<li><a class="reference internal" href="#module-farg.core.ltm.manager">LTM &#8212; Manager</a></li>
+<li><a class="reference internal" href="#ltm-node">LTM &#8212; Node</a></li>
+<li><a class="reference internal" href="#ltm-storable">LTM &#8212; Storable</a></li>
+<li><a class="reference internal" href="#module-farg.core.question">Question</a></li>
+<li><a class="reference internal" href="#module-farg.core.question.question">Question &#8212; Question</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode">Run Mode</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.batch">Run Mode &#8212; Batch</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.gui">Run Mode &#8212; GUI</a></li>
+<li><a class="reference internal" href="#run-mode-non-interactive">Run Mode &#8212; Non Interactive</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.run_mode">Run Mode &#8212; Run Mode</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.single">Run Mode &#8212; Single</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.sxs">Run Mode &#8212; SxS</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui">UI</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.batch_ui">UI &#8212; Batch UI</a></li>
+<li><a class="reference internal" href="#ui-gui">UI &#8212; GUI</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.central_pane">UI &#8212; GUI &#8212; Central Pane</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views">UI &#8212; GUI &#8212; Views</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.viewport">UI &#8212; GUI &#8212; Views &#8212; Viewport</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.list_based_view">UI &#8212; GUI &#8212; Views  &#8212; List based</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.coderack_view">UI &#8212; GUI &#8212; Views &#8212; Coderack</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.ltm_view">UI &#8212; GUI &#8212; Views &#8212; LTM</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.stream_view">UI &#8212; GUI &#8212; Views &#8212; Stream</a></li>
+</ul>
+</li>
+</ul>
+
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 17, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

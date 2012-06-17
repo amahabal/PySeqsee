@@ -48,7 +48,7 @@ The likely reason is that you used Python 2 instead of Python 3.
 No module named _tkinter
 *************************
 
-You may need to install Tkinter. On *nix::
+You may need to install Tkinter. On \*nix::
 
   sudo apt-get install python3-tk
 

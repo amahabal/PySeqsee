@@ -17,4 +17,7 @@ Contents:
    categories
    ui
 
+   run_mode
+
+   all_core
 

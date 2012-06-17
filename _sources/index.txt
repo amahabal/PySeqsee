@@ -7,57 +7,41 @@
  PySeqsee: A Cognitive Architecture for High-level Perception
 ==============================================================
 
-PySeqsee is an open-source Python 3 framework for writing programs to solve
-complex problems that are not amenable to brute-force solutions. These programs
-have a blackboard architecture and are akin to the computer program Seqsee whose
-goal is to extend integer sequences in a human-like way.
+Welcome! This is the documentation for PySeqsee |release|, last updated |today|.
 
-PySeqsee can be thought of as a translation of Seqsee from Perl into Python 3
-along with a clean separation of the domain-specific bits of Seqsee from the
-domain-independent parts. The separation allows PySeqsee to be a framework for
-writing similar programs in other domains.
+PySeqsee is an open-source Python 3 framework for writing programs to 
+solve complex problems that are not amenable to brute-force solutions.  
+The programs created using Pyseqsee have a blackboard architecture and are 
+akin to the computer program Seqsee whose goal is to extend integer 
+sequences in a human-like way.  PySeqsee attempts a clean separation of 
+the domain-specific aspects of applications from the domain-independent 
+parts.  
 
-* Open source, under GNU GPLv3.
-* Mailing list:
+* **Open source, under GNU GPLv3.**
+* `Documentation <http://amahabal.github.com/PySeqsee/>`_ |
+  `Source Code <https://github.com/amahabal/PySeqsee>`_ |
+  `Bug Tracker <https://github.com/amahabal/PySeqsee/issues>`_ |
+  `Mailing List <https://groups.google.com/forum/#!forum/pyseqsee>`_ |
+  pyseqsee@googlegroups.com
 
-  * https://groups.google.com/forum/#!forum/pyseqsee (to view)
-  * pyseqsee@googlegroups.com (to post)
+..  note:: 
 
-* Documentation: http://amahabal.github.com/PySeqsee/
-* Source Code: https://github.com/amahabal/PySeqsee
-* Bug Tracker: https://github.com/amahabal/PySeqsee/issues
-* Development Status: Alpha, but actively-developed working code
+        Under development.  PySeqsee is a relatively new project with under an 
+        year of development by a single developer.  At this stage, PySeqsee 
+        is alpha software.  If you wish to change that, help is greatly 
+        appreciated.  Drop me a line at amahabal [at] gmail, or better yet, to the 
+        mailing list at pyseqsee@googlegroups.com.  
 
-.. warning::
-  Under development.
+Contents
+----------
 
-  PySeqsee is a relatively new project with under an year of development, all by
-  a single developer.
+* :doc:`Overview <overview/overview_index>`
+* :doc:`How To <howto/howto_index>`
+* :doc:`Theory <theory/theory_index>`
+* :doc:`Tutorial <tutorial/tutorial_index>`
+* :doc:`Developer Docs <developer/developer_index>`
+* :doc:`Seqsee <seqsee/seqsee_index>`
+* :doc:`API <api/api_index>`
 
-  At this stage, PySeqsee is alpha software. If you wish to change that, help is
-  greatly appreciated. Drop me a line at amahabal [at] gmail, or better yet, to
-  the mailing list at pyseqsee@googlegroups.com.
 
-
-
-Contents:
------------
-
-.. toctree::
-   :maxdepth: 2
-
-   overview/overview_index
-   tutorial/tutorial_index
-   howto/howto_index
-   theory/theory_index
-   api/api_index
-   developer/developer_index
-   seqsee/seqsee_index
-
-Indices and tables
-==================
-
-* :ref:`genindex`
-* :ref:`modindex`
-* :ref:`search`
 

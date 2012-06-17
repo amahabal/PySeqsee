@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>The Graphic User Interface &mdash; PySeqsee 0.2 documentation</title>
+    <title>The Graphic User Interface &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,10 +24,8 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../index.html" />
-    <link rel="up" title="Developer Documentation" href="developer_index.html" />
-    <link rel="next" title="The Flagship App: Seqsee" href="../seqsee/seqsee_index.html" />
-    <link rel="prev" title="Categories" href="categories.html" /> 
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,14 +37,7 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../seqsee/seqsee_index.html" title="The Flagship App: Seqsee"
-             accesskey="N">next</a> |</li>
-        <li class="right" >
-          <a href="categories.html" title="Categories"
-             accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -61,7 +51,8 @@
 <dl class="class">
 <dt id="farg.core.ui.gui.GUI">
 <em class="property">class </em><tt class="descclassname">farg.core.ui.gui.</tt><tt class="descname">GUI</tt><big>(</big><em>controller_class</em>, <em>stopping_condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.GUI" title="Permalink to this definition">¶</a></dt>
-<dd><dl class="method">
+<dd><p>Base-class of GUI for an application.</p>
+<dl class="method">
 <dt id="farg.core.ui.gui.GUI.AskQuestion">
 <tt class="descname">AskQuestion</tt><big>(</big><em>question</em><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.AskQuestion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.GUI.AskQuestion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Asks the question (by delegating to the Ask method of the question).</p>
@@ -86,10 +77,59 @@
 <dd><p>Sets up the interaction pane at the bottom.</p>
 </dd></dl>
 
+<dl class="method">
+<dt id="farg.core.ui.gui.GUI.Quit">
+<tt class="descname">Quit</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.Quit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.GUI.Quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when quitting. Ensures that all threads have exited, and LTMs saved.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.GUI.RegisterQuestionHandlers">
+<tt class="descname">RegisterQuestionHandlers</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.RegisterQuestionHandlers"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.GUI.RegisterQuestionHandlers" title="Permalink to this definition">¶</a></dt>
+<dd><p>Registers how to ask a given type of question.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.GUI.SetupWindows">
+<tt class="descname">SetupWindows</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.SetupWindows"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.GUI.SetupWindows" title="Permalink to this definition">¶</a></dt>
+<dd><p>Sets up frames in the GUI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.GUI.UpdateDisplay">
+<tt class="descname">UpdateDisplay</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.UpdateDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.GUI.UpdateDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Refresh the display. Erases everything and draws it again.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.GUI.buttons_pane">
+<tt class="descname">buttons_pane</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.ui.gui.GUI.buttons_pane" title="Permalink to this definition">¶</a></dt>
+<dd><p>Button pane.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.GUI.central_pane">
+<tt class="descname">central_pane</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.ui.gui.GUI.central_pane" title="Permalink to this definition">¶</a></dt>
+<dd><p>Central pane (a canvas).</p>
+</dd></dl>
+
 <dl class="attribute">
 <dt id="farg.core.ui.gui.GUI.central_pane_class">
 <tt class="descname">central_pane_class</tt><a class="headerlink" href="#farg.core.ui.gui.GUI.central_pane_class" title="Permalink to this definition">¶</a></dt>
-<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">CentralPane</span></tt></p>
+<dd><p>Class handling the central part of the display.</p>
+<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">CentralPane</span></tt></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.GUI.codelet_count_var">
+<tt class="descname">codelet_count_var</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.ui.gui.GUI.codelet_count_var" title="Permalink to this definition">¶</a></dt>
+<dd><p>A Tk variable tracking codelet count.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.GUI.geometry">
+<tt class="descname">geometry</tt><em class="property"> = '810x700-0+0'</em><a class="headerlink" href="#farg.core.ui.gui.GUI.geometry" title="Permalink to this definition">¶</a></dt>
+<dd><p>Size and location of the window.</p>
 </dd></dl>
 
 </dd></dl>
@@ -102,17 +142,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="categories.html"
-                        title="previous chapter">Categories</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../seqsee/seqsee_index.html"
-                        title="next chapter">The Flagship App: Seqsee</a></p>
-  <h3>This Page</h3>
-  <ul class="this-page-menu">
-    <li><a href="../_sources/developer/ui.txt"
-           rel="nofollow">Show Source</a></li>
-  </ul>
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
@@ -139,19 +171,12 @@
         <li class="right" >
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="right" >
-          <a href="../seqsee/seqsee_index.html" title="The Flagship App: Seqsee"
-             >next</a> |</li>
-        <li class="right" >
-          <a href="categories.html" title="Categories"
-             >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

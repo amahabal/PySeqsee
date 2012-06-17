@@ -1,0 +1,354 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>farg.core.main &mdash; PySeqsee 0.2.1a1 documentation</title>
+    
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../../../',
+        VERSION:     '0.2.1a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true
+      };
+    </script>
+    <script type="text/javascript" src="../../../_static/jquery.js"></script>
+    <script type="text/javascript" src="../../../_static/underscore.js"></script>
+    <script type="text/javascript" src="../../../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../index.html" />
+    <link rel="up" title="Module code" href="../../index.html" /> 
+  </head>
+  <body>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body">
+            
+  <h1>Source code for farg.core.main</h1><div class="highlight"><pre>
+<span class="c"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
+<span class="c">#</span>
+<span class="c"># This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c"># the terms of the GNU General Public License as published by the Free Software</span>
+<span class="c"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
+<span class="c">#</span>
+<span class="c"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
+<span class="c"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
+<span class="c">#</span>
+<span class="c"># You should have received a copy of the GNU General Public License along with this</span>
+<span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+
+<span class="sd">&quot;&quot;&quot;Class to set up and start running the application based on flags.&quot;&quot;&quot;</span>
+<span class="kn">from</span> <span class="nn">farg.core.controller</span> <span class="kn">import</span> <span class="n">Controller</span>
+<span class="kn">from</span> <span class="nn">farg.core.run_mode</span> <span class="kn">import</span> <span class="n">batch</span><span class="p">,</span> <span class="n">gui</span><span class="p">,</span> <span class="n">single</span><span class="p">,</span> <span class="n">sxs</span>
+<span class="kn">from</span> <span class="nn">farg.core.stopping_conditions</span> <span class="kn">import</span> <span class="n">StoppingConditions</span>
+<span class="kn">from</span> <span class="nn">farg.core.ui.batch_ui</span> <span class="kn">import</span> <span class="n">BatchUI</span>
+<span class="kn">from</span> <span class="nn">farg.core.ui.gui</span> <span class="kn">import</span> <span class="n">GUI</span>
+<span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="kn">import</span> <span class="n">gflags</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+<span class="kn">import</span> <span class="nn">os.path</span>
+<span class="kn">import</span> <span class="nn">sys</span>
+
+<span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
+
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_enum</span><span class="p">(</span><span class="s">&#39;run_mode&#39;</span><span class="p">,</span> <span class="s">&#39;gui&#39;</span><span class="p">,</span>
+                   <span class="p">(</span><span class="s">&#39;gui&#39;</span><span class="p">,</span> <span class="s">&#39;batch&#39;</span><span class="p">,</span> <span class="s">&#39;sxs&#39;</span><span class="p">,</span> <span class="s">&#39;single&#39;</span><span class="p">),</span>
+                   <span class="s">&#39;Mode to run in. GUI creates a tkinter display, whereas batch and sxs &#39;</span>
+                   <span class="s">&#39;run the program multiple times non-interactively. Each such run uses &#39;</span>
+                   <span class="s">&#39;the &quot;single&quot; run mode.&#39;</span><span class="p">)</span>
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_enum</span><span class="p">(</span><span class="s">&#39;debug&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span> <span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;debug&#39;</span><span class="p">,</span> <span class="s">&#39;info&#39;</span><span class="p">,</span> <span class="s">&#39;warn&#39;</span><span class="p">,</span> <span class="s">&#39;error&#39;</span><span class="p">,</span> <span class="s">&#39;fatal&#39;</span><span class="p">),</span>
+                   <span class="s">&#39;Show messages from what debug level and above?&#39;</span><span class="p">)</span>
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_string</span><span class="p">(</span><span class="s">&#39;stopping_condition&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span>
+                     <span class="s">&#39;Stopping condition, if any. Only allowed in non-gui modes. If the &#39;</span>
+                     <span class="s">&#39;condition is met, the program returns with a StoppingConditionMet &#39;</span>
+                     <span class="s">&#39;exception&#39;</span><span class="p">)</span>
+
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_string</span><span class="p">(</span><span class="s">&#39;input_spec_file&#39;</span><span class="p">,</span> <span class="bp">None</span><span class="p">,</span>
+                     <span class="s">&#39;Path specifying inputs over which to run batch processes.&#39;</span>
+                     <span class="s">&#39;This will be read by an instance of input_spec_reader_class.&#39;</span><span class="p">)</span>
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_integer</span><span class="p">(</span><span class="s">&#39;num_iterations&#39;</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span>
+                      <span class="s">&#39;In batch and SxS mode, number of iterations to run&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_integer</span><span class="p">(</span><span class="s">&#39;max_steps&#39;</span><span class="p">,</span> <span class="mi">20000</span><span class="p">,</span>
+                      <span class="s">&#39;In batch and SxS mode, number of steps per run&#39;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_string</span><span class="p">(</span><span class="s">&#39;persistent_directory&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;Directory in which to hold files that persist between runs, such as&#39;</span>
+                     <span class="s">&#39;ltm files or statistics about performance on batch runs. &#39;</span>
+                     <span class="s">&#39;If not passed, ~/.pyseqsee/{application_name} is used.&#39;</span><span class="p">)</span>
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_string</span><span class="p">(</span><span class="s">&#39;ltm_directory&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;Directory to hold LTM files. &#39;</span>
+                     <span class="s">&#39;If not passed, FLAGS.persistent_directory/ltm is used&#39;</span><span class="p">)</span>
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_string</span><span class="p">(</span><span class="s">&#39;stats_directory&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">,</span>
+                     <span class="s">&#39;Directory to hold statistics from prior batch runs. &#39;</span>
+                     <span class="s">&#39;If not passed, FLAGS.persistent_directory/stats is used&#39;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="Main"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main">[docs]</a><span class="k">class</span> <span class="nc">Main</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;The Base class for the Main class of an application.</span>
+
+<span class="sd">  Based on flags, it sets up the appropriate run mode (which start GUIs if needed).</span>
+<span class="sd">  It also does a sanity check on flags and creates certain directories if needed.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+  <span class="c">#: Class to use for running in GUI mode.</span>
+  <span class="n">run_mode_gui_class</span> <span class="o">=</span> <span class="n">gui</span><span class="o">.</span><span class="n">RunModeGUI</span>  <span class="c"># Not a constant as thought by pylint: disable=C6409</span>
+  <span class="c">#: Class to use for running in Batch mode.</span>
+  <span class="n">run_mode_batch_class</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">RunModeBatch</span>  <span class="c"># Not a constant pylint: disable=C6409</span>
+  <span class="c">#: Class to use for running in SxS mode.</span>
+  <span class="n">run_mode_sxs_class</span> <span class="o">=</span> <span class="n">sxs</span><span class="o">.</span><span class="n">RunModeSxS</span>  <span class="c"># Not a constant pylint: disable=C6409</span>
+  <span class="c">#: Class to use for running in single mode.</span>
+  <span class="n">run_mode_single_run_class</span> <span class="o">=</span> <span class="n">single</span><span class="o">.</span><span class="n">RunModeSingle</span>  <span class="c"># Not a constant pylint: disable=C6409</span>
+
+  <span class="c">#: GUI class to use for the tkinter GUI.</span>
+  <span class="c">#: Subclasses of Main can override this, probably with a subclass of its value here.</span>
+  <span class="n">gui_class</span> <span class="o">=</span> <span class="n">GUI</span>  <span class="c"># Not a constant pylint: disable=C6409</span>
+  <span class="c">#: Batch UI class to use for running in non-interactive mode. It should be able to handle</span>
+  <span class="c">#: any questions that may be generated by its codelets.</span>
+  <span class="c">#: Subclasses of Main can override this, probably with a subclass of its value here.</span>
+  <span class="n">batch_ui_class</span> <span class="o">=</span> <span class="n">BatchUI</span>  <span class="c"># Not a constant pylint: disable=C6409</span>
+
+  <span class="c">#: The controller runs the show by scheduling codelets to run.</span>
+  <span class="c">#: Subclasses of Main can override this, probably with a subclass of its value here.</span>
+  <span class="n">controller_class</span> <span class="o">=</span> <span class="n">Controller</span>  <span class="c"># Not a constant pylint: disable=C6409</span>
+
+  <span class="c">#: In batch and sxs modes, the inputs over which to run are specified in a file.</span>
+  <span class="c">#: These will be converted to flags passed to individual runs. An input reader should</span>
+  <span class="c">#: be specified for the file to series of flags conversion.</span>
+  <span class="c">#: These will usually be a subclass of ReadInputSpec.</span>
+  <span class="n">input_spec_reader_class</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># Not a constant pylint: disable=C6409</span>
+
+  <span class="c">#: A mapping between stopping condition names and their implmentation (which is a funtion</span>
+  <span class="c">#: that takes a controller and returns a bool).</span>
+  <span class="n">stopping_conditions_class</span> <span class="o">=</span> <span class="n">StoppingConditions</span>  <span class="c"># Not a constant pylint: disable=C6409</span>
+
+  <span class="c">#: Name of application. Must be provided by the derivative class.</span>
+  <span class="n">application_name</span> <span class="o">=</span> <span class="bp">None</span>  <span class="c"># Not a constant pylint: disable=C6409</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">argv</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Parses and sanity checks flags, plus creates the run_mode object.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">application_name</span><span class="p">:</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">&#39;application_name not set. The subclass of farg.core.Main that you called&#39;</span>
+            <span class="s">&#39;should have over-ridden this. See farg.apps.seqsee.run_seqsee.py for an&#39;</span>
+            <span class="s">&#39;example&#39;</span><span class="p">)</span>
+      <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">try</span><span class="p">:</span>
+      <span class="n">argv</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="p">(</span><span class="n">argv</span><span class="p">)</span>  <span class="c"># parse flags</span>
+    <span class="k">except</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FlagsError</span> <span class="k">as</span> <span class="n">error</span><span class="p">:</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">&#39;</span><span class="si">%s</span><span class="se">\n</span><span class="s">Usage: </span><span class="si">%s</span><span class="s"> ARGS</span><span class="se">\n</span><span class="si">%s</span><span class="se">\n\n</span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="n">error</span><span class="p">,</span> <span class="n">sys</span><span class="o">.</span><span class="n">argv</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">FLAGS</span><span class="p">,</span> <span class="n">error</span><span class="p">))</span>
+      <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="c">#: The mode for the program (gui, batch, sxs, etc). This is an instance of</span>
+    <span class="c">#: :py:class:`~farg.core.run_mode.RunMode`.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">run_mode</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="c">#: If not none, this is a function is a stopping condition for stopping the app.</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">stopping_condition_fn</span> <span class="o">=</span> <span class="bp">None</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">ProcessFlags</span><span class="p">()</span>
+
+<div class="viewcode-block" id="Main.VerifyPersistentDirectoryPath"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.VerifyPersistentDirectoryPath">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyPersistentDirectoryPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verify (or create) the persistent directory.&quot;&quot;&quot;</span>
+    <span class="n">directory</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">persistent_directory</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="p">:</span>
+      <span class="n">homedir</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">expanduser</span><span class="p">(</span><span class="s">&#39;~&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">homedir</span><span class="p">):</span>
+        <span class="k">print</span> <span class="p">(</span><span class="s">&#39;Could not locate home directory for storing LTM files.&#39;</span>
+               <span class="s">&#39;You could explicitly specify an existing directory to use by using&#39;</span>
+               <span class="s">&#39;the flag --ltm_directory. Quitting.&#39;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">pyseqsee_home</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">homedir</span><span class="p">,</span> <span class="s">&#39;.pyseqsee&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">pyseqsee_home</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Creating directory for storing pyseqsee files: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">pyseqsee_home</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">pyseqsee_home</span><span class="p">)</span>
+      <span class="n">directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">pyseqsee_home</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">application_name</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">directory</span><span class="p">):</span>
+      <span class="k">print</span><span class="p">(</span><span class="s">&#39;Creating directory for storing persistent files for the </span><span class="si">%s</span><span class="s"> app: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span>
+            <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">application_name</span><span class="p">,</span> <span class="n">directory</span><span class="p">))</span>
+      <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
+    <span class="n">FLAGS</span><span class="o">.</span><span class="n">persistent_directory</span> <span class="o">=</span> <span class="n">directory</span>
+</div>
+<div class="viewcode-block" id="Main.VerifyLTMPath"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.VerifyLTMPath">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyLTMPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a directory for ltms unless flag provided. If provided, verify it exists.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span><span class="p">):</span>
+        <span class="k">print</span> <span class="p">(</span><span class="s">&quot;LTM directory &#39;</span><span class="si">%s</span><span class="s">&#39; does not exist.&quot;</span> <span class="o">%</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">VerifyPersistentDirectoryPath</span><span class="p">()</span>
+      <span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">persistent_directory</span><span class="p">,</span> <span class="s">&#39;ltm&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Creating directory for storing ltms: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Main.VerifyStatsPath"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.VerifyStatsPath">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyStatsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create directory for batch stats unless provided. If provided, verify it exists.&quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">):</span>
+        <span class="k">print</span> <span class="p">(</span><span class="s">&#39;Stats directory &quot;</span><span class="si">%s</span><span class="s">&quot; does not exist.&#39;</span> <span class="o">%</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">VerifyPersistentDirectoryPath</span><span class="p">()</span>
+      <span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span> <span class="o">=</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">persistent_directory</span><span class="p">,</span> <span class="s">&#39;stats&#39;</span><span class="p">)</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Creating directory for storing stats: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">)</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Main.VerifyStoppingConditionSanity"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.VerifyStoppingConditionSanity">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyStoppingConditionSanity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Verify that stopping conditions are specified only in modes where they make sense.&quot;&quot;&quot;</span>
+    <span class="n">run_mode_name</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">run_mode</span>
+    <span class="n">stopping_condition</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition</span>
+    <span class="k">if</span> <span class="n">run_mode_name</span> <span class="o">==</span> <span class="s">&#39;gui&#39;</span><span class="p">:</span>
+      <span class="c"># There should be no stopping condition.</span>
+      <span class="k">if</span> <span class="n">stopping_condition</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Stopping condition does not make sense with GUI.&#39;</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>  <span class="c"># Verify that the stopping condition&#39;s name is defined.</span>
+      <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition</span> <span class="ow">and</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition</span> <span class="o">!=</span> <span class="s">&#39;None&#39;</span><span class="p">:</span>
+        <span class="n">stopping_conditions_list</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_conditions_class</span><span class="o">.</span><span class="n">StoppingConditionsList</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">stopping_conditions_list</span><span class="p">:</span>
+          <span class="k">print</span><span class="p">(</span><span class="s">&#39;Unknown stopping condition </span><span class="si">%s</span><span class="s">. Use one of </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span>
+                <span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition</span><span class="p">,</span> <span class="n">stopping_conditions_list</span><span class="p">))</span>
+          <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+          <span class="bp">self</span><span class="o">.</span><span class="n">stopping_condition_fn</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">stopping_conditions_class</span><span class="o">.</span><span class="n">GetStoppingCondition</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition</span><span class="p">))</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">stopping_condition_fn</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
+</div>
+<div class="viewcode-block" id="Main.CreateRunModeInstance"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.CreateRunModeInstance">[docs]</a>  <span class="k">def</span> <span class="nf">CreateRunModeInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Create a Runmode instance from the flags.&quot;&quot;&quot;</span>
+    <span class="n">run_mode_name</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">run_mode</span>
+    <span class="k">if</span> <span class="n">run_mode_name</span> <span class="o">==</span> <span class="s">&#39;gui&#39;</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_mode_gui_class</span><span class="p">(</span><span class="n">controller_class</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">controller_class</span><span class="p">,</span>
+                                     <span class="n">ui_class</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">gui_class</span><span class="p">)</span>
+    <span class="k">elif</span> <span class="n">run_mode_name</span> <span class="o">==</span> <span class="s">&#39;single&#39;</span><span class="p">:</span>
+      <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_mode_single_run_class</span><span class="p">(</span><span class="n">controller_class</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">controller_class</span><span class="p">,</span>
+                                            <span class="n">ui_class</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_ui_class</span><span class="p">,</span>
+                                            <span class="n">stopping_condition_fn</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">stopping_condition_fn</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">input_spec_file</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Runmode --run_mode=</span><span class="si">%s</span><span class="s"> requires --input_spec_file to be specified&#39;</span> <span class="o">%</span>
+              <span class="n">run_mode_name</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">input_reader</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_spec_reader_class</span><span class="p">()</span>  <span class="c"># pylint: disable=E1102</span>
+      <span class="n">input_spec</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">input_reader</span><span class="o">.</span><span class="n">ReadFile</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">input_spec_file</span><span class="p">))</span>
+      <span class="k">print</span><span class="p">(</span><span class="n">input_spec</span><span class="p">)</span>
+      <span class="k">if</span> <span class="n">run_mode_name</span> <span class="o">==</span> <span class="s">&#39;batch&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_mode_batch_class</span><span class="p">(</span><span class="n">controller_class</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">controller_class</span><span class="p">,</span>
+                                         <span class="n">input_spec</span><span class="o">=</span><span class="n">input_spec</span><span class="p">)</span>
+      <span class="k">elif</span> <span class="n">run_mode_name</span> <span class="o">==</span> <span class="s">&#39;sxs&#39;</span><span class="p">:</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_mode_sxs_class</span><span class="p">(</span><span class="n">controller_class</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">controller_class</span><span class="p">,</span>
+                                       <span class="n">input_spec</span><span class="o">=</span><span class="n">input_spec</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Unrecognized run_mode </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">run_mode_name</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Main.ProcessFlags"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.ProcessFlags">[docs]</a>  <span class="k">def</span> <span class="nf">ProcessFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Called after flags have been read in.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">ProcessCustomFlags</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">input_spec_file</span><span class="p">:</span>
+      <span class="c"># Check that this is a file and it exists.</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">input_spec_file</span><span class="p">):</span>
+        <span class="k">print</span> <span class="p">(</span><span class="s">&quot;Input specification file &#39;</span><span class="si">%s</span><span class="s">&#39; does not exist. Bailing out.&quot;</span> <span class="o">%</span>
+               <span class="n">FLAGS</span><span class="o">.</span><span class="n">input_spec_file</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">input_spec_file</span><span class="p">):</span>
+        <span class="k">print</span> <span class="p">(</span><span class="s">&quot;Input specification &#39;</span><span class="si">%s</span><span class="s">&#39; is not a file. Bailing out.&quot;</span> <span class="o">%</span>
+               <span class="n">FLAGS</span><span class="o">.</span><span class="n">input_spec_file</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+    <span class="bp">self</span><span class="o">.</span><span class="n">VerifyStoppingConditionSanity</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">VerifyPersistentDirectoryPath</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">VerifyLTMPath</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">VerifyStatsPath</span><span class="p">()</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">run_mode</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">CreateRunModeInstance</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">debug</span><span class="p">:</span>
+      <span class="n">numeric_level</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">logging</span><span class="p">,</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">debug</span><span class="o">.</span><span class="n">upper</span><span class="p">(),</span> <span class="bp">None</span><span class="p">)</span>
+      <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">numeric_level</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+        <span class="k">print</span><span class="p">(</span><span class="s">&#39;Invalid log level: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">debug</span><span class="p">)</span>
+        <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+      <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">numeric_level</span><span class="p">)</span>
+</div>
+<div class="viewcode-block" id="Main.ProcessCustomFlags"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.ProcessCustomFlags">[docs]</a>  <span class="k">def</span> <span class="nf">ProcessCustomFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Apps can override this to process app-specific flags.&quot;&quot;&quot;</span>
+    <span class="k">pass</span>
+</div>
+<div class="viewcode-block" id="Main.Run"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Start the run.</span>
+
+<span class="sd">    For Batch mode and SxS, this means running the app several times, whereas for gui mode</span>
+<span class="sd">    this means launching a UI.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">run_mode</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span></div></div>
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+<div id="searchbox" style="display: none">
+  <h3>Quick search</h3>
+    <form class="search" action="../../../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    <p class="searchtip" style="font-size: 90%">
+    Enter search terms or a module, class or function name.
+    </p>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../../../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../../../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
+          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+      </ul>
+    </div>
+    <div class="footer">
+        &copy; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jun 17, 2012.
+      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    </div>
+  </body>
+</html>

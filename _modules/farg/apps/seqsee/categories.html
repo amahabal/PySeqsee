@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.apps.seqsee.categories &mdash; PySeqsee 0.2 documentation</title>
+    <title>farg.apps.seqsee.categories &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +24,8 @@
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../../../../index.html" />
+    <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../../index.html" />
     <link rel="up" title="Module code" href="../../../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -72,30 +72,30 @@
 <span class="sd">  * Number</span>
 <span class="sd">  * Prime</span>
 <span class="sd">  * Even and Odd</span>
-<span class="sd">  </span>
+
 <span class="sd">* Structural Categories:</span>
 
 <span class="sd">  * Ascending</span>
 <span class="sd">  * Descending</span>
 <span class="sd">  * Mountain</span>
 <span class="sd">  * Size2, Size3, etc.</span>
-<span class="sd">  </span>
+
 <span class="sd">* Mapping Based Categories:</span>
 
-<span class="sd">  * Given a mapping, a category can be defined whose elements are such that successive </span>
+<span class="sd">  * Given a mapping, a category can be defined whose elements are such that successive</span>
 <span class="sd">    elements are associated by this mapping.</span>
 
 <span class="sd">Numeric Categories</span>
 <span class="sd">--------------------</span>
 
-<span class="sd">Members may only be SElements, and membership depends only on the magnitude of the SElement. </span>
+<span class="sd">Members may only be SElements, and membership depends only on the magnitude of the SElement.</span>
 <span class="sd">These derive from NumericCategory, and must define the class method NumericIsInstance.</span>
 
 <span class="sd">Structural Categories</span>
 <span class="sd">-----------------------</span>
 
-<span class="sd">Members are SObjects (may be groups or elements), and membership depends only on the </span>
-<span class="sd">structure. These derive from StructuralCategory, and must define class method </span>
+<span class="sd">Members are SObjects (may be groups or elements), and membership depends only on the</span>
+<span class="sd">structure. These derive from StructuralCategory, and must define class method</span>
 <span class="sd">StructuralIsInstance.</span>
 
 <span class="sd">Parametrized Categories</span>
@@ -125,7 +125,7 @@
 <span class="sd">     Any derivative class must define the following class methods:</span>
 
 <span class="sd">     * FindMapping (given two categorizables, returns a mapping between the two)</span>
-<span class="sd">     * ApplyMapping (given a mapping and a categorizable, returns a new item). </span>
+<span class="sd">     * ApplyMapping (given a mapping and a categorizable, returns a new item).</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="c"># HACK! If true for a class, indicates that a mapping between bindings need not be used.</span>
@@ -143,7 +143,7 @@
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">BriefLabel</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="NumericCategory"><a class="viewcode-back" href="../../../../developer/categories.html#farg.apps.seqsee.categories.NumericCategory">[docs]</a><span class="k">class</span> <span class="nc">NumericCategory</span><span class="p">(</span><span class="n">SeqseeObjectCategory</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Base class for categories whose instances are SElements, and membership depends only on </span>
+  <span class="sd">&quot;&quot;&quot;Base class for categories whose instances are SElements, and membership depends only on</span>
 <span class="sd">     the magnitude.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
 
@@ -455,6 +455,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../../index.html">
+              <img class="logo" src="../../../../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search.html" method="get">
@@ -481,13 +484,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.coderack &mdash; PySeqsee 0.2 documentation</title>
+    <title>farg.core.coderack &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../../../index.html" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -61,7 +61,7 @@
 <span class="c">#</span>
 <span class="c"># You should have received a copy of the GNU General Public License along with this</span>
 <span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
-<span class="sd">&quot;&quot;&quot;The Coderack --- waiting room for codelets. </span>
+<span class="sd">&quot;&quot;&quot;The Coderack --- waiting room for codelets.</span>
 
 <span class="sd">The Coderack in Seqsee is like a todo list.  It consists of promising</span>
 <span class="sd">actions to take next, each associated with a number indicating the degree</span>
@@ -71,7 +71,7 @@
 
 <span class="sd">The probability of choosing an item depends on its promise.  Higher</span>
 <span class="sd">promise actions are likelier to be chosen, but it is still possible for</span>
-<span class="sd">ignore promise actions to occasionally get chosen.</span>
+<span class="sd">lower promise actions to occasionally get chosen.</span>
 
 <span class="sd">Each action is called a codelet.  As that term suggests, the action is a</span>
 <span class="sd">tiny and targeted.  In fact, Seqsee requires several dozens of codelets to</span>
@@ -121,7 +121,14 @@
 </div>
 <div class="viewcode-block" id="Coderack.GetCodelet"><a class="viewcode-back" href="../../../developer/coderack.html#farg.core.coderack.Coderack.GetCodelet">[docs]</a>  <span class="k">def</span> <span class="nf">GetCodelet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Randomly selects a codelet (biased by urgency).</span>
-<span class="sd">       Requires the coderack to be nonempty.</span>
+
+<span class="sd">    Requires the coderack to be nonempty.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">      selected codelet.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">      CoderackEmptyException: Coderack was empty.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forced_next_codelet</span><span class="p">:</span>
       <span class="n">codelet</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_forced_next_codelet</span>
@@ -151,12 +158,20 @@
 <div class="viewcode-block" id="Coderack.ForceNextCodelet"><a class="viewcode-back" href="../../../developer/coderack.html#farg.core.coderack.Coderack.ForceNextCodelet">[docs]</a>  <span class="k">def</span> <span class="nf">ForceNextCodelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codelet</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Force codelet to be the next one retrieved by GetCodelet.</span>
 
-<span class="sd">     .. Note::</span>
+<span class="sd">    Args:</span>
+<span class="sd">      codelet:</span>
+<span class="sd">        The codelet to force as the return value of the next GetCodelet.</span>
 
-<span class="sd">        This mechanism should only be used during testing. It is unsafe in that if the</span>
-<span class="sd">        codelet is expunged (because of new codelets being added), the program can crash.</span>
-<span class="sd">        This will never happen if the next codelet is marked and GetCodelet called soon</span>
-<span class="sd">        thereafter.</span>
+<span class="sd">    Raises:</span>
+<span class="sd">      FargError:</span>
+<span class="sd">        codelet is not in fact present in the coderack.</span>
+
+<span class="sd">    .. Note::</span>
+
+<span class="sd">      This mechanism should only be used during testing. It is unsafe in that if the</span>
+<span class="sd">      codelet is expunged (because of new codelets being added), the program can crash.</span>
+<span class="sd">      This will never happen if the next codelet is marked and GetCodelet called soon</span>
+<span class="sd">      thereafter.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">codelet</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_codelets</span><span class="p">:</span>
       <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s">&#39;Cannot mark a non-existant codelet as the next to retrieve.&#39;</span><span class="p">)</span>
@@ -181,6 +196,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
@@ -207,13 +225,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

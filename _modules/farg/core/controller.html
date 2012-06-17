@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -8,15 +7,15 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.controller &mdash; PySeqsee 0.2 documentation</title>
+    <title>farg.core.controller &mdash; PySeqsee 0.2.1a1 documentation</title>
     
-    <link rel="stylesheet" href="../../../_static/default.css" type="text/css" />
+    <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2',
+        VERSION:     '0.2.1a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true
@@ -25,7 +24,8 @@
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
-    <link rel="top" title="PySeqsee 0.2 documentation" href="../../../index.html" />
+    <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
+    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../index.html" />
     <link rel="up" title="Module code" href="../../index.html" /> 
   </head>
   <body>
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
       </ul>
     </div>  
@@ -75,120 +75,122 @@
 <span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
 
 <span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_integer</span><span class="p">(</span><span class="s">&#39;stopping_condition_granularity&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span>
-                      <span class="s">&quot;How frequently the stopping condition is evaluated, as measured in&quot;</span>
-                      <span class="s">&quot; number of codelets.&quot;</span><span class="p">)</span>
+                      <span class="s">&#39;How frequently the stopping condition is evaluated, as measured in&#39;</span>
+                      <span class="s">&#39; number of codelets.&#39;</span><span class="p">)</span>
 
-<div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../../developer/controller.html#farg.core.controller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;A controller is the purely mechanical (read &quot;dumb&quot;) loop that controls the</span>
-<span class="sd">    entire application as well as individual subspaces that the application may</span>
-<span class="sd">    create to tackle subproblems. Each subspace gets its own controller.</span>
-<span class="sd">    </span>
-<span class="sd">    Each controller has its own coderack, stream, long-term memory, and workspace.</span>
-<span class="sd">    These may be accessed thus, respectively::</span>
-<span class="sd">    </span>
+
+<div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../../developer/controller.html#farg.core.controller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;Purely mechanical (read &quot;dumb&quot;) loop to control entire app or individual subspaces.</span>
+
+<span class="sd">  Each subspace gets its own controller.</span>
+
+<span class="sd">  Each controller has its own coderack, stream, long-term memory, and workspace. These may be</span>
+<span class="sd">  accessed thus, respectively::</span>
+
 <span class="sd">      self.coderack</span>
 <span class="sd">      self.stream</span>
 <span class="sd">      self.ltm</span>
 <span class="sd">      self.workspace</span>
-<span class="sd">    </span>
-<span class="sd">    **Customizing the controller class**</span>
-<span class="sd">    </span>
-<span class="sd">    A controller is an instance of a subclass of :py:class:`~farg.core.controller.Controller`.</span>
-<span class="sd">    It is possible to configure the controller in a number of ways. Before we look at the</span>
-<span class="sd">    configuration, here is a brief outline of the main function provided by the controller,</span>
-<span class="sd">    namely, :py:meth:`~farg.core.controller.Controller.Step`.</span>
-<span class="sd">    </span>
-<span class="sd">    A step involves choosing a codelet from the coderack and running it. The codelet has access to</span>
-<span class="sd">    each of the components owned by the controller (namely, the coderack, stream, ltm, and</span>
-<span class="sd">    workspace). The action of the codelet can have any number of effects including the creation</span>
-<span class="sd">    of more codelets, directing the application&#39;s attention somewhere (a notion explored later</span>
-<span class="sd">    when we look at streams), create structures in the workspace, or extend the LTM or pump</span>
-<span class="sd">    activation into some concept.</span>
-<span class="sd">    </span>
-<span class="sd">    Furthermore, after each step, more codelets are probabilistically added to the coderack. The</span>
-<span class="sd">    class variable :py:attr:`~farg.core.controller.Controller.routine_codelets_to_add` contains 3-tuples</span>
-<span class="sd">    (class, urgency, probability) specifying the class of the new codelet, its urgency, and the</span>
-<span class="sd">    probability with which to add it.</span>
-<span class="sd">    </span>
-<span class="sd">    In the next few paragraphs, we will look at customizing a hypothetical controller called Foo.</span>
-<span class="sd">    Its code will begin thus::</span>
-<span class="sd">    </span>
-<span class="sd">      class Foo(farg.controller.Controller):</span>
-<span class="sd">        ...  # customization here</span>
-<span class="sd">    </span>
-<span class="sd">    The simplest customization is to specify codelets to be added after each step::</span>
-<span class="sd">    </span>
-<span class="sd">      class Foo(farg.controller.Controller):</span>
-<span class="sd">        routine_codelets_to_add = ((CodeletFamilyBar, 30, 0.3),</span>
-<span class="sd">                                   (CodeletFamilyBat, 80, 0.2))</span>
-<span class="sd">    </span>
-<span class="sd">    Another customization is to use a non-default class for the coderack or the stream. This</span>
-<span class="sd">    should in general not be required, and the default classes :py:class:`~farg.core.coderack.Coderack`</span>
-<span class="sd">    and :py:class:`~farg.core.stream.Stream` should be adequate. But the customization is available if</span>
-<span class="sd">    needed. No argument is passed to the constructor of these classes to create the coderack or</span>
-<span class="sd">    the stream::</span>
-<span class="sd">    </span>
-<span class="sd">      class Foo(farg.controller.Controller):</span>
-<span class="sd">        self.coderack_class = SomeClass</span>
-<span class="sd">        self.stream_class = SomeOtherClass</span>
-<span class="sd">    </span>
-<span class="sd">    The workspace class can be specified as follows. If it is not Null, it will be</span>
-<span class="sd">    initialized with a dictionary that is passed in the workspace_arguments argument</span>
-<span class="sd">    of the controller&#39;s constructor::</span>
-<span class="sd">    </span>
-<span class="sd">      self.workspace_class = YetAnotherClass  # Default: None</span>
-<span class="sd">    </span>
-<span class="sd">    The LTM&#39;s name can be specified as below. The LTM manager will be used to load</span>
-<span class="sd">    this (if not already loaded) and to initialize it if it is empty::</span>
-<span class="sd">    </span>
-<span class="sd">      self.ltm_name = &#39;LtmName&#39;  # Default: None</span>
-<span class="sd">    </span>
-<span class="sd">    **The UI**</span>
-<span class="sd">    </span>
-<span class="sd">    A UI can be graphical or not. At any time, at most one UI is active, and it is</span>
-<span class="sd">    shared by all controllers. It can be accessed as::</span>
-<span class="sd">      </span>
-<span class="sd">      self.ui  # Points to the UI (usually a GUI).</span>
-<span class="sd">    </span>
-<span class="sd">    The UI provides the important method called :py:meth:`~farg.core.ui.gui.GUI.AskQuestion`.</span>
-<span class="sd">    This can be used by the controller to ask for confirmation of the answer, for instance.</span>
-<span class="sd">    In case of a graphical UI, this could result in the user being asked the question. In other</span>
-<span class="sd">    cases (such as in automated testing), the UI may be given enough knowledge to</span>
-<span class="sd">    answer the question itself. See the UI documentation for details.</span>
-<span class="sd">    </span>
-<span class="sd">    **The Stopping Condition**</span>
-<span class="sd">    </span>
-<span class="sd">    It is possible to specify a stopping condition for a controller. This is useful for testing</span>
-<span class="sd">    when weighing a potential change. When contemplating the change, it is useful to see how long</span>
-<span class="sd">    it takes with the change and without the change until some significant event occurs (such as</span>
-<span class="sd">    the discovery of the answer, for instance). This will be discussed elsewhere.</span>
-<span class="sd">    </span>
-<span class="sd">    **The Constructor**</span>
-<span class="sd">    </span>
-<span class="sd">    The constructor takes the following named arguments:</span>
-<span class="sd">    </span>
-<span class="sd">      * ui (required)</span>
-<span class="sd">      * controller_depth. The top controller has depth 0, its subspaces have depth 1, and so</span>
-<span class="sd">        forth. The default is 0.</span>
-<span class="sd">      * parent_controller. If present, it points to the controller that created this subspace.</span>
-<span class="sd">        Defaults to None (which indicates a top-level controller).</span>
-<span class="sd">      * workspace_arguments. If present, this should be a dict() and will be used to initialize</span>
-<span class="sd">        the workspace.</span>
-<span class="sd">      * stopping_condition. If present, this should be a function that takes the controller as</span>
-<span class="sd">        the only input and returns true or false.</span>
+
+<span class="sd">  **Customizing the controller class**</span>
+
+<span class="sd">  A controller is an instance of a subclass of :py:class:`~farg.core.controller.Controller`.</span>
+<span class="sd">  It is possible to configure the controller in a number of ways. Before we look at the</span>
+<span class="sd">  configuration, here is a brief outline of the main function provided by the controller,</span>
+<span class="sd">  namely, :py:meth:`~farg.core.controller.Controller.Step`.</span>
+
+<span class="sd">  A step involves choosing a codelet from the coderack and running it. The codelet has access</span>
+<span class="sd">  to each of the components owned by the controller (namely, the coderack, stream, ltm, and</span>
+<span class="sd">  workspace). The action of the codelet can have any number of effects including the creation</span>
+<span class="sd">  of more codelets, directing the application&#39;s attention somewhere (a notion explored later</span>
+<span class="sd">  when we look at streams), create structures in the workspace, or extend the LTM or pump</span>
+<span class="sd">  activation into some concept.</span>
+
+<span class="sd">  Furthermore, after each step, more codelets are probabilistically added to the coderack.</span>
+<span class="sd">  The class variable :py:attr:`~farg.core.controller.Controller.routine_codelets_to_add`</span>
+<span class="sd">  contains 3-tuples (class, urgency, probability) specifying the class of the new codelet,</span>
+<span class="sd">  its urgency, and the probability with which to add it.</span>
+
+<span class="sd">  In the next few paragraphs, we will look at customizing a hypothetical controller called</span>
+<span class="sd">  Foo. Its code will begin thus::</span>
+
+<span class="sd">    class Foo(farg.controller.Controller):</span>
+<span class="sd">      ...  # customization here</span>
+
+<span class="sd">  The simplest customization is to specify codelets to be added after each step::</span>
+
+<span class="sd">    class Foo(farg.controller.Controller):</span>
+<span class="sd">      routine_codelets_to_add = ((CodeletFamilyBar, 30, 0.3),</span>
+<span class="sd">                                 (CodeletFamilyBat, 80, 0.2))</span>
+
+<span class="sd">  Another customization is to use a non-default class for the coderack or the stream. This</span>
+<span class="sd">  should in general not be required, and the default classes</span>
+<span class="sd">  :py:class:`~farg.core.coderack.Coderack` and :py:class:`~farg.core.stream.Stream` should be</span>
+<span class="sd">  adequate. But the customization is available if needed. No argument is passed to the</span>
+<span class="sd">  constructor of these classes to create the coderack or the stream::</span>
+
+<span class="sd">    class Foo(farg.controller.Controller):</span>
+<span class="sd">      self.coderack_class = SomeClass</span>
+<span class="sd">      self.stream_class = SomeOtherClass</span>
+
+<span class="sd">  The workspace class can be specified as follows. If it is not Null, it will be initialized</span>
+<span class="sd">  with a dictionary that is passed in the workspace_arguments argument of the controller&#39;s</span>
+<span class="sd">  constructor::</span>
+
+<span class="sd">    self.workspace_class = YetAnotherClass  # Default: None</span>
+
+<span class="sd">  The LTM&#39;s name can be specified as below. The LTM manager will be used to load this (if not</span>
+<span class="sd">  already loaded) and to initialize it if it is empty::</span>
+
+<span class="sd">    self.ltm_name = &#39;LtmName&#39;  # Default: None</span>
+
+<span class="sd">  **The UI**</span>
+
+<span class="sd">  A UI can be graphical or not. At any time, at most one UI is active, and it is shared by</span>
+<span class="sd">  all controllers. It can be accessed as::</span>
+
+<span class="sd">    self.ui  # Points to the UI (usually a GUI).</span>
+
+<span class="sd">  The UI provides the important method called :py:meth:`~farg.core.ui.gui.GUI.AskQuestion`.</span>
+<span class="sd">  This can be used by the controller to ask for confirmation of the answer, for instance. In</span>
+<span class="sd">  case of a graphical UI, this could result in the user being asked the question. In other</span>
+<span class="sd">  cases (such as in automated testing), the UI may be given enough knowledge to answer the</span>
+<span class="sd">  question itself. See the UI documentation for details.</span>
+
+<span class="sd">  **The Stopping Condition**</span>
+
+<span class="sd">  It is possible to specify a stopping condition for a controller. This is useful for testing</span>
+<span class="sd">  when weighing a potential change. When contemplating the change, it is useful to see how</span>
+<span class="sd">  long it takes with the change and without the change until some significant event occurs</span>
+<span class="sd">  (such as the discovery of the answer, for instance). This will be discussed elsewhere.</span>
+
+<span class="sd">  **The Constructor**</span>
+
+<span class="sd">  The constructor takes the following named arguments:</span>
+
+<span class="sd">    * ui (required)</span>
+<span class="sd">    * controller_depth. The top controller has depth 0, its subspaces have</span>
+<span class="sd">      depth 1, and so forth. The default is 0.</span>
+<span class="sd">    * parent_controller. If present, it points to the controller that created this</span>
+<span class="sd">      subspace. Defaults to None (which indicates a top-level controller).</span>
+<span class="sd">    * workspace_arguments. If present, this should be a dict() and will be used to</span>
+<span class="sd">      initialize the workspace.</span>
+<span class="sd">    * stopping_condition. If present, this should be a function that takes the controller</span>
+<span class="sd">      as the only input and returns true or false.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
   <span class="c">#: What type of stream is owned by the controller. Defaults to</span>
-  <span class="c">#: :py:class:`farg.core.stream.Stream`</span>
-  <span class="n">stream_class</span> <span class="o">=</span> <span class="n">Stream</span>
-  <span class="c">#: What type of coderack is owned by the controller.</span>
-  <span class="n">coderack_class</span> <span class="o">=</span> <span class="n">Coderack</span>
+  <span class="c">#: :py:class:`~farg.core.stream.Stream`</span>
+  <span class="n">stream_class</span> <span class="o">=</span> <span class="n">Stream</span>  <span class="c"># This is not &quot;constant&quot; as thought by pylint: disable=C6409</span>
+  <span class="c">#: What type of coderack is owned by the controller. Defaults to</span>
+  <span class="c">#: :py:class:`~farg.core.coderack.Coderack`.</span>
+  <span class="n">coderack_class</span> <span class="o">=</span> <span class="n">Coderack</span>  <span class="c"># pylint: disable=C6409</span>
   <span class="c">#: What type of workspace is owned by the controller. With None, gets no workspace.</span>
-  <span class="n">workspace_class</span> <span class="o">=</span> <span class="bp">None</span>
+  <span class="n">workspace_class</span> <span class="o">=</span> <span class="bp">None</span>   <span class="c"># pylint: disable=C6409</span>
   <span class="c">#: This is a list containing 3-tuples made up of (family, urgency, probability).</span>
   <span class="c">#: The probability is ignored during a Step if the coderack is empty.</span>
-  <span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="p">()</span>
+  <span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="p">()</span>  <span class="c"># pylint: disable=C6409</span>
   <span class="c">#: Name of LTM used by the controller. If None, no LTM is created.</span>
-  <span class="n">ltm_name</span> <span class="o">=</span> <span class="bp">None</span>
+  <span class="n">ltm_name</span> <span class="o">=</span> <span class="bp">None</span>   <span class="c"># pylint: disable=C6409</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">ui</span><span class="p">,</span> <span class="n">controller_depth</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
                <span class="n">parent_controller</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span> <span class="n">workspace_arguments</span><span class="o">=</span><span class="bp">None</span><span class="p">,</span>
@@ -227,10 +229,16 @@
   <span class="k">def</span> <span class="nf">_AddRoutineCodelets</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="bp">False</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Add routine codelets to the coderack.</span>
 
-<span class="sd">       The codelets are added with a certain probability (specified in the third term of the</span>
-<span class="sd">       tuple), but this can be over-ridden with force (or if the coderack is empty).</span>
+<span class="sd">    The codelets are found in routine_codelets_to_add, which is a list of 3-tuples. Each</span>
+<span class="sd">    3-tuple contains the codelet family, urgency, and probability with which to add that</span>
+<span class="sd">    codelet.</span>
 
-<span class="sd">       In the Perl version, this was called &#39;background codelets&#39;.</span>
+<span class="sd">    Args:</span>
+<span class="sd">      force:</span>
+<span class="sd">        If true, the third field of the 3-tuple (&quot;probability of adding&quot;) is ignored.</span>
+
+<span class="sd">    The codelets are added with a certain probability (specified in the third term of the</span>
+<span class="sd">    tuple), but this can be over-ridden with force (or if the coderack is empty).</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">IsEmpty</span><span class="p">():</span>
       <span class="n">force</span> <span class="o">=</span> <span class="bp">True</span>
@@ -238,7 +246,6 @@
       <span class="k">for</span> <span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">probability</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">routine_codelets_to_add</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">force</span> <span class="ow">or</span> <span class="n">Toss</span><span class="p">(</span><span class="n">probability</span><span class="p">):</span>
           <span class="bp">self</span><span class="o">.</span><span class="n">coderack</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">urgency</span><span class="p">))</span>
-
 
 <div class="viewcode-block" id="Controller.Step"><a class="viewcode-back" href="../../../developer/controller.html#farg.core.controller.Controller.Step">[docs]</a>  <span class="k">def</span> <span class="nf">Step</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Executes the next (stochastically chosen) step in the model.&quot;&quot;&quot;</span>
@@ -255,8 +262,14 @@
           <span class="k">raise</span> <span class="n">StoppingConditionMet</span><span class="p">(</span><span class="n">codelet_count</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span><span class="p">)</span>
 </div>
 <div class="viewcode-block" id="Controller.RunUptoNSteps"><a class="viewcode-back" href="../../../developer/controller.html#farg.core.controller.Controller.RunUptoNSteps">[docs]</a>  <span class="k">def</span> <span class="nf">RunUptoNSteps</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">n_steps</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Takes upto N steps. In these, it is possible that an answer is found and an exception</span>
-<span class="sd">       raised.</span>
+    <span class="sd">&quot;&quot;&quot;Takes up to N steps.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">      n_steps:</span>
+<span class="sd">        Number of steps to take. Steps taken by subspaces created by this controller</span>
+<span class="sd">        are not counted.</span>
+
+<span class="sd">    In these, it is possible that an answer is found and an exception raised.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n_steps</span><span class="p">):</span>
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">pause_stepping</span><span class="p">:</span>
@@ -264,7 +277,17 @@
       <span class="bp">self</span><span class="o">.</span><span class="n">Step</span><span class="p">()</span>
 </div>
 <div class="viewcode-block" id="Controller.AddCodelet"><a class="viewcode-back" href="../../../developer/controller.html#farg.core.controller.Controller.AddCodelet">[docs]</a>  <span class="k">def</span> <span class="nf">AddCodelet</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="n">arguments_dict</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
-    <span class="sd">&quot;&quot;&quot;Adds a codelet to the coderack.&quot;&quot;&quot;</span>
+    <span class="sd">&quot;&quot;&quot;Adds a codelet to the coderack.</span>
+<span class="sd">    </span>
+<span class="sd">    Keyword-only Args:</span>
+<span class="sd">      family:</span>
+<span class="sd">        Family of codelet. Subclass of :py:class:`~farg.core.codelet.CodeletFamily`.</span>
+<span class="sd">      urgency:</span>
+<span class="sd">        Number between 0 and 100 indicating urgency.</span>
+<span class="sd">      arguments_dict:</span>
+<span class="sd">        A dictionary of extra arguments to pass to the codelet. See details in the</span>
+<span class="sd">        documentation of :py:class:`~farg.core.codelet.CodeletFamily`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">arguments_dict</span> <span class="ow">is</span> <span class="bp">None</span><span class="p">:</span>
       <span class="n">arguments_dict</span> <span class="o">=</span> <span class="p">{}</span>
     <span class="n">codelet</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="n">family</span><span class="p">,</span> <span class="n">controller</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
@@ -277,6 +300,9 @@
       </div>
       <div class="sphinxsidebar">
         <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../../../index.html">
+              <img class="logo" src="../../../_static/logo.jpg" alt="Logo"/>
+            </a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
@@ -303,13 +329,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2 documentation</a> &raquo;</li>
+        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
           <li><a href="../../index.html" >Module code</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 06, 2012.
+      Last updated on Jun 17, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
