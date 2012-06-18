@@ -1,5 +1,7 @@
-﻿A brief motivation and overview of PySeqsee
+﻿Brief Motivation and Overview of PySeqsee
 =============================================
+
+
 
 Goals
 ------
