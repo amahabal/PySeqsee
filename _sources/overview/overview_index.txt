@@ -1,4 +1,4 @@
-﻿Brief Motivation and Overview of PySeqsee
+﻿Overview of PySeqsee
 =============================================
 
 

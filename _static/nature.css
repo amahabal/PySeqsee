@@ -248,6 +248,7 @@ div.viewcode-block:target {
 div.links-block ul li {
   display: inline;
   list-style-type: none;
+  line-height: 3em;
   padding-right: 20px;
   float: left;
   width: 47%;

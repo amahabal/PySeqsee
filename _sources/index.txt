@@ -40,6 +40,18 @@ from the domain-independent parts.
 
   <br clear="left">
 
+
+.. toctree::
+   :hidden:
+
+   overview/overview_index
+   howto/howto_index
+   theory/theory_index
+   tutorial/tutorial_index
+   developer/developer_index
+   seqsee/seqsee_index
+   api/api_index
+
 ..  note:: 
 
         Under development.  PySeqsee is a relatively new project with under an 
