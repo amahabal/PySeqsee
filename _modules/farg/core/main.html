@@ -107,7 +107,7 @@
                      <span class="s">&#39;If not passed, FLAGS.persistent_directory/stats is used&#39;</span><span class="p">)</span>
 
 
-<div class="viewcode-block" id="Main"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main">[docs]</a><span class="k">class</span> <span class="nc">Main</span><span class="p">:</span>
+<div class="viewcode-block" id="Main"><a class="viewcode-back" href="../../../developer/main.html#farg.core.main.Main">[docs]</a><span class="k">class</span> <span class="nc">Main</span><span class="p">:</span>
   <span class="sd">&quot;&quot;&quot;The Base class for the Main class of an application.</span>
 
 <span class="sd">  Based on flags, it sets up the appropriate run mode (which start GUIs if needed).</span>
@@ -169,7 +169,7 @@
 
     <span class="bp">self</span><span class="o">.</span><span class="n">ProcessFlags</span><span class="p">()</span>
 
-<div class="viewcode-block" id="Main.VerifyPersistentDirectoryPath"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.VerifyPersistentDirectoryPath">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyPersistentDirectoryPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Main.VerifyPersistentDirectoryPath"><a class="viewcode-back" href="../../../developer/main.html#farg.core.main.Main.VerifyPersistentDirectoryPath">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyPersistentDirectoryPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Verify (or create) the persistent directory.&quot;&quot;&quot;</span>
     <span class="n">directory</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">persistent_directory</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="p">:</span>
@@ -190,7 +190,7 @@
       <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">directory</span><span class="p">)</span>
     <span class="n">FLAGS</span><span class="o">.</span><span class="n">persistent_directory</span> <span class="o">=</span> <span class="n">directory</span>
 </div>
-<div class="viewcode-block" id="Main.VerifyLTMPath"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.VerifyLTMPath">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyLTMPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Main.VerifyLTMPath"><a class="viewcode-back" href="../../../developer/main.html#farg.core.main.Main.VerifyLTMPath">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyLTMPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a directory for ltms unless flag provided. If provided, verify it exists.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span><span class="p">:</span>
       <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span><span class="p">):</span>
@@ -203,7 +203,7 @@
         <span class="k">print</span><span class="p">(</span><span class="s">&#39;Creating directory for storing ltms: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span><span class="p">)</span>
         <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">ltm_directory</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Main.VerifyStatsPath"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.VerifyStatsPath">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyStatsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Main.VerifyStatsPath"><a class="viewcode-back" href="../../../developer/main.html#farg.core.main.Main.VerifyStatsPath">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyStatsPath</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create directory for batch stats unless provided. If provided, verify it exists.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">:</span>
       <span class="k">if</span> <span class="ow">not</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">):</span>
@@ -216,7 +216,7 @@
         <span class="k">print</span><span class="p">(</span><span class="s">&#39;Creating directory for storing stats: </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">)</span>
         <span class="n">os</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Main.VerifyStoppingConditionSanity"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.VerifyStoppingConditionSanity">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyStoppingConditionSanity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Main.VerifyStoppingConditionSanity"><a class="viewcode-back" href="../../../developer/main.html#farg.core.main.Main.VerifyStoppingConditionSanity">[docs]</a>  <span class="k">def</span> <span class="nf">VerifyStoppingConditionSanity</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Verify that stopping conditions are specified only in modes where they make sense.&quot;&quot;&quot;</span>
     <span class="n">run_mode_name</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">run_mode</span>
     <span class="n">stopping_condition</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition</span>
@@ -238,7 +238,7 @@
       <span class="k">else</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stopping_condition_fn</span> <span class="o">=</span> <span class="s">&#39;&#39;</span>
 </div>
-<div class="viewcode-block" id="Main.CreateRunModeInstance"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.CreateRunModeInstance">[docs]</a>  <span class="k">def</span> <span class="nf">CreateRunModeInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Main.CreateRunModeInstance"><a class="viewcode-back" href="../../../developer/main.html#farg.core.main.Main.CreateRunModeInstance">[docs]</a>  <span class="k">def</span> <span class="nf">CreateRunModeInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Create a Runmode instance from the flags.&quot;&quot;&quot;</span>
     <span class="n">run_mode_name</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">run_mode</span>
     <span class="k">if</span> <span class="n">run_mode_name</span> <span class="o">==</span> <span class="s">&#39;gui&#39;</span><span class="p">:</span>
@@ -266,7 +266,7 @@
         <span class="k">print</span><span class="p">(</span><span class="s">&#39;Unrecognized run_mode </span><span class="si">%s</span><span class="s">&#39;</span> <span class="o">%</span> <span class="n">run_mode_name</span><span class="p">)</span>
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Main.ProcessFlags"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.ProcessFlags">[docs]</a>  <span class="k">def</span> <span class="nf">ProcessFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Main.ProcessFlags"><a class="viewcode-back" href="../../../developer/main.html#farg.core.main.Main.ProcessFlags">[docs]</a>  <span class="k">def</span> <span class="nf">ProcessFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Called after flags have been read in.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">ProcessCustomFlags</span><span class="p">()</span>
 
@@ -294,11 +294,11 @@
         <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
       <span class="n">logging</span><span class="o">.</span><span class="n">basicConfig</span><span class="p">(</span><span class="n">level</span><span class="o">=</span><span class="n">numeric_level</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Main.ProcessCustomFlags"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.ProcessCustomFlags">[docs]</a>  <span class="k">def</span> <span class="nf">ProcessCustomFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Main.ProcessCustomFlags"><a class="viewcode-back" href="../../../developer/main.html#farg.core.main.Main.ProcessCustomFlags">[docs]</a>  <span class="k">def</span> <span class="nf">ProcessCustomFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Apps can override this to process app-specific flags.&quot;&quot;&quot;</span>
     <span class="k">pass</span>
 </div>
-<div class="viewcode-block" id="Main.Run"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.main.Main.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Main.Run"><a class="viewcode-back" href="../../../developer/main.html#farg.core.main.Main.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Start the run.</span>
 
 <span class="sd">    For Batch mode and SxS, this means running the app several times, whereas for gui mode</span>

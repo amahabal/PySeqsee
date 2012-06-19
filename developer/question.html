@@ -7,7 +7,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Core Developer Documentation &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Interacting With User &mdash; PySeqsee 0.2.1a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -26,8 +26,9 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="next" title="Main" href="main.html" />
-    <link rel="prev" title="Adding Categories" href="../tutorial/adding_categories.html" /> 
+    <link rel="up" title="Core Developer Documentation" href="developer_index.html" />
+    <link rel="next" title="Everything Else" href="sundry.html" />
+    <link rel="prev" title="Utility Functions" href="utils.html" /> 
   </head>
   <body>
     <div class="related">
@@ -40,12 +41,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="main.html" title="Main"
+          <a href="sundry.html" title="Everything Else"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="../tutorial/adding_categories.html" title="Adding Categories"
+          <a href="utils.html" title="Utility Functions"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
+          <li><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -54,27 +56,23 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="core-developer-documentation">
-<h1>Core Developer Documentation<a class="headerlink" href="#core-developer-documentation" title="Permalink to this headline">¶</a></h1>
-<div class="links-block container">
-<ul class="simple">
-<li><a class="reference internal" href="main.html"><em>Main</em></a> The starting point of application.</li>
-<li><a class="reference internal" href="controller.html"><em>Controller</em></a> Controls app or subspace.</li>
-<li><a class="reference internal" href="run_mode.html"><em>Modes of Running</em></a> GUI or stats from many runs?</li>
-<li><a class="reference internal" href="subspaces.html"><em>Subspaces</em></a> Handling subproblems.</li>
-<li><a class="reference internal" href="codelets.html"><em>Codelet</em></a> Unit of action.</li>
-<li><a class="reference internal" href="coderack.html"><em>Coderack</em></a> Pyseqsee&#8217;s ToDo list.</li>
-<li><a class="reference internal" href="stream.html"><em>Stream</em></a> Seredipity in action.</li>
-<li><a class="reference internal" href="focusable.html"><em>Focusable</em></a> Focus of attention.</li>
-<li><a class="reference internal" href="categories.html"><em>Categories</em></a> Organizing using categories.</li>
-<li><a class="reference internal" href="ltm.html"><em>LTM</em></a> Long-term Memory.</li>
-<li><a class="reference internal" href="ui.html"><em>UI</em></a> UI &#8212; Including Graphical.</li>
-<li><a class="reference internal" href="question.html"><em>Interacting</em></a> Asking questions to the user.</li>
-<li><a class="reference internal" href="utils.html"><em>Utilities</em></a> Utility functions.</li>
-<li><a class="reference internal" href="sundry.html"><em>Sundry</em></a> Exceptions, stopping conditions, what not.</li>
-</ul>
+  <div class="section" id="interacting-with-user">
+<h1>Interacting With User<a class="headerlink" href="#interacting-with-user" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-farg.core.question">
+<span id="question"></span><h2>Question<a class="headerlink" href="#module-farg.core.question" title="Permalink to this headline">¶</a></h2>
 </div>
-<br clear="left"><div class="toctree-wrapper compound">
+<div class="section" id="module-farg.core.question.question">
+<span id="question-question"></span><h2>Question &#8212; Question<a class="headerlink" href="#module-farg.core.question.question" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.question.question.BooleanQuestion">
+<em class="property">class </em><tt class="descclassname">farg.core.question.question.</tt><tt class="descname">BooleanQuestion</tt><big>(</big><em>question_string</em><big>)</big><a class="reference internal" href="../_modules/farg/core/question/question.html#BooleanQuestion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.question.question.BooleanQuestion" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="farg.core.question.question.Question">
+<em class="property">class </em><tt class="descclassname">farg.core.question.question.</tt><tt class="descname">Question</tt><a class="reference internal" href="../_modules/farg/core/question/question.html#Question"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.question.question.Question" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </div>
 </div>
 
@@ -87,12 +85,21 @@
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
             </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Interacting With User</a><ul>
+<li><a class="reference internal" href="#module-farg.core.question">Question</a></li>
+<li><a class="reference internal" href="#module-farg.core.question.question">Question &#8212; Question</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
-  <p class="topless"><a href="../tutorial/adding_categories.html"
-                        title="previous chapter">Adding Categories</a></p>
+  <p class="topless"><a href="utils.html"
+                        title="previous chapter">Utility Functions</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="main.html"
-                        title="next chapter">Main</a></p>
+  <p class="topless"><a href="sundry.html"
+                        title="next chapter">Everything Else</a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
@@ -120,12 +127,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="main.html" title="Main"
+          <a href="sundry.html" title="Everything Else"
              >next</a> |</li>
         <li class="right" >
-          <a href="../tutorial/adding_categories.html" title="Adding Categories"
+          <a href="utils.html" title="Utility Functions"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
+        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
+          <li><a href="developer_index.html" >Core Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

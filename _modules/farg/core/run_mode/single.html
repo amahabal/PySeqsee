@@ -73,7 +73,7 @@
 <span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
 
 
-<div class="viewcode-block" id="RunModeSingle"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.run_mode.single.RunModeSingle">[docs]</a><span class="k">class</span> <span class="nc">RunModeSingle</span><span class="p">(</span><span class="n">RunModeNonInteractive</span><span class="p">):</span>
+<div class="viewcode-block" id="RunModeSingle"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.run_mode.single.RunModeSingle">[docs]</a><span class="k">class</span> <span class="nc">RunModeSingle</span><span class="p">(</span><span class="n">RunModeNonInteractive</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Run mode for a single run as part of a batch run or a SxS run.</span>
 
 <span class="sd">  This class is responsible for running the program once, suppressing its output, and</span>
@@ -84,7 +84,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">ui_class</span><span class="p">(</span><span class="n">controller_class</span><span class="o">=</span><span class="n">controller_class</span><span class="p">,</span>
                        <span class="n">stopping_condition_fn</span><span class="o">=</span><span class="n">stopping_condition_fn</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RunModeSingle.Run"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.run_mode.single.RunModeSingle.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RunModeSingle.Run"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.run_mode.single.RunModeSingle.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="n">saved_stdout</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span>
     <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">eat_output</span><span class="p">:</span>
       <span class="n">sys</span><span class="o">.</span><span class="n">stdout</span> <span class="o">=</span> <span class="n">StringIO</span><span class="p">()</span>

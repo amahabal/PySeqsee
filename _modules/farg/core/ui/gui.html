@@ -83,7 +83,7 @@
 <span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
 
 
-<div class="viewcode-block" id="RunForNSteps"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.ui.gui.RunForNSteps">[docs]</a><span class="k">class</span> <span class="nc">RunForNSteps</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
+<div class="viewcode-block" id="RunForNSteps"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.gui.RunForNSteps">[docs]</a><span class="k">class</span> <span class="nc">RunForNSteps</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Runs controller for up to n steps.</span>
 
 <span class="sd">  This does not update the GUI directly; It however results in changing the state of the</span>
@@ -102,7 +102,7 @@
     <span class="c">#: an answer and can now quit.&quot;).</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">gui</span> <span class="o">=</span> <span class="n">gui</span>
 
-<div class="viewcode-block" id="RunForNSteps.run"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.ui.gui.RunForNSteps.run">[docs]</a>  <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c"># Name stipulated by Thread. pylint: disable=C0103</span>
+<div class="viewcode-block" id="RunForNSteps.run"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.gui.RunForNSteps.run">[docs]</a>  <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>  <span class="c"># Name stipulated by Thread. pylint: disable=C0103</span>
     <span class="k">try</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">RunUptoNSteps</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_steps</span><span class="p">)</span>
     <span class="k">except</span> <span class="n">AnswerFoundException</span><span class="p">:</span>
@@ -172,7 +172,7 @@
 
     <span class="bp">self</span><span class="o">.</span><span class="n">PopulateCentralPane</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="GUI.StepsInAnotherThread"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.ui.gui.GUI.StepsInAnotherThread">[docs]</a>  <span class="k">def</span> <span class="nf">StepsInAnotherThread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">):</span>
+<div class="viewcode-block" id="GUI.StepsInAnotherThread"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.gui.GUI.StepsInAnotherThread">[docs]</a>  <span class="k">def</span> <span class="nf">StepsInAnotherThread</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_steps</span><span class="p">):</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_state_lock</span><span class="p">:</span>
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">quitting</span><span class="p">:</span>
         <span class="k">return</span>
@@ -186,10 +186,10 @@
       <span class="bp">self</span><span class="o">.</span><span class="n">pause_stepping</span> <span class="o">=</span> <span class="bp">False</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">stepping_thread</span><span class="o">.</span><span class="n">start</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="GUI.StartThreaded"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.ui.gui.GUI.StartThreaded">[docs]</a>  <span class="k">def</span> <span class="nf">StartThreaded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GUI.StartThreaded"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.gui.GUI.StartThreaded">[docs]</a>  <span class="k">def</span> <span class="nf">StartThreaded</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">StepsInAnotherThread</span><span class="p">(</span><span class="mi">10000</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="GUI.Pause"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.ui.gui.GUI.Pause">[docs]</a>  <span class="k">def</span> <span class="nf">Pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="GUI.Pause"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.gui.GUI.Pause">[docs]</a>  <span class="k">def</span> <span class="nf">Pause</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">run_state_lock</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">pause_stepping</span> <span class="o">=</span> <span class="bp">True</span>
       <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stepping_thread</span><span class="p">:</span>
@@ -245,7 +245,7 @@
       <span class="k">return</span> <span class="n">askyesno</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">question</span><span class="o">.</span><span class="n">question_string</span><span class="p">)</span>
     <span class="n">BooleanQuestion</span><span class="o">.</span><span class="n">Ask</span> <span class="o">=</span> <span class="n">BooleanQuestionHandler</span>
 </div>
-<div class="viewcode-block" id="GUI.DisplayMessage"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.ui.gui.GUI.DisplayMessage">[docs]</a>  <span class="k">def</span> <span class="nf">DisplayMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>  <span class="c"># Needs to be a method. pylint: disable=R0201</span>
+<div class="viewcode-block" id="GUI.DisplayMessage"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.gui.GUI.DisplayMessage">[docs]</a>  <span class="k">def</span> <span class="nf">DisplayMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>  <span class="c"># Needs to be a method. pylint: disable=R0201</span>
     <span class="n">showinfo</span><span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="n">message</span><span class="p">)</span></div></div>
 </pre></div>
 

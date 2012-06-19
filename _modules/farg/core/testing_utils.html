@@ -64,7 +64,7 @@
 
 <span class="kn">import</span> <span class="nn">unittest</span>
 
-<div class="viewcode-block" id="CodeletPresenceSpec"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.CodeletPresenceSpec">[docs]</a><span class="k">class</span> <span class="nc">CodeletPresenceSpec</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="CodeletPresenceSpec"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.testing_utils.CodeletPresenceSpec">[docs]</a><span class="k">class</span> <span class="nc">CodeletPresenceSpec</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">family</span><span class="p">,</span> <span class="n">arguments</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">family</span> <span class="o">=</span> <span class="n">family</span>
     <span class="k">if</span> <span class="n">arguments</span><span class="p">:</span>
@@ -72,10 +72,10 @@
     <span class="k">else</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">arguments</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>
 </div>
-<div class="viewcode-block" id="FringeAndCodeletsTest"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.FringeAndCodeletsTest">[docs]</a><span class="k">class</span> <span class="nc">FringeAndCodeletsTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
+<div class="viewcode-block" id="FringeAndCodeletsTest"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.testing_utils.FringeAndCodeletsTest">[docs]</a><span class="k">class</span> <span class="nc">FringeAndCodeletsTest</span><span class="p">(</span><span class="n">unittest</span><span class="o">.</span><span class="n">TestCase</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Contains methods for testing the fringe of items.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="FringeAndCodeletsTest.AssertFringeContains"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeContains">[docs]</a>  <span class="k">def</span> <span class="nf">AssertFringeContains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">expected_fringe_components</span><span class="p">):</span>
+<div class="viewcode-block" id="FringeAndCodeletsTest.AssertFringeContains"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeContains">[docs]</a>  <span class="k">def</span> <span class="nf">AssertFringeContains</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">expected_fringe_components</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Checks for the presence of particular components in the fringe.</span>
 
 <span class="sd">    Args:</span>
@@ -93,7 +93,7 @@
                       <span class="s">&#39;Actual intensity (</span><span class="si">%f</span><span class="s">) for </span><span class="si">%s</span><span class="s"> is less than minimum expected (</span><span class="si">%f</span><span class="s">)&#39;</span> <span class="o">%</span>
                            <span class="p">(</span><span class="n">actual_intensity</span><span class="p">,</span> <span class="n">fringe_element</span><span class="p">,</span> <span class="n">min_expected_intensity</span><span class="p">))</span>
 </div>
-<div class="viewcode-block" id="FringeAndCodeletsTest.AssertFringeOverlap"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeOverlap">[docs]</a>  <span class="k">def</span> <span class="nf">AssertFringeOverlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">prior_focus</span><span class="p">,</span> <span class="n">current_focus</span><span class="p">,</span> <span class="n">min_expected_overlap</span><span class="p">,</span>
+<div class="viewcode-block" id="FringeAndCodeletsTest.AssertFringeOverlap"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeOverlap">[docs]</a>  <span class="k">def</span> <span class="nf">AssertFringeOverlap</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">prior_focus</span><span class="p">,</span> <span class="n">current_focus</span><span class="p">,</span> <span class="n">min_expected_overlap</span><span class="p">,</span>
                           <span class="n">expected_similarity_affordances</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Checks that the fringes of two items overlap and have certain similarity affordances.</span>
 
@@ -130,7 +130,7 @@
             <span class="n">my_fringe</span><span class="o">=</span><span class="n">stream</span><span class="o">.</span><span class="n">stored_fringes</span><span class="p">[</span><span class="n">prior_focus</span><span class="p">],</span>
             <span class="n">controller</span><span class="o">=</span><span class="n">controller</span><span class="p">)))</span>
 </div>
-<div class="viewcode-block" id="FringeAndCodeletsTest.AssertCodeletsPresent"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletsPresent">[docs]</a>  <span class="k">def</span> <span class="nf">AssertCodeletsPresent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifications</span><span class="p">,</span> <span class="n">container_to_check</span><span class="p">):</span>
+<div class="viewcode-block" id="FringeAndCodeletsTest.AssertCodeletsPresent"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletsPresent">[docs]</a>  <span class="k">def</span> <span class="nf">AssertCodeletsPresent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">specifications</span><span class="p">,</span> <span class="n">container_to_check</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Checks for codelets with given specification in container_to_check, which is a list of</span>
 <span class="sd">       codelets.</span>
 
@@ -140,7 +140,7 @@
     <span class="k">for</span> <span class="n">codelet_presence_spec</span> <span class="ow">in</span> <span class="n">specifications</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">AssertCodeletPresent</span><span class="p">(</span><span class="n">codelet_presence_spec</span><span class="p">,</span> <span class="n">container_to_check</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="FringeAndCodeletsTest.AssertCodeletPresent"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletPresent">[docs]</a>  <span class="k">def</span> <span class="nf">AssertCodeletPresent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codelet_presence_spec</span><span class="p">,</span> <span class="n">container_to_check</span><span class="p">):</span>
+<div class="viewcode-block" id="FringeAndCodeletsTest.AssertCodeletPresent"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletPresent">[docs]</a>  <span class="k">def</span> <span class="nf">AssertCodeletPresent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">codelet_presence_spec</span><span class="p">,</span> <span class="n">container_to_check</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Check if codelet matching spec is present in a list of codelets.&quot;&quot;&quot;</span>
     <span class="n">expected_family</span> <span class="o">=</span> <span class="n">codelet_presence_spec</span><span class="o">.</span><span class="n">family</span>
     <span class="n">expected_arguments_dict</span> <span class="o">=</span> <span class="n">codelet_presence_spec</span><span class="o">.</span><span class="n">arguments</span>

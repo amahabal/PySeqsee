@@ -68,18 +68,18 @@
 <span class="kn">import</span> <span class="nn">random</span>
 
 
-<div class="viewcode-block" id="HSVToColorString"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.util.HSVToColorString">[docs]</a><span class="k">def</span> <span class="nf">HSVToColorString</span><span class="p">(</span><span class="n">hue</span><span class="p">,</span> <span class="n">saturation</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<div class="viewcode-block" id="HSVToColorString"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.HSVToColorString">[docs]</a><span class="k">def</span> <span class="nf">HSVToColorString</span><span class="p">(</span><span class="n">hue</span><span class="p">,</span> <span class="n">saturation</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Convert from HSV to RGB color space.&quot;&quot;&quot;</span>
   <span class="n">rgb</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%02x</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mf">255.0</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">colorsys</span><span class="o">.</span><span class="n">hsv_to_rgb</span><span class="p">(</span><span class="n">hue</span><span class="p">,</span> <span class="n">saturation</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
   <span class="k">return</span> <span class="s">&#39;#&#39;</span> <span class="o">+</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="Toss"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.util.Toss">[docs]</a><span class="k">def</span> <span class="nf">Toss</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+<div class="viewcode-block" id="Toss"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.Toss">[docs]</a><span class="k">def</span> <span class="nf">Toss</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;x is a number between 0 and 1. Returns true with probability x.&quot;&quot;&quot;</span>
   <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">x</span>
 
 </div>
-<div class="viewcode-block" id="ChooseAboutN"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.util.ChooseAboutN">[docs]</a><span class="k">def</span> <span class="nf">ChooseAboutN</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
+<div class="viewcode-block" id="ChooseAboutN"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.ChooseAboutN">[docs]</a><span class="k">def</span> <span class="nf">ChooseAboutN</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Choose in a way that the expected number of choices is n.</span>
 
 <span class="sd">  Args:</span>
@@ -98,7 +98,7 @@
   <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">choices</span> <span class="k">if</span> <span class="n">Toss</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span><span class="p">)]</span>
 
 </div>
-<div class="viewcode-block" id="WeightedChoice"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.util.WeightedChoice">[docs]</a><span class="k">def</span> <span class="nf">WeightedChoice</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
+<div class="viewcode-block" id="WeightedChoice"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.WeightedChoice">[docs]</a><span class="k">def</span> <span class="nf">WeightedChoice</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Chooses an item, biased by weight.</span>
 
 <span class="sd">  Args:</span>
@@ -118,20 +118,20 @@
   <span class="k">assert</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;Shouldn&#39;t get here&quot;</span>
 
 </div>
-<div class="viewcode-block" id="SelectWeightedByActivation"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.util.SelectWeightedByActivation">[docs]</a><span class="k">def</span> <span class="nf">SelectWeightedByActivation</span><span class="p">(</span><span class="n">ltm</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
+<div class="viewcode-block" id="SelectWeightedByActivation"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.SelectWeightedByActivation">[docs]</a><span class="k">def</span> <span class="nf">SelectWeightedByActivation</span><span class="p">(</span><span class="n">ltm</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Given an ltm and nodes in ltm, chooses one biased by activation.&quot;&quot;&quot;</span>
   <span class="n">choices</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">ltm</span><span class="o">.</span><span class="n">GetActivationForContent</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">)</span>
   <span class="k">return</span> <span class="n">WeightedChoice</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="UnweightedChoice"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.util.UnweightedChoice">[docs]</a><span class="k">def</span> <span class="nf">UnweightedChoice</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
+<div class="viewcode-block" id="UnweightedChoice"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.UnweightedChoice">[docs]</a><span class="k">def</span> <span class="nf">UnweightedChoice</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Chooses one item uniformly randomly from is an iterable.&quot;&quot;&quot;</span>
   <span class="n">choices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>  <span class="c"># Needed since we need to choose nth element and need length.</span>
   <span class="n">random_choice</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">))</span>
   <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">random_choice</span><span class="p">)]</span>
 
 </div>
-<div class="viewcode-block" id="WeightedShuffle"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.util.WeightedShuffle">[docs]</a><span class="k">def</span> <span class="nf">WeightedShuffle</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
+<div class="viewcode-block" id="WeightedShuffle"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.WeightedShuffle">[docs]</a><span class="k">def</span> <span class="nf">WeightedShuffle</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Shuffle items by weight.</span>
 
 <span class="sd">  Args:</span>
@@ -154,7 +154,7 @@
       <span class="n">upto</span> <span class="o">+=</span> <span class="n">weight</span>
 
 </div>
-<div class="viewcode-block" id="Squash"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.util.Squash">[docs]</a><span class="k">def</span> <span class="nf">Squash</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">cap</span><span class="p">):</span>
+<div class="viewcode-block" id="Squash"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.Squash">[docs]</a><span class="k">def</span> <span class="nf">Squash</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">cap</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Use a sigmoidal squashing function to squash to 100.&quot;&quot;&quot;</span>
   <span class="k">if</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
     <span class="k">return</span> <span class="n">val</span>

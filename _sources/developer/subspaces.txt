@@ -1,4 +1,7 @@
 Subspaces
 =============
 
-Mental subspaces in Seqsee.
+.. automodule:: farg.core.subspace
+  :members:
+  :undoc-members:
+

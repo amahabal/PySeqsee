@@ -68,14 +68,14 @@
 <span class="kn">from</span> <span class="nn">math</span> <span class="kn">import</span> <span class="n">sqrt</span>
 
 
-<div class="viewcode-block" id="Mean"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.Mean">[docs]</a><span class="k">def</span> <span class="nf">Mean</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+<div class="viewcode-block" id="Mean"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.Mean">[docs]</a><span class="k">def</span> <span class="nf">Mean</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Returns the average of the input, 0 if empty.&quot;&quot;&quot;</span>
   <span class="k">if</span> <span class="ow">not</span> <span class="n">numbers</span><span class="p">:</span>
     <span class="k">return</span> <span class="mi">0</span>
   <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="Variance"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.Variance">[docs]</a><span class="k">def</span> <span class="nf">Variance</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+<div class="viewcode-block" id="Variance"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.Variance">[docs]</a><span class="k">def</span> <span class="nf">Variance</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Variance of a bunch of numbers, error if fewer than 2 numbers given.&quot;&quot;&quot;</span>
   <span class="k">assert</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="mi">2</span><span class="p">)</span>
   <span class="n">count</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
@@ -83,7 +83,7 @@
   <span class="k">return</span> <span class="nb">sum</span><span class="p">((</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">mean</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">numbers</span><span class="p">)</span> <span class="o">/</span> <span class="n">count</span>
 
 </div>
-<div class="viewcode-block" id="Median"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.Median">[docs]</a><span class="k">def</span> <span class="nf">Median</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
+<div class="viewcode-block" id="Median"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.Median">[docs]</a><span class="k">def</span> <span class="nf">Median</span><span class="p">(</span><span class="n">numbers</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Returns the median of the input, 0 if empty.&quot;&quot;&quot;</span>
   <span class="n">length</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">numbers</span><span class="p">)</span>
   <span class="k">if</span> <span class="n">length</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -95,7 +95,7 @@
     <span class="k">return</span> <span class="n">sorted_numbers</span><span class="p">[</span><span class="nb">int</span><span class="p">((</span><span class="n">length</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">)]</span>
 
 </div>
-<div class="viewcode-block" id="GetTStatsDict"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.GetTStatsDict">[docs]</a><span class="k">def</span> <span class="nf">GetTStatsDict</span><span class="p">(</span><span class="n">left_numbers</span><span class="p">,</span> <span class="n">right_numbers</span><span class="p">):</span>
+<div class="viewcode-block" id="GetTStatsDict"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.GetTStatsDict">[docs]</a><span class="k">def</span> <span class="nf">GetTStatsDict</span><span class="p">(</span><span class="n">left_numbers</span><span class="p">,</span> <span class="n">right_numbers</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Given two sets of numbers, returns a dict with a variety of stats.</span>
 
 <span class="sd">  Args:</span>
@@ -133,13 +133,13 @@
                <span class="n">t</span><span class="o">=</span><span class="n">t_stat</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="StatsForSingleState"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.StatsForSingleState">[docs]</a><span class="k">class</span> <span class="nc">StatsForSingleState</span><span class="p">:</span>
+<div class="viewcode-block" id="StatsForSingleState"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.StatsForSingleState">[docs]</a><span class="k">class</span> <span class="nc">StatsForSingleState</span><span class="p">:</span>
   <span class="sd">&quot;&quot;&quot;Stats for a single state (e.g., &quot;SuccessfulCompletion&quot;) of a single run.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">codelet_counts</span> <span class="o">=</span> <span class="p">[]</span>
 
-<div class="viewcode-block" id="StatsForSingleState.AddData"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.StatsForSingleState.AddData">[docs]</a>  <span class="k">def</span> <span class="nf">AddData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">codelet_count</span><span class="p">):</span>
+<div class="viewcode-block" id="StatsForSingleState.AddData"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.StatsForSingleState.AddData">[docs]</a>  <span class="k">def</span> <span class="nf">AddData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">codelet_count</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Adds codelet count to data (for this particulr outcome for this particular input).</span>
 
 <span class="sd">    Args:</span>
@@ -158,7 +158,7 @@
                                                                              <span class="n">counts</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="RunStats"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.RunStats">[docs]</a><span class="k">class</span> <span class="nc">RunStats</span><span class="p">:</span>
+<div class="viewcode-block" id="RunStats"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.RunStats">[docs]</a><span class="k">class</span> <span class="nc">RunStats</span><span class="p">:</span>
   <span class="sd">&quot;&quot;&quot;Stats for multiple runs with a single setting.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -166,11 +166,11 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">count</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">successful_codelet_count</span> <span class="o">=</span> <span class="mi">0</span>
 
-<div class="viewcode-block" id="RunStats.IsEmpty"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.RunStats.IsEmpty">[docs]</a>  <span class="k">def</span> <span class="nf">IsEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RunStats.IsEmpty"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.RunStats.IsEmpty">[docs]</a>  <span class="k">def</span> <span class="nf">IsEmpty</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns true if no data has been added.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="ow">not</span> <span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stats_per_state</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="RunStats.AddData"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.RunStats.AddData">[docs]</a>  <span class="k">def</span> <span class="nf">AddData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_string</span><span class="p">):</span>
+<div class="viewcode-block" id="RunStats.AddData"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.RunStats.AddData">[docs]</a>  <span class="k">def</span> <span class="nf">AddData</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data_string</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Add a data point. This is parsed to determine outcome and number of codelets.</span>
 
 <span class="sd">    Args:</span>
@@ -196,7 +196,7 @@
     <span class="k">return</span> <span class="s">&#39;</span><span class="se">\n</span><span class="s">&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">individual_strings</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="Descriptor"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.Descriptor">[docs]</a><span class="k">def</span> <span class="nf">Descriptor</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">less</span><span class="o">=</span><span class="s">&#39;Less&#39;</span><span class="p">,</span> <span class="n">more</span><span class="o">=</span><span class="s">&#39;More&#39;</span><span class="p">):</span>
+<div class="viewcode-block" id="Descriptor"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.Descriptor">[docs]</a><span class="k">def</span> <span class="nf">Descriptor</span><span class="p">(</span><span class="o">*</span><span class="p">,</span> <span class="n">t</span><span class="p">,</span> <span class="n">df</span><span class="p">,</span> <span class="n">less</span><span class="o">=</span><span class="s">&#39;Less&#39;</span><span class="p">,</span> <span class="n">more</span><span class="o">=</span><span class="s">&#39;More&#39;</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Given t and degs of freedom, returns &#39;More&#39;, &#39;Less&#39;, or &#39;&#39;, at nearly 95% confidence.&quot;&quot;&quot;</span>
   <span class="k">if</span> <span class="p">(</span><span class="n">df</span> <span class="o">&lt;</span> <span class="mi">5</span> <span class="ow">or</span>
       <span class="p">(</span><span class="mi">5</span> <span class="o">&lt;=</span> <span class="n">df</span> <span class="ow">and</span> <span class="n">df</span> <span class="o">&lt;</span> <span class="mi">10</span> <span class="ow">and</span> <span class="nb">abs</span><span class="p">(</span><span class="n">t</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mf">2.3</span><span class="p">)</span> <span class="ow">or</span>
@@ -211,7 +211,7 @@
     <span class="k">return</span> <span class="n">less</span>
 
 </div>
-<div class="viewcode-block" id="AllStats"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.AllStats">[docs]</a><span class="k">class</span> <span class="nc">AllStats</span><span class="p">:</span>
+<div class="viewcode-block" id="AllStats"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.AllStats">[docs]</a><span class="k">class</span> <span class="nc">AllStats</span><span class="p">:</span>
   <span class="sd">&quot;&quot;&quot;Stats for all inputs for each iteration thus far.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">left_name</span><span class="p">,</span> <span class="n">right_name</span><span class="p">):</span>
@@ -234,7 +234,7 @@
     <span class="c">#: Memoized Stats</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">memoized_stats</span> <span class="o">=</span> <span class="n">defaultdict</span><span class="p">(</span><span class="nb">tuple</span><span class="p">)</span>
 
-<div class="viewcode-block" id="AllStats.GetComparitiveStats"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.AllStats.GetComparitiveStats">[docs]</a>  <span class="k">def</span> <span class="nf">GetComparitiveStats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_input</span><span class="p">):</span>
+<div class="viewcode-block" id="AllStats.GetComparitiveStats"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.AllStats.GetComparitiveStats">[docs]</a>  <span class="k">def</span> <span class="nf">GetComparitiveStats</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_input</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;For a given input name, returns comparitive stats along two dimensions.</span>
 
 <span class="sd">    Specifically, it returns two dicts (see output of :py:func:`GetTStatsDict` for details),</span>
@@ -282,7 +282,7 @@
                                       <span class="n">codelet_count_stats</span><span class="p">,</span> <span class="n">success_stats</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">codelet_count_stats</span><span class="p">,</span> <span class="n">success_stats</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="AllStats.IsRightBetter"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.AllStats.IsRightBetter">[docs]</a>  <span class="k">def</span> <span class="nf">IsRightBetter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_input</span><span class="p">):</span>
+<div class="viewcode-block" id="AllStats.IsRightBetter"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.AllStats.IsRightBetter">[docs]</a>  <span class="k">def</span> <span class="nf">IsRightBetter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">for_input</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Checks if the right-hand side is better for given input string.</span>
 
 <span class="sd">    Args:</span>
@@ -299,13 +299,13 @@
       <span class="k">return</span> <span class="p">(</span><span class="s">&#39;&#39;</span><span class="p">,</span> <span class="s">&#39;&#39;</span><span class="p">)</span>
     <span class="k">return</span> <span class="p">(</span><span class="n">codelet_count_stats</span><span class="p">[</span><span class="s">&#39;descriptor&#39;</span><span class="p">],</span> <span class="n">success_stats</span><span class="p">[</span><span class="s">&#39;descriptor&#39;</span><span class="p">])</span>
 </div>
-<div class="viewcode-block" id="AllStats.GetLeftStatsFor"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.AllStats.GetLeftStatsFor">[docs]</a>  <span class="k">def</span> <span class="nf">GetLeftStatsFor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_to_run</span><span class="p">):</span>
+<div class="viewcode-block" id="AllStats.GetLeftStatsFor"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.AllStats.GetLeftStatsFor">[docs]</a>  <span class="k">def</span> <span class="nf">GetLeftStatsFor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_to_run</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get left stats for input_to_run. Create (empty) if not present.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">input_to_run</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_order</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">input_order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_to_run</span><span class="p">)</span>
     <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">left_stats</span><span class="p">[</span><span class="n">input_to_run</span><span class="p">]</span>
 </div>
-<div class="viewcode-block" id="AllStats.GetRightStatsFor"><a class="viewcode-back" href="../../../developer/run_mode.html#farg.core.run_stats.AllStats.GetRightStatsFor">[docs]</a>  <span class="k">def</span> <span class="nf">GetRightStatsFor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_to_run</span><span class="p">):</span>
+<div class="viewcode-block" id="AllStats.GetRightStatsFor"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.run_stats.AllStats.GetRightStatsFor">[docs]</a>  <span class="k">def</span> <span class="nf">GetRightStatsFor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_to_run</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Get right stats for input_to_run. Create (empty) if not present.&quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="n">input_to_run</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_order</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">input_order</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">input_to_run</span><span class="p">)</span>

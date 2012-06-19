@@ -26,9 +26,9 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="Developer Documentation" href="developer_index.html" />
-    <link rel="next" title="Temporary File For All Developer Docs" href="all_core.html" />
-    <link rel="prev" title="The Graphic User Interface" href="ui.html" /> 
+    <link rel="up" title="Core Developer Documentation" href="developer_index.html" />
+    <link rel="next" title="Subspaces" href="subspaces.html" />
+    <link rel="prev" title="Controller" href="controller.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,13 +41,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="all_core.html" title="Temporary File For All Developer Docs"
+          <a href="subspaces.html" title="Subspaces"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="ui.html" title="The Graphic User Interface"
+          <a href="controller.html" title="Controller"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
+          <li><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -58,8 +58,82 @@
             
   <div class="section" id="run-mode">
 <h1>Run-mode<a class="headerlink" href="#run-mode" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="module-farg.core.run_mode">
+<span id="id1"></span><h2>Run Mode<a class="headerlink" href="#module-farg.core.run_mode" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-farg.core.run_mode.batch">
+<span id="run-mode-batch"></span><h2>Run Mode &#8212; Batch<a class="headerlink" href="#module-farg.core.run_mode.batch" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.batch.</tt><tt class="descname">BatchRunMultipleTimes</tt><big>(</big><em>input_spec</em>, <em>gui</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiple-runner specialized for batch.</p>
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.GetPreviousSavedFilename">
+<tt class="descname">GetPreviousSavedFilename</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.GetPreviousSavedFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.GetPreviousSavedFilename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the filename from which to read stats of previous run, if any.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.GetSaveFilename">
+<tt class="descname">GetSaveFilename</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.GetSaveFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.GetSaveFilename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filename to store current stats in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.GetSubprocessArguments">
+<tt class="descname">GetSubprocessArguments</tt><big>(</big><em>one_input_spec_arguments</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.GetSubprocessArguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.GetSubprocessArguments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.LoadPreviousStats">
+<tt class="descname">LoadPreviousStats</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.LoadPreviousStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.LoadPreviousStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load stats from previous run, if any.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.RunAll">
+<tt class="descname">RunAll</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.RunAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.RunAll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.SaveCurrent">
+<tt class="descname">SaveCurrent</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.SaveCurrent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.SaveCurrent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current stats for future comparison.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.run_mode.batch.RunModeBatch">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.batch.</tt><tt class="descname">RunModeBatch</tt><big>(</big><em>controller_class</em>, <em>input_spec</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#RunModeBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.RunModeBatch" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.run_mode.batch.RunModeBatch.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#RunModeBatch.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.RunModeBatch.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+<div class="section" id="module-farg.core.run_mode.gui">
+<span id="run-mode-gui"></span><h2>Run Mode &#8212; GUI<a class="headerlink" href="#module-farg.core.run_mode.gui" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.gui.RunModeGUI">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.gui.</tt><tt class="descname">RunModeGUI</tt><big>(</big><em>controller_class</em>, <em>ui_class</em>, <em>stopping_condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/gui.html#RunModeGUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.gui.RunModeGUI" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.run_mode.gui.RunModeGUI.Refresher">
+<tt class="descname">Refresher</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/gui.html#RunModeGUI.Refresher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.gui.RunModeGUI.Refresher" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.gui.RunModeGUI.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/gui.html#RunModeGUI.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.gui.RunModeGUI.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
 <div class="section" id="module-farg.core.run_mode.non_interactive">
-<span id="batch-and-sxs-modes"></span><h2>Batch and SxS modes<a class="headerlink" href="#module-farg.core.run_mode.non_interactive" title="Permalink to this headline">¶</a></h2>
+<span id="run-mode-non-interactive"></span><h2>Run Mode &#8212; Non Interactive<a class="headerlink" href="#module-farg.core.run_mode.non_interactive" title="Permalink to this headline">¶</a></h2>
 <p>Sets up GUI displaying statistics for batch or SxS modes.</p>
 <p>Sets up a window where all inputs and their progress may be tracked.</p>
 <p>The inputs are shown in the left panel, and possibly color-coded according to whether the
@@ -77,7 +151,7 @@ whereas in the batch mode it is the last time the batch mode was run.</p>
 <dt>Args:</dt>
 <dd>x_offset: X-offset for Pie.
 y_offset: Y-offset for Pie.
-stats: Stats to display. Instance of <a class="reference internal" href="#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">RunStats</span></tt></a>.</dd>
+stats: Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">RunStats</span></tt></a>.</dd>
 </dl>
 </dd></dl>
 
@@ -89,7 +163,7 @@ stats: Stats to display. Instance of <a class="reference internal" href="#farg.c
 <dt>Args:</dt>
 <dd>x_offset: X-offset for Pie.
 y_offset: Y-offset for Pie.
-stats: Stats to display. Instance of <a class="reference internal" href="#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">RunStats</span></tt></a>.</dd>
+stats: Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">RunStats</span></tt></a>.</dd>
 </dl>
 </dd></dl>
 
@@ -101,7 +175,7 @@ stats: Stats to display. Instance of <a class="reference internal" href="#farg.c
 <dt>Args:</dt>
 <dd>x_offset: X-offset for Pie.
 y_offset: Y-offset for Pie.
-stats: Stats to display. Instance of <a class="reference internal" href="#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">RunStats</span></tt></a>.</dd>
+stats: Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">RunStats</span></tt></a>.</dd>
 </dl>
 </dd></dl>
 
@@ -118,7 +192,7 @@ stats: Stats to display. Instance of <a class="reference internal" href="#farg.c
 <dd><p>Display inference stats: Is right hand side better than left?</p>
 <dl class="docutils">
 <dt>Args:</dt>
-<dd>stats: Instance of <a class="reference internal" href="#farg.core.run_stats.AllStats" title="farg.core.run_stats.AllStats"><tt class="xref py py-class docutils literal"><span class="pre">AllStats</span></tt></a>.
+<dd>stats: Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.AllStats" title="farg.core.run_stats.AllStats"><tt class="xref py py-class docutils literal"><span class="pre">AllStats</span></tt></a>.
 for_input: What input string are we comparing the two sides?
 y: Y-offset of top of this display.</dd>
 </dl>
@@ -131,7 +205,7 @@ y: Y-offset of top of this display.</dd>
 <p>y: Y-offset where to display.
 label: Name of the side. Will probably be one of &#8220;previous&#8221;, &#8220;current&#8221;, &#8220;base&#8221;, or
 &#8220;expt&#8221;.
-stats: Statistics for this run. This is a <a class="reference internal" href="#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">farg.core.run_stats.RunStats</span></tt></a>
+stats: Statistics for this run. This is a <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><tt class="xref py py-class docutils literal"><span class="pre">farg.core.run_stats.RunStats</span></tt></a>
 object.</p>
 </dd></dl>
 
@@ -188,7 +262,7 @@ object.</p>
 <dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.input_spec">
 <tt class="descname">input_spec</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.input_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>The input_spec is an iterable of
-<a class="reference internal" href="all_core.html#farg.core.read_input_spec.SpecificationForOneRun" title="farg.core.read_input_spec.SpecificationForOneRun"><tt class="xref py py-class docutils literal"><span class="pre">farg.core.read_input_spec.SpecificationForOneRun</span></tt></a>.</p>
+<a class="reference internal" href="sundry.html#farg.core.read_input_spec.SpecificationForOneRun" title="farg.core.read_input_spec.SpecificationForOneRun"><tt class="xref py py-class docutils literal"><span class="pre">farg.core.read_input_spec.SpecificationForOneRun</span></tt></a>.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -272,7 +346,7 @@ class&#8217;s actions update.</p>
 <dt id="farg.core.run_mode.non_interactive.RunMultipleTimes.input_spec">
 <tt class="descname">input_spec</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.RunMultipleTimes.input_spec" title="Permalink to this definition">¶</a></dt>
 <dd><p>The input_spec is an iterable of
-<a class="reference internal" href="all_core.html#farg.core.read_input_spec.SpecificationForOneRun" title="farg.core.read_input_spec.SpecificationForOneRun"><tt class="xref py py-class docutils literal"><span class="pre">farg.core.read_input_spec.SpecificationForOneRun</span></tt></a>.</p>
+<a class="reference internal" href="sundry.html#farg.core.read_input_spec.SpecificationForOneRun" title="farg.core.read_input_spec.SpecificationForOneRun"><tt class="xref py py-class docutils literal"><span class="pre">farg.core.read_input_spec.SpecificationForOneRun</span></tt></a>.</p>
 </dd></dl>
 
 <dl class="method">
@@ -290,177 +364,59 @@ class&#8217;s actions update.</p>
 <dd><p>Convert state string to color for PieChart.</p>
 </dd></dl>
 
-<span class="target" id="module-farg.core.run_stats"></span><p>Collects stats for multiple run with a single setting.</p>
+</div>
+<div class="section" id="module-farg.core.run_mode.run_mode">
+<span id="run-mode-run-mode"></span><h2>Run Mode &#8212; Run Mode<a class="headerlink" href="#module-farg.core.run_mode.run_mode" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="farg.core.run_stats.AllStats">
-<em class="property">class </em><tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">AllStats</tt><big>(</big><em>left_name</em>, <em>right_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stats for all inputs for each iteration thus far.</p>
-<dl class="method">
-<dt id="farg.core.run_stats.AllStats.GetComparitiveStats">
-<tt class="descname">GetComparitiveStats</tt><big>(</big><em>for_input</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetComparitiveStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.GetComparitiveStats" title="Permalink to this definition">¶</a></dt>
-<dd><p>For a given input name, returns comparitive stats along two dimensions.</p>
-<p>Specifically, it returns two dicts (see output of <a class="reference internal" href="#farg.core.run_stats.GetTStatsDict" title="farg.core.run_stats.GetTStatsDict"><tt class="xref py py-func docutils literal"><span class="pre">GetTStatsDict()</span></tt></a> for details),
-one comparing running times when there was success, and one comparing how frequently
-each was successful.</p>
-<p>Memoizes the result, and recalculates only if more data is available.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>for_input: The string representation of the input (for indexing into left_stats and</dt>
-<dd>right_stats)</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd>A 2-tuple (codelet_count_stats, success_stats).</dd>
-</dl>
+<dt id="farg.core.run_mode.run_mode.RunMode">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.run_mode.</tt><tt class="descname">RunMode</tt><a class="reference internal" href="../_modules/farg/core/run_mode/run_mode.html#RunMode"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.run_mode.RunMode" title="Permalink to this definition">¶</a></dt>
+<dd><p>A RunMode controlls how the app is run &#8212; as GUI, in a batch mode, as a SxS, and so
+forth.</p>
 </dd></dl>
 
-<dl class="method">
-<dt id="farg.core.run_stats.AllStats.GetLeftStatsFor">
-<tt class="descname">GetLeftStatsFor</tt><big>(</big><em>input_to_run</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetLeftStatsFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.GetLeftStatsFor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get left stats for input_to_run. Create (empty) if not present.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.run_stats.AllStats.GetRightStatsFor">
-<tt class="descname">GetRightStatsFor</tt><big>(</big><em>input_to_run</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetRightStatsFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.GetRightStatsFor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Get right stats for input_to_run. Create (empty) if not present.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.run_stats.AllStats.IsRightBetter">
-<tt class="descname">IsRightBetter</tt><big>(</big><em>for_input</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.IsRightBetter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.IsRightBetter" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks if the right-hand side is better for given input string.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>for_input: The string representation of the input (for indexing into left_stats and</dt>
-<dd>right_stats)</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd>A 2-tuple (codelet_string, success_string).
-<em>codelet_string</em> can be &#8216;&#8217;, &#8216;faster&#8217;, or &#8216;slower&#8217;.
-<em>success_string</em> can be &#8216;&#8217;, &#8216;More Success&#8217;, or &#8216;Less Success&#8217;.</dd>
-</dl>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="farg.core.run_stats.AllStats.input_order">
-<tt class="descname">input_order</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.input_order" title="Permalink to this definition">¶</a></dt>
-<dd><p>Order in which inputs have been seen.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="farg.core.run_stats.AllStats.left_stats">
-<tt class="descname">left_stats</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.left_stats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stats for the left side.</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="farg.core.run_stats.AllStats.memoized_stats">
-<tt class="descname">memoized_stats</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.memoized_stats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Memoized Stats</p>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="farg.core.run_stats.AllStats.right_stats">
-<tt class="descname">right_stats</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.right_stats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stats for the right side.</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="function">
-<dt id="farg.core.run_stats.Descriptor">
-<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Descriptor</tt><big>(</big><em>t</em>, <em>df</em>, <em>less</em>, <em>more</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Descriptor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Descriptor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given t and degs of freedom, returns &#8216;More&#8217;, &#8216;Less&#8217;, or &#8216;&#8217;, at nearly 95% confidence.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="farg.core.run_stats.GetTStatsDict">
-<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">GetTStatsDict</tt><big>(</big><em>left_numbers</em>, <em>right_numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#GetTStatsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.GetTStatsDict" title="Permalink to this definition">¶</a></dt>
-<dd><p>Given two sets of numbers, returns a dict with a variety of stats.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>left_numbers: A list of numbers.
-right_numbers: A list of numbers.</dd>
-<dt>Returns:</dt>
-<dd><dl class="first last docutils">
-<dt>A dictionary with the following keys:</dt>
-<dd><ul class="first last simple">
-<li><em>n1</em> and <em>n2</em>: Counts of elements in the two inputs.</li>
-<li><em>left_mean</em> and <em>right_mean</em>: Means of the numbers.</li>
-<li><em>left_variance</em> and <em>right_variance</em>: If at least two numbers present, variance is
-added.</li>
-<li><em>dof</em>: Degrees of freedom.</li>
-<li><em>t</em>: The t-statistics.</li>
-</ul>
-</dd>
-</dl>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="function">
-<dt id="farg.core.run_stats.Mean">
-<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Mean</tt><big>(</big><em>numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Mean" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the average of the input, 0 if empty.</p>
-</dd></dl>
-
-<dl class="function">
-<dt id="farg.core.run_stats.Median">
-<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Median</tt><big>(</big><em>numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Median"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Median" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the median of the input, 0 if empty.</p>
-</dd></dl>
-
+</div>
+<div class="section" id="module-farg.core.run_mode.single">
+<span id="run-mode-single"></span><h2>Run Mode &#8212; Single<a class="headerlink" href="#module-farg.core.run_mode.single" title="Permalink to this headline">¶</a></h2>
 <dl class="class">
-<dt id="farg.core.run_stats.RunStats">
-<em class="property">class </em><tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">RunStats</tt><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.RunStats" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stats for multiple runs with a single setting.</p>
+<dt id="farg.core.run_mode.single.RunModeSingle">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.single.</tt><tt class="descname">RunModeSingle</tt><big>(</big><em>controller_class</em>, <em>ui_class</em>, <em>stopping_condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/single.html#RunModeSingle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.single.RunModeSingle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run mode for a single run as part of a batch run or a SxS run.</p>
+<p>This class is responsible for running the program once, suppressing its output, and
+producing an easy to parse string.</p>
 <dl class="method">
-<dt id="farg.core.run_stats.RunStats.AddData">
-<tt class="descname">AddData</tt><big>(</big><em>data_string</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats.AddData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.RunStats.AddData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Add a data point. This is parsed to determine outcome and number of codelets.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>data_string: Consists of a status (say, SuccessfulCompletion), optionally</dt>
-<dd>followed by the codelet count when that happened.</dd>
-</dl>
-</dd>
-</dl>
+<dt id="farg.core.run_mode.single.RunModeSingle.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/single.html#RunModeSingle.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.single.RunModeSingle.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
 </dd></dl>
 
-<dl class="method">
-<dt id="farg.core.run_stats.RunStats.IsEmpty">
-<tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.RunStats.IsEmpty" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns true if no data has been added.</p>
-</dd></dl>
+</div>
+<div class="section" id="module-farg.core.run_mode.sxs">
+<span id="run-mode-sxs"></span><h2>Run Mode &#8212; SxS<a class="headerlink" href="#module-farg.core.run_mode.sxs" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.sxs.RunModeSxS">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.sxs.</tt><tt class="descname">RunModeSxS</tt><big>(</big><em>controller_class</em>, <em>input_spec</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#RunModeSxS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.RunModeSxS" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.run_mode.sxs.RunModeSxS.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#RunModeSxS.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.RunModeSxS.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
 </dd></dl>
 
 <dl class="class">
-<dt id="farg.core.run_stats.StatsForSingleState">
-<em class="property">class </em><tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">StatsForSingleState</tt><a class="reference internal" href="../_modules/farg/core/run_stats.html#StatsForSingleState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.StatsForSingleState" title="Permalink to this definition">¶</a></dt>
-<dd><p>Stats for a single state (e.g., &#8220;SuccessfulCompletion&#8221;) of a single run.</p>
+<dt id="farg.core.run_mode.sxs.SxSRunMultipleTimes">
+<em class="property">class </em><tt class="descclassname">farg.core.run_mode.sxs.</tt><tt class="descname">SxSRunMultipleTimes</tt><big>(</big><em>input_spec</em>, <em>gui</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#SxSRunMultipleTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.SxSRunMultipleTimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiple-runner specialized for SxS.</p>
 <dl class="method">
-<dt id="farg.core.run_stats.StatsForSingleState.AddData">
-<tt class="descname">AddData</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#StatsForSingleState.AddData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.StatsForSingleState.AddData" title="Permalink to this definition">¶</a></dt>
-<dd><p>Adds codelet count to data (for this particulr outcome for this particular input).</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>param codelet_count: Number of steps needed to reach this state. Can be 0 if it makes
-no sense for that state.</dd>
-</dl>
-</dd></dl>
+<dt id="farg.core.run_mode.sxs.SxSRunMultipleTimes.GetSubprocessArguments">
+<tt class="descname">GetSubprocessArguments</tt><big>(</big><em>one_input_spec_arguments</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#SxSRunMultipleTimes.GetSubprocessArguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.SxSRunMultipleTimes.GetSubprocessArguments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-</dd></dl>
+<dl class="method">
+<dt id="farg.core.run_mode.sxs.SxSRunMultipleTimes.RunAll">
+<tt class="descname">RunAll</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#SxSRunMultipleTimes.RunAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.SxSRunMultipleTimes.RunAll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
 
-<dl class="function">
-<dt id="farg.core.run_stats.Variance">
-<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Variance</tt><big>(</big><em>numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Variance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Variance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Variance of a bunch of numbers, error if fewer than 2 numbers given.</p>
 </dd></dl>
 
 </div>
@@ -478,17 +434,23 @@ no sense for that state.</dd>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Run-mode</a><ul>
-<li><a class="reference internal" href="#module-farg.core.run_mode.non_interactive">Batch and SxS modes</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode">Run Mode</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.batch">Run Mode &#8212; Batch</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.gui">Run Mode &#8212; GUI</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.non_interactive">Run Mode &#8212; Non Interactive</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.run_mode">Run Mode &#8212; Run Mode</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.single">Run Mode &#8212; Single</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.sxs">Run Mode &#8212; SxS</a></li>
 </ul>
 </li>
 </ul>
 
   <h4>Previous topic</h4>
-  <p class="topless"><a href="ui.html"
-                        title="previous chapter">The Graphic User Interface</a></p>
+  <p class="topless"><a href="controller.html"
+                        title="previous chapter">Controller</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="all_core.html"
-                        title="next chapter">Temporary File For All Developer Docs</a></p>
+  <p class="topless"><a href="subspaces.html"
+                        title="next chapter">Subspaces</a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
@@ -516,13 +478,13 @@ no sense for that state.</dd>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="all_core.html" title="Temporary File For All Developer Docs"
+          <a href="subspaces.html" title="Subspaces"
              >next</a> |</li>
         <li class="right" >
-          <a href="ui.html" title="The Graphic User Interface"
+          <a href="controller.html" title="Controller"
              >previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
+          <li><a href="developer_index.html" >Core Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

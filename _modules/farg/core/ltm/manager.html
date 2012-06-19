@@ -77,14 +77,14 @@
 
 <span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
 
-<div class="viewcode-block" id="LTMManager"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.ltm.manager.LTMManager">[docs]</a><span class="k">class</span> <span class="nc">LTMManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+<div class="viewcode-block" id="LTMManager"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.manager.LTMManager">[docs]</a><span class="k">class</span> <span class="nc">LTMManager</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
   <span class="c">#: What LTMs have been loaded.</span>
   <span class="n">loaded_ltms</span> <span class="o">=</span> <span class="p">{}</span>
   <span class="c">#: Registered LTM initalizers (registered via RegisterInitializer).</span>
   <span class="n">_registered_initializers</span> <span class="o">=</span> <span class="p">{}</span>
 
   <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="LTMManager.GetLTM"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.ltm.manager.LTMManager.GetLTM">[docs]</a>  <span class="k">def</span> <span class="nf">GetLTM</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">ltm_name</span><span class="p">):</span>
+<div class="viewcode-block" id="LTMManager.GetLTM"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.manager.LTMManager.GetLTM">[docs]</a>  <span class="k">def</span> <span class="nf">GetLTM</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">ltm_name</span><span class="p">):</span>
     <span class="k">if</span> <span class="n">ltm_name</span> <span class="ow">in</span> <span class="n">LTMManager</span><span class="o">.</span><span class="n">loaded_ltms</span><span class="p">:</span>
       <span class="k">return</span> <span class="n">LTMManager</span><span class="o">.</span><span class="n">loaded_ltms</span><span class="p">[</span><span class="n">ltm_name</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">use_stored_ltm</span><span class="p">:</span>
@@ -108,14 +108,14 @@
     <span class="k">return</span> <span class="n">ltm</span>
 </div>
   <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="LTMManager.RegisterInitializer"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.ltm.manager.LTMManager.RegisterInitializer">[docs]</a>  <span class="k">def</span> <span class="nf">RegisterInitializer</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">ltm_name</span><span class="p">,</span> <span class="n">initializer_function</span><span class="p">):</span>
+<div class="viewcode-block" id="LTMManager.RegisterInitializer"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.manager.LTMManager.RegisterInitializer">[docs]</a>  <span class="k">def</span> <span class="nf">RegisterInitializer</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">ltm_name</span><span class="p">,</span> <span class="n">initializer_function</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Registers an initializer to call if a loaded LTM is empty. The function takes a</span>
 <span class="sd">       single argument, the LTM.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">LTMManager</span><span class="o">.</span><span class="n">_registered_initializers</span><span class="p">[</span><span class="n">ltm_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">initializer_function</span>
 </div>
   <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="LTMManager.SaveAllOpenLTMS"><a class="viewcode-back" href="../../../../developer/all_core.html#farg.core.ltm.manager.LTMManager.SaveAllOpenLTMS">[docs]</a>  <span class="k">def</span> <span class="nf">SaveAllOpenLTMS</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="LTMManager.SaveAllOpenLTMS"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.manager.LTMManager.SaveAllOpenLTMS">[docs]</a>  <span class="k">def</span> <span class="nf">SaveAllOpenLTMS</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
     <span class="k">for</span> <span class="n">_ltm_name</span><span class="p">,</span> <span class="n">ltm</span> <span class="ow">in</span> <span class="n">LTMManager</span><span class="o">.</span><span class="n">loaded_ltms</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
       <span class="n">ltm</span><span class="o">.</span><span class="n">Dump</span><span class="p">()</span></div></div>
 </pre></div>

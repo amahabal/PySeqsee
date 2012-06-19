@@ -66,7 +66,7 @@
 <span class="kn">from</span> <span class="nn">farg.core.exceptions</span> <span class="kn">import</span> <span class="n">AnswerFoundException</span><span class="p">,</span> <span class="n">NoAnswerException</span>
 
 
-<div class="viewcode-block" id="QuickReconnResults"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.subspace.QuickReconnResults">[docs]</a><span class="k">class</span> <span class="nc">QuickReconnResults</span><span class="p">:</span>
+<div class="viewcode-block" id="QuickReconnResults"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.QuickReconnResults">[docs]</a><span class="k">class</span> <span class="nc">QuickReconnResults</span><span class="p">:</span>
   <span class="sd">&quot;&quot;&quot;Result of quick reconnaisance before starting a subspace.</span>
 
 <span class="sd">  This can be one of three things:</span>
@@ -85,19 +85,19 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">answer</span> <span class="o">=</span> <span class="n">answer</span>
 
   <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="QuickReconnResults.DeeperExplorationNeeded"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.subspace.QuickReconnResults.DeeperExplorationNeeded">[docs]</a>  <span class="k">def</span> <span class="nf">DeeperExplorationNeeded</span><span class="p">():</span>
+<div class="viewcode-block" id="QuickReconnResults.DeeperExplorationNeeded"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.QuickReconnResults.DeeperExplorationNeeded">[docs]</a>  <span class="k">def</span> <span class="nf">DeeperExplorationNeeded</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kDeeperExplorationNeeded</span><span class="p">)</span>
 </div>
   <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="QuickReconnResults.AnswerFound"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.subspace.QuickReconnResults.AnswerFound">[docs]</a>  <span class="k">def</span> <span class="nf">AnswerFound</span><span class="p">(</span><span class="n">answer</span><span class="p">):</span>
+<div class="viewcode-block" id="QuickReconnResults.AnswerFound"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.QuickReconnResults.AnswerFound">[docs]</a>  <span class="k">def</span> <span class="nf">AnswerFound</span><span class="p">(</span><span class="n">answer</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kAnswerFound</span><span class="p">,</span> <span class="n">answer</span><span class="o">=</span><span class="n">answer</span><span class="p">)</span>
 </div>
   <span class="nd">@staticmethod</span>
-<div class="viewcode-block" id="QuickReconnResults.NoAnswerCanBeFound"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.subspace.QuickReconnResults.NoAnswerCanBeFound">[docs]</a>  <span class="k">def</span> <span class="nf">NoAnswerCanBeFound</span><span class="p">():</span>
+<div class="viewcode-block" id="QuickReconnResults.NoAnswerCanBeFound"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.QuickReconnResults.NoAnswerCanBeFound">[docs]</a>  <span class="k">def</span> <span class="nf">NoAnswerCanBeFound</span><span class="p">():</span>
     <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kAnswerCannotBeFound</span><span class="p">)</span>
 
 </div></div>
-<div class="viewcode-block" id="Subspace"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.subspace.Subspace">[docs]</a><span class="k">class</span> <span class="nc">Subspace</span><span class="p">:</span>
+<div class="viewcode-block" id="Subspace"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.Subspace">[docs]</a><span class="k">class</span> <span class="nc">Subspace</span><span class="p">:</span>
   <span class="n">controller_class</span> <span class="o">=</span> <span class="n">Controller</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_controller</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">nsteps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">workspace_arguments</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
@@ -106,7 +106,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">nsteps</span> <span class="o">=</span> <span class="n">nsteps</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">workspace_arguments</span> <span class="o">=</span> <span class="n">workspace_arguments</span>
 
-<div class="viewcode-block" id="Subspace.Run"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.subspace.Subspace.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Subspace.Run"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.Subspace.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Runs the subspace by first trying to quickly estimate need for deeper exploration.</span>
 
 <span class="sd">       If deeper exploration is called for, sets up the controller, workspace, and so forth,</span>
@@ -134,10 +134,10 @@
       <span class="k">return</span> <span class="bp">None</span>
     <span class="k">return</span> <span class="bp">None</span>
 </div>
-<div class="viewcode-block" id="Subspace.QuickReconn"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.subspace.Subspace.QuickReconn">[docs]</a>  <span class="k">def</span> <span class="nf">QuickReconn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Subspace.QuickReconn"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.Subspace.QuickReconn">[docs]</a>  <span class="k">def</span> <span class="nf">QuickReconn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kDeeperExplorationNeeded</span><span class="p">)</span>
 </div>
-<div class="viewcode-block" id="Subspace.InitializeCoderack"><a class="viewcode-back" href="../../../developer/all_core.html#farg.core.subspace.Subspace.InitializeCoderack">[docs]</a>  <span class="k">def</span> <span class="nf">InitializeCoderack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="Subspace.InitializeCoderack"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.Subspace.InitializeCoderack">[docs]</a>  <span class="k">def</span> <span class="nf">InitializeCoderack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
       <span class="s">&#39;InitializeCoderack from class Subspace called. This is surely a bug: this method&#39;</span>
       <span class="s">&#39;should have been overridden in a derived class to set up the initial codelet.&#39;</span><span class="p">)</span></div></div>

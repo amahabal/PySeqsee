@@ -26,9 +26,9 @@
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="Developer Documentation" href="developer_index.html" />
-    <link rel="next" title="Exceptions" href="exceptions.html" />
-    <link rel="prev" title="Long-term Memory" href="ltm.html" /> 
+    <link rel="up" title="Core Developer Documentation" href="developer_index.html" />
+    <link rel="next" title="Codelets" href="codelets.html" />
+    <link rel="prev" title="Run-mode" href="run_mode.html" /> 
   </head>
   <body>
     <div class="related">
@@ -41,13 +41,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="exceptions.html" title="Exceptions"
+          <a href="codelets.html" title="Codelets"
              accesskey="N">next</a> |</li>
         <li class="right" >
-          <a href="ltm.html" title="Long-term Memory"
+          <a href="run_mode.html" title="Run-mode"
              accesskey="P">previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" accesskey="U">Developer Documentation</a> &raquo;</li> 
+          <li><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>  
 
@@ -56,9 +56,79 @@
         <div class="bodywrapper">
           <div class="body">
             
-  <div class="section" id="subspaces">
-<h1>Subspaces<a class="headerlink" href="#subspaces" title="Permalink to this headline">¶</a></h1>
-<p>Mental subspaces in Seqsee.</p>
+  <div class="section" id="module-farg.core.subspace">
+<span id="subspaces"></span><h1>Subspaces<a class="headerlink" href="#module-farg.core.subspace" title="Permalink to this headline">¶</a></h1>
+<dl class="class">
+<dt id="farg.core.subspace.QuickReconnResults">
+<em class="property">class </em><tt class="descclassname">farg.core.subspace.</tt><tt class="descname">QuickReconnResults</tt><big>(</big><em>state</em>, <em>answer</em><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#QuickReconnResults"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.QuickReconnResults" title="Permalink to this definition">¶</a></dt>
+<dd><p>Result of quick reconnaisance before starting a subspace.</p>
+<p>This can be one of three things:</p>
+<ul class="simple">
+<li>Deepeer exploration is needed.</li>
+<li>Exploration not needed. An answer has been found.</li>
+<li>Exploration not needed. No answer is likely to be found.</li>
+</ul>
+<dl class="staticmethod">
+<dt id="farg.core.subspace.QuickReconnResults.AnswerFound">
+<em class="property">static </em><tt class="descname">AnswerFound</tt><big>(</big><em>answer</em><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#QuickReconnResults.AnswerFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.AnswerFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="farg.core.subspace.QuickReconnResults.DeeperExplorationNeeded">
+<em class="property">static </em><tt class="descname">DeeperExplorationNeeded</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#QuickReconnResults.DeeperExplorationNeeded"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.DeeperExplorationNeeded" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="staticmethod">
+<dt id="farg.core.subspace.QuickReconnResults.NoAnswerCanBeFound">
+<em class="property">static </em><tt class="descname">NoAnswerCanBeFound</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#QuickReconnResults.NoAnswerCanBeFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.NoAnswerCanBeFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.subspace.QuickReconnResults.kAnswerCannotBeFound">
+<tt class="descname">kAnswerCannotBeFound</tt><em class="property"> = 3</em><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.kAnswerCannotBeFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.subspace.QuickReconnResults.kAnswerFound">
+<tt class="descname">kAnswerFound</tt><em class="property"> = 2</em><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.kAnswerFound" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.subspace.QuickReconnResults.kDeeperExplorationNeeded">
+<tt class="descname">kDeeperExplorationNeeded</tt><em class="property"> = 1</em><a class="headerlink" href="#farg.core.subspace.QuickReconnResults.kDeeperExplorationNeeded" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.subspace.Subspace">
+<em class="property">class </em><tt class="descclassname">farg.core.subspace.</tt><tt class="descname">Subspace</tt><big>(</big><em>parent_controller</em>, <em>nsteps</em>, <em>workspace_arguments</em><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#Subspace"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.Subspace" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.subspace.Subspace.InitializeCoderack">
+<tt class="descname">InitializeCoderack</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#Subspace.InitializeCoderack"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.Subspace.InitializeCoderack" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.subspace.Subspace.QuickReconn">
+<tt class="descname">QuickReconn</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#Subspace.QuickReconn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.Subspace.QuickReconn" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.subspace.Subspace.Run">
+<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/subspace.html#Subspace.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.subspace.Subspace.Run" title="Permalink to this definition">¶</a></dt>
+<dd><p>Runs the subspace by first trying to quickly estimate need for deeper exploration.</p>
+<p>If deeper exploration is called for, sets up the controller, workspace, and so forth,
+and runs the controller for upto the specified number of steps.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.subspace.Subspace.controller_class">
+<tt class="descname">controller_class</tt><a class="headerlink" href="#farg.core.subspace.Subspace.controller_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Controller</span></tt></p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
 
 
@@ -71,11 +141,11 @@
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
             </a></p>
   <h4>Previous topic</h4>
-  <p class="topless"><a href="ltm.html"
-                        title="previous chapter">Long-term Memory</a></p>
+  <p class="topless"><a href="run_mode.html"
+                        title="previous chapter">Run-mode</a></p>
   <h4>Next topic</h4>
-  <p class="topless"><a href="exceptions.html"
-                        title="next chapter">Exceptions</a></p>
+  <p class="topless"><a href="codelets.html"
+                        title="next chapter">Codelets</a></p>
 <div id="searchbox" style="display: none">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
@@ -103,13 +173,13 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="exceptions.html" title="Exceptions"
+          <a href="codelets.html" title="Codelets"
              >next</a> |</li>
         <li class="right" >
-          <a href="ltm.html" title="Long-term Memory"
+          <a href="run_mode.html" title="Run-mode"
              >previous</a> |</li>
         <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" >Developer Documentation</a> &raquo;</li> 
+          <li><a href="developer_index.html" >Core Developer Documentation</a> &raquo;</li> 
       </ul>
     </div>
     <div class="footer">

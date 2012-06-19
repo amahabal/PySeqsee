@@ -73,7 +73,7 @@
 <span class="kn">from</span> <span class="nn">itertools</span> <span class="kn">import</span> <span class="n">takewhile</span>
 
 
-<div class="viewcode-block" id="FargError"><a class="viewcode-back" href="../../../developer/exceptions.html#farg.core.exceptions.FargError">[docs]</a><span class="k">class</span> <span class="nc">FargError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="FargError"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.exceptions.FargError">[docs]</a><span class="k">class</span> <span class="nc">FargError</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Base class for untrappable errors (indicating bugs).&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">msg</span><span class="o">=</span><span class="s">&#39;&#39;</span><span class="p">):</span>
@@ -88,12 +88,12 @@
     <span class="k">return</span> <span class="s">&#39;FargError:&#39;</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">msg</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">stack_trace</span><span class="p">)</span>
 
 </div>
-<div class="viewcode-block" id="FargException"><a class="viewcode-back" href="../../../developer/exceptions.html#farg.core.exceptions.FargException">[docs]</a><span class="k">class</span> <span class="nc">FargException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="FargException"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.exceptions.FargException">[docs]</a><span class="k">class</span> <span class="nc">FargException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Base class for FARG-specific exceptions.&quot;&quot;&quot;</span>
   <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="BatchModeStopException"><a class="viewcode-back" href="../../../developer/exceptions.html#farg.core.exceptions.BatchModeStopException">[docs]</a><span class="k">class</span> <span class="nc">BatchModeStopException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="BatchModeStopException"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.exceptions.BatchModeStopException">[docs]</a><span class="k">class</span> <span class="nc">BatchModeStopException</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Base class of ways of stopping during batch mode.</span>
 
 <span class="sd">  Look at the subclasses (in this file) for details.</span>
@@ -105,14 +105,14 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">codelet_count</span> <span class="o">=</span> <span class="n">codelet_count</span>
 
 </div>
-<div class="viewcode-block" id="StoppingConditionMet"><a class="viewcode-back" href="../../../developer/exceptions.html#farg.core.exceptions.StoppingConditionMet">[docs]</a><span class="k">class</span> <span class="nc">StoppingConditionMet</span><span class="p">(</span><span class="n">BatchModeStopException</span><span class="p">):</span>
+<div class="viewcode-block" id="StoppingConditionMet"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.exceptions.StoppingConditionMet">[docs]</a><span class="k">class</span> <span class="nc">StoppingConditionMet</span><span class="p">(</span><span class="n">BatchModeStopException</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;When a stopping condition is specified, this indicates that it has been reached.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s">&#39;StoppingConditionMet after </span><span class="si">%d</span><span class="s"> codelets&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">codelet_count</span>
 
 </div>
-<div class="viewcode-block" id="SuccessfulCompletion"><a class="viewcode-back" href="../../../developer/exceptions.html#farg.core.exceptions.SuccessfulCompletion">[docs]</a><span class="k">class</span> <span class="nc">SuccessfulCompletion</span><span class="p">(</span><span class="n">BatchModeStopException</span><span class="p">):</span>
+<div class="viewcode-block" id="SuccessfulCompletion"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.exceptions.SuccessfulCompletion">[docs]</a><span class="k">class</span> <span class="nc">SuccessfulCompletion</span><span class="p">(</span><span class="n">BatchModeStopException</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Raised when the problem has been fully solved.</span>
 
 <span class="sd">  What fully solved means depends on the application, of course. For Seqsee, this means</span>
@@ -121,7 +121,7 @@
   <span class="k">pass</span>
 
 </div>
-<div class="viewcode-block" id="AnswerFoundException"><a class="viewcode-back" href="../../../developer/exceptions.html#farg.core.exceptions.AnswerFoundException">[docs]</a><span class="k">class</span> <span class="nc">AnswerFoundException</span><span class="p">(</span><span class="n">BatchModeStopException</span><span class="p">):</span>
+<div class="viewcode-block" id="AnswerFoundException"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.exceptions.AnswerFoundException">[docs]</a><span class="k">class</span> <span class="nc">AnswerFoundException</span><span class="p">(</span><span class="n">BatchModeStopException</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Raised by a subspace when it believes that an answer has been found.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">answer</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">codelet_count</span><span class="p">):</span>
@@ -129,7 +129,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">answer</span> <span class="o">=</span> <span class="n">answer</span>
 
 </div>
-<div class="viewcode-block" id="NoAnswerException"><a class="viewcode-back" href="../../../developer/exceptions.html#farg.core.exceptions.NoAnswerException">[docs]</a><span class="k">class</span> <span class="nc">NoAnswerException</span><span class="p">(</span><span class="n">BatchModeStopException</span><span class="p">):</span>
+<div class="viewcode-block" id="NoAnswerException"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.exceptions.NoAnswerException">[docs]</a><span class="k">class</span> <span class="nc">NoAnswerException</span><span class="p">(</span><span class="n">BatchModeStopException</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Raised by a subspace when it is realized that no answer is forthcoming.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">codelet_count</span><span class="p">):</span>
