@@ -10,9 +10,12 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+"""Mixin class for entities that we want to put in categories."""
+
 
 class CategorizableMixin(object):
-  """Base class for things which can belong to categories."""
+  """Base class for things that can belong to categories."""
+
   def __init__(self):
     self.categories = {}
 
@@ -21,9 +24,7 @@ class CategorizableMixin(object):
     self.categories[category] = binding
 
   def RemoveCategory(self, category):
-    """Removes the category: the item will not (currently) be considered a member of that
-       category.
-    """
+    """Removes the category. Item will currently not be thought a member of that category."""
     self.categories.pop(category)
 
   def GetBindingsForCategory(self, category):
@@ -37,7 +38,11 @@ class CategorizableMixin(object):
   def DescribeAs(self, category):
     """Describes item as instance of category, and remembers the binding if one is found.
 
-    Returns the binding.
+    Args:
+      category:
+
+    Returns:
+      Returns the binding if `self` is instance of `category`, None otherwise.
     """
     if category in self.categories:
       return self.categories[category]
@@ -52,7 +57,7 @@ class CategorizableMixin(object):
     return set(self.categories.keys()).intersection(list(other.categories.keys()))
 
   def AddCategoriesFrom(self, other):
-    """Copy categories in 'other' to 'self'"""
+    """Copy categories in 'other' to 'self'."""
     my_categories = self.categories
     for cat, binding in other.categories.items():
       if not cat in my_categories:

@@ -11,9 +11,19 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+"""Some classes for questions to be asked."""
+
+
 class Question:
-  pass
+  """Base of questions asked."""
+
+  def __init__(self):
+    pass
+
 
 class BooleanQuestion(Question):
+  """A question with a yes/no answer."""
+
   def __init__(self, question_string):
+    Question.__init__(self)
     self.question_string = question_string

@@ -10,18 +10,12 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+"""Specification of how an instance is a member of some category."""
 
-class Binding(object):
-  """Specification of how an instance is a member of some category.
 
-  .. Note::
+class Binding:
+  """Specification of how an instance is a member of some category."""
 
-    In the Perl version, the bindings had special slots for squinting, position, metotype
-    etc. Here, all are part of the same hash, along with "regular" attributes such as length.
-
-    This also means that the caller of the constructor needs to do all the work, unlike in
-    Perl, where some bits were calculated by the constructor.
-  """
   def __init__(self, **bindings):
     self.bindings = dict(bindings)
 
