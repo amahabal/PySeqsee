@@ -61,18 +61,12 @@
 <span class="c">#</span>
 <span class="c"># You should have received a copy of the GNU General Public License along with this</span>
 <span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+<span class="sd">&quot;&quot;&quot;Specification of how an instance is a member of some category.&quot;&quot;&quot;</span>
 
-<div class="viewcode-block" id="Binding"><a class="viewcode-back" href="../../../../developer/categories.html#farg.core.categorization.binding.Binding">[docs]</a><span class="k">class</span> <span class="nc">Binding</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Specification of how an instance is a member of some category.</span>
 
-<span class="sd">  .. Note::</span>
+<div class="viewcode-block" id="Binding"><a class="viewcode-back" href="../../../../developer/categories.html#farg.core.categorization.binding.Binding">[docs]</a><span class="k">class</span> <span class="nc">Binding</span><span class="p">:</span>
+  <span class="sd">&quot;&quot;&quot;Specification of how an instance is a member of some category.&quot;&quot;&quot;</span>
 
-<span class="sd">    In the Perl version, the bindings had special slots for squinting, position, metotype</span>
-<span class="sd">    etc. Here, all are part of the same hash, along with &quot;regular&quot; attributes such as length.</span>
-
-<span class="sd">    This also means that the caller of the constructor needs to do all the work, unlike in</span>
-<span class="sd">    Perl, where some bits were calculated by the constructor.</span>
-<span class="sd">  &quot;&quot;&quot;</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">bindings</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">bindings</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">bindings</span><span class="p">)</span>
 
@@ -125,7 +119,7 @@
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 18, 2012.
+      Last updated on Aug 21, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

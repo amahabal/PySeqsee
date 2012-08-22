@@ -96,17 +96,11 @@ store the discovered categories and their bindings.</p>
 
 </dd></dl>
 
-<span class="target" id="module-farg.core.categorization.binding"></span><dl class="class">
+<span class="target" id="module-farg.core.categorization.binding"></span><p>Specification of how an instance is a member of some category.</p>
+<dl class="class">
 <dt id="farg.core.categorization.binding.Binding">
 <em class="property">class </em><tt class="descclassname">farg.core.categorization.binding.</tt><tt class="descname">Binding</tt><big>(</big><em>**bindings</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/binding.html#Binding"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.binding.Binding" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specification of how an instance is a member of some category.</p>
-<div class="admonition note">
-<p class="first admonition-title">Note</p>
-<p>In the Perl version, the bindings had special slots for squinting, position, metotype
-etc. Here, all are part of the same hash, along with &#8220;regular&#8221; attributes such as length.</p>
-<p class="last">This also means that the caller of the constructor needs to do all the work, unlike in
-Perl, where some bits were calculated by the constructor.</p>
-</div>
 <dl class="method">
 <dt id="farg.core.categorization.binding.Binding.GetBindingsForAttribute">
 <tt class="descname">GetBindingsForAttribute</tt><big>(</big><em>attribute_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/binding.html#Binding.GetBindingsForAttribute"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.binding.Binding.GetBindingsForAttribute" title="Permalink to this definition">¶</a></dt>
@@ -115,14 +109,15 @@ Perl, where some bits were calculated by the constructor.</p>
 
 </dd></dl>
 
-<span class="target" id="module-farg.core.categorization.categorizable"></span><dl class="class">
+<span class="target" id="module-farg.core.categorization.categorizable"></span><p>Mixin class for entities that we want to put in categories.</p>
+<dl class="class">
 <dt id="farg.core.categorization.categorizable.CategorizableMixin">
 <em class="property">class </em><tt class="descclassname">farg.core.categorization.categorizable.</tt><tt class="descname">CategorizableMixin</tt><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>Base class for things which can belong to categories.</p>
+<dd><p>Base class for things that can belong to categories.</p>
 <dl class="method">
 <dt id="farg.core.categorization.categorizable.CategorizableMixin.AddCategoriesFrom">
 <tt class="descname">AddCategoriesFrom</tt><big>(</big><em>other</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.AddCategoriesFrom"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin.AddCategoriesFrom" title="Permalink to this definition">¶</a></dt>
-<dd><p>Copy categories in &#8216;other&#8217; to &#8216;self&#8217;</p>
+<dd><p>Copy categories in &#8216;other&#8217; to &#8216;self&#8217;.</p>
 </dd></dl>
 
 <dl class="method">
@@ -135,7 +130,12 @@ Perl, where some bits were calculated by the constructor.</p>
 <dt id="farg.core.categorization.categorizable.CategorizableMixin.DescribeAs">
 <tt class="descname">DescribeAs</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.DescribeAs"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin.DescribeAs" title="Permalink to this definition">¶</a></dt>
 <dd><p>Describes item as instance of category, and remembers the binding if one is found.</p>
-<p>Returns the binding.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd>category:</dd>
+<dt>Returns:</dt>
+<dd>Returns the binding if <cite>self</cite> is instance of <cite>category</cite>, None otherwise.</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -159,8 +159,7 @@ Perl, where some bits were calculated by the constructor.</p>
 <dl class="method">
 <dt id="farg.core.categorization.categorizable.CategorizableMixin.RemoveCategory">
 <tt class="descname">RemoveCategory</tt><big>(</big><em>category</em><big>)</big><a class="reference internal" href="../_modules/farg/core/categorization/categorizable.html#CategorizableMixin.RemoveCategory"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.categorization.categorizable.CategorizableMixin.RemoveCategory" title="Permalink to this definition">¶</a></dt>
-<dd><p>Removes the category: the item will not (currently) be considered a member of that
-category.</p>
+<dd><p>Removes the category. Item will currently not be thought a member of that category.</p>
 </dd></dl>
 
 </dd></dl>
@@ -220,7 +219,7 @@ category.</p>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 18, 2012.
+      Last updated on Aug 21, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>

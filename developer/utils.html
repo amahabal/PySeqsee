@@ -78,10 +78,18 @@
 <dl class="method">
 <dt id="farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletsPresent">
 <tt class="descname">AssertCodeletsPresent</tt><big>(</big><em>specifications</em>, <em>container_to_check</em><big>)</big><a class="reference internal" href="../_modules/farg/core/testing_utils.html#FringeAndCodeletsTest.AssertCodeletsPresent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletsPresent" title="Permalink to this definition">¶</a></dt>
-<dd><p>Checks for codelets with given specification in container_to_check, which is a list of
-codelets.</p>
-<p>Specifications is an iterable of individual specification, each of which is a
-CodeletPresenceSpec.</p>
+<dd><p>Checks for codelets with given specification in container_to_check.</p>
+<dl class="docutils">
+<dt>Args:</dt>
+<dd><dl class="first last docutils">
+<dt>specification:</dt>
+<dd>Specifications is an iterable of individual specification, each of which is a
+CodeletPresenceSpec.</dd>
+<dt>container_to_check:</dt>
+<dd>A list of codelets.</dd>
+</dl>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="method">
@@ -91,6 +99,8 @@ CodeletPresenceSpec.</p>
 <dl class="docutils">
 <dt>Args:</dt>
 <dd><dl class="first last docutils">
+<dt>controller:</dt>
+<dd>Controller, needed to get the fringe.</dd>
 <dt>item:</dt>
 <dd>The item whose fringe is being tested.</dd>
 <dt>expected_fringe_components:</dt>
@@ -267,7 +277,7 @@ output with probability 3 * 10/150 (i.e., 20%).</p>
     </div>
     <div class="footer">
         &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jun 18, 2012.
+      Last updated on Aug 21, 2012.
       Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
     </div>
   </body>
