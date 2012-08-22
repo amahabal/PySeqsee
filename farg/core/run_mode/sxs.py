@@ -11,8 +11,8 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-from farg.core.run_mode.non_interactive import RunModeNonInteractive, RunMultipleTimes, \
-  MultipleRunGUI
+from farg.core.run_mode.non_interactive import (RunModeNonInteractive, RunMultipleTimes,
+                                                MultipleRunGUI)
 from farg.third_party import gflags
 import sys
 
@@ -21,20 +21,20 @@ FLAGS = gflags.FLAGS
 gflags.DEFINE_string('base_flags', '', 'Extra flags for base')
 gflags.DEFINE_string('exp_flags', '', 'Extra flags for exp')
 
+
 class SxSRunMultipleTimes(RunMultipleTimes):
   """Multiple-runner specialized for SxS."""
 
   def GetSubprocessArguments(self, one_input_spec_arguments):
     arguments = dict(stopping_condition=FLAGS.stopping_condition,
                      stopping_condition_granularity=FLAGS.stopping_condition_granularity,
-                     run_mode="single",
+                     run_mode='single',
                      max_steps=FLAGS.max_steps,
-                     )
+                    )
     arguments.update(one_input_spec_arguments.arguments_dict)
     return arguments
 
   def RunAll(self):
-    print("Run started")
     for one_input_spec in self.input_spec:
       name = one_input_spec.name
       common_arguments = self.GetSubprocessArguments(one_input_spec)
@@ -52,11 +52,12 @@ class SxSRunMultipleTimes(RunMultipleTimes):
         result = RunModeNonInteractive.DoSingleRun(common_arguments, FLAGS.exp_flags)
         right_stats.AddData(result)
 
+
 class RunModeSxS(RunModeNonInteractive):
   def __init__(self, *, controller_class, input_spec):
-    print("Initialized SxS run mode")
+    print('Initialized SxS run mode')
     if FLAGS.base_flags == FLAGS.exp_flags:
-      print("Base and Exp flags are identical (%s). SxS makes no sense!" %
+      print('Base and Exp flags are identical (%s). SxS makes no sense!' %
             FLAGS.exp_flags)
       sys.exit(1)
     self.input_spec = input_spec

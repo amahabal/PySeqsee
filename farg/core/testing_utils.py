@@ -13,6 +13,7 @@
 
 import unittest
 
+
 class CodeletPresenceSpec(object):
   def __init__(self, family, arguments=None):
     self.family = family
@@ -21,6 +22,7 @@ class CodeletPresenceSpec(object):
     else:
       self.arguments = dict()
 
+
 class FringeAndCodeletsTest(unittest.TestCase):
   """Contains methods for testing the fringe of items."""
 
@@ -28,6 +30,8 @@ class FringeAndCodeletsTest(unittest.TestCase):
     """Checks for the presence of particular components in the fringe.
 
     Args:
+      controller:
+        Controller, needed to get the fringe.
       item:
         The item whose fringe is being tested.
       expected_fringe_components:
@@ -40,7 +44,7 @@ class FringeAndCodeletsTest(unittest.TestCase):
       actual_intensity = fringe[fringe_element]
       self.assertTrue(actual_intensity >= min_expected_intensity,
                       'Actual intensity (%f) for %s is less than minimum expected (%f)' %
-                           (actual_intensity, fringe_element, min_expected_intensity))
+                      (actual_intensity, fringe_element, min_expected_intensity))
 
   def AssertFringeOverlap(self, controller, prior_focus, current_focus, min_expected_overlap,
                           expected_similarity_affordances):
@@ -65,26 +69,29 @@ class FringeAndCodeletsTest(unittest.TestCase):
     stream.StoreFringeAndCalculateOverlap(prior_focus)
     hits_map = stream.StoreFringeAndCalculateOverlap(current_focus)
     self.assertTrue(prior_focus in hits_map,
-                    "Expected overlap of fringes of %s and %s" % (prior_focus,
+                    'Expected overlap of fringes of %s and %s' % (prior_focus,
                                                                   current_focus))
     self.assertTrue(hits_map[prior_focus] >= min_expected_overlap,
-                    "Fringe overlap between %s and %s lower (%f) than expected (%f)" %
+                    'Fringe overlap between %s and %s lower (%f) than expected (%f)' %
                     (prior_focus, current_focus, hits_map[prior_focus],
                      min_expected_overlap))
     self.AssertCodeletsPresent(
-        expected_similarity_affordances,
-        list(prior_focus.GetSimilarityAffordances(
-            other=current_focus,
-            other_fringe=stream.stored_fringes[current_focus],
-            my_fringe=stream.stored_fringes[prior_focus],
-            controller=controller)))
+      expected_similarity_affordances,
+      list(prior_focus.GetSimilarityAffordances(
+        other=current_focus,
+        other_fringe=stream.stored_fringes[current_focus],
+        my_fringe=stream.stored_fringes[prior_focus],
+        controller=controller)))
 
   def AssertCodeletsPresent(self, specifications, container_to_check):
-    """Checks for codelets with given specification in container_to_check, which is a list of
-       codelets.
+    """Checks for codelets with given specification in container_to_check.
 
-    Specifications is an iterable of individual specification, each of which is a
-    CodeletPresenceSpec.
+    Args:
+      specification:
+        Specifications is an iterable of individual specification, each of which is a
+        CodeletPresenceSpec.
+      container_to_check:
+        A list of codelets.
     """
     for codelet_presence_spec in specifications:
       self.AssertCodeletPresent(codelet_presence_spec, container_to_check)
@@ -108,6 +115,6 @@ class FringeAndCodeletsTest(unittest.TestCase):
       if arguments_matched:
         return  # A matching codelet was found.
     # Nothing matched!
-    self.fail("No codelet found matching family=%s where arguments contain %s" %
+    self.fail('No codelet found matching family=%s where arguments contain %s' %
               (expected_family, expected_arguments_dict))
 
