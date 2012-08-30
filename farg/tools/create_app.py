@@ -73,12 +73,12 @@ class FARGApp(Skeleton):
     self.set_variables['application_name'] = dst_dir
     self.variables.append(VarWithConstraints(
         'application_class',
-        description='capitalized version of %s' % dst_dir,
+        description='capitalized version of "%s"' % dst_dir,
         constraint=lambda x: self.AreNamesConsistent(x, dst_dir),
         default=self.CapitalizeName(dst_dir)))
     Skeleton.run(self, new_dst_dir, run_dry)
 
 if __name__ == '__main__':
   print("\n============= ERROR ==============")
-  print("This file should no longer be executed. Instead, use pyseqsee_create_app.py "
-        "in this directory.")
+  print("This file should no longer be executed directly. Instead, use "
+        "pyseqsee_create_app.py in this directory.")

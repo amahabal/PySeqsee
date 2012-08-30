@@ -1,0 +1,12 @@
+# This file defines categories used by {application_class}.
+
+import math
+
+from farg.core.categorization.category import Category
+from farg.core.categorization.binding import Binding
+
+class {application_class}Category(Category):
+  """Base class for categories in the {application_class} application."""
+
+  def __str__(self):
+    return self.brief_label
