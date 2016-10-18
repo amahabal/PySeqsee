@@ -12,7 +12,7 @@ import shutil
 import sys
 import weakref
 
-from skeleton.utils import (
+from farg.third_party.skeleton.utils import (
     get_loggger, get_file_mode, vars_to_optparser, prompt)
 
 
