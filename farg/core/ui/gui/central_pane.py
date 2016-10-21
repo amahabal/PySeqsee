@@ -22,8 +22,7 @@ from farg.third_party import gflags
 import sys
 from tkinter import ALL, Canvas, Menu
 
-gflags.DEFINE_string('gui_initial_view', '',
-                     'In GUI mode, what should the initial mode be?')
+gflags.DEFINE_string('gui_initial_view', '', 'In GUI mode, what should the initial mode be?')
 FLAGS = gflags.FLAGS
 
 
@@ -38,7 +37,6 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
 
   #: Name of initial view.
   default_initial_view = ''  # Not a constant. pylint: disable=C6409
-
   def __init__(self, master, controller, *, height, width, background):
     self.height = height
     self.width = width
@@ -111,8 +109,12 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
                             command=self.NamedViewCmd(name))
     menubar.add_cascade(label='View', menu=view_menu)
 
-    debug_menu = Menu(menubar, tearoff=0)
-    debug_menu.add_command(label='Debug Relations',
-                           command=self.controller.workspace.DebugRelations)
-    menubar.add_cascade(label='Debug', menu=debug_menu)
+    try:
+      debug_menu = Menu(menubar, tearoff=0)
+      debug_menu.add_command(label='Debug Relations',
+                             command=self.controller.workspace.DebugRelations)
+      menubar.add_cascade(label='Debug', menu=debug_menu)
+    except AttributeError:
+      pass
+
     parent.config(menu=menubar)

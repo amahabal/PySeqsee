@@ -1,21 +1,23 @@
-PySeqsee: A python framework for solving complex problems not amenable to brute force.
-======================================================================================
+#PySeqsee
+A python framework for solving complex problems not amenable to brute force.
 
 PySeqsee aims to be a robust framework for developing blackboard-architecture
 based programs that tackle hard problems in a human-like way.
 
 It is open-source, under GNU GPLv3.
 
+###Links
+
 Mailing List:
   - https://groups.google.com/forum/#!forum/pyseqsee (to view)
   - pyseqsee@googlegroups.com (to post)
+
 Documentation: http://amahabal.github.com/PySeqsee/
 Source Code: https://github.com/amahabal/PySeqsee
 Bug Tracker: https://github.com/amahabal/PySeqsee/issues
 Development Status: Alpha, but actively-developed working code
 
-Brief history and motivation
------------------------------
+###Brief history and motivation
 
 For over two decades now, Douglas Hofstadter's Fluid Analogies Research
 Group at Indiana University has designed computer simulations aimed
@@ -35,8 +37,7 @@ many components out of the box without making too many irreversible
 commitments.  That is, it provides a full suite of tools to get the job
 done, but also allows you to swap out any component and use the rest.
 
-Services provided (and their level of completion):
------------------------------------------------------
+###Services provided (and their level of completion):
 
 * A reusable GUI. Every project will have a different workspace, but there is
   still much that is shared. PySeqsee allows you to just write the visualization
@@ -61,4 +62,3 @@ Services provided (and their level of completion):
   seen, but not all that the perl version did). A short video of the Perl version
   can be found here: http://www.youtube.com/watch?v=2KWtRUg8kL8. The dissertation
   is here: http://www.amahabal.com/files/Seqsee--doublesided.pdf
-

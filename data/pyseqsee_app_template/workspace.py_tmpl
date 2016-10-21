@@ -1,7 +1,7 @@
 """The workspace is the virtual blackboard on which various codelets make annotations.
 """
 
-class {application_class}:
+class {application_class}Workspace:
   """The top-level workspace for {application_class}.
 
   Subspaces may define their own workspaces."""
