@@ -5,7 +5,7 @@ Here is a session I used to create the initial skeleton. The command on the firs
 line below resulted in a question being asked, and I selected the default
 answer.::
 
-  ~/pyseqsee$ python3.2 farg/tools/pyseqsee_create_app.py numeric_bongard
+  ~/pyseqsee$ python3 -m farg.tools.pyseqsee_create_app numeric_bongard
   Using templates in  /home/amahabal/pyseqsee/data/pyseqsee_app_template
   New Destination:  farg/apps/numeric_bongard
   Enter Application Class (capitalized version of numeric_bongard) ['NumericBongard']:
@@ -31,6 +31,3 @@ The command generated a bunch of files::
                 gui.py
                 __init__.py
                 workspace_view.py
-
-
-
