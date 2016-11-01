@@ -6,7 +6,7 @@ Requirements
 
 * Python 3.1 or higher. You can download this from http://python.org if you don't already
   have it (most Linux systems should already have this installed, probably
-  at `/usr/bin/python3`). 
+  at `/usr/bin/python3`).
 
 On Linux (or other Unix-like system)
 ----------------------------------------
@@ -19,7 +19,7 @@ This will create a directory called PySeqsee. To test that everything works,
 you can type::
 
   cd PySeqsee
-  /usr/bin/python3 farg/apps/seqsee/run_seqsee.py --sequence="2 3 5 7 11"
+  /usr/bin/python3 -m farg.apps.seqsee.run_seqsee --sequence="2 3 5 7 11"
 
 On Windows
 --------------
