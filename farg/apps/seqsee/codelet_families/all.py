@@ -11,6 +11,8 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+import logging
+
 from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.exceptions import ConflictingGroupException
 from farg.apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
@@ -23,12 +25,14 @@ class CF_FocusOn(CodeletFamily):
   """Causes the required focusable to be added to the stream."""
   @classmethod
   def Run(cls, controller, focusable):
+    logging.debug("RUNNING CF_FocusOn with %s", str(focusable))
     controller.stream.FocusOn(focusable)
 
 class CF_GroupFromRelation(CodeletFamily):
   """Causes the required relations' ends to create a group."""
   @classmethod
   def Run(cls, controller, relation):
+    logging.debug("RUNNING CF_GroupFromrelation with %s", str(relation))
     # If there is a group spanning the proposed group, perish the thought.
     left, right = relation.first.start_pos, relation.second.end_pos
     from farg.apps.seqsee.util import GreaterThanEq, LessThanEq
@@ -48,6 +52,7 @@ class CF_DescribeAs(CodeletFamily):
   """Attempt to describe item as belonging to category."""
   @classmethod
   def Run(cls, controller, item, category):
+    logging.debug("RUNNING CF_DescribeAs with %s and %s", str(item), str(category))
     if not item.IsKnownAsInstanceOf(category):
       item.DescribeAs(category)
 

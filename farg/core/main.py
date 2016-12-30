@@ -241,7 +241,7 @@ class Main:
       if not isinstance(numeric_level, int):
         print('Invalid log level: %s' % FLAGS.debug)
         sys.exit(1)
-      logging.basicConfig(level=numeric_level)
+      logging.getLogger().setLevel(numeric_level)
 
   def ProcessCustomFlags(self):
     """Apps can override this to process app-specific flags."""

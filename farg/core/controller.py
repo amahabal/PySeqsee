@@ -13,6 +13,8 @@
 
 """This file defines the core controller."""
 
+import logging
+
 from farg.core.codelet import Codelet
 from farg.core.coderack import Coderack
 from farg.core.exceptions import StoppingConditionMet
@@ -204,6 +206,7 @@ class Controller:
     self._AddRoutineCodelets()
     if not self.coderack.IsEmpty():
       codelet = self.coderack.GetCodelet()
+      logging.debug("========================== CODELET =======================")
       codelet.Run()
     if self.stopping_condition:
       if self.steps_taken % FLAGS.stopping_condition_granularity == 0:
