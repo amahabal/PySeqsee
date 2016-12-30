@@ -18,6 +18,7 @@ from farg.core.controller import Controller
 from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.manager import LTMManager
 from farg.third_party import gflags
+import logging
 import sys
 
 FLAGS = gflags.FLAGS
@@ -26,6 +27,7 @@ kLTMName = 'seqsee.main'
 
 def InitializeSeqseeLTM(ltm):
   """Called if ltm was empty (had no nodes)."""
+  logging.info("Initializing Seqsee LTM")
   from farg.apps.seqsee.sobject import SElement
   # Creates nodes for elements corresponding to the integers 1 through 10.
   elements = [SElement(magnitude) for magnitude in range(1, 11)]
@@ -56,6 +58,7 @@ class SeqseeController(Controller):
   ltm_name = kLTMName
 
   def __init__(self, **args):
+    logging.info("Initializing Seqsee controller")
     Controller.__init__(self, **args)
     self.workspace.InsertElements(FLAGS.sequence)
     self.unrevealed_terms = FLAGS.unrevealed_terms

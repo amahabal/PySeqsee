@@ -17,8 +17,6 @@ from farg.core.ltm.node import LTMNode
 import logging
 import pickle as pickle
 
-logger = logging.getLogger(__name__)
-
 class LTMGraph(object):
   """Represents a full LTM graph (consisting of nodes and edges)."""
   def __init__(self, filename=None):
@@ -100,6 +98,7 @@ class LTMGraph(object):
     storable_content = content.GetLTMStorableContent()
     if storable_content in self._content_to_node:
       return self._content_to_node[storable_content]
+    logging.debug("Created new LTM node [%s]", storable_content)
     new_node = LTMNode(storable_content)
     self.nodes.append(new_node)
     self._content_to_node[storable_content] = new_node

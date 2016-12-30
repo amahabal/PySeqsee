@@ -19,6 +19,7 @@ from farg.core.ui.batch_ui import BatchUI
 from farg.core.ui.gui import GUI
 from farg.third_party import gflags
 import logging
+import logging.config
 import os.path
 import sys
 
@@ -31,6 +32,7 @@ gflags.DEFINE_enum('run_mode', 'gui',
                    'the "single" run mode.')
 gflags.DEFINE_enum('debug', '', ('', 'debug', 'info', 'warn', 'error', 'fatal'),
                    'Show messages from what debug level and above?')
+gflags.DEFINE_string('debug_config', None, 'If defined, used to configure loggers')
 gflags.DEFINE_string('stopping_condition', None,
                      'Stopping condition, if any. Only allowed in non-gui modes. If the '
                      'condition is met, the program returns with a StoppingConditionMet '
@@ -217,6 +219,18 @@ class Main:
 
   def ProcessFlags(self):
     """Called after flags have been read in."""
+    if FLAGS.debug_config:
+      logging.config.fileConfig(FLAGS.debug_config)
+      
+    if FLAGS.debug:
+      numeric_level = getattr(logging, FLAGS.debug.upper(), None)
+      if not isinstance(numeric_level, int):
+        print('Invalid log level: %s' % FLAGS.debug)
+        sys.exit(1)
+      logging.basicConfig(level=numeric_level, format='%(levelname)s:%(message)s')
+      logging.getLogger().setLevel(numeric_level)  # To override based on --debug flag
+      logging.debug("Debugging turned on")
+
     self.ProcessCustomFlags()
 
     if FLAGS.input_spec_file:
@@ -236,12 +250,6 @@ class Main:
     self.VerifyStatsPath()
     self.run_mode = self.CreateRunModeInstance()
 
-    if FLAGS.debug:
-      numeric_level = getattr(logging, FLAGS.debug.upper(), None)
-      if not isinstance(numeric_level, int):
-        print('Invalid log level: %s' % FLAGS.debug)
-        sys.exit(1)
-      logging.getLogger().setLevel(numeric_level)
 
   def ProcessCustomFlags(self):
     """Apps can override this to process app-specific flags."""

@@ -60,6 +60,7 @@ class CF_AreWeDone(CodeletFamily):
   """Check using a subspace if we are done. If yes, quit."""
   @classmethod
   def Run(cls, controller):
+    logging.debug("RUNNING CF_AreweDone")
     answer = SubspaceAreWeDone(controller).Run()
     if answer:
       controller.ui.DisplayMessage("In its current nascent stage, Seqsee decides that it "
@@ -72,6 +73,7 @@ class CF_IsThisInterlaced(CodeletFamily):
   """Check using a subspace if we may be looking at an interlaced sequence."""
   @classmethod
   def Run(cls, controller, distance):
+    logging.debug("RUNNING CF_AreweDone with distance=%s", str(distance))
     SubspaceIsThisInterlaced(controller,
                              nsteps=20,
                              workspace_arguments=dict(distance=distance)).Run()
@@ -83,6 +85,7 @@ class CF_RemoveSpuriousRelations(CodeletFamily):
   """
   @classmethod
   def Run(cls, controller):
+    logging.debug("RUNNING CF_RemoveSpuriousRelations")
     workspace = controller.workspace
     supergroups_map = workspace.CalculateSupergroupMap()
     for element in workspace.elements:
