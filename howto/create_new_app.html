@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to create a new application &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>How to create a new application &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="How to ..." href="howto_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="How to add flags to the application" href="flags.html" />
     <link rel="prev" title="How to install PySeqsee" href="install.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,28 +46,30 @@
         <li class="right" >
           <a href="install.html" title="How to install PySeqsee"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="howto_index.html" accesskey="U">How to ...</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" accesskey="U">How to ...</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="how-to-create-a-new-application">
 <h1>How to create a new application<a class="headerlink" href="#how-to-create-a-new-application" title="Permalink to this headline">¶</a></h1>
 <p>I assume here that you have downloaded PySeqsee and are in the root directory (
 that is, you see the subdirectory &#8216;farg&#8217; here). Follow these instructions to
 create a project named Cat:</p>
-<div class="highlight-python"><pre>/usr/bin/python3 farg/tools/pyseqsee_create_app.py cat</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">farg</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">pyseqsee_create_app</span> <span class="n">cat</span>
+</pre></div>
 </div>
 <p>This will prompt you for an application name, and suggest the default &#8216;Cat&#8217;.
 Press Enter to accept this. This will create a subdirectory within apps called
 &#8216;cat&#8217;. The directory will contain, amongst other things, the file &#8216;run_cat.py&#8217;.
 You can launch the new app like this:</p>
-<div class="highlight-python"><pre>/usr/bin/python3 farg/apps/cat/run_cat.py</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">farg</span><span class="o">.</span><span class="n">apps</span><span class="o">.</span><span class="n">cat</span><span class="o">.</span><span class="n">run_cat</span>
+</pre></div>
 </div>
 <p>This should launch the app. It will not do anything useful yet. After all, it
 knows of no codelets, its slipnet has no nodes, or any of the other wholesome
@@ -79,7 +81,7 @@ top left to look at, say, the workspace and the coderack.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -90,24 +92,21 @@ top left to look at, say, the workspace and the coderack.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="flags.html"
                         title="next chapter">How to add flags to the application</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -122,14 +121,14 @@ top left to look at, say, the workspace and the coderack.</p>
         <li class="right" >
           <a href="install.html" title="How to install PySeqsee"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="howto_index.html" >How to ...</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" >How to ...</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

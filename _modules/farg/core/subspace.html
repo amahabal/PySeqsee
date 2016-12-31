@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.subspace &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>farg.core.subspace &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,21 +14,22 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -38,32 +38,32 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for farg.core.subspace</h1><div class="highlight"><pre>
-<span class="c"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
-<span class="c">#</span>
-<span class="c"># This program is free software: you can redistribute it and/or modify it under</span>
-<span class="c"># the terms of the GNU General Public License as published by the Free Software</span>
-<span class="c"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
-<span class="c">#</span>
-<span class="c"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
-<span class="c"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
-<span class="c"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
-<span class="c">#</span>
-<span class="c"># You should have received a copy of the GNU General Public License along with this</span>
-<span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+<span></span><span class="c1"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># the terms of the GNU General Public License as published by the Free Software</span>
+<span class="c1"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c1"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
+<span class="c1"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License along with this</span>
+<span class="c1"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
 
-<span class="kn">from</span> <span class="nn">farg.core.controller</span> <span class="kn">import</span> <span class="n">Controller</span>
-<span class="kn">from</span> <span class="nn">farg.core.exceptions</span> <span class="kn">import</span> <span class="n">AnswerFoundException</span><span class="p">,</span> <span class="n">NoAnswerException</span>
+<span class="kn">from</span> <span class="nn">farg.core.controller</span> <span class="k">import</span> <span class="n">Controller</span>
+<span class="kn">from</span> <span class="nn">farg.core.exceptions</span> <span class="k">import</span> <span class="n">AnswerFoundException</span><span class="p">,</span> <span class="n">NoAnswerException</span>
 
 
 <div class="viewcode-block" id="QuickReconnResults"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.QuickReconnResults">[docs]</a><span class="k">class</span> <span class="nc">QuickReconnResults</span><span class="p">:</span>
@@ -80,27 +80,27 @@
   <span class="n">kAnswerFound</span> <span class="o">=</span> <span class="mi">2</span>
   <span class="n">kAnswerCannotBeFound</span> <span class="o">=</span> <span class="mi">3</span>
 
-  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">answer</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">answer</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">state</span> <span class="o">=</span> <span class="n">state</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">answer</span> <span class="o">=</span> <span class="n">answer</span>
 
   <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="QuickReconnResults.DeeperExplorationNeeded"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.QuickReconnResults.DeeperExplorationNeeded">[docs]</a>  <span class="k">def</span> <span class="nf">DeeperExplorationNeeded</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kDeeperExplorationNeeded</span><span class="p">)</span>
-</div>
+    <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kDeeperExplorationNeeded</span><span class="p">)</span></div>
+
   <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="QuickReconnResults.AnswerFound"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.QuickReconnResults.AnswerFound">[docs]</a>  <span class="k">def</span> <span class="nf">AnswerFound</span><span class="p">(</span><span class="n">answer</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kAnswerFound</span><span class="p">,</span> <span class="n">answer</span><span class="o">=</span><span class="n">answer</span><span class="p">)</span>
-</div>
+    <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kAnswerFound</span><span class="p">,</span> <span class="n">answer</span><span class="o">=</span><span class="n">answer</span><span class="p">)</span></div>
+
   <span class="nd">@staticmethod</span>
 <div class="viewcode-block" id="QuickReconnResults.NoAnswerCanBeFound"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.QuickReconnResults.NoAnswerCanBeFound">[docs]</a>  <span class="k">def</span> <span class="nf">NoAnswerCanBeFound</span><span class="p">():</span>
-    <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kAnswerCannotBeFound</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kAnswerCannotBeFound</span><span class="p">)</span></div></div>
 
-</div></div>
+
 <div class="viewcode-block" id="Subspace"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.Subspace">[docs]</a><span class="k">class</span> <span class="nc">Subspace</span><span class="p">:</span>
   <span class="n">controller_class</span> <span class="o">=</span> <span class="n">Controller</span>
 
-  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_controller</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">nsteps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">workspace_arguments</span><span class="o">=</span><span class="bp">None</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent_controller</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">nsteps</span><span class="o">=</span><span class="mi">5</span><span class="p">,</span> <span class="n">workspace_arguments</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Initializes the subspace by just storing the arguments.&quot;&quot;&quot;</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">parent_controller</span> <span class="o">=</span> <span class="n">parent_controller</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">nsteps</span> <span class="o">=</span> <span class="n">nsteps</span>
@@ -116,9 +116,9 @@
     <span class="k">if</span> <span class="n">quick_reconn_result</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kAnswerFound</span><span class="p">:</span>
       <span class="k">return</span> <span class="n">quick_reconn_result</span><span class="o">.</span><span class="n">answer</span>
     <span class="k">elif</span> <span class="n">quick_reconn_result</span><span class="o">.</span><span class="n">state</span> <span class="o">==</span> <span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kAnswerCannotBeFound</span><span class="p">:</span>
-      <span class="k">return</span> <span class="bp">None</span>
+      <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="c"># So we need deeper exploration.</span>
+    <span class="c1"># So we need deeper exploration.</span>
     <span class="n">parent_controller</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent_controller</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">controller</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller_class</span><span class="p">(</span>
       <span class="n">ui</span><span class="o">=</span><span class="n">parent_controller</span><span class="o">.</span><span class="n">ui</span><span class="p">,</span>
@@ -131,44 +131,41 @@
     <span class="k">except</span> <span class="n">AnswerFoundException</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
       <span class="k">return</span> <span class="n">e</span><span class="o">.</span><span class="n">answer</span>
     <span class="k">except</span> <span class="n">NoAnswerException</span><span class="p">:</span>
-      <span class="k">return</span> <span class="bp">None</span>
-    <span class="k">return</span> <span class="bp">None</span>
-</div>
+      <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="kc">None</span></div>
+
 <div class="viewcode-block" id="Subspace.QuickReconn"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.Subspace.QuickReconn">[docs]</a>  <span class="k">def</span> <span class="nf">QuickReconn</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kDeeperExplorationNeeded</span><span class="p">)</span>
-</div>
+    <span class="k">return</span> <span class="n">QuickReconnResults</span><span class="p">(</span><span class="n">QuickReconnResults</span><span class="o">.</span><span class="n">kDeeperExplorationNeeded</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Subspace.InitializeCoderack"><a class="viewcode-back" href="../../../developer/subspaces.html#farg.core.subspace.Subspace.InitializeCoderack">[docs]</a>  <span class="k">def</span> <span class="nf">InitializeCoderack</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">raise</span> <span class="ne">Exception</span><span class="p">(</span>
-      <span class="s">&#39;InitializeCoderack from class Subspace called. This is surely a bug: this method&#39;</span>
-      <span class="s">&#39;should have been overridden in a derived class to set up the initial codelet.&#39;</span><span class="p">)</span></div></div>
+      <span class="s1">&#39;InitializeCoderack from class Subspace called. This is surely a bug: this method&#39;</span>
+      <span class="s1">&#39;should have been overridden in a derived class to set up the initial codelet.&#39;</span><span class="p">)</span></div></div>
 </pre></div>
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../../index.html">
               <img class="logo" src="../../../_static/logo.jpg" alt="Logo"/>
             </a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -177,14 +174,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

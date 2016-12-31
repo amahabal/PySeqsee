@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to install PySeqsee &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>How to install PySeqsee &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="How to ..." href="howto_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="How to create a new application" href="create_new_app.html" />
     <link rel="prev" title="How to ..." href="howto_index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,15 +46,15 @@
         <li class="right" >
           <a href="howto_index.html" title="How to ..."
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="howto_index.html" accesskey="U">How to ...</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" accesskey="U">How to ...</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="how-to-install-pyseqsee">
 <h1>How to install PySeqsee<a class="headerlink" href="#how-to-install-pyseqsee" title="Permalink to this headline">¶</a></h1>
@@ -69,12 +69,14 @@ at <cite>/usr/bin/python3</cite>).</li>
 <div class="section" id="on-linux-or-other-unix-like-system">
 <h2>On Linux (or other Unix-like system)<a class="headerlink" href="#on-linux-or-other-unix-like-system" title="Permalink to this headline">¶</a></h2>
 <p>Change to the directory where you want to put PySeqsee and type:</p>
-<div class="highlight-python"><pre>git clone https://github.com/amahabal/PySeqsee.git</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">amahabal</span><span class="o">/</span><span class="n">PySeqsee</span><span class="o">.</span><span class="n">git</span>
+</pre></div>
 </div>
 <p>This will create a directory called PySeqsee. To test that everything works,
 you can type:</p>
-<div class="highlight-python"><pre>cd PySeqsee
-/usr/bin/python3 farg/apps/seqsee/run_seqsee.py --sequence=&quot;2 3 5 7 11&quot;</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">PySeqsee</span>
+<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">farg</span><span class="o">.</span><span class="n">apps</span><span class="o">.</span><span class="n">seqsee</span><span class="o">.</span><span class="n">run_seqsee</span> <span class="o">--</span><span class="n">sequence</span><span class="o">=</span><span class="s2">&quot;2 3 5 7 11&quot;</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="on-windows">
@@ -90,23 +92,26 @@ no need to bother with ssh setup or whatnot, unless you want to upload code your
 <div class="section" id="invalid-syntax">
 <h3>Invalid Syntax<a class="headerlink" href="#invalid-syntax" title="Permalink to this headline">¶</a></h3>
 <p>If you see an error message that ends with:</p>
-<div class="highlight-python"><pre>class Subspace(metaclass=SubspaceMeta):
-                         ^
-SyntaxError: invalid syntax</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Subspace</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">SubspaceMeta</span><span class="p">):</span>
+                         <span class="o">^</span>
+<span class="ne">SyntaxError</span><span class="p">:</span> <span class="n">invalid</span> <span class="n">syntax</span>
+</pre></div>
 </div>
 <p>The likely reason is that you used Python 2 instead of Python 3.</p>
 </div>
 <div class="section" id="no-module-named-tkinter">
 <h3>No module named _tkinter<a class="headerlink" href="#no-module-named-tkinter" title="Permalink to this headline">¶</a></h3>
 <p>You may need to install Tkinter. On *nix:</p>
-<div class="highlight-python"><pre>sudo apt-get install python3-tk</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">sudo</span> <span class="n">apt</span><span class="o">-</span><span class="n">get</span> <span class="n">install</span> <span class="n">python3</span><span class="o">-</span><span class="n">tk</span>
+</pre></div>
 </div>
 </div>
 <div class="section" id="importerror-no-module-named-farg">
 <h3>ImportError: No module named farg...<a class="headerlink" href="#importerror-no-module-named-farg" title="Permalink to this headline">¶</a></h3>
 <p>If you get a message about being unable to load some module, check your
 PYTHONPATH. On Linux, you may need to run:</p>
-<div class="highlight-python"><pre>export PYTHONPATH=&quot;.:$PYTHONPATH&quot;</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">export</span> <span class="n">PYTHONPATH</span><span class="o">=</span><span class="s2">&quot;.:$PYTHONPATH&quot;</span>
+</pre></div>
 </div>
 </div>
 </div>
@@ -120,7 +125,7 @@ PYTHONPATH. On Linux, you may need to run:</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -148,24 +153,21 @@ PYTHONPATH. On Linux, you may need to run:</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="create_new_app.html"
                         title="next chapter">How to create a new application</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -180,14 +182,14 @@ PYTHONPATH. On Linux, you may need to run:</p>
         <li class="right" >
           <a href="howto_index.html" title="How to ..."
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="howto_index.html" >How to ...</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" >How to ...</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

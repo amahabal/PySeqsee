@@ -1,6 +1,0 @@
-Temporary File For All Developer Docs
-========================================
-
-Should be changed, just one convenient place with everything.
-
-

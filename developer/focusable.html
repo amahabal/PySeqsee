@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Focusable &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Focusable &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="Core Developer Documentation" href="developer_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Categories" href="categories.html" />
     <link rel="prev" title="Stream of Thought" href="stream.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,27 +46,27 @@
         <li class="right" >
           <a href="stream.html" title="Stream of Thought"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-farg.core.focusable_mixin">
 <span id="focusable"></span><h1>Focusable<a class="headerlink" href="#module-farg.core.focusable_mixin" title="Permalink to this headline">¶</a></h1>
 <p>Mixin class to be added to anything that can be the focus in the stream.</p>
 <dl class="class">
 <dt id="farg.core.focusable_mixin.FocusableMixin">
-<em class="property">class </em><tt class="descclassname">farg.core.focusable_mixin.</tt><tt class="descname">FocusableMixin</tt><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.focusable_mixin.</code><code class="descname">FocusableMixin</code><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin" title="Permalink to this definition">¶</a></dt>
 <dd><p>A mixin for things that want to be part of the stream.</p>
 <p>It is a pure interface &#8212; all methods die horribly when called unless over-ridden.</p>
 <dl class="method">
 <dt id="farg.core.focusable_mixin.FocusableMixin.GetAffordances">
-<tt class="descname">GetAffordances</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetAffordances" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GetAffordances</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetAffordances" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a list of codelets that make sense for this type of object.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -78,7 +78,7 @@
 
 <dl class="method">
 <dt id="farg.core.focusable_mixin.FocusableMixin.GetFringe">
-<tt class="descname">GetFringe</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetFringe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetFringe" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GetFringe</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetFringe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetFringe" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the fringe of the item.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -91,7 +91,7 @@ of the element within the fringe).</dd>
 
 <dl class="method">
 <dt id="farg.core.focusable_mixin.FocusableMixin.GetSimilarityAffordances">
-<tt class="descname">GetSimilarityAffordances</tt><big>(</big><em>focusable</em>, <em>other_fringe</em>, <em>my_fringe</em>, <em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetSimilarityAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetSimilarityAffordances" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GetSimilarityAffordances</code><span class="sig-paren">(</span><em>focusable</em>, <em>other_fringe</em>, <em>my_fringe</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetSimilarityAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetSimilarityAffordances" title="Permalink to this definition">¶</a></dt>
 <dd><p>Potential actions to take in response to a fringe overlap.</p>
 <p>When the fringe of a stored focus overlaps the fringe of a newly focused entity,
 this function is called. Here, self is the older focus, and my_fringe is its fringe.
@@ -109,7 +109,7 @@ controller: controller for this subspace (or whole app if this is the top space)
 
 <dl class="method">
 <dt id="farg.core.focusable_mixin.FocusableMixin.OnFocus">
-<tt class="descname">OnFocus</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.OnFocus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.OnFocus" title="Permalink to this definition">¶</a></dt>
+<code class="descname">OnFocus</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.OnFocus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.OnFocus" title="Permalink to this definition">¶</a></dt>
 <dd><p>Any book-keeping or other sundry actions on focused-upon object may be done here.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -125,7 +125,7 @@ controller: controller for this subspace (or whole app if this is the top space)
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -136,24 +136,21 @@ controller: controller for this subspace (or whole app if this is the top space)
   <h4>Next topic</h4>
   <p class="topless"><a href="categories.html"
                         title="next chapter">Categories</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -168,14 +165,14 @@ controller: controller for this subspace (or whole app if this is the top space)
         <li class="right" >
           <a href="stream.html" title="Stream of Thought"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" >Core Developer Documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="developer_index.html" >Core Developer Documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to add a new type of codelet &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>How to add a new type of codelet &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="How to ..." href="howto_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="How to create and use a subspace" href="create_subspaces.html" />
     <link rel="prev" title="How to display the workspace in the GUI" href="workspace_display.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,56 +46,59 @@
         <li class="right" >
           <a href="workspace_display.html" title="How to display the workspace in the GUI"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="howto_index.html" accesskey="U">How to ...</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" accesskey="U">How to ...</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="how-to-add-a-new-type-of-codelet">
 <h1>How to add a new type of codelet<a class="headerlink" href="#how-to-add-a-new-type-of-codelet" title="Permalink to this headline">¶</a></h1>
 <p>To define a new type of codelet, a new Codelet Family needs to be created:</p>
-<div class="highlight-python"><pre>from farg.core.codelet import CodeletFamily
-class CF_NewCodeletFamily(CodeletFamily):
-  @classmethod
-  def Run(cls, controller):
-    # Do something useful.</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">farg.core.codelet</span> <span class="k">import</span> <span class="n">CodeletFamily</span>
+<span class="k">class</span> <span class="nc">CF_NewCodeletFamily</span><span class="p">(</span><span class="n">CodeletFamily</span><span class="p">):</span>
+  <span class="nd">@classmethod</span>
+  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+    <span class="c1"># Do something useful.</span>
+</pre></div>
 </div>
 <p>The codelet family above has codelets that take no arguments. To create such
 codelets, you will do the following:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="c"># To create codelet without adding it immediately to any coderack.</span>
-<span class="c"># 20 is the urgency, a number between 0 and 100</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="c1"># To create codelet without adding it immediately to any coderack.</span>
+<span class="c1"># 20 is the urgency, a number between 0 and 100</span>
 <span class="n">cl</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">CF_NewCodeletFamily</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 
-<span class="c"># To create and immediately add it to the coderack of a controller:</span>
+<span class="c1"># To create and immediately add it to the coderack of a controller:</span>
 <span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">CF_NewCodeletFamily</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>To create codelets that take arguments, you will define them like this:</p>
-<div class="highlight-python"><pre>from farg.core.codelet import CodeletFamily
-class CF_NewCodeletFamily(CodeletFamily):
-  @classmethod
-  def Run(cls, controller, foo, bar):
-    # Do something useful.</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">farg.core.codelet</span> <span class="k">import</span> <span class="n">CodeletFamily</span>
+<span class="k">class</span> <span class="nc">CF_NewCodeletFamily</span><span class="p">(</span><span class="n">CodeletFamily</span><span class="p">):</span>
+  <span class="nd">@classmethod</span>
+  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="p">):</span>
+    <span class="c1"># Do something useful.</span>
+</pre></div>
 </div>
 <p>Here, the two arguments are &#8216;foo&#8217; and &#8216;bar&#8217;, and both will always be passed by
 name. To create codelets:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">cl</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">CF_NewCodeletFamily</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cl</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">CF_NewCodeletFamily</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
 <span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">CF_NewCodeletFamily</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">foo</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>As defined, both arguments are required. If not provided, there will be a run-time
 error <em>when the codelet is run</em>. To make arguments optional, and do be explicit
 about the named-only nature of arguments, you could say:</p>
-<div class="highlight-python"><pre>from farg.core.codelet import CodeletFamily
-class CF_NewCodeletFamily(CodeletFamily):
-  @classmethod
-  def Run(cls, controller, *, foo, bar=5):
-    # Do something useful.</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">farg.core.codelet</span> <span class="k">import</span> <span class="n">CodeletFamily</span>
+<span class="k">class</span> <span class="nc">CF_NewCodeletFamily</span><span class="p">(</span><span class="n">CodeletFamily</span><span class="p">):</span>
+  <span class="nd">@classmethod</span>
+  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">foo</span><span class="p">,</span> <span class="n">bar</span><span class="o">=</span><span class="mi">5</span><span class="p">):</span>
+    <span class="c1"># Do something useful.</span>
+</pre></div>
 </div>
 <p>Above, &#8216;foo&#8217; is required, but &#8216;bar&#8217; is optional, defaulting to 5.</p>
 <div class="section" id="where-to-add-code">
@@ -108,7 +111,7 @@ class CF_NewCodeletFamily(CodeletFamily):
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -127,24 +130,21 @@ class CF_NewCodeletFamily(CodeletFamily):
   <h4>Next topic</h4>
   <p class="topless"><a href="create_subspaces.html"
                         title="next chapter">How to create and use a subspace</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -159,14 +159,14 @@ class CF_NewCodeletFamily(CodeletFamily):
         <li class="right" >
           <a href="workspace_display.html" title="How to display the workspace in the GUI"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="howto_index.html" >How to ...</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" >How to ...</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

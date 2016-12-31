@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Controller &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Controller &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="The Core API" href="api_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Run Mode" href="run_mode.html" />
     <link rel="prev" title="The Core API" href="api_index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,15 +46,15 @@
         <li class="right" >
           <a href="api_index.html" title="The Core API"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api_index.html" accesskey="U">The Core API</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="controller">
 <h1>Controller<a class="headerlink" href="#controller" title="Permalink to this headline">¶</a></h1>
@@ -63,7 +63,7 @@ entire application as well as individual subspaces that the application may
 create to tackle subproblems. Each subspace gets its own controller.</p>
 <p>Each controller has its own coderack, stream, long-term memory, and workspace.
 These may be accessed thus, respectively:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">coderack</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">coderack</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">stream</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">ltm</span>
 <span class="bp">self</span><span class="o">.</span><span class="n">workspace</span>
@@ -71,10 +71,10 @@ These may be accessed thus, respectively:</p>
 </div>
 <div class="section" id="customizing-the-controller-class">
 <h2>Customizing the controller class<a class="headerlink" href="#customizing-the-controller-class" title="Permalink to this headline">¶</a></h2>
-<p>A controller is an instance of a subclass of <a class="reference internal" href="../developer/controller.html#farg.core.controller.Controller" title="farg.core.controller.Controller"><tt class="xref py py-class docutils literal"><span class="pre">Controller</span></tt></a>. It is
+<p>A controller is an instance of a subclass of <a class="reference internal" href="../developer/controller.html#farg.core.controller.Controller" title="farg.core.controller.Controller"><code class="xref py py-class docutils literal"><span class="pre">Controller</span></code></a>. It is
 possible to configure the controller in a number of ways. Before we look at the configuration,
 here is a brief outline of the main function provided by the controller, namely,
-<a class="reference internal" href="../developer/controller.html#farg.core.controller.Controller.Step" title="farg.core.controller.Controller.Step"><tt class="xref py py-meth docutils literal"><span class="pre">Step()</span></tt></a>.</p>
+<a class="reference internal" href="../developer/controller.html#farg.core.controller.Controller.Step" title="farg.core.controller.Controller.Step"><code class="xref py py-meth docutils literal"><span class="pre">Step()</span></code></a>.</p>
 <p>A step involves choosing a codelet from the coderack and running it. The codelet has access to
 each of the components owned by the controller (namely, the coderack, stream, ltm, and
 workspace). The action of the codelet can have any number of effects including the creation
@@ -82,27 +82,27 @@ of more codelets, directing the application&#8217;s attention somewhere (a notio
 when we look at streams), create structures in the workspace, or extend the LTM or pump
 activation into some concept.</p>
 <p>Furthermore, after each step, more codelets are probabilistically added to the coderack. The
-class variable <a class="reference internal" href="../developer/controller.html#farg.core.controller.Controller.routine_codelets_to_add" title="farg.core.controller.Controller.routine_codelets_to_add"><tt class="xref py py-attr docutils literal"><span class="pre">routine_codelets_to_add</span></tt></a> contains 3-tuples
+class variable <a class="reference internal" href="../developer/controller.html#farg.core.controller.Controller.routine_codelets_to_add" title="farg.core.controller.Controller.routine_codelets_to_add"><code class="xref py py-attr docutils literal"><span class="pre">routine_codelets_to_add</span></code></a> contains 3-tuples
 (class, urgency, probability) specifying the class of the new codelet, its urgency, and the
 probability with which to add it.</p>
 <p>In the next few paragraphs, we will look at customizing a hypothetical controller called Foo.
 Its code will begin thus:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
-  <span class="o">...</span>  <span class="c"># customization here</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="o">...</span>  <span class="c1"># customization here</span>
 </pre></div>
 </div>
 <p>The simplest customization is to specify codelets to be added after each step:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
   <span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="p">((</span><span class="n">CodeletFamilyBar</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span>
                              <span class="p">(</span><span class="n">CodeletFamilyBat</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>Another customization is to use a non-default class for the coderack or the stream. This
-should in general not be required, and the default classes <a class="reference internal" href="../developer/coderack.html#farg.core.coderack.Coderack" title="farg.core.coderack.Coderack"><tt class="xref py py-class docutils literal"><span class="pre">Coderack</span></tt></a>
-and <a class="reference internal" href="../developer/stream.html#farg.core.stream.Stream" title="farg.core.stream.Stream"><tt class="xref py py-class docutils literal"><span class="pre">Stream</span></tt></a> should be adequate. But the customization is available if
+should in general not be required, and the default classes <a class="reference internal" href="../developer/coderack.html#farg.core.coderack.Coderack" title="farg.core.coderack.Coderack"><code class="xref py py-class docutils literal"><span class="pre">Coderack</span></code></a>
+and <a class="reference internal" href="../developer/stream.html#farg.core.stream.Stream" title="farg.core.stream.Stream"><code class="xref py py-class docutils literal"><span class="pre">Stream</span></code></a> should be adequate. But the customization is available if
 needed. No argument is passed to the constructor of these classes to create the coderack or
 the stream:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
   <span class="bp">self</span><span class="o">.</span><span class="n">coderack_class</span> <span class="o">=</span> <span class="n">SomeClass</span>
   <span class="bp">self</span><span class="o">.</span><span class="n">stream_class</span> <span class="o">=</span> <span class="n">SomeOtherClass</span>
 </pre></div>
@@ -110,12 +110,12 @@ the stream:</p>
 <p>The workspace class can be specified as follows. If it is not Null, it will be
 initialized with a dictionary that is passed in the workspace_arguments argument
 of the controller&#8217;s constructor:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">workspace_class</span> <span class="o">=</span> <span class="n">YetAnotherClass</span>  <span class="c"># Default: None</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">workspace_class</span> <span class="o">=</span> <span class="n">YetAnotherClass</span>  <span class="c1"># Default: None</span>
 </pre></div>
 </div>
 <p>The LTM&#8217;s name can be specified as below. The LTM manager will be used to load
 this (if not already loaded) and to initialize it if it is empty:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ltm_name</span> <span class="o">=</span> <span class="s">&#39;LtmName&#39;</span>  <span class="c"># Default: None</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">ltm_name</span> <span class="o">=</span> <span class="s1">&#39;LtmName&#39;</span>  <span class="c1"># Default: None</span>
 </pre></div>
 </div>
 </div>
@@ -123,10 +123,10 @@ this (if not already loaded) and to initialize it if it is empty:</p>
 <h2>The UI<a class="headerlink" href="#the-ui" title="Permalink to this headline">¶</a></h2>
 <p>A UI can be graphical or not. At any time, at most one UI is active, and it is
 shared by all controllers. It can be accessed as:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">ui</span>  <span class="c"># Points to the UI (usually a GUI).</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">ui</span>  <span class="c1"># Points to the UI (usually a GUI).</span>
 </pre></div>
 </div>
-<p>The UI provides the important method called <tt class="xref py py-meth docutils literal"><span class="pre">AskQuestion()</span></tt>. This can be
+<p>The UI provides the important method called <code class="xref py py-meth docutils literal"><span class="pre">AskQuestion()</span></code>. This can be
 used by the controller to ask for confirmation of the answer, for instance. In case of a
 graphical UI, this could result in the user being asked the question. In other
 cases (such as in automated testing), the UI may be given enough knowledge to
@@ -162,19 +162,19 @@ the only input and returns true or false.</li>
 <div><ul>
 <li><p class="first">The epoch of the controller &#8212; how many steps it has taken &#8212; is
 maintained:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">This is a utility to add a codelet. This is needed since every codelet
 keeps a pointer to a controller:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">arg1</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">arg2</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">Finally, it provides a Step method. It executes the next (stochastically
 chosen) step in the model:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">Step</span><span class="p">()</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">Step</span><span class="p">()</span>
 </pre></div>
 </div>
 </li>
@@ -187,7 +187,7 @@ chosen) step in the model:</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -210,24 +210,21 @@ chosen) step in the model:</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="run_mode.html"
                         title="next chapter">Run Mode</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -242,14 +239,14 @@ chosen) step in the model:</p>
         <li class="right" >
           <a href="api_index.html" title="The Core API"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api_index.html" >The Core API</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

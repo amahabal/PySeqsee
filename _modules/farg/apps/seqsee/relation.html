@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.apps.seqsee.relation &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>farg.apps.seqsee.relation &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -15,21 +14,22 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../../../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../../index.html" />
-    <link rel="up" title="Module code" href="../../../index.html" /> 
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../search.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -38,75 +38,75 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="../../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for farg.apps.seqsee.relation</h1><div class="highlight"><pre>
-<span class="c"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
-<span class="c">#</span>
-<span class="c"># This program is free software: you can redistribute it and/or modify it under</span>
-<span class="c"># the terms of the GNU General Public License as published by the Free Software</span>
-<span class="c"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
-<span class="c">#</span>
-<span class="c"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
-<span class="c"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
-<span class="c"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
-<span class="c">#</span>
-<span class="c"># You should have received a copy of the GNU General Public License along with this</span>
-<span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
-<span class="kn">from</span> <span class="nn">farg.apps.seqsee.distance</span> <span class="kn">import</span> <span class="n">DistanceInElements</span>
-<span class="kn">from</span> <span class="nn">farg.apps.seqsee.util</span> <span class="kn">import</span> <span class="n">GreaterThan</span><span class="p">,</span> <span class="n">LessThan</span>
-<span class="kn">from</span> <span class="nn">farg.core.util</span> <span class="kn">import</span> <span class="n">SelectWeightedByActivation</span>
-<span class="kn">from</span> <span class="nn">farg.core.codelet</span> <span class="kn">import</span> <span class="n">Codelet</span>
-<span class="kn">from</span> <span class="nn">farg.core.focusable_mixin</span> <span class="kn">import</span> <span class="n">FocusableMixin</span>
+<span></span><span class="c1"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># the terms of the GNU General Public License as published by the Free Software</span>
+<span class="c1"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c1"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
+<span class="c1"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License along with this</span>
+<span class="c1"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+<span class="kn">from</span> <span class="nn">farg.apps.seqsee.distance</span> <span class="k">import</span> <span class="n">DistanceInElements</span>
+<span class="kn">from</span> <span class="nn">farg.apps.seqsee.util</span> <span class="k">import</span> <span class="n">GreaterThan</span><span class="p">,</span> <span class="n">LessThan</span>
+<span class="kn">from</span> <span class="nn">farg.core.util</span> <span class="k">import</span> <span class="n">SelectWeightedByActivation</span>
+<span class="kn">from</span> <span class="nn">farg.core.codelet</span> <span class="k">import</span> <span class="n">Codelet</span>
+<span class="kn">from</span> <span class="nn">farg.core.focusable_mixin</span> <span class="k">import</span> <span class="n">FocusableMixin</span>
 
-<span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="kn">import</span> <span class="n">gflags</span>
+<span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="k">import</span> <span class="n">gflags</span>
 
-<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_boolean</span><span class="p">(</span><span class="s">&quot;use_group_distances&quot;</span><span class="p">,</span> <span class="bp">False</span><span class="p">,</span>
-                      <span class="s">&quot;If true, distance between objects may be measured in groups. &quot;</span>
-                      <span class="s">&quot;For example, distance between 7 and 8 in &#39;7 1 2 8&#39; can be seen as &quot;</span>
-                      <span class="s">&quot;2 intervening elements or 1 intervening group.&quot;</span><span class="p">)</span>
+<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_boolean</span><span class="p">(</span><span class="s2">&quot;use_group_distances&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>
+                      <span class="s2">&quot;If true, distance between objects may be measured in groups. &quot;</span>
+                      <span class="s2">&quot;For example, distance between 7 and 8 in &#39;7 1 2 8&#39; can be seen as &quot;</span>
+                      <span class="s2">&quot;2 intervening elements or 1 intervening group.&quot;</span><span class="p">)</span>
 
 <span class="sd">&quot;&quot;&quot;A relation is a specific instance of a mapping.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="Relation"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation">[docs]</a><span class="k">class</span> <span class="nc">Relation</span><span class="p">(</span><span class="n">FocusableMixin</span><span class="p">):</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapping_set</span><span class="p">):</span>
-    <span class="c">#: The object on the left.</span>
+    <span class="c1">#: The object on the left.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">first</span>
-    <span class="c">#: The object on the right.</span>
+    <span class="c1">#: The object on the right.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">second</span> <span class="o">=</span> <span class="n">second</span>
-    <span class="c">#: The set of mappings any of which transform the left object to the right object.</span>
+    <span class="c1">#: The set of mappings any of which transform the left object to the right object.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span> <span class="o">=</span> <span class="n">mapping_set</span>
 
   <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-    <span class="k">return</span> <span class="s">&#39;</span><span class="si">%s</span><span class="s">--&gt;</span><span class="si">%s</span><span class="s"> (</span><span class="si">%s</span><span class="s">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span><span class="p">)</span>
+    <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">--&gt;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Relation.Ends"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.Ends">[docs]</a>  <span class="k">def</span> <span class="nf">Ends</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns a 2-tuple of the two ends.&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">)</span>
-</div>
+    <span class="k">return</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Relation.GetMappingSet"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.GetMappingSet">[docs]</a>  <span class="k">def</span> <span class="nf">GetMappingSet</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the set of mappings. Currently, this is a singleton, but in order to see</span>
 <span class="sd">    relations between &quot;2&quot; and &quot;3&quot; flexibly as &quot;next number&quot; as well as &quot;next prime&quot;, multiple</span>
 <span class="sd">    relations will need to be supported.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span>
-</div>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span></div>
+
 <div class="viewcode-block" id="Relation.AreEndsContiguous"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.AreEndsContiguous">[docs]</a>  <span class="k">def</span> <span class="nf">AreEndsContiguous</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Are the two ends right next to each other (i.e., true if no hole).&quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">end_pos</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">start_pos</span>
-</div>
+    <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">end_pos</span> <span class="o">+</span> <span class="mi">1</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">start_pos</span></div>
+
 <div class="viewcode-block" id="Relation.GetFringe"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.GetFringe">[docs]</a>  <span class="k">def</span> <span class="nf">GetFringe</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
-    <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span><span class="p">)</span>
-</div>
+    <span class="k">return</span> <span class="nb">dict</span><span class="p">((</span><span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mf">1.0</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span><span class="p">)</span></div>
+
 <div class="viewcode-block" id="Relation.ChooseDistanceObject"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.ChooseDistanceObject">[docs]</a>  <span class="k">def</span> <span class="nf">ChooseDistanceObject</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Chooses a distance object. If a group is present between the edges, either of group</span>
 <span class="sd">       or elemental distance may be chosen. Otherwise the element distance is chosen.</span>
@@ -123,12 +123,12 @@
                                                     <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">start_pos</span><span class="p">)</span>
         <span class="n">distance_object</span> <span class="o">=</span> <span class="n">SelectWeightedByActivation</span><span class="p">(</span><span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="p">,</span> <span class="p">(</span><span class="n">distance_object</span><span class="p">,</span>
                                                                       <span class="n">group_distance</span><span class="p">))</span>
-    <span class="k">return</span> <span class="n">distance_object</span>
-</div>
+    <span class="k">return</span> <span class="n">distance_object</span></div>
+
 <div class="viewcode-block" id="Relation.GetAffordances"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.GetAffordances">[docs]</a>  <span class="k">def</span> <span class="nf">GetAffordances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
-    <span class="c"># TODO(# --- Jan 3, 2012): Too eager, tone this down later.</span>
-    <span class="kn">from</span> <span class="nn">farg.apps.seqsee.codelet_families.all</span> <span class="kn">import</span> <span class="n">CF_GroupFromRelation</span>
-    <span class="kn">from</span> <span class="nn">farg.apps.seqsee.codelet_families.all</span> <span class="kn">import</span> <span class="n">CF_IsThisInterlaced</span>
+    <span class="c1"># TODO(# --- Jan 3, 2012): Too eager, tone this down later.</span>
+    <span class="kn">from</span> <span class="nn">farg.apps.seqsee.codelet_families.all</span> <span class="k">import</span> <span class="n">CF_GroupFromRelation</span>
+    <span class="kn">from</span> <span class="nn">farg.apps.seqsee.codelet_families.all</span> <span class="k">import</span> <span class="n">CF_IsThisInterlaced</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">AreEndsContiguous</span><span class="p">():</span>
       <span class="k">return</span> <span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">CF_GroupFromRelation</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">relation</span><span class="o">=</span><span class="bp">self</span><span class="p">)),)</span>
     <span class="k">else</span><span class="p">:</span>
@@ -137,46 +137,44 @@
         <span class="k">return</span> <span class="p">(</span><span class="n">Codelet</span><span class="p">(</span><span class="n">CF_IsThisInterlaced</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="mi">50</span><span class="p">,</span>
                         <span class="nb">dict</span><span class="p">(</span><span class="n">distance</span><span class="o">=</span><span class="n">distance_object</span><span class="p">)),)</span>
       <span class="k">else</span><span class="p">:</span>
-        <span class="k">return</span> <span class="p">()</span>
-</div>
+        <span class="k">return</span> <span class="p">()</span></div>
+
 <div class="viewcode-block" id="Relation.GetSimilarityAffordances"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.GetSimilarityAffordances">[docs]</a>  <span class="k">def</span> <span class="nf">GetSimilarityAffordances</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">focusable</span><span class="p">,</span> <span class="n">other_fringe</span><span class="p">,</span> <span class="n">my_fringe</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
-    <span class="k">return</span> <span class="p">()</span>
-</div>
+    <span class="k">return</span> <span class="p">()</span></div>
+
 <div class="viewcode-block" id="Relation.OnFocus"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.OnFocus">[docs]</a>  <span class="k">def</span> <span class="nf">OnFocus</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;When the relation is focused on, and is not adjacent, send activation to the</span>
 <span class="sd">       &quot;distance&quot; node.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">AreEndsContiguous</span><span class="p">():</span>
       <span class="n">distance_object</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ChooseDistanceObject</span><span class="p">(</span><span class="n">controller</span><span class="p">)</span>
-      <span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">IncreaseActivationForContent</span><span class="p">(</span><span class="n">distance_object</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span>
-</pre></div></div></div>
+      <span class="n">controller</span><span class="o">.</span><span class="n">ltm</span><span class="o">.</span><span class="n">IncreaseActivationForContent</span><span class="p">(</span><span class="n">distance_object</span><span class="p">,</span> <span class="mi">5</span><span class="p">)</span></div></div>
+
+</pre></div>
 
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../../../index.html">
               <img class="logo" src="../../../../_static/logo.jpg" alt="Logo"/>
             </a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -185,14 +183,14 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="../../../index.html" >Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

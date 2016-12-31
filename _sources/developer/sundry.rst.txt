@@ -1,6 +1,14 @@
 Everything Else
 ================
 
+Logging
+----------
+
+For ease of debugging, logging statements have been added, and these can be controlled by a pair of
+flags: --debug can take values such as "debug", "info", and "warning" to control the main logger.
+Finer control can be exerted by specifying a config file with --debug_config=filename. One such
+file is in fargs/apps/seqsee/logging.conf.
+
 
 Exceptions
 -------------

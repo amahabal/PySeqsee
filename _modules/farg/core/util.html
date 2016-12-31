@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.util &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>farg.core.util &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -15,21 +14,22 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../../../_static/jquery.js"></script>
     <script type="text/javascript" src="../../../_static/underscore.js"></script>
     <script type="text/javascript" src="../../../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../../../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../../../index.html" />
-    <link rel="up" title="Module code" href="../../index.html" /> 
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -38,29 +38,29 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" accesskey="U">Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <h1>Source code for farg.core.util</h1><div class="highlight"><pre>
-<span class="c"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
-<span class="c">#</span>
-<span class="c"># This program is free software: you can redistribute it and/or modify it under</span>
-<span class="c"># the terms of the GNU General Public License as published by the Free Software</span>
-<span class="c"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
-<span class="c">#</span>
-<span class="c"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
-<span class="c"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
-<span class="c"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
-<span class="c">#</span>
-<span class="c"># You should have received a copy of the GNU General Public License along with this</span>
-<span class="c"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
+<span></span><span class="c1"># Copyright (C) 2011, 2012  Abhijit Mahabal</span>
+<span class="c1">#</span>
+<span class="c1"># This program is free software: you can redistribute it and/or modify it under</span>
+<span class="c1"># the terms of the GNU General Public License as published by the Free Software</span>
+<span class="c1"># Foundation, either version 3 of the License, or (at your option) any later version.</span>
+<span class="c1">#</span>
+<span class="c1"># This program is distributed in the hope that it will be useful, but WITHOUT ANY</span>
+<span class="c1"># WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS FOR</span>
+<span class="c1"># A PARTICULAR PURPOSE.  See the GNU General Public License for more details.</span>
+<span class="c1">#</span>
+<span class="c1"># You should have received a copy of the GNU General Public License along with this</span>
+<span class="c1"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
 
 <span class="sd">&quot;&quot;&quot;General utilities.&quot;&quot;&quot;</span>
 
@@ -70,15 +70,15 @@
 
 <div class="viewcode-block" id="HSVToColorString"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.HSVToColorString">[docs]</a><span class="k">def</span> <span class="nf">HSVToColorString</span><span class="p">(</span><span class="n">hue</span><span class="p">,</span> <span class="n">saturation</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Convert from HSV to RGB color space.&quot;&quot;&quot;</span>
-  <span class="n">rgb</span> <span class="o">=</span> <span class="p">(</span><span class="s">&#39;</span><span class="si">%02x</span><span class="s">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mf">255.0</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">colorsys</span><span class="o">.</span><span class="n">hsv_to_rgb</span><span class="p">(</span><span class="n">hue</span><span class="p">,</span> <span class="n">saturation</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
-  <span class="k">return</span> <span class="s">&#39;#&#39;</span> <span class="o">+</span> <span class="s">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span>
+  <span class="n">rgb</span> <span class="o">=</span> <span class="p">(</span><span class="s1">&#39;</span><span class="si">%02x</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="mf">255.0</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">colorsys</span><span class="o">.</span><span class="n">hsv_to_rgb</span><span class="p">(</span><span class="n">hue</span><span class="p">,</span> <span class="n">saturation</span><span class="p">,</span> <span class="n">value</span><span class="p">))</span>
+  <span class="k">return</span> <span class="s1">&#39;#&#39;</span> <span class="o">+</span> <span class="s1">&#39;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">rgb</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="Toss"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.Toss">[docs]</a><span class="k">def</span> <span class="nf">Toss</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;x is a number between 0 and 1. Returns true with probability x.&quot;&quot;&quot;</span>
-  <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">x</span>
+  <span class="k">return</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="n">x</span></div>
 
-</div>
+
 <div class="viewcode-block" id="ChooseAboutN"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.ChooseAboutN">[docs]</a><span class="k">def</span> <span class="nf">ChooseAboutN</span><span class="p">(</span><span class="n">n</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Choose in a way that the expected number of choices is n.</span>
 
@@ -93,11 +93,11 @@
 <span class="sd">  Returns:</span>
 <span class="sd">    A list of a roughly n-sized subset of choices.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">choices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>  <span class="c"># Needed since we iterate twice over the iterable.</span>
+  <span class="n">choices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>  <span class="c1"># Needed since we iterate twice over the iterable.</span>
   <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">w</span> <span class="k">for</span> <span class="n">_c</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">)</span>
-  <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">choices</span> <span class="k">if</span> <span class="n">Toss</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span><span class="p">)]</span>
+  <span class="k">return</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">choices</span> <span class="k">if</span> <span class="n">Toss</span><span class="p">(</span><span class="mf">1.0</span> <span class="o">*</span> <span class="n">n</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">/</span> <span class="n">total</span><span class="p">)]</span></div>
 
-</div>
+
 <div class="viewcode-block" id="WeightedChoice"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.WeightedChoice">[docs]</a><span class="k">def</span> <span class="nf">WeightedChoice</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Chooses an item, biased by weight.</span>
 
@@ -107,7 +107,7 @@
 <span class="sd">  Returns:</span>
 <span class="sd">    An element of choices.</span>
 <span class="sd">  &quot;&quot;&quot;</span>
-  <span class="n">choices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>  <span class="c"># Needed since we iterate twice over the iterable.</span>
+  <span class="n">choices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>  <span class="c1"># Needed since we iterate twice over the iterable.</span>
   <span class="n">total</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="n">weight</span> <span class="k">for</span> <span class="n">item</span><span class="p">,</span> <span class="n">weight</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">)</span>
   <span class="n">random_sum</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">total</span><span class="p">)</span>
   <span class="n">upto</span> <span class="o">=</span> <span class="mi">0</span>
@@ -115,22 +115,22 @@
     <span class="k">if</span> <span class="n">upto</span> <span class="o">+</span> <span class="n">weight</span> <span class="o">&gt;</span> <span class="n">random_sum</span><span class="p">:</span>
       <span class="k">return</span> <span class="n">item</span>
     <span class="n">upto</span> <span class="o">+=</span> <span class="n">weight</span>
-  <span class="k">assert</span> <span class="bp">False</span><span class="p">,</span> <span class="s">&quot;Shouldn&#39;t get here&quot;</span>
+  <span class="k">assert</span> <span class="kc">False</span><span class="p">,</span> <span class="s2">&quot;Shouldn&#39;t get here&quot;</span></div>
 
-</div>
+
 <div class="viewcode-block" id="SelectWeightedByActivation"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.SelectWeightedByActivation">[docs]</a><span class="k">def</span> <span class="nf">SelectWeightedByActivation</span><span class="p">(</span><span class="n">ltm</span><span class="p">,</span> <span class="n">choices</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Given an ltm and nodes in ltm, chooses one biased by activation.&quot;&quot;&quot;</span>
   <span class="n">choices</span> <span class="o">=</span> <span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">ltm</span><span class="o">.</span><span class="n">GetActivationForContent</span><span class="p">(</span><span class="n">x</span><span class="p">))</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">choices</span><span class="p">)</span>
-  <span class="k">return</span> <span class="n">WeightedChoice</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">WeightedChoice</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span></div>
 
-</div>
+
 <div class="viewcode-block" id="UnweightedChoice"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.UnweightedChoice">[docs]</a><span class="k">def</span> <span class="nf">UnweightedChoice</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Chooses one item uniformly randomly from is an iterable.&quot;&quot;&quot;</span>
-  <span class="n">choices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>  <span class="c"># Needed since we need to choose nth element and need length.</span>
+  <span class="n">choices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">choices</span><span class="p">)</span>  <span class="c1"># Needed since we need to choose nth element and need length.</span>
   <span class="n">random_choice</span> <span class="o">=</span> <span class="n">random</span><span class="o">.</span><span class="n">uniform</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">choices</span><span class="p">))</span>
-  <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">random_choice</span><span class="p">)]</span>
+  <span class="k">return</span> <span class="n">choices</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">random_choice</span><span class="p">)]</span></div>
 
-</div>
+
 <div class="viewcode-block" id="WeightedShuffle"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.WeightedShuffle">[docs]</a><span class="k">def</span> <span class="nf">WeightedShuffle</span><span class="p">(</span><span class="n">choices</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Shuffle items by weight.</span>
 
@@ -151,9 +151,9 @@
         <span class="n">choices</span> <span class="o">=</span> <span class="n">choices</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">idx</span><span class="p">]</span> <span class="o">+</span> <span class="n">choices</span><span class="p">[</span><span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">:]</span>
         <span class="k">yield</span> <span class="n">item</span>
         <span class="k">continue</span>
-      <span class="n">upto</span> <span class="o">+=</span> <span class="n">weight</span>
+      <span class="n">upto</span> <span class="o">+=</span> <span class="n">weight</span></div>
 
-</div>
+
 <div class="viewcode-block" id="Squash"><a class="viewcode-back" href="../../../developer/utils.html#farg.core.util.Squash">[docs]</a><span class="k">def</span> <span class="nf">Squash</span><span class="p">(</span><span class="n">val</span><span class="p">,</span> <span class="n">cap</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Use a sigmoidal squashing function to squash to 100.&quot;&quot;&quot;</span>
   <span class="k">if</span> <span class="n">val</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -164,29 +164,26 @@
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../../../index.html">
               <img class="logo" src="../../../_static/logo.jpg" alt="Logo"/>
             </a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../../../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -195,14 +192,14 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li><a href="../../../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="../../index.html" >Module code</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

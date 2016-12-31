@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Everything Else &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Everything Else &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="Core Developer Documentation" href="developer_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="The Flagship App: Seqsee" href="../seqsee/seqsee_index.html" />
     <link rel="prev" title="Interacting With User" href="question.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,18 +46,25 @@
         <li class="right" >
           <a href="question.html" title="Interacting With User"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="everything-else">
 <h1>Everything Else<a class="headerlink" href="#everything-else" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="logging">
+<h2>Logging<a class="headerlink" href="#logging" title="Permalink to this headline">¶</a></h2>
+<p>For ease of debugging, logging statements have been added, and these can be controlled by a pair of
+flags: &#8211;debug can take values such as &#8220;debug&#8221;, &#8220;info&#8221;, and &#8220;warning&#8221; to control the main logger.
+Finer control can be exerted by specifying a config file with &#8211;debug_config=filename. One such
+file is in fargs/apps/seqsee/logging.conf.</p>
+</div>
 <div class="section" id="module-farg.core.exceptions">
 <span id="exceptions"></span><h2>Exceptions<a class="headerlink" href="#module-farg.core.exceptions" title="Permalink to this headline">¶</a></h2>
 <p>Exception classes in FARG core.</p>
@@ -68,18 +75,18 @@ directory.</p>
 </div>
 <dl class="exception">
 <dt id="farg.core.exceptions.AnswerFoundException">
-<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">AnswerFoundException</tt><big>(</big><em>answer</em>, <em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#AnswerFoundException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.AnswerFoundException" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descclassname">farg.core.exceptions.</code><code class="descname">AnswerFoundException</code><span class="sig-paren">(</span><em>answer</em>, <em>*</em>, <em>codelet_count</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/exceptions.html#AnswerFoundException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.AnswerFoundException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised by a subspace when it believes that an answer has been found.</p>
 </dd></dl>
 
 <dl class="exception">
 <dt id="farg.core.exceptions.BatchModeStopException">
-<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">BatchModeStopException</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#BatchModeStopException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.BatchModeStopException" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descclassname">farg.core.exceptions.</code><code class="descname">BatchModeStopException</code><span class="sig-paren">(</span><em>*</em>, <em>codelet_count</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/exceptions.html#BatchModeStopException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.BatchModeStopException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class of ways of stopping during batch mode.</p>
 <p>Look at the subclasses (in this file) for details.</p>
 <dl class="attribute">
 <dt id="farg.core.exceptions.BatchModeStopException.codelet_count">
-<tt class="descname">codelet_count</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.exceptions.BatchModeStopException.codelet_count" title="Permalink to this definition">¶</a></dt>
+<code class="descname">codelet_count</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.exceptions.BatchModeStopException.codelet_count" title="Permalink to this definition">¶</a></dt>
 <dd><p>Number of codelets that had been run when the exception was raised.</p>
 </dd></dl>
 
@@ -87,11 +94,11 @@ directory.</p>
 
 <dl class="exception">
 <dt id="farg.core.exceptions.FargError">
-<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">FargError</tt><big>(</big><em>msg=''</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#FargError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.FargError" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descclassname">farg.core.exceptions.</code><code class="descname">FargError</code><span class="sig-paren">(</span><em>msg=''</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/exceptions.html#FargError"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.FargError" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for untrappable errors (indicating bugs).</p>
 <dl class="attribute">
 <dt id="farg.core.exceptions.FargError.msg">
-<tt class="descname">msg</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.exceptions.FargError.msg" title="Permalink to this definition">¶</a></dt>
+<code class="descname">msg</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.exceptions.FargError.msg" title="Permalink to this definition">¶</a></dt>
 <dd><p>Message to be displayed.</p>
 </dd></dl>
 
@@ -99,25 +106,25 @@ directory.</p>
 
 <dl class="exception">
 <dt id="farg.core.exceptions.FargException">
-<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">FargException</tt><a class="reference internal" href="../_modules/farg/core/exceptions.html#FargException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.FargException" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descclassname">farg.core.exceptions.</code><code class="descname">FargException</code><a class="reference internal" href="../_modules/farg/core/exceptions.html#FargException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.FargException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Base class for FARG-specific exceptions.</p>
 </dd></dl>
 
 <dl class="exception">
 <dt id="farg.core.exceptions.NoAnswerException">
-<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">NoAnswerException</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#NoAnswerException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.NoAnswerException" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descclassname">farg.core.exceptions.</code><code class="descname">NoAnswerException</code><span class="sig-paren">(</span><em>*</em>, <em>codelet_count</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/exceptions.html#NoAnswerException"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.NoAnswerException" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised by a subspace when it is realized that no answer is forthcoming.</p>
 </dd></dl>
 
 <dl class="exception">
 <dt id="farg.core.exceptions.StoppingConditionMet">
-<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">StoppingConditionMet</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#StoppingConditionMet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.StoppingConditionMet" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descclassname">farg.core.exceptions.</code><code class="descname">StoppingConditionMet</code><span class="sig-paren">(</span><em>*</em>, <em>codelet_count</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/exceptions.html#StoppingConditionMet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.StoppingConditionMet" title="Permalink to this definition">¶</a></dt>
 <dd><p>When a stopping condition is specified, this indicates that it has been reached.</p>
 </dd></dl>
 
 <dl class="exception">
 <dt id="farg.core.exceptions.SuccessfulCompletion">
-<em class="property">exception </em><tt class="descclassname">farg.core.exceptions.</tt><tt class="descname">SuccessfulCompletion</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/exceptions.html#SuccessfulCompletion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.SuccessfulCompletion" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descclassname">farg.core.exceptions.</code><code class="descname">SuccessfulCompletion</code><span class="sig-paren">(</span><em>*</em>, <em>codelet_count</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/exceptions.html#SuccessfulCompletion"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.exceptions.SuccessfulCompletion" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised when the problem has been fully solved.</p>
 <p>What fully solved means depends on the application, of course. For Seqsee, this means
 currently means &#8220;Sequence has been extended to all known terms.&#8221;.</p>
@@ -131,7 +138,7 @@ currently means &#8220;Sequence has been extended to all known terms.&#8221;.</p
 returned in both cases.</p>
 <dl class="class">
 <dt id="farg.core.meta.MemoizedConstructor">
-<em class="property">class </em><tt class="descclassname">farg.core.meta.</tt><tt class="descname">MemoizedConstructor</tt><big>(</big><em>mcs</em>, <em>name</em>, <em>bases</em>, <em>class_dict</em><big>)</big><a class="reference internal" href="../_modules/farg/core/meta.html#MemoizedConstructor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.meta.MemoizedConstructor" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.meta.</code><code class="descname">MemoizedConstructor</code><span class="sig-paren">(</span><em>mcs</em>, <em>name</em>, <em>bases</em>, <em>class_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/meta.html#MemoizedConstructor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.meta.MemoizedConstructor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Metaclass that makes the constructor memoized.</p>
 <p>That is, if the constructor is called twice with identical arguments, the same instance is
 returned in both cases.</p>
@@ -146,7 +153,7 @@ with expected outputs specified). The class in this module can be used directly 
 to parse such a file.</p>
 <dl class="class">
 <dt id="farg.core.read_input_spec.ReadInputSpec">
-<em class="property">class </em><tt class="descclassname">farg.core.read_input_spec.</tt><tt class="descname">ReadInputSpec</tt><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.read_input_spec.</code><code class="descname">ReadInputSpec</code><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec" title="Permalink to this definition">¶</a></dt>
 <dd><p>Basic Input specification reader.</p>
 <p>Features of this reader:</p>
 <blockquote>
@@ -160,19 +167,19 @@ expected output.</li>
 <p>This can be subclassed to read a different type of file.</p>
 <dl class="method">
 <dt id="farg.core.read_input_spec.ReadInputSpec.ReadFile">
-<tt class="descname">ReadFile</tt><big>(</big><em>filename</em><big>)</big><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec.ReadFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec.ReadFile" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ReadFile</code><span class="sig-paren">(</span><em>filename</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec.ReadFile"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec.ReadFile" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads in specification from a file.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.read_input_spec.ReadInputSpec.ReadLine">
-<tt class="descname">ReadLine</tt><big>(</big><em>line</em><big>)</big><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec.ReadLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec.ReadLine" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ReadLine</code><span class="sig-paren">(</span><em>line</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec.ReadLine"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec.ReadLine" title="Permalink to this definition">¶</a></dt>
 <dd><p>Read a single non-empty non-comment line, converting it to a Specification.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.read_input_spec.ReadInputSpec.ReadLines">
-<tt class="descname">ReadLines</tt><big>(</big><em>filelike</em><big>)</big><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec.ReadLines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec.ReadLines" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ReadLines</code><span class="sig-paren">(</span><em>filelike</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#ReadInputSpec.ReadLines"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.ReadInputSpec.ReadLines" title="Permalink to this definition">¶</a></dt>
 <dd><p>Reads specification from string iterator.</p>
 </dd></dl>
 
@@ -180,11 +187,11 @@ expected output.</li>
 
 <dl class="class">
 <dt id="farg.core.read_input_spec.SpecificationForOneRun">
-<em class="property">class </em><tt class="descclassname">farg.core.read_input_spec.</tt><tt class="descname">SpecificationForOneRun</tt><big>(</big><em>name</em>, <em>arguments_dict</em><big>)</big><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#SpecificationForOneRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.SpecificationForOneRun" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.read_input_spec.</code><code class="descname">SpecificationForOneRun</code><span class="sig-paren">(</span><em>name</em>, <em>arguments_dict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/read_input_spec.html#SpecificationForOneRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.read_input_spec.SpecificationForOneRun" title="Permalink to this definition">¶</a></dt>
 <dd><p>Specification of input flags for a single run.</p>
 <dl class="attribute">
 <dt id="farg.core.read_input_spec.SpecificationForOneRun.arguments_dict">
-<tt class="descname">arguments_dict</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.read_input_spec.SpecificationForOneRun.arguments_dict" title="Permalink to this definition">¶</a></dt>
+<code class="descname">arguments_dict</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.read_input_spec.SpecificationForOneRun.arguments_dict" title="Permalink to this definition">¶</a></dt>
 <dd><p>The dictionary of arguments to be passed to the application for that input. Typically,
 this will contain two keys: &#8216;input&#8217; and &#8216;expected output&#8217;, but could be anything,
 depending on the application.</p>
@@ -192,7 +199,7 @@ depending on the application.</p>
 
 <dl class="attribute">
 <dt id="farg.core.read_input_spec.SpecificationForOneRun.name">
-<tt class="descname">name</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.read_input_spec.SpecificationForOneRun.name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">name</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.read_input_spec.SpecificationForOneRun.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of the input, for display purposes.</p>
 </dd></dl>
 
@@ -204,13 +211,13 @@ depending on the application.</p>
 <p>Collects stats for multiple run with a single setting.</p>
 <dl class="class">
 <dt id="farg.core.run_stats.AllStats">
-<em class="property">class </em><tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">AllStats</tt><big>(</big><em>left_name</em>, <em>right_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.run_stats.</code><code class="descname">AllStats</code><span class="sig-paren">(</span><em>*</em>, <em>left_name</em>, <em>right_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stats for all inputs for each iteration thus far.</p>
 <dl class="method">
 <dt id="farg.core.run_stats.AllStats.GetComparitiveStats">
-<tt class="descname">GetComparitiveStats</tt><big>(</big><em>for_input</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetComparitiveStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.GetComparitiveStats" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GetComparitiveStats</code><span class="sig-paren">(</span><em>for_input</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetComparitiveStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.GetComparitiveStats" title="Permalink to this definition">¶</a></dt>
 <dd><p>For a given input name, returns comparitive stats along two dimensions.</p>
-<p>Specifically, it returns two dicts (see output of <a class="reference internal" href="#farg.core.run_stats.GetTStatsDict" title="farg.core.run_stats.GetTStatsDict"><tt class="xref py py-func docutils literal"><span class="pre">GetTStatsDict()</span></tt></a> for details),
+<p>Specifically, it returns two dicts (see output of <a class="reference internal" href="#farg.core.run_stats.GetTStatsDict" title="farg.core.run_stats.GetTStatsDict"><code class="xref py py-func docutils literal"><span class="pre">GetTStatsDict()</span></code></a> for details),
 one comparing running times when there was success, and one comparing how frequently
 each was successful.</p>
 <p>Memoizes the result, and recalculates only if more data is available.</p>
@@ -228,19 +235,19 @@ each was successful.</p>
 
 <dl class="method">
 <dt id="farg.core.run_stats.AllStats.GetLeftStatsFor">
-<tt class="descname">GetLeftStatsFor</tt><big>(</big><em>input_to_run</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetLeftStatsFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.GetLeftStatsFor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GetLeftStatsFor</code><span class="sig-paren">(</span><em>input_to_run</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetLeftStatsFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.GetLeftStatsFor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get left stats for input_to_run. Create (empty) if not present.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.run_stats.AllStats.GetRightStatsFor">
-<tt class="descname">GetRightStatsFor</tt><big>(</big><em>input_to_run</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetRightStatsFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.GetRightStatsFor" title="Permalink to this definition">¶</a></dt>
+<code class="descname">GetRightStatsFor</code><span class="sig-paren">(</span><em>input_to_run</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.GetRightStatsFor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.GetRightStatsFor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get right stats for input_to_run. Create (empty) if not present.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.run_stats.AllStats.IsRightBetter">
-<tt class="descname">IsRightBetter</tt><big>(</big><em>for_input</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.IsRightBetter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.IsRightBetter" title="Permalink to this definition">¶</a></dt>
+<code class="descname">IsRightBetter</code><span class="sig-paren">(</span><em>for_input</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.IsRightBetter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.IsRightBetter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if the right-hand side is better for given input string.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -258,25 +265,25 @@ each was successful.</p>
 
 <dl class="attribute">
 <dt id="farg.core.run_stats.AllStats.input_order">
-<tt class="descname">input_order</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.input_order" title="Permalink to this definition">¶</a></dt>
+<code class="descname">input_order</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.input_order" title="Permalink to this definition">¶</a></dt>
 <dd><p>Order in which inputs have been seen.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.run_stats.AllStats.left_stats">
-<tt class="descname">left_stats</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.left_stats" title="Permalink to this definition">¶</a></dt>
+<code class="descname">left_stats</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.left_stats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stats for the left side.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.run_stats.AllStats.memoized_stats">
-<tt class="descname">memoized_stats</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.memoized_stats" title="Permalink to this definition">¶</a></dt>
+<code class="descname">memoized_stats</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.memoized_stats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Memoized Stats</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.run_stats.AllStats.right_stats">
-<tt class="descname">right_stats</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.right_stats" title="Permalink to this definition">¶</a></dt>
+<code class="descname">right_stats</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_stats.AllStats.right_stats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stats for the right side.</p>
 </dd></dl>
 
@@ -284,13 +291,13 @@ each was successful.</p>
 
 <dl class="function">
 <dt id="farg.core.run_stats.Descriptor">
-<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Descriptor</tt><big>(</big><em>t</em>, <em>df</em>, <em>less</em>, <em>more</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Descriptor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Descriptor" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">farg.core.run_stats.</code><code class="descname">Descriptor</code><span class="sig-paren">(</span><em>*</em>, <em>t</em>, <em>df</em>, <em>less='Less'</em>, <em>more='More'</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#Descriptor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Descriptor" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given t and degs of freedom, returns &#8216;More&#8217;, &#8216;Less&#8217;, or &#8216;&#8217;, at nearly 95% confidence.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="farg.core.run_stats.GetTStatsDict">
-<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">GetTStatsDict</tt><big>(</big><em>left_numbers</em>, <em>right_numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#GetTStatsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.GetTStatsDict" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">farg.core.run_stats.</code><code class="descname">GetTStatsDict</code><span class="sig-paren">(</span><em>left_numbers</em>, <em>right_numbers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#GetTStatsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.GetTStatsDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given two sets of numbers, returns a dict with a variety of stats.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -315,23 +322,23 @@ added.</li>
 
 <dl class="function">
 <dt id="farg.core.run_stats.Mean">
-<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Mean</tt><big>(</big><em>numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Mean" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">farg.core.run_stats.</code><code class="descname">Mean</code><span class="sig-paren">(</span><em>numbers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#Mean"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Mean" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the average of the input, 0 if empty.</p>
 </dd></dl>
 
 <dl class="function">
 <dt id="farg.core.run_stats.Median">
-<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Median</tt><big>(</big><em>numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Median"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Median" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">farg.core.run_stats.</code><code class="descname">Median</code><span class="sig-paren">(</span><em>numbers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#Median"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Median" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns the median of the input, 0 if empty.</p>
 </dd></dl>
 
 <dl class="class">
 <dt id="farg.core.run_stats.RunStats">
-<em class="property">class </em><tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">RunStats</tt><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.RunStats" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.run_stats.</code><code class="descname">RunStats</code><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.RunStats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stats for multiple runs with a single setting.</p>
 <dl class="method">
 <dt id="farg.core.run_stats.RunStats.AddData">
-<tt class="descname">AddData</tt><big>(</big><em>data_string</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats.AddData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.RunStats.AddData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">AddData</code><span class="sig-paren">(</span><em>data_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats.AddData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.RunStats.AddData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a data point. This is parsed to determine outcome and number of codelets.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -345,7 +352,7 @@ added.</li>
 
 <dl class="method">
 <dt id="farg.core.run_stats.RunStats.IsEmpty">
-<tt class="descname">IsEmpty</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.RunStats.IsEmpty" title="Permalink to this definition">¶</a></dt>
+<code class="descname">IsEmpty</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats.IsEmpty"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.RunStats.IsEmpty" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns true if no data has been added.</p>
 </dd></dl>
 
@@ -353,11 +360,11 @@ added.</li>
 
 <dl class="class">
 <dt id="farg.core.run_stats.StatsForSingleState">
-<em class="property">class </em><tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">StatsForSingleState</tt><a class="reference internal" href="../_modules/farg/core/run_stats.html#StatsForSingleState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.StatsForSingleState" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.run_stats.</code><code class="descname">StatsForSingleState</code><a class="reference internal" href="../_modules/farg/core/run_stats.html#StatsForSingleState"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.StatsForSingleState" title="Permalink to this definition">¶</a></dt>
 <dd><p>Stats for a single state (e.g., &#8220;SuccessfulCompletion&#8221;) of a single run.</p>
 <dl class="method">
 <dt id="farg.core.run_stats.StatsForSingleState.AddData">
-<tt class="descname">AddData</tt><big>(</big><em>codelet_count</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#StatsForSingleState.AddData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.StatsForSingleState.AddData" title="Permalink to this definition">¶</a></dt>
+<code class="descname">AddData</code><span class="sig-paren">(</span><em>*</em>, <em>codelet_count</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#StatsForSingleState.AddData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.StatsForSingleState.AddData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds codelet count to data (for this particulr outcome for this particular input).</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -370,7 +377,7 @@ no sense for that state.</dd>
 
 <dl class="function">
 <dt id="farg.core.run_stats.Variance">
-<tt class="descclassname">farg.core.run_stats.</tt><tt class="descname">Variance</tt><big>(</big><em>numbers</em><big>)</big><a class="reference internal" href="../_modules/farg/core/run_stats.html#Variance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Variance" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">farg.core.run_stats.</code><code class="descname">Variance</code><span class="sig-paren">(</span><em>numbers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#Variance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.Variance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Variance of a bunch of numbers, error if fewer than 2 numbers given.</p>
 </dd></dl>
 
@@ -382,7 +389,7 @@ no sense for that state.</dd>
 condition is met. This module manages stopping conditions.</p>
 <dl class="function">
 <dt id="farg.core.stopping_conditions.RegisterStoppingCondition">
-<tt class="descclassname">farg.core.stopping_conditions.</tt><tt class="descname">RegisterStoppingCondition</tt><big>(</big><em>stopping_conditions_class</em>, <em>condition_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#RegisterStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.RegisterStoppingCondition" title="Permalink to this definition">¶</a></dt>
+<code class="descclassname">farg.core.stopping_conditions.</code><code class="descname">RegisterStoppingCondition</code><span class="sig-paren">(</span><em>stopping_conditions_class</em>, <em>*</em>, <em>condition_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#RegisterStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.RegisterStoppingCondition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for registering a stopping condition on a class.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -393,7 +400,7 @@ condition is met. This module manages stopping conditions.</p>
 <dd>A decorated function identical to input. Decoration useful only for its side-effect.</dd>
 </dl>
 <p>Usage:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="nd">@RegisterStoppingCondition</span><span class="p">(</span><span class="n">SomeSubclassOfStoppingConditions</span><span class="p">,</span> <span class="n">condition_name</span><span class="o">=</span><span class="s">&#39;foo&#39;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@RegisterStoppingCondition</span><span class="p">(</span><span class="n">SomeSubclassOfStoppingConditions</span><span class="p">,</span> <span class="n">condition_name</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">CheckFoo</span><span class="p">(</span><span class="n">controller</span><span class="p">):</span>
   <span class="o">...</span> <span class="n">do</span> <span class="n">something</span> <span class="o">...</span>
 </pre></div>
@@ -402,11 +409,11 @@ condition is met. This module manages stopping conditions.</p>
 
 <dl class="exception">
 <dt id="farg.core.stopping_conditions.StoppingConditionNotFound">
-<em class="property">exception </em><tt class="descclassname">farg.core.stopping_conditions.</tt><tt class="descname">StoppingConditionNotFound</tt><big>(</big><em>name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditionNotFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditionNotFound" title="Permalink to this definition">¶</a></dt>
+<em class="property">exception </em><code class="descclassname">farg.core.stopping_conditions.</code><code class="descname">StoppingConditionNotFound</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditionNotFound"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditionNotFound" title="Permalink to this definition">¶</a></dt>
 <dd><p>Raised when requested stopping condition has not been registered.</p>
 <dl class="attribute">
 <dt id="farg.core.stopping_conditions.StoppingConditionNotFound.name">
-<tt class="descname">name</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditionNotFound.name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">name</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditionNotFound.name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of condition.</p>
 </dd></dl>
 
@@ -414,11 +421,11 @@ condition is met. This module manages stopping conditions.</p>
 
 <dl class="class">
 <dt id="farg.core.stopping_conditions.StoppingConditions">
-<em class="property">class </em><tt class="descclassname">farg.core.stopping_conditions.</tt><tt class="descname">StoppingConditions</tt><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.stopping_conditions.</code><code class="descname">StoppingConditions</code><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions" title="Permalink to this definition">¶</a></dt>
 <dd><p>Manage the set of stopping conditions.</p>
 <dl class="classmethod">
 <dt id="farg.core.stopping_conditions.StoppingConditions.GetStoppingCondition">
-<em class="property">classmethod </em><tt class="descname">GetStoppingCondition</tt><big>(</big><em>condition_name</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.GetStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.GetStoppingCondition" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">GetStoppingCondition</code><span class="sig-paren">(</span><em>condition_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.GetStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.GetStoppingCondition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a stopping condition function given name.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -432,7 +439,7 @@ condition is met. This module manages stopping conditions.</p>
 
 <dl class="classmethod">
 <dt id="farg.core.stopping_conditions.StoppingConditions.RegisterStoppingCondition">
-<em class="property">classmethod </em><tt class="descname">RegisterStoppingCondition</tt><big>(</big><em>condition_name</em>, <em>condition_fn</em><big>)</big><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.RegisterStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.RegisterStoppingCondition" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">RegisterStoppingCondition</code><span class="sig-paren">(</span><em>condition_name</em>, <em>condition_fn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.RegisterStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.RegisterStoppingCondition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remember a new stopping condition.</p>
 <dl class="docutils">
 <dt>Args:</dt>
@@ -443,13 +450,13 @@ condition_fn: A function that gets the controller as its only argument.</dd>
 
 <dl class="classmethod">
 <dt id="farg.core.stopping_conditions.StoppingConditions.StoppingConditionsList">
-<em class="property">classmethod </em><tt class="descname">StoppingConditionsList</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.StoppingConditionsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.StoppingConditionsList" title="Permalink to this definition">¶</a></dt>
+<em class="property">classmethod </em><code class="descname">StoppingConditionsList</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.StoppingConditionsList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.StoppingConditionsList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns list of known stopping conditions.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.stopping_conditions.StoppingConditions.conditions">
-<tt class="descname">conditions</tt><em class="property"> = {}</em><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.conditions" title="Permalink to this definition">¶</a></dt>
+<code class="descname">conditions</code><em class="property"> = {}</em><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.conditions" title="Permalink to this definition">¶</a></dt>
 <dd><p>The known set of stopping conditions.</p>
 </dd></dl>
 
@@ -462,7 +469,7 @@ condition_fn: A function that gets the controller as its only argument.</dd>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -470,6 +477,7 @@ condition_fn: A function that gets the controller as its only argument.</dd>
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Everything Else</a><ul>
+<li><a class="reference internal" href="#logging">Logging</a></li>
 <li><a class="reference internal" href="#module-farg.core.exceptions">Exceptions</a></li>
 <li><a class="reference internal" href="#module-farg.core.meta">Meta</a></li>
 <li><a class="reference internal" href="#module-farg.core.read_input_spec">Read Input Spec</a></li>
@@ -485,24 +493,21 @@ condition_fn: A function that gets the controller as its only argument.</dd>
   <h4>Next topic</h4>
   <p class="topless"><a href="../seqsee/seqsee_index.html"
                         title="next chapter">The Flagship App: Seqsee</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -517,14 +522,14 @@ condition_fn: A function that gets the controller as its only argument.</dd>
         <li class="right" >
           <a href="question.html" title="Interacting With User"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" >Core Developer Documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="developer_index.html" >Core Developer Documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

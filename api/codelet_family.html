@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Codelet Family &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Codelet Family &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="The Core API" href="api_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Long-term Memory" href="ltm.html" />
     <link rel="prev" title="Codelet" href="codelets.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,15 +46,15 @@
         <li class="right" >
           <a href="codelets.html" title="Codelet"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api_index.html" accesskey="U">The Core API</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="codelet-family">
 <h1>Codelet Family<a class="headerlink" href="#codelet-family" title="Permalink to this headline">¶</a></h1>
@@ -63,19 +63,20 @@
 family.</p>
 <p>Codelet family names typically start with CF.</p>
 <p>A codelet family subclasses this class and looks like this:</p>
-<div class="highlight-python"><pre>class CF_Foo(CodeletFamily):
-  &quot;Documentation describes what it does, what codelets it may create, what things
-   it may cause to focus on, and any subspace it may be a part of.
-  &quot;
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CF_Foo</span><span class="p">(</span><span class="n">CodeletFamily</span><span class="p">):</span>
+  <span class="s2">&quot;Documentation describes what it does, what codelets it may create, what things</span>
+   <span class="n">it</span> <span class="n">may</span> <span class="n">cause</span> <span class="n">to</span> <span class="n">focus</span> <span class="n">on</span><span class="p">,</span> <span class="ow">and</span> <span class="nb">any</span> <span class="n">subspace</span> <span class="n">it</span> <span class="n">may</span> <span class="n">be</span> <span class="n">a</span> <span class="n">part</span> <span class="n">of</span><span class="o">.</span>
+  <span class="s2">&quot;</span>
 
-  Name = &quot;Foo&quot;
+  <span class="n">Name</span> <span class="o">=</span> <span class="s2">&quot;Foo&quot;</span>
 
-  @classmethod
-  def Run(self, controller, other_arg1, other_arg2):
-    &quot;Run may take extra arguments (such as other_arg1 above). The extra arguments
-     will be passed by name only. These are set in the constructor of the codelet.
-    &quot;
-    DoSomething()</pre>
+  <span class="nd">@classmethod</span>
+  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">other_arg1</span><span class="p">,</span> <span class="n">other_arg2</span><span class="p">):</span>
+    <span class="s2">&quot;Run may take extra arguments (such as other_arg1 above). The extra arguments</span>
+     <span class="n">will</span> <span class="n">be</span> <span class="n">passed</span> <span class="n">by</span> <span class="n">name</span> <span class="n">only</span><span class="o">.</span> <span class="n">These</span> <span class="n">are</span> <span class="nb">set</span> <span class="ow">in</span> <span class="n">the</span> <span class="n">constructor</span> <span class="n">of</span> <span class="n">the</span> <span class="n">codelet</span><span class="o">.</span>
+    <span class="s2">&quot;</span>
+    <span class="n">DoSomething</span><span class="p">()</span>
+</pre></div>
 </div>
 </div></blockquote>
 </div>
@@ -84,7 +85,7 @@ family.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -95,24 +96,21 @@ family.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="ltm.html"
                         title="next chapter">Long-term Memory</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -127,14 +125,14 @@ family.</p>
         <li class="right" >
           <a href="codelets.html" title="Codelet"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api_index.html" >The Core API</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

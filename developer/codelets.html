@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Codelets &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Codelets &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="Core Developer Documentation" href="developer_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Coderack" href="coderack.html" />
     <link rel="prev" title="Subspaces" href="subspaces.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,22 +46,22 @@
         <li class="right" >
           <a href="subspaces.html" title="Subspaces"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-farg.core.codelet">
 <span id="codelets"></span><h1>Codelets<a class="headerlink" href="#module-farg.core.codelet" title="Permalink to this headline">¶</a></h1>
 <p>Classes defining a Codelet and the base class for all Codelet families.</p>
 <dl class="class">
 <dt id="farg.core.codelet.Codelet">
-<em class="property">class </em><tt class="descclassname">farg.core.codelet.</tt><tt class="descname">Codelet</tt><big>(</big><em>family</em>, <em>controller</em>, <em>urgency</em>, <em>arguments_dict=None</em><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#Codelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.Codelet" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.codelet.</code><code class="descname">Codelet</code><span class="sig-paren">(</span><em>family</em>, <em>controller</em>, <em>urgency</em>, <em>arguments_dict=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/codelet.html#Codelet"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.Codelet" title="Permalink to this definition">¶</a></dt>
 <dd><p>A codelet is a unit of action in Seqsee.</p>
 <p>A codelet belongs to a codelet family whose <strong>Run</strong> method defines what it does. The
 codelet has an urgency that controls how likely the codelet is to run (based on the urgency
@@ -69,45 +69,45 @@ of other codelets waiting to run), and it has a dictionary of arguments that wil
 when running the codelet (if ever).</p>
 <p>If extra arguments are passed while constructing the codelet, the Run() method of the
 codelet family must be capable of handling these. See example in documentation of
-<a class="reference internal" href="#farg.core.codelet.CodeletFamily" title="farg.core.codelet.CodeletFamily"><tt class="xref py py-class docutils literal"><span class="pre">CodeletFamily</span></tt></a>.</p>
+<a class="reference internal" href="#farg.core.codelet.CodeletFamily" title="farg.core.codelet.CodeletFamily"><code class="xref py py-class docutils literal"><span class="pre">CodeletFamily</span></code></a>.</p>
 <p>There are two ways of constructing a codelet. The first creates the codelet but does not
 yet place it on the coderack:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
 </pre></div>
 </div>
 <p>The second method is to call AddCodelet on the controller:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">controller</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">family</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
 </pre></div>
 </div>
 <dl class="method">
 <dt id="farg.core.codelet.Codelet.Run">
-<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#Codelet.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.Codelet.Run" title="Permalink to this definition">¶</a></dt>
+<code class="descname">Run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/codelet.html#Codelet.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.Codelet.Run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs the codelet.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.codelet.Codelet.args">
-<tt class="descname">args</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.codelet.Codelet.args" title="Permalink to this definition">¶</a></dt>
+<code class="descname">args</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.codelet.Codelet.args" title="Permalink to this definition">¶</a></dt>
 <dd><p>A dictionary of arguments to be passed to the Run method of the codelet family. These
 would be passed as named arguments.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.codelet.Codelet.controller">
-<tt class="descname">controller</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.codelet.Codelet.controller" title="Permalink to this definition">¶</a></dt>
+<code class="descname">controller</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.codelet.Codelet.controller" title="Permalink to this definition">¶</a></dt>
 <dd><p>The controller that will be used to run this. This is the controller of the subspace
 the codelet is in.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.codelet.Codelet.family">
-<tt class="descname">family</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.codelet.Codelet.family" title="Permalink to this definition">¶</a></dt>
-<dd><p>Family of the codelet. Subclass of <a class="reference internal" href="#farg.core.codelet.CodeletFamily" title="farg.core.codelet.CodeletFamily"><tt class="xref py py-class docutils literal"><span class="pre">CodeletFamily</span></tt></a>.</p>
+<code class="descname">family</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.codelet.Codelet.family" title="Permalink to this definition">¶</a></dt>
+<dd><p>Family of the codelet. Subclass of <a class="reference internal" href="#farg.core.codelet.CodeletFamily" title="farg.core.codelet.CodeletFamily"><code class="xref py py-class docutils literal"><span class="pre">CodeletFamily</span></code></a>.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.codelet.Codelet.urgency">
-<tt class="descname">urgency</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.codelet.Codelet.urgency" title="Permalink to this definition">¶</a></dt>
+<code class="descname">urgency</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.codelet.Codelet.urgency" title="Permalink to this definition">¶</a></dt>
 <dd><p>A number between 0 and 100 indicating urgency of the codelet. Higher urgency codelets
 are likelier to be chosen for running.</p>
 </dd></dl>
@@ -116,34 +116,35 @@ are likelier to be chosen for running.</p>
 
 <dl class="class">
 <dt id="farg.core.codelet.CodeletFamily">
-<em class="property">class </em><tt class="descclassname">farg.core.codelet.</tt><tt class="descname">CodeletFamily</tt><a class="reference internal" href="../_modules/farg/core/codelet.html#CodeletFamily"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.CodeletFamily" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.codelet.</code><code class="descname">CodeletFamily</code><a class="reference internal" href="../_modules/farg/core/codelet.html#CodeletFamily"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.CodeletFamily" title="Permalink to this definition">¶</a></dt>
 <dd><p>A codelet family is a class that defines what a codelet of that family does when run.</p>
 <p>Codelet family names typically start with CF.</p>
 <p>A codelet family subclasses this class and looks like this:</p>
-<div class="highlight-python"><pre>from farg.core.codelet import CodeletFamily
-class CF_Foo(CodeletFamily):
-  &#x27;&#x27;&#x27;One line documentation of what codelets of this family do.
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">farg.core.codelet</span> <span class="k">import</span> <span class="n">CodeletFamily</span>
+<span class="k">class</span> <span class="nc">CF_Foo</span><span class="p">(</span><span class="n">CodeletFamily</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39;One line documentation of what codelets of this family do.</span>
 
-  Documentation describes what it does, what codelets it may create, what things
-  it may cause to focus on, and any subspace it may be a part of.
-  &#x27;&#x27;&#x27;
+<span class="sd">  Documentation describes what it does, what codelets it may create, what things</span>
+<span class="sd">  it may cause to focus on, and any subspace it may be a part of.</span>
+<span class="sd">  &#39;&#39;&#39;</span>
 
-  @classmethod
-  def Run(self, controller, *, other_arg1, other_arg2):
-    &#x27;&#x27;&#x27;One line documentation of what codelets of this family do.
+  <span class="nd">@classmethod</span>
+  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">other_arg1</span><span class="p">,</span> <span class="n">other_arg2</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;One line documentation of what codelets of this family do.</span>
 
-    Run may take extra arguments (such as other_arg1 above). The extra arguments
-    will be passed by name only. These are set in the constructor of the codelet.
-    &#x27;&#x27;&#x27;
-   DoSomething()</pre>
+<span class="sd">    Run may take extra arguments (such as other_arg1 above). The extra arguments</span>
+<span class="sd">    will be passed by name only. These are set in the constructor of the codelet.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+   <span class="n">DoSomething</span><span class="p">()</span>
+</pre></div>
 </div>
 <p>To create a codelet of this family, one would do:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">c</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">CF_Foo</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">c</span> <span class="o">=</span> <span class="n">Codelet</span><span class="p">(</span><span class="n">CF_Foo</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="n">urgency</span><span class="p">,</span> <span class="nb">dict</span><span class="p">(</span><span class="n">other_arg</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">other_arg2</span><span class="o">=</span><span class="mi">15</span><span class="p">))</span>
 </pre></div>
 </div>
 <dl class="method">
 <dt id="farg.core.codelet.CodeletFamily.Run">
-<tt class="descname">Run</tt><big>(</big><em>controller</em><big>)</big><a class="reference internal" href="../_modules/farg/core/codelet.html#CodeletFamily.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.CodeletFamily.Run" title="Permalink to this definition">¶</a></dt>
+<code class="descname">Run</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/codelet.html#CodeletFamily.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.codelet.CodeletFamily.Run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Runs the codelet.</p>
 <p>Subclasses should overrride this, and arrange to handle any specific arguments it needs.
 These arguments are guaranteed to be passed in as keyword arguments.</p>
@@ -166,7 +167,7 @@ be used to access the workspace, coderack, and other such resources.</dd>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -177,24 +178,21 @@ be used to access the workspace, coderack, and other such resources.</dd>
   <h4>Next topic</h4>
   <p class="topless"><a href="coderack.html"
                         title="next chapter">Coderack</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -209,14 +207,14 @@ be used to access the workspace, coderack, and other such resources.</dd>
         <li class="right" >
           <a href="subspaces.html" title="Subspaces"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" >Core Developer Documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="developer_index.html" >Core Developer Documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

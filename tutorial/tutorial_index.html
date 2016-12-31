@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Creating a New FARG Application &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Creating a New FARG Application &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,22 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Creating the Application Skeleton" href="running_create_app.html" />
     <link rel="prev" title="Theory" href="../theory/theory_index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -45,14 +46,14 @@
         <li class="right" >
           <a href="../theory/theory_index.html" title="Theory"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="creating-a-new-farg-application">
 <h1>Creating a New FARG Application<a class="headerlink" href="#creating-a-new-farg-application" title="Permalink to this headline">¶</a></h1>
@@ -61,15 +62,16 @@ attempt to touch all aspects of the process.</p>
 <p>The application developed in this tutorial may be called &#8220;Numeric Bongard&#8221;. Unlike
 Bongard problems, this will not be images.</p>
 <p>I imagine a command-line such as:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">run_numeric_bongard</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s">&quot;2 8 4 16&quot;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">run_numeric_bongard</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s2">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s2">&quot;2 8 4 16&quot;</span>
 </pre></div>
 </div>
 <p>And it should print something out about evens and odds.</p>
 <p>This is a rich domain:</p>
-<div class="highlight-python"><pre>--left=&quot;3 7 11&quot; --right=&quot;9 15 21&quot;  ==&gt; prime/composite
---left=&quot;3 7 11&quot; --right=&quot;5 13 17&quot;  ==&gt; 3 mod 4 vs 1 mod 4
---left=&quot;3 7 11&quot; --right=&quot;2 5 13 17&quot;  ==&gt; 3 mod 4 vs not(3 mod 4)
---left=&quot;3 7 11&quot; --right=&quot;2 5 13 17 15&quot;  ==&gt; 3 mod 4 primes vs not(3 mod 4 primes)</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s2">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s2">&quot;9 15 21&quot;</span>  <span class="o">==&gt;</span> <span class="n">prime</span><span class="o">/</span><span class="n">composite</span>
+<span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s2">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s2">&quot;5 13 17&quot;</span>  <span class="o">==&gt;</span> <span class="mi">3</span> <span class="n">mod</span> <span class="mi">4</span> <span class="n">vs</span> <span class="mi">1</span> <span class="n">mod</span> <span class="mi">4</span>
+<span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s2">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s2">&quot;2 5 13 17&quot;</span>  <span class="o">==&gt;</span> <span class="mi">3</span> <span class="n">mod</span> <span class="mi">4</span> <span class="n">vs</span> <span class="ow">not</span><span class="p">(</span><span class="mi">3</span> <span class="n">mod</span> <span class="mi">4</span><span class="p">)</span>
+<span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s2">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s2">&quot;2 5 13 17 15&quot;</span>  <span class="o">==&gt;</span> <span class="mi">3</span> <span class="n">mod</span> <span class="mi">4</span> <span class="n">primes</span> <span class="n">vs</span> <span class="ow">not</span><span class="p">(</span><span class="mi">3</span> <span class="n">mod</span> <span class="mi">4</span> <span class="n">primes</span><span class="p">)</span>
+</pre></div>
 </div>
 <div class="toctree-wrapper compound">
 <ul>
@@ -91,7 +93,7 @@ Bongard problems, this will not be images.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -102,24 +104,21 @@ Bongard problems, this will not be images.</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="running_create_app.html"
                         title="next chapter">Creating the Application Skeleton</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -134,13 +133,13 @@ Bongard problems, this will not be images.</p>
         <li class="right" >
           <a href="../theory/theory_index.html" title="Theory"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Long-term Memory &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Long-term Memory &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="The Core API" href="api_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Category" href="category.html" />
     <link rel="prev" title="Codelet Family" href="codelet_family.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,15 +46,15 @@
         <li class="right" >
           <a href="codelet_family.html" title="Codelet Family"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api_index.html" accesskey="U">The Core API</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="long-term-memory">
 <h1>Long-term Memory<a class="headerlink" href="#long-term-memory" title="Permalink to this headline">¶</a></h1>
@@ -78,8 +78,8 @@ following chart (whose x-axis will be explained momentarily) illustrates this:</
 calculations in another space, the evidence space (which is what the x-axis in the
 chart above represents). A codelet may add activation to a node, but this is specified in
 evidence space. Relevant method:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">node</span><span class="o">.</span><span class="n">AddActivation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c"># This&#39;d change activation from 0.22 to 0.56, or from</span>
-                       <span class="c"># 0.003 to 0.018.</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">AddActivation</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span> <span class="c1"># This&#39;d change activation from 0.22 to 0.56, or from</span>
+                       <span class="c1"># 0.003 to 0.018.</span>
 </pre></div>
 </div>
 </div>
@@ -87,13 +87,13 @@ evidence space. Relevant method:</p>
 <h2>Decay<a class="headerlink" href="#decay" title="Permalink to this headline">¶</a></h2>
 <p>Activation decays over time. To ease calculations, the LTM keeps track of the
 number of timesteps elapsed. This is available thus:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">ltm</span><span class="o">.</span><span class="n">_timesteps</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">ltm</span><span class="o">.</span><span class="n">_timesteps</span>
 </pre></div>
 </div>
 <p>When the activation of a node is requested, its activation is decreased appropriately.
 It thus needs to keep track of when last a node&#8217;s activation was calculated:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">node</span><span class="o">.</span><span class="n">_time_of_activation_update</span>
-<span class="n">node</span><span class="o">.</span><span class="n">GetActivation</span><span class="p">()</span>  <span class="c"># Decays as appropriate and updates _time_of_activation_update</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">node</span><span class="o">.</span><span class="n">_time_of_activation_update</span>
+<span class="n">node</span><span class="o">.</span><span class="n">GetActivation</span><span class="p">()</span>  <span class="c1"># Decays as appropriate and updates _time_of_activation_update</span>
 </pre></div>
 </div>
 </div>
@@ -125,27 +125,27 @@ It thus needs to keep track of when last a node&#8217;s activation was calculate
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <ul>
 <li><p class="first">To construct, a filename is passed in. If missing, an empty graph will be created:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">graph</span> <span class="o">=</span> <span class="n">LTMGraph</span><span class="p">(</span><span class="s">&quot;foo.ltm&quot;</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">graph</span> <span class="o">=</span> <span class="n">LTMGraph</span><span class="p">(</span><span class="s2">&quot;foo.ltm&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">To check emptiness:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">IsEmpty</span><span class="p">()</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">IsEmpty</span><span class="p">()</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">To save to the specified file (and a no-op if no file specified):</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">Save</span><span class="p">()</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">Save</span><span class="p">()</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">To retrieve a node or add when non-existent:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">node</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="n">content</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
 <li><p class="first">Activation of the node can be increased:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="bp">self</span><span class="o">.</span><span class="n">SpikeNodeForContent</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="bp">self</span><span class="o">.</span><span class="n">SpikeNodeForContent</span><span class="p">(</span><span class="n">content</span><span class="p">,</span> <span class="n">amount</span><span class="p">)</span>
 </pre></div>
 </div>
 </li>
@@ -157,7 +157,7 @@ It thus needs to keep track of when last a node&#8217;s activation was calculate
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -189,24 +189,21 @@ It thus needs to keep track of when last a node&#8217;s activation was calculate
   <h4>Next topic</h4>
   <p class="topless"><a href="category.html"
                         title="next chapter">Category</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -221,14 +218,14 @@ It thus needs to keep track of when last a node&#8217;s activation was calculate
         <li class="right" >
           <a href="codelet_family.html" title="Codelet Family"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api_index.html" >The Core API</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

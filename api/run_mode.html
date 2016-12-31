@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Run Mode &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Run Mode &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="The Core API" href="api_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Subspace" href="subspace.html" />
     <link rel="prev" title="Controller" href="controller.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,15 +46,15 @@
         <li class="right" >
           <a href="controller.html" title="Controller"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="api_index.html" accesskey="U">The Core API</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api_index.html" accesskey="U">The Core API</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="run-mode">
 <h1>Run Mode<a class="headerlink" href="#run-mode" title="Permalink to this headline">¶</a></h1>
@@ -71,14 +71,14 @@ to compare the performance of the two versions.</li>
 <h2>API<a class="headerlink" href="#api" title="Permalink to this headline">¶</a></h2>
 <p>Each run mode is a subclass of tide.RunMode. There is a single public method in
 this class:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="n">run_mode</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>  <span class="c"># Flags control what happens.</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">run_mode</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>  <span class="c1"># Flags control what happens.</span>
 </pre></div>
 </div>
 </div>
 <div class="section" id="gui">
 <h2>GUI<a class="headerlink" href="#gui" title="Permalink to this headline">¶</a></h2>
 <p>This run mode is specified by the command-line flag:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="o">--</span><span class="n">run_mode</span><span class="o">=</span><span class="n">GUI</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">run_mode</span><span class="o">=</span><span class="n">GUI</span>
 </pre></div>
 </div>
 <p>It starts up the ui in the class UI.Interactive. This ui owns a controller that
@@ -87,12 +87,13 @@ the user can step through, pause, and so forth.</p>
 <div class="section" id="batch">
 <h2>Batch<a class="headerlink" href="#batch" title="Permalink to this headline">¶</a></h2>
 <p>This run mode is specified by the command-line flag:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="o">--</span><span class="n">run_mode</span><span class="o">=</span><span class="n">Batch</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">run_mode</span><span class="o">=</span><span class="n">Batch</span>
 </pre></div>
 </div>
 <p>Another flag controls the file from which input is read and the report location:</p>
-<div class="highlight-python"><pre>--input_specification_file=/some/file
---report_path=/some/other</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">input_specification_file</span><span class="o">=/</span><span class="n">some</span><span class="o">/</span><span class="n">file</span>
+<span class="o">--</span><span class="n">report_path</span><span class="o">=/</span><span class="n">some</span><span class="o">/</span><span class="n">other</span>
+</pre></div>
 </div>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
@@ -103,15 +104,16 @@ possibility is that one must subclass the RunMode and specify an InputParser.</p
 <div class="section" id="sxs">
 <h2>SxS<a class="headerlink" href="#sxs" title="Permalink to this headline">¶</a></h2>
 <p>This run mode is specified by the command-line flag:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="o">--</span><span class="n">run_mode</span><span class="o">=</span><span class="n">SxS</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">run_mode</span><span class="o">=</span><span class="n">SxS</span>
 </pre></div>
 </div>
 <p>Another flag controls the file from which input is read and the report location:</p>
-<div class="highlight-python"><pre>--input_specification_file=/some/file
---report_path=/some/other</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">input_specification_file</span><span class="o">=/</span><span class="n">some</span><span class="o">/</span><span class="n">file</span>
+<span class="o">--</span><span class="n">report_path</span><span class="o">=/</span><span class="n">some</span><span class="o">/</span><span class="n">other</span>
+</pre></div>
 </div>
 <p>Number of times each sequence is run:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="o">--</span><span class="n">sxs_repetitions</span><span class="o">=</span><span class="mi">20</span>  <span class="c"># How many times to repeat for each input.</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sxs_repetitions</span><span class="o">=</span><span class="mi">20</span>  <span class="c1"># How many times to repeat for each input.</span>
 </pre></div>
 </div>
 <div class="admonition note">
@@ -119,9 +121,9 @@ possibility is that one must subclass the RunMode and specify an InputParser.</p
 <p class="last">The same caveat as before applies.</p>
 </div>
 <p>Other flags control the two versions used:</p>
-<div class="highlight-python"><div class="highlight"><pre><span class="o">--</span><span class="n">sxs_base_flags</span><span class="o">=</span><span class="s">&#39;...flags for base...&#39;</span>
-<span class="o">--</span><span class="n">sxs_exp_flags</span><span class="o">=</span><span class="s">&#39;...flags for exp...&#39;</span>
-<span class="o">--</span><span class="n">sxs_repetitions</span><span class="o">=</span><span class="mi">20</span>  <span class="c"># How many times to repeat for each input.</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sxs_base_flags</span><span class="o">=</span><span class="s1">&#39;...flags for base...&#39;</span>
+<span class="o">--</span><span class="n">sxs_exp_flags</span><span class="o">=</span><span class="s1">&#39;...flags for exp...&#39;</span>
+<span class="o">--</span><span class="n">sxs_repetitions</span><span class="o">=</span><span class="mi">20</span>  <span class="c1"># How many times to repeat for each input.</span>
 </pre></div>
 </div>
 </div>
@@ -131,7 +133,7 @@ possibility is that one must subclass the RunMode and specify an InputParser.</p
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -153,24 +155,21 @@ possibility is that one must subclass the RunMode and specify an InputParser.</p
   <h4>Next topic</h4>
   <p class="topless"><a href="subspace.html"
                         title="next chapter">Subspace</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -185,14 +184,14 @@ possibility is that one must subclass the RunMode and specify an InputParser.</p
         <li class="right" >
           <a href="controller.html" title="Controller"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="api_index.html" >The Core API</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="api_index.html" >The Core API</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

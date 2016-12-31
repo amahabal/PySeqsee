@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Main &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Main &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="Core Developer Documentation" href="developer_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Controller" href="controller.html" />
     <link rel="prev" title="Core Developer Documentation" href="developer_index.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,46 +46,46 @@
         <li class="right" >
           <a href="developer_index.html" title="Core Developer Documentation"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="module-farg.core.main">
 <span id="main"></span><h1>Main<a class="headerlink" href="#module-farg.core.main" title="Permalink to this headline">¶</a></h1>
 <p>Class to set up and start running the application based on flags.</p>
 <dl class="class">
 <dt id="farg.core.main.Main">
-<em class="property">class </em><tt class="descclassname">farg.core.main.</tt><tt class="descname">Main</tt><big>(</big><em>argv</em><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main" title="Permalink to this definition">¶</a></dt>
+<em class="property">class </em><code class="descclassname">farg.core.main.</code><code class="descname">Main</code><span class="sig-paren">(</span><em>argv</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Base class for the Main class of an application.</p>
 <p>Based on flags, it sets up the appropriate run mode (which start GUIs if needed).
 It also does a sanity check on flags and creates certain directories if needed.</p>
 <dl class="method">
 <dt id="farg.core.main.Main.CreateRunModeInstance">
-<tt class="descname">CreateRunModeInstance</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.CreateRunModeInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.CreateRunModeInstance" title="Permalink to this definition">¶</a></dt>
+<code class="descname">CreateRunModeInstance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.CreateRunModeInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.CreateRunModeInstance" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a Runmode instance from the flags.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.main.Main.ProcessCustomFlags">
-<tt class="descname">ProcessCustomFlags</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.ProcessCustomFlags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.ProcessCustomFlags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ProcessCustomFlags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.ProcessCustomFlags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.ProcessCustomFlags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Apps can override this to process app-specific flags.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.main.Main.ProcessFlags">
-<tt class="descname">ProcessFlags</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.ProcessFlags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.ProcessFlags" title="Permalink to this definition">¶</a></dt>
+<code class="descname">ProcessFlags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.ProcessFlags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.ProcessFlags" title="Permalink to this definition">¶</a></dt>
 <dd><p>Called after flags have been read in.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.main.Main.Run">
-<tt class="descname">Run</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.Run" title="Permalink to this definition">¶</a></dt>
+<code class="descname">Run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.Run" title="Permalink to this definition">¶</a></dt>
 <dd><p>Start the run.</p>
 <p>For Batch mode and SxS, this means running the app several times, whereas for gui mode
 this means launching a UI.</p>
@@ -93,62 +93,62 @@ this means launching a UI.</p>
 
 <dl class="method">
 <dt id="farg.core.main.Main.VerifyLTMPath">
-<tt class="descname">VerifyLTMPath</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyLTMPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyLTMPath" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VerifyLTMPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyLTMPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyLTMPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create a directory for ltms unless flag provided. If provided, verify it exists.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.main.Main.VerifyPersistentDirectoryPath">
-<tt class="descname">VerifyPersistentDirectoryPath</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyPersistentDirectoryPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyPersistentDirectoryPath" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VerifyPersistentDirectoryPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyPersistentDirectoryPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyPersistentDirectoryPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify (or create) the persistent directory.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.main.Main.VerifyStatsPath">
-<tt class="descname">VerifyStatsPath</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyStatsPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyStatsPath" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VerifyStatsPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyStatsPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyStatsPath" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create directory for batch stats unless provided. If provided, verify it exists.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.main.Main.VerifyStoppingConditionSanity">
-<tt class="descname">VerifyStoppingConditionSanity</tt><big>(</big><big>)</big><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyStoppingConditionSanity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyStoppingConditionSanity" title="Permalink to this definition">¶</a></dt>
+<code class="descname">VerifyStoppingConditionSanity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyStoppingConditionSanity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyStoppingConditionSanity" title="Permalink to this definition">¶</a></dt>
 <dd><p>Verify that stopping conditions are specified only in modes where they make sense.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.application_name">
-<tt class="descname">application_name</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.application_name" title="Permalink to this definition">¶</a></dt>
+<code class="descname">application_name</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.application_name" title="Permalink to this definition">¶</a></dt>
 <dd><p>Name of application. Must be provided by the derivative class.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.batch_ui_class">
-<tt class="descname">batch_ui_class</tt><a class="headerlink" href="#farg.core.main.Main.batch_ui_class" title="Permalink to this definition">¶</a></dt>
+<code class="descname">batch_ui_class</code><a class="headerlink" href="#farg.core.main.Main.batch_ui_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>Batch UI class to use for running in non-interactive mode. It should be able to handle
 any questions that may be generated by its codelets.
 Subclasses of Main can override this, probably with a subclass of its value here.</p>
-<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">BatchUI</span></tt></p>
+<p>alias of <code class="xref py py-class docutils literal"><span class="pre">BatchUI</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.controller_class">
-<tt class="descname">controller_class</tt><a class="headerlink" href="#farg.core.main.Main.controller_class" title="Permalink to this definition">¶</a></dt>
+<code class="descname">controller_class</code><a class="headerlink" href="#farg.core.main.Main.controller_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>The controller runs the show by scheduling codelets to run.
 Subclasses of Main can override this, probably with a subclass of its value here.</p>
-<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">Controller</span></tt></p>
+<p>alias of <code class="xref py py-class docutils literal"><span class="pre">Controller</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.gui_class">
-<tt class="descname">gui_class</tt><a class="headerlink" href="#farg.core.main.Main.gui_class" title="Permalink to this definition">¶</a></dt>
+<code class="descname">gui_class</code><a class="headerlink" href="#farg.core.main.Main.gui_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>GUI class to use for the tkinter GUI.
 Subclasses of Main can override this, probably with a subclass of its value here.</p>
-<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">GUI</span></tt></p>
+<p>alias of <code class="xref py py-class docutils literal"><span class="pre">GUI</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.input_spec_reader_class">
-<tt class="descname">input_spec_reader_class</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.input_spec_reader_class" title="Permalink to this definition">¶</a></dt>
+<code class="descname">input_spec_reader_class</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.input_spec_reader_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>In batch and sxs modes, the inputs over which to run are specified in a file.
 These will be converted to flags passed to individual runs. An input reader should
 be specified for the file to series of flags conversion.
@@ -157,51 +157,51 @@ These will usually be a subclass of ReadInputSpec.</p>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.run_mode">
-<tt class="descname">run_mode</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.run_mode" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_mode</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.run_mode" title="Permalink to this definition">¶</a></dt>
 <dd><p>The mode for the program (gui, batch, sxs, etc). This is an instance of
-<tt class="xref py py-class docutils literal"><span class="pre">RunMode</span></tt>.</p>
+<code class="xref py py-class docutils literal"><span class="pre">RunMode</span></code>.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.run_mode_batch_class">
-<tt class="descname">run_mode_batch_class</tt><a class="headerlink" href="#farg.core.main.Main.run_mode_batch_class" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_mode_batch_class</code><a class="headerlink" href="#farg.core.main.Main.run_mode_batch_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to use for running in Batch mode.</p>
-<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">RunModeBatch</span></tt></p>
+<p>alias of <code class="xref py py-class docutils literal"><span class="pre">RunModeBatch</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.run_mode_gui_class">
-<tt class="descname">run_mode_gui_class</tt><a class="headerlink" href="#farg.core.main.Main.run_mode_gui_class" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_mode_gui_class</code><a class="headerlink" href="#farg.core.main.Main.run_mode_gui_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to use for running in GUI mode.</p>
-<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">RunModeGUI</span></tt></p>
+<p>alias of <code class="xref py py-class docutils literal"><span class="pre">RunModeGUI</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.run_mode_single_run_class">
-<tt class="descname">run_mode_single_run_class</tt><a class="headerlink" href="#farg.core.main.Main.run_mode_single_run_class" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_mode_single_run_class</code><a class="headerlink" href="#farg.core.main.Main.run_mode_single_run_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to use for running in single mode.</p>
-<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">RunModeSingle</span></tt></p>
+<p>alias of <code class="xref py py-class docutils literal"><span class="pre">RunModeSingle</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.run_mode_sxs_class">
-<tt class="descname">run_mode_sxs_class</tt><a class="headerlink" href="#farg.core.main.Main.run_mode_sxs_class" title="Permalink to this definition">¶</a></dt>
+<code class="descname">run_mode_sxs_class</code><a class="headerlink" href="#farg.core.main.Main.run_mode_sxs_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>Class to use for running in SxS mode.</p>
-<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">RunModeSxS</span></tt></p>
+<p>alias of <code class="xref py py-class docutils literal"><span class="pre">RunModeSxS</span></code></p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.stopping_condition_fn">
-<tt class="descname">stopping_condition_fn</tt><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.stopping_condition_fn" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stopping_condition_fn</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.main.Main.stopping_condition_fn" title="Permalink to this definition">¶</a></dt>
 <dd><p>If not none, this is a function is a stopping condition for stopping the app.</p>
 </dd></dl>
 
 <dl class="attribute">
 <dt id="farg.core.main.Main.stopping_conditions_class">
-<tt class="descname">stopping_conditions_class</tt><a class="headerlink" href="#farg.core.main.Main.stopping_conditions_class" title="Permalink to this definition">¶</a></dt>
+<code class="descname">stopping_conditions_class</code><a class="headerlink" href="#farg.core.main.Main.stopping_conditions_class" title="Permalink to this definition">¶</a></dt>
 <dd><p>A mapping between stopping condition names and their implmentation (which is a funtion
 that takes a controller and returns a bool).</p>
-<p>alias of <tt class="xref py py-class docutils literal"><span class="pre">StoppingConditions</span></tt></p>
+<p>alias of <code class="xref py py-class docutils literal"><span class="pre">StoppingConditions</span></code></p>
 </dd></dl>
 
 </dd></dl>
@@ -212,7 +212,7 @@ that takes a controller and returns a bool).</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -223,24 +223,21 @@ that takes a controller and returns a bool).</p>
   <h4>Next topic</h4>
   <p class="topless"><a href="controller.html"
                         title="next chapter">Controller</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -255,14 +252,14 @@ that takes a controller and returns a bool).</p>
         <li class="right" >
           <a href="developer_index.html" title="Core Developer Documentation"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="developer_index.html" >Core Developer Documentation</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="developer_index.html" >Core Developer Documentation</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>

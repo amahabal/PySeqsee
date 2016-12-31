@@ -1,4 +1,3 @@
-
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
   "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 
@@ -7,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>Adding ability to perceive something &mdash; PySeqsee 0.2.1a1 documentation</title>
+    <title>Adding ability to perceive something &#8212; PySeqsee 0.2.2a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -15,23 +14,24 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.1a1',
+        VERSION:     '0.2.2a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
-        HAS_SOURCE:  true
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
       };
     </script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
-    <link rel="top" title="PySeqsee 0.2.1a1 documentation" href="../index.html" />
-    <link rel="up" title="How to ..." href="howto_index.html" />
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Theory" href="../theory/theory_index.html" />
     <link rel="prev" title="Evaluation: Batch mode and side-by-side mode" href="batch_and_sxs.html" /> 
   </head>
-  <body>
-    <div class="related">
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -46,26 +46,29 @@
         <li class="right" >
           <a href="batch_and_sxs.html" title="Evaluation: Batch mode and side-by-side mode"
              accesskey="P">previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="howto_index.html" accesskey="U">How to ...</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" accesskey="U">How to ...</a> &#187;</li> 
       </ul>
     </div>  
 
     <div class="document">
       <div class="documentwrapper">
         <div class="bodywrapper">
-          <div class="body">
+          <div class="body" role="main">
             
   <div class="section" id="adding-ability-to-perceive-something">
 <h1>Adding ability to perceive something<a class="headerlink" href="#adding-ability-to-perceive-something" title="Permalink to this headline">¶</a></h1>
 <p>Recently (May 2011), I added the ability to see interlaced sequences such as:</p>
-<div class="highlight-python"><pre>Sequence A)  1 7 2 8 3 9</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Sequence</span> <span class="n">A</span><span class="p">)</span>  <span class="mi">1</span> <span class="mi">7</span> <span class="mi">2</span> <span class="mi">8</span> <span class="mi">3</span> <span class="mi">9</span>
+</pre></div>
 </div>
 <p>and (parantheses added for readability):</p>
-<div class="highlight-python"><pre>Sequence B)  (1 7 6) (4 11 10) (9 13 15) (16 17 21)</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Sequence</span> <span class="n">B</span><span class="p">)</span>  <span class="p">(</span><span class="mi">1</span> <span class="mi">7</span> <span class="mi">6</span><span class="p">)</span> <span class="p">(</span><span class="mi">4</span> <span class="mi">11</span> <span class="mi">10</span><span class="p">)</span> <span class="p">(</span><span class="mi">9</span> <span class="mi">13</span> <span class="mi">15</span><span class="p">)</span> <span class="p">(</span><span class="mi">16</span> <span class="mi">17</span> <span class="mi">21</span><span class="p">)</span>
+</pre></div>
 </div>
 <p>It does not yet see:</p>
-<div class="highlight-python"><pre>Sequence C) ((1) 7) ((1 2) 8) ((1 2 3) 9)</pre>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Sequence</span> <span class="n">C</span><span class="p">)</span> <span class="p">((</span><span class="mi">1</span><span class="p">)</span> <span class="mi">7</span><span class="p">)</span> <span class="p">((</span><span class="mi">1</span> <span class="mi">2</span><span class="p">)</span> <span class="mi">8</span><span class="p">)</span> <span class="p">((</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span><span class="p">)</span> <span class="mi">9</span><span class="p">)</span>
+</pre></div>
 </div>
 <p>I will use the recent addition as a case study in adding the ability to see
 something that Seqsee did not previously see.</p>
@@ -136,7 +139,7 @@ will try to describe the next number as Prime.</li>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar">
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
@@ -155,24 +158,21 @@ will try to describe the next number as Prime.</li>
   <h4>Next topic</h4>
   <p class="topless"><a href="../theory/theory_index.html"
                         title="next chapter">Theory</a></p>
-<div id="searchbox" style="display: none">
+<div id="searchbox" style="display: none" role="search">
   <h3>Quick search</h3>
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
-      <input type="submit" value="Go" />
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
       <input type="hidden" name="check_keywords" value="yes" />
       <input type="hidden" name="area" value="default" />
     </form>
-    <p class="searchtip" style="font-size: 90%">
-    Enter search terms or a module, class or function name.
-    </p>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
     </div>
-    <div class="related">
+    <div class="related" role="navigation" aria-label="related navigation">
       <h3>Navigation</h3>
       <ul>
         <li class="right" style="margin-right: 10px">
@@ -187,14 +187,14 @@ will try to describe the next number as Prime.</li>
         <li class="right" >
           <a href="batch_and_sxs.html" title="Evaluation: Batch mode and side-by-side mode"
              >previous</a> |</li>
-        <li><a href="../index.html">PySeqsee 0.2.1a1 documentation</a> &raquo;</li>
-          <li><a href="howto_index.html" >How to ...</a> &raquo;</li> 
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" >How to ...</a> &#187;</li> 
       </ul>
     </div>
-    <div class="footer">
-        &copy; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Aug 29, 2012.
-      Created using <a href="http://sphinx.pocoo.org/">Sphinx</a> 1.1.3.
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Dec 30, 2016.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
 </html>
