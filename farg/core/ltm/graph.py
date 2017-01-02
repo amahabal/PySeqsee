@@ -17,6 +17,8 @@ from farg.core.ltm.node import LTMNode
 import logging
 import pickle as pickle
 
+kLogger = logging.getLogger("LTM_topology")
+
 class LTMGraph(object):
   """Represents a full LTM graph (consisting of nodes and edges)."""
   def __init__(self, filename=None):
@@ -92,6 +94,7 @@ class LTMGraph(object):
     if not node.content in self._content_to_node:
       self._content_to_node[node.content] = node
       self.nodes.append(node)
+      kLogger.info("Added LTM node %s", node.content)
 
   def GetNodeForContent(self, content):
     """Returns node for content; creates one if it does not exist."""

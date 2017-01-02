@@ -52,7 +52,7 @@ class LTMManager(object):
         cls._registered_initializers[ltm_name](ltm)
         # Also save the LTM immediately.
         ltm.Dump()
-        kLogger.debug("LTM %s was empty, initialized.", ltm_name)
+        kLogger.info("LTM %s was empty, initialized.", ltm_name)
       else:
         kLogger.warn("LTM %s was empty, and no initalizer registered.", ltm_name)
     LTMManager.loaded_ltms[ltm_name] = ltm

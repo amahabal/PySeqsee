@@ -12,6 +12,9 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 """Defines class for "Node" of an LTM."""
 import math
+import logging
+
+kLogger = logging.getLogger("LTM_activations")
 
 #: Maps raw activation (an integer) to real activation.
 #: The values, in steps of 10, are as follows:
@@ -144,6 +147,7 @@ class LTMNode(object):
     if self._raw_activation > 100:
       self.IncrementDepth()
       self._raw_activation = 90
+    kLogger.debug("Raw activation of %s now %5.3f", self, self._raw_activation)
 
   def IncreaseActivation(self, amount, *, current_time):
     """Update activation by this amount (after processing any pending decays), and spread.
