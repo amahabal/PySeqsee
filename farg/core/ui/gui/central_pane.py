@@ -13,9 +13,9 @@
 
 """Central pane of the UI display.
 
-This is basically a canvas that can hold multiple views (such as Coderack view, Workspace
-view, and so forth). Each view is an instance of a subclass of
-:py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.
+This is a canvas that can hold multiple views (such as Coderack view, Workspace view, and so forth).
+
+Each view is an instance of a subclass of :py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.
 """
 
 from farg.third_party import gflags
