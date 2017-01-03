@@ -13,6 +13,9 @@ class MockCategory(LTMStorableMixin, metaclass=MemoizedConstructor):
     print("Initializing MockCategory instance ", self)
     self.foo = foo
 
+  def BriefLabel(self):
+    return "foo=%s" % self.foo
+
 class MockCategory2(LTMStorableMixin, metaclass=MemoizedConstructor):
   def __init__(self, foo):
     print("Initializing MockCategory2 instance ", self)
@@ -21,6 +24,10 @@ class MockCategory2(LTMStorableMixin, metaclass=MemoizedConstructor):
 class MockMapping(LTMStorableMixin, metaclass=MemoizedConstructor):
   def __init__(self, category):
     self.category = category
+
+  def BriefLabel(self):
+    return "category=%s" % self.category
+
 
 class TestLTMNode(unittest.TestCase):
   def test_sanity(self):
