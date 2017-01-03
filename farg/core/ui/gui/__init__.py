@@ -24,9 +24,9 @@ from tkinter.messagebox import askyesno, showinfo
 import logging
 import threading
 
-gflags.DEFINE_integer('gui_canvas_height', 500,
+gflags.DEFINE_integer('gui_canvas_height', 850,
                       'Height of the central canvas')
-gflags.DEFINE_integer('gui_canvas_width', 800,
+gflags.DEFINE_integer('gui_canvas_width', 1270,
                       'Width of the central canvas')
 
 FLAGS = gflags.FLAGS
@@ -64,7 +64,7 @@ class GUI:
   """Base-class of GUI for an application."""
 
   #: Size and location of the window.
-  geometry = '810x700-0+0'  # Not a const. pylint: disable=C6409
+  geometry = '1280x980-0+0'  # Not a const. pylint: disable=C6409
 
   #: Class handling the central part of the display.
   central_pane_class = CentralPane  # Not a const. pylint: disable=C6409
