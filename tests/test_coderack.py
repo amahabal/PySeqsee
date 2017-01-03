@@ -1,10 +1,11 @@
 from farg.core.codelet import Codelet, CodeletFamily
 from farg.core.coderack import Coderack, CoderackEmptyException
+from farg.core.controller import Controller
 from farg.core.exceptions import FargError
 import unittest
 
 
-class Controller(object):
+class MyController(Controller):
   def __init__(self):
     self.x = 5
 
@@ -17,7 +18,7 @@ class Foo(CodeletFamily):
 class TestCoderack(unittest.TestCase):
   def test_basic(self):
     c = Coderack(10)
-    controller = Controller()
+    controller = MyController()
     codelet = Codelet(Foo, controller, 20, dict(x=3))
 
     assert 10 == c._max_capacity
@@ -34,7 +35,7 @@ class TestCoderack(unittest.TestCase):
   def test_force_next_codelet(self):
     """For testing, it is useful to mark the next codelet that GetCodelet() returns."""
     c = Coderack(10)
-    controller = Controller()
+    controller = MyController()
     codelet = Codelet(Foo, controller, 20, dict(x=3))
     codelet2 = Codelet(Foo, controller, 30, dict(x=4))
     codelet3 = Codelet(Foo, controller, 30, dict(x=4))

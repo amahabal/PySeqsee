@@ -21,6 +21,9 @@ class MockCategory2(LTMStorableMixin, metaclass=MemoizedConstructor):
     print("Initializing MockCategory2 instance ", self)
     self.foo = foo
 
+  def BriefLabel(self):
+    return "foo=%s" % self.foo
+
 class MockMapping(LTMStorableMixin, metaclass=MemoizedConstructor):
   def __init__(self, category):
     self.category = category
