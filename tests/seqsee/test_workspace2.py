@@ -1,8 +1,12 @@
+"""Test workspace more thoroughly."""
+
 import unittest
 from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.sobject import SObject, SElement, LTMStorableSObject
 from farg.apps.seqsee.workspace import Workspace
 from farg.core.ltm.storable import LTMStorableMixin
+from farg.core.categorization.categorizable import CategorizableMixin
+from farg.apps.seqsee.categories import Prime
 
 class TestWorkspace(unittest.TestCase):
   
@@ -67,3 +71,10 @@ class TestWorkspace(unittest.TestCase):
     # A different group with the same structure will also give the same storable.
     self.assertEqual(SAnchored.Create((self.ws.elements[0],
                                        self.ws.elements[1])).GetLTMStorableContent(), storable)
+
+  def test_object_categorizability(self):
+    ws = self.ws
+    el0 = ws.elements[0]
+    self.assertIsInstance(el0.object, CategorizableMixin)
+    binding = el0.object.DescribeAs(Prime())
+    self.assertEqual({'index': 2}, binding.bindings)
