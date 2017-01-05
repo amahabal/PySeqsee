@@ -17,9 +17,9 @@ class Foo(CodeletFamily):
 
 class TestCoderack(unittest.TestCase):
   def test_basic(self):
-    c = Coderack(10)
+    c = Coderack(max_capacity=10)
     controller = MyController()
-    codelet = Codelet(Foo, controller, 20, dict(x=3))
+    codelet = Codelet(Foo, controller, urgency=20, arguments_dict=dict(x=3))
 
     assert 10 == c._max_capacity
     c.AddCodelet(codelet)
