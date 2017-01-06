@@ -7,16 +7,17 @@ from farg.apps.seqsee.workspace import Workspace
 from farg.core.ltm.storable import LTMStorableMixin
 from farg.core.categorization.categorizable import CategorizableMixin
 from farg.apps.seqsee.categories import Prime
+from farg.apps.seqsee.relation import Relation
 
 class TestWorkspace(unittest.TestCase):
   
   def setUp(self):
     self.ws = ws = Workspace()
-    ws.InsertElements((5, 6, 7))
+    ws.InsertElements((5, 6, 7, 8))
     ws.InsertGroup(SAnchored.Create((ws.elements[0], ws.elements[1])))
 
   def test_elements(self):
-    self.assertEqual(3, self.ws.num_elements)
+    self.assertEqual(4, self.ws.num_elements)
     e1 = self.ws.elements[0]
     self.assertIsInstance(e1.object, SElement)
     self.assertIsInstance(e1.object, SObject)
@@ -78,3 +79,19 @@ class TestWorkspace(unittest.TestCase):
     self.assertIsInstance(el0.object, CategorizableMixin)
     binding = el0.object.DescribeAs(Prime())
     self.assertEqual({'index': 2}, binding.bindings)
+
+  def test_relations(self):
+    # I will insert a relation between two groups, test its existence, and then delete one group.
+    # The relation should disappear.
+    gp = list(self.ws.groups)[0]
+    gp2 = self.ws.InsertGroup(SAnchored.Create(self.ws.elements[2:4]))
+    rel = Relation(gp, gp2, mapping_set=set())
+    rel.InsertSelf()
+    self.assertIn(rel, gp.relations, "Ends contain relation")
+    self.assertIn(rel, gp2.relations, "Ends contain relation")
+    
+    # Now let's delete gp2: gp should have no relations left.
+    self.assertEqual(2, len(self.ws.groups))
+    self.ws.DeleteGroup(gp2)
+    self.assertEqual(1, len(self.ws.groups))
+    self.assertNotIn(rel, gp.relations, "End no longer contains relation")

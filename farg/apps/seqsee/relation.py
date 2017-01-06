@@ -28,15 +28,20 @@ gflags.DEFINE_boolean("use_group_distances", False,
 
 class Relation(FocusableMixin):
   def __init__(self, first, second, *, mapping_set):
-    #: The object on the left.
+    #: Typically, the object on the left.
     self.first = first
-    #: The object on the right.
+    #: Typically, the object on the right.
     self.second = second
     #: The set of mappings any of which transform the left object to the right object.
     self.mapping_set = mapping_set
 
   def __str__(self):
     return '%s-->%s (%s)' % (self.first, self.second, self.mapping_set)
+  
+  def InsertSelf(self):
+    """Inserts itself into the two ends."""
+    self.first.relations.add(self)
+    self.second.relations.add(self)
 
   def Ends(self):
     """Returns a 2-tuple of the two ends."""
