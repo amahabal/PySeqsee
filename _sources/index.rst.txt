@@ -54,11 +54,11 @@ from the domain-independent parts.
 
 ..  note:: 
 
-        Under development.  PySeqsee is a relatively new project with under an 
-        year of development by a single developer.  At this stage, PySeqsee 
-        is alpha software.  If you wish to change that, help is greatly 
-        appreciated.  Drop me a line at amahabal [at] gmail, or better yet, to the 
-        mailing list at pyseqsee@googlegroups.com.  
+        Under development. Although started many years ago, it had been dormant until late
+        2016. Work on it has restarted, and is gaining steam as of Jan 2017. At this stage, PySeqsee 
+        is alpha software.  If you wish to change that, help is greatly appreciated.
+        Drop me a line at amahabal [at] gmail, or better yet, to the mailing list at
+        pyseqsee@googlegroups.com.  
 
 
 

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.apps.seqsee.relation &#8212; PySeqsee 0.2.2a1 documentation</title>
+    <title>farg.apps.seqsee.relation &#8212; PySeqsee 0.2.3a1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2.2a1',
+        VERSION:     '0.2.3a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -66,28 +66,27 @@
 <span class="kn">from</span> <span class="nn">farg.core.util</span> <span class="k">import</span> <span class="n">SelectWeightedByActivation</span>
 <span class="kn">from</span> <span class="nn">farg.core.codelet</span> <span class="k">import</span> <span class="n">Codelet</span>
 <span class="kn">from</span> <span class="nn">farg.core.focusable_mixin</span> <span class="k">import</span> <span class="n">FocusableMixin</span>
-
-<span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="k">import</span> <span class="n">gflags</span>
-
-<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_boolean</span><span class="p">(</span><span class="s2">&quot;use_group_distances&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">,</span>
-                      <span class="s2">&quot;If true, distance between objects may be measured in groups. &quot;</span>
-                      <span class="s2">&quot;For example, distance between 7 and 8 in &#39;7 1 2 8&#39; can be seen as &quot;</span>
-                      <span class="s2">&quot;2 intervening elements or 1 intervening group.&quot;</span><span class="p">)</span>
+<span class="kn">import</span> <span class="nn">farg_flags</span>
 
 <span class="sd">&quot;&quot;&quot;A relation is a specific instance of a mapping.&quot;&quot;&quot;</span>
 
 
 <div class="viewcode-block" id="Relation"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation">[docs]</a><span class="k">class</span> <span class="nc">Relation</span><span class="p">(</span><span class="n">FocusableMixin</span><span class="p">):</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">first</span><span class="p">,</span> <span class="n">second</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">mapping_set</span><span class="p">):</span>
-    <span class="c1">#: The object on the left.</span>
+    <span class="c1">#: Typically, the object on the left.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">first</span> <span class="o">=</span> <span class="n">first</span>
-    <span class="c1">#: The object on the right.</span>
+    <span class="c1">#: Typically, the object on the right.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">second</span> <span class="o">=</span> <span class="n">second</span>
     <span class="c1">#: The set of mappings any of which transform the left object to the right object.</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span> <span class="o">=</span> <span class="n">mapping_set</span>
 
   <span class="k">def</span> <span class="nf">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">return</span> <span class="s1">&#39;</span><span class="si">%s</span><span class="s1">--&gt;</span><span class="si">%s</span><span class="s1"> (</span><span class="si">%s</span><span class="s1">)&#39;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">mapping_set</span><span class="p">)</span>
+  
+<div class="viewcode-block" id="Relation.InsertSelf"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.InsertSelf">[docs]</a>  <span class="k">def</span> <span class="nf">InsertSelf</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Inserts itself into the two ends.&quot;&quot;&quot;</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">relations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">relations</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="Relation.Ends"><a class="viewcode-back" href="../../../../seqsee/relations.html#farg.apps.seqsee.relation.Relation.Ends">[docs]</a>  <span class="k">def</span> <span class="nf">Ends</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns a 2-tuple of the two ends.&quot;&quot;&quot;</span>
@@ -114,7 +113,7 @@
     <span class="k">assert</span><span class="p">(</span><span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">AreEndsContiguous</span><span class="p">())</span>
     <span class="n">distance_in_elements</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">start_pos</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">end_pos</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="n">distance_object</span> <span class="o">=</span> <span class="n">DistanceInElements</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="n">distance_in_elements</span><span class="p">)</span>
-    <span class="k">if</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">use_group_distances</span><span class="p">:</span>
+    <span class="k">if</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">use_group_distances</span><span class="p">:</span>
       <span class="n">workspace</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">workspace</span>
       <span class="n">groups_between_two</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">workspace</span><span class="o">.</span><span class="n">GetGroupsWithSpan</span><span class="p">(</span><span class="n">GreaterThan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">first</span><span class="o">.</span><span class="n">end_pos</span><span class="p">),</span>
                                                             <span class="n">LessThan</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">second</span><span class="o">.</span><span class="n">start_pos</span><span class="p">)))</span>
@@ -183,13 +182,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Dec 30, 2016.
+      Last updated on Jan 07, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

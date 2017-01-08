@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.controller &#8212; PySeqsee 0.2.2a1 documentation</title>
+    <title>farg.core.controller &#8212; PySeqsee 0.2.3a1 documentation</title>
     
     <link rel="stylesheet" href="../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../',
-        VERSION:     '0.2.2a1',
+        VERSION:     '0.2.3a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -72,14 +72,8 @@
 <span class="kn">from</span> <span class="nn">farg.core.ltm.manager</span> <span class="k">import</span> <span class="n">LTMManager</span>
 <span class="kn">from</span> <span class="nn">farg.core.stream</span> <span class="k">import</span> <span class="n">Stream</span>
 <span class="kn">from</span> <span class="nn">farg.core.util</span> <span class="k">import</span> <span class="n">Toss</span>
-<span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="k">import</span> <span class="n">gflags</span>
 
-<span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
-
-<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_integer</span><span class="p">(</span><span class="s1">&#39;stopping_condition_granularity&#39;</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span>
-                      <span class="s1">&#39;How frequently the stopping condition is evaluated, as measured in&#39;</span>
-                      <span class="s1">&#39; number of codelets.&#39;</span><span class="p">)</span>
-
+<span class="kn">import</span> <span class="nn">farg_flags</span>
 
 <div class="viewcode-block" id="Controller"><a class="viewcode-back" href="../../../developer/controller.html#farg.core.controller.Controller">[docs]</a><span class="k">class</span> <span class="nc">Controller</span><span class="p">:</span>
   <span class="sd">&quot;&quot;&quot;Purely mechanical (read &quot;dumb&quot;) loop to control entire app or individual subspaces.</span>
@@ -260,7 +254,7 @@
       <span class="n">logging</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;========================== CODELET =======================&quot;</span><span class="p">)</span>
       <span class="n">codelet</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_condition</span><span class="p">:</span>
-      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span> <span class="o">%</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition_granularity</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span> <span class="o">%</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">stopping_condition_granularity</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">stopping_condition</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
           <span class="k">raise</span> <span class="n">StoppingConditionMet</span><span class="p">(</span><span class="n">codelet_count</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">steps_taken</span><span class="p">)</span></div>
 
@@ -329,13 +323,13 @@
         <li class="right" >
           <a href="../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Dec 30, 2016.
+      Last updated on Jan 07, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

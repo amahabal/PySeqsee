@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.ltm.node &#8212; PySeqsee 0.2.2a1 documentation</title>
+    <title>farg.core.ltm.node &#8212; PySeqsee 0.2.3a1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2.2a1',
+        VERSION:     '0.2.3a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -63,6 +63,9 @@
 <span class="c1"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
 <span class="sd">&quot;&quot;&quot;Defines class for &quot;Node&quot; of an LTM.&quot;&quot;&quot;</span>
 <span class="kn">import</span> <span class="nn">math</span>
+<span class="kn">import</span> <span class="nn">logging</span>
+
+<span class="n">kLogger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;LTM_activations&quot;</span><span class="p">)</span>
 
 <span class="c1">#: Maps raw activation (an integer) to real activation.</span>
 <span class="c1">#: The values, in steps of 10, are as follows:</span>
@@ -194,7 +197,8 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">+=</span> <span class="n">amount</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">depth_reciprocal</span>
     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">&gt;</span> <span class="mi">100</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">IncrementDepth</span><span class="p">()</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">=</span> <span class="mi">90</span></div>
+      <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span> <span class="o">=</span> <span class="mi">90</span>
+    <span class="n">kLogger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="s2">&quot;Raw activation of </span><span class="si">%s</span><span class="s2"> now </span><span class="si">%5.3f</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_raw_activation</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LTMNode.IncreaseActivation"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.node.LTMNode.IncreaseActivation">[docs]</a>  <span class="k">def</span> <span class="nf">IncreaseActivation</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">amount</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">current_time</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Update activation by this amount (after processing any pending decays), and spread.</span>
@@ -290,13 +294,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Dec 30, 2016.
+      Last updated on Jan 07, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

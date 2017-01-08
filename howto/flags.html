@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>How to add flags to the application &#8212; PySeqsee 0.2.2a1 documentation</title>
+    <title>How to add flags to the application &#8212; PySeqsee 0.2.3a1 documentation</title>
     
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../',
-        VERSION:     '0.2.2a1',
+        VERSION:     '0.2.3a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -46,7 +46,7 @@
         <li class="right" >
           <a href="create_new_app.html" title="How to create a new application"
              accesskey="P">previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="howto_index.html" accesskey="U">How to ...</a> &#187;</li> 
       </ul>
     </div>  
@@ -58,336 +58,66 @@
             
   <div class="section" id="how-to-add-flags-to-the-application">
 <h1>How to add flags to the application<a class="headerlink" href="#how-to-add-flags-to-the-application" title="Permalink to this headline">¶</a></h1>
-<p>From the GFlags Documentation:
-&#8220;This module is used to define and parse command line flags.</p>
-<p>This module defines a <em>distributed</em> flag-definition policy: rather than
-an application having to define all flags in or near main(), each python
-module defines flags that are useful to it.  When one python module
-imports another, it gains access to the other&#8217;s flags.  (This is
-implemented by having all modules share a common, global registry object
-containing all the flag information.)</p>
-<p>Flags are defined through the use of one of the DEFINE_xxx functions.
-The specific function used determines how the flag is parsed, checked,
-and optionally type-converted, when it&#8217;s seen on the command line.</p>
-<p>IMPLEMENTATION: DEFINE_* creates a &#8216;Flag&#8217; object and registers it with a
-&#8216;FlagValues&#8217; object (typically the global FlagValues FLAGS, defined
-here).  The &#8216;FlagValues&#8217; object can scan the command line arguments and
-pass flag arguments to the corresponding &#8216;Flag&#8217; objects for
-value-checking and type conversion.  The converted flag values are
-available as attributes of the &#8216;FlagValues&#8217; object.</p>
-<p>Code can access the flag through a FlagValues object, for instance
-gflags.FLAGS.myflag.  Typically, the __main__ module passes the command
-line arguments to gflags.FLAGS for parsing.</p>
-<p>At bottom, this module calls getopt(), so getopt functionality is
-supported, including short- and long-style flags, and the use of &#8211; to
-terminate flags.</p>
-<p>Methods defined by the flag module will throw &#8216;FlagsError&#8217; exceptions.
-The exception argument will be a human-readable string.</p>
-<p>FLAG TYPES: This is a list of the DEFINE_*&#8217;s that you can do.  All flags
-take a name, default value, help-string, and optional &#8216;short&#8217; name
-(one-letter name).  Some flags have other arguments, which are described
-with the flag.</p>
-<p>DEFINE_string: takes any input, and interprets it as a string.</p>
-<p>DEFINE_bool or
-DEFINE_boolean: typically does not take an argument: say &#8211;myflag to</p>
-<blockquote>
-<div><p>set FLAGS.myflag to true, or &#8211;nomyflag to set
-FLAGS.myflag to false.  Alternately, you can say</p>
-<blockquote>
-<div><table class="docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">--myflag=<var>true</var></span></kbd></td>
-<td>or &#8211;myflag=t or &#8211;myflag=1  or</td></tr>
-</tbody>
-</table>
-<p>&#8211;myflag=false or &#8211;myflag=f or &#8211;myflag=0</p>
-</div></blockquote>
-</div></blockquote>
-<dl class="docutils">
-<dt>DEFINE_float: takes an input and interprets it as a floating point</dt>
-<dd>number.  Takes optional args lower_bound and upper_bound;
-if the number specified on the command line is out of
-range, it will raise a FlagError.</dd>
-<dt>DEFINE_integer: takes an input and interprets it as an integer.  Takes</dt>
-<dd>optional args lower_bound and upper_bound as for floats.</dd>
-<dt>DEFINE_enum: takes a list of strings which represents legal values.  If</dt>
-<dd>the command-line value is not in this list, raise a flag
-error.  Otherwise, assign to FLAGS.flag as a string.</dd>
-<dt>DEFINE_list: Takes a comma-separated list of strings on the commandline.</dt>
-<dd>Stores them in a python list object.</dd>
-<dt>DEFINE_spaceseplist: Takes a space-separated list of strings on the</dt>
-<dd>commandline.  Stores them in a python list object.
-Example: &#8211;myspacesepflag &#8220;foo bar baz&#8221;</dd>
-<dt>DEFINE_multistring: The same as DEFINE_string, except the flag can be</dt>
-<dd>specified more than once on the commandline.  The
-result is a python list object (list of strings),
-even if the flag is only on the command line once.</dd>
-<dt>DEFINE_multi_int: The same as DEFINE_integer, except the flag can be</dt>
-<dd>specified more than once on the commandline.  The
-result is a python list object (list of ints), even if
-the flag is only on the command line once.</dd>
-<dt>SPECIAL FLAGS: There are a few flags that have special meaning:</dt>
-<dd><table class="first docutils option-list" frame="void" rules="none">
-<col class="option" />
-<col class="description" />
-<tbody valign="top">
-<tr><td class="option-group">
-<kbd><span class="option">--help</span></kbd></td>
-<td>prints a list of all the flags in a human-readable fashion</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">--helpshort</span></kbd></td>
-<td>prints a list of all key flags (see below).</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">--helpxml</span></kbd></td>
-<td>prints a list of all flags, in XML format.  DO NOT parse
-the output of &#8211;help and &#8211;helpshort.  Instead, parse
-the output of &#8211;helpxml.  For more info, see
-&#8220;OUTPUT FOR &#8211;helpxml&#8221; below.</td></tr>
-<tr><td class="option-group">
-<kbd><span class="option">--flagfile=<var>foo</var></span></kbd></td>
-<td>read flags from file foo.</td></tr>
-</tbody>
-</table>
-<dl class="docutils">
-<dt>&#8211;undefok=f1,f2 ignore unrecognized option errors for f1,f2.</dt>
-<dd>For boolean flags, you should use &#8211;undefok=boolflag, and
-&#8211;boolflag and &#8211;noboolflag will be accepted.  Do not use
-&#8211;undefok=noboolflag.</dd>
-</dl>
-<p class="last">&#8211;              as in getopt(), terminates flag-processing</p>
-</dd>
-<dt>FLAGS VALIDATORS: If your program:</dt>
-<dd><ul class="first last simple">
-<li>requires flag X to be specified</li>
-<li>needs flag Y to match a regular expression</li>
-<li>or requires any more general constraint to be satisfied</li>
-</ul>
-</dd>
-</dl>
-<p>then validators are for you!</p>
-<p>Each validator represents a constraint over one flag, which is enforced
-starting from the initial parsing of the flags and until the program
-terminates.</p>
-<p>Also, lower_bound and upper_bound for numerical flags are enforced using flag
-validators.</p>
-<p>Howto:
-If you want to enforce a constraint over one flag, use</p>
-<dl class="docutils">
-<dt>gflags.RegisterValidator(flag_name,</dt>
-<dd>checker,
-message=&#8217;Flag validation failed&#8217;,
-flag_values=FLAGS)</dd>
-</dl>
-<p>After flag values are initially parsed, and after any change to the specified
-flag, method checker(flag_value) will be executed. If constraint is not
-satisfied, an IllegalFlagValue exception will be raised. See
-RegisterValidator&#8217;s docstring for a detailed explanation on how to construct
-your own checker.</p>
-<p>EXAMPLE USAGE:</p>
-<p>FLAGS = gflags.FLAGS</p>
-<p>gflags.DEFINE_integer(&#8216;my_version&#8217;, 0, &#8216;Version number.&#8217;)
-gflags.DEFINE_string(&#8216;filename&#8217;, None, &#8216;Input file name&#8217;, short_name=&#8217;f&#8217;)</p>
-<dl class="docutils">
-<dt>gflags.RegisterValidator(&#8216;my_version&#8217;,</dt>
-<dd>lambda value: value % 2 == 0,
-message=&#8217;&#8211;my_version must be divisible by 2&#8217;)</dd>
-</dl>
-<p>gflags.MarkFlagAsRequired(&#8216;filename&#8217;)</p>
-<p>NOTE ON &#8211;flagfile:</p>
-<p>Flags may be loaded from text files in addition to being specified on
-the commandline.</p>
-<p>Any flags you don&#8217;t feel like typing, throw them in a file, one flag per
-line, for instance:</p>
-<blockquote>
-<div>&#8211;myflag=myvalue
-&#8211;nomyboolean_flag</div></blockquote>
-<p>You then specify your file with the special flag &#8216;&#8211;flagfile=somefile&#8217;.
-You CAN recursively nest flagfile= tokens OR use multiple files on the
-command line.  Lines beginning with a single hash &#8216;#&#8217; or a double slash
-&#8216;//&#8217; are comments in your flagfile.</p>
-<p>Any flagfile=&lt;file&gt; will be interpreted as having a relative path from
-the current working directory rather than from the place the file was
-included from:</p>
-<blockquote>
-<div>myPythonScript.py &#8211;flagfile=config/somefile.cfg</div></blockquote>
-<p>If somefile.cfg includes further &#8211;flagfile= directives, these will be
-referenced relative to the original CWD, not from the directory the
-including flagfile was found in!</p>
-<p>The caveat applies to people who are including a series of nested files
-in a different dir than they are executing out of.  Relative path names
-are always from CWD, not from the directory of the parent include
-flagfile. We do now support &#8216;~&#8217; expanded directory names.</p>
-<p>Absolute path names ALWAYS work!</p>
-<p>EXAMPLE USAGE:</p>
-<blockquote>
-<div><p>FLAGS = gflags.FLAGS</p>
-<p># Flag names are globally defined!  So in general, we need to be
-# careful to pick names that are unlikely to be used by other libraries.
-# If there is a conflict, we&#8217;ll get an error at import time.
-gflags.DEFINE_string(&#8216;name&#8217;, &#8216;Mr. President&#8217;, &#8216;your name&#8217;)
-gflags.DEFINE_integer(&#8216;age&#8217;, None, &#8216;your age in years&#8217;, lower_bound=0)
-gflags.DEFINE_boolean(&#8216;debug&#8217;, False, &#8216;produces debugging output&#8217;)
-gflags.DEFINE_enum(&#8216;gender&#8217;, &#8216;male&#8217;, [&#8216;male&#8217;, &#8216;female&#8217;], &#8216;your gender&#8217;)</p>
-<dl class="docutils">
-<dt>def main(argv):</dt>
-<dd><dl class="first docutils">
-<dt>try:</dt>
-<dd>argv = FLAGS(argv)  # parse flags</dd>
-<dt>except gflags.FlagsError, e:</dt>
-<dd>print &#8216;%s\nUsage: %s ARGS\n%s&#8217; % (e, sys.argv[0], FLAGS)
-sys.exit(1)</dd>
-</dl>
-<p>if FLAGS.debug: print &#8216;non-flag arguments:&#8217;, argv
-print &#8216;Happy Birthday&#8217;, FLAGS.name
-if FLAGS.age is not None:</p>
-<blockquote class="last">
-<div>print &#8216;You are a %d year old %s&#8217; % (FLAGS.age, FLAGS.gender)</div></blockquote>
-</dd>
-<dt>if __name__ == &#8216;__main__&#8217;:</dt>
-<dd>main(sys.argv)</dd>
-</dl>
-</div></blockquote>
-<p>KEY FLAGS:</p>
-<p>As we already explained, each module gains access to all flags defined
-by all the other modules it transitively imports.  In the case of
-non-trivial scripts, this means a lot of flags ...  For documentation
-purposes, it is good to identify the flags that are key (i.e., really
-important) to a module.  Clearly, the concept of &#8220;key flag&#8221; is a
-subjective one.  When trying to determine whether a flag is key to a
-module or not, assume that you are trying to explain your module to a
-potential user: which flags would you really like to mention first?</p>
-<p>We&#8217;ll describe shortly how to declare which flags are key to a module.
-For the moment, assume we know the set of key flags for each module.
-Then, if you use the app.py module, you can use the &#8211;helpshort flag to
-print only the help for the flags that are key to the main module, in a
-human-readable format.</p>
-<p>NOTE: If you need to parse the flag help, do NOT use the output of
-&#8211;help / &#8211;helpshort.  That output is meant for human consumption, and
-may be changed in the future.  Instead, use &#8211;helpxml; flags that are
-key for the main module are marked there with a &lt;key&gt;yes&lt;/key&gt; element.</p>
-<p>The set of key flags for a module M is composed of:</p>
-<ol class="arabic">
-<li><p class="first">Flags defined by module M by calling a DEFINE_* function.</p>
-</li>
-<li><p class="first">Flags that module M explictly declares as key by using the function</p>
-<blockquote>
-<div><p>DECLARE_key_flag(&lt;flag_name&gt;)</p>
-</div></blockquote>
-</li>
-<li><p class="first">Key flags of other modules that M specifies by using the function</p>
-<blockquote>
-<div><p>ADOPT_module_key_flags(&lt;other_module&gt;)</p>
-</div></blockquote>
-<p>This is a &#8220;bulk&#8221; declaration of key flags: each flag that is key for
-&lt;other_module&gt; becomes key for the current module too.</p>
-</li>
-</ol>
-<p>Notice that if you do not use the functions described at points 2 and 3
-above, then &#8211;helpshort prints information only about the flags defined
-by the main module of our script.  In many cases, this behavior is good
-enough.  But if you move part of the main module code (together with the
-related flags) into a different module, then it is nice to use
-DECLARE_key_flag / ADOPT_module_key_flags and make sure &#8211;helpshort
-lists all relevant flags (otherwise, your code refactoring may confuse
-your users).</p>
-<p>Note: each of DECLARE_key_flag / ADOPT_module_key_flags has its own
-pluses and minuses: DECLARE_key_flag is more targeted and may lead a
-more focused &#8211;helpshort documentation.  ADOPT_module_key_flags is good
-for cases when an entire module is considered key to the current script.
-Also, it does not require updates to client scripts when a new flag is
-added to the module.</p>
-<p>EXAMPLE USAGE 2 (WITH KEY FLAGS):</p>
-<p>Consider an application that contains the following three files (two
-auxiliary modules and a main module)</p>
-<p>File libfoo.py:</p>
-<blockquote>
-<div><p>import gflags</p>
-<p>gflags.DEFINE_integer(&#8216;num_replicas&#8217;, 3, &#8216;Number of replicas to start&#8217;)
-gflags.DEFINE_boolean(&#8216;rpc2&#8217;, True, &#8216;Turn on the usage of RPC2.&#8217;)</p>
-<p>... some code ...</p>
-</div></blockquote>
-<p>File libbar.py:</p>
-<blockquote>
-<div><p>import gflags</p>
-<dl class="docutils">
-<dt>gflags.DEFINE_string(&#8216;bar_gfs_path&#8217;, &#8216;/gfs/path&#8217;,</dt>
-<dd>&#8216;Path to the GFS files for libbar.&#8217;)</dd>
-<dt>gflags.DEFINE_string(&#8216;email_for_bar_errors&#8217;, <a class="reference external" href="mailto:'bar-team&#37;&#52;&#48;google&#46;com">'bar-team<span>&#64;</span>google<span>&#46;</span>com</a>&#8216;,</dt>
-<dd>&#8216;Email address for bug reports about module libbar.&#8217;)</dd>
-<dt>gflags.DEFINE_boolean(&#8216;bar_risky_hack&#8217;, False,</dt>
-<dd>&#8216;Turn on an experimental and buggy optimization.&#8217;)</dd>
-</dl>
-<p>... some code ...</p>
-</div></blockquote>
-<p>File myscript.py:</p>
-<blockquote>
-<div><p>import gflags
-import libfoo
-import libbar</p>
-<p>gflags.DEFINE_integer(&#8216;num_iterations&#8217;, 0, &#8216;Number of iterations.&#8217;)</p>
-<p># Declare that all flags that are key for libfoo are
-# key for this module too.
-gflags.ADOPT_module_key_flags(libfoo)</p>
-<p># Declare that the flag &#8211;bar_gfs_path (defined in libbar) is key
-# for this module.
-gflags.DECLARE_key_flag(&#8216;bar_gfs_path&#8217;)</p>
-<p>... some code ...</p>
-</div></blockquote>
-<p>When myscript is invoked with the flag &#8211;helpshort, the resulted help
-message lists information about all the key flags for myscript:
-&#8211;num_iterations, &#8211;num_replicas, &#8211;rpc2, and &#8211;bar_gfs_path.</p>
-<p>Of course, myscript uses all the flags declared by it (in this case,
-just &#8211;num_replicas) or by any of the modules it transitively imports
-(e.g., the modules libfoo, libbar).  E.g., it can access the value of
-FLAGS.bar_risky_hack, even if &#8211;bar_risky_hack is not declared as a key
-flag for myscript.</p>
-<p>OUTPUT FOR &#8211;helpxml:</p>
-<p>The &#8211;helpxml flag generates output with the following structure:</p>
-<p>&lt;?xml version=&#8221;1.0&#8221;?&gt;
-&lt;AllFlags&gt;</p>
-<blockquote>
-<div><p>&lt;program&gt;PROGRAM_BASENAME&lt;/program&gt;
-&lt;usage&gt;MAIN_MODULE_DOCSTRING&lt;/usage&gt;
-(&lt;flag&gt;</p>
-<blockquote>
-<div>[&lt;key&gt;yes&lt;/key&gt;]
-&lt;file&gt;DECLARING_MODULE&lt;/file&gt;
-&lt;name&gt;FLAG_NAME&lt;/name&gt;
-&lt;meaning&gt;FLAG_HELP_MESSAGE&lt;/meaning&gt;
-&lt;default&gt;DEFAULT_FLAG_VALUE&lt;/default&gt;
-&lt;current&gt;CURRENT_FLAG_VALUE&lt;/current&gt;
-&lt;type&gt;FLAG_TYPE&lt;/type&gt;
-[OPTIONAL_ELEMENTS]</div></blockquote>
-<p>&lt;/flag&gt;)*</p>
-</div></blockquote>
-<p>&lt;/AllFlags&gt;</p>
-<p>Notes:</p>
-<p>1. The output is intentionally similar to the output generated by the
-C++ command-line flag library.  The few differences are due to the
-Python flags that do not have a C++ equivalent (at least not yet),
-e.g., DEFINE_list.</p>
-<ol class="arabic simple" start="2">
-<li>New XML elements may be added in the future.</li>
-</ol>
-<p>3. DEFAULT_FLAG_VALUE is in serialized form, i.e., the string you can
-pass for this flag on the command-line.  E.g., for a flag defined
-using DEFINE_list, this field may be foo,bar, not [&#8216;foo&#8217;, &#8216;bar&#8217;].</p>
-<p>4. CURRENT_FLAG_VALUE is produced using str().  This means that the
-string &#8216;false&#8217; will be represented in the same way as the boolean
-False.  Using repr() would have removed this ambiguity and simplified
-parsing, but would have broken the compatibility with the C++
-command-line flags.</p>
-<p>5. OPTIONAL_ELEMENTS describe elements relevant for certain kinds of
-flags: lower_bound, upper_bound (for flags that specify bounds),
-enum_value (for enum flags), list_separator (for flags that consist of
-a list of values, separated by a special token).</p>
-<ol class="arabic simple" start="6">
-<li>We do not provide any example here: please use &#8211;helpxml instead.</li>
-</ol>
-<p>This module requires at least python 2.2.1 to run.&#8221;</p>
+<p>Flags are processed using argparse, and a limited amount of &#8220;distributed&#8221; flag definition is
+supported &#8212; several flags are defined in the core (in farg_flags.py), and each application extends
+this by adding its own flags.</p>
+<div class="section" id="where-the-flags-are-defined">
+<h2>Where the flags are defined<a class="headerlink" href="#where-the-flags-are-defined" title="Permalink to this headline">¶</a></h2>
+<p>Core flags are defined in &#8216;farg_flags.py&#8217;, which defines the flags parser called &#8216;core_parser&#8217;. The
+entry point for each app extends this. Currently, in Seqsee (run_seqsee.py), we see:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">farg_flags</span>
+<span class="n">seqsee_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">farg_flags</span><span class="o">.</span><span class="n">core_parser</span><span class="p">])</span>
+<span class="n">seqsee_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--sequence&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="processing-of-flags">
+<h2>Processing of flags<a class="headerlink" href="#processing-of-flags" title="Permalink to this headline">¶</a></h2>
+<p>Flag values are processed to obtain complex default values (for example, the default value of the
+flag &#8216;&#8211;stats_directory&#8217; depends on the value of the flag &#8216;&#8211;persistent_directory&#8217;, as the stats
+directory is a subdirectory in that directory.</p>
+<p>Sanity checking is also done along with creation of directories as needed.</p>
+<p>All this happens in the constructor of the farg.core.main.Main, which get passed in the unprocessed
+flags. The entry point of each app is a subclass of Main.</p>
+<p>While processing flags, a call is made to ProcessCustomFlags, which the Main class of the app can
+define if it wishes to process the flags that it has defined (as Seqsee could have done for the flag
+&#8211;sequence).</p>
+<p>The processed flags are available as self.flags in the Main class.</p>
+</div>
+<div class="section" id="the-entry-point-of-apps">
+<h2>The entry point of apps<a class="headerlink" href="#the-entry-point-of-apps" title="Permalink to this headline">¶</a></h2>
+<p>To summerize, here are the relevant bits of the Seqsee app&#8217;s entry point:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">argparse</span>
+<span class="kn">import</span> <span class="nn">farg_flags</span>
+<span class="kn">from</span> <span class="nn">farg.core.main</span> <span class="k">import</span> <span class="n">Main</span>
+
+<span class="n">seqsee_parser</span> <span class="o">=</span> <span class="n">argparse</span><span class="o">.</span><span class="n">ArgumentParser</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="p">[</span><span class="n">farg_flags</span><span class="o">.</span><span class="n">core_parser</span><span class="p">])</span>
+<span class="n">seqsee_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--sequence&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+
+<span class="k">class</span> <span class="nc">UnprocessedFlags</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="k">pass</span>
+
+<span class="n">seqsee_parser</span><span class="o">.</span><span class="n">parse_args</span><span class="p">(</span><span class="n">args</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">namespace</span><span class="o">=</span><span class="n">UnprocessedFlags</span><span class="p">)</span>
+<span class="k">class</span> <span class="nc">SeqseeMain</span><span class="p">(</span><span class="n">Main</span><span class="p">):</span>
+   <span class="k">def</span> <span class="nf">ProcessCustomFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+     <span class="c1"># can access self.flags with the core flags already processed</span>
+     <span class="k">pass</span>
+
+<span class="k">if</span> <span class="n">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+  <span class="n">SeqseeMain</span><span class="p">(</span><span class="n">UnprocessedFlags</span><span class="p">)</span><span class="o">.</span><span class="n">Run</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="where-the-flags-get-stored">
+<h2>Where the flags get stored<a class="headerlink" href="#where-the-flags-get-stored" title="Permalink to this headline">¶</a></h2>
+<p>Flags, after processing, end up both in Main.flags and farg_flags.FargFlags. Other modules will use
+this latter route for accessing. A module may say:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">farg_flags</span>
+<span class="k">if</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">use_stored_ltm</span><span class="p">:</span>
+  <span class="n">Do</span> <span class="n">something</span>
+</pre></div>
+</div>
+</div>
 </div>
 
 
@@ -399,6 +129,17 @@ a list of values, separated by a special token).</p>
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
             </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to add flags to the application</a><ul>
+<li><a class="reference internal" href="#where-the-flags-are-defined">Where the flags are defined</a></li>
+<li><a class="reference internal" href="#processing-of-flags">Processing of flags</a></li>
+<li><a class="reference internal" href="#the-entry-point-of-apps">The entry point of apps</a></li>
+<li><a class="reference internal" href="#where-the-flags-get-stored">Where the flags get stored</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="create_new_app.html"
                         title="previous chapter">How to create a new application</a></p>
@@ -434,13 +175,13 @@ a list of values, separated by a special token).</p>
         <li class="right" >
           <a href="create_new_app.html" title="How to create a new application"
              >previous</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="howto_index.html" >How to ...</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Dec 30, 2016.
+      Last updated on Jan 07, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

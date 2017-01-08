@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.apps.seqsee.workspace &#8212; PySeqsee 0.2.2a1 documentation</title>
+    <title>farg.apps.seqsee.workspace &#8212; PySeqsee 0.2.3a1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2.2a1',
+        VERSION:     '0.2.3a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -237,8 +237,8 @@
 <span class="sd">       conflicts with the group under consideration, so does B).</span>
 <span class="sd">       .. Note:: This can be sped up if I am keeping track of supergroups.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">gp</span><span class="o">.</span><span class="n">is_sequence_element</span><span class="p">:</span> <span class="k">return</span>
-    <span class="k">if</span> <span class="n">gp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span> <span class="k">return</span>
+    <span class="k">if</span> <span class="n">gp</span><span class="o">.</span><span class="n">is_sequence_element</span><span class="p">:</span> <span class="k">return</span>  <span class="c1"># Elements can never conflict.</span>
+    <span class="k">if</span> <span class="n">gp</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">groups</span><span class="p">:</span> <span class="k">return</span>       <span class="c1"># Group already present, no conflict possible.</span>
 
     <span class="n">groups_at_this_location</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">GetGroupsWithSpan</span><span class="p">(</span><span class="n">Exactly</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">start_pos</span><span class="p">),</span>
                                                           <span class="n">Exactly</span><span class="p">(</span><span class="n">gp</span><span class="o">.</span><span class="n">end_pos</span><span class="p">)))</span>
@@ -383,13 +383,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Dec 30, 2016.
+      Last updated on Jan 07, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.ltm.graph &#8212; PySeqsee 0.2.2a1 documentation</title>
+    <title>farg.core.ltm.graph &#8212; PySeqsee 0.2.3a1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2.2a1',
+        VERSION:     '0.2.3a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -67,6 +67,8 @@
 <span class="kn">from</span> <span class="nn">farg.core.ltm.node</span> <span class="k">import</span> <span class="n">LTMNode</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">pickle</span> <span class="k">as</span> <span class="nn">pickle</span>
+
+<span class="n">kLogger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="s2">&quot;LTM_topology&quot;</span><span class="p">)</span>
 
 <div class="viewcode-block" id="LTMGraph"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.graph.LTMGraph">[docs]</a><span class="k">class</span> <span class="nc">LTMGraph</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Represents a full LTM graph (consisting of nodes and edges).&quot;&quot;&quot;</span>
@@ -142,7 +144,8 @@
     <span class="k">assert</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">node</span><span class="p">,</span> <span class="n">LTMNode</span><span class="p">))</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">node</span><span class="o">.</span><span class="n">content</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content_to_node</span><span class="p">:</span>
       <span class="bp">self</span><span class="o">.</span><span class="n">_content_to_node</span><span class="p">[</span><span class="n">node</span><span class="o">.</span><span class="n">content</span><span class="p">]</span> <span class="o">=</span> <span class="n">node</span>
-      <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span></div>
+      <span class="bp">self</span><span class="o">.</span><span class="n">nodes</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
+      <span class="n">kLogger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Added LTM node </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">node</span><span class="o">.</span><span class="n">content</span><span class="p">)</span></div>
 
 <div class="viewcode-block" id="LTMGraph.GetNodeForContent"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.graph.LTMGraph.GetNodeForContent">[docs]</a>  <span class="k">def</span> <span class="nf">GetNodeForContent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">content</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns node for content; creates one if it does not exist.&quot;&quot;&quot;</span>
@@ -217,13 +220,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Dec 30, 2016.
+      Last updated on Jan 07, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.ui.gui &#8212; PySeqsee 0.2.2a1 documentation</title>
+    <title>farg.core.ui.gui &#8212; PySeqsee 0.2.3a1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2.2a1',
+        VERSION:     '0.2.3a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -68,20 +68,12 @@
 <span class="kn">from</span> <span class="nn">farg.core.ltm.manager</span> <span class="k">import</span> <span class="n">LTMManager</span>
 <span class="kn">from</span> <span class="nn">farg.core.question.question</span> <span class="k">import</span> <span class="n">BooleanQuestion</span>
 <span class="kn">from</span> <span class="nn">farg.core.ui.gui.central_pane</span> <span class="k">import</span> <span class="n">CentralPane</span>
-<span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="k">import</span> <span class="n">gflags</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="n">Button</span><span class="p">,</span> <span class="n">Frame</span><span class="p">,</span> <span class="n">Label</span><span class="p">,</span> <span class="n">StringVar</span><span class="p">,</span> <span class="n">Tk</span>
 <span class="kn">from</span> <span class="nn">tkinter.constants</span> <span class="k">import</span> <span class="n">LEFT</span>
 <span class="kn">from</span> <span class="nn">tkinter.messagebox</span> <span class="k">import</span> <span class="n">askyesno</span><span class="p">,</span> <span class="n">showinfo</span>
 <span class="kn">import</span> <span class="nn">logging</span>
 <span class="kn">import</span> <span class="nn">threading</span>
-
-<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_integer</span><span class="p">(</span><span class="s1">&#39;gui_canvas_height&#39;</span><span class="p">,</span> <span class="mi">500</span><span class="p">,</span>
-                      <span class="s1">&#39;Height of the central canvas&#39;</span><span class="p">)</span>
-<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_integer</span><span class="p">(</span><span class="s1">&#39;gui_canvas_width&#39;</span><span class="p">,</span> <span class="mi">800</span><span class="p">,</span>
-                      <span class="s1">&#39;Width of the central canvas&#39;</span><span class="p">)</span>
-
-<span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
-
+<span class="kn">import</span> <span class="nn">farg_flags</span>
 
 <div class="viewcode-block" id="RunForNSteps"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.main.RunForNSteps">[docs]</a><span class="k">class</span> <span class="nc">RunForNSteps</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">Thread</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Runs controller for up to n steps.</span>
@@ -115,7 +107,7 @@
   <span class="sd">&quot;&quot;&quot;Base-class of GUI for an application.&quot;&quot;&quot;</span>
 
   <span class="c1">#: Size and location of the window.</span>
-  <span class="n">geometry</span> <span class="o">=</span> <span class="s1">&#39;810x700-0+0&#39;</span>  <span class="c1"># Not a const. pylint: disable=C6409</span>
+  <span class="n">geometry</span> <span class="o">=</span> <span class="s1">&#39;1280x980-0+0&#39;</span>  <span class="c1"># Not a const. pylint: disable=C6409</span>
 
   <span class="c1">#: Class handling the central part of the display.</span>
   <span class="n">central_pane_class</span> <span class="o">=</span> <span class="n">CentralPane</span>  <span class="c1"># Not a const. pylint: disable=C6409</span>
@@ -220,8 +212,8 @@
 
 <span class="sd">    If an item must be refreshed, add it to items_to_refresh.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">height</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">gui_canvas_height</span>
-    <span class="n">width</span> <span class="o">=</span> <span class="n">FLAGS</span><span class="o">.</span><span class="n">gui_canvas_width</span>
+    <span class="n">height</span> <span class="o">=</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">gui_canvas_height</span>
+    <span class="n">width</span> <span class="o">=</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">gui_canvas_width</span>
     <span class="n">canvas</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">central_pane_class</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mw</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="p">,</span>
                                      <span class="n">height</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">height</span><span class="p">),</span> <span class="n">width</span><span class="o">=</span><span class="nb">int</span><span class="p">(</span><span class="n">width</span><span class="p">),</span>
                                      <span class="n">background</span><span class="o">=</span><span class="s1">&#39;#EEFFFF&#39;</span><span class="p">)</span>
@@ -280,13 +272,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Dec 30, 2016.
+      Last updated on Jan 07, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

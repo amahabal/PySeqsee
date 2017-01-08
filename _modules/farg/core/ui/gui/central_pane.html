@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.ui.gui.central_pane &#8212; PySeqsee 0.2.2a1 documentation</title>
+    <title>farg.core.ui.gui.central_pane &#8212; PySeqsee 0.2.3a1 documentation</title>
     
     <link rel="stylesheet" href="../../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../../',
-        VERSION:     '0.2.2a1',
+        VERSION:     '0.2.3a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../gui.html" accesskey="U">farg.core.ui.gui</a> &#187;</li> 
       </ul>
@@ -65,18 +65,13 @@
 
 <span class="sd">&quot;&quot;&quot;Central pane of the UI display.</span>
 
-<span class="sd">This is basically a canvas that can hold multiple views (such as Coderack view, Workspace</span>
-<span class="sd">view, and so forth). Each view is an instance of a subclass of</span>
-<span class="sd">:py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">This is a canvas that can hold multiple views (such as Coderack view, Workspace view, and so forth).</span>
 
-<span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="k">import</span> <span class="n">gflags</span>
+<span class="sd">Each view is an instance of a subclass of :py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">farg_flags</span>
 <span class="kn">import</span> <span class="nn">sys</span>
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="n">ALL</span><span class="p">,</span> <span class="n">Canvas</span><span class="p">,</span> <span class="n">Menu</span>
-
-<span class="n">gflags</span><span class="o">.</span><span class="n">DEFINE_string</span><span class="p">(</span><span class="s1">&#39;gui_initial_view&#39;</span><span class="p">,</span> <span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="s1">&#39;In GUI mode, what should the initial mode be?&#39;</span><span class="p">)</span>
-<span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
-
 
 <div class="viewcode-block" id="CentralPane"><a class="viewcode-back" href="../../../../../developer/ui.html#farg.core.ui.gui.CentralPane">[docs]</a><span class="k">class</span> <span class="nc">CentralPane</span><span class="p">(</span><span class="n">Canvas</span><span class="p">):</span>  <span class="c1"># Pylint thinks this has 9 ancestrors. pylint:disable=R0901,R0904</span>
   <span class="sd">&quot;&quot;&quot;The central pane of the Tk-based UI. This can hold several displays.&quot;&quot;&quot;</span>
@@ -96,7 +91,7 @@
     <span class="bp">self</span><span class="o">.</span><span class="n">viewports</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">Canvas</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">master</span><span class="p">,</span> <span class="n">height</span><span class="o">=</span><span class="n">height</span><span class="p">,</span> <span class="n">width</span><span class="o">=</span><span class="n">width</span><span class="p">,</span> <span class="n">background</span><span class="o">=</span><span class="n">background</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">SetupMenu</span><span class="p">(</span><span class="n">master</span><span class="p">)</span>
-    <span class="bp">self</span><span class="o">.</span><span class="n">SetNamedView</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">gui_initial_view</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_initial_view</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">SetNamedView</span><span class="p">(</span><span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">gui_initial_view</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">default_initial_view</span><span class="p">)</span>
 
 <div class="viewcode-block" id="CentralPane.ReDraw"><a class="viewcode-back" href="../../../../../developer/ui.html#farg.core.ui.gui.CentralPane.ReDraw">[docs]</a>  <span class="k">def</span> <span class="nf">ReDraw</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Redraw all active views on pane.&quot;&quot;&quot;</span>
@@ -203,14 +198,14 @@
         <li class="right" >
           <a href="../../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../../index.html" >Module code</a> &#187;</li>
           <li class="nav-item nav-item-2"><a href="../gui.html" >farg.core.ui.gui</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Dec 30, 2016.
+      Last updated on Jan 07, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

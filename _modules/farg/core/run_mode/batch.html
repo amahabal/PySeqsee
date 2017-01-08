@@ -6,7 +6,7 @@
   <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     
-    <title>farg.core.run_mode.batch &#8212; PySeqsee 0.2.2a1 documentation</title>
+    <title>farg.core.run_mode.batch &#8212; PySeqsee 0.2.3a1 documentation</title>
     
     <link rel="stylesheet" href="../../../../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../../../../_static/pygments.css" type="text/css" />
@@ -14,7 +14,7 @@
     <script type="text/javascript">
       var DOCUMENTATION_OPTIONS = {
         URL_ROOT:    '../../../../',
-        VERSION:     '0.2.2a1',
+        VERSION:     '0.2.3a1',
         COLLAPSE_INDEX: false,
         FILE_SUFFIX: '.html',
         HAS_SOURCE:  true,
@@ -38,7 +38,7 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" accesskey="U">Module code</a> &#187;</li> 
       </ul>
     </div>  
@@ -63,26 +63,24 @@
 <span class="c1"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
 
 <span class="kn">from</span> <span class="nn">collections</span> <span class="k">import</span> <span class="n">defaultdict</span>
+<span class="kn">import</span> <span class="nn">farg_flags</span>
 <span class="kn">from</span> <span class="nn">farg.core.run_mode.non_interactive</span> <span class="k">import</span> <span class="n">RunModeNonInteractive</span><span class="p">,</span> <span class="n">RunMultipleTimes</span><span class="p">,</span> <span class="n">MultipleRunGUI</span>
-<span class="kn">from</span> <span class="nn">farg.third_party</span> <span class="k">import</span> <span class="n">gflags</span>
 <span class="kn">from</span> <span class="nn">farg.core.run_stats</span> <span class="k">import</span> <span class="n">RunStats</span>
 <span class="kn">import</span> <span class="nn">os.path</span>
-
-<span class="n">FLAGS</span> <span class="o">=</span> <span class="n">gflags</span><span class="o">.</span><span class="n">FLAGS</span>
 
 <div class="viewcode-block" id="BatchRunMultipleTimes"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.main.BatchRunMultipleTimes">[docs]</a><span class="k">class</span> <span class="nc">BatchRunMultipleTimes</span><span class="p">(</span><span class="n">RunMultipleTimes</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Multiple-runner specialized for batch.&quot;&quot;&quot;</span>
 
 <div class="viewcode-block" id="BatchRunMultipleTimes.GetSubprocessArguments"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.main.BatchRunMultipleTimes.GetSubprocessArguments">[docs]</a>  <span class="k">def</span> <span class="nf">GetSubprocessArguments</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">one_input_spec_arguments</span><span class="p">):</span>
-    <span class="n">arguments</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">(</span><span class="n">stopping_condition</span><span class="o">=</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition</span><span class="p">,</span>
-                     <span class="n">stopping_condition_granularity</span><span class="o">=</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stopping_condition_granularity</span><span class="p">,</span>
-                     <span class="n">run_mode</span><span class="o">=</span><span class="s2">&quot;single&quot;</span><span class="p">,</span>
-                     <span class="n">max_steps</span><span class="o">=</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">max_steps</span><span class="p">,</span>
-                     <span class="n">eat_output</span><span class="o">=</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">eat_output</span><span class="p">,</span>
-                     <span class="n">use_stored_ltm</span><span class="o">=</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">use_stored_ltm</span><span class="p">,</span>
-                     <span class="n">double_mapping_resistance</span><span class="o">=</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">double_mapping_resistance</span><span class="p">,</span>
-                     <span class="p">)</span>
-    <span class="n">arguments</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">one_input_spec_arguments</span><span class="o">.</span><span class="n">arguments_dict</span><span class="p">)</span>
+    <span class="n">arguments</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;--stopping_condition=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">stopping_condition</span><span class="p">)</span>
+    <span class="n">arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;--stopping_condition_granularity=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">stopping_condition_granularity</span><span class="p">)</span>
+    <span class="n">arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;--run_mode=single&#39;</span><span class="p">)</span>
+    <span class="n">arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;--max_steps=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">max_steps</span><span class="p">)</span>
+    <span class="n">arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;--eat_output=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">eat_output</span><span class="p">)</span>
+    <span class="n">arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;--use_stored_ltm=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">use_stored_ltm</span><span class="p">)</span>
+    <span class="n">arguments</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;--double_mapping_resistance=</span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">double_mapping_resistance</span><span class="p">)</span>
+    <span class="n">arguments</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">one_input_spec_arguments</span><span class="o">.</span><span class="n">arguments_list</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">arguments</span></div>
 
 <div class="viewcode-block" id="BatchRunMultipleTimes.RunAll"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.main.BatchRunMultipleTimes.RunAll">[docs]</a>  <span class="k">def</span> <span class="nf">RunAll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -90,10 +88,11 @@
     <span class="k">for</span> <span class="n">one_input_spec</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_spec</span><span class="p">:</span>
       <span class="n">name</span> <span class="o">=</span> <span class="n">one_input_spec</span><span class="o">.</span><span class="n">name</span>
       <span class="n">arguments</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">GetSubprocessArguments</span><span class="p">(</span><span class="n">one_input_spec</span><span class="p">)</span>
+      <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;arguments=&quot;</span><span class="p">,</span> <span class="n">arguments</span><span class="p">)</span>
 
       <span class="n">stats</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">gui</span><span class="o">.</span><span class="n">stats</span><span class="o">.</span><span class="n">GetRightStatsFor</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
 
-      <span class="k">for</span> <span class="n">_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">num_iterations</span><span class="p">):</span>
+      <span class="k">for</span> <span class="n">_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">num_iterations</span><span class="p">):</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">gui</span><span class="o">.</span><span class="n">quitting</span><span class="p">:</span>
           <span class="k">return</span>
         <span class="n">result</span> <span class="o">=</span> <span class="n">RunModeNonInteractive</span><span class="o">.</span><span class="n">DoSingleRun</span><span class="p">(</span><span class="n">arguments</span><span class="p">)</span>
@@ -119,16 +118,16 @@
 <div class="viewcode-block" id="BatchRunMultipleTimes.GetPreviousSavedFilename"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.main.BatchRunMultipleTimes.GetPreviousSavedFilename">[docs]</a>  <span class="k">def</span> <span class="nf">GetPreviousSavedFilename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns the filename from which to read stats of previous run, if any.&quot;&quot;&quot;</span>
     <span class="kn">from</span> <span class="nn">os</span> <span class="k">import</span> <span class="n">listdir</span>
-    <span class="n">files</span> <span class="o">=</span> <span class="n">listdir</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">)</span>
+    <span class="n">files</span> <span class="o">=</span> <span class="n">listdir</span><span class="p">(</span><span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">files</span><span class="p">:</span>
-      <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">files</span><span class="p">))</span>
+      <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="n">files</span><span class="p">))</span>
     <span class="k">return</span> <span class="s1">&#39;&#39;</span></div>
 
 <div class="viewcode-block" id="BatchRunMultipleTimes.GetSaveFilename"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.main.BatchRunMultipleTimes.GetSaveFilename">[docs]</a>  <span class="k">def</span> <span class="nf">GetSaveFilename</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Filename to store current stats in.&quot;&quot;&quot;</span>
     <span class="kn">import</span> <span class="nn">time</span>
     <span class="n">timestamp</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">strftime</span><span class="p">(</span><span class="s1">&#39;%Y-%m-</span><span class="si">%d</span><span class="s1">-%H-%M-%S&#39;</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">FLAGS</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span></div></div>
+    <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">stats_directory</span><span class="p">,</span> <span class="n">timestamp</span><span class="p">)</span></div></div>
 
 <div class="viewcode-block" id="RunModeBatch"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.main.RunModeBatch">[docs]</a><span class="k">class</span> <span class="nc">RunModeBatch</span><span class="p">(</span><span class="n">RunModeNonInteractive</span><span class="p">):</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">controller_class</span><span class="p">,</span> <span class="n">input_spec</span><span class="p">):</span>
@@ -174,13 +173,13 @@
         <li class="right" >
           <a href="../../../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.2a1 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../../../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../../../index.html" >Module code</a> &#187;</li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Dec 30, 2016.
+      Last updated on Jan 07, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

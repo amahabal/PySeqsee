@@ -1,0 +1,191 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running a single example &#8212; PySeqsee 0.2.3a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.3a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Running a set of examples in batch" href="running_in_batch.html" />
+    <link rel="prev" title="How to install PySeqsee" href="install.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="running_in_batch.html" title="Running a set of examples in batch"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="How to install PySeqsee"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" accesskey="U">How to ...</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="running-a-single-example">
+<h1>Running a single example<a class="headerlink" href="#running-a-single-example" title="Permalink to this headline">¶</a></h1>
+<p>This section uses the Seqsee app to illustrate how to run an app.</p>
+<div class="section" id="flags-supported-by-seqsee">
+<h2>Flags supported by Seqsee<a class="headerlink" href="#flags-supported-by-seqsee" title="Permalink to this headline">¶</a></h2>
+<p>For the current purpose of showing how to run it, I will mention the single flag &#8211;sequence, which
+specifies the input terms.</p>
+<p>One may thus write:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">sequence</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span>
+</pre></div>
+</div>
+<p>to specify these numbers as the input to the sequence.</p>
+</div>
+<div class="section" id="command">
+<h2>Command<a class="headerlink" href="#command" title="Permalink to this headline">¶</a></h2>
+<p>This command, run in the Pyseqsee directory, will start a graphical window (using Tkinter):</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">farg</span><span class="o">.</span><span class="n">apps</span><span class="o">.</span><span class="n">seqsee</span><span class="o">.</span><span class="n">run_seqsee</span> <span class="o">--</span><span class="n">sequence</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="start-the-processing">
+<h2>Start the processing<a class="headerlink" href="#start-the-processing" title="Permalink to this headline">¶</a></h2>
+<p>You need to press the key &#8220;c&#8221; (for continue) to set the application in motion. You could also use
+repeated &#8220;s&#8221; to step through the processing.</p>
+</div>
+<div class="section" id="different-views">
+<h2>Different Views<a class="headerlink" href="#different-views" title="Permalink to this headline">¶</a></h2>
+<p>By default, what is shown is the Workspace. This is the set of objects and relations. But the menu
+at the top may be used to change the view to also include the Coderack (which is a set of actions
+waiting in the wings, one of which will be chosen next to run), the Stream of Thought (which is a
+series of recently focused-on items that the application is likely to be reminded of as it proceeds),
+and the Slipnet (which shows the activation levels of various concepts, things that the program has
+judged to be relevant to the task at hand).</p>
+</div>
+<div class="section" id="flags-supported-by-all-apps">
+<h2>Flags supported by all apps<a class="headerlink" href="#flags-supported-by-all-apps" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="run-mode">
+<h3>&#8211;run_mode<a class="headerlink" href="#run-mode" title="Permalink to this headline">¶</a></h3>
+<p>This can take the values &#8220;gui&#8221; (which is the default, and starts a graphical interface), &#8220;batch&#8221; (which
+can run many inputs multiple times and store the stats), &#8220;sxs&#8221; (which can compare different sets of
+flags), and &#8220;single&#8221; (which runs a single example once, and is primarily intended for use by the
+batch and xsx modes).</p>
+</div>
+<div class="section" id="use-stored-ltm">
+<h3>&#8211;use_stored_ltm<a class="headerlink" href="#use-stored-ltm" title="Permalink to this headline">¶</a></h3>
+<p>Applications can learn and improve over time. By default, in the &#8220;gui&#8221; mode, the previously stored
+long-term memory is used. In batch mode, of course, this is turned off by default to keep runs
+independent of each other.</p>
+</div>
+<div class="section" id="gui-canvas-height-gui-canvas-width">
+<h3>&#8211;gui_canvas_height, &#8211;gui_canvas_width<a class="headerlink" href="#gui-canvas-height-gui-canvas-width" title="Permalink to this headline">¶</a></h3>
+<p>These can be used to change the size of the GUI window.</p>
+</div>
+</div>
+<div class="section" id="all-core-flags">
+<h2>All core flags<a class="headerlink" href="#all-core-flags" title="Permalink to this headline">¶</a></h2>
+<p>The module farg_flags.py in the top directory defines the shared flags.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Running a single example</a><ul>
+<li><a class="reference internal" href="#flags-supported-by-seqsee">Flags supported by Seqsee</a></li>
+<li><a class="reference internal" href="#command">Command</a></li>
+<li><a class="reference internal" href="#start-the-processing">Start the processing</a></li>
+<li><a class="reference internal" href="#different-views">Different Views</a></li>
+<li><a class="reference internal" href="#flags-supported-by-all-apps">Flags supported by all apps</a><ul>
+<li><a class="reference internal" href="#run-mode">&#8211;run_mode</a></li>
+<li><a class="reference internal" href="#use-stored-ltm">&#8211;use_stored_ltm</a></li>
+<li><a class="reference internal" href="#gui-canvas-height-gui-canvas-width">&#8211;gui_canvas_height, &#8211;gui_canvas_width</a></li>
+</ul>
+</li>
+<li><a class="reference internal" href="#all-core-flags">All core flags</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="install.html"
+                        title="previous chapter">How to install PySeqsee</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="running_in_batch.html"
+                        title="next chapter">Running a set of examples in batch</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="running_in_batch.html" title="Running a set of examples in batch"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="install.html" title="How to install PySeqsee"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" >How to ...</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jan 07, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

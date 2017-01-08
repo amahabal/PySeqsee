@@ -1,0 +1,172 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Running a set of examples in batch &#8212; PySeqsee 0.2.3a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.3a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How to create a new application" href="create_new_app.html" />
+    <link rel="prev" title="Running a single example" href="running_single_example.html" /> 
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="create_new_app.html" title="How to create a new application"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="running_single_example.html" title="Running a single example"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" accesskey="U">How to ...</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="running-a-set-of-examples-in-batch">
+<h1>Running a set of examples in batch<a class="headerlink" href="#running-a-set-of-examples-in-batch" title="Permalink to this headline">¶</a></h1>
+<p>To illustrate running a set of examples as a batch, I will again use the example of Seqsee.</p>
+<div class="section" id="command">
+<h2>Command<a class="headerlink" href="#command" title="Permalink to this headline">¶</a></h2>
+<p>The following line will run Seqsee on a handful of sequences 10 times each:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">farg</span><span class="o">.</span><span class="n">apps</span><span class="o">.</span><span class="n">seqsee</span><span class="o">.</span><span class="n">run_seqsee</span> <span class="o">--</span><span class="n">run_mode</span><span class="o">=</span><span class="n">batch</span> <span class="o">--</span><span class="n">input_spec_file</span><span class="o">=</span><span class="n">farg</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">seqsee</span><span class="o">/</span><span class="n">testing_sequences</span><span class="o">.</span><span class="n">txt</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="what-is-displayed">
+<h2>What is displayed<a class="headerlink" href="#what-is-displayed" title="Permalink to this headline">¶</a></h2>
+<p>A two pane window is generated, the left hand side of which are examples. Selecting any displays the
+relevant statistics on the right hand side: how many times has the sequence been run, success rate,
+a histogram showing time taken for each run, and mean and median of the time taken.</p>
+<p>Also shown are the statistics from the most recent prior run, if any.</p>
+</div>
+<div class="section" id="specifying-examples-to-run">
+<h2>Specifying examples to run<a class="headerlink" href="#specifying-examples-to-run" title="Permalink to this headline">¶</a></h2>
+<p>The file containing the examples can be pointed to by the flag &#8211;input_spec_file. The Seqsee app
+contains one such file (farg/apps/seqsee/testing_sequences.txt), containing lines such as:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="mi">2</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span><span class="o">|</span><span class="mi">11</span> <span class="mi">13</span> <span class="mi">17</span>
+<span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">6</span> <span class="mi">7</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="o">|</span> <span class="mi">11</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">15</span>
+<span class="mi">1</span> <span class="mi">2</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span><span class="o">|</span><span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span> <span class="mi">5</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">4</span>
+</pre></div>
+</div>
+<p>which specify the input and the continuation. How such a file is interpreted is up to the app, which
+must provide a subclass of &#8216;ReadInputSpec&#8217; that can convert a single line of the file into arguments
+that may be passed in to the application. This subclass in the case of Seqsee converts the first
+line shown above to the sequence [&#8211;sequence 2 3 5 7 &#8211;continuation 11 13 17].</p>
+</div>
+<div class="section" id="other-flags">
+<h2>Other flags<a class="headerlink" href="#other-flags" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="num-iterations">
+<h3>&#8211;num_iterations<a class="headerlink" href="#num-iterations" title="Permalink to this headline">¶</a></h3>
+<p>How many times to run each sequence. Defaults to 10.</p>
+</div>
+<div class="section" id="max-steps">
+<h3>&#8211;max_steps<a class="headerlink" href="#max-steps" title="Permalink to this headline">¶</a></h3>
+<p>Maximum number of codelets to run in each step. Defaults to 20,000.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Running a set of examples in batch</a><ul>
+<li><a class="reference internal" href="#command">Command</a></li>
+<li><a class="reference internal" href="#what-is-displayed">What is displayed</a></li>
+<li><a class="reference internal" href="#specifying-examples-to-run">Specifying examples to run</a></li>
+<li><a class="reference internal" href="#other-flags">Other flags</a><ul>
+<li><a class="reference internal" href="#num-iterations">&#8211;num_iterations</a></li>
+<li><a class="reference internal" href="#max-steps">&#8211;max_steps</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="running_single_example.html"
+                        title="previous chapter">Running a single example</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="create_new_app.html"
+                        title="next chapter">How to create a new application</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="create_new_app.html" title="How to create a new application"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="running_single_example.html" title="Running a single example"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="howto_index.html" >How to ...</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jan 07, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
