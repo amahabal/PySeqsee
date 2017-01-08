@@ -1,11 +1,11 @@
 from farg.apps.{application_name}.workspace import {application_class}Workspace
 from farg.core.controller import Controller
 from farg.core.ltm.manager import LTMManager
-from farg.third_party import gflags
 import sys
-FLAGS = gflags.FLAGS
 
-# EDIT-ME: Define any controller-specific flags.
+# If you need access to flags, you need:
+# import farg_flags
+# # The flag --foo is available at farg_flags.FargFlags.foo
 
 kLTMName = '{application_name}.main'
 
