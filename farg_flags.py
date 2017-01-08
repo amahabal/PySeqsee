@@ -1,3 +1,5 @@
+"""Defines the flags shared by all apps."""
+
 import argparse
 
 core_parser = argparse.ArgumentParser(add_help=False)
