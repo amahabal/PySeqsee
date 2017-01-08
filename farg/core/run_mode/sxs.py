@@ -13,23 +13,17 @@
 
 from farg.core.run_mode.non_interactive import (RunModeNonInteractive, RunMultipleTimes,
                                                 MultipleRunGUI)
-from farg.third_party import gflags
 import sys
-
-FLAGS = gflags.FLAGS
-
-gflags.DEFINE_string('base_flags', '', 'Extra flags for base')
-gflags.DEFINE_string('exp_flags', '', 'Extra flags for exp')
-
+import farg_flags
 
 class SxSRunMultipleTimes(RunMultipleTimes):
   """Multiple-runner specialized for SxS."""
 
   def GetSubprocessArguments(self, one_input_spec_arguments):
-    arguments = dict(stopping_condition=FLAGS.stopping_condition,
-                     stopping_condition_granularity=FLAGS.stopping_condition_granularity,
+    arguments = dict(stopping_condition=farg_flags.FargFlags.stopping_condition,
+                     stopping_condition_granularity=farg_flags.FargFlags.stopping_condition_granularity,
                      run_mode='single',
-                     max_steps=FLAGS.max_steps,
+                     max_steps=farg_flags.FargFlags.max_steps,
                     )
     arguments.update(one_input_spec_arguments.arguments_dict)
     return arguments
@@ -39,26 +33,26 @@ class SxSRunMultipleTimes(RunMultipleTimes):
       name = one_input_spec.name
       common_arguments = self.GetSubprocessArguments(one_input_spec)
 
-      for _idx in range(FLAGS.num_iterations):
+      for _idx in range(farg_flags.FargFlags.num_iterations):
         left_stats = self.gui.stats.GetLeftStatsFor(name)
         if self.gui.quitting:
           return
-        result = RunModeNonInteractive.DoSingleRun(common_arguments, FLAGS.base_flags)
+        result = RunModeNonInteractive.DoSingleRun(common_arguments, farg_flags.FargFlags.base_flags)
         left_stats.AddData(result)
 
         right_stats = self.gui.stats.GetRightStatsFor(name)
         if self.gui.quitting:
           return
-        result = RunModeNonInteractive.DoSingleRun(common_arguments, FLAGS.exp_flags)
+        result = RunModeNonInteractive.DoSingleRun(common_arguments, farg_flags.FargFlags.exp_flags)
         right_stats.AddData(result)
 
 
 class RunModeSxS(RunModeNonInteractive):
   def __init__(self, *, controller_class, input_spec):
     print('Initialized SxS run mode')
-    if FLAGS.base_flags == FLAGS.exp_flags:
+    if farg_flags.FargFlags.base_flags == farg_flags.FargFlags.exp_flags:
       print('Base and Exp flags are identical (%s). SxS makes no sense!' %
-            FLAGS.exp_flags)
+            farg_flags.FargFlags.exp_flags)
       sys.exit(1)
     self.input_spec = input_spec
 

@@ -16,14 +16,10 @@
 import logging
 
 from farg.core.ltm.graph import LTMGraph
-from farg.third_party import gflags
 import os.path
 import sys
 
-gflags.DEFINE_boolean("use_stored_ltm", True,
-                      "If true, load LTMs from disk. If not, a brand new one is created.")
-
-FLAGS = gflags.FLAGS
+import farg_flags
 
 kLogger = logging.getLogger("LTM")
 
@@ -38,8 +34,8 @@ class LTMManager(object):
     kLogger.info("GetLTM called with %s", ltm_name)
     if ltm_name in LTMManager.loaded_ltms:
       return LTMManager.loaded_ltms[ltm_name]
-    if FLAGS.use_stored_ltm:
-      filename = os.path.join(FLAGS.ltm_directory, ltm_name)
+    if farg_flags.FargFlags.use_stored_ltm:
+      filename = os.path.join(farg_flags.FargFlags.ltm_directory, ltm_name)
       if not os.path.isfile(filename):
         # We need to create the LTM. I'd need to figure out how and where it should get
         # populated. For now, I will create an empty LTM.

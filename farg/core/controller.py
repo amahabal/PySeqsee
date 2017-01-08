@@ -21,14 +21,8 @@ from farg.core.exceptions import StoppingConditionMet
 from farg.core.ltm.manager import LTMManager
 from farg.core.stream import Stream
 from farg.core.util import Toss
-from farg.third_party import gflags
 
-FLAGS = gflags.FLAGS
-
-gflags.DEFINE_integer('stopping_condition_granularity', 5,
-                      'How frequently the stopping condition is evaluated, as measured in'
-                      ' number of codelets.')
-
+import farg_flags
 
 class Controller:
   """Purely mechanical (read "dumb") loop to control entire app or individual subspaces.
@@ -209,7 +203,7 @@ class Controller:
       logging.debug("========================== CODELET =======================")
       codelet.Run()
     if self.stopping_condition:
-      if self.steps_taken % FLAGS.stopping_condition_granularity == 0:
+      if self.steps_taken % farg_flags.FargFlags.stopping_condition_granularity == 0:
         if self.stopping_condition(self):
           raise StoppingConditionMet(codelet_count=self.steps_taken)
 

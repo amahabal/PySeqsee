@@ -17,14 +17,9 @@ This is a canvas that can hold multiple views (such as Coderack view, Workspace 
 
 Each view is an instance of a subclass of :py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.
 """
-
-from farg.third_party import gflags
+import farg_flags
 import sys
 from tkinter import ALL, Canvas, Menu
-
-gflags.DEFINE_string('gui_initial_view', '', 'In GUI mode, what should the initial mode be?')
-FLAGS = gflags.FLAGS
-
 
 class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disable=R0901,R0904
   """The central pane of the Tk-based UI. This can hold several displays."""
@@ -44,7 +39,7 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
     self.viewports = []
     Canvas.__init__(self, master, height=height, width=width, background=background)
     self.SetupMenu(master)
-    self.SetNamedView(FLAGS.gui_initial_view or self.default_initial_view)
+    self.SetNamedView(farg_flags.FargFlags.gui_initial_view or self.default_initial_view)
 
   def ReDraw(self):
     """Redraw all active views on pane."""

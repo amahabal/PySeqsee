@@ -17,11 +17,10 @@ from farg.apps.seqsee.workspace import Workspace
 from farg.core.controller import Controller
 from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.manager import LTMManager
-from farg.third_party import gflags
 import logging
 import sys
 
-FLAGS = gflags.FLAGS
+import farg_flags
 
 kLTMName = 'seqsee.main'
 
@@ -60,5 +59,5 @@ class SeqseeController(Controller):
   def __init__(self, **args):
     logging.info("Initializing Seqsee controller")
     Controller.__init__(self, **args)
-    self.workspace.InsertElements(FLAGS.sequence)
-    self.unrevealed_terms = FLAGS.unrevealed_terms
+    self.workspace.InsertElements(farg_flags.FargFlags.sequence)
+    self.unrevealed_terms = farg_flags.FargFlags.unrevealed_terms

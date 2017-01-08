@@ -12,26 +12,24 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from collections import defaultdict
+import farg_flags
 from farg.core.run_mode.non_interactive import RunModeNonInteractive, RunMultipleTimes, MultipleRunGUI
-from farg.third_party import gflags
 from farg.core.run_stats import RunStats
 import os.path
-
-FLAGS = gflags.FLAGS
 
 class BatchRunMultipleTimes(RunMultipleTimes):
   """Multiple-runner specialized for batch."""
 
   def GetSubprocessArguments(self, one_input_spec_arguments):
-    arguments = dict(stopping_condition=FLAGS.stopping_condition,
-                     stopping_condition_granularity=FLAGS.stopping_condition_granularity,
-                     run_mode="single",
-                     max_steps=FLAGS.max_steps,
-                     eat_output=FLAGS.eat_output,
-                     use_stored_ltm=FLAGS.use_stored_ltm,
-                     double_mapping_resistance=FLAGS.double_mapping_resistance,
-                     )
-    arguments.update(one_input_spec_arguments.arguments_dict)
+    arguments = []
+    arguments.append('--stopping_condition=%s' % farg_flags.FargFlags.stopping_condition)
+    arguments.append('--stopping_condition_granularity=%s' % farg_flags.FargFlags.stopping_condition_granularity)
+    arguments.append('--run_mode=single')
+    arguments.append('--max_steps=%s' % farg_flags.FargFlags.max_steps)
+    arguments.append('--eat_output=%s' % farg_flags.FargFlags.eat_output)
+    arguments.append('--use_stored_ltm=%s' % farg_flags.FargFlags.use_stored_ltm)
+    arguments.append('--double_mapping_resistance=%s' % farg_flags.FargFlags.double_mapping_resistance)
+    arguments.extend(one_input_spec_arguments.arguments_list)
     return arguments
 
   def RunAll(self):
@@ -39,10 +37,11 @@ class BatchRunMultipleTimes(RunMultipleTimes):
     for one_input_spec in self.input_spec:
       name = one_input_spec.name
       arguments = self.GetSubprocessArguments(one_input_spec)
+      print("arguments=", arguments)
 
       stats = self.gui.stats.GetRightStatsFor(name)
 
-      for _idx in range(FLAGS.num_iterations):
+      for _idx in range(farg_flags.FargFlags.num_iterations):
         if self.gui.quitting:
           return
         result = RunModeNonInteractive.DoSingleRun(arguments)
@@ -68,16 +67,16 @@ class BatchRunMultipleTimes(RunMultipleTimes):
   def GetPreviousSavedFilename(self):
     """Returns the filename from which to read stats of previous run, if any."""
     from os import listdir
-    files = listdir(FLAGS.stats_directory)
+    files = listdir(farg_flags.FargFlags.stats_directory)
     if files:
-      return os.path.join(FLAGS.stats_directory, max(files))
+      return os.path.join(farg_flags.FargFlags.stats_directory, max(files))
     return ''
 
   def GetSaveFilename(self):
     """Filename to store current stats in."""
     import time
     timestamp = time.strftime('%Y-%m-%d-%H-%M-%S')
-    return os.path.join(FLAGS.stats_directory, timestamp)
+    return os.path.join(farg_flags.FargFlags.stats_directory, timestamp)
 
 class RunModeBatch(RunModeNonInteractive):
   def __init__(self, *, controller_class, input_spec):

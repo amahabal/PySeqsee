@@ -23,15 +23,11 @@ whereas in the batch mode it is the last time the batch mode was run.
 from abc import ABCMeta, abstractmethod  # Metaclass confuses pylint: disable=W0611
 from farg.core.run_mode.run_mode import RunMode
 from farg.core.run_stats import AllStats, Mean, Median
-from farg.third_party import gflags
 from tkinter import Canvas, Frame, Label, Listbox, Scrollbar, Tk
 from tkinter.constants import BOTH, END, LEFT, N, NW, RIGHT, SINGLE, TOP, VERTICAL, X, Y
 import subprocess
 import sys
 import threading
-
-FLAGS = gflags.FLAGS
-
 
 class RunMultipleTimes(threading.Thread, metaclass=ABCMeta):
   """Class to run the application several times on a set of inputs.
@@ -362,7 +358,7 @@ class RunModeNonInteractive(RunMode):  # No init. pylint: disable=W0232
   """The RunMode that will start a GUI and start running the app multiple times."""
 
   @classmethod
-  def DoSingleRun(cls, cmdline_arguments_dict, extra_arguments=None):
+  def DoSingleRun(cls, cmdline_arguments_list, extra_arguments=None):
     """Execute the application once.
 
     Args:
@@ -375,10 +371,8 @@ class RunModeNonInteractive(RunMode):  # No init. pylint: disable=W0232
     arguments = []  # Collect arguments to pass to subprocess
     arguments.append(sys.executable)  # Python executable
     arguments.append(sys.argv[0])  # The script used to run this mode (e.g., run_seqsee.py)
-
-    arguments.extend('--%s=%s' % (str(k), str(v))
-                     for k, v in cmdline_arguments_dict.items())
+    
+    arguments.extend(cmdline_arguments_list)
     if extra_arguments:
       arguments.append(extra_arguments)
-    # print(arguments)
     return subprocess.check_output(arguments)

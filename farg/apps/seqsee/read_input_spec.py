@@ -18,6 +18,8 @@ class SeqseeReadInputSpec(ReadInputSpec):
     if not '|' in line:
       return
     input, continuation = (x.split() for x in line.strip().split('|'))
-    yield SpecificationForOneRun(' '.join(input),
-                                 dict(sequence=' '.join(input),
-                                      unrevealed_terms=' '.join(continuation)))
+    arg_list = ['--sequence']
+    arg_list.extend(input)
+    arg_list.append('--unrevealed_terms')
+    arg_list.extend(continuation)
+    yield SpecificationForOneRun(' '.join(input), arg_list)

@@ -12,8 +12,7 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.core.ltm.manager import LTMManager
-from farg.third_party import gflags
-FLAGS = gflags.FLAGS
+import farg_flags
 
 class BatchUI:
   def __init__(self, *, controller_class, stopping_condition_fn=None):
@@ -32,7 +31,7 @@ class BatchUI:
     pass
 
   def Run(self):
-    self.controller.RunUptoNSteps(FLAGS.max_steps)
+    self.controller.RunUptoNSteps(farg_flags.FargFlags.max_steps)
     LTMManager.SaveAllOpenLTMS()
 
   def DisplayMessage(self, message):

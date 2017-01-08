@@ -13,13 +13,9 @@
 
 from farg.core.exceptions import BatchModeStopException, FargError, FargException
 from farg.core.run_mode.non_interactive import RunModeNonInteractive
-from farg.third_party import gflags
 from io import StringIO
 import sys
-
-gflags.DEFINE_boolean('eat_output', True, 'If true, eat up most output.')
-
-FLAGS = gflags.FLAGS
+import farg_flags
 
 
 class RunModeSingle(RunModeNonInteractive):
@@ -35,7 +31,7 @@ class RunModeSingle(RunModeNonInteractive):
 
   def Run(self):
     saved_stdout = sys.stdout
-    if FLAGS.eat_output:
+    if farg_flags.FargFlags.eat_output:
       sys.stdout = StringIO()
     output_status = ''
     try:

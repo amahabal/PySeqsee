@@ -21,13 +21,13 @@ to parse such a file.
 class SpecificationForOneRun:
   """Specification of input flags for a single run."""
 
-  def __init__(self, name, arguments_dict):
+  def __init__(self, name, arguments_list):
     #: Name of the input, for display purposes.
     self.name = name
-    #: The dictionary of arguments to be passed to the application for that input. Typically,
+    #: The list of arguments to be passed to the application for that input. Typically,
     #: this will contain two keys: 'input' and 'expected output', but could be anything,
     #: depending on the application.
-    self.arguments_dict = arguments_dict
+    self.arguments_list = arguments_list
 
 
 class ReadInputSpec:

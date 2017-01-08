@@ -21,10 +21,9 @@ from farg.core.util import WeightedShuffle, WeightedChoice, Toss
 import logging
 import random
 
-from farg.third_party import gflags
 from farg.apps.seqsee.sobject import SGroup
 import sys
-FLAGS = gflags.FLAGS
+import farg_flags
 
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
 
@@ -108,7 +107,7 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
   def Run(cls, controller, left, right, seqsee_ltm):
     if left.GetRelationTo(right):
       # Relation exists, possibly bail out.
-      if Toss(FLAGS.double_mapping_resistance):
+      if Toss(farg_flags.FargFlags.double_mapping_resistance):
         return
     mapping = FindMapping(left.object, right.object, controller=controller,
                           seqsee_ltm=seqsee_ltm)

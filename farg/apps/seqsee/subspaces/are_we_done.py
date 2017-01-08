@@ -11,9 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 from farg.core.subspace import Subspace, QuickReconnResults
-from farg.third_party import gflags
-
-FLAGS = gflags.FLAGS
+import farg_flags
 
 class SubspaceAreWeDone(Subspace):
   """Checks if we should stop because we have found or explained the answer.
@@ -26,7 +24,7 @@ class SubspaceAreWeDone(Subspace):
   def QuickReconn(self):
     parent_ws = self.parent_controller.workspace
     current_known_elements = parent_ws.num_elements
-    initial_known_elements = len(FLAGS.sequence)
+    initial_known_elements = len(farg_flags.FargFlags.sequence)
     if current_known_elements >= initial_known_elements + 10:
       return QuickReconnResults.AnswerFound(True)
     else:
