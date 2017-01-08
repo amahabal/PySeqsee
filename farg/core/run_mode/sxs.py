@@ -20,12 +20,15 @@ class SxSRunMultipleTimes(RunMultipleTimes):
   """Multiple-runner specialized for SxS."""
 
   def GetSubprocessArguments(self, one_input_spec_arguments):
-    arguments = dict(stopping_condition=farg_flags.FargFlags.stopping_condition,
-                     stopping_condition_granularity=farg_flags.FargFlags.stopping_condition_granularity,
-                     run_mode='single',
-                     max_steps=farg_flags.FargFlags.max_steps,
-                    )
-    arguments.update(one_input_spec_arguments.arguments_dict)
+    arguments = []
+    arguments.append('--stopping_condition=%s' % farg_flags.FargFlags.stopping_condition)
+    arguments.append('--stopping_condition_granularity=%s' % farg_flags.FargFlags.stopping_condition_granularity)
+    arguments.append('--run_mode=single')
+    arguments.append('--max_steps=%s' % farg_flags.FargFlags.max_steps)
+    arguments.append('--eat_output=%s' % farg_flags.FargFlags.eat_output)
+    arguments.append('--use_stored_ltm=%s' % farg_flags.FargFlags.use_stored_ltm)
+    arguments.append('--double_mapping_resistance=%s' % farg_flags.FargFlags.double_mapping_resistance)
+    arguments.extend(one_input_spec_arguments.arguments_list)
     return arguments
 
   def RunAll(self):

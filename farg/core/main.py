@@ -83,7 +83,7 @@ class Main:
     farg_flags.FargFlags = self.flags
     self.ProcessFlags()
 
-  def VerifyPersistentDirectoryPath(self):
+  def _VerifyPersistentDirectoryPath(self):
     """Verify (or create) the persistent directory."""
     directory = self.flags.persistent_directory
     if not directory:
@@ -104,33 +104,33 @@ class Main:
       os.mkdir(directory)
     self.flags.persistent_directory = directory
 
-  def VerifyLTMPath(self):
+  def _VerifyLTMPath(self):
     """Create a directory for ltms unless flag provided. If provided, verify it exists."""
     if self.flags.ltm_directory:
       if not os.path.exists(self.flags.ltm_directory):
         print ("LTM directory '%s' does not exist." % self.flags.ltm_directory)
         sys.exit(1)
     else:
-      self.VerifyPersistentDirectoryPath()
+      self._VerifyPersistentDirectoryPath()
       self.flags.ltm_directory = os.path.join(self.flags.persistent_directory, 'ltm')
       if not os.path.exists(self.flags.ltm_directory):
         print('Creating directory for storing ltms: %s' % self.flags.ltm_directory)
         os.mkdir(self.flags.ltm_directory)
 
-  def VerifyStatsPath(self):
+  def _VerifyStatsPath(self):
     """Create directory for batch stats unless provided. If provided, verify it exists."""
     if self.flags.stats_directory:
       if not os.path.exists(self.flags.stats_directory):
         print ('Stats directory "%s" does not exist.' % self.flags.stats_directory)
         sys.exit(1)
     else:
-      self.VerifyPersistentDirectoryPath()
+      self._VerifyPersistentDirectoryPath()
       self.flags.stats_directory = os.path.join(self.flags.persistent_directory, 'stats')
       if not os.path.exists(self.flags.stats_directory):
         print('Creating directory for storing stats: %s' % self.flags.stats_directory)
         os.mkdir(self.flags.stats_directory)
 
-  def VerifyStoppingConditionSanity(self):
+  def _VerifyStoppingConditionSanity(self):
     """Verify that stopping conditions are specified only in modes where they make sense."""
     run_mode_name = self.flags.run_mode
     stopping_condition = self.flags.stopping_condition
@@ -207,10 +207,10 @@ class Main:
                self.flags.input_spec_file)
         sys.exit(1)
 
-    self.VerifyStoppingConditionSanity()
-    self.VerifyPersistentDirectoryPath()
-    self.VerifyLTMPath()
-    self.VerifyStatsPath()
+    self._VerifyStoppingConditionSanity()
+    self._VerifyPersistentDirectoryPath()
+    self._VerifyLTMPath()
+    self._VerifyStatsPath()
     self.run_mode = self.CreateRunModeInstance()
 
 
