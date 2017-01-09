@@ -36,13 +36,13 @@ class Main:
   
   Notes:
     * Many attributes here are classes that do the actual work. Subclasses will override several of
-        these. These include the following.
+      these. These include the following.
 
       * controller_class, which manages the codelets, workspace, and the stream.
       * gui_class, which displays the content of the workspace. What is shown here of course
-          depends on the application.
+        depends on the application.
       * input_spec_reader_class, which handles how the file containing examples in batch mode is
-          converted to flags for the application.
+        converted to flags for the application.
   """
   #: Class to use for running in GUI mode.
   run_mode_gui_class = gui.RunModeGUI  # Not a constant as thought by pylint: disable=C6409
