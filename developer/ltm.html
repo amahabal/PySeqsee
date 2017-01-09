@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
     
     <title>Long-term Memory &#8212; PySeqsee 0.2.3a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,11 +25,16 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="The User Interface" href="ui.html" />
-    <link rel="prev" title="Categories" href="categories.html" /> 
+    <link rel="prev" title="Categories" href="categories.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -49,7 +55,43 @@
         <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Long-term Memory</a><ul>
+<li><a class="reference internal" href="#module-farg.core.ltm">LTM</a></li>
+<li><a class="reference internal" href="#module-farg.core.ltm.edge">LTM &#8212; Edge</a></li>
+<li><a class="reference internal" href="#module-farg.core.ltm.graph">LTM &#8212; Graph</a></li>
+<li><a class="reference internal" href="#module-farg.core.ltm.manager">LTM &#8212; Manager</a></li>
+<li><a class="reference internal" href="#module-farg.core.ltm.node">LTM &#8212; Node</a></li>
+<li><a class="reference internal" href="#module-farg.core.ltm.storable">LTM &#8212; Storable</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="categories.html"
+                        title="previous chapter">Categories</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="ui.html"
+                        title="next chapter">The User Interface</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -255,12 +297,16 @@ just in time calculation.</p>
 <code class="descname">GetRawActivation</code><span class="sig-paren">(</span><em>current_time</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.GetRawActivation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.GetRawActivation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Get raw activation.</p>
 <p>Time is needed to calculate decay, if any, since the stored activation may be stale.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>current_time: Number of codelets run thus far.</dd>
-<dt>Returns:</dt>
-<dd>Raw activation (number between 0 and 100). Real activation is a sigmoid of this.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>current_time</strong> &#8211; Number of codelets run thus far.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Raw activation (number between 0 and 100). Real activation is a sigmoid of this.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -268,14 +314,31 @@ just in time calculation.</p>
 <code class="descname">IncreaseActivation</code><span class="sig-paren">(</span><em>amount</em>, <em>*</em>, <em>current_time</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ltm/node.html#LTMNode.IncreaseActivation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ltm.node.LTMNode.IncreaseActivation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Update activation by this amount (after processing any pending decays), and spread.</p>
 <p>Activation is spread an appropriate component to nearby nodes.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>amount</strong> &#8211; Amount by which to increase. Will typically be a small integer.</td>
+</tr>
+</tbody>
+</table>
 <dl class="docutils">
-<dt>Args:</dt>
-<dd>amount: Amount by which to increase. Will typically be a small integer.</dd>
 <dt>Keyword-only Args:</dt>
 <dd>current_time: Time when this method was called. Needed to process any pending decays.</dd>
-<dt>Returns:</dt>
-<dd>Activation at this time.</dd>
 </dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">Activation at this time.</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Should spread to depth 2. Not done correctly. Nor is the amount spread
+accurate.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -341,42 +404,6 @@ metaclass.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
-            </a></p>
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Long-term Memory</a><ul>
-<li><a class="reference internal" href="#module-farg.core.ltm">LTM</a></li>
-<li><a class="reference internal" href="#module-farg.core.ltm.edge">LTM &#8212; Edge</a></li>
-<li><a class="reference internal" href="#module-farg.core.ltm.graph">LTM &#8212; Graph</a></li>
-<li><a class="reference internal" href="#module-farg.core.ltm.manager">LTM &#8212; Manager</a></li>
-<li><a class="reference internal" href="#module-farg.core.ltm.node">LTM &#8212; Node</a></li>
-<li><a class="reference internal" href="#module-farg.core.ltm.storable">LTM &#8212; Storable</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="categories.html"
-                        title="previous chapter">Categories</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="ui.html"
-                        title="next chapter">The User Interface</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -400,7 +427,7 @@ metaclass.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 07, 2017.
+      Last updated on Jan 08, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

@@ -31,6 +31,7 @@ from the domain-independent parts.
         *  :doc:`Overview <overview/overview_index>` Overview of the system.
         *  :doc:`How To <howto/howto_index>` Cookbook for basic things (including installation).
         *  :doc:`Theory <theory/theory_index>` Theory behind PySeqsee.
+        *  :doc:`Starting New App <new_app/new_app_index>` Spinning up a new app.
         *  :doc:`Tutorial <tutorial/tutorial_index>` Start here.
         *  :doc:`Developer Docs <developer/developer_index>` Source-code documentation.
         *  :doc:`Seqsee <seqsee/seqsee_index>` An application for extending sequences.
@@ -51,6 +52,7 @@ from the domain-independent parts.
    developer/developer_index
    seqsee/seqsee_index
    api/api_index
+   new_app/new_app_index
 
 ..  note:: 
 

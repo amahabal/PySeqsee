@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
     
     <title>Everything Else &#8212; PySeqsee 0.2.3a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,11 +25,16 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="The Flagship App: Seqsee" href="../seqsee/seqsee_index.html" />
-    <link rel="prev" title="Interacting With User" href="question.html" /> 
+    <link rel="prev" title="Interacting With User" href="question.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -49,7 +55,43 @@
         <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Everything Else</a><ul>
+<li><a class="reference internal" href="#logging">Logging</a></li>
+<li><a class="reference internal" href="#module-farg.core.exceptions">Exceptions</a></li>
+<li><a class="reference internal" href="#module-farg.core.meta">Meta</a></li>
+<li><a class="reference internal" href="#module-farg.core.read_input_spec">Read Input Spec</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_stats">Run Stats</a></li>
+<li><a class="reference internal" href="#module-farg.core.stopping_conditions">Stopping Conditions</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="question.html"
+                        title="previous chapter">Interacting With User</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="../seqsee/seqsee_index.html"
+                        title="next chapter">The Flagship App: Seqsee</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -221,16 +263,17 @@ depending on the application.</p>
 one comparing running times when there was success, and one comparing how frequently
 each was successful.</p>
 <p>Memoizes the result, and recalculates only if more data is available.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>for_input: The string representation of the input (for indexing into left_stats and</dt>
-<dd>right_stats)</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd>A 2-tuple (codelet_count_stats, success_stats).</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>for_input</strong> &#8211; The string representation of the input (for indexing into left_stats and
+right_stats)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A 2-tuple (codelet_count_stats, success_stats).</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -249,18 +292,19 @@ each was successful.</p>
 <dt id="farg.core.run_stats.AllStats.IsRightBetter">
 <code class="descname">IsRightBetter</code><span class="sig-paren">(</span><em>for_input</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#AllStats.IsRightBetter"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.AllStats.IsRightBetter" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks if the right-hand side is better for given input string.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>for_input: The string representation of the input (for indexing into left_stats and</dt>
-<dd>right_stats)</dd>
-</dl>
-</dd>
-<dt>Returns:</dt>
-<dd>A 2-tuple (codelet_string, success_string).
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>for_input</strong> &#8211; The string representation of the input (for indexing into left_stats and
+right_stats)</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A 2-tuple (codelet_string, success_string).
 <em>codelet_string</em> can be &#8216;&#8217;, &#8216;faster&#8217;, or &#8216;slower&#8217;.
-<em>success_string</em> can be &#8216;&#8217;, &#8216;More Success&#8217;, or &#8216;Less Success&#8217;.</dd>
-</dl>
+<em>success_string</em> can be &#8216;&#8217;, &#8216;More Success&#8217;, or &#8216;Less Success&#8217;.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
@@ -299,14 +343,17 @@ each was successful.</p>
 <dt id="farg.core.run_stats.GetTStatsDict">
 <code class="descclassname">farg.core.run_stats.</code><code class="descname">GetTStatsDict</code><span class="sig-paren">(</span><em>left_numbers</em>, <em>right_numbers</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#GetTStatsDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.GetTStatsDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Given two sets of numbers, returns a dict with a variety of stats.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>left_numbers: A list of numbers.
-right_numbers: A list of numbers.</dd>
-<dt>Returns:</dt>
-<dd><dl class="first last docutils">
-<dt>A dictionary with the following keys:</dt>
-<dd><ul class="first last simple">
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>left_numbers</strong> &#8211; A list of numbers.</li>
+<li><strong>right_numbers</strong> &#8211; A list of numbers.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><ul class="simple">
 <li><em>n1</em> and <em>n2</em>: Counts of elements in the two inputs.</li>
 <li><em>left_mean</em> and <em>right_mean</em>: Means of the numbers.</li>
 <li><em>left_variance</em> and <em>right_variance</em>: If at least two numbers present, variance is
@@ -314,10 +361,14 @@ added.</li>
 <li><em>dof</em>: Degrees of freedom.</li>
 <li><em>t</em>: The t-statistics.</li>
 </ul>
-</dd>
-</dl>
-</dd>
-</dl>
+</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">A dictionary with the following keys</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -340,14 +391,15 @@ added.</li>
 <dt id="farg.core.run_stats.RunStats.AddData">
 <code class="descname">AddData</code><span class="sig-paren">(</span><em>data_string</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#RunStats.AddData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.RunStats.AddData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Add a data point. This is parsed to determine outcome and number of codelets.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>data_string: Consists of a status (say, SuccessfulCompletion), optionally</dt>
-<dd>followed by the codelet count when that happened.</dd>
-</dl>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>data_string</strong> &#8211; Consists of a status (say, SuccessfulCompletion), optionally
+followed by the codelet count when that happened.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -366,11 +418,18 @@ added.</li>
 <dt id="farg.core.run_stats.StatsForSingleState.AddData">
 <code class="descname">AddData</code><span class="sig-paren">(</span><em>*</em>, <em>codelet_count</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_stats.html#StatsForSingleState.AddData"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_stats.StatsForSingleState.AddData" title="Permalink to this definition">¶</a></dt>
 <dd><p>Adds codelet count to data (for this particulr outcome for this particular input).</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>param codelet_count: Number of steps needed to reach this state. Can be 0 if it makes
-no sense for that state.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>codelet_count</strong> (<em>param</em>) &#8211; Number of steps needed to reach this state. Can be 0 if it makes</li>
+<li><strong>sense for that state.</strong> (<em>no</em>) &#8211; </li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -391,14 +450,26 @@ condition is met. This module manages stopping conditions.</p>
 <dt id="farg.core.stopping_conditions.RegisterStoppingCondition">
 <code class="descclassname">farg.core.stopping_conditions.</code><code class="descname">RegisterStoppingCondition</code><span class="sig-paren">(</span><em>stopping_conditions_class</em>, <em>*</em>, <em>condition_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#RegisterStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.RegisterStoppingCondition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Decorator for registering a stopping condition on a class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>stopping_conditions_class</strong> &#8211; The class for which stopping condition is being defined.</td>
+</tr>
+</tbody>
+</table>
 <dl class="docutils">
-<dt>Args:</dt>
-<dd>stopping_conditions_class: The class for which stopping condition is being defined.</dd>
 <dt>Keyword-only Args:</dt>
 <dd>condition_name: Name of the stopping condition.</dd>
-<dt>Returns:</dt>
-<dd>A decorated function identical to input. Decoration useful only for its side-effect.</dd>
 </dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A decorated function identical to input. Decoration useful only for its side-effect.</td>
+</tr>
+</tbody>
+</table>
 <p>Usage:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="nd">@RegisterStoppingCondition</span><span class="p">(</span><span class="n">SomeSubclassOfStoppingConditions</span><span class="p">,</span> <span class="n">condition_name</span><span class="o">=</span><span class="s1">&#39;foo&#39;</span><span class="p">)</span>
 <span class="k">def</span> <span class="nf">CheckFoo</span><span class="p">(</span><span class="n">controller</span><span class="p">):</span>
@@ -427,25 +498,36 @@ condition is met. This module manages stopping conditions.</p>
 <dt id="farg.core.stopping_conditions.StoppingConditions.GetStoppingCondition">
 <em class="property">classmethod </em><code class="descname">GetStoppingCondition</code><span class="sig-paren">(</span><em>condition_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.GetStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.GetStoppingCondition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Returns a stopping condition function given name.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>condition_name: Name of stopping condition.</dd>
-<dt>Returns:</dt>
-<dd>A function taking a single argument (a controller).</dd>
-<dt>Raises:</dt>
-<dd>StoppingConditionNotFound: if name not found.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>condition_name</strong> &#8211; Name of stopping condition.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A function taking a single argument (a controller).</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Raises:</th><td class="field-body"><a class="reference internal" href="#farg.core.stopping_conditions.StoppingConditionNotFound" title="farg.core.stopping_conditions.StoppingConditionNotFound"><code class="xref py py-exc docutils literal"><span class="pre">StoppingConditionNotFound</span></code></a> &#8211; if name not found.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="classmethod">
 <dt id="farg.core.stopping_conditions.StoppingConditions.RegisterStoppingCondition">
 <em class="property">classmethod </em><code class="descname">RegisterStoppingCondition</code><span class="sig-paren">(</span><em>condition_name</em>, <em>condition_fn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/stopping_conditions.html#StoppingConditions.RegisterStoppingCondition"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.stopping_conditions.StoppingConditions.RegisterStoppingCondition" title="Permalink to this definition">¶</a></dt>
 <dd><p>Remember a new stopping condition.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>condition_name: Name of the stopping condition.
-condition_fn: A function that gets the controller as its only argument.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>condition_name</strong> &#8211; Name of the stopping condition.</li>
+<li><strong>condition_fn</strong> &#8211; A function that gets the controller as its only argument.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="classmethod">
@@ -467,42 +549,6 @@ condition_fn: A function that gets the controller as its only argument.</dd>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
-            </a></p>
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Everything Else</a><ul>
-<li><a class="reference internal" href="#logging">Logging</a></li>
-<li><a class="reference internal" href="#module-farg.core.exceptions">Exceptions</a></li>
-<li><a class="reference internal" href="#module-farg.core.meta">Meta</a></li>
-<li><a class="reference internal" href="#module-farg.core.read_input_spec">Read Input Spec</a></li>
-<li><a class="reference internal" href="#module-farg.core.run_stats">Run Stats</a></li>
-<li><a class="reference internal" href="#module-farg.core.stopping_conditions">Stopping Conditions</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="question.html"
-                        title="previous chapter">Interacting With User</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="../seqsee/seqsee_index.html"
-                        title="next chapter">The Flagship App: Seqsee</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -528,7 +574,7 @@ condition_fn: A function that gets the controller as its only argument.</dd>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 07, 2017.
+      Last updated on Jan 08, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

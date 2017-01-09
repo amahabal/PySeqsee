@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
     
     <title>Main &#8212; PySeqsee 0.2.3a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,11 +25,16 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Controller" href="controller.html" />
-    <link rel="prev" title="Core Developer Documentation" href="developer_index.html" /> 
+    <link rel="prev" title="Core Developer Documentation" href="developer_index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -49,7 +55,30 @@
         <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="developer_index.html"
+                        title="previous chapter">Core Developer Documentation</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="controller.html"
+                        title="next chapter">Controller</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -58,29 +87,47 @@
             
   <div class="section" id="module-farg.core.main">
 <span id="main"></span><h1>Main<a class="headerlink" href="#module-farg.core.main" title="Permalink to this headline">¶</a></h1>
-<p>Class to set up and start running the application based on flags.</p>
+<p>Base class for entry point of each application.</p>
 <dl class="class">
 <dt id="farg.core.main.Main">
 <em class="property">class </em><code class="descclassname">farg.core.main.</code><code class="descname">Main</code><span class="sig-paren">(</span><em>unprocessed_flags</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main" title="Permalink to this definition">¶</a></dt>
 <dd><p>The Base class for the Main class of an application.</p>
 <p>Based on flags, it sets up the appropriate run mode (which start GUIs if needed).
 It also does a sanity check on flags and creates certain directories if needed.</p>
-<dl class="method">
-<dt id="farg.core.main.Main.CreateRunModeInstance">
-<code class="descname">CreateRunModeInstance</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.CreateRunModeInstance"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.CreateRunModeInstance" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a Runmode instance from the flags.</p>
-</dd></dl>
-
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>unprocessed_flags</strong> &#8211; These are the flags returned by argparse that are yet to be sanity checked
+and processed. That work is done here, and the processed flags are put in self.flags.</td>
+</tr>
+</tbody>
+</table>
+<p class="rubric">Notes</p>
+<ul class="simple">
+<li>Many attributes here are classes that do the actual work. Subclasses will override several of
+these. These include the following.<ul>
+<li>controller_class, which manages the codelets, workspace, and the stream.</li>
+<li>gui_class, which displays the content of the workspace. What is shown here of course
+depends on the application.</li>
+<li>input_spec_reader_class, which handles how the file containing examples in batch mode is
+converted to flags for the application.</li>
+</ul>
+</li>
+</ul>
 <dl class="method">
 <dt id="farg.core.main.Main.ProcessCustomFlags">
 <code class="descname">ProcessCustomFlags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.ProcessCustomFlags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.ProcessCustomFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Apps can override this to process app-specific flags.</p>
+<dd><p>Process custom flags defined by the app.</p>
+<p>If an app needs post-processing of some flags it defines, it can be put here. The current flags
+(including any changes made to the core flags is available as self.flags.</p>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.main.Main.ProcessFlags">
 <code class="descname">ProcessFlags</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.ProcessFlags"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.ProcessFlags" title="Permalink to this definition">¶</a></dt>
-<dd><p>Called after flags have been read in.</p>
+<dd><p>Sanity checks and does some flag-related and flag-triggered house-keeping.</p>
+<p>This includes creating directories, starting logging, and so forth.</p>
 </dd></dl>
 
 <dl class="method">
@@ -89,30 +136,6 @@ It also does a sanity check on flags and creates certain directories if needed.<
 <dd><p>Start the run.</p>
 <p>For Batch mode and SxS, this means running the app several times, whereas for gui mode
 this means launching a UI.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.main.Main.VerifyLTMPath">
-<code class="descname">VerifyLTMPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyLTMPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyLTMPath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create a directory for ltms unless flag provided. If provided, verify it exists.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.main.Main.VerifyPersistentDirectoryPath">
-<code class="descname">VerifyPersistentDirectoryPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyPersistentDirectoryPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyPersistentDirectoryPath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Verify (or create) the persistent directory.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.main.Main.VerifyStatsPath">
-<code class="descname">VerifyStatsPath</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyStatsPath"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyStatsPath" title="Permalink to this definition">¶</a></dt>
-<dd><p>Create directory for batch stats unless provided. If provided, verify it exists.</p>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.main.Main.VerifyStoppingConditionSanity">
-<code class="descname">VerifyStoppingConditionSanity</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/main.html#Main.VerifyStoppingConditionSanity"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.main.Main.VerifyStoppingConditionSanity" title="Permalink to this definition">¶</a></dt>
-<dd><p>Verify that stopping conditions are specified only in modes where they make sense.</p>
 </dd></dl>
 
 <dl class="attribute">
@@ -212,29 +235,6 @@ that takes a controller and returns a bool).</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
-            </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="developer_index.html"
-                        title="previous chapter">Core Developer Documentation</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="controller.html"
-                        title="next chapter">Controller</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -258,7 +258,7 @@ that takes a controller and returns a bool).</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 07, 2017.
+      Last updated on Jan 08, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

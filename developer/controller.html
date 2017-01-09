@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
     
     <title>Controller &#8212; PySeqsee 0.2.3a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,11 +25,16 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Run-mode" href="run_mode.html" />
-    <link rel="prev" title="Main" href="main.html" /> 
+    <link rel="prev" title="Main" href="main.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -49,7 +55,30 @@
         <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="main.html"
+                        title="previous chapter">Main</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="run_mode.html"
+                        title="next chapter">Run-mode</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -94,7 +123,7 @@ Foo. Its code will begin thus:</p>
 </div>
 <p>The simplest customization is to specify codelets to be added after each step:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Foo</span><span class="p">(</span><span class="n">farg</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">Controller</span><span class="p">):</span>
-  <span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="p">((</span><span class="n">CodeletFamilyBar</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span>
+  <span class="n">routine_codelets_to_add</span> <span class="o">=</span> <span class="p">((</span><span class="n">CodeletFamilyBar</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mf">0.3</span><span class="p">),</span>  <span class="c1"># 30 is the urgency, 0.3 probability of adding.</span>
                              <span class="p">(</span><span class="n">CodeletFamilyBat</span><span class="p">,</span> <span class="mi">80</span><span class="p">,</span> <span class="mf">0.2</span><span class="p">))</span>
 </pre></div>
 </div>
@@ -173,15 +202,15 @@ documentation of <a class="reference internal" href="codelets.html#farg.core.cod
 <dt id="farg.core.controller.Controller.RunUptoNSteps">
 <code class="descname">RunUptoNSteps</code><span class="sig-paren">(</span><em>n_steps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/controller.html#Controller.RunUptoNSteps"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.controller.Controller.RunUptoNSteps" title="Permalink to this definition">¶</a></dt>
 <dd><p>Takes up to N steps.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>n_steps:</dt>
-<dd>Number of steps to take. Steps taken by subspaces created by this controller
-are not counted.</dd>
-</dl>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>n_steps</strong> &#8211; Number of steps to take. Steps taken by subspaces created by this controller
+are not counted.</td>
+</tr>
+</tbody>
+</table>
 <p>In these, it is possible that an answer is found and an exception raised.</p>
 </dd></dl>
 
@@ -292,29 +321,6 @@ using workspace_arguments.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
-            </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="main.html"
-                        title="previous chapter">Main</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="run_mode.html"
-                        title="next chapter">Run-mode</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -338,7 +344,7 @@ using workspace_arguments.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 07, 2017.
+      Last updated on Jan 08, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

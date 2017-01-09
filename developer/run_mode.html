@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
     
     <title>Run-mode &#8212; PySeqsee 0.2.3a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,11 +25,16 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Subspaces" href="subspaces.html" />
-    <link rel="prev" title="Controller" href="controller.html" /> 
+    <link rel="prev" title="Controller" href="controller.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -49,7 +55,44 @@
         <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Run-mode</a><ul>
+<li><a class="reference internal" href="#module-farg.core.run_mode">Run Mode</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.batch">Run Mode &#8212; Batch</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.gui">Run Mode &#8212; GUI</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.non_interactive">Run Mode &#8212; Non Interactive</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.run_mode">Run Mode &#8212; Run Mode</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.single">Run Mode &#8212; Single</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.sxs">Run Mode &#8212; SxS</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="controller.html"
+                        title="previous chapter">Controller</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="subspaces.html"
+                        title="next chapter">Subspaces</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -147,36 +190,57 @@ whereas in the batch mode it is the last time the batch mode was run.</p>
 <dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.CreateHistogram">
 <code class="descname">CreateHistogram</code><span class="sig-paren">(</span><em>x_offset</em>, <em>y_offset</em>, <em>stats</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.CreateHistogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.CreateHistogram" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create histogram of codelet run times.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>x_offset: X-offset for Pie.
-y_offset: Y-offset for Pie.
-stats: Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><code class="xref py py-class docutils literal"><span class="pre">RunStats</span></code></a>.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_offset</strong> &#8211; X-offset for Pie.</li>
+<li><strong>y_offset</strong> &#8211; Y-offset for Pie.</li>
+<li><strong>stats</strong> &#8211; Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><code class="xref py py-class docutils literal"><span class="pre">RunStats</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.CreatePieChart">
 <code class="descname">CreatePieChart</code><span class="sig-paren">(</span><em>x_offset</em>, <em>y_offset</em>, <em>stats</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.CreatePieChart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.CreatePieChart" title="Permalink to this definition">¶</a></dt>
 <dd><p>Create PieChart.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>x_offset: X-offset for Pie.
-y_offset: Y-offset for Pie.
-stats: Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><code class="xref py py-class docutils literal"><span class="pre">RunStats</span></code></a>.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_offset</strong> &#8211; X-offset for Pie.</li>
+<li><strong>y_offset</strong> &#8211; Y-offset for Pie.</li>
+<li><strong>stats</strong> &#8211; Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><code class="xref py py-class docutils literal"><span class="pre">RunStats</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayBasicStats">
 <code class="descname">DisplayBasicStats</code><span class="sig-paren">(</span><em>x_offset</em>, <em>y_offset</em>, <em>stats</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.DisplayBasicStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayBasicStats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display basic stats (mean run time, success rate, etc.) for one side.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>x_offset: X-offset for Pie.
-y_offset: Y-offset for Pie.
-stats: Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><code class="xref py py-class docutils literal"><span class="pre">RunStats</span></code></a>.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_offset</strong> &#8211; X-offset for Pie.</li>
+<li><strong>y_offset</strong> &#8211; Y-offset for Pie.</li>
+<li><strong>stats</strong> &#8211; Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><code class="xref py py-class docutils literal"><span class="pre">RunStats</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -190,12 +254,19 @@ stats: Stats to display. Instance of <a class="reference internal" href="sundry.
 <dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayInferenceStats">
 <code class="descname">DisplayInferenceStats</code><span class="sig-paren">(</span><em>stats</em>, <em>for_input</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.DisplayInferenceStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayInferenceStats" title="Permalink to this definition">¶</a></dt>
 <dd><p>Display inference stats: Is right hand side better than left?</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>stats: Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.AllStats" title="farg.core.run_stats.AllStats"><code class="xref py py-class docutils literal"><span class="pre">AllStats</span></code></a>.
-for_input: What input string are we comparing the two sides?
-y: Y-offset of top of this display.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stats</strong> &#8211; Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.AllStats" title="farg.core.run_stats.AllStats"><code class="xref py py-class docutils literal"><span class="pre">AllStats</span></code></a>.</li>
+<li><strong>for_input</strong> &#8211; What input string are we comparing the two sides?</li>
+<li><strong>y</strong> &#8211; Y-offset of top of this display.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -311,13 +382,21 @@ object.</p>
 <dt id="farg.core.run_mode.non_interactive.RunModeNonInteractive.DoSingleRun">
 <em class="property">classmethod </em><code class="descname">DoSingleRun</code><span class="sig-paren">(</span><em>cmdline_arguments_list</em>, <em>extra_arguments=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunModeNonInteractive.DoSingleRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.RunModeNonInteractive.DoSingleRun" title="Permalink to this definition">¶</a></dt>
 <dd><p>Execute the application once.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>cmdline_arguments_dict: Dictionary of arguments to pass process.
-extra_arguments: extra arguments that will be added, too.</dd>
-<dt>Returns:</dt>
-<dd>A string, representing output status and number of codelets.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cmdline_arguments_dict</strong> &#8211; Dictionary of arguments to pass process.</li>
+<li><strong>extra_arguments</strong> &#8211; extra arguments that will be added, too.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string, representing output status and number of codelets.</p>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -426,43 +505,6 @@ producing an easy to parse string.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
-            </a></p>
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Run-mode</a><ul>
-<li><a class="reference internal" href="#module-farg.core.run_mode">Run Mode</a></li>
-<li><a class="reference internal" href="#module-farg.core.run_mode.batch">Run Mode &#8212; Batch</a></li>
-<li><a class="reference internal" href="#module-farg.core.run_mode.gui">Run Mode &#8212; GUI</a></li>
-<li><a class="reference internal" href="#module-farg.core.run_mode.non_interactive">Run Mode &#8212; Non Interactive</a></li>
-<li><a class="reference internal" href="#module-farg.core.run_mode.run_mode">Run Mode &#8212; Run Mode</a></li>
-<li><a class="reference internal" href="#module-farg.core.run_mode.single">Run Mode &#8212; Single</a></li>
-<li><a class="reference internal" href="#module-farg.core.run_mode.sxs">Run Mode &#8212; SxS</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="controller.html"
-                        title="previous chapter">Controller</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="subspaces.html"
-                        title="next chapter">Subspaces</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -486,7 +528,7 @@ producing an easy to parse string.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 07, 2017.
+      Last updated on Jan 08, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

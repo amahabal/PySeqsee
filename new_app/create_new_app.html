@@ -1,0 +1,165 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>How to create a new application &#8212; PySeqsee 0.2.3a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.3a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Creating a new app" href="new_app_index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="new_app_index.html" title="Creating a new app"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" accesskey="U">Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">How to create a new application</a><ul>
+<li><a class="reference internal" href="#generated-files">Generated files</a></li>
+<li><a class="reference internal" href="#running-the-new-app">Running the new app</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="new_app_index.html"
+                        title="previous chapter">Creating a new app</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="how-to-create-a-new-application">
+<h1>How to create a new application<a class="headerlink" href="#how-to-create-a-new-application" title="Permalink to this headline">¶</a></h1>
+<p>I assume here that you have downloaded PySeqsee and are in the root directory (
+that is, you see the subdirectory &#8216;farg&#8217; here). Follow these instructions to
+create a project named Cat:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">farg</span><span class="o">.</span><span class="n">tools</span><span class="o">.</span><span class="n">pyseqsee_create_app</span> <span class="n">bongard</span>
+</pre></div>
+</div>
+<p>This will prompt you for an application name, and suggest the default &#8216;Cat&#8217;.
+Press Enter to accept this. This will create a subdirectory within apps called
+&#8216;bongard&#8217;.</p>
+<div class="section" id="generated-files">
+<h2>Generated files<a class="headerlink" href="#generated-files" title="Permalink to this headline">¶</a></h2>
+<p>The command above generates the following files:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">farg</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">bongard</span><span class="p">:</span>
+        <span class="n">batch_ui</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">controller</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">read_input_spec</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">run_numeric_bongard</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">stopping_conditions</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">testing_input</span><span class="o">.</span><span class="n">txt</span>
+        <span class="n">workspace</span><span class="o">.</span><span class="n">py</span>
+
+<span class="n">farg</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">bongard</span><span class="o">/</span><span class="n">codelet_families</span><span class="p">:</span>
+        <span class="n">__init__</span><span class="o">.</span><span class="n">py</span>
+
+<span class="n">farg</span><span class="o">/</span><span class="n">apps</span><span class="o">/</span><span class="n">bongard</span><span class="o">/</span><span class="n">gui</span><span class="p">:</span>
+        <span class="n">gui</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">__init__</span><span class="o">.</span><span class="n">py</span>
+        <span class="n">workspace_view</span><span class="o">.</span><span class="n">py</span>
+</pre></div>
+</div>
+<p>These files and the customization they require will be described in the coming sections.</p>
+</div>
+<div class="section" id="running-the-new-app">
+<h2>Running the new app<a class="headerlink" href="#running-the-new-app" title="Permalink to this headline">¶</a></h2>
+<p>The new Bongard app does nothing useful yet. After all, it
+knows of no codelets, its slipnet has no nodes, or any of the other wholesome
+goodness you will add later. However, you can still take it for a spin with</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">farg</span><span class="o">.</span><span class="n">apps</span><span class="o">.</span><span class="n">bongard</span><span class="o">.</span><span class="n">run_bongard</span>
+</pre></div>
+</div>
+<p>You may click on the &#8216;view&#8217; on the top left to look at different aspects of the app (such as the
+coderack and the stream of thought, but all of these are of course currently empty.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="new_app_index.html" title="Creating a new app"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" >Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jan 08, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

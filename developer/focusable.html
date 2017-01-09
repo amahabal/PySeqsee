@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
     
     <title>Focusable &#8212; PySeqsee 0.2.3a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,11 +25,16 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Categories" href="categories.html" />
-    <link rel="prev" title="Stream of Thought" href="stream.html" /> 
+    <link rel="prev" title="Stream of Thought" href="stream.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -49,82 +55,7 @@
         <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
-    </div>  
-
-    <div class="document">
-      <div class="documentwrapper">
-        <div class="bodywrapper">
-          <div class="body" role="main">
-            
-  <div class="section" id="module-farg.core.focusable_mixin">
-<span id="focusable"></span><h1>Focusable<a class="headerlink" href="#module-farg.core.focusable_mixin" title="Permalink to this headline">¶</a></h1>
-<p>Mixin class to be added to anything that can be the focus in the stream.</p>
-<dl class="class">
-<dt id="farg.core.focusable_mixin.FocusableMixin">
-<em class="property">class </em><code class="descclassname">farg.core.focusable_mixin.</code><code class="descname">FocusableMixin</code><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin" title="Permalink to this definition">¶</a></dt>
-<dd><p>A mixin for things that want to be part of the stream.</p>
-<p>It is a pure interface &#8212; all methods die horribly when called unless over-ridden.</p>
-<dl class="method">
-<dt id="farg.core.focusable_mixin.FocusableMixin.GetAffordances">
-<code class="descname">GetAffordances</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetAffordances" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns a list of codelets that make sense for this type of object.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>controller: controller for this subspace (or whole app if this is the top space).</dd>
-<dt>Returns:</dt>
-<dd>A list of codelets for actions that may be taken on this focusable.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.focusable_mixin.FocusableMixin.GetFringe">
-<code class="descname">GetFringe</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetFringe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetFringe" title="Permalink to this definition">¶</a></dt>
-<dd><p>Returns the fringe of the item.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>controller: controller for this subspace (or whole app if this is the top space).</dd>
-<dt>Returns:</dt>
-<dd>A dictionary keyed by fringe elements and with floats as values (indicating intensity
-of the element within the fringe).</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.focusable_mixin.FocusableMixin.GetSimilarityAffordances">
-<code class="descname">GetSimilarityAffordances</code><span class="sig-paren">(</span><em>focusable</em>, <em>other_fringe</em>, <em>my_fringe</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetSimilarityAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetSimilarityAffordances" title="Permalink to this definition">¶</a></dt>
-<dd><p>Potential actions to take in response to a fringe overlap.</p>
-<p>When the fringe of a stored focus overlaps the fringe of a newly focused entity,
-this function is called. Here, self is the older focus, and my_fringe is its fringe.
-focusable is the new focusable, and other_fringe is its fringe.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>focusable: The most recent focus.
-other_fringe: Fringe of &#8216;focusable&#8217;.
-my_fringe: Fringe of &#8216;self&#8217;, which is the older focusable.
-controller: controller for this subspace (or whole app if this is the top space).</dd>
-<dt>Returns:</dt>
-<dd>A list of codelets that follow-up on this potential similarity.</dd>
-</dl>
-</dd></dl>
-
-<dl class="method">
-<dt id="farg.core.focusable_mixin.FocusableMixin.OnFocus">
-<code class="descname">OnFocus</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.OnFocus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.OnFocus" title="Permalink to this definition">¶</a></dt>
-<dd><p>Any book-keeping or other sundry actions on focused-upon object may be done here.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>controller: controller for this subspace (or whole app if this is the top space).</dd>
-</dl>
-</dd></dl>
-
-</dd></dl>
-
-</div>
-
-
-          </div>
-        </div>
-      </div>
+    </div>
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
             <p class="logo"><a href="../index.html">
@@ -146,6 +77,101 @@ controller: controller for this subspace (or whole app if this is the top space)
     </form>
 </div>
 <script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-farg.core.focusable_mixin">
+<span id="focusable"></span><h1>Focusable<a class="headerlink" href="#module-farg.core.focusable_mixin" title="Permalink to this headline">¶</a></h1>
+<p>Mixin class to be added to anything that can be the focus in the stream.</p>
+<dl class="class">
+<dt id="farg.core.focusable_mixin.FocusableMixin">
+<em class="property">class </em><code class="descclassname">farg.core.focusable_mixin.</code><code class="descname">FocusableMixin</code><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin" title="Permalink to this definition">¶</a></dt>
+<dd><p>A mixin for things that want to be part of the stream.</p>
+<p>It is a pure interface &#8212; all methods die horribly when called unless over-ridden.</p>
+<dl class="method">
+<dt id="farg.core.focusable_mixin.FocusableMixin.GetAffordances">
+<code class="descname">GetAffordances</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetAffordances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a list of codelets that make sense for this type of object.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; controller for this subspace (or whole app if this is the top space).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A list of codelets for actions that may be taken on this focusable.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.focusable_mixin.FocusableMixin.GetFringe">
+<code class="descname">GetFringe</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetFringe"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetFringe" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the fringe of the item.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; controller for this subspace (or whole app if this is the top space).</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A dictionary keyed by fringe elements and with floats as values (indicating intensity
+of the element within the fringe).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.focusable_mixin.FocusableMixin.GetSimilarityAffordances">
+<code class="descname">GetSimilarityAffordances</code><span class="sig-paren">(</span><em>focusable</em>, <em>other_fringe</em>, <em>my_fringe</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.GetSimilarityAffordances"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.GetSimilarityAffordances" title="Permalink to this definition">¶</a></dt>
+<dd><p>Potential actions to take in response to a fringe overlap.</p>
+<p>When the fringe of a stored focus overlaps the fringe of a newly focused entity,
+this function is called. Here, self is the older focus, and my_fringe is its fringe.
+focusable is the new focusable, and other_fringe is its fringe.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>focusable</strong> &#8211; The most recent focus.</li>
+<li><strong>other_fringe</strong> &#8211; Fringe of &#8216;focusable&#8217;.</li>
+<li><strong>my_fringe</strong> &#8211; Fringe of &#8216;self&#8217;, which is the older focusable.</li>
+<li><strong>controller</strong> &#8211; controller for this subspace (or whole app if this is the top space).</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A list of codelets that follow-up on this potential similarity.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.focusable_mixin.FocusableMixin.OnFocus">
+<code class="descname">OnFocus</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/focusable_mixin.html#FocusableMixin.OnFocus"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.focusable_mixin.FocusableMixin.OnFocus" title="Permalink to this definition">¶</a></dt>
+<dd><p>Any book-keeping or other sundry actions on focused-upon object may be done here.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; controller for this subspace (or whole app if this is the top space).</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+</div>
+
+
+          </div>
         </div>
       </div>
       <div class="clearer"></div>
@@ -171,7 +197,7 @@ controller: controller for this subspace (or whole app if this is the top space)
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 07, 2017.
+      Last updated on Jan 08, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

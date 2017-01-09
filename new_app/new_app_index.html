@@ -1,0 +1,177 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Creating a new app &#8212; PySeqsee 0.2.3a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.3a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="How to create a new application" href="create_new_app.html" />
+    <link rel="prev" title="Category" href="../api/category.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="create_new_app.html" title="How to create a new application"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="../api/category.html" title="Category"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Creating a new app</a><ul>
+<li><a class="reference internal" href="#complexity-of-the-domain">Complexity of the domain</a></li>
+<li><a class="reference internal" href="#creating-the-app-s-skeleton">Creating the app&#8217;s skeleton</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../api/category.html"
+                        title="previous chapter">Category</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="create_new_app.html"
+                        title="next chapter">How to create a new application</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="creating-a-new-app">
+<h1>Creating a new app<a class="headerlink" href="#creating-a-new-app" title="Permalink to this headline">¶</a></h1>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Under active updating (as of Jan 8, 2017)</p>
+</div>
+<p>This section will describe the process of creating a full new application. It will
+attempt to touch all aspects of the process.</p>
+<p>The application developed in this tutorial may be called &#8220;Numeric Bongard&#8221;. A &#8220;Bongard problem&#8221;
+consists of two sets of items&#8212;left and right&#8212;and the goal is to spot a rule that applies to all
+items in one set but none in the other.</p>
+<p>Here is an example. If one set contains the numbers 3, 7, and 11, and the other set contains 9, 15,
+and 21, then a correct &#8220;solution&#8221; is to say that the first set contains primes and the second set
+contains the composite numbers. Another example, more complex, includes items such as 3, 7, and 11 on
+one side and 2, 5, 13, 17 and 15 on the other. Here, one answer may be &#8220;the left hand set contains
+items that are primes of the form 3 mod 4&#8221;, and the other side contains all other numbers.</p>
+<p>One smart alecky answer can always be &#8220;the left hand side contains exactly those numbers and none other&#8221;,
+but that would be missing the point that for many problems there are simpler and more elegant answers
+that people effortlessly spot.</p>
+<div class="section" id="complexity-of-the-domain">
+<h2>Complexity of the domain<a class="headerlink" href="#complexity-of-the-domain" title="Permalink to this headline">¶</a></h2>
+<p>The complexity of a slightly spiced up version of the domain is horrendous. If the two sides, instead
+of being sets of numbers, are sets of tuples (an example of a tuple is &#8220;2 3 4&#8221; and another is
+&#8220;6 1 6&#8221;), then one can create problems that are easy for people but quite hard for computers.</p>
+<p>As an illustration, consider this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">Set</span> <span class="mi">1</span><span class="p">:</span>
+  <span class="mi">1</span> <span class="mi">1</span> <span class="mi">2</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">3</span>
+  <span class="mi">12</span> <span class="mi">12</span> <span class="mi">13</span> <span class="mi">13</span> <span class="mi">14</span> <span class="mi">14</span> <span class="mi">15</span> <span class="mi">15</span>
+
+<span class="n">Set</span> <span class="mi">2</span><span class="p">:</span>
+  <span class="mi">8</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">11</span>
+  <span class="mi">8</span> <span class="mi">8</span> <span class="mi">8</span> <span class="mi">9</span> <span class="mi">9</span> <span class="mi">9</span> <span class="mi">10</span> <span class="mi">10</span> <span class="mi">10</span>
+</pre></div>
+</div>
+<p>For our current purposes, we will stick to using numbers, merely any of these ideas could of
+course be sneaked in to that domain as well.</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Write about what makes this a good domain suitable for Farg like approaches.</p>
+</div>
+</div>
+<div class="section" id="creating-the-app-s-skeleton">
+<h2>Creating the app&#8217;s skeleton<a class="headerlink" href="#creating-the-app-s-skeleton" title="Permalink to this headline">¶</a></h2>
+<div class="toctree-wrapper compound">
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="create_new_app.html">How to create a new application</a></li>
+</ul>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="create_new_app.html" title="How to create a new application"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="../api/category.html" title="Category"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jan 08, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

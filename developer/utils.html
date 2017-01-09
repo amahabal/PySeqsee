@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
     
     <title>Utility Functions &#8212; PySeqsee 0.2.3a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,11 +25,16 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Interacting With User" href="question.html" />
-    <link rel="prev" title="The User Interface" href="ui.html" /> 
+    <link rel="prev" title="The User Interface" href="ui.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -49,7 +55,39 @@
         <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Utility Functions</a><ul>
+<li><a class="reference internal" href="#module-farg.core.testing_utils">Testing Utils</a></li>
+<li><a class="reference internal" href="#module-farg.core.util">Util</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ui.html"
+                        title="previous chapter">The User Interface</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="question.html"
+                        title="next chapter">Interacting With User</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -79,59 +117,61 @@
 <dt id="farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletsPresent">
 <code class="descname">AssertCodeletsPresent</code><span class="sig-paren">(</span><em>specifications</em>, <em>container_to_check</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/testing_utils.html#FringeAndCodeletsTest.AssertCodeletsPresent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.testing_utils.FringeAndCodeletsTest.AssertCodeletsPresent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks for codelets with given specification in container_to_check.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>specification:</dt>
-<dd>Specifications is an iterable of individual specification, each of which is a
-CodeletPresenceSpec.</dd>
-<dt>container_to_check:</dt>
-<dd>A list of codelets.</dd>
-</dl>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>specification</strong> &#8211; Specifications is an iterable of individual specification, each of which is a
+CodeletPresenceSpec.</li>
+<li><strong>container_to_check</strong> &#8211; A list of codelets.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeContains">
 <code class="descname">AssertFringeContains</code><span class="sig-paren">(</span><em>controller</em>, <em>item</em>, <em>expected_fringe_components</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/testing_utils.html#FringeAndCodeletsTest.AssertFringeContains"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeContains" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks for the presence of particular components in the fringe.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>controller:</dt>
-<dd>Controller, needed to get the fringe.</dd>
-<dt>item:</dt>
-<dd>The item whose fringe is being tested.</dd>
-<dt>expected_fringe_components:</dt>
-<dd>An iterable of two-tuples (fringe element and minimum intensity).</dd>
-</dl>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>controller</strong> &#8211; Controller, needed to get the fringe.</li>
+<li><strong>item</strong> &#8211; The item whose fringe is being tested.</li>
+<li><strong>expected_fringe_components</strong> &#8211; An iterable of two-tuples (fringe element and minimum intensity).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeOverlap">
 <code class="descname">AssertFringeOverlap</code><span class="sig-paren">(</span><em>controller</em>, <em>prior_focus</em>, <em>current_focus</em>, <em>min_expected_overlap</em>, <em>expected_similarity_affordances</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/testing_utils.html#FringeAndCodeletsTest.AssertFringeOverlap"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.testing_utils.FringeAndCodeletsTest.AssertFringeOverlap" title="Permalink to this definition">¶</a></dt>
 <dd><p>Checks that the fringes of two items overlap and have certain similarity affordances.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>controller:</dt>
-<dd>controller that contains the stream, LTM and so forth.</dd>
-<dt>prior_focus:</dt>
-<dd>The previous focus in the stream (will have intensity 1)</dd>
-<dt>current_focus:</dt>
-<dd>The current item being focused upon.</dd>
-<dt>min_expected_overlap:</dt>
-<dd>Minimum expected overlap between the fringes.</dd>
-<dt>expected_similarity_affordances:</dt>
-<dd>what codelets are expected? This is specified as a iterable of codelet-matchers
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>controller</strong> &#8211; controller that contains the stream, LTM and so forth.</li>
+<li><strong>prior_focus</strong> &#8211; The previous focus in the stream (will have intensity 1)</li>
+<li><strong>current_focus</strong> &#8211; The current item being focused upon.</li>
+<li><strong>min_expected_overlap</strong> &#8211; Minimum expected overlap between the fringes.</li>
+<li><strong>expected_similarity_affordances</strong> &#8211; what codelets are expected? This is specified as a iterable of codelet-matchers
 (that is, as family, min_urgency, max_urgency, and some required arguments, or a
-subset thereof).</dd>
-</dl>
-</dd>
-</dl>
+subset thereof).</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -144,18 +184,29 @@ subset thereof).</dd>
 <dt id="farg.core.util.ChooseAboutN">
 <code class="descclassname">farg.core.util.</code><code class="descname">ChooseAboutN</code><span class="sig-paren">(</span><em>n</em>, <em>choices</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/util.html#ChooseAboutN"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.ChooseAboutN" title="Permalink to this definition">¶</a></dt>
 <dd><p>Choose in a way that the expected number of choices is n.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>n: The expected number of responses.
-choices: an iterable of 2-tuples, where the second value is the weight.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>n</strong> &#8211; The expected number of responses.</li>
+<li><strong>choices</strong> &#8211; an iterable of 2-tuples, where the second value is the weight.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 <p>An example to show how it works: let choices contain 5 things with weights 10, 20, 30
 40, and 50 (thus summing to 150), and let n=3. Then we will keep the first item in the
 output with probability 3 * 10/150 (i.e., 20%).</p>
-<dl class="docutils">
-<dt>Returns:</dt>
-<dd>A list of a roughly n-sized subset of choices.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body">A list of a roughly n-sized subset of choices.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
@@ -192,24 +243,32 @@ output with probability 3 * 10/150 (i.e., 20%).</p>
 <dt id="farg.core.util.WeightedChoice">
 <code class="descclassname">farg.core.util.</code><code class="descname">WeightedChoice</code><span class="sig-paren">(</span><em>choices</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/util.html#WeightedChoice"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.WeightedChoice" title="Permalink to this definition">¶</a></dt>
 <dd><p>Chooses an item, biased by weight.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>choices: an iterable of 2-tuples, where the second value is the weight.</dd>
-<dt>Returns:</dt>
-<dd>An element of choices.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>choices</strong> &#8211; an iterable of 2-tuples, where the second value is the weight.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">An element of choices.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="function">
 <dt id="farg.core.util.WeightedShuffle">
 <code class="descclassname">farg.core.util.</code><code class="descname">WeightedShuffle</code><span class="sig-paren">(</span><em>choices</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/util.html#WeightedShuffle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.util.WeightedShuffle" title="Permalink to this definition">¶</a></dt>
 <dd><p>Shuffle items by weight.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>choices: an iterable of 2-tuples, where the second value is the weight.</dd>
-<dt>Yields:</dt>
-<dd>Repeatedly yields first elements of the 2-tuple, resulting, when complete, in a shuffle.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>choices</strong> &#8211; an iterable of 2-tuples, where the second value is the weight.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Yields:</th><td class="field-body">Repeatedly yields first elements of the 2-tuple, resulting, when complete, in a shuffle.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>
@@ -217,38 +276,6 @@ output with probability 3 * 10/150 (i.e., 20%).</p>
 
 
           </div>
-        </div>
-      </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
-            </a></p>
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">Utility Functions</a><ul>
-<li><a class="reference internal" href="#module-farg.core.testing_utils">Testing Utils</a></li>
-<li><a class="reference internal" href="#module-farg.core.util">Util</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="ui.html"
-                        title="previous chapter">The User Interface</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="question.html"
-                        title="next chapter">Interacting With User</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
         </div>
       </div>
       <div class="clearer"></div>
@@ -274,7 +301,7 @@ output with probability 3 * 10/150 (i.e., 20%).</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 07, 2017.
+      Last updated on Jan 08, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

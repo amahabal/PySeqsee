@@ -16,7 +16,7 @@ Installation
 Running
 ----------------
 
-PySeqsee provides different modes in which applications. It supports both running a single example
+PySeqsee provides different modes of running an applications. It supports both running a single example
 (and seeing it visually on the screen), and running in batch (where multiple runs for each input are
 undertaken and statistics such as success rate and distribution of time taken on various runs is
 shown). Another mode of running PySeqsee is the Side-by-side mode, where two sets of runs are done,
@@ -28,6 +28,11 @@ differing on the value of some flag to assist in experimentation.
    running_single_example
    running_in_batch
 
+Creating a new app
+------------------------
+
+Creating a new app is described in :doc:`../new_app/new_app_index`
+
 Sundry
 --------
 
@@ -38,7 +43,6 @@ Sundry
 .. toctree::
    :maxdepth: 1
 
-   create_new_app
    flags
    create_workspace_for_app
    workspace_display

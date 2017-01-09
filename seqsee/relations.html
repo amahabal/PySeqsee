@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
     
     <title>Relations and Mappings &#8212; PySeqsee 0.2.3a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,11 +25,16 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Workspace" href="workspace.html" />
-    <link rel="prev" title="Elements and Groups in Seqsee" href="objects.html" /> 
+    <link rel="prev" title="Elements and Groups in Seqsee" href="objects.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -49,7 +55,30 @@
         <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="seqsee_index.html" accesskey="U">The Flagship App: Seqsee</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="objects.html"
+                        title="previous chapter">Elements and Groups in Seqsee</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="workspace.html"
+                        title="next chapter">Workspace</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -62,15 +91,22 @@
 <dt id="farg.apps.seqsee.mapping.FindMapping">
 <code class="descclassname">farg.apps.seqsee.mapping.</code><code class="descname">FindMapping</code><span class="sig-paren">(</span><em>o1</em>, <em>o2</em>, <em>*</em>, <em>controller</em>, <em>seqsee_ltm</em>, <em>category=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/apps/seqsee/mapping.html#FindMapping"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.mapping.FindMapping" title="Permalink to this definition">¶</a></dt>
 <dd><p>Find mapping between the two entities.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>o1: The first entity.
-o2: The second entity.
-controller: A controller. Needed in case subspaces have to be created.
-seqsee_ltm: We need access to the global LTM in order to know, say, that the &#8220;7&#8221; we 
-see can be treated as a prime.
-category: If a category on which to base the diff has already been chosen.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>o1</strong> &#8211; The first entity.</li>
+<li><strong>o2</strong> &#8211; The second entity.</li>
+<li><strong>controller</strong> &#8211; A controller. Needed in case subspaces have to be created.</li>
+<li><strong>seqsee_ltm</strong> &#8211; We need access to the global LTM in order to know, say, that the &#8220;7&#8221; we</li>
+<li><strong>can be treated as a prime.</strong> (<em>see</em>) &#8211; </li>
+<li><strong>category</strong> &#8211; If a category on which to base the diff has already been chosen.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -153,6 +189,10 @@ version: <em>succ</em>, <em>pred</em>, <em>same</em>, <em>flip</em>, and <em>nof
 <dt id="farg.apps.seqsee.mapping.StructuralMapping.IsPairConsistent">
 <code class="descname">IsPairConsistent</code><span class="sig-paren">(</span><em>item1</em>, <em>item2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/apps/seqsee/mapping.html#StructuralMapping.IsPairConsistent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.apps.seqsee.mapping.StructuralMapping.IsPairConsistent" title="Permalink to this definition">¶</a></dt>
 <dd><p>Is the pair of items consistent with this mapping?</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">This is a cop-out, currently; when extending Seqsee, I should revisit this.</p>
+</div>
 </dd></dl>
 
 <dl class="method">
@@ -252,29 +292,6 @@ relations will need to be supported.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
-            </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="objects.html"
-                        title="previous chapter">Elements and Groups in Seqsee</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="workspace.html"
-                        title="next chapter">Workspace</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -298,7 +315,7 @@ relations will need to be supported.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 07, 2017.
+      Last updated on Jan 08, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

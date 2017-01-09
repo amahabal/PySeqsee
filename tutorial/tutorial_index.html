@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
     
     <title>Creating a New FARG Application &#8212; PySeqsee 0.2.3a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,11 +25,16 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
-    <link rel="next" title="Creating the Application Skeleton" href="running_create_app.html" />
-    <link rel="prev" title="Theory" href="../theory/theory_index.html" /> 
+    <link rel="next" title="Adding Input Flags" href="adding_input_flags.html" />
+    <link rel="prev" title="Theory" href="../theory/theory_index.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -41,14 +47,37 @@
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="running_create_app.html" title="Creating the Application Skeleton"
+          <a href="adding_input_flags.html" title="Adding Input Flags"
              accesskey="N">next</a> |</li>
         <li class="right" >
           <a href="../theory/theory_index.html" title="Theory"
              accesskey="P">previous</a> |</li>
         <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="../theory/theory_index.html"
+                        title="previous chapter">Theory</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="adding_input_flags.html"
+                        title="next chapter">Adding Input Flags</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -57,28 +86,8 @@
             
   <div class="section" id="creating-a-new-farg-application">
 <h1>Creating a New FARG Application<a class="headerlink" href="#creating-a-new-farg-application" title="Permalink to this headline">¶</a></h1>
-<p>This tutorial will describe the process of creating a full new application. It will
-attempt to touch all aspects of the process.</p>
-<p>The application developed in this tutorial may be called &#8220;Numeric Bongard&#8221;. Unlike
-Bongard problems, this will not be images.</p>
-<p>I imagine a command-line such as:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">run_numeric_bongard</span><span class="o">.</span><span class="n">py</span> <span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s2">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s2">&quot;2 8 4 16&quot;</span>
-</pre></div>
-</div>
-<p>And it should print something out about evens and odds.</p>
-<p>This is a rich domain:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s2">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s2">&quot;9 15 21&quot;</span>  <span class="o">==&gt;</span> <span class="n">prime</span><span class="o">/</span><span class="n">composite</span>
-<span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s2">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s2">&quot;5 13 17&quot;</span>  <span class="o">==&gt;</span> <span class="mi">3</span> <span class="n">mod</span> <span class="mi">4</span> <span class="n">vs</span> <span class="mi">1</span> <span class="n">mod</span> <span class="mi">4</span>
-<span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s2">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s2">&quot;2 5 13 17&quot;</span>  <span class="o">==&gt;</span> <span class="mi">3</span> <span class="n">mod</span> <span class="mi">4</span> <span class="n">vs</span> <span class="ow">not</span><span class="p">(</span><span class="mi">3</span> <span class="n">mod</span> <span class="mi">4</span><span class="p">)</span>
-<span class="o">--</span><span class="n">left</span><span class="o">=</span><span class="s2">&quot;3 7 11&quot;</span> <span class="o">--</span><span class="n">right</span><span class="o">=</span><span class="s2">&quot;2 5 13 17 15&quot;</span>  <span class="o">==&gt;</span> <span class="mi">3</span> <span class="n">mod</span> <span class="mi">4</span> <span class="n">primes</span> <span class="n">vs</span> <span class="ow">not</span><span class="p">(</span><span class="mi">3</span> <span class="n">mod</span> <span class="mi">4</span> <span class="n">primes</span><span class="p">)</span>
-</pre></div>
-</div>
 <div class="toctree-wrapper compound">
 <ul>
-<li class="toctree-l1"><a class="reference internal" href="running_create_app.html">Creating the Application Skeleton</a><ul>
-<li class="toctree-l2"><a class="reference internal" href="running_create_app.html#generated-files">Generated files</a></li>
-</ul>
-</li>
 <li class="toctree-l1"><a class="reference internal" href="adding_input_flags.html">Adding Input Flags</a></li>
 <li class="toctree-l1"><a class="reference internal" href="setting_up_workspace.html">Setting up Workspace</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="setting_up_workspace.html#updating-the-ui">Updating the UI</a></li>
@@ -93,29 +102,6 @@ Bongard problems, this will not be images.</p>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
-            </a></p>
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="../theory/theory_index.html"
-                        title="previous chapter">Theory</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="running_create_app.html"
-                        title="next chapter">Creating the Application Skeleton</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -128,7 +114,7 @@ Bongard problems, this will not be images.</p>
           <a href="../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
         <li class="right" >
-          <a href="running_create_app.html" title="Creating the Application Skeleton"
+          <a href="adding_input_flags.html" title="Adding Input Flags"
              >next</a> |</li>
         <li class="right" >
           <a href="../theory/theory_index.html" title="Theory"
@@ -138,7 +124,7 @@ Bongard problems, this will not be images.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 07, 2017.
+      Last updated on Jan 08, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

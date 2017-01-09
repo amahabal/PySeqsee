@@ -1,5 +1,6 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+
+<!doctype html>
 
 
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,7 +9,7 @@
     
     <title>The User Interface &#8212; PySeqsee 0.2.3a1 documentation</title>
     
-    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
     
     <script type="text/javascript">
@@ -24,11 +25,16 @@
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
     <link rel="shortcut icon" href="../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" />
     <link rel="next" title="Utility Functions" href="utils.html" />
-    <link rel="prev" title="Long-term Memory" href="ltm.html" /> 
+    <link rel="prev" title="Long-term Memory" href="ltm.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
   </head>
   <body role="document">
     <div class="related" role="navigation" aria-label="related navigation">
@@ -49,7 +55,47 @@
         <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="developer_index.html" accesskey="U">Core Developer Documentation</a> &#187;</li> 
       </ul>
-    </div>  
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">The User Interface</a><ul>
+<li><a class="reference internal" href="#module-farg.core.ui">UI</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.batch_ui">UI &#8212; Batch UI</a></li>
+<li><a class="reference internal" href="#ui-gui">UI &#8212; GUI</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.central_pane">UI &#8212; GUI &#8212; Central Pane</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views">UI &#8212; GUI &#8212; Views</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.viewport">UI &#8212; GUI &#8212; Views &#8212; Viewport</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.list_based_view">UI &#8212; GUI &#8212; Views  &#8212; List based</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.coderack_view">UI &#8212; GUI &#8212; Views &#8212; Coderack</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.ltm_view">UI &#8212; GUI &#8212; Views &#8212; LTM</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.stream_view">UI &#8212; GUI &#8212; Views &#8212; Stream</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="ltm.html"
+                        title="previous chapter">Long-term Memory</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="utils.html"
+                        title="next chapter">Utility Functions</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
 
     <div class="document">
       <div class="documentwrapper">
@@ -256,10 +302,14 @@ an answer and can now quit.&#8221;).</p>
 <dt id="farg.core.ui.gui.central_pane.CentralPane.SetFullView">
 <code class="descname">SetFullView</code><span class="sig-paren">(</span><em>view_class</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetFullView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetFullView" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set central pane to contain a single view.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>view_class: A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>view_class</strong> &#8211; A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -272,23 +322,37 @@ an answer and can now quit.&#8221;).</p>
 <dt id="farg.core.ui.gui.central_pane.CentralPane.SetThreeWaySplit">
 <code class="descname">SetThreeWaySplit</code><span class="sig-paren">(</span><em>view_class1</em>, <em>view_class2</em>, <em>view_class3</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetThreeWaySplit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetThreeWaySplit" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set central pane to contain a three view, one on top and two on the bottom.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>view_class1: A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.
-view_class2: Another subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.
-view_class3: Also a subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>view_class1</strong> &#8211; A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</li>
+<li><strong>view_class2</strong> &#8211; Another subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</li>
+<li><strong>view_class3</strong> &#8211; Also a subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.ui.gui.central_pane.CentralPane.SetVerticallySplitView">
 <code class="descname">SetVerticallySplitView</code><span class="sig-paren">(</span><em>view_class1</em>, <em>view_class2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetVerticallySplitView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetVerticallySplitView" title="Permalink to this definition">¶</a></dt>
 <dd><p>Set central pane to contain a two view, one on top the other on the bottom.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>view_class1: A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.
-view_class2: Another subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>view_class1</strong> &#8211; A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</li>
+<li><strong>view_class2</strong> &#8211; Another subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -337,10 +401,14 @@ SetVerticallySplitView). See farg.apps.seqsee.gui.gui.py for an example.</p>
 <dt id="farg.core.ui.gui.views.viewport.ViewPort.ReDraw">
 <code class="descname">ReDraw</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/viewport.html#ViewPort.ReDraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.viewport.ViewPort.ReDraw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Redraw this view.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>controller: The controller for the main application.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; The controller for the main application.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -358,22 +426,21 @@ SetVerticallySplitView). See farg.apps.seqsee.gui.gui.py for an example.</p>
 <dt id="farg.core.ui.gui.views.list_based_view.ListBasedView.DrawItem">
 <code class="descname">DrawItem</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>item</em>, <em>extra_dict</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView.DrawItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.DrawItem" title="Permalink to this definition">¶</a></dt>
 <dd><p>Draws item given co-ordinates in <em>this</em> widgets coordinate system.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd><dl class="first last docutils">
-<dt>x:</dt>
-<dd>x-coordinate for the top-left, within this view, where the item is to be drawn.</dd>
-<dt>y:</dt>
-<dd>y-coordinate for the top-left, within this view, where the item is to be drawn.</dd>
-<dt>item:</dt>
-<dd>item to be drawn.</dd>
-<dt>extra_dict:</dt>
-<dd>Any extra key-value pairs to be passed in to influence the display.</dd>
-<dt>controller:</dt>
-<dd>The controller for the main application.</dd>
-</dl>
-</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; x-coordinate for the top-left, within this view, where the item is to be drawn.</li>
+<li><strong>y</strong> &#8211; y-coordinate for the top-left, within this view, where the item is to be drawn.</li>
+<li><strong>item</strong> &#8211; item to be drawn.</li>
+<li><strong>extra_dict</strong> &#8211; Any extra key-value pairs to be passed in to influence the display.</li>
+<li><strong>controller</strong> &#8211; The controller for the main application.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
@@ -381,24 +448,32 @@ SetVerticallySplitView). See farg.apps.seqsee.gui.gui.py for an example.</p>
 <code class="descname">GetAllItemsToDisplay</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
 <dd><p>Obtain a 3-tuple (items, top-message, extra_dict) to display.</p>
 <p>Should be over-ridden by the derived class.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>controller: The controller for the main application.</dd>
-<dt>Returns:</dt>
-<dd>A 3-tuple. The first value is a list of items to display (on all pages). The second
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; The controller for the main application.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A 3-tuple. The first value is a list of items to display (on all pages). The second
 is a message to be displayed at the top. The third is a dictionary for passing in
-arbitrary information, which is passed on to DrawItem.</dd>
-</dl>
+arbitrary information, which is passed on to DrawItem.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="method">
 <dt id="farg.core.ui.gui.views.list_based_view.ListBasedView.ReDraw">
 <code class="descname">ReDraw</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView.ReDraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.ReDraw" title="Permalink to this definition">¶</a></dt>
 <dd><p>Redraw this view.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>controller: The controller for the main application.</dd>
-</dl>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; The controller for the main application.</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
@@ -427,16 +502,22 @@ arbitrary information, which is passed on to DrawItem.</dd>
 <dt id="farg.core.ui.gui.views.coderack_view.CoderackView.GetAllItemsToDisplay">
 <code class="descname">GetAllItemsToDisplay</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/coderack_view.html#CoderackView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.coderack_view.CoderackView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list of things to display.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>controller: Controller for the application.</dd>
-<dt>Returns:</dt>
-<dd><dl class="first last docutils">
-<dt>A 3-tuple: Items, a top message, and a dictionary of extra information. The extra</dt>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; Controller for the application.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>Items, a top message, and a dictionary of extra information. The extra</dt>
 <dd>information is the sum of urgencies of all codelets.</dd>
 </dl>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A 3-tuple</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </dd></dl>
@@ -465,16 +546,22 @@ arbitrary information, which is passed on to DrawItem.</dd>
 <dt id="farg.core.ui.gui.views.ltm_view.LTMView.GetAllItemsToDisplay">
 <code class="descname">GetAllItemsToDisplay</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/ltm_view.html#LTMView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.ltm_view.LTMView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
 <dd><p>A list of things to display.</p>
-<dl class="docutils">
-<dt>Args:</dt>
-<dd>controller: Controller for the application.</dd>
-<dt>Returns:</dt>
-<dd><dl class="first last docutils">
-<dt>A 3-tuple: Items, a top message, and a dictionary of extra information. The extra</dt>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; Controller for the application.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>Items, a top message, and a dictionary of extra information. The extra</dt>
 <dd>information is the number of timesteps taken in the ltm.</dd>
 </dl>
-</dd>
-</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A 3-tuple</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="attribute">
@@ -521,46 +608,6 @@ arbitrary information, which is passed on to DrawItem.</dd>
           </div>
         </div>
       </div>
-      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
-        <div class="sphinxsidebarwrapper">
-            <p class="logo"><a href="../index.html">
-              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
-            </a></p>
-  <h3><a href="../index.html">Table Of Contents</a></h3>
-  <ul>
-<li><a class="reference internal" href="#">The User Interface</a><ul>
-<li><a class="reference internal" href="#module-farg.core.ui">UI</a></li>
-<li><a class="reference internal" href="#module-farg.core.ui.batch_ui">UI &#8212; Batch UI</a></li>
-<li><a class="reference internal" href="#ui-gui">UI &#8212; GUI</a></li>
-<li><a class="reference internal" href="#module-farg.core.ui.gui.central_pane">UI &#8212; GUI &#8212; Central Pane</a></li>
-<li><a class="reference internal" href="#module-farg.core.ui.gui.views">UI &#8212; GUI &#8212; Views</a></li>
-<li><a class="reference internal" href="#module-farg.core.ui.gui.views.viewport">UI &#8212; GUI &#8212; Views &#8212; Viewport</a></li>
-<li><a class="reference internal" href="#module-farg.core.ui.gui.views.list_based_view">UI &#8212; GUI &#8212; Views  &#8212; List based</a></li>
-<li><a class="reference internal" href="#module-farg.core.ui.gui.views.coderack_view">UI &#8212; GUI &#8212; Views &#8212; Coderack</a></li>
-<li><a class="reference internal" href="#module-farg.core.ui.gui.views.ltm_view">UI &#8212; GUI &#8212; Views &#8212; LTM</a></li>
-<li><a class="reference internal" href="#module-farg.core.ui.gui.views.stream_view">UI &#8212; GUI &#8212; Views &#8212; Stream</a></li>
-</ul>
-</li>
-</ul>
-
-  <h4>Previous topic</h4>
-  <p class="topless"><a href="ltm.html"
-                        title="previous chapter">Long-term Memory</a></p>
-  <h4>Next topic</h4>
-  <p class="topless"><a href="utils.html"
-                        title="next chapter">Utility Functions</a></p>
-<div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
-    <form class="search" action="../search.html" method="get">
-      <div><input type="text" name="q" /></div>
-      <div><input type="submit" value="Go" /></div>
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
-    </form>
-</div>
-<script type="text/javascript">$('#searchbox').show(0);</script>
-        </div>
-      </div>
       <div class="clearer"></div>
     </div>
     <div class="related" role="navigation" aria-label="related navigation">
@@ -584,7 +631,7 @@ arbitrary information, which is passed on to DrawItem.</dd>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 07, 2017.
+      Last updated on Jan 08, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
