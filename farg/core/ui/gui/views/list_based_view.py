@@ -76,7 +76,7 @@ class ListBasedView(ViewPort, metaclass=ABCMeta):
     item_id = self.canvas.create_polygon(x1, y1, x2, y2, x3, y3)
     self.canvas.tag_bind(item_id, '<1>', lambda e: self._IncrementPageNumber())
 
-  def ReDrawView(self, controller):
+  def ReDraw(self, controller):
     """Redraw this view.
 
     Args:

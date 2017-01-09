@@ -15,28 +15,27 @@ from farg.apps.seqsee.util import GreaterThan, LessThan
 from farg.core.util import SelectWeightedByActivation
 from farg.core.codelet import Codelet
 from farg.core.focusable_mixin import FocusableMixin
-
-from farg.third_party import gflags
-
-gflags.DEFINE_boolean("use_group_distances", False,
-                      "If true, distance between objects may be measured in groups. "
-                      "For example, distance between 7 and 8 in '7 1 2 8' can be seen as "
-                      "2 intervening elements or 1 intervening group.")
+import farg_flags
 
 """A relation is a specific instance of a mapping."""
 
 
 class Relation(FocusableMixin):
   def __init__(self, first, second, *, mapping_set):
-    #: The object on the left.
+    #: Typically, the object on the left.
     self.first = first
-    #: The object on the right.
+    #: Typically, the object on the right.
     self.second = second
     #: The set of mappings any of which transform the left object to the right object.
     self.mapping_set = mapping_set
 
   def __str__(self):
     return '%s-->%s (%s)' % (self.first, self.second, self.mapping_set)
+  
+  def InsertSelf(self):
+    """Inserts itself into the two ends."""
+    self.first.relations.add(self)
+    self.second.relations.add(self)
 
   def Ends(self):
     """Returns a 2-tuple of the two ends."""
@@ -63,7 +62,7 @@ class Relation(FocusableMixin):
     assert(not self.AreEndsContiguous())
     distance_in_elements = self.second.start_pos - self.first.end_pos - 1
     distance_object = DistanceInElements(value=distance_in_elements)
-    if gflags.FLAGS.use_group_distances:
+    if farg_flags.FargFlags.use_group_distances:
       workspace = controller.workspace
       groups_between_two = list(workspace.GetGroupsWithSpan(GreaterThan(self.first.end_pos),
                                                             LessThan(self.second.start_pos)))

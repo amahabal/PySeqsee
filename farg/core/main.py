@@ -11,56 +11,38 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-"""Class to set up and start running the application based on flags."""
+"""Base class for entry point of each application."""
+
 from farg.core.controller import Controller
 from farg.core.run_mode import batch, gui, single, sxs
 from farg.core.stopping_conditions import StoppingConditions
 from farg.core.ui.batch_ui import BatchUI
 from farg.core.ui.gui import GUI
-from farg.third_party import gflags
 import logging
+import logging.config
 import os.path
 import sys
-
-FLAGS = gflags.FLAGS
-
-gflags.DEFINE_enum('run_mode', 'gui',
-                   ('gui', 'batch', 'sxs', 'single'),
-                   'Mode to run in. GUI creates a tkinter display, whereas batch and sxs '
-                   'run the program multiple times non-interactively. Each such run uses '
-                   'the "single" run mode.')
-gflags.DEFINE_enum('debug', '', ('', 'debug', 'info', 'warn', 'error', 'fatal'),
-                   'Show messages from what debug level and above?')
-gflags.DEFINE_string('stopping_condition', None,
-                     'Stopping condition, if any. Only allowed in non-gui modes. If the '
-                     'condition is met, the program returns with a StoppingConditionMet '
-                     'exception')
-
-gflags.DEFINE_string('input_spec_file', None,
-                     'Path specifying inputs over which to run batch processes.'
-                     'This will be read by an instance of input_spec_reader_class.')
-gflags.DEFINE_integer('num_iterations', 10,
-                      'In batch and SxS mode, number of iterations to run', 1)
-gflags.DEFINE_integer('max_steps', 20000,
-                      'In batch and SxS mode, number of steps per run', 1)
-
-gflags.DEFINE_string('persistent_directory', '',
-                     'Directory in which to hold files that persist between runs, such as'
-                     'ltm files or statistics about performance on batch runs. '
-                     'If not passed, ~/.pyseqsee/{application_name} is used.')
-gflags.DEFINE_string('ltm_directory', '',
-                     'Directory to hold LTM files. '
-                     'If not passed, FLAGS.persistent_directory/ltm is used')
-gflags.DEFINE_string('stats_directory', '',
-                     'Directory to hold statistics from prior batch runs. '
-                     'If not passed, FLAGS.persistent_directory/stats is used')
-
+import farg_flags
 
 class Main:
   """The Base class for the Main class of an application.
 
   Based on flags, it sets up the appropriate run mode (which start GUIs if needed).
   It also does a sanity check on flags and creates certain directories if needed.
+  
+  Arguments:
+    unprocessed_flags: These are the flags returned by argparse that are yet to be sanity checked
+      and processed. That work is done here, and the processed flags are put in self.flags.
+  
+  Notes:
+    * Many attributes here are classes that do the actual work. Subclasses will override several of
+      these. These include the following.
+
+      * controller_class, which manages the codelets, workspace, and the stream.
+      * gui_class, which displays the content of the workspace. What is shown here of course
+        depends on the application.
+      * input_spec_reader_class, which handles how the file containing examples in batch mode is
+        converted to flags for the application.
   """
   #: Class to use for running in GUI mode.
   run_mode_gui_class = gui.RunModeGUI  # Not a constant as thought by pylint: disable=C6409
@@ -96,17 +78,12 @@ class Main:
   #: Name of application. Must be provided by the derivative class.
   application_name = None  # Not a constant pylint: disable=C6409
 
-  def __init__(self, argv):
+  def __init__(self, unprocessed_flags):
     """Parses and sanity checks flags, plus creates the run_mode object."""
     if not self.application_name:
       print('application_name not set. The subclass of farg.core.Main that you called'
             'should have over-ridden this. See farg.apps.seqsee.run_seqsee.py for an'
             'example')
-      sys.exit(1)
-    try:
-      argv = FLAGS(argv)  # parse flags
-    except gflags.FlagsError as error:
-      print('%s\nUsage: %s ARGS\n%s\n\n%s' % (error, sys.argv[0], FLAGS, error))
       sys.exit(1)
 
     #: The mode for the program (gui, batch, sxs, etc). This is an instance of
@@ -116,11 +93,13 @@ class Main:
     #: If not none, this is a function is a stopping condition for stopping the app.
     self.stopping_condition_fn = None
 
+    self.flags = unprocessed_flags
+    farg_flags.FargFlags = self.flags
     self.ProcessFlags()
 
-  def VerifyPersistentDirectoryPath(self):
+  def _VerifyPersistentDirectoryPath(self):
     """Verify (or create) the persistent directory."""
-    directory = FLAGS.persistent_directory
+    directory = self.flags.persistent_directory
     if not directory:
       homedir = os.path.expanduser('~')
       if not os.path.exists(homedir):
@@ -137,59 +116,59 @@ class Main:
       print('Creating directory for storing persistent files for the %s app: %s' %
             (self.application_name, directory))
       os.mkdir(directory)
-    FLAGS.persistent_directory = directory
+    self.flags.persistent_directory = directory
 
-  def VerifyLTMPath(self):
+  def _VerifyLTMPath(self):
     """Create a directory for ltms unless flag provided. If provided, verify it exists."""
-    if FLAGS.ltm_directory:
-      if not os.path.exists(FLAGS.ltm_directory):
-        print ("LTM directory '%s' does not exist." % FLAGS.ltm_directory)
+    if self.flags.ltm_directory:
+      if not os.path.exists(self.flags.ltm_directory):
+        print ("LTM directory '%s' does not exist." % self.flags.ltm_directory)
         sys.exit(1)
     else:
-      self.VerifyPersistentDirectoryPath()
-      FLAGS.ltm_directory = os.path.join(FLAGS.persistent_directory, 'ltm')
-      if not os.path.exists(FLAGS.ltm_directory):
-        print('Creating directory for storing ltms: %s' % FLAGS.ltm_directory)
-        os.mkdir(FLAGS.ltm_directory)
+      self._VerifyPersistentDirectoryPath()
+      self.flags.ltm_directory = os.path.join(self.flags.persistent_directory, 'ltm')
+      if not os.path.exists(self.flags.ltm_directory):
+        print('Creating directory for storing ltms: %s' % self.flags.ltm_directory)
+        os.mkdir(self.flags.ltm_directory)
 
-  def VerifyStatsPath(self):
+  def _VerifyStatsPath(self):
     """Create directory for batch stats unless provided. If provided, verify it exists."""
-    if FLAGS.stats_directory:
-      if not os.path.exists(FLAGS.stats_directory):
-        print ('Stats directory "%s" does not exist.' % FLAGS.stats_directory)
+    if self.flags.stats_directory:
+      if not os.path.exists(self.flags.stats_directory):
+        print ('Stats directory "%s" does not exist.' % self.flags.stats_directory)
         sys.exit(1)
     else:
-      self.VerifyPersistentDirectoryPath()
-      FLAGS.stats_directory = os.path.join(FLAGS.persistent_directory, 'stats')
-      if not os.path.exists(FLAGS.stats_directory):
-        print('Creating directory for storing stats: %s' % FLAGS.stats_directory)
-        os.mkdir(FLAGS.stats_directory)
+      self._VerifyPersistentDirectoryPath()
+      self.flags.stats_directory = os.path.join(self.flags.persistent_directory, 'stats')
+      if not os.path.exists(self.flags.stats_directory):
+        print('Creating directory for storing stats: %s' % self.flags.stats_directory)
+        os.mkdir(self.flags.stats_directory)
 
-  def VerifyStoppingConditionSanity(self):
+  def _VerifyStoppingConditionSanity(self):
     """Verify that stopping conditions are specified only in modes where they make sense."""
-    run_mode_name = FLAGS.run_mode
-    stopping_condition = FLAGS.stopping_condition
+    run_mode_name = self.flags.run_mode
+    stopping_condition = self.flags.stopping_condition
     if run_mode_name == 'gui':
       # There should be no stopping condition.
       if stopping_condition:
         print('Stopping condition does not make sense with GUI.')
         sys.exit(1)
     else:  # Verify that the stopping condition's name is defined.
-      if FLAGS.stopping_condition and FLAGS.stopping_condition != 'None':
+      if self.flags.stopping_condition and self.flags.stopping_condition != 'None':
         stopping_conditions_list = self.stopping_conditions_class.StoppingConditionsList()
-        if FLAGS.stopping_condition not in stopping_conditions_list:
+        if self.flags.stopping_condition not in stopping_conditions_list:
           print('Unknown stopping condition %s. Use one of %s' %
-                (FLAGS.stopping_condition, stopping_conditions_list))
+                (self.flags.stopping_condition, stopping_conditions_list))
           sys.exit(1)
         else:
           self.stopping_condition_fn = (
-            self.stopping_conditions_class.GetStoppingCondition(FLAGS.stopping_condition))
+            self.stopping_conditions_class.GetStoppingCondition(self.flags.stopping_condition))
       else:
         self.stopping_condition_fn = ''
 
-  def CreateRunModeInstance(self):
+  def _CreateRunModeInstance(self):
     """Create a Runmode instance from the flags."""
-    run_mode_name = FLAGS.run_mode
+    run_mode_name = self.flags.run_mode
     if run_mode_name == 'gui':
       return self.run_mode_gui_class(controller_class=self.controller_class,
                                      ui_class=self.gui_class)
@@ -198,12 +177,12 @@ class Main:
                                             ui_class=self.batch_ui_class,
                                             stopping_condition_fn=self.stopping_condition_fn)
     else:
-      if not FLAGS.input_spec_file:
+      if not self.flags.input_spec_file:
         print('Runmode --run_mode=%s requires --input_spec_file to be specified' %
               run_mode_name)
         sys.exit(1)
       input_reader = self.input_spec_reader_class()  # pylint: disable=E1102
-      input_spec = list(input_reader.ReadFile(FLAGS.input_spec_file))
+      input_spec = list(input_reader.ReadFile(self.flags.input_spec_file))
       print(input_spec)
       if run_mode_name == 'batch':
         return self.run_mode_batch_class(controller_class=self.controller_class,
@@ -216,35 +195,48 @@ class Main:
         sys.exit(1)
 
   def ProcessFlags(self):
-    """Called after flags have been read in."""
+    """Sanity checks and does some flag-related and flag-triggered house-keeping.
+    
+    This includes creating directories, starting logging, and so forth.
+    """
+    if self.flags.debug_config:
+      logging.config.fileConfig(self.flags.debug_config)
+      
+    if self.flags.debug:
+      numeric_level = getattr(logging, self.flags.debug.upper(), None)
+      if not isinstance(numeric_level, int):
+        print('Invalid log level: %s' % self.flags.debug)
+        sys.exit(1)
+      logging.basicConfig(level=numeric_level, format='%(levelname)s:%(message)s')
+      logging.getLogger().setLevel(numeric_level)  # To override based on --debug flag
+      logging.debug("Debugging turned on")
+
     self.ProcessCustomFlags()
 
-    if FLAGS.input_spec_file:
+    if self.flags.input_spec_file:
       # Check that this is a file and it exists.
-      if not os.path.exists(FLAGS.input_spec_file):
+      if not os.path.exists(self.flags.input_spec_file):
         print ("Input specification file '%s' does not exist. Bailing out." %
-               FLAGS.input_spec_file)
+               self.flags.input_spec_file)
         sys.exit(1)
-      if not os.path.isfile(FLAGS.input_spec_file):
+      if not os.path.isfile(self.flags.input_spec_file):
         print ("Input specification '%s' is not a file. Bailing out." %
-               FLAGS.input_spec_file)
+               self.flags.input_spec_file)
         sys.exit(1)
 
-    self.VerifyStoppingConditionSanity()
-    self.VerifyPersistentDirectoryPath()
-    self.VerifyLTMPath()
-    self.VerifyStatsPath()
-    self.run_mode = self.CreateRunModeInstance()
+    self._VerifyStoppingConditionSanity()
+    self._VerifyPersistentDirectoryPath()
+    self._VerifyLTMPath()
+    self._VerifyStatsPath()
+    self.run_mode = self._CreateRunModeInstance()
 
-    if FLAGS.debug:
-      numeric_level = getattr(logging, FLAGS.debug.upper(), None)
-      if not isinstance(numeric_level, int):
-        print('Invalid log level: %s' % FLAGS.debug)
-        sys.exit(1)
-      logging.basicConfig(level=numeric_level)
 
   def ProcessCustomFlags(self):
-    """Apps can override this to process app-specific flags."""
+    """Process custom flags defined by the app.
+    
+    If an app needs post-processing of some flags it defines, it can be put here. The current flags
+    (including any changes made to the core flags is available as self.flags.
+    """
     pass
 
   def Run(self):

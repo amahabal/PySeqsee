@@ -1,8 +1,9 @@
 import unittest
 
+from farg.core.controller import Controller
 from farg.core.codelet import Codelet, CodeletFamily
 
-class Controller(object):
+class MyController(Controller):
   def __init__(self):
     self.x = 5
 
@@ -14,7 +15,7 @@ class Foo(CodeletFamily):
 
 class Test(unittest.TestCase):
   def test_sanity(self):
-    controller = Controller()
+    controller = MyController()
     c = Codelet(Foo, controller, 50, dict(x=3))
     self.assertEqual(50, c.urgency)
     self.assertEqual(18, c.Run())

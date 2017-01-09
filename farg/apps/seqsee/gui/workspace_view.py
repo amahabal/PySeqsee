@@ -47,8 +47,6 @@ class WorkspaceView(ViewPort):
           fill='#0000FF')
       anchors_for_relations[element] = (x, y - 20)
 
-
-
     relations_already_drawn = set()
     for element in workspace.elements:
       for relation in element.relations:

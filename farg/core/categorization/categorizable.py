@@ -12,6 +12,7 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 """Mixin class for entities that we want to put in categories."""
 
+import logging 
 
 class CategorizableMixin(object):
   """Base class for things that can belong to categories."""
@@ -44,6 +45,7 @@ class CategorizableMixin(object):
     Returns:
       Returns the binding if `self` is instance of `category`, None otherwise.
     """
+    logging.debug("$$$ DescribeAs called on [%s] for category [%s]", self, category)
     if category in self.categories:
       return self.categories[category]
     binding = category.IsInstance(self)

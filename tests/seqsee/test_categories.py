@@ -36,7 +36,6 @@ class TestSeqseeCategories(unittest.TestCase):
 
     element5 = SObject.Create([5])
     element7 = SObject.Create([7])
-    element11 = SObject.Create([11])
     mapping = Prime().GetMapping(element5, element7)
     self.assertTrue(isinstance(mapping, NumericMapping))
     self.assertEqual(Prime(), mapping.category)

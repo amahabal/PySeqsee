@@ -77,6 +77,10 @@ class FARGApp(Skeleton):
         constraint=lambda x: self.AreNamesConsistent(x, dst_dir),
         default=self.CapitalizeName(dst_dir)))
     Skeleton.run(self, new_dst_dir, run_dry)
+    print("\n==============================================\n",
+          "\nYou may now run the app (which as yet does nothing) like so:\n\n",
+          "  python3 -m farg.apps.%s.run_%s\n\n" % (dst_dir, dst_dir),
+          "What next? That documentation is currently sketchy, but is being updated.")
 
 if __name__ == '__main__':
   print("\n============= ERROR ==============")

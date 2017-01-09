@@ -11,26 +11,34 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+import argparse
+
 from farg.apps.seqsee.batch_ui import SeqseeBatchUI
 from farg.apps.seqsee.controller import SeqseeController
 from farg.apps.seqsee.gui.gui import SeqseeGUI
 from farg.apps.seqsee.read_input_spec import SeqseeReadInputSpec
 from farg.apps.seqsee.stopping_conditions import SeqseeStoppingConditions
 from farg.core.main import Main
-from farg.third_party import gflags
+import farg_flags
 import sys
 
-FLAGS = gflags.FLAGS
+seqsee_parser = argparse.ArgumentParser(parents=[farg_flags.core_parser])
+seqsee_parser.add_argument('--sequence', type=int, nargs='*')
+seqsee_parser.add_argument('--unrevealed_terms', type=int, nargs='*')
+seqsee_parser.add_argument('--double_mapping_resistance',
+                           default=0.5, type=float,
+                           help='Probability of not seeking a relation between two objects when a '
+                                'relation exists')
+seqsee_parser.add_argument("--use_group_distances", default=False, type=bool,
+                           help="If true, distance between objects may be measured in groups. "
+                                "For example, distance between 7 and 8 in '7 1 2 8' can be seen as "
+                                "2 intervening elements or 1 intervening group.")
 
-gflags.DEFINE_spaceseplist('sequence', '',
-                           'A space separated list of integers')
 
-gflags.DEFINE_spaceseplist('unrevealed_terms', '',
-                           'A space separated list of integers')
+class UnprocessedFlags(object):
+  pass
 
-gflags.DEFINE_float("double_mapping_resistance", 0.5,
-                    "Probability of not seeking a relation between two objects when a "
-                    "relation exists", 0.0, 1.0)
+seqsee_parser.parse_args(args=None, namespace=UnprocessedFlags)
 
 class SeqseeMain(Main):
   """
@@ -64,12 +72,10 @@ class SeqseeMain(Main):
     """
     Process Seqsee specific flags.
     """
-    FLAGS.sequence = [int(x) for x in FLAGS.sequence]
-    FLAGS.unrevealed_terms = [int(x) for x in FLAGS.unrevealed_terms]
-    if not(FLAGS.sequence) and (FLAGS.run_mode == 'gui' or FLAGS.run_mode == 'single'):
-      print('No terms specified for the input sequence. Use --sequence="...", '
+    if not(self.flags.sequence) and (self.flags.run_mode == 'gui' or self.flags.run_mode == 'single'):
+      print('No terms specified for the input sequence. Use --sequence ..., '
             'where the ... represents a space separated list of input integers.')
       sys.exit(1)
 
 if __name__ == '__main__':
-  SeqseeMain(sys.argv).Run()
+  SeqseeMain(UnprocessedFlags).Run()

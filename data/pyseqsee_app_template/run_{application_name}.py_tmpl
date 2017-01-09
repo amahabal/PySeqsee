@@ -1,29 +1,23 @@
-#!/usr/bin/python
+import argparse
+
 from farg.apps.{application_name}.batch_ui import {application_class}BatchUI
 from farg.apps.{application_name}.controller import {application_class}Controller
 from farg.apps.{application_name}.gui.gui import {application_class}GUI
 from farg.apps.{application_name}.read_input_spec import {application_class}ReadInputSpec
 from farg.apps.{application_name}.stopping_conditions import {application_class}StoppingConditions
 from farg.core.main import Main
-from farg.third_party import gflags
 import sys
+import farg_flags
 
-FLAGS = gflags.FLAGS
-
+{application_name}_parser = argparse.ArgumentParser(parents=[farg_flags.core_parser])
 # Flags for specifying the input and, for use in testing, expected output.
-gflags.DEFINE_string('input', '', 'input')
-gflags.DEFINE_string('expected_output', '', 'Expected output')
+{application_name}_parser.add_argument('--input')
+{application_name}_parser.add_argument('--expected_output')
 
+class UnprocessedFlags(object):
+  pass
 
-# Add any custom flags. For full documentation, see
-#    http://python-gflags.googlecode.com/svn/trunk/gflags.py
-# In brief, flags may be defined using any of:
-#  gflags.DEFINE_boolean(name, default, help)
-#  gflags.DEFINE_float(name, default, help, [lower_bound, upper_bound])
-#  gflags.DEFINE_integer(name, default, help, [lower_bound, upper_bound])
-#  gflags.DEFINE_string(name, default, help)
-#  gflags.DEFINE_enum(name, default, enum_values, help)
-
+{application_name}_parser.parse_args(args=None, namespace=UnprocessedFlags)
 
 class {application_class}Main(Main):
   """
@@ -62,8 +56,9 @@ class {application_class}Main(Main):
     """
     Process {application_class} specific flags.
     """
+    #: The processed version of core flags is available as self.flags.
     pass
 
 if __name__ == '__main__':
-  {application_class}Main(sys.argv).Run()
+  {application_class}Main(UnprocessedFlags).Run()
 

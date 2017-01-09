@@ -50,5 +50,3 @@ class LTMView(ListBasedView):
                                                   int(0.1 + 1.0 / node.depth_reciprocal),
                                                   node.content.BriefLabel()),
                             anchor=NW)
-
-

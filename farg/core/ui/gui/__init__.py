@@ -17,20 +17,12 @@ from farg.core.exceptions import AnswerFoundException
 from farg.core.ltm.manager import LTMManager
 from farg.core.question.question import BooleanQuestion
 from farg.core.ui.gui.central_pane import CentralPane
-from farg.third_party import gflags
 from tkinter import Button, Frame, Label, StringVar, Tk
 from tkinter.constants import LEFT
 from tkinter.messagebox import askyesno, showinfo
 import logging
 import threading
-
-gflags.DEFINE_integer('gui_canvas_height', 500,
-                      'Height of the central canvas')
-gflags.DEFINE_integer('gui_canvas_width', 800,
-                      'Width of the central canvas')
-
-FLAGS = gflags.FLAGS
-
+import farg_flags
 
 class RunForNSteps(threading.Thread):
   """Runs controller for up to n steps.
@@ -64,7 +56,7 @@ class GUI:
   """Base-class of GUI for an application."""
 
   #: Size and location of the window.
-  geometry = '810x700-0+0'  # Not a const. pylint: disable=C6409
+  geometry = '1280x980-0+0'  # Not a const. pylint: disable=C6409
 
   #: Class handling the central part of the display.
   central_pane_class = CentralPane  # Not a const. pylint: disable=C6409
@@ -169,8 +161,8 @@ class GUI:
 
     If an item must be refreshed, add it to items_to_refresh.
     """
-    height = FLAGS.gui_canvas_height
-    width = FLAGS.gui_canvas_width
+    height = farg_flags.FargFlags.gui_canvas_height
+    width = farg_flags.FargFlags.gui_canvas_width
     canvas = self.central_pane_class(self.mw, self.controller,
                                      height=int(height), width=int(width),
                                      background='#EEFFFF')

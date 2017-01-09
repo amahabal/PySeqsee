@@ -31,6 +31,7 @@ from the domain-independent parts.
         *  :doc:`Overview <overview/overview_index>` Overview of the system.
         *  :doc:`How To <howto/howto_index>` Cookbook for basic things (including installation).
         *  :doc:`Theory <theory/theory_index>` Theory behind PySeqsee.
+        *  :doc:`Starting New App <new_app/new_app_index>` Spinning up a new app.
         *  :doc:`Tutorial <tutorial/tutorial_index>` Start here.
         *  :doc:`Developer Docs <developer/developer_index>` Source-code documentation.
         *  :doc:`Seqsee <seqsee/seqsee_index>` An application for extending sequences.
@@ -51,14 +52,15 @@ from the domain-independent parts.
    developer/developer_index
    seqsee/seqsee_index
    api/api_index
+   new_app/new_app_index
 
 ..  note:: 
 
-        Under development.  PySeqsee is a relatively new project with under an 
-        year of development by a single developer.  At this stage, PySeqsee 
-        is alpha software.  If you wish to change that, help is greatly 
-        appreciated.  Drop me a line at amahabal [at] gmail, or better yet, to the 
-        mailing list at pyseqsee@googlegroups.com.  
+        Under development. Although started many years ago, it had been dormant until late
+        2016. Work on it has restarted, and is gaining steam as of Jan 2017. At this stage, PySeqsee 
+        is alpha software.  If you wish to change that, help is greatly appreciated.
+        Drop me a line at amahabal [at] gmail, or better yet, to the mailing list at
+        pyseqsee@googlegroups.com.  
 
 
 

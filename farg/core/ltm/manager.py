@@ -13,18 +13,15 @@
 
 """Manages the set of LTMs."""
 
-from farg.core.ltm.graph import LTMGraph
-from farg.third_party import gflags
 import logging
+
+from farg.core.ltm.graph import LTMGraph
 import os.path
 import sys
 
-logger = logging.getLogger(__name__)
+import farg_flags
 
-gflags.DEFINE_boolean("use_stored_ltm", True,
-                      "If true, load LTMs from disk. If not, a brand new one is created.")
-
-FLAGS = gflags.FLAGS
+kLogger = logging.getLogger("LTM")
 
 class LTMManager(object):
   #: What LTMs have been loaded.
@@ -34,10 +31,11 @@ class LTMManager(object):
 
   @classmethod
   def GetLTM(cls, ltm_name):
+    kLogger.info("GetLTM called with %s", ltm_name)
     if ltm_name in LTMManager.loaded_ltms:
       return LTMManager.loaded_ltms[ltm_name]
-    if FLAGS.use_stored_ltm:
-      filename = os.path.join(FLAGS.ltm_directory, ltm_name)
+    if farg_flags.FargFlags.use_stored_ltm:
+      filename = os.path.join(farg_flags.FargFlags.ltm_directory, ltm_name)
       if not os.path.isfile(filename):
         # We need to create the LTM. I'd need to figure out how and where it should get
         # populated. For now, I will create an empty LTM.
@@ -50,9 +48,9 @@ class LTMManager(object):
         cls._registered_initializers[ltm_name](ltm)
         # Also save the LTM immediately.
         ltm.Dump()
-        logging.debug("LTM %s was empty, initialized.", ltm_name)
+        kLogger.info("LTM %s was empty, initialized.", ltm_name)
       else:
-        logging.debug("LTM %s was empty, and no initalizer registered.", ltm_name)
+        kLogger.warn("LTM %s was empty, and no initalizer registered.", ltm_name)
     LTMManager.loaded_ltms[ltm_name] = ltm
     return ltm
 

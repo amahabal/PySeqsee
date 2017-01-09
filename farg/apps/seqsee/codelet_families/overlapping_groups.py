@@ -17,12 +17,10 @@ from farg.core.codelet import CodeletFamily
 from farg.apps.seqsee.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
 import logging
 
-
-logger = logging.getLogger(__name__)
-
 class CF_ActOnOverlappingGroups(CodeletFamily):
   @classmethod
   def Run(cls, controller, left, right):
+    logging.debug("RUNNING CF_ActOnOverlappingGroups: left=%s, right=%s", str(left), str(right))
     if left not in controller.workspace.groups or right not in controller.workspace.groups:
       # Groups gone, fizzle.
       return
@@ -36,8 +34,8 @@ class CF_ActOnOverlappingGroups(CodeletFamily):
         # This calls out for merging!
         new_group_items = sorted(set(left.items).union(set(right.items)),
                                  key=lambda x: x.start_pos)
-        logger.debug("New group items: %s",
-                     '; '.join(str(x) for x in new_group_items))
+        logging.debug("New group items: %s",
+                      '; '.join(str(x) for x in new_group_items))
         new_group = SAnchored.Create(
             new_group_items,
             underlying_mapping_set=left_underlying_set.intersection(right_underlying_set))

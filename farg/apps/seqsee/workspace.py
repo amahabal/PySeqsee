@@ -186,8 +186,8 @@ class Workspace(object):
        conflicts with the group under consideration, so does B).
        .. Note:: This can be sped up if I am keeping track of supergroups.
     """
-    if gp.is_sequence_element: return
-    if gp in self.groups: return
+    if gp.is_sequence_element: return  # Elements can never conflict.
+    if gp in self.groups: return       # Group already present, no conflict possible.
 
     groups_at_this_location = list(self.GetGroupsWithSpan(Exactly(gp.start_pos),
                                                           Exactly(gp.end_pos)))
