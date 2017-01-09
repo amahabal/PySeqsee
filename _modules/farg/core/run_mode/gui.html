@@ -87,17 +87,17 @@
 
 <span class="kn">from</span> <span class="nn">farg.core.run_mode.run_mode</span> <span class="k">import</span> <span class="n">RunMode</span>
 
-<div class="viewcode-block" id="RunModeGUI"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.main.RunModeGUI">[docs]</a><span class="k">class</span> <span class="nc">RunModeGUI</span><span class="p">(</span><span class="n">RunMode</span><span class="p">):</span>
+<div class="viewcode-block" id="RunModeGUI"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.run_mode.gui.RunModeGUI">[docs]</a><span class="k">class</span> <span class="nc">RunModeGUI</span><span class="p">(</span><span class="n">RunMode</span><span class="p">):</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">controller_class</span><span class="p">,</span> <span class="n">ui_class</span><span class="p">,</span> <span class="n">stopping_condition_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Initialized a GUI run mode&quot;</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span> <span class="o">=</span> <span class="n">ui_class</span><span class="p">(</span><span class="n">controller_class</span><span class="o">=</span><span class="n">controller_class</span><span class="p">,</span>
                        <span class="n">stopping_condition_fn</span><span class="o">=</span><span class="n">stopping_condition_fn</span><span class="p">)</span>
 
-<div class="viewcode-block" id="RunModeGUI.Run"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.main.RunModeGUI.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RunModeGUI.Run"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.run_mode.gui.RunModeGUI.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">Refresher</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mw</span><span class="o">.</span><span class="n">mainloop</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="RunModeGUI.Refresher"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.main.RunModeGUI.Refresher">[docs]</a>  <span class="k">def</span> <span class="nf">Refresher</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="RunModeGUI.Refresher"><a class="viewcode-back" href="../../../../developer/run_mode.html#farg.core.run_mode.gui.RunModeGUI.Refresher">[docs]</a>  <span class="k">def</span> <span class="nf">Refresher</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">UpdateDisplay</span><span class="p">()</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">mw</span><span class="o">.</span><span class="n">after</span><span class="p">(</span><span class="mi">100</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">Refresher</span><span class="p">)</span></div></div>
 </pre></div>
@@ -122,7 +122,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 08, 2017.
+      Last updated on Jan 09, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

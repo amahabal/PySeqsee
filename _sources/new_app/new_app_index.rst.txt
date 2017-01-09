@@ -41,11 +41,9 @@ As an illustration, consider this::
 
 
 For our current purposes, we will stick to using numbers, merely any of these ideas could of
-course be sneaked in to that domain as well.
+course be sneaked into that domain as well.
 
-.. todo::
-
-  Write about what makes this a good domain suitable for Farg like approaches.
+The Bongard domain is a great place to use FARG concepts.  In this situation, there is no "right" answer, all that matters is that an answer can be given with an intelligent reason.  Because of this, using a typical brute force pattern finder would not capture the fluidity of the problem.  Using FARG concepts like the parallel terraced scan embrace the open-ended nature of the problem.
 
 Creating the app's skeleton
 --------------------------------

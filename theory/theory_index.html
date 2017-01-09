@@ -60,6 +60,15 @@
             <p class="logo"><a href="../index.html">
               <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
             </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Theory</a><ul>
+<li><a class="reference internal" href="#parallel-terraced-scan">Parallel Terraced Scan</a></li>
+<li><a class="reference internal" href="#the-workspace">The Workspace</a></li>
+</ul>
+</li>
+</ul>
+
   <h4>Previous topic</h4>
   <p class="topless"><a href="../howto/perceiving_something_new.html"
                         title="previous chapter">Adding ability to perceive something</a></p>
@@ -88,8 +97,22 @@
 <h1>Theory<a class="headerlink" href="#theory" title="Permalink to this headline">¶</a></h1>
 <div class="admonition note">
 <p class="first admonition-title">Note</p>
-<p class="last">This is a placeholder for discussion of such things as a parallel terraced
-scan, fluidity, temparature, the stream of thought, mental spaces, and so forth.</p>
+<p class="last">Need to add info on fluidity, the stream of thought, and mental spaces.</p>
+</div>
+<div class="section" id="parallel-terraced-scan">
+<h2>Parallel Terraced Scan<a class="headerlink" href="#parallel-terraced-scan" title="Permalink to this headline">¶</a></h2>
+<p>From <a class="reference external" href="http://cogsci.indiana.edu/parallel.html">the FARG website</a></p>
+<blockquote>
+<div><p>The parallel terraced scan is the key characteristic of the FARG architecture. It is a nondeterministic, parallel (or at least simulated parallel) architecture in which the actions of many small agents holistically result in the attainment of a high-level goal. The cognitive process modeled may be perception, categorization, the making of analogies &#8211; the underlying architecture used in FARG models is the same. The parallel terraced scan makes it possible to define a great number of microstrategies towards the goal, and actual paths to the goal are explored at different speeds according to their estimated promise.</p>
+<p>A good metaphor for this architecture (and the metaphor used in Hofstadter&#8217;s earlier writings about the parallel terraced scan) is the similar action of enzymes on proteins in the cytoplasm of a (biological) cell. Each enzyme is as stupid as can be, and in no way can it be said to have a picture of the ultimate end of whatever metabolic process it aids (and it may participate in many processes at once) &#8211; and in fact the actions of enzymes in the cytoplasm are a tearing chaos, with proteins being built up and broken down at random. However, all the enzymes working together, along with regulatory mechanisms consisting of yet more enzymes, end up as coherent (-seeming) high-level processes, and the whole thing works beautifully.</p>
+<p>Another useful metaphor is the action of ants or termites. Each insect performs an insignificant amount of the work of (say) building a nest, but the end result can be a surprisingly regular, sophisticated structure. Especially the nests of termites, which even have mechanisms for regulation of interior temperature, the effect is of some crafty intelligence, the seat of which is obviously not in any one termite.</p>
+</div></blockquote>
+</div>
+<div class="section" id="the-workspace">
+<h2>The Workspace<a class="headerlink" href="#the-workspace" title="Permalink to this headline">¶</a></h2>
+<p>Extending the cell analogy, the <em>workspace</em> corresponds with the cytoplasm in a cell, a place buzzing with chaotic activity.  The workspace is initially populated with nodes drawn from the long term memory.  Each of these nodes has an <em>activation</em>, a value between 0 and 1 that represents how important it is to solving the current problem.  Over time, the activation fades, causing less used nodes to have less importance. Nodes can have several types of predefined connections between them, specifying how they relate to one another.  Activation can spread along these connections.</p>
+<p>Inside the workspace, snippets of code called <em>codelets</em> move around, modifying the activations of nodes and relationships between them, and potentially creating more codelets.  Codelets are the most basic and simple actions, corresponding to enzymes in a cell.  Despite their simplicity, however, they work together to solve the problem in a seemingly intelligent manner, just like the ants in the anthill analogy. Codelets are initially contained in the <em>coderack</em>, and then run sequentially.</p>
+<p>Each workspace has a <em>temperature</em> associated with it.  The temperature represents how close the workspace is to finding a solution to the given problem.  The colder the temperature, the closer the problem is to being completed.  When the temperature is warmer, there is more activity, and codelets are a lot more willing to make changes to the workspace.  As the problem gets closer to being solved and the temperature gets cooler, the codelets are less likely to make changes to the workspace.  In effect, this makes the workspace try out several possible solutions at first, then focus in on the best solution as time goes on.  This is similar to how the human mind functions.</p>
 </div>
 </div>
 
@@ -119,7 +142,7 @@ scan, fluidity, temparature, the stream of thought, mental spaces, and so forth.
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 08, 2017.
+      Last updated on Jan 09, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
