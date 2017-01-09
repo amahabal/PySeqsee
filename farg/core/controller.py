@@ -65,7 +65,7 @@ class Controller:
   The simplest customization is to specify codelets to be added after each step::
 
     class Foo(farg.controller.Controller):
-      routine_codelets_to_add = ((CodeletFamilyBar, 30, 0.3),
+      routine_codelets_to_add = ((CodeletFamilyBar, 30, 0.3),  # 30 is the urgency, 0.3 probability of adding.
                                  (CodeletFamilyBat, 80, 0.2))
 
   Another customization is to use a non-default class for the coderack or the stream. This

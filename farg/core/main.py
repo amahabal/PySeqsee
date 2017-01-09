@@ -11,7 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-"""Class to set up and start running the application based on flags."""
+"""Base class for entry point of each application."""
 
 from farg.core.controller import Controller
 from farg.core.run_mode import batch, gui, single, sxs
@@ -29,6 +29,20 @@ class Main:
 
   Based on flags, it sets up the appropriate run mode (which start GUIs if needed).
   It also does a sanity check on flags and creates certain directories if needed.
+  
+  Arguments:
+    unprocessed_flags: These are the flags returned by argparse that are yet to be sanity checked
+      and processed. That work is done here, and the processed flags are put in self.flags.
+  
+  Notes:
+    * Many attributes here are classes that do the actual work. Subclasses will override several of
+        these. These include the following.
+
+      * controller_class, which manages the codelets, workspace, and the stream.
+      * gui_class, which displays the content of the workspace. What is shown here of course
+          depends on the application.
+      * input_spec_reader_class, which handles how the file containing examples in batch mode is
+          converted to flags for the application.
   """
   #: Class to use for running in GUI mode.
   run_mode_gui_class = gui.RunModeGUI  # Not a constant as thought by pylint: disable=C6409
@@ -152,7 +166,7 @@ class Main:
       else:
         self.stopping_condition_fn = ''
 
-  def CreateRunModeInstance(self):
+  def _CreateRunModeInstance(self):
     """Create a Runmode instance from the flags."""
     run_mode_name = self.flags.run_mode
     if run_mode_name == 'gui':
@@ -181,7 +195,10 @@ class Main:
         sys.exit(1)
 
   def ProcessFlags(self):
-    """Called after flags have been read in."""
+    """Sanity checks and does some flag-related and flag-triggered house-keeping.
+    
+    This includes creating directories, starting logging, and so forth.
+    """
     if self.flags.debug_config:
       logging.config.fileConfig(self.flags.debug_config)
       
@@ -211,11 +228,15 @@ class Main:
     self._VerifyPersistentDirectoryPath()
     self._VerifyLTMPath()
     self._VerifyStatsPath()
-    self.run_mode = self.CreateRunModeInstance()
+    self.run_mode = self._CreateRunModeInstance()
 
 
   def ProcessCustomFlags(self):
-    """Apps can override this to process app-specific flags."""
+    """Process custom flags defined by the app.
+    
+    If an app needs post-processing of some flags it defines, it can be put here. The current flags
+    (including any changes made to the core flags is available as self.flags.
+    """
     pass
 
   def Run(self):
