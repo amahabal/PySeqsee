@@ -3,9 +3,9 @@ import os.path
 import sys, os
 
 def main():
-"""
-Main function that looks at the given args and runs the correct function
-"""
+  """
+  Main function that looks at the given args and runs the correct function
+  """
   command = sys.argv[1]
   
   if command == "create":
