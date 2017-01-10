@@ -53,6 +53,18 @@ farg/apps/seqsee/subspaces/deal_with_conflicting_groups.py
 farg/apps/seqsee/subspaces/get_mapping.py
 farg/apps/seqsee/subspaces/go_beyond_known.py
 farg/apps/seqsee/subspaces/is_this_interlaced.py
+farg/apps/test/__init__.py
+farg/apps/test/batch_ui.py
+farg/apps/test/categories.py
+farg/apps/test/controller.py
+farg/apps/test/read_input_spec.py
+farg/apps/test/run_test.py
+farg/apps/test/stopping_conditions.py
+farg/apps/test/workspace.py
+farg/apps/test/codelet_families/__init__.py
+farg/apps/test/gui/__init__.py
+farg/apps/test/gui/gui.py
+farg/apps/test/gui/workspace_view.py
 farg/core/__init__.py
 farg/core/codelet.py
 farg/core/coderack.py
@@ -103,4 +115,3 @@ farg/third_party/skeleton/core.py
 farg/third_party/skeleton/utils.py
 farg/tools/__init__.py
 farg/tools/create_app.py
-farg/tools/pyseqsee_create_app.py

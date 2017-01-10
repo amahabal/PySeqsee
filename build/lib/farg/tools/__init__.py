@@ -3,17 +3,19 @@ import os.path
 import sys, os
 
 def main():
+"""
+Main function that looks at the given args and runs the correct function
+"""
   command = sys.argv[1]
+  
   if command == "create":
     if len(sys.argv) != 3:
       print('Expected exactly two arguments (create and the name of the script). Got %d instead (%s)' %
         (len(sys.argv) - 1, sys.argv[1:]))
       sys.exit(1)
+      
     create(sys.argv[2])
-
-"""
-Script to create an empty application.
-"""
+    
 def create(name):
   """Basic command line bootstrap for the BasicModule Skeleton"""
   # Check that there is an apps subdirectory.

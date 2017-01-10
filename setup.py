@@ -54,7 +54,6 @@ setup(
     description="Python framework for writing programs to solve complex problems not amenable to brute force. The architecture is a descendant of Douglas Hofstadter and Melanie Mitchell's Copycat architecture.",
     packages=packages,
     data_files=data_files,
-    scripts=['farg/tools/pyseqsee_create_app.py'],
 
     classifiers=[
         'Development Status :: 3 - Alpha',
