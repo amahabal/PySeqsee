@@ -1,11 +1,3 @@
-B
-B
-C
-Di
-C
-Bi
-Bi
-B
 *.pyc
 *.pyc-2.4
 .project
@@ -20,5 +12,5 @@ dist
 MANIFEST
 seqsee.main
 *~
-
-
+build
+*.egg-info
