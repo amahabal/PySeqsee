@@ -1,6 +1,6 @@
 from farg.tools import create_app
 import os.path
-import sys, os
+import sys, os, shutil
 
 def main():
   """
@@ -8,13 +8,17 @@ def main():
   """
   command = sys.argv[1]
   
-  if command == "create":
-    if len(sys.argv) != 3:
-      print('Expected exactly two arguments (create and the name of the script). Got %d instead (%s)' %
+  if len(sys.argv) != 3:
+      print('Expected exactly two arguments of the form <command> <name of app>. Got %d instead (%s)' %
         (len(sys.argv) - 1, sys.argv[1:]))
       sys.exit(1)
       
+  if command == "create":
     create(sys.argv[2])
+  elif command == "remove":
+    remove(sys.argv[2])
+      
+    
     
 def create(name):
   """Basic command line bootstrap for the BasicModule Skeleton"""
@@ -33,3 +37,14 @@ def create(name):
     sys.exit(1)
     
   create_app.FARGApp().run(name, install_prefix=install_prefix)
+  
+def remove(name):
+  yOrN = input("Are you sure you want to remove {}? This cannot be undone. [y/n] ".format(name))
+  
+
+  if yOrN[0].lower() == "y":
+    dirToRemove = os.path.join(os.getcwd(), 'farg', 'apps', name.lower())
+    print ("Removing " + dirToRemove + "...")
+    shutil.rmtree(dirToRemove)
+  else:
+    print ("Cancelling...")
