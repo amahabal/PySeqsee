@@ -1,0 +1,3 @@
+[console_scripts]
+farg = farg.tools:main
+

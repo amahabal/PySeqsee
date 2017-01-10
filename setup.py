@@ -1,7 +1,6 @@
-from distutils.core import setup
-import os
-import sys
-
+from setuptools import setup
+import os, sys
+    
 def fullsplit(path, result=None):
     """
     Split a pathname into components (the opposite of os.path.join) in a
@@ -65,4 +64,9 @@ setup(
         'Programming Language :: Python',
         'Programming Language :: Python :: 3.1',
    ],
+   entry_points={
+        'console_scripts': [
+            'farg=farg.tools:main',
+        ],
+    },
 )

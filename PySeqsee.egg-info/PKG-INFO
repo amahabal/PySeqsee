@@ -1,0 +1,16 @@
+Metadata-Version: 1.1
+Name: PySeqsee
+Version: 0.2.3a1
+Summary: Python framework for writing programs to solve complex problems not amenable to brute force. The architecture is a descendant of Douglas Hofstadter and Melanie Mitchell's Copycat architecture.
+Home-page: https://github.com/amahabal/PySeqsee
+Author: Abhijit Mahabal
+Author-email: pyseqsee@googlegroups.com
+License: UNKNOWN
+Description: UNKNOWN
+Platform: UNKNOWN
+Classifier: Development Status :: 3 - Alpha
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: GNU General Public License v3 (GPLv3)
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Programming Language :: Python :: 3.1
