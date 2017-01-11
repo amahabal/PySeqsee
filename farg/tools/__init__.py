@@ -16,14 +16,19 @@ def main():
       except Exception:
         args = ""
       run(sys.argv[2], args)
+    elif command == "codelet":
+      appName = sys.argv[2]
+      codeletName = sys.argv[3]
+      addCodelet(appName, codeletName)
     elif command == "remove":
       remove(sys.argv[2])
     elif command == "help":
-      print('Usage: "farg <command> <command arguments>"')
-      print('\tCommands:')
-      print('\tfarg create foo \t creates an app called foo')
-      print('\tfarg run foo <args> \t runs the app foo, with optional arguments')
-      print('\tfarg remove foo \t removes the app foo')
+      print ('Usage: "farg <command> <command arguments>"')
+      print ('\tCommands:')
+      print ('\tfarg create foo \t creates an app called foo')
+      print ('\tfarg run foo <args> \t runs the app foo, with optional arguments')
+      print ('\tfarg codelet foo bar \t adds a codelet named bar to the app foo')
+      print ('\tfarg remove foo \t removes the app foo')
   except Exception:
     print('Command not recognized.  Run farg help to see availiable commands.')
     sys.exit(1)
@@ -55,9 +60,29 @@ def run (appName, args):
     print ('Error: app "{0}" not found'.format(appName))
     print (e)
 
+def addCodelet (appName, codeletName):
+  codeletPath = os.path.join(os.getcwd(), 'farg', 'apps', appName.lower(), 'codelet_families', 'all.py')
+  codeletFile = open(codeletPath, "a+")
+  template = ("\nclass CF_{0}(CodeletFamily):\n"
+              "   '''One line documentation of what codelets of this family do.\n"          
+              "    Documentation describes what it does, what codelets it may create, what things\n"
+              "    it may cause to focus on, and any subspace it may be a part of.\n"
+              "    '''\n"
+              "\n"
+              "    @classmethod\n"
+              "    def Run(self, controller, *, other_arg1, other_arg2):\n"
+              "      '''One line documentation of what codelets of this family do.\n"
+              "\n"
+              "      Run may take extra arguments (such as other_arg1 above). The extra arguments\n"
+              "      will be passed by name only. These are set in the constructor of the codelet.\n"
+              "      '''\n"
+              "      #TODO: Write out what this codelet does\n").format(codeletName)
+  codeletFile.write(template)
+  print ("Now edit " + codeletPath + " to describe what the codelet does.")
+  
 def remove(appName):
   yOrN = input("Are you sure you want to remove {}? This cannot be undone. [y/n] ".format(appName))
-
+  dirToRemove = os.path.join(os.getcwd(), 'farg', 'apps', appName.lower().replace(" ", ""))
   if yOrN[0].lower() == "y":
     dirToRemove = os.path.join(os.getcwd(), 'farg', 'apps', appName.lower())
     print ("Removing " + dirToRemove + "...")
