@@ -70,7 +70,7 @@ def addCodelet (appName, codeletName):
               "    '''\n"
               "\n"
               "    @classmethod\n"
-              "    def Run(self, controller, *, other_arg1, other_arg2):\n"
+              "    def Run(cls, controller, *):\n"
               "      '''One line documentation of what codelets of this family do.\n"
               "\n"
               "      Run may take extra arguments (such as other_arg1 above). The extra arguments\n"
