@@ -32,9 +32,7 @@ class FARGApp(Skeleton):
   Create an empty FARG application.
   """
   src = os.path.join(os.path.realpath(os.path.curdir), 'data', 'pyseqsee_app_template')
-  if os.path.exists(src):
-    print("Using templates in ", src)
-  else:
+  if not os.path.exists(src):
     print("Unable to locate templates in ", src)
     src = os.path.join(sys.prefix, 'data', 'pyseqsee_app_template')
     if os.path.exists(src):
