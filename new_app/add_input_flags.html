@@ -1,0 +1,176 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Adding flags to specify inputs &#8212; PySeqsee 0.2.3a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.3a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Update Workspace" href="update_workspace.html" />
+    <link rel="prev" title="How to create a new application" href="create_new_app.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="update_workspace.html" title="Update Workspace"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="create_new_app.html" title="How to create a new application"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" accesskey="U">Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Adding flags to specify inputs</a><ul>
+<li><a class="reference internal" href="#updating-farg-apps-bongard-run-bongard-py">Updating farg/apps/bongard/run_bongard.py</a></li>
+<li><a class="reference internal" href="#sanity-checking-the-flags">Sanity checking the flags</a></li>
+<li><a class="reference internal" href="#accessing-flags-from-other-files">Accessing flags from other files</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="create_new_app.html"
+                        title="previous chapter">How to create a new application</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="update_workspace.html"
+                        title="next chapter">Update Workspace</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="adding-flags-to-specify-inputs">
+<h1>Adding flags to specify inputs<a class="headerlink" href="#adding-flags-to-specify-inputs" title="Permalink to this headline">¶</a></h1>
+<p>We need a way to tell the app what the two sets of items are. One possible invocation we can have is:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">farg</span> <span class="n">run</span> <span class="n">bongard</span> <span class="o">--</span><span class="n">left</span> <span class="mi">1</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span> <span class="o">--</span> <span class="n">right</span> <span class="mi">2</span> <span class="mi">4</span> <span class="mi">6</span> <span class="mi">8</span>
+</pre></div>
+</div>
+<p>This is what we will now enable.</p>
+<div class="section" id="updating-farg-apps-bongard-run-bongard-py">
+<h2>Updating farg/apps/bongard/run_bongard.py<a class="headerlink" href="#updating-farg-apps-bongard-run-bongard-py" title="Permalink to this headline">¶</a></h2>
+<p>The file run_bongard.py has two flags already present: &#8216;&#8211;input&#8217; and &#8216;&#8211;expected_output&#8217;. We will
+replace the first of these with the two flags we want:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">bongard_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--left&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+<span class="n">bongard_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--right&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The &#8216;add_argument&#8217; method is from the argparse module. &#8216;type=int&#8217; tells the argument parser to expect
+integers, and the &#8216;nargs=*&#8217; tells it that there are arbitrarily many of these.</p>
+</div>
+<div class="section" id="sanity-checking-the-flags">
+<h2>Sanity checking the flags<a class="headerlink" href="#sanity-checking-the-flags" title="Permalink to this headline">¶</a></h2>
+<p>For this app, it makes no sense for the two sets to overlap: we are looking for an explanation that
+applies to all the left elements and to none of the right elements. We will check for this in the
+&#8216;ProcessCustomFlags&#8217; method in &#8216;run_bongard.py&#8217;, which is currently empty:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BongardMain</span><span class="p">(</span><span class="n">Main</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">ProcessCustomFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">overlap</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">left</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">overlap</span><span class="p">:</span>
+      <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;It makes no sense for the --left and --right to share elements as they do here: &quot;</span> <span class="o">+</span>
+               <span class="nb">str</span><span class="p">(</span><span class="n">overlap</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>In this function, we could have changed the flags in some way if we needed to, or even manufactured
+&#8220;synthetic&#8221; flags as needed (by putting them in self.flags).</p>
+</div>
+<div class="section" id="accessing-flags-from-other-files">
+<h2>Accessing flags from other files<a class="headerlink" href="#accessing-flags-from-other-files" title="Permalink to this headline">¶</a></h2>
+<p>These flags will be needed in other parts of the app. In any file needing them, add the following
+lines:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">farg_flags</span>
+
+<span class="c1"># later...</span>
+<span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">left</span>
+</pre></div>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="update_workspace.html" title="Update Workspace"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="create_new_app.html" title="How to create a new application"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" >Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jan 10, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

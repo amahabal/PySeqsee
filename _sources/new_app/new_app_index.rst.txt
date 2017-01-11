@@ -43,7 +43,10 @@ As an illustration, consider this::
 For our current purposes, we will stick to using numbers, merely any of these ideas could of
 course be sneaked into that domain as well.
 
-The Bongard domain is a great place to use FARG concepts.  In this situation, there is no "right" answer, all that matters is that an answer can be given with an intelligent reason.  Because of this, using a typical brute force pattern finder would not capture the fluidity of the problem.  Using FARG concepts like the parallel terraced scan embrace the open-ended nature of the problem.
+The Bongard domain is a great place to use FARG concepts.  In this situation, there is no "right"
+answer, all that matters is that an answer can be given with an intelligent reason.  Because of this,
+using a typical brute force pattern finder would not capture the fluidity of the problem.  Using FARG
+concepts like the parallel terraced scan embrace the open-ended nature of the problem.
 
 Creating the app's skeleton
 --------------------------------
@@ -52,3 +55,6 @@ Creating the app's skeleton
    :maxdepth: 1
 
    create_new_app
+   add_input_flags
+   update_workspace
+   update_gui

@@ -1,0 +1,186 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Update Workspace &#8212; PySeqsee 0.2.3a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.3a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Update the GUI" href="update_gui.html" />
+    <link rel="prev" title="Adding flags to specify inputs" href="add_input_flags.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="update_gui.html" title="Update the GUI"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="add_input_flags.html" title="Adding flags to specify inputs"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" accesskey="U">Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Update Workspace</a></li>
+<li><a class="reference internal" href="#update-controller">Update Controller</a></li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="add_input_flags.html"
+                        title="previous chapter">Adding flags to specify inputs</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="update_gui.html"
+                        title="next chapter">Update the GUI</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="update-workspace">
+<h1>Update Workspace<a class="headerlink" href="#update-workspace" title="Permalink to this headline">¶</a></h1>
+<p>The workspace is the &#8220;working memory&#8221; of the app, and we will need to update it to contain our two
+sets. Let&#8217;s update farg/apps/bongard/workspace.py.</p>
+<p>First, we will create a class that will hold our numbers from each set. We will later extend this
+class significantly (and add super classes that enable this to have categories, be in the stream, be
+part of the long-term memory, and so forth), but for now keep it simple:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">IntegerObject</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Holds one item in either set, along with any book-keeping information.&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">=</span> <span class="n">magnitude</span>
+</pre></div>
+</div>
+<p>The BongardWorkspace class there is nearly empty. Let the constructor know that we will have a left
+set and a right set. For convenience, we will keep these lists rather than sets:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BongardWorkspace</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">left_items</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">right_items</span> <span class="o">=</span> <span class="p">[]</span>
+</pre></div>
+</div>
+<p>Finally, we will add a method to set these values:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BongardWorkspace</span><span class="p">:</span>
+  <span class="k">def</span> <span class="nf">SetItems</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">left_magnitudes</span><span class="p">,</span> <span class="n">right_magnitudes</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">magnitude</span> <span class="ow">in</span> <span class="n">left_magnitudes</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">left_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">IntegerObject</span><span class="p">(</span><span class="n">magnitude</span><span class="p">))</span>
+    <span class="k">for</span> <span class="n">magnitude</span> <span class="ow">in</span> <span class="n">right_magnitudes</span><span class="p">:</span>
+      <span class="bp">self</span><span class="o">.</span><span class="n">right_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">IntegerObject</span><span class="p">(</span><span class="n">magnitude</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="update-controller">
+<h1>Update Controller<a class="headerlink" href="#update-controller" title="Permalink to this headline">¶</a></h1>
+<p>The Workspace is owned by a controller (which also owns the other resources such as the stream), and
+the controller is the one that sets up the workspace initially. So we should update it in the file
+farg/apps/bongard/controller.py.</p>
+<p>This is how the BongardController class currently looks:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BongardController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Controller for Bongard.&quot;&quot;&quot;</span>
+  <span class="c1"># EDIT-ME: possibly set up routine_codelets_to_add.</span>
+  <span class="n">workspace_class</span> <span class="o">=</span> <span class="n">BongardWorkspace</span>
+  <span class="n">ltm_name</span> <span class="o">=</span> <span class="n">kLTMName</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">Controller</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>We will make a couple of changes for now. First, we will make the flags accessible from this file:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">farg_flags</span>
+</pre></div>
+</div>
+<p>And we will update the workspace with the relevant inputs:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BongardController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span>
+    <span class="n">Controller</span><span class="o">.</span><span class="n">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">)</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">workspace</span><span class="o">.</span><span class="n">SetItems</span><span class="p">(</span><span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">left</span><span class="p">,</span> <span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="update_gui.html" title="Update the GUI"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="add_input_flags.html" title="Adding flags to specify inputs"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" >Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jan 10, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
