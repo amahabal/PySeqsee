@@ -17,10 +17,10 @@ Change to the directory where you want to put PySeqsee and type::
   cd PySeqsee
   sudo python3 setup.py install
 
-This will create a directory called PySeqsee, and install the PySeqsee command line tool. To test that everything works,
+This will create a directory called PySeqsee, and install the farg command line tool. To test that everything works,
 you can type::
 
-  /usr/bin/python3 -m farg.apps.seqsee.run_seqsee --sequence="2 3 5 7 11"
+  farg run seqsee --sequence 2 3 5 7 11
 
 On Windows
 --------------
