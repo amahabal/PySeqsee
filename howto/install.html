@@ -116,12 +116,13 @@ at <cite>/usr/bin/python3</cite>).</li>
 <h2>On Linux (or other Unix-like system)<a class="headerlink" href="#on-linux-or-other-unix-like-system" title="Permalink to this headline">¶</a></h2>
 <p>Change to the directory where you want to put PySeqsee and type:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">git</span> <span class="n">clone</span> <span class="n">https</span><span class="p">:</span><span class="o">//</span><span class="n">github</span><span class="o">.</span><span class="n">com</span><span class="o">/</span><span class="n">amahabal</span><span class="o">/</span><span class="n">PySeqsee</span><span class="o">.</span><span class="n">git</span>
+<span class="n">cd</span> <span class="n">PySeqsee</span>
+<span class="n">sudo</span> <span class="n">python3</span> <span class="n">setup</span><span class="o">.</span><span class="n">py</span> <span class="n">install</span>
 </pre></div>
 </div>
-<p>This will create a directory called PySeqsee. To test that everything works,
+<p>This will create a directory called PySeqsee, and install the farg command line tool. To test that everything works,
 you can type:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">cd</span> <span class="n">PySeqsee</span>
-<span class="o">/</span><span class="n">usr</span><span class="o">/</span><span class="nb">bin</span><span class="o">/</span><span class="n">python3</span> <span class="o">-</span><span class="n">m</span> <span class="n">farg</span><span class="o">.</span><span class="n">apps</span><span class="o">.</span><span class="n">seqsee</span><span class="o">.</span><span class="n">run_seqsee</span> <span class="o">--</span><span class="n">sequence</span><span class="o">=</span><span class="s2">&quot;2 3 5 7 11&quot;</span>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">farg</span> <span class="n">run</span> <span class="n">seqsee</span> <span class="o">--</span><span class="n">sequence</span> <span class="mi">2</span> <span class="mi">3</span> <span class="mi">5</span> <span class="mi">7</span> <span class="mi">11</span>
 </pre></div>
 </div>
 </div>
@@ -194,7 +195,7 @@ PYTHONPATH. On Linux, you may need to run:</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 09, 2017.
+      Last updated on Jan 10, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

@@ -92,7 +92,7 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 
-<div class="viewcode-block" id="StoppingConditionNotFound"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.stopping_conditions.StoppingConditionNotFound">[docs]</a><span class="k">class</span> <span class="nc">StoppingConditionNotFound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
+<div class="viewcode-block" id="StoppingConditionNotFound"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.main.StoppingConditionNotFound">[docs]</a><span class="k">class</span> <span class="nc">StoppingConditionNotFound</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Raised when requested stopping condition has not been registered.&quot;&quot;&quot;</span>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">):</span>
@@ -104,14 +104,14 @@
     <span class="k">return</span> <span class="s1">&#39;No stopping condition registered for </span><span class="si">%s</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">name</span></div>
 
 
-<div class="viewcode-block" id="StoppingConditions"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.stopping_conditions.StoppingConditions">[docs]</a><span class="k">class</span> <span class="nc">StoppingConditions</span><span class="p">:</span>  <span class="c1"># No __init__. pylint:disable=W0232</span>
+<div class="viewcode-block" id="StoppingConditions"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.main.StoppingConditions">[docs]</a><span class="k">class</span> <span class="nc">StoppingConditions</span><span class="p">:</span>  <span class="c1"># No __init__. pylint:disable=W0232</span>
   <span class="sd">&quot;&quot;&quot;Manage the set of stopping conditions.&quot;&quot;&quot;</span>
 
   <span class="c1">#: The known set of stopping conditions.</span>
   <span class="n">conditions</span> <span class="o">=</span> <span class="nb">dict</span><span class="p">()</span>  <span class="c1"># Not a constant. pylint: disable=C6409</span>
 
   <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="StoppingConditions.RegisterStoppingCondition"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.stopping_conditions.StoppingConditions.RegisterStoppingCondition">[docs]</a>  <span class="k">def</span> <span class="nf">RegisterStoppingCondition</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">condition_name</span><span class="p">,</span> <span class="n">condition_fn</span><span class="p">):</span>
+<div class="viewcode-block" id="StoppingConditions.RegisterStoppingCondition"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.main.StoppingConditions.RegisterStoppingCondition">[docs]</a>  <span class="k">def</span> <span class="nf">RegisterStoppingCondition</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">condition_name</span><span class="p">,</span> <span class="n">condition_fn</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Remember a new stopping condition.</span>
 
 <span class="sd">    Args:</span>
@@ -121,7 +121,7 @@
     <span class="n">cls</span><span class="o">.</span><span class="n">conditions</span><span class="p">[</span><span class="n">condition_name</span><span class="p">]</span> <span class="o">=</span> <span class="n">condition_fn</span></div>
 
   <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="StoppingConditions.GetStoppingCondition"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.stopping_conditions.StoppingConditions.GetStoppingCondition">[docs]</a>  <span class="k">def</span> <span class="nf">GetStoppingCondition</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">condition_name</span><span class="p">):</span>
+<div class="viewcode-block" id="StoppingConditions.GetStoppingCondition"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.main.StoppingConditions.GetStoppingCondition">[docs]</a>  <span class="k">def</span> <span class="nf">GetStoppingCondition</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">condition_name</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns a stopping condition function given name.</span>
 
 <span class="sd">    Args:</span>
@@ -139,12 +139,12 @@
       <span class="k">raise</span> <span class="n">StoppingConditionNotFound</span><span class="p">(</span><span class="n">condition_name</span><span class="p">)</span></div>
 
   <span class="nd">@classmethod</span>
-<div class="viewcode-block" id="StoppingConditions.StoppingConditionsList"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.stopping_conditions.StoppingConditions.StoppingConditionsList">[docs]</a>  <span class="k">def</span> <span class="nf">StoppingConditionsList</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
+<div class="viewcode-block" id="StoppingConditions.StoppingConditionsList"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.main.StoppingConditions.StoppingConditionsList">[docs]</a>  <span class="k">def</span> <span class="nf">StoppingConditionsList</span><span class="p">(</span><span class="n">cls</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;Returns list of known stopping conditions.&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="n">cls</span><span class="o">.</span><span class="n">conditions</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span></div></div>
 
 
-<div class="viewcode-block" id="RegisterStoppingCondition"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.stopping_conditions.RegisterStoppingCondition">[docs]</a><span class="k">def</span> <span class="nf">RegisterStoppingCondition</span><span class="p">(</span><span class="n">stopping_conditions_class</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">condition_name</span><span class="p">):</span>
+<div class="viewcode-block" id="RegisterStoppingCondition"><a class="viewcode-back" href="../../../developer/sundry.html#farg.core.main.RegisterStoppingCondition">[docs]</a><span class="k">def</span> <span class="nf">RegisterStoppingCondition</span><span class="p">(</span><span class="n">stopping_conditions_class</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">condition_name</span><span class="p">):</span>
   <span class="sd">&quot;&quot;&quot;Decorator for registering a stopping condition on a class.</span>
 
 <span class="sd">  Args:</span>
@@ -190,7 +190,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 09, 2017.
+      Last updated on Jan 10, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

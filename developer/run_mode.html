@@ -65,12 +65,12 @@
   <ul>
 <li><a class="reference internal" href="#">Run-mode</a><ul>
 <li><a class="reference internal" href="#module-farg.core.run_mode">Run Mode</a></li>
-<li><a class="reference internal" href="#run-mode-batch">Run Mode &#8212; Batch</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.batch">Run Mode &#8212; Batch</a></li>
 <li><a class="reference internal" href="#module-farg.core.run_mode.gui">Run Mode &#8212; GUI</a></li>
-<li><a class="reference internal" href="#run-mode-non-interactive">Run Mode &#8212; Non Interactive</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.non_interactive">Run Mode &#8212; Non Interactive</a></li>
 <li><a class="reference internal" href="#module-farg.core.run_mode.run_mode">Run Mode &#8212; Run Mode</a></li>
-<li><a class="reference internal" href="#run-mode-single">Run Mode &#8212; Single</a></li>
-<li><a class="reference internal" href="#run-mode-sxs">Run Mode &#8212; SxS</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.single">Run Mode &#8212; Single</a></li>
+<li><a class="reference internal" href="#module-farg.core.run_mode.sxs">Run Mode &#8212; SxS</a></li>
 </ul>
 </li>
 </ul>
@@ -104,8 +104,58 @@
 <div class="section" id="module-farg.core.run_mode">
 <span id="id1"></span><h2>Run Mode<a class="headerlink" href="#module-farg.core.run_mode" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="run-mode-batch">
-<h2>Run Mode &#8212; Batch<a class="headerlink" href="#run-mode-batch" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.run_mode.batch">
+<span id="run-mode-batch"></span><h2>Run Mode &#8212; Batch<a class="headerlink" href="#module-farg.core.run_mode.batch" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes">
+<em class="property">class </em><code class="descclassname">farg.core.run_mode.batch.</code><code class="descname">BatchRunMultipleTimes</code><span class="sig-paren">(</span><em>*</em>, <em>input_spec</em>, <em>gui</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiple-runner specialized for batch.</p>
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.GetPreviousSavedFilename">
+<code class="descname">GetPreviousSavedFilename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.GetPreviousSavedFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.GetPreviousSavedFilename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns the filename from which to read stats of previous run, if any.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.GetSaveFilename">
+<code class="descname">GetSaveFilename</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.GetSaveFilename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.GetSaveFilename" title="Permalink to this definition">¶</a></dt>
+<dd><p>Filename to store current stats in.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.GetSubprocessArguments">
+<code class="descname">GetSubprocessArguments</code><span class="sig-paren">(</span><em>one_input_spec_arguments</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.GetSubprocessArguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.GetSubprocessArguments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.LoadPreviousStats">
+<code class="descname">LoadPreviousStats</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.LoadPreviousStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.LoadPreviousStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Load stats from previous run, if any.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.RunAll">
+<code class="descname">RunAll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.RunAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.RunAll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.batch.BatchRunMultipleTimes.SaveCurrent">
+<code class="descname">SaveCurrent</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#BatchRunMultipleTimes.SaveCurrent"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.BatchRunMultipleTimes.SaveCurrent" title="Permalink to this definition">¶</a></dt>
+<dd><p>Save current stats for future comparison.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.run_mode.batch.RunModeBatch">
+<em class="property">class </em><code class="descclassname">farg.core.run_mode.batch.</code><code class="descname">RunModeBatch</code><span class="sig-paren">(</span><em>*</em>, <em>controller_class</em>, <em>input_spec</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#RunModeBatch"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.RunModeBatch" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.run_mode.batch.RunModeBatch.Run">
+<code class="descname">Run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/batch.html#RunModeBatch.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.batch.RunModeBatch.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 <div class="section" id="module-farg.core.run_mode.gui">
 <span id="run-mode-gui"></span><h2>Run Mode &#8212; GUI<a class="headerlink" href="#module-farg.core.run_mode.gui" title="Permalink to this headline">¶</a></h2>
@@ -125,8 +175,274 @@
 </dd></dl>
 
 </div>
-<div class="section" id="run-mode-non-interactive">
-<h2>Run Mode &#8212; Non Interactive<a class="headerlink" href="#run-mode-non-interactive" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.run_mode.non_interactive">
+<span id="run-mode-non-interactive"></span><h2>Run Mode &#8212; Non Interactive<a class="headerlink" href="#module-farg.core.run_mode.non_interactive" title="Permalink to this headline">¶</a></h2>
+<p>Sets up GUI displaying statistics for batch or SxS modes.</p>
+<p>Sets up a window where all inputs and their progress may be tracked.</p>
+<p>The inputs are shown in the left panel, and possibly color-coded according to whether the
+current run is progressing better than the prior run. For SxS, &#8220;prior run&#8221; is the base side,
+whereas in the batch mode it is the last time the batch mode was run.</p>
+<dl class="class">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI">
+<em class="property">class </em><code class="descclassname">farg.core.run_mode.non_interactive.</code><code class="descname">MultipleRunGUI</code><span class="sig-paren">(</span><em>*</em>, <em>multiple_runner_class</em>, <em>input_spec</em>, <em>left_name</em>, <em>right_name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI" title="Permalink to this definition">¶</a></dt>
+<dd><p>GUI for batch and SxS modes for displaying the stats.</p>
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.CreateHistogram">
+<code class="descname">CreateHistogram</code><span class="sig-paren">(</span><em>x_offset</em>, <em>y_offset</em>, <em>stats</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.CreateHistogram"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.CreateHistogram" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create histogram of codelet run times.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_offset</strong> &#8211; X-offset for Pie.</li>
+<li><strong>y_offset</strong> &#8211; Y-offset for Pie.</li>
+<li><strong>stats</strong> &#8211; Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><code class="xref py py-class docutils literal"><span class="pre">RunStats</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.CreatePieChart">
+<code class="descname">CreatePieChart</code><span class="sig-paren">(</span><em>x_offset</em>, <em>y_offset</em>, <em>stats</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.CreatePieChart"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.CreatePieChart" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create PieChart.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_offset</strong> &#8211; X-offset for Pie.</li>
+<li><strong>y_offset</strong> &#8211; Y-offset for Pie.</li>
+<li><strong>stats</strong> &#8211; Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><code class="xref py py-class docutils literal"><span class="pre">RunStats</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayBasicStats">
+<code class="descname">DisplayBasicStats</code><span class="sig-paren">(</span><em>x_offset</em>, <em>y_offset</em>, <em>stats</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.DisplayBasicStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayBasicStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display basic stats (mean run time, success rate, etc.) for one side.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x_offset</strong> &#8211; X-offset for Pie.</li>
+<li><strong>y_offset</strong> &#8211; Y-offset for Pie.</li>
+<li><strong>stats</strong> &#8211; Stats to display. Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><code class="xref py py-class docutils literal"><span class="pre">RunStats</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayDetails">
+<code class="descname">DisplayDetails</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.DisplayDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>Show detailed statistics of one input.</p>
+<p>Details are shown for whatever input is present in self.display_details_for.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayInferenceStats">
+<code class="descname">DisplayInferenceStats</code><span class="sig-paren">(</span><em>stats</em>, <em>for_input</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.DisplayInferenceStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayInferenceStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display inference stats: Is right hand side better than left?</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>stats</strong> &#8211; Instance of <a class="reference internal" href="sundry.html#farg.core.run_stats.AllStats" title="farg.core.run_stats.AllStats"><code class="xref py py-class docutils literal"><span class="pre">AllStats</span></code></a>.</li>
+<li><strong>for_input</strong> &#8211; What input string are we comparing the two sides?</li>
+<li><strong>y</strong> &#8211; Y-offset of top of this display.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayOneSideStats">
+<code class="descname">DisplayOneSideStats</code><span class="sig-paren">(</span><em>*</em>, <em>y</em>, <em>label</em>, <em>stats</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.DisplayOneSideStats"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.DisplayOneSideStats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Display stats for one of the to sides for one input.</p>
+<p>y: Y-offset where to display.
+label: Name of the side. Will probably be one of &#8220;previous&#8221;, &#8220;current&#8221;, &#8220;base&#8221;, or
+&#8220;expt&#8221;.
+stats: Statistics for this run. This is a <a class="reference internal" href="sundry.html#farg.core.run_stats.RunStats" title="farg.core.run_stats.RunStats"><code class="xref py py-class docutils literal"><span class="pre">farg.core.run_stats.RunStats</span></code></a>
+object.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.KickOffRun">
+<code class="descname">KickOffRun</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.KickOffRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.KickOffRun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Start run if it has not already started.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.Quit">
+<code class="descname">Quit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.Quit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.Quit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Called when the user has indicated that the application should Quit.</p>
+<p>Waits for any ongoing run to finish, and then destroys windows.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.Refresher">
+<code class="descname">Refresher</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.Refresher"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.Refresher" title="Permalink to this definition">¶</a></dt>
+<dd><p>Repeatedly refreshes the display.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.SelectForDisplay">
+<code class="descname">SelectForDisplay</code><span class="sig-paren">(</span><em>_event</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.SelectForDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.SelectForDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Event-handler called when an input was selected for detailed display.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.UpdateDisplay">
+<code class="descname">UpdateDisplay</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#MultipleRunGUI.UpdateDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.UpdateDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Displays the Stats.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.canvas">
+<code class="descname">canvas</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.canvas" title="Permalink to this definition">¶</a></dt>
+<dd><p>Canvas on right for details</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.display_details_for">
+<code class="descname">display_details_for</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.display_details_for" title="Permalink to this definition">¶</a></dt>
+<dd><p>which input are we displaying the details of?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.frame">
+<code class="descname">frame</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.frame" title="Permalink to this definition">¶</a></dt>
+<dd><p>listbox on left listing inputs.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.input_spec">
+<code class="descname">input_spec</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>The input_spec is an iterable of
+<a class="reference internal" href="sundry.html#farg.core.read_input_spec.SpecificationForOneRun" title="farg.core.read_input_spec.SpecificationForOneRun"><code class="xref py py-class docutils literal"><span class="pre">farg.core.read_input_spec.SpecificationForOneRun</span></code></a>.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.multiple_runner_class">
+<code class="descname">multiple_runner_class</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.multiple_runner_class" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class responsible for the actual running multiple times.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.mw">
+<code class="descname">mw</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.mw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Main window</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.quitting">
+<code class="descname">quitting</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.quitting" title="Permalink to this definition">¶</a></dt>
+<dd><p>Are we in the process of quitting?</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.run_started">
+<code class="descname">run_started</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.run_started" title="Permalink to this definition">¶</a></dt>
+<dd><p>Has a run started? Used to ensure single run.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.stats">
+<code class="descname">stats</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.stats" title="Permalink to this definition">¶</a></dt>
+<dd><p>Statistics thus far, grouped by input.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.MultipleRunGUI.thread">
+<code class="descname">thread</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.MultipleRunGUI.thread" title="Permalink to this definition">¶</a></dt>
+<dd><p>Thread used for running</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.run_mode.non_interactive.RunModeNonInteractive">
+<em class="property">class </em><code class="descclassname">farg.core.run_mode.non_interactive.</code><code class="descname">RunModeNonInteractive</code><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunModeNonInteractive"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.RunModeNonInteractive" title="Permalink to this definition">¶</a></dt>
+<dd><p>The RunMode that will start a GUI and start running the app multiple times.</p>
+<dl class="classmethod">
+<dt id="farg.core.run_mode.non_interactive.RunModeNonInteractive.DoSingleRun">
+<em class="property">classmethod </em><code class="descname">DoSingleRun</code><span class="sig-paren">(</span><em>cmdline_arguments_list</em>, <em>extra_arguments=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunModeNonInteractive.DoSingleRun"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.RunModeNonInteractive.DoSingleRun" title="Permalink to this definition">¶</a></dt>
+<dd><p>Execute the application once.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cmdline_arguments_dict</strong> &#8211; Dictionary of arguments to pass process.</li>
+<li><strong>extra_arguments</strong> &#8211; extra arguments that will be added, too.</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first last">A string, representing output status and number of codelets.</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.run_mode.non_interactive.RunMultipleTimes">
+<em class="property">class </em><code class="descclassname">farg.core.run_mode.non_interactive.</code><code class="descname">RunMultipleTimes</code><span class="sig-paren">(</span><em>*</em>, <em>input_spec</em>, <em>gui</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunMultipleTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.RunMultipleTimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Class to run the application several times on a set of inputs.</p>
+<p>This is the thread that does all the work (except the UI) for batch and SxS modes.</p>
+<p>It keeps a pointer to the GUI and updates the stats (owned by the UI).</p>
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.RunMultipleTimes.RunAll">
+<code class="descname">RunAll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunMultipleTimes.RunAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.RunMultipleTimes.RunAll" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run all the inputs as many times as appropriate.</p>
+<p>Should be over-ridden by subclasses. SxS and Batch would differ slightly here.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.RunMultipleTimes.gui">
+<code class="descname">gui</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.RunMultipleTimes.gui" title="Permalink to this definition">¶</a></dt>
+<dd><p>Points to the GUI controlling the run. The GUI maintains the statistics that this
+class&#8217;s actions update.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.run_mode.non_interactive.RunMultipleTimes.input_spec">
+<code class="descname">input_spec</code><em class="property"> = None</em><a class="headerlink" href="#farg.core.run_mode.non_interactive.RunMultipleTimes.input_spec" title="Permalink to this definition">¶</a></dt>
+<dd><p>The input_spec is an iterable of
+<a class="reference internal" href="sundry.html#farg.core.read_input_spec.SpecificationForOneRun" title="farg.core.read_input_spec.SpecificationForOneRun"><code class="xref py py-class docutils literal"><span class="pre">farg.core.read_input_spec.SpecificationForOneRun</span></code></a>.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.non_interactive.RunMultipleTimes.run">
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#RunMultipleTimes.run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.RunMultipleTimes.run" title="Permalink to this definition">¶</a></dt>
+<dd><p>The method of the thread class that is started by Start().</p>
+<p>Merely delegates to RunAll, which should be overriden by subclass.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="farg.core.run_mode.non_interactive.StateToColor">
+<code class="descclassname">farg.core.run_mode.non_interactive.</code><code class="descname">StateToColor</code><span class="sig-paren">(</span><em>state</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/non_interactive.html#StateToColor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.non_interactive.StateToColor" title="Permalink to this definition">¶</a></dt>
+<dd><p>Convert state string to color for PieChart.</p>
+</dd></dl>
+
 </div>
 <div class="section" id="module-farg.core.run_mode.run_mode">
 <span id="run-mode-run-mode"></span><h2>Run Mode &#8212; Run Mode<a class="headerlink" href="#module-farg.core.run_mode.run_mode" title="Permalink to this headline">¶</a></h2>
@@ -138,11 +454,50 @@ forth.</p>
 </dd></dl>
 
 </div>
-<div class="section" id="run-mode-single">
-<h2>Run Mode &#8212; Single<a class="headerlink" href="#run-mode-single" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.run_mode.single">
+<span id="run-mode-single"></span><h2>Run Mode &#8212; Single<a class="headerlink" href="#module-farg.core.run_mode.single" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.single.RunModeSingle">
+<em class="property">class </em><code class="descclassname">farg.core.run_mode.single.</code><code class="descname">RunModeSingle</code><span class="sig-paren">(</span><em>*</em>, <em>controller_class</em>, <em>ui_class</em>, <em>stopping_condition_fn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/single.html#RunModeSingle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.single.RunModeSingle" title="Permalink to this definition">¶</a></dt>
+<dd><p>Run mode for a single run as part of a batch run or a SxS run.</p>
+<p>This class is responsible for running the program once, suppressing its output, and
+producing an easy to parse string.</p>
+<dl class="method">
+<dt id="farg.core.run_mode.single.RunModeSingle.Run">
+<code class="descname">Run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/single.html#RunModeSingle.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.single.RunModeSingle.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="run-mode-sxs">
-<h2>Run Mode &#8212; SxS<a class="headerlink" href="#run-mode-sxs" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.run_mode.sxs">
+<span id="run-mode-sxs"></span><h2>Run Mode &#8212; SxS<a class="headerlink" href="#module-farg.core.run_mode.sxs" title="Permalink to this headline">¶</a></h2>
+<dl class="class">
+<dt id="farg.core.run_mode.sxs.RunModeSxS">
+<em class="property">class </em><code class="descclassname">farg.core.run_mode.sxs.</code><code class="descname">RunModeSxS</code><span class="sig-paren">(</span><em>*</em>, <em>controller_class</em>, <em>input_spec</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#RunModeSxS"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.RunModeSxS" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.run_mode.sxs.RunModeSxS.Run">
+<code class="descname">Run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#RunModeSxS.Run"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.RunModeSxS.Run" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt id="farg.core.run_mode.sxs.SxSRunMultipleTimes">
+<em class="property">class </em><code class="descclassname">farg.core.run_mode.sxs.</code><code class="descname">SxSRunMultipleTimes</code><span class="sig-paren">(</span><em>*</em>, <em>input_spec</em>, <em>gui</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#SxSRunMultipleTimes"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.SxSRunMultipleTimes" title="Permalink to this definition">¶</a></dt>
+<dd><p>Multiple-runner specialized for SxS.</p>
+<dl class="method">
+<dt id="farg.core.run_mode.sxs.SxSRunMultipleTimes.GetSubprocessArguments">
+<code class="descname">GetSubprocessArguments</code><span class="sig-paren">(</span><em>one_input_spec_arguments</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#SxSRunMultipleTimes.GetSubprocessArguments"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.SxSRunMultipleTimes.GetSubprocessArguments" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.run_mode.sxs.SxSRunMultipleTimes.RunAll">
+<code class="descname">RunAll</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/run_mode/sxs.html#SxSRunMultipleTimes.RunAll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.run_mode.sxs.SxSRunMultipleTimes.RunAll" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
@@ -173,7 +528,7 @@ forth.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 09, 2017.
+      Last updated on Jan 10, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
