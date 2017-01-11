@@ -77,7 +77,7 @@ class FARGApp(Skeleton):
     Skeleton.run(self, new_dst_dir, run_dry)
     print("\n==============================================\n",
           "\nYou may now run the app (which as yet does nothing) like so:\n\n",
-          "  python3 -m farg.apps.%s.run_%s\n\n" % (dst_dir, dst_dir),
+          "farg run %s\n\n" % dst_dir,
           "What next? That documentation is currently sketchy, but is being updated.")
 
 if __name__ == '__main__':
