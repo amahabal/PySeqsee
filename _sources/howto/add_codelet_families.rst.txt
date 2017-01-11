@@ -1,14 +1,27 @@
 How to add a new type of codelet
 ==================================
 
-To define a new type of codelet, a new Codelet Family needs to be created::
+To define a new type of codelet, a new Codelet Family needs to be created.  To do this, run::
 
-  from farg.core.codelet import CodeletFamily
+  farg codelet <application name> <codelet name, ex NewCodeletFamily>
+
+This will create a new codelet that looks like this::
+  
   class CF_NewCodeletFamily(CodeletFamily):
-    @classmethod
-    def Run(cls, controller):
-      # Do something useful.
+   '''One line documentation of what codelets of this family do.
+    Documentation describes what it does, what codelets it may create, what things
+    it may cause to focus on, and any subspace it may be a part of.
+    '''
 
+    @classmethod
+    def Run(cls, controller, *):
+      '''One line documentation of what codelets of this family do.
+
+      Run may take extra arguments (such as other_arg1 above). The extra arguments
+      will be passed by name only. These are set in the constructor of the codelet.
+      '''
+      #TODO: Write out what this codelet does
+      
 The codelet family above has codelets that take no arguments. To create such
 codelets, you will do the following::
 
@@ -48,4 +61,4 @@ Above, 'foo' is required, but 'bar' is optional, defaulting to 5.
 Where to add code
 -------------------
 
-The convention is to add code in the codelet_families directory under the app.
+The convention is to add code in the codelet_families directory under the app.  This is automatically done when using the farg codelet command.

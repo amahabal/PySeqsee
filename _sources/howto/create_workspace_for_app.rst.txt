@@ -15,7 +15,7 @@ Initializing the workspace
 
 When you start the cat application using::
 
-  python3 -m farg.apps.cat.run_cat <flags>
+  farg run cat <flags>
 
 the flags can be used to specify the input. The generated app has a flag called
 '--input' and a flag called '--expected_output' for use in automated tests. You

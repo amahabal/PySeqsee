@@ -95,12 +95,25 @@
             
   <div class="section" id="how-to-add-a-new-type-of-codelet">
 <h1>How to add a new type of codelet<a class="headerlink" href="#how-to-add-a-new-type-of-codelet" title="Permalink to this headline">¶</a></h1>
-<p>To define a new type of codelet, a new Codelet Family needs to be created:</p>
-<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">farg.core.codelet</span> <span class="k">import</span> <span class="n">CodeletFamily</span>
-<span class="k">class</span> <span class="nc">CF_NewCodeletFamily</span><span class="p">(</span><span class="n">CodeletFamily</span><span class="p">):</span>
+<p>To define a new type of codelet, a new Codelet Family needs to be created.  To do this, run:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">farg</span> <span class="n">codelet</span> <span class="o">&lt;</span><span class="n">application</span> <span class="n">name</span><span class="o">&gt;</span> <span class="o">&lt;</span><span class="n">codelet</span> <span class="n">name</span><span class="p">,</span> <span class="n">ex</span> <span class="n">NewCodeletFamily</span><span class="o">&gt;</span>
+</pre></div>
+</div>
+<p>This will create a new codelet that looks like this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CF_NewCodeletFamily</span><span class="p">(</span><span class="n">CodeletFamily</span><span class="p">):</span>
+ <span class="sd">&#39;&#39;&#39;One line documentation of what codelets of this family do.</span>
+<span class="sd">  Documentation describes what it does, what codelets it may create, what things</span>
+<span class="sd">  it may cause to focus on, and any subspace it may be a part of.</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+
   <span class="nd">@classmethod</span>
-  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
-    <span class="c1"># Do something useful.</span>
+  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="o">*</span><span class="p">):</span>
+    <span class="sd">&#39;&#39;&#39;One line documentation of what codelets of this family do.</span>
+
+<span class="sd">    Run may take extra arguments (such as other_arg1 above). The extra arguments</span>
+<span class="sd">    will be passed by name only. These are set in the constructor of the codelet.</span>
+<span class="sd">    &#39;&#39;&#39;</span>
+    <span class="c1">#TODO: Write out what this codelet does</span>
 </pre></div>
 </div>
 <p>The codelet family above has codelets that take no arguments. To create such
@@ -140,7 +153,7 @@ about the named-only nature of arguments, you could say:</p>
 <p>Above, &#8216;foo&#8217; is required, but &#8216;bar&#8217; is optional, defaulting to 5.</p>
 <div class="section" id="where-to-add-code">
 <h2>Where to add code<a class="headerlink" href="#where-to-add-code" title="Permalink to this headline">¶</a></h2>
-<p>The convention is to add code in the codelet_families directory under the app.</p>
+<p>The convention is to add code in the codelet_families directory under the app.  This is automatically done when using the farg codelet command.</p>
 </div>
 </div>
 
@@ -171,7 +184,7 @@ about the named-only nature of arguments, you could say:</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 10, 2017.
+      Last updated on Jan 11, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

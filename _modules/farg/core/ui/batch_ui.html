@@ -88,7 +88,7 @@
 <span class="kn">from</span> <span class="nn">farg.core.ltm.manager</span> <span class="k">import</span> <span class="n">LTMManager</span>
 <span class="kn">import</span> <span class="nn">farg_flags</span>
 
-<div class="viewcode-block" id="BatchUI"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.main.BatchUI">[docs]</a><span class="k">class</span> <span class="nc">BatchUI</span><span class="p">:</span>
+<div class="viewcode-block" id="BatchUI"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.batch_ui.BatchUI">[docs]</a><span class="k">class</span> <span class="nc">BatchUI</span><span class="p">:</span>
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">controller_class</span><span class="p">,</span> <span class="n">stopping_condition_fn</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">pause_stepping</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">quitting</span> <span class="o">=</span> <span class="kc">False</span>
@@ -98,17 +98,17 @@
                                        <span class="n">stopping_condition</span><span class="o">=</span><span class="n">stopping_condition_fn</span><span class="p">)</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">RegisterQuestionHandlers</span><span class="p">()</span>
 
-<div class="viewcode-block" id="BatchUI.AskQuestion"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.main.BatchUI.AskQuestion">[docs]</a>  <span class="k">def</span> <span class="nf">AskQuestion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">):</span>
+<div class="viewcode-block" id="BatchUI.AskQuestion"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.batch_ui.BatchUI.AskQuestion">[docs]</a>  <span class="k">def</span> <span class="nf">AskQuestion</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">question</span><span class="p">):</span>
     <span class="k">return</span> <span class="n">question</span><span class="o">.</span><span class="n">Ask</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span></div>
 
-<div class="viewcode-block" id="BatchUI.RegisterQuestionHandlers"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.main.BatchUI.RegisterQuestionHandlers">[docs]</a>  <span class="k">def</span> <span class="nf">RegisterQuestionHandlers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BatchUI.RegisterQuestionHandlers"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.batch_ui.BatchUI.RegisterQuestionHandlers">[docs]</a>  <span class="k">def</span> <span class="nf">RegisterQuestionHandlers</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="k">pass</span></div>
 
-<div class="viewcode-block" id="BatchUI.Run"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.main.BatchUI.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<div class="viewcode-block" id="BatchUI.Run"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.batch_ui.BatchUI.Run">[docs]</a>  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">controller</span><span class="o">.</span><span class="n">RunUptoNSteps</span><span class="p">(</span><span class="n">farg_flags</span><span class="o">.</span><span class="n">FargFlags</span><span class="o">.</span><span class="n">max_steps</span><span class="p">)</span>
     <span class="n">LTMManager</span><span class="o">.</span><span class="n">SaveAllOpenLTMS</span><span class="p">()</span></div>
 
-<div class="viewcode-block" id="BatchUI.DisplayMessage"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.main.BatchUI.DisplayMessage">[docs]</a>  <span class="k">def</span> <span class="nf">DisplayMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
+<div class="viewcode-block" id="BatchUI.DisplayMessage"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.ui.batch_ui.BatchUI.DisplayMessage">[docs]</a>  <span class="k">def</span> <span class="nf">DisplayMessage</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
     <span class="k">pass</span></div></div>
 </pre></div>
 
@@ -132,7 +132,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 10, 2017.
+      Last updated on Jan 11, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
