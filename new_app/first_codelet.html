@@ -1,0 +1,177 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Creating the first codelet &#8212; PySeqsee 0.2.3a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.3a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Update the GUI" href="update_gui.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="update_gui.html" title="Update the GUI"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" accesskey="U">Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Creating the first codelet</a><ul>
+<li><a class="reference internal" href="#getting-the-codelet-to-run">Getting the codelet to run</a></li>
+<li><a class="reference internal" href="#run-the-app">Run the app</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="update_gui.html"
+                        title="previous chapter">Update the GUI</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="creating-the-first-codelet">
+<h1>Creating the first codelet<a class="headerlink" href="#creating-the-first-codelet" title="Permalink to this headline">¶</a></h1>
+<p>In the interest of pedagogy, we will cheat. Our first codelet will be a clunky piece of code that
+checks whether the answer &#8220;Odd numbers on left, even on right&#8221; works, and then reports this to the
+user. We wll name this codelet CF_HorribleHack. The prefix &#8216;CF&#8217; stands for &#8220;Codelet Family&#8221;.</p>
+<p>The farg command can be used here:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">farg</span> <span class="n">codelet</span> <span class="n">bongard</span> <span class="n">HorribleHack</span>
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p class="last">The prefix CF is automatically added.</p>
+</div>
+<p>The new class looks thus:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CF_HorribleHack</span><span class="p">(</span><span class="n">CodeletFamily</span><span class="p">):</span>
+  <span class="nd">@classmethod</span>
+  <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">controller</span><span class="p">,</span> <span class="o">*</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Now update it to check for odd/even and just print the answer out:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CF_HorribleHack</span><span class="p">(</span><span class="n">CodeletFamily</span><span class="p">):</span>
+  <span class="sd">&#39;&#39;&#39;Checks if the solution is odd/even.</span>
+
+<span class="sd">     This is here merely for demonstration purposes. See :doc:`new_app/first_codelet` for details.</span>
+<span class="sd">  &#39;&#39;&#39;</span>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">Run</span><span class="p">(</span><span class="n">cls</span><span class="p">,</span> <span class="n">controller</span><span class="p">):</span>
+      <span class="sd">&#39;&#39;&#39;Check if solution is even/odd.&#39;&#39;&#39;</span>
+      <span class="n">workspace</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">workspace</span>
+      <span class="k">if</span> <span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">workspace</span><span class="o">.</span><span class="n">left_items</span><span class="p">)</span> <span class="ow">and</span>
+          <span class="nb">all</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">workspace</span><span class="o">.</span><span class="n">right_items</span><span class="p">)):</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is an odd/even split&quot;</span><span class="p">)</span>
+      <span class="k">else</span><span class="p">:</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I have no idea what this sequence is&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="section" id="getting-the-codelet-to-run">
+<h2>Getting the codelet to run<a class="headerlink" href="#getting-the-codelet-to-run" title="Permalink to this headline">¶</a></h2>
+<p>We will need to tell the controller to run this codelet. Let&#8217;s edit farg/apps/bongard/controller.py.
+We will add the codelet in the init function:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BongardController</span><span class="p">(</span><span class="n">Controller</span><span class="p">):</span>
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">args</span><span class="p">):</span>
+    <span class="c1"># Existing code</span>
+
+    <span class="c1"># Add this at the end.</span>
+    <span class="kn">from</span> <span class="nn">farg.apps.bongard.codelet_families.all</span> <span class="k">import</span> <span class="n">CF_HorribleHack</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">AddCodelet</span><span class="p">(</span><span class="n">family</span><span class="o">=</span><span class="n">CF_HorribleHack</span><span class="p">,</span> <span class="n">urgency</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="run-the-app">
+<h2>Run the app<a class="headerlink" href="#run-the-app" title="Permalink to this headline">¶</a></h2>
+<p>When you run the app now with &#8216;farg run bongard &#8211;left 1 3 7 &#8211;right 2 4 6&#8217;, a GUI shows up with the
+items visible on screen. Pressing &#8216;s&#8217; for &#8216;Step&#8217; at this point runs one codelet, and it will be the
+codelet we just added, which will print an answer to the screen.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="update_gui.html" title="Update the GUI"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" >Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jan 11, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

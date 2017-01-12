@@ -51,6 +51,9 @@ concepts like the parallel terraced scan embrace the open-ended nature of the pr
 Creating the app's skeleton
 --------------------------------
 
+In this phase, we will set up the initial skeleton of the app and get it to a useful point where we
+can have some fun.
+
 .. toctree::
    :maxdepth: 1
 
@@ -58,3 +61,15 @@ Creating the app's skeleton
    add_input_flags
    update_workspace
    update_gui
+
+First Codelets
+------------------
+
+In this phase, we will lay a bit more groundwork. We will make our first codelet, and "solve" our
+first Bongard problem. However, this shall be done in a cognitively implausible way: the goal is to
+demonstrate the pieces, and we will put these to better use in the coming phases.
+
+.. toctree::
+   :maxdepth: 1
+
+   first_codelet
