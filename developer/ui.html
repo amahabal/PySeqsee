@@ -67,13 +67,13 @@
 <li><a class="reference internal" href="#module-farg.core.ui">UI</a></li>
 <li><a class="reference internal" href="#module-farg.core.ui.batch_ui">UI &#8212; Batch UI</a></li>
 <li><a class="reference internal" href="#ui-gui">UI &#8212; GUI</a></li>
-<li><a class="reference internal" href="#ui-gui-central-pane">UI &#8212; GUI &#8212; Central Pane</a></li>
-<li><a class="reference internal" href="#ui-gui-views">UI &#8212; GUI &#8212; Views</a></li>
-<li><a class="reference internal" href="#ui-gui-views-viewport">UI &#8212; GUI &#8212; Views &#8212; Viewport</a></li>
-<li><a class="reference internal" href="#ui-gui-views-list-based">UI &#8212; GUI &#8212; Views  &#8212; List based</a></li>
-<li><a class="reference internal" href="#ui-gui-views-coderack">UI &#8212; GUI &#8212; Views &#8212; Coderack</a></li>
-<li><a class="reference internal" href="#ui-gui-views-ltm">UI &#8212; GUI &#8212; Views &#8212; LTM</a></li>
-<li><a class="reference internal" href="#ui-gui-views-stream">UI &#8212; GUI &#8212; Views &#8212; Stream</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.central_pane">UI &#8212; GUI &#8212; Central Pane</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views">UI &#8212; GUI &#8212; Views</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.viewport">UI &#8212; GUI &#8212; Views &#8212; Viewport</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.list_based_view">UI &#8212; GUI &#8212; Views  &#8212; List based</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.coderack_view">UI &#8212; GUI &#8212; Views &#8212; Coderack</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.ltm_view">UI &#8212; GUI &#8212; Views &#8212; LTM</a></li>
+<li><a class="reference internal" href="#module-farg.core.ui.gui.views.stream_view">UI &#8212; GUI &#8212; Views &#8212; Stream</a></li>
 </ul>
 </li>
 </ul>
@@ -137,27 +137,470 @@
 </div>
 <div class="section" id="ui-gui">
 <h2>UI &#8212; GUI<a class="headerlink" href="#ui-gui" title="Permalink to this headline">¶</a></h2>
+<p>Defines the base GUI for the GUI run-mode.</p>
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">farg.core.ui.gui.</code><code class="descname">GUI</code><span class="sig-paren">(</span><em>*</em>, <em>controller_class</em>, <em>stopping_condition_fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Base-class of GUI for an application.</p>
+<dl class="method">
+<dt>
+<code class="descname">AskQuestion</code><span class="sig-paren">(</span><em>question</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.AskQuestion"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Asks the question (by delegating to the Ask method of the question).</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">DisplayMessage</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.DisplayMessage"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Pause</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.Pause"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">PopulateButtonPane</code><span class="sig-paren">(</span><em>frame</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.PopulateButtonPane"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Adds buttons to the top row.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">PopulateCentralPane</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.PopulateCentralPane"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Sets up the display in the central part.</p>
+<p>If an item must be refreshed, add it to items_to_refresh.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">PopulateInteractionPane</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.PopulateInteractionPane"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Sets up the interaction pane at the bottom.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">Quit</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.Quit"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Called when quitting. Ensures that all threads have exited, and LTMs saved.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">RegisterQuestionHandlers</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.RegisterQuestionHandlers"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Registers how to ask a given type of question.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">SetupWindows</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.SetupWindows"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Sets up frames in the GUI.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">StartThreaded</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.StartThreaded"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">StepsInAnotherThread</code><span class="sig-paren">(</span><em>num_steps</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.StepsInAnotherThread"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">UpdateDisplay</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.UpdateDisplay"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Refresh the display. Erases everything and draws it again.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">buttons_pane</code><em class="property"> = None</em></dt>
+<dd><p>Button pane.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">central_pane</code><em class="property"> = None</em></dt>
+<dd><p>Central pane (a canvas).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">central_pane_class</code></dt>
+<dd><p>Class handling the central part of the display.</p>
+<p>alias of <code class="xref py py-class docutils literal"><span class="pre">CentralPane</span></code></p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">codelet_count_var</code><em class="property"> = None</em></dt>
+<dd><p>A Tk variable tracking codelet count.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">geometry</code><em class="property"> = '1280x980-0+0'</em></dt>
+<dd><p>Size and location of the window.</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="class">
+<dt>
+<em class="property">class </em><code class="descclassname">farg.core.ui.gui.</code><code class="descname">RunForNSteps</code><span class="sig-paren">(</span><em>*</em>, <em>controller</em>, <em>gui</em>, <em>num_steps=1000</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#RunForNSteps"><span class="viewcode-link">[source]</span></a></dt>
+<dd><p>Runs controller for up to n steps.</p>
+<p>This does not update the GUI directly; It however results in changing the state of the
+attribute &#8220;controller&#8221; that it holds. This is shared by the GUI and used to update itself.</p>
+<p>Before each step, checks that we have not been asked to pause.</p>
+<dl class="attribute">
+<dt>
+<code class="descname">controller</code><em class="property"> = None</em></dt>
+<dd><p>Controller for the whole app.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">gui</code><em class="property"> = None</em></dt>
+<dd><p>GUI being displayed. We need this to communicate some state (such as &#8220;we have found
+an answer and can now quit.&#8221;).</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt>
+<code class="descname">num_steps</code><em class="property"> = None</em></dt>
+<dd><p>Number of steps taken so far.</p>
+</dd></dl>
+
+<dl class="method">
+<dt>
+<code class="descname">run</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#RunForNSteps.run"><span class="viewcode-link">[source]</span></a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="ui-gui-central-pane">
-<h2>UI &#8212; GUI &#8212; Central Pane<a class="headerlink" href="#ui-gui-central-pane" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.ui.gui.central_pane">
+<span id="ui-gui-central-pane"></span><h2>UI &#8212; GUI &#8212; Central Pane<a class="headerlink" href="#module-farg.core.ui.gui.central_pane" title="Permalink to this headline">¶</a></h2>
+<p>Central pane of the UI display.</p>
+<p>This is a canvas that can hold multiple views (such as Coderack view, Workspace view, and so forth).</p>
+<p>Each view is an instance of a subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</p>
+<dl class="class">
+<dt id="farg.core.ui.gui.central_pane.CentralPane">
+<em class="property">class </em><code class="descclassname">farg.core.ui.gui.central_pane.</code><code class="descname">CentralPane</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em>, <em>*</em>, <em>height</em>, <em>width</em>, <em>background</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane" title="Permalink to this definition">¶</a></dt>
+<dd><p>The central pane of the Tk-based UI. This can hold several displays.</p>
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.NamedViewCmd">
+<code class="descname">NamedViewCmd</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.NamedViewCmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.NamedViewCmd" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.ReDraw">
+<code class="descname">ReDraw</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.ReDraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.ReDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redraw all active views on pane.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.SetFullView">
+<code class="descname">SetFullView</code><span class="sig-paren">(</span><em>view_class</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetFullView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetFullView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set central pane to contain a single view.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>view_class</strong> &#8211; A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.SetNamedView">
+<code class="descname">SetNamedView</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetNamedView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetNamedView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set the named view by calling the function shored in named_views.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.SetThreeWaySplit">
+<code class="descname">SetThreeWaySplit</code><span class="sig-paren">(</span><em>view_class1</em>, <em>view_class2</em>, <em>view_class3</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetThreeWaySplit"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetThreeWaySplit" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set central pane to contain a three view, one on top and two on the bottom.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>view_class1</strong> &#8211; A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</li>
+<li><strong>view_class2</strong> &#8211; Another subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</li>
+<li><strong>view_class3</strong> &#8211; Also a subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.SetVerticallySplitView">
+<code class="descname">SetVerticallySplitView</code><span class="sig-paren">(</span><em>view_class1</em>, <em>view_class2</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetVerticallySplitView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetVerticallySplitView" title="Permalink to this definition">¶</a></dt>
+<dd><p>Set central pane to contain a two view, one on top the other on the bottom.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>view_class1</strong> &#8211; A subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</li>
+<li><strong>view_class2</strong> &#8211; Another subclass of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.SetupMenu">
+<code class="descname">SetupMenu</code><span class="sig-paren">(</span><em>parent</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.SetupMenu"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.SetupMenu" title="Permalink to this definition">¶</a></dt>
+<dd><p>Create menu for the central pane.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.default_initial_view">
+<code class="descname">default_initial_view</code><em class="property"> = ''</em><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.default_initial_view" title="Permalink to this definition">¶</a></dt>
+<dd><p>Name of initial view.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.central_pane.CentralPane.named_views">
+<code class="descname">named_views</code><em class="property"> = {}</em><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.named_views" title="Permalink to this definition">¶</a></dt>
+<dd><p>A dictionary from names to functions that sets views. A view is made up of a set of
+viewports, each an instance of <a class="reference internal" href="#farg.core.ui.gui.views.viewport.ViewPort" title="farg.core.ui.gui.views.viewport.ViewPort"><code class="xref py py-class docutils literal"><span class="pre">ViewPort</span></code></a>.
+Methods are available in this class to create views (e.g., SetFullView and
+SetVerticallySplitView). See farg.apps.seqsee.gui.gui.py for an example.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="ui-gui-views">
-<h2>UI &#8212; GUI &#8212; Views<a class="headerlink" href="#ui-gui-views" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.ui.gui.views">
+<span id="ui-gui-views"></span><h2>UI &#8212; GUI &#8212; Views<a class="headerlink" href="#module-farg.core.ui.gui.views" title="Permalink to this headline">¶</a></h2>
 </div>
-<div class="section" id="ui-gui-views-viewport">
-<h2>UI &#8212; GUI &#8212; Views &#8212; Viewport<a class="headerlink" href="#ui-gui-views-viewport" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.ui.gui.views.viewport">
+<span id="ui-gui-views-viewport"></span><h2>UI &#8212; GUI &#8212; Views &#8212; Viewport<a class="headerlink" href="#module-farg.core.ui.gui.views.viewport" title="Permalink to this headline">¶</a></h2>
+<p>Viewport defines a section of a canvas for displaying some information.</p>
+<p>The coordinates (left, top) and (bottom, right) define a rectangular section of the canvas.</p>
+<p>This is an abstract class where a few methods need to be plugged in.</p>
+<dl class="class">
+<dt id="farg.core.ui.gui.views.viewport.ViewPort">
+<em class="property">class </em><code class="descclassname">farg.core.ui.gui.views.viewport.</code><code class="descname">ViewPort</code><span class="sig-paren">(</span><em>canvas</em>, <em>left</em>, <em>bottom</em>, <em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/viewport.html#ViewPort"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.viewport.ViewPort" title="Permalink to this definition">¶</a></dt>
+<dd><p>Viewport defines a section of a canvas for displaying some information.</p>
+<dl class="method">
+<dt id="farg.core.ui.gui.views.viewport.ViewPort.CanvasCoordinates">
+<code class="descname">CanvasCoordinates</code><span class="sig-paren">(</span><em>x</em>, <em>y</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/viewport.html#ViewPort.CanvasCoordinates"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.viewport.ViewPort.CanvasCoordinates" title="Permalink to this definition">¶</a></dt>
+<dd><p>Converts coordinates in this view to canvas coordinates.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.viewport.ViewPort.ReDraw">
+<code class="descname">ReDraw</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/viewport.html#ViewPort.ReDraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.viewport.ViewPort.ReDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redraw this view.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; The controller for the main application.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="ui-gui-views-list-based">
-<h2>UI &#8212; GUI &#8212; Views  &#8212; List based<a class="headerlink" href="#ui-gui-views-list-based" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.ui.gui.views.list_based_view">
+<span id="ui-gui-views-list-based"></span><h2>UI &#8212; GUI &#8212; Views  &#8212; List based<a class="headerlink" href="#module-farg.core.ui.gui.views.list_based_view" title="Permalink to this headline">¶</a></h2>
+<p>Defines a class that can act as a base class for displaying lists of things.</p>
+<p>Examples of such things include codelets in a coderack and recent foci in the stream.</p>
+<dl class="class">
+<dt id="farg.core.ui.gui.views.list_based_view.ListBasedView">
+<em class="property">class </em><code class="descclassname">farg.core.ui.gui.views.list_based_view.</code><code class="descname">ListBasedView</code><span class="sig-paren">(</span><em>canvas</em>, <em>left</em>, <em>bottom</em>, <em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView" title="Permalink to this definition">¶</a></dt>
+<dd><p>A base class for views that show a bunch of objects and which require pagination.</p>
+<dl class="method">
+<dt id="farg.core.ui.gui.views.list_based_view.ListBasedView.DrawItem">
+<code class="descname">DrawItem</code><span class="sig-paren">(</span><em>x</em>, <em>y</em>, <em>item</em>, <em>extra_dict</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView.DrawItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.DrawItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Draws item given co-ordinates in <em>this</em> widgets coordinate system.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>x</strong> &#8211; x-coordinate for the top-left, within this view, where the item is to be drawn.</li>
+<li><strong>y</strong> &#8211; y-coordinate for the top-left, within this view, where the item is to be drawn.</li>
+<li><strong>item</strong> &#8211; item to be drawn.</li>
+<li><strong>extra_dict</strong> &#8211; Any extra key-value pairs to be passed in to influence the display.</li>
+<li><strong>controller</strong> &#8211; The controller for the main application.</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.list_based_view.ListBasedView.GetAllItemsToDisplay">
+<code class="descname">GetAllItemsToDisplay</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Obtain a 3-tuple (items, top-message, extra_dict) to display.</p>
+<p>Should be over-ridden by the derived class.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; The controller for the main application.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">A 3-tuple. The first value is a list of items to display (on all pages). The second
+is a message to be displayed at the top. The third is a dictionary for passing in
+arbitrary information, which is passed on to DrawItem.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.list_based_view.ListBasedView.ReDraw">
+<code class="descname">ReDraw</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/list_based_view.html#ListBasedView.ReDraw"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.ReDraw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Redraw this view.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; The controller for the main application.</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.views.list_based_view.ListBasedView.items_per_page">
+<code class="descname">items_per_page</code><em class="property"> = 5</em><a class="headerlink" href="#farg.core.ui.gui.views.list_based_view.ListBasedView.items_per_page" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of items to show per page.</p>
+</dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="ui-gui-views-coderack">
-<h2>UI &#8212; GUI &#8212; Views &#8212; Coderack<a class="headerlink" href="#ui-gui-views-coderack" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.ui.gui.views.coderack_view">
+<span id="ui-gui-views-coderack"></span><h2>UI &#8212; GUI &#8212; Views &#8212; Coderack<a class="headerlink" href="#module-farg.core.ui.gui.views.coderack_view" title="Permalink to this headline">¶</a></h2>
+<p>View for displaying codelets in a coderack.</p>
+<dl class="class">
+<dt id="farg.core.ui.gui.views.coderack_view.CoderackView">
+<em class="property">class </em><code class="descclassname">farg.core.ui.gui.views.coderack_view.</code><code class="descname">CoderackView</code><span class="sig-paren">(</span><em>canvas</em>, <em>left</em>, <em>bottom</em>, <em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/coderack_view.html#CoderackView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.coderack_view.CoderackView" title="Permalink to this definition">¶</a></dt>
+<dd><p>View for displaying codelets in a coderack.</p>
+<dl class="method">
+<dt id="farg.core.ui.gui.views.coderack_view.CoderackView.DrawItem">
+<code class="descname">DrawItem</code><span class="sig-paren">(</span><em>widget_x</em>, <em>widget_y</em>, <em>item</em>, <em>extra_dict</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/coderack_view.html#CoderackView.DrawItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.coderack_view.CoderackView.DrawItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given x, y within the current widget and an item, draws it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.coderack_view.CoderackView.GetAllItemsToDisplay">
+<code class="descname">GetAllItemsToDisplay</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/coderack_view.html#CoderackView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.coderack_view.CoderackView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of things to display.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; Controller for the application.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>Items, a top message, and a dictionary of extra information. The extra</dt>
+<dd>information is the sum of urgencies of all codelets.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A 3-tuple</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="function">
+<dt id="farg.core.ui.gui.views.coderack_view.ShowCodeletFamilyDetails">
+<code class="descclassname">farg.core.ui.gui.views.coderack_view.</code><code class="descname">ShowCodeletFamilyDetails</code><span class="sig-paren">(</span><em>controller</em>, <em>family</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/coderack_view.html#ShowCodeletFamilyDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.coderack_view.ShowCodeletFamilyDetails" title="Permalink to this definition">¶</a></dt>
+<dd><p>A toplevel for showing codelets in one family.</p>
+</dd></dl>
+
 </div>
-<div class="section" id="ui-gui-views-ltm">
-<h2>UI &#8212; GUI &#8212; Views &#8212; LTM<a class="headerlink" href="#ui-gui-views-ltm" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.ui.gui.views.ltm_view">
+<span id="ui-gui-views-ltm"></span><h2>UI &#8212; GUI &#8212; Views &#8212; LTM<a class="headerlink" href="#module-farg.core.ui.gui.views.ltm_view" title="Permalink to this headline">¶</a></h2>
+<p>View for displaying nodes in an ltm.</p>
+<dl class="class">
+<dt id="farg.core.ui.gui.views.ltm_view.LTMView">
+<em class="property">class </em><code class="descclassname">farg.core.ui.gui.views.ltm_view.</code><code class="descname">LTMView</code><span class="sig-paren">(</span><em>canvas</em>, <em>left</em>, <em>bottom</em>, <em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/ltm_view.html#LTMView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.ltm_view.LTMView" title="Permalink to this definition">¶</a></dt>
+<dd><p>View for displaying nodes in an ltm.</p>
+<dl class="method">
+<dt id="farg.core.ui.gui.views.ltm_view.LTMView.DrawItem">
+<code class="descname">DrawItem</code><span class="sig-paren">(</span><em>widget_x</em>, <em>widget_y</em>, <em>item</em>, <em>extra_dict</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/ltm_view.html#LTMView.DrawItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.ltm_view.LTMView.DrawItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given x, y within the current widget and an item, draws it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.ltm_view.LTMView.GetAllItemsToDisplay">
+<code class="descname">GetAllItemsToDisplay</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/ltm_view.html#LTMView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.ltm_view.LTMView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>A list of things to display.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>controller</strong> &#8211; Controller for the application.</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><dl class="docutils">
+<dt>Items, a top message, and a dictionary of extra information. The extra</dt>
+<dd>information is the number of timesteps taken in the ltm.</dd>
+</dl>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">A 3-tuple</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.views.ltm_view.LTMView.items_per_page">
+<code class="descname">items_per_page</code><em class="property"> = 10</em><a class="headerlink" href="#farg.core.ui.gui.views.ltm_view.LTMView.items_per_page" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
-<div class="section" id="ui-gui-views-stream">
-<h2>UI &#8212; GUI &#8212; Views &#8212; Stream<a class="headerlink" href="#ui-gui-views-stream" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="module-farg.core.ui.gui.views.stream_view">
+<span id="ui-gui-views-stream"></span><h2>UI &#8212; GUI &#8212; Views &#8212; Stream<a class="headerlink" href="#module-farg.core.ui.gui.views.stream_view" title="Permalink to this headline">¶</a></h2>
+<dl class="function">
+<dt id="farg.core.ui.gui.views.stream_view.ShowFocusableDetails">
+<code class="descclassname">farg.core.ui.gui.views.stream_view.</code><code class="descname">ShowFocusableDetails</code><span class="sig-paren">(</span><em>controller</em>, <em>focusable</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/stream_view.html#ShowFocusableDetails"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.stream_view.ShowFocusableDetails" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="class">
+<dt id="farg.core.ui.gui.views.stream_view.StreamView">
+<em class="property">class </em><code class="descclassname">farg.core.ui.gui.views.stream_view.</code><code class="descname">StreamView</code><span class="sig-paren">(</span><em>canvas</em>, <em>left</em>, <em>bottom</em>, <em>width</em>, <em>height</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/stream_view.html#StreamView"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.stream_view.StreamView" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="method">
+<dt id="farg.core.ui.gui.views.stream_view.StreamView.DrawItem">
+<code class="descname">DrawItem</code><span class="sig-paren">(</span><em>widget_x</em>, <em>widget_y</em>, <em>item</em>, <em>extra_dict</em>, <em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/stream_view.html#StreamView.DrawItem"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.stream_view.StreamView.DrawItem" title="Permalink to this definition">¶</a></dt>
+<dd><p>Given x, y within the current widget and an item, draws it.</p>
+</dd></dl>
+
+<dl class="method">
+<dt id="farg.core.ui.gui.views.stream_view.StreamView.GetAllItemsToDisplay">
+<code class="descname">GetAllItemsToDisplay</code><span class="sig-paren">(</span><em>controller</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/views/stream_view.html#StreamView.GetAllItemsToDisplay"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.views.stream_view.StreamView.GetAllItemsToDisplay" title="Permalink to this definition">¶</a></dt>
+<dd><p>Returns a 2-tuple: A top message, and a list of items.</p>
+</dd></dl>
+
+<dl class="attribute">
+<dt id="farg.core.ui.gui.views.stream_view.StreamView.items_per_page">
+<code class="descname">items_per_page</code><em class="property"> = 3</em><a class="headerlink" href="#farg.core.ui.gui.views.stream_view.StreamView.items_per_page" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
 </div>
 </div>
 
