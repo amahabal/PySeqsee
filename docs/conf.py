@@ -29,13 +29,16 @@ extensions = ['sphinx.ext.autodoc',
               'sphinx.ext.todo',
               'sphinx.ext.coverage',
               'sphinx.ext.imgmath',
+              'sphinx.ext.intersphinx',
               'sphinx.ext.viewcode',
               'sphinx.ext.napoleon']
 todo_include_todos = True
+intersphinx_mapping = {'python': ('https://docs.python.org/3.4', None)}
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
-# The suffix of source filenames.
+# The suffix of source filenames.git 
 source_suffix = '.rst'
 
 # The encoding of source files.
