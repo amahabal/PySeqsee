@@ -8,6 +8,8 @@ def main():
   """
   try:
     command = sys.argv[1]
+    if command == "update":
+      update()
     if command == "create":
       create(sys.argv[2])
     elif command == "run":
@@ -29,6 +31,7 @@ def main():
       print ('\tfarg run foo <args> \t runs the app foo, with optional arguments')
       print ('\tfarg codelet foo bar \t adds a codelet named bar to the app foo')
       print ('\tfarg remove foo \t removes the app foo')
+      print ('\tfarg update \t updates farg to the latest version using git.  This should be done periodically as PySeqsee is in active development.')
   except Exception:
     print('Command not recognized.  Run farg help to see availiable commands.')
     sys.exit(1)
@@ -89,3 +92,11 @@ def remove(appName):
     shutil.rmtree(dirToRemove)
   else:
     print ("Cancelling...")
+    
+def update():
+  os.system("git pull")
+  returnCode = os.system("python3 setup.py install")
+  if returnCode != 0:
+    print ("Install failed, retrying using 'sudo'")
+    os.system("sudo python3 setup.py install")
+  
