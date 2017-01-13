@@ -1,7 +1,9 @@
 """The workspace is the virtual blackboard on which various codelets make annotations.
 """
 
-class IntegerObject(object):
+from farg.core.categorization.categorizable import CategorizableMixin
+
+class IntegerObject(CategorizableMixin):
   """Holds one item in either set, along with any book-keeping information."""
   
   def __init__(self, magnitude):

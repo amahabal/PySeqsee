@@ -73,3 +73,4 @@ demonstrate the pieces, and we will put these to better use in the coming phases
    :maxdepth: 1
 
    first_codelet
+   first_categories
