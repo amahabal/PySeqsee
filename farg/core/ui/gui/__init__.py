@@ -63,12 +63,12 @@ class GUI:
   The central part of the window---everything except the row of buttons at the top---is controlled by
   an instance of the class :py:class:`~farg.core.ui.gui.central_pane.CentralPane` (see which for
   further details).The top-left corner of the window allows switching between different views.
-  
+
   **Key Bindings**
-  
+
   The UI allows running the app at various speeds---full steam ahead, step-by-step, or with long
   strides. These keyboard bindings are provided:
-  
+
   * 'q' for Quit
   * 'c' for Continue (full-steam ahead!)
   * 'p' for Pause while running

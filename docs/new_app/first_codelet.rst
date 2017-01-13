@@ -21,7 +21,7 @@ The new class looks thus::
     def Run(cls, controller, *):
       pass
 
-Now update it to check for odd/even and just print the answer out::
+Now update it to check for odd/even and just display the answer::
 
   class CF_HorribleHack(CodeletFamily):
     '''Checks if the solution is odd/even.
@@ -34,9 +34,9 @@ Now update it to check for odd/even and just print the answer out::
         workspace = controller.workspace
         if (all(x.magnitude % 2 == 1 for x in workspace.left_items) and
             all(x.magnitude % 2 == 0 for x in workspace.right_items)):
-          print("This is an odd/even split")
+          controller.ui.DisplayMessage("This is an odd/even split")
         else:
-          print("I have no idea what this sequence is")
+          controller.ui.DisplayMessage("I have no idea what this sequence is")
 
 Getting the codelet to run
 ------------------------------
@@ -59,3 +59,13 @@ When you run the app now with 'farg run bongard --left 1 3 7 --right 2 4 6', a G
 items visible on screen. Pressing 's' for 'Step' at this point runs one codelet, and it will be the
 codelet we just added, which will print an answer to the screen.
 
+.. note::
+
+  The UI supports a few key bindings:
+  
+  * 'q' for Quit
+  * 'c' for Continue (full-steam ahead!)
+  * 'p' for Pause while running
+  * 's' for Step (run one codelet)
+  * 'l' for taking a 10-codelet stride
+  * 'k' for taking a 100-codelet stride.
