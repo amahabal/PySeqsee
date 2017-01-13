@@ -142,6 +142,23 @@
 <dt>
 <em class="property">class </em><code class="descclassname">farg.core.ui.gui.</code><code class="descname">GUI</code><span class="sig-paren">(</span><em>*</em>, <em>controller_class</em>, <em>stopping_condition_fn=None</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI"><span class="viewcode-link">[source]</span></a></dt>
 <dd><p>Base-class of GUI for an application.</p>
+<p>Provides a <a class="reference external" href="https://docs.python.org/3.4/library/tkinter.html#module-tkinter" title="(in Python v3.4)"><code class="xref py py-mod docutils literal"><span class="pre">tkinter</span></code></a> based interface to display various components such as the workspace,
+and for interacting with the user (such as asking questions).</p>
+<p><strong>Supported Views</strong></p>
+<p>The central part of the window&#8212;everything except the row of buttons at the top&#8212;is controlled by
+an instance of the class <a class="reference internal" href="#farg.core.ui.gui.central_pane.CentralPane" title="farg.core.ui.gui.central_pane.CentralPane"><code class="xref py py-class docutils literal"><span class="pre">CentralPane</span></code></a> (see which for
+further details).The top-left corner of the window allows switching between different views.</p>
+<p><strong>Key Bindings</strong></p>
+<p>The UI allows running the app at various speeds&#8212;full steam ahead, step-by-step, or with long
+strides. These keyboard bindings are provided:</p>
+<ul class="simple">
+<li>&#8216;q&#8217; for Quit</li>
+<li>&#8216;c&#8217; for Continue (full-steam ahead!)</li>
+<li>&#8216;p&#8217; for Pause while running</li>
+<li>&#8216;s&#8217; for Step (run one codelet)</li>
+<li>&#8216;l&#8217; for taking a 10-codelet stride</li>
+<li>&#8216;k&#8217; for taking a 100-codelet stride.</li>
+</ul>
 <dl class="method">
 <dt>
 <code class="descname">AskQuestion</code><span class="sig-paren">(</span><em>question</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui.html#GUI.AskQuestion"><span class="viewcode-link">[source]</span></a></dt>
@@ -286,7 +303,22 @@ an answer and can now quit.&#8221;).</p>
 <dl class="class">
 <dt id="farg.core.ui.gui.central_pane.CentralPane">
 <em class="property">class </em><code class="descclassname">farg.core.ui.gui.central_pane.</code><code class="descname">CentralPane</code><span class="sig-paren">(</span><em>master</em>, <em>controller</em>, <em>*</em>, <em>height</em>, <em>width</em>, <em>background</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane" title="Permalink to this definition">¶</a></dt>
-<dd><p>The central pane of the Tk-based UI. This can hold several displays.</p>
+<dd><p>The central area of the UI based display.</p>
+<p><strong>ViewPorts</strong> and <strong>Views</strong></p>
+<p>A Viewport is a small window through which to look at some aspects the activity of the app.
+Examples of viewports that come packaged with PySeqsee include <a class="reference internal" href="#farg.core.ui.gui.views.coderack_view.CoderackView" title="farg.core.ui.gui.views.coderack_view.CoderackView"><code class="xref py py-class docutils literal"><span class="pre">CoderackView</span></code></a>,
+which displays the current codelets waiting to run. Other already supplied views can be found in
+the <a class="reference internal" href="#module-farg.core.ui.gui.views" title="farg.core.ui.gui.views"><code class="xref py py-mod docutils literal"><span class="pre">views</span></code></a> module.</p>
+<p>A View, on the other hand, is a tiling of a few such views into a display. A View may consist of
+just a single viewport, or two or more viewports. This class provides methods to create views and
+to maintain a set of named views.</p>
+<p><strong>Setting up views</strong></p>
+<p>A view may be set up by calling one of the following methods of this class. SetFullView, which
+takes a viewport class as argument, creates a view with that single, full-sized viewport. The
+names SetVerticallySplitView and SetThreeWaySplit should be self-explanatory.</p>
+<p><strong>Example Usage</strong></p>
+<p>For an example of how a subclass may set up the views, take a look at the code for
+<code class="xref py py-class docutils literal"><span class="pre">farg.apps.seqsee.gui.gui.SeqseeCentralPane</span></code>.</p>
 <dl class="method">
 <dt id="farg.core.ui.gui.central_pane.CentralPane.NamedViewCmd">
 <code class="descname">NamedViewCmd</code><span class="sig-paren">(</span><em>name</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/farg/core/ui/gui/central_pane.html#CentralPane.NamedViewCmd"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#farg.core.ui.gui.central_pane.CentralPane.NamedViewCmd" title="Permalink to this definition">¶</a></dt>
@@ -631,7 +663,7 @@ arbitrary information, which is passed on to DrawItem.</td>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 11, 2017.
+      Last updated on Jan 12, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

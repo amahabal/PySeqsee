@@ -107,7 +107,7 @@ user. We wll name this codelet CF_HorribleHack. The prefix &#8216;CF&#8217; stan
     <span class="k">pass</span>
 </pre></div>
 </div>
-<p>Now update it to check for odd/even and just print the answer out:</p>
+<p>Now update it to check for odd/even and just display the answer:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">CF_HorribleHack</span><span class="p">(</span><span class="n">CodeletFamily</span><span class="p">):</span>
   <span class="sd">&#39;&#39;&#39;Checks if the solution is odd/even.</span>
 
@@ -119,9 +119,9 @@ user. We wll name this codelet CF_HorribleHack. The prefix &#8216;CF&#8217; stan
       <span class="n">workspace</span> <span class="o">=</span> <span class="n">controller</span><span class="o">.</span><span class="n">workspace</span>
       <span class="k">if</span> <span class="p">(</span><span class="nb">all</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">workspace</span><span class="o">.</span><span class="n">left_items</span><span class="p">)</span> <span class="ow">and</span>
           <span class="nb">all</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">%</span> <span class="mi">2</span> <span class="o">==</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">workspace</span><span class="o">.</span><span class="n">right_items</span><span class="p">)):</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;This is an odd/even split&quot;</span><span class="p">)</span>
+        <span class="n">controller</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">DisplayMessage</span><span class="p">(</span><span class="s2">&quot;This is an odd/even split&quot;</span><span class="p">)</span>
       <span class="k">else</span><span class="p">:</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;I have no idea what this sequence is&quot;</span><span class="p">)</span>
+        <span class="n">controller</span><span class="o">.</span><span class="n">ui</span><span class="o">.</span><span class="n">DisplayMessage</span><span class="p">(</span><span class="s2">&quot;I have no idea what this sequence is&quot;</span><span class="p">)</span>
 </pre></div>
 </div>
 <div class="section" id="getting-the-codelet-to-run">
@@ -143,6 +143,18 @@ We will add the codelet in the init function:</p>
 <p>When you run the app now with &#8216;farg run bongard &#8211;left 1 3 7 &#8211;right 2 4 6&#8217;, a GUI shows up with the
 items visible on screen. Pressing &#8216;s&#8217; for &#8216;Step&#8217; at this point runs one codelet, and it will be the
 codelet we just added, which will print an answer to the screen.</p>
+<div class="admonition note">
+<p class="first admonition-title">Note</p>
+<p>The UI supports a few key bindings:</p>
+<ul class="last simple">
+<li>&#8216;q&#8217; for Quit</li>
+<li>&#8216;c&#8217; for Continue (full-steam ahead!)</li>
+<li>&#8216;p&#8217; for Pause while running</li>
+<li>&#8216;s&#8217; for Step (run one codelet)</li>
+<li>&#8216;l&#8217; for taking a 10-codelet stride</li>
+<li>&#8216;k&#8217; for taking a 100-codelet stride.</li>
+</ul>
+</div>
 </div>
 </div>
 
@@ -170,7 +182,7 @@ codelet we just added, which will print an answer to the screen.</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 11, 2017.
+      Last updated on Jan 12, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

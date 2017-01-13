@@ -127,7 +127,29 @@
 
 
 <div class="viewcode-block" id="GUI"><a class="viewcode-back" href="../../../../developer/ui.html#farg.core.main.GUI">[docs]</a><span class="k">class</span> <span class="nc">GUI</span><span class="p">:</span>
-  <span class="sd">&quot;&quot;&quot;Base-class of GUI for an application.&quot;&quot;&quot;</span>
+  <span class="sd">&quot;&quot;&quot;Base-class of GUI for an application.</span>
+
+<span class="sd">  Provides a :py:mod:`tkinter` based interface to display various components such as the workspace,</span>
+<span class="sd">  and for interacting with the user (such as asking questions).</span>
+
+<span class="sd">  **Supported Views**</span>
+
+<span class="sd">  The central part of the window---everything except the row of buttons at the top---is controlled by</span>
+<span class="sd">  an instance of the class :py:class:`~farg.core.ui.gui.central_pane.CentralPane` (see which for</span>
+<span class="sd">  further details).The top-left corner of the window allows switching between different views.</span>
+
+<span class="sd">  **Key Bindings**</span>
+
+<span class="sd">  The UI allows running the app at various speeds---full steam ahead, step-by-step, or with long</span>
+<span class="sd">  strides. These keyboard bindings are provided:</span>
+
+<span class="sd">  * &#39;q&#39; for Quit</span>
+<span class="sd">  * &#39;c&#39; for Continue (full-steam ahead!)</span>
+<span class="sd">  * &#39;p&#39; for Pause while running</span>
+<span class="sd">  * &#39;s&#39; for Step (run one codelet)</span>
+<span class="sd">  * &#39;l&#39; for taking a 10-codelet stride</span>
+<span class="sd">  * &#39;k&#39; for taking a 100-codelet stride.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="c1">#: Size and location of the window.</span>
   <span class="n">geometry</span> <span class="o">=</span> <span class="s1">&#39;1280x980-0+0&#39;</span>  <span class="c1"># Not a const. pylint: disable=C6409</span>
@@ -284,7 +306,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 11, 2017.
+      Last updated on Jan 12, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

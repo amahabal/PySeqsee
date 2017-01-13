@@ -97,7 +97,30 @@
 <span class="kn">from</span> <span class="nn">tkinter</span> <span class="k">import</span> <span class="n">ALL</span><span class="p">,</span> <span class="n">Canvas</span><span class="p">,</span> <span class="n">Menu</span>
 
 <div class="viewcode-block" id="CentralPane"><a class="viewcode-back" href="../../../../../developer/ui.html#farg.core.ui.gui.CentralPane">[docs]</a><span class="k">class</span> <span class="nc">CentralPane</span><span class="p">(</span><span class="n">Canvas</span><span class="p">):</span>  <span class="c1"># Pylint thinks this has 9 ancestrors. pylint:disable=R0901,R0904</span>
-  <span class="sd">&quot;&quot;&quot;The central pane of the Tk-based UI. This can hold several displays.&quot;&quot;&quot;</span>
+  <span class="sd">&quot;&quot;&quot;The central area of the UI based display.</span>
+
+<span class="sd">  **ViewPorts** and **Views**</span>
+<span class="sd">  </span>
+<span class="sd">  A Viewport is a small window through which to look at some aspects the activity of the app.</span>
+<span class="sd">  Examples of viewports that come packaged with PySeqsee include :py:class:`~farg.core.ui.gui.views.coderack_view.CoderackView`,</span>
+<span class="sd">  which displays the current codelets waiting to run. Other already supplied views can be found in</span>
+<span class="sd">  the :py:mod:`~farg.core.ui.gui.views` module.</span>
+<span class="sd">  </span>
+<span class="sd">  A View, on the other hand, is a tiling of a few such views into a display. A View may consist of</span>
+<span class="sd">  just a single viewport, or two or more viewports. This class provides methods to create views and</span>
+<span class="sd">  to maintain a set of named views.</span>
+<span class="sd">  </span>
+<span class="sd">  **Setting up views**</span>
+<span class="sd">  </span>
+<span class="sd">  A view may be set up by calling one of the following methods of this class. SetFullView, which</span>
+<span class="sd">  takes a viewport class as argument, creates a view with that single, full-sized viewport. The</span>
+<span class="sd">  names SetVerticallySplitView and SetThreeWaySplit should be self-explanatory.</span>
+<span class="sd">  </span>
+<span class="sd">  **Example Usage**</span>
+
+<span class="sd">  For an example of how a subclass may set up the views, take a look at the code for</span>
+<span class="sd">  :py:class:`farg.apps.seqsee.gui.gui.SeqseeCentralPane`.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
 
   <span class="c1">#: A dictionary from names to functions that sets views. A view is made up of a set of</span>
   <span class="c1">#: viewports, each an instance of :py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.</span>
@@ -211,7 +234,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 11, 2017.
+      Last updated on Jan 12, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>
