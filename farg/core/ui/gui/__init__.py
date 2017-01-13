@@ -53,7 +53,29 @@ class RunForNSteps(threading.Thread):
 
 
 class GUI:
-  """Base-class of GUI for an application."""
+  """Base-class of GUI for an application.
+
+  Provides a :py:mod:`tkinter` based interface to display various components such as the workspace,
+  and for interacting with the user (such as asking questions).
+
+  **Supported Views**
+
+  The central part of the window---everything except the row of buttons at the top---is controlled by
+  an instance of the class :py:class:`~farg.core.ui.gui.central_pane.CentralPane` (see which for
+  further details).The top-left corner of the window allows switching between different views.
+  
+  **Key Bindings**
+  
+  The UI allows running the app at various speeds---full steam ahead, step-by-step, or with long
+  strides. These keyboard bindings are provided:
+  
+  * 'q' for Quit
+  * 'c' for Continue (full-steam ahead!)
+  * 'p' for Pause while running
+  * 's' for Step (run one codelet)
+  * 'l' for taking a 10-codelet stride
+  * 'k' for taking a 100-codelet stride.
+  """
 
   #: Size and location of the window.
   geometry = '1280x980-0+0'  # Not a const. pylint: disable=C6409
