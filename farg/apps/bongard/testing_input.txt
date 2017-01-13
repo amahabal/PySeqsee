@@ -1,0 +1,4 @@
+# This file contains inputs for testing bongard.
+# Unless you modified the class BongardReadInputSpec, lines starting
+# with '#' are ignored, as are blank lines. See the howto section of the
+# documentation for specifying and processing the input.
