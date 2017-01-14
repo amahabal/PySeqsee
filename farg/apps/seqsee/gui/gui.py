@@ -47,6 +47,8 @@ class SeqseeGUI(GUI):
     GUI.__init__(self, controller_class=controller_class,
                  stopping_condition_fn=stopping_condition_fn)
 
+    self.mw.title("Seqsee") #Sets the title of the window
+
     # Key bindings
     self.mw.bind('<KeyPress-d>', lambda e: self.controller.workspace.DebugRelations())
 
