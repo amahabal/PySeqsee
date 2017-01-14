@@ -21,7 +21,12 @@ from farg.core.exceptions import AnswerFoundException
 from farg.apps.seqsee.subspaces.are_we_done import SubspaceAreWeDone
 from farg.apps.seqsee.subspaces.is_this_interlaced import SubspaceIsThisInterlaced
 
-
+class CF_FocusOn(CodeletFamily):
+  """Causes the required focusable to be added to the stream."""
+  @classmethod
+  def Run(cls, controller, focusable):
+    logging.debug("RUNNING CF_FocusOn with %s", str(focusable))
+    controller.stream.FocusOn(focusable)
 
 class CF_GroupFromRelation(CodeletFamily):
   """Causes the required relations' ends to create a group."""
