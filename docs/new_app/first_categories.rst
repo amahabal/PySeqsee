@@ -73,4 +73,59 @@ What does this enable us to do? Here is a sampler. ::
   i9.IsKnownAsInstanceOf(sq)
   b = i9.GetBindingsForCategory(sq)  # Requires it to be a known instance
 
+Creating a class of categories
+----------------------------------
 
+We will create the class of categories called X mod N. As an illustration, consider the category
+3 mod 4. This contains numbers that, when divided by 4, leave a remainder of 3. Examples of this
+are 3, 7, 11, and also -1, -5 and -9.
+
+The binding we return here is the integer part of that division. For 3, we return the binding k=0
+because 3 divided by 4 is 0, plus a remainder of 3. For 11, we get k=2, since 11 divided by 4 is 2,
+plus a remainder of 3.
+
+Must we always have a binding? No, not necessarily. And a binding need not be adequate to reconstruct
+the example. A binding is merely a bit of metadata concerning how something is a member of a certain
+category. ::
+
+  class XModN(Category):
+    """Category whose instances leave a remainder of X when divided by N.
+
+    X should be a number between 0 and N-1, inclusive.
+    """
+
+    def __init__(self, x, n):
+      self.x = x
+      self.n = n
+      if n == 0:
+        raise FargError("Modulo 0 makes no sense")
+      if x < 0 or x >= n:
+        raise FargError("x must be between 0 and %d:  %d mod %d not supported" % (n - 1, x, n))
+
+    def BriefLabel(self):
+      return "%d mod %d" % (self.x, self.n)
+
+    def IsInstance(self, entity):
+      magnitude = entity.magnitude
+      remainder = magnitude % self.n
+      if remainder == self.x:
+        return Binding(k=(magnitude - self.x) / self.n)
+      return None
+
+This newly creates category can be used thus::
+
+  mod_3_4 = XModN(3, 4)
+  i7 = IntegerObject(7)
+  i7.DescribeAs(mod_3_4)
+
+
+Is Square() == Square()?
+--------------------------
+
+Yes. The class :py:class:`~farg.core.categorization.category.Category` has the metaclass 
+:py:class:`~farg.core.meta.MemoizedConstructor`, which enforces that a constructor caches the objects
+it produces, and returns the same object when called with the same constructor. This implies that
+you can cheaply call XModN(3, 4) hundreds of times even if the constructor is expensive: the cost is
+incurred only once. Of course, XModN(4, 5) is a different object.
+
+In this sense, Square() is like a global.
