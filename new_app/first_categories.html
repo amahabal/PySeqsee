@@ -1,0 +1,245 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>First Categories &#8212; PySeqsee 0.2.3a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.3a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="Creating the first codelet" href="first_codelet.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="first_codelet.html" title="Creating the first codelet"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" accesskey="U">Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">First Categories</a><ul>
+<li><a class="reference internal" href="#categories-categorizable-and-bindings">Categories, Categorizable, and Bindings</a></li>
+<li><a class="reference internal" href="#turning-integerobject-into-a-categorizable">Turning IntegerObject into a Categorizable</a></li>
+<li><a class="reference internal" href="#adding-the-category-square">Adding the category &#8220;Square&#8221;</a></li>
+<li><a class="reference internal" href="#what-can-we-do-with-this">What can we do with this?</a></li>
+<li><a class="reference internal" href="#creating-a-class-of-categories">Creating a class of categories</a></li>
+<li><a class="reference internal" href="#is-square-square">Is Square() == Square()?</a></li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="first_codelet.html"
+                        title="previous chapter">Creating the first codelet</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="first-categories">
+<h1>First Categories<a class="headerlink" href="#first-categories" title="Permalink to this headline">¶</a></h1>
+<p>Categories are the stars in the Bongard domain: what we are trying to find is a category that has
+all items on the left as members and none of the items on the right as members. On this page, we
+will take our first steps by defining a category&#8212;Squares&#8212;and a family of categories&#8212;Modulo.</p>
+<p>The focus is still on the mechanics of how to do this, and subsequently we will delve deeper into
+cognitive considerations.</p>
+<div class="section" id="categories-categorizable-and-bindings">
+<h2>Categories, Categorizable, and Bindings<a class="headerlink" href="#categories-categorizable-and-bindings" title="Permalink to this headline">¶</a></h2>
+<p>We need to get some notation out of the way. When I say <em>category</em> on this page, I am referring to
+such things as the category &#8220;even number&#8221;, &#8220;prime number&#8221;, and to take two examples not from this
+domain, &#8220;chairs&#8221; and &#8220;common first name&#8221;. For now, this can be thought of as a set of items with
+degrees of membership (but much more will be said later).</p>
+<p>By a <em>categorizable</em>, I mean a Python object that has the necessary routines to keep track of
+categories. This can be achieved by subclassing from the interface
+<a class="reference internal" href="../developer/categories.html#farg.core.categorization.categorizable.CategorizableMixin" title="farg.core.categorization.categorizable.CategorizableMixin"><code class="xref py py-class docutils literal"><span class="pre">CategorizableMixin</span></code></a>.</p>
+<p>Finally, a binding can be thought of as an explanation for how an item is an instance of a category.
+For instance, one may explain that &#8220;16&#8221; is a square by saying that the square root is 4. This can
+open the possibility of seeing how &#8220;16&#8221; is related to &#8220;25 by using the relationships between the
+bindings. Formally, a binding is an instance of
+<a class="reference internal" href="../developer/categories.html#farg.core.categorization.binding.Binding" title="farg.core.categorization.binding.Binding"><code class="xref py py-class docutils literal"><span class="pre">Binding</span></code></a>.</p>
+</div>
+<div class="section" id="turning-integerobject-into-a-categorizable">
+<h2>Turning IntegerObject into a Categorizable<a class="headerlink" href="#turning-integerobject-into-a-categorizable" title="Permalink to this headline">¶</a></h2>
+<p>In farg/apps/bongard/workspace.py, let&#8217;s turn IntegerObject into a categorizable. To do this, we
+need to add a super-class. No extra methods are needed.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="kn">from</span> <span class="nn">farg.core.categorization.categorizable</span> <span class="k">import</span> <span class="n">CategorizableMixin</span>
+
+<span class="k">class</span> <span class="nc">IntegerObject</span><span class="p">(</span><span class="n">CategorizableMixin</span><span class="p">):</span>
+  <span class="c1"># Existing stuff.</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="adding-the-category-square">
+<h2>Adding the category &#8220;Square&#8221;<a class="headerlink" href="#adding-the-category-square" title="Permalink to this headline">¶</a></h2>
+<p>The file farg/apps/bongard/categories.py already exists, and we will add the new category to this.
+Our category must inherit from <a class="reference internal" href="../developer/categories.html#farg.core.categorization.category.Category" title="farg.core.categorization.category.Category"><code class="xref py py-class docutils literal"><span class="pre">Category</span></code></a>, and it should
+define the method IsInstance that would return a Binding object.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Square</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Category whose instances are IntegerObject that are square numbers.&quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;Square&quot;</span>
+
+  <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">):</span>
+    <span class="n">magnitude</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="n">magnitude</span>
+    <span class="k">if</span> <span class="n">magnitude</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">return</span> <span class="kc">None</span>  <span class="c1"># Not an instance.</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">math</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">magnitude</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">root</span> <span class="o">!=</span> <span class="nb">int</span><span class="p">(</span><span class="n">root</span><span class="p">):</span>
+      <span class="k">return</span> <span class="kc">None</span>
+    <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">sqroot</span><span class="o">=</span><span class="n">root</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="what-can-we-do-with-this">
+<h2>What can we do with this?<a class="headerlink" href="#what-can-we-do-with-this" title="Permalink to this headline">¶</a></h2>
+<p>What does this enable us to do? Here is a sampler.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">i7</span> <span class="o">=</span> <span class="n">IntegerObject</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">i9</span> <span class="o">=</span> <span class="n">IntegerObject</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+<span class="n">sq</span> <span class="o">=</span> <span class="n">Square</span><span class="p">()</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">i7</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">sq</span><span class="p">)</span>  <span class="c1"># b will be None</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">i9</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">sq</span><span class="p">)</span>  <span class="c1"># b won&#39;t be none.</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">i9</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">sq</span><span class="p">)</span>  <span class="c1"># No recalculation: i9 can remember its categories.</span>
+<span class="n">i9</span><span class="o">.</span><span class="n">IsKnownAsInstanceOf</span><span class="p">(</span><span class="n">sq</span><span class="p">)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">i9</span><span class="o">.</span><span class="n">GetBindingsForCategory</span><span class="p">(</span><span class="n">sq</span><span class="p">)</span>  <span class="c1"># Requires it to be a known instance</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="creating-a-class-of-categories">
+<h2>Creating a class of categories<a class="headerlink" href="#creating-a-class-of-categories" title="Permalink to this headline">¶</a></h2>
+<p>We will create the class of categories called X mod N. As an illustration, consider the category
+3 mod 4. This contains numbers that, when divided by 4, leave a remainder of 3. Examples of this
+are 3, 7, 11, and also -1, -5 and -9.</p>
+<p>The binding we return here is the integer part of that division. For 3, we return the binding k=0
+because 3 divided by 4 is 0, plus a remainder of 3. For 11, we get k=2, since 11 divided by 4 is 2,
+plus a remainder of 3.</p>
+<p>Must we always have a binding? No, not necessarily. And a binding need not be adequate to reconstruct
+the example. A binding is merely a bit of metadata concerning how something is a member of a certain
+category.</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">XModN</span><span class="p">(</span><span class="n">Category</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Category whose instances leave a remainder of X when divided by N.</span>
+
+<span class="sd">  X should be a number between 0 and N-1, inclusive.</span>
+<span class="sd">  &quot;&quot;&quot;</span>
+
+  <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">x</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">n</span> <span class="o">=</span> <span class="n">n</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s2">&quot;Modulo 0 makes no sense&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">x</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x</span> <span class="o">&gt;=</span> <span class="n">n</span><span class="p">:</span>
+      <span class="k">raise</span> <span class="n">FargError</span><span class="p">(</span><span class="s2">&quot;x must be between 0 and </span><span class="si">%d</span><span class="s2">:  </span><span class="si">%d</span><span class="s2"> mod </span><span class="si">%d</span><span class="s2"> not supported&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="n">n</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">n</span><span class="p">))</span>
+
+  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s2">&quot;</span><span class="si">%d</span><span class="s2"> mod </span><span class="si">%d</span><span class="s2">&quot;</span> <span class="o">%</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+
+  <span class="k">def</span> <span class="nf">IsInstance</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">entity</span><span class="p">):</span>
+    <span class="n">magnitude</span> <span class="o">=</span> <span class="n">entity</span><span class="o">.</span><span class="n">magnitude</span>
+    <span class="n">remainder</span> <span class="o">=</span> <span class="n">magnitude</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span>
+    <span class="k">if</span> <span class="n">remainder</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">:</span>
+      <span class="k">return</span> <span class="n">Binding</span><span class="p">(</span><span class="n">k</span><span class="o">=</span><span class="p">(</span><span class="n">magnitude</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">x</span><span class="p">)</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">n</span><span class="p">)</span>
+    <span class="k">return</span> <span class="kc">None</span>
+</pre></div>
+</div>
+<p>This newly creates category can be used thus:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">mod_3_4</span> <span class="o">=</span> <span class="n">XModN</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="n">i7</span> <span class="o">=</span> <span class="n">IntegerObject</span><span class="p">(</span><span class="mi">7</span><span class="p">)</span>
+<span class="n">i7</span><span class="o">.</span><span class="n">DescribeAs</span><span class="p">(</span><span class="n">mod_3_4</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="section" id="is-square-square">
+<h2>Is Square() == Square()?<a class="headerlink" href="#is-square-square" title="Permalink to this headline">¶</a></h2>
+<p>Yes. The class <a class="reference internal" href="../developer/categories.html#farg.core.categorization.category.Category" title="farg.core.categorization.category.Category"><code class="xref py py-class docutils literal"><span class="pre">Category</span></code></a> has the metaclass
+<a class="reference internal" href="../developer/sundry.html#farg.core.meta.MemoizedConstructor" title="farg.core.meta.MemoizedConstructor"><code class="xref py py-class docutils literal"><span class="pre">MemoizedConstructor</span></code></a>, which enforces that a constructor caches the objects
+it produces, and returns the same object when called with the same constructor. This implies that
+you can cheaply call XModN(3, 4) hundreds of times even if the constructor is expensive: the cost is
+incurred only once. Of course, XModN(4, 5) is a different object.</p>
+<p>In this sense, Square() is like a global.</p>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="first_codelet.html" title="Creating the first codelet"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" >Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jan 13, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>
