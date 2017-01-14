@@ -10,36 +10,28 @@ def main():
     command = sys.argv[1]
     if command == "update":
       update()
-      sys.exit(0)
     if command == "create":
       create(sys.argv[2])
-      sys.exit(0)
     elif command == "run":
       try:
         args = " ".join(sys.argv[3:])
       except Exception:
         args = ""
       run(sys.argv[2], args)
-      sys.exit(0)
     elif command == "codelet":
       appName = sys.argv[2]
       codeletName = sys.argv[3]
       addCodelet(appName, codeletName)
-      sys.exit(0)
     elif command == "remove":
       remove(sys.argv[2])
-      sys.exit(0)
     elif command == "help":
-      print ('Usage: "farg <command> [command arguments]"')
-      print ('\nCommands:')
+      print ('Usage: "farg <command> <command arguments>"')
+      print ('\tCommands:')
       print ('\tfarg create foo \t creates an app called foo')
       print ('\tfarg run foo <args> \t runs the app foo, with optional arguments')
       print ('\tfarg codelet foo bar \t adds a codelet named bar to the app foo')
       print ('\tfarg remove foo \t removes the app foo')
       print ('\tfarg update \t updates farg to the latest version using git.  This should be done periodically as PySeqsee is in active development.')
-      sys.exit(0)
-    else:
-      raise NotImplementedError()
   except Exception:
     print('Command not recognized.  Run farg help to see availiable commands.')
     sys.exit(1)
@@ -102,11 +94,7 @@ def remove(appName):
     print ("Cancelling...")
     
 def update():
-  returnCode = os.system("git pull")
-  if returnCode != 0:
-    print ("Unable to pull repositoryfrom github.  Please run 'git pull', and follow any error instructions.")
-    sys.exit(1)
-
+  os.system("git pull")
   returnCode = os.system("python3 setup.py install")
   if returnCode != 0:
     print ("Install failed, retrying using 'sudo'")
