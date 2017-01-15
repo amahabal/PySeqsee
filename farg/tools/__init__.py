@@ -26,7 +26,10 @@ def main():
       if len(sys.argv) == 2: #That'd be `farg test`
         os.system("nosetests --pdb ./tests/")
       else: #Hopefully the user is in the root directory of PySeqsee
-        os.system("nosetests --pdb farg/apps/{0}/tests/".format(sys.argv[2]))
+        if sys.argv[2] == "core":
+          os.system("nosetests --pdb farg/core/tests/".format(sys.argv[2]))
+        else:
+          os.system("nosetests --pdb farg/apps/{0}/tests/".format(sys.argv[2]))
       sys.exit(0)
     elif command == "remove":
       remove(sys.argv[2])
