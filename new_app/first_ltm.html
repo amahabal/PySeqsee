@@ -1,0 +1,190 @@
+
+
+<!doctype html>
+
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    
+    <title>Long-term memory &#8212; PySeqsee 0.2.3a1 documentation</title>
+    
+    <link rel="stylesheet" href="../_static/bizstyle.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    
+    <script type="text/javascript">
+      var DOCUMENTATION_OPTIONS = {
+        URL_ROOT:    '../',
+        VERSION:     '0.2.3a1',
+        COLLAPSE_INDEX: false,
+        FILE_SUFFIX: '.html',
+        HAS_SOURCE:  true,
+        SOURCELINK_SUFFIX: '.txt'
+      };
+    </script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="../_static/bizstyle.js"></script>
+    <link rel="shortcut icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="Focusing and “the attention economy”" href="focusing.html" />
+    <link rel="prev" title="First Categories" href="first_categories.html" />
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <!--[if lt IE 9]>
+    <script type="text/javascript" src="_static/css3-mediaqueries.js"></script>
+    <![endif]-->
+  </head>
+  <body role="document">
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="focusing.html" title="Focusing and “the attention economy”"
+             accesskey="N">next</a> |</li>
+        <li class="right" >
+          <a href="first_categories.html" title="First Categories"
+             accesskey="P">previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" accesskey="U">Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+            <p class="logo"><a href="../index.html">
+              <img class="logo" src="../_static/logo.jpg" alt="Logo"/>
+            </a></p>
+  <h3><a href="../index.html">Table Of Contents</a></h3>
+  <ul>
+<li><a class="reference internal" href="#">Long-term memory</a><ul>
+<li><a class="reference internal" href="#the-graph">The graph</a></li>
+<li><a class="reference internal" href="#the-subtleties-of-storing">The subtleties of storing</a></li>
+<li><a class="reference internal" href="#managing-several-ltms">Managing several LTMs</a><ul>
+<li><a class="reference internal" href="#registering-an-ltm-initializer">Registering an LTM initializer</a></li>
+<li><a class="reference internal" href="#getltm-name">GetLTM(name)</a></li>
+<li><a class="reference internal" href="#saveallopenltms">SaveAllOpenLTMs()</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+  <h4>Previous topic</h4>
+  <p class="topless"><a href="first_categories.html"
+                        title="previous chapter">First Categories</a></p>
+  <h4>Next topic</h4>
+  <p class="topless"><a href="focusing.html"
+                        title="next chapter">Focusing and &#8220;the attention economy&#8221;</a></p>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <form class="search" action="../search.html" method="get">
+      <div><input type="text" name="q" /></div>
+      <div><input type="submit" value="Go" /></div>
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="long-term-memory">
+<h1>Long-term memory<a class="headerlink" href="#long-term-memory" title="Permalink to this headline">¶</a></h1>
+<p>We continue our foray into the mechanics of doing things in PySeqsee while temporarily setting aside
+cognitive considerations. We will take a look at the long-term memory.</p>
+<div class="section" id="the-graph">
+<h2>The graph<a class="headerlink" href="#the-graph" title="Permalink to this headline">¶</a></h2>
+<p>The long-term memory in PySeqsee is a graph, whose nodes are individual concepts. There is no
+restriction on what the concepts may be&#8212;anything implementing a particular interface
+(<a class="reference internal" href="../developer/ltm.html#farg.core.ltm.storable.LTMStorableMixin" title="farg.core.ltm.storable.LTMStorableMixin"><code class="xref py py-class docutils literal"><span class="pre">LTMStorableMixin</span></code></a>) is welcome.</p>
+<p>All categories, being instances of <a class="reference internal" href="../developer/categories.html#farg.core.categorization.category.Category" title="farg.core.categorization.category.Category"><code class="xref py py-class docutils literal"><span class="pre">Category</span></code></a>, subclass
+from the LTMStorableMixin, and are therefore ready to be stored in the graph.</p>
+</div>
+<div class="section" id="the-subtleties-of-storing">
+<h2>The subtleties of storing<a class="headerlink" href="#the-subtleties-of-storing" title="Permalink to this headline">¶</a></h2>
+<p>The range of pitfalls in implementing a long-term memory are many, and I will illustrate this with
+an example. Consider wanting to store the category &#8220;Even squares&#8221;, which has been defined, let us say,
+as the intersection of the categories &#8220;Even&#8221; and &#8220;Square&#8221;.</p>
+<p>We would like to be able to store this category in the graph and dump the ltm into a file. Without
+the storage to a file, we are restricted to the life span of a single run, and this can hardly be termed
+&#8220;long&#8221;. In a subsequent run, we would also like to resuscitate the category (why else would one store
+it otherwise?)</p>
+<p>But our category is defined in terms of two other categories, and we would need to store these as
+well. All dependencies of a node that is stored also themselves need to be stored.</p>
+<p>The Python standard module <a class="reference external" href="https://docs.python.org/3.4/library/pickle.html#module-pickle" title="(in Python v3.4)"><code class="xref py py-mod docutils literal"><span class="pre">pickle</span></code></a> is intended for use in such cases, and it is part of the
+solution used here/</p>
+<p>We will return to these issues below on this page.</p>
+</div>
+<div class="section" id="managing-several-ltms">
+<h2>Managing several LTMs<a class="headerlink" href="#managing-several-ltms" title="Permalink to this headline">¶</a></h2>
+<p>Instead of having a giant graph of all nodes, PySeqsee has opted for one LTM per subspace (a subspace
+is related to the notion of a mental space from cognitive science). Each such LTM has a name, and an
+<a class="reference internal" href="../developer/ltm.html#farg.core.ltm.manager.LTMManager" title="farg.core.ltm.manager.LTMManager"><code class="xref py py-class docutils literal"><span class="pre">LTMManager</span></code></a> manages these. A single instance of a manager is active
+at a time.</p>
+<div class="admonition-todo admonition" id="index-0">
+<p class="first admonition-title">Todo</p>
+<p class="last">Write about when and where this is set up.</p>
+</div>
+<div class="section" id="registering-an-ltm-initializer">
+<h3>Registering an LTM initializer<a class="headerlink" href="#registering-an-ltm-initializer" title="Permalink to this headline">¶</a></h3>
+<p>LTMManager keeps track of names of managers. At startup, it lazily loads the LTMs in a particular directory.
+If an LTM file is missing or empty, it can be seeded with some initial nodes if an initializer has been
+registered. Such an initializer is a function that populates an LTM.</p>
+</div>
+<div class="section" id="getltm-name">
+<h3>GetLTM(name)<a class="headerlink" href="#getltm-name" title="Permalink to this headline">¶</a></h3>
+<p>This method returns an LTM if it has already been loaded. If it has not yet been loaded, it attempts
+to read the appropriate file from disk. If that too fails, but an initializer has been specified,
+that is now run. In the absence of an initializer, an empty graph is returned.</p>
+</div>
+<div class="section" id="saveallopenltms">
+<h3>SaveAllOpenLTMs()<a class="headerlink" href="#saveallopenltms" title="Permalink to this headline">¶</a></h3>
+<p>As the name suggests, this saves all the open LTMS.</p>
+</div>
+</div>
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="right" >
+          <a href="focusing.html" title="Focusing and “the attention economy”"
+             >next</a> |</li>
+        <li class="right" >
+          <a href="first_categories.html" title="First Categories"
+             >previous</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">PySeqsee 0.2.3a1 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="new_app_index.html" >Creating a new app</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2011, 2012, Abhijit Mahabal.
+      Last updated on Jan 15, 2017.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
+    </div>
+  </body>
+</html>

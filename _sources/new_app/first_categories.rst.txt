@@ -17,7 +17,7 @@ domain, "chairs" and "common first name". For now, this can be thought of as a s
 degrees of membership (but much more will be said later).
 
 By a *categorizable*, I mean a Python object that has the necessary routines to keep track of
-categories. This can be achieved by subclassing from the interface
+categories that it belongs to. This can be achieved by subclassing from the interface
 :py:class:`~farg.core.categorization.categorizable.CategorizableMixin`.
 
 Finally, a binding can be thought of as an explanation for how an item is an instance of a category.
