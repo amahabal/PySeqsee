@@ -25,6 +25,7 @@ class BongardGUI(GUI):
 
   def __init__(self, **kwargs):
     GUI.__init__(self, **kwargs)
+    self.mw.title("Bongard")
     # EDIT-ME: You may wish to add key-bindings.
   
 

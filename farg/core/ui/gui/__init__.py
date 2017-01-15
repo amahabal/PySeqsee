@@ -102,7 +102,7 @@ class GUI:
                                        stopping_condition=stopping_condition_fn)
     self.mw = mw = Tk()
     mw.geometry(self.geometry)
-
+    
     self.mw.bind('<KeyPress-q>', lambda e: self.Quit())
     self.mw.bind('<KeyPress-s>', lambda e: self.StepsInAnotherThread(1))
     self.mw.bind('<KeyPress-l>', lambda e: self.StepsInAnotherThread(10))

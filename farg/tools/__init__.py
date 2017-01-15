@@ -22,6 +22,15 @@ def main():
       appName = sys.argv[2]
       codeletName = sys.argv[3]
       addCodelet(appName, codeletName)
+    elif command == "test":
+      if len(sys.argv) == 2: #That'd be `farg test`
+        os.system("nosetests --pdb ./tests/")
+      else: #Hopefully the user is in the root directory of PySeqsee
+        if sys.argv[2] == "core":
+          os.system("nosetests --pdb farg/core/tests/".format(sys.argv[2]))
+        else:
+          os.system("nosetests --pdb farg/apps/{0}/tests/".format(sys.argv[2]))
+      sys.exit(0)
     elif command == "remove":
       remove(sys.argv[2])
     elif command == "help":
@@ -30,6 +39,7 @@ def main():
       print ('\tfarg create foo \t creates an app called foo')
       print ('\tfarg run foo <args> \t runs the app foo, with optional arguments')
       print ('\tfarg codelet foo bar \t adds a codelet named bar to the app foo')
+      print ('\tfarg test [foo (optional)] \t runs nosetests on the app in the current directory, or app foo, if in root directory')
       print ('\tfarg remove foo \t removes the app foo')
       print ('\tfarg update \t updates farg to the latest version using git.  This should be done periodically as PySeqsee is in active development.')
   except Exception:

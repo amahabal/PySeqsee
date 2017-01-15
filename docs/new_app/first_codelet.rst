@@ -55,7 +55,7 @@ We will add the codelet in the init function::
 Run the app
 -------------
 
-When you run the app now with 'farg run bongard --left 1 3 7 --right 2 4 6', a GUI shows up with the
+When you run the app now with 'farg run bongard ---left 1 3 7 ---right 2 4 6', a GUI shows up with the
 items visible on screen. Pressing 's' for 'Step' at this point runs one codelet, and it will be the
 codelet we just added, which will print an answer to the screen.
 
