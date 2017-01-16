@@ -57,6 +57,10 @@ class BongardMain(Main):
     """
     Process Bongard specific flags.
     """
+    if not self.flags.left:
+      sys.exit("Required argument --left missing or empty")
+    if not self.flags.right:
+      sys.exit("Required argument --right missing or empty")
     overlap = set(self.flags.left).intersection(self.flags.right) 
     if overlap:
       sys.exit("It makes no sense for the --left and --right to share elements as they do here: " +
