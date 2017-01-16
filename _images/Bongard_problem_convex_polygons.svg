@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="100%" height="100%" viewBox="-249 -166 498 332">
+ <title>Bongard problem convex polygons</title>
+ <desc>An example Bongard problem by CMG Lee, the solution being convex shapes (the left set, wbereas the right set are all concave).</desc>
+ <defs>
+  <radialGradient id="grad_ring" cx="50%" cy="50%" r="50%" fx="50%" fy="50%">
+   <stop offset="10%" stop-color="#ffffff"/>
+   <stop offset="90%" stop-color="#999999"/>
+  </radialGradient>
+  <rect id="box" x="-40" y="-40" width="80" height="80" fill="#ffffff"/>
+  <g id="boxes">
+   <use xlink:href="#box" transform="translate(0,-100)"/>
+   <use xlink:href="#box"/>
+   <use xlink:href="#box" transform="translate(0, 100)"/>
+  </g>
+  <g id="page">
+   <rect id="box" x="15" y="-160" width="230" height="320" rx="8" ry="8" fill="#eeeeee"/>
+   <use xlink:href="#boxes" transform="translate( 85,0)"/>
+   <use xlink:href="#boxes" transform="translate(185,0)"/>
+  </g>
+  <g id="ring">
+   <circle cx="-30" cy="0" r="5" fill="#333333"/>
+   <circle cx="30"  cy="0" r="5" fill="#333333"/>
+   <rect x="-32" y="-3" width="64" height="6" rx="3" ry="3" fill="url(#grad_ring)"/>
+   <path d="M 3,-3 C -9,0 9,0, -3,3"/>
+  </g>
+  <g id="rings">
+   <use xlink:href="#ring"/>
+   <use xlink:href="#ring" transform="translate(0,-30)"/>
+   <use xlink:href="#ring" transform="translate(0, 30)"/>
+  </g>
+ </defs>
+ <circle cx="0" cy="0" r="9999" fill="#ffffff"/>
+ <g font-family="Helvetica,Arial,sans-serif" font-size="20" text-anchor="middle" stroke-linejoin="round" stroke="#000000" fill="none">
+  <use xlink:href="#page"/>
+  <use xlink:href="#page"  transform="scale(-1,1)"/>
+  <use xlink:href="#rings" transform="translate(0,-80)"/>
+  <use xlink:href="#rings" transform="translate(0, 80)"/>
+  <path    transform="translate(-185,-100)" d="M -30,-20 h 40 v 30 Z" fill="#000000"/>
+  <ellipse transform="translate(-185,   0)" cx="0" cy="20" rx="30" ry="10"/>
+  <rect    transform="translate(-185, 100) rotate(-30)" x="-10" y="-20" width="20" height="30"/>
+  <path    transform="translate( -85,-100)" d="M 20,30 c -100,0 0,-130 0,0"/>
+  <path    transform="translate( -85,   0)" d="M -30,0 v 30 h 30 l 30,-30 v -30 h -30 Z"/>
+  <circle  transform="translate( -85, 100)" cx="0" cy="10" r="20" fill="#000000"/>
+  <path    transform="translate(  85,-100)" d="M -30,0 a 30,30 0 0 0 60,0 a 10,10 0 0 0 -20,0 a 10,10 0 0 1 -20,0 a 10,10 0 0 0 -20,0"/>
+  <path    transform="translate(  85,   0) rotate(225)" d="M -40,0 h 20 v -30 h 40 Z" fill="#000000"/>
+  <path    transform="translate(  85, 100)" d="M 30,-30 c -90,0 0,40 -60,60" stroke-width="10" stroke-linecap="round"/>
+  <path    transform="translate( 185,-100)" d="M -20,-20 l 40,20 l -40,20" stroke-width="20"/>
+  <path    transform="translate( 185,   0)" d="M -20,30 c 100,0 0,-80 -10,-50 s 10,0 10,50"/>
+  <path    transform="translate( 185, 100)" d="M -30,-10 v 20 h 20 v 20 h 20 v -20 h 20 v -20 h -20 v -20 h -20 v 20 h -20 Z"/>
+ </g>
+</svg>

@@ -63,9 +63,11 @@
   <h3><a href="../index.html">Table Of Contents</a></h3>
   <ul>
 <li><a class="reference internal" href="#">Creating a new app</a><ul>
+<li><a class="reference internal" href="#the-numeric-bongard-domain">The &#8220;numeric Bongard&#8221; domain</a></li>
 <li><a class="reference internal" href="#complexity-of-the-domain">Complexity of the domain</a></li>
+<li><a class="reference internal" href="#three-parts-of-this-tutorial">Three parts of this tutorial</a></li>
 <li><a class="reference internal" href="#creating-the-app-s-skeleton">Creating the app&#8217;s skeleton</a></li>
-<li><a class="reference internal" href="#first-codelets">First Codelets</a></li>
+<li><a class="reference internal" href="#first-custom-pieces">First custom pieces</a></li>
 </ul>
 </li>
 </ul>
@@ -98,14 +100,32 @@
 <h1>Creating a new app<a class="headerlink" href="#creating-a-new-app" title="Permalink to this headline">¶</a></h1>
 <div class="admonition warning">
 <p class="first admonition-title">Warning</p>
-<p class="last">Under active updating (as of Jan 8, 2017)</p>
+<p class="last">Under active updating (as of Jan 15, 2017)</p>
 </div>
-<p>This section will describe the process of creating a full new application. It will
-attempt to touch all aspects of the process.</p>
-<p>The application developed in this tutorial may be called &#8220;Numeric Bongard&#8221;. A &#8220;Bongard problem&#8221;
-consists of two sets of items&#8212;left and right&#8212;and the goal is to spot a rule that applies to all
-items in one set but none in the other.</p>
-<p>Here is an example. If one set contains the numbers 3, 7, and 11, and the other set contains 9, 15,
+<p>This section describes the process of creating a full new application. It will attempt to touch all
+aspects of the process, from mechanical aspects such as creating the skeleton code to cognitive
+considerations that dictate design choices.</p>
+<div class="section" id="the-numeric-bongard-domain">
+<h2>The &#8220;numeric Bongard&#8221; domain<a class="headerlink" href="#the-numeric-bongard-domain" title="Permalink to this headline">¶</a></h2>
+<p>The application developed in this tutorial may be called &#8220;numeric Bongard&#8221;, a simpler cousin of the
+original <a class="reference external" href="https://en.wikipedia.org/wiki/Bongard_problem">Bongard problems</a> created by the Russian
+computer scientist Mikhail Moiseevich Bongard. A &#8220;Bongard problem&#8221;
+consists of two sets of images&#8212;left and right&#8212;and the goal is to spot a rule that applies to all
+items in one set but none in the other. Mikhail Bongard published a delightful book containing a 100
+such problems, of which one is shown below.</p>
+<div class="figure align-center" id="id1">
+<a class="reference internal image-reference" href="../_images/Bongard_problem_convex_polygons.svg"><img alt="An example Bongard problem." src="../_images/Bongard_problem_convex_polygons.svg" width="50%" /></a>
+<p class="caption"><span class="caption-text">(By Cmglee, via Wikimedia Commons)</span></p>
+</div>
+<p>All six images on the left are convex images (but differ from each other in myriad other ways), and
+none of the six images on the right is convex.</p>
+<p>The original Bongard problems involve being able to understand images, and that is a very complex
+problem hardly suitable for a short tutorial. This domain was tackled by the computer program
+Phaeaco crafted by Harry Foundalis in his <a class="reference external" href="http://www.foundalis.com/res/Foundalis_dissertation.pdf">doctoral
+work</a>.</p>
+<p>The modified domain, where we have integers instead of images, side steps many of the complexities
+while keeping some essential features. Here is an example of this simplified domain. If one set
+contains the numbers 3, 7, and 11, and the other set contains 9, 15,
 and 21, then a correct &#8220;solution&#8221; is to say that the first set contains primes and the second set
 contains the composite numbers. Another example, more complex, includes items such as 3, 7, and 11 on
 one side and 2, 5, 13, 17 and 15 on the other. Here, one answer may be &#8220;the left hand set contains
@@ -113,6 +133,7 @@ items that are primes of the form 3 mod 4&#8221;, and the other side contains al
 <p>One smart alecky answer can always be &#8220;the left hand side contains exactly those numbers and none other&#8221;,
 but that would be missing the point that for many problems there are simpler and more elegant answers
 that people effortlessly spot.</p>
+</div>
 <div class="section" id="complexity-of-the-domain">
 <h2>Complexity of the domain<a class="headerlink" href="#complexity-of-the-domain" title="Permalink to this headline">¶</a></h2>
 <p>The complexity of a slightly spiced up version of the domain is horrendous. If the two sides, instead
@@ -135,9 +156,17 @@ answer, all that matters is that an answer can be given with an intelligent reas
 using a typical brute force pattern finder would not capture the fluidity of the problem.  Using FARG
 concepts like the parallel terraced scan embrace the open-ended nature of the problem.</p>
 </div>
+<div class="section" id="three-parts-of-this-tutorial">
+<h2>Three parts of this tutorial<a class="headerlink" href="#three-parts-of-this-tutorial" title="Permalink to this headline">¶</a></h2>
+<p>We will proceed from the purely mechanical aspects to aspects that require more thought about thinking.
+The first part concerns setting up the skeleton code. The second part demonstrates initial forays
+into adding custom pieces, such as the first codelets, categories, stream, subspaces, and so forth.
+Finally, in the third part we will deal with how these various pieces can be marshalled into an
+intricate dance.</p>
+</div>
 <div class="section" id="creating-the-app-s-skeleton">
 <h2>Creating the app&#8217;s skeleton<a class="headerlink" href="#creating-the-app-s-skeleton" title="Permalink to this headline">¶</a></h2>
-<p>In this phase, we will set up the initial skeleton of the app and get it to a useful point where we
+<p>In this part, we will set up the initial skeleton of the app and get it to a useful point where we
 can have some fun.</p>
 <div class="toctree-wrapper compound">
 <ul>
@@ -149,9 +178,9 @@ can have some fun.</p>
 </ul>
 </div>
 </div>
-<div class="section" id="first-codelets">
-<h2>First Codelets<a class="headerlink" href="#first-codelets" title="Permalink to this headline">¶</a></h2>
-<p>In this phase, we will lay a bit more groundwork. We will make our first codelet, and &#8220;solve&#8221; our
+<div class="section" id="first-custom-pieces">
+<h2>First custom pieces<a class="headerlink" href="#first-custom-pieces" title="Permalink to this headline">¶</a></h2>
+<p>In this part, we will lay a bit more groundwork. We will make our first codelet, and &#8220;solve&#8221; our
 first Bongard problem. However, this shall be done in a cognitively implausible way: the goal is to
 demonstrate the pieces, and we will put these to better use in the coming phases.</p>
 <div class="toctree-wrapper compound">
@@ -161,6 +190,10 @@ demonstrate the pieces, and we will put these to better use in the coming phases
 <li class="toctree-l1"><a class="reference internal" href="first_ltm.html">Long-term memory</a></li>
 <li class="toctree-l1"><a class="reference internal" href="focusing.html">Focusing and &#8220;the attention economy&#8221;</a></li>
 </ul>
+</div>
+<div class="admonition warning">
+<p class="first admonition-title">Warning</p>
+<p class="last">Under active development. Large parts of this tutorial yet to be written.</p>
 </div>
 </div>
 </div>

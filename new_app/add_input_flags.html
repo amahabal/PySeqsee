@@ -110,7 +110,7 @@ replace the first of these with the two flags we want:</p>
 <span class="n">bongard_parser</span><span class="o">.</span><span class="n">add_argument</span><span class="p">(</span><span class="s1">&#39;--right&#39;</span><span class="p">,</span> <span class="nb">type</span><span class="o">=</span><span class="nb">int</span><span class="p">,</span> <span class="n">nargs</span><span class="o">=</span><span class="s1">&#39;*&#39;</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>The &#8216;add_argument&#8217; method is from the argparse module. &#8216;type=int&#8217; tells the argument parser to expect
+<p>The &#8216;add_argument&#8217; method is from the <a class="reference external" href="https://docs.python.org/3.4/library/argparse.html#module-argparse" title="(in Python v3.4)"><code class="xref py py-mod docutils literal"><span class="pre">argparse</span></code></a> module. &#8216;type=int&#8217; tells the argument parser to expect
 integers, and the &#8216;nargs=*&#8217; tells it that there are arbitrarily many of these.</p>
 </div>
 <div class="section" id="sanity-checking-the-flags">
@@ -120,6 +120,10 @@ applies to all the left elements and to none of the right elements. We will chec
 &#8216;ProcessCustomFlags&#8217; method in &#8216;run_bongard.py&#8217;, which is currently empty:</p>
 <div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">BongardMain</span><span class="p">(</span><span class="n">Main</span><span class="p">):</span>
   <span class="k">def</span> <span class="nf">ProcessCustomFlags</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">left</span><span class="p">:</span>
+      <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Required argument --left missing or empty&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">right</span><span class="p">:</span>
+      <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;Required argument --right missing or empty&quot;</span><span class="p">)</span>
     <span class="n">overlap</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">left</span><span class="p">)</span><span class="o">.</span><span class="n">intersection</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">flags</span><span class="o">.</span><span class="n">right</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">overlap</span><span class="p">:</span>
       <span class="n">sys</span><span class="o">.</span><span class="n">exit</span><span class="p">(</span><span class="s2">&quot;It makes no sense for the --left and --right to share elements as they do here: &quot;</span> <span class="o">+</span>

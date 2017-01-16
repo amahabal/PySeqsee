@@ -86,7 +86,9 @@
 <span class="c1"># program.  If not, see &lt;http://www.gnu.org/licenses/&gt;</span>
 
 <div class="viewcode-block" id="LTMStorableMixin"><a class="viewcode-back" href="../../../../developer/ltm.html#farg.core.ltm.storable.LTMStorableMixin">[docs]</a><span class="k">class</span> <span class="nc">LTMStorableMixin</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-  <span class="sd">&quot;&quot;&quot;Any class whose instances should be stored in LTM must adhere to certain semantics,</span>
+  <span class="sd">&quot;&quot;&quot;Base class for items that may be stored in the long-term memory.</span>
+
+<span class="sd">  Any class whose instances should be stored in LTM must adhere to certain semantics,</span>
 <span class="sd">  and subclass from this class. Typically, it would also use MemoizedConstructor as a</span>
 <span class="sd">  metaclass.</span>
 
