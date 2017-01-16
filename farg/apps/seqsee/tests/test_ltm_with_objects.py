@@ -12,7 +12,7 @@ from farg.apps.seqsee.anchored import SAnchored
 
 class LTMTestBase(unittest.TestCase):
   def setUp(self):
-    filehandle, self.filename = tempfile.mkstemp()
+    unused_filehandle, self.filename = tempfile.mkstemp()
 
   def tearDown(self):
     os.remove(self.filename)

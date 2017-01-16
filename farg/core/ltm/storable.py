@@ -12,7 +12,9 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 class LTMStorableMixin(object):
-  """Any class whose instances should be stored in LTM must adhere to certain semantics,
+  """Base class for items that may be stored in the long-term memory.
+
+  Any class whose instances should be stored in LTM must adhere to certain semantics,
   and subclass from this class. Typically, it would also use MemoizedConstructor as a
   metaclass.
 
