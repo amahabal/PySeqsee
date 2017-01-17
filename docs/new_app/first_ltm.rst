@@ -36,6 +36,9 @@ item in the input. ::
     def __init__(self, magnitude):
       self.magnitude = magnitude
 
+    def BriefLabel(self):
+      return 'Platonic %d' % self.magnitude
+
 A fair question to ask is why we do not just reuse IntegerObject for this purpose. The answer is twofold.
 First, the two are conceptually different and will hold different pieces of information. The version
 used for LTM (i.e., PlatonicInteger) will store what has been remembered about an integer from prior runs, whereas the
@@ -155,6 +158,6 @@ directory (which, by default, is the directory .pyseqsee in your home directory 
 via the persistent_directory flag---see farg_flags.py). By default, then, you should expect to see
 a file at ~/.pyseqsee/bongard/ltm/bongard.main.
 
-.. TODO:: Tool to show LTM content.
+To see the content of this LTM, use this::
 
-  The contents of this file should be displayable via a command such as "farg show_ltm bongard bongard.main"
+  farg ltm bongard bongard.main

@@ -14,6 +14,9 @@ class PlatonicInteger(LTMStorableMixin, metaclass=MemoizedConstructor):
   def __init__(self, magnitude):
     self.magnitude = magnitude
 
+  def BriefLabel(self):
+    return 'Platonic %d' % self.magnitude
+
 class IntegerObject(CategorizableMixin, LTMStorableMixin):
   """Holds one item in either set, along with any book-keeping information."""
   

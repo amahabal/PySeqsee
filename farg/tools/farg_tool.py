@@ -1,4 +1,4 @@
-from farg.tools import create_app
+from farg.tools import create_app, print_ltm
 import os.path
 import sys, os, shutil, runpy
 import argparse
@@ -105,6 +105,11 @@ def main():
 
   parser_update = subparsers.add_parser('update', help='Updates farg to latest version using git')
   parser_update.set_defaults(func=update)
+
+  parser_ltm = subparsers.add_parser('ltm', help='Print content of an ltm')
+  parser_ltm.add_argument('app_name')
+  parser_ltm.add_argument('ltm_name')
+  parser_ltm.set_defaults(func=print_ltm.PrintLTM)
 
   args = parser.parse_args()
   if not hasattr(args, 'func'):
