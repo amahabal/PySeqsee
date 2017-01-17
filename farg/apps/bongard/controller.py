@@ -1,5 +1,7 @@
-from farg.apps.bongard.workspace import BongardWorkspace
+from farg.apps.bongard.categories import Square
+from farg.apps.bongard.workspace import BongardWorkspace, PlatonicInteger
 from farg.core.controller import Controller
+from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.manager import LTMManager
 import sys
 
@@ -9,7 +11,11 @@ kLTMName = 'bongard.main'
 
 def InitializeBongardLTM(ltm):
   """Called if ltm was empty (had no nodes)."""
-  pass
+  for i in range(10):
+    ltm.GetNodeForContent(PlatonicInteger(i))
+  for i in (0, 4, 9):
+    ltm.AddEdgeBetweenContent(PlatonicInteger(i), Square(),
+                              LTMEdge.LTM_EDGE_TYPE_ISA)
 
 LTMManager.RegisterInitializer(kLTMName, InitializeBongardLTM)
 
