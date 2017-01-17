@@ -72,10 +72,10 @@
 </li>
 <li><a class="reference internal" href="#accessing-the-nodes-in-the-graph">Accessing the nodes in the graph</a></li>
 <li><a class="reference internal" href="#subtleties-not-yet-touched-here">Subtleties not yet touched here</a></li>
-<li><a class="reference internal" href="#management-of-ltms">Management of LTMs</a><ul>
-<li><a class="reference internal" href="#registering-an-ltm-initializer">Registering an LTM initializer</a></li>
-<li><a class="reference internal" href="#getltm-name">GetLTM(name)</a></li>
-<li><a class="reference internal" href="#saveallopenltms">SaveAllOpenLTMs()</a></li>
+<li><a class="reference internal" href="#initializing-the-graph">Initializing the graph</a><ul>
+<li><a class="reference internal" href="#the-ltm-manager">The LTM Manager</a></li>
+<li><a class="reference internal" href="#initial-setup-for-bongard">Initial setup for Bongard</a></li>
+<li><a class="reference internal" href="#when-the-app-is-run">When the app is run</a></li>
 </ul>
 </li>
 </ul>
@@ -136,6 +136,9 @@ item in the input.</p>
 
   <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">magnitude</span><span class="p">):</span>
     <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span> <span class="o">=</span> <span class="n">magnitude</span>
+
+  <span class="k">def</span> <span class="nf">BriefLabel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="s1">&#39;Platonic </span><span class="si">%d</span><span class="s1">&#39;</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">magnitude</span>
 </pre></div>
 </div>
 <p>A fair question to ask is why we do not just reuse IntegerObject for this purpose. The answer is twofold.
@@ -185,7 +188,6 @@ thus:</p>
 concerned with storing complex nodes whose definition depends upon other nodes.</p>
 <div class="sidebar">
 <p class="first sidebar-title">Why is this so complex?</p>
-<p class="sidebar-subtitle">The subtleties of storing</p>
 <p>The range of pitfalls in implementing a long-term memory are many, and I will illustrate this with
 an example. Consider wanting to store the category &#8220;Even squares&#8221;, which has been defined, let us say,
 as the intersection of the categories &#8220;Even&#8221; and &#8220;Square&#8221;.</p>
@@ -199,31 +201,56 @@ well. All dependencies of a node that is stored also themselves need to be store
 solution used here.</p>
 </div>
 </div>
-<div class="section" id="management-of-ltms">
-<h2>Management of LTMs<a class="headerlink" href="#management-of-ltms" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="initializing-the-graph">
+<h2>Initializing the graph<a class="headerlink" href="#initializing-the-graph" title="Permalink to this headline">¶</a></h2>
+<p>When the application is run multiple times and sees a range of input problems, the long-term memory
+gradually becomes richer. But even at the beginning, it is useful to start off with at least a few
+elements, and this is achieved by an initializer.</p>
+<div class="section" id="the-ltm-manager">
+<h3>The LTM Manager<a class="headerlink" href="#the-ltm-manager" title="Permalink to this headline">¶</a></h3>
 <p>Instead of having a giant graph of all nodes, PySeqsee has opted for one LTM per subspace (a subspace
 is related to the notion of a mental space from cognitive science). Each such LTM has a name, and an
-<a class="reference internal" href="../developer/ltm.html#farg.core.ltm.manager.LTMManager" title="farg.core.ltm.manager.LTMManager"><code class="xref py py-class docutils literal"><span class="pre">LTMManager</span></code></a> manages these. A single instance of a manager is active
-at a time.</p>
-<div class="admonition-todo admonition" id="index-0">
-<p class="first admonition-title">Todo</p>
-<p class="last">Write about when and where this is set up.</p>
+<a class="reference internal" href="../developer/ltm.html#farg.core.ltm.manager.LTMManager" title="farg.core.ltm.manager.LTMManager"><code class="xref py py-class docutils literal"><span class="pre">LTMManager</span></code></a> manages these.</p>
+<p>It loads graphs from disk on demand, when GetLTM(name) is called. That call loads the file if it has
+not already been loaded. If the file does not exist, but an initializer has been defined, then that
+is called to set up the initial nodes.</p>
 </div>
-<div class="section" id="registering-an-ltm-initializer">
-<h3>Registering an LTM initializer<a class="headerlink" href="#registering-an-ltm-initializer" title="Permalink to this headline">¶</a></h3>
-<p>LTMManager keeps track of names of managers. At startup, it lazily loads the LTMs in a particular directory.
-If an LTM file is missing or empty, it can be seeded with some initial nodes if an initializer has been
-registered. Such an initializer is a function that populates an LTM.</p>
+<div class="section" id="initial-setup-for-bongard">
+<h3>Initial setup for Bongard<a class="headerlink" href="#initial-setup-for-bongard" title="Permalink to this headline">¶</a></h3>
+<p>When the app skeleton was created, hooks for initializing the LTM were already in place, in the file
+farg/apps/bongard/controller.py:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">kLTMName</span> <span class="o">=</span> <span class="s1">&#39;bongard.main&#39;</span>
+
+<span class="k">def</span> <span class="nf">InitializeBongardLTM</span><span class="p">(</span><span class="n">ltm</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Called if ltm was empty (had no nodes).&quot;&quot;&quot;</span>
+  <span class="k">pass</span>
+
+<span class="n">LTMManager</span><span class="o">.</span><span class="n">RegisterInitializer</span><span class="p">(</span><span class="n">kLTMName</span><span class="p">,</span> <span class="n">InitializeBongardLTM</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="getltm-name">
-<h3>GetLTM(name)<a class="headerlink" href="#getltm-name" title="Permalink to this headline">¶</a></h3>
-<p>This method returns an LTM if it has already been loaded. If it has not yet been loaded, it attempts
-to read the appropriate file from disk. If that too fails, but an initializer has been specified,
-that is now run. In the absence of an initializer, an empty graph is returned.</p>
+<p>Let&#8217;s add some nodes to that graph, and a few edges. We will add nodes corresponding to the integers
+0 through 9, a node for the category &#8220;Square&#8221;, and edges between four of those nodes and this
+category node. That edge will be marked as connecting instance to category:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">InitializeBongardLTM</span><span class="p">(</span><span class="n">ltm</span><span class="p">):</span>
+  <span class="sd">&quot;&quot;&quot;Called if ltm was empty (had no nodes).&quot;&quot;&quot;</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
+    <span class="n">ltm</span><span class="o">.</span><span class="n">GetNodeForContent</span><span class="p">(</span><span class="n">PlatonicInteger</span><span class="p">(</span><span class="n">i</span><span class="p">))</span>
+  <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">9</span><span class="p">):</span>
+    <span class="n">ltm</span><span class="o">.</span><span class="n">AddEdgeBetweenContent</span><span class="p">(</span><span class="n">PlatonicInteger</span><span class="p">(</span><span class="n">i</span><span class="p">),</span> <span class="n">Square</span><span class="p">(),</span>
+                              <span class="n">LTMEdge</span><span class="o">.</span><span class="n">LTM_EDGE_TYPE_ISA</span><span class="p">)</span>
+</pre></div>
 </div>
-<div class="section" id="saveallopenltms">
-<h3>SaveAllOpenLTMs()<a class="headerlink" href="#saveallopenltms" title="Permalink to this headline">¶</a></h3>
-<p>As the name suggests, this saves all the open LTMS.</p>
+</div>
+<div class="section" id="when-the-app-is-run">
+<h3>When the app is run<a class="headerlink" href="#when-the-app-is-run" title="Permalink to this headline">¶</a></h3>
+<p>When the app is run (via the &#8220;farg run bongard&#8221; command), a file will show up in the persistent
+directory (which, by default, is the directory .pyseqsee in your home directory but can be changed
+via the persistent_directory flag&#8212;see farg_flags.py). By default, then, you should expect to see
+a file at ~/.pyseqsee/bongard/ltm/bongard.main.</p>
+<p>To see the content of this LTM, use this:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">farg</span> <span class="n">ltm</span> <span class="n">bongard</span> <span class="n">bongard</span><span class="o">.</span><span class="n">main</span>
+</pre></div>
+</div>
 </div>
 </div>
 </div>
@@ -255,7 +282,7 @@ that is now run. In the absence of an initializer, an empty graph is returned.</
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2011, 2012, Abhijit Mahabal.
-      Last updated on Jan 15, 2017.
+      Last updated on Jan 16, 2017.
       Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.5.1.
     </div>
   </body>

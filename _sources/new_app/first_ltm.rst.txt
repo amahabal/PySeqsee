@@ -36,6 +36,9 @@ item in the input. ::
     def __init__(self, magnitude):
       self.magnitude = magnitude
 
+    def BriefLabel(self):
+      return 'Platonic %d' % self.magnitude
+
 A fair question to ask is why we do not just reuse IntegerObject for this purpose. The answer is twofold.
 First, the two are conceptually different and will hold different pieces of information. The version
 used for LTM (i.e., PlatonicInteger) will store what has been remembered about an integer from prior runs, whereas the
@@ -89,7 +92,6 @@ We have not yet described what the method LTMDepenedentContent of LTMStorableMix
 concerned with storing complex nodes whose definition depends upon other nodes.
 
 .. sidebar:: Why is this so complex?
-  :subtitle: The subtleties of storing
 
   The range of pitfalls in implementing a long-term memory are many, and I will illustrate this with
   an example. Consider wanting to store the category "Even squares", which has been defined, let us say,
@@ -106,34 +108,56 @@ concerned with storing complex nodes whose definition depends upon other nodes.
   The Python standard module :py:mod:`pickle` is intended for use in such cases, and it is part of the
   solution used here.
 
+Initializing the graph
+------------------------
 
-Management of LTMs
------------------------
+When the application is run multiple times and sees a range of input problems, the long-term memory
+gradually becomes richer. But even at the beginning, it is useful to start off with at least a few
+elements, and this is achieved by an initializer.
 
+The LTM Manager
+^^^^^^^^^^^^^^^^^
 Instead of having a giant graph of all nodes, PySeqsee has opted for one LTM per subspace (a subspace
 is related to the notion of a mental space from cognitive science). Each such LTM has a name, and an
-:py:class:`~farg.core.ltm.manager.LTMManager` manages these. A single instance of a manager is active
-at a time.
+:py:class:`~farg.core.ltm.manager.LTMManager` manages these.
 
-.. TODO::
+It loads graphs from disk on demand, when GetLTM(name) is called. That call loads the file if it has
+not already been loaded. If the file does not exist, but an initializer has been defined, then that
+is called to set up the initial nodes.
 
-  Write about when and where this is set up.
+Initial setup for Bongard
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+When the app skeleton was created, hooks for initializing the LTM were already in place, in the file
+farg/apps/bongard/controller.py::
 
-Registering an LTM initializer
-^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  kLTMName = 'bongard.main'
+  
+  def InitializeBongardLTM(ltm):
+    """Called if ltm was empty (had no nodes)."""
+    pass
 
-LTMManager keeps track of names of managers. At startup, it lazily loads the LTMs in a particular directory.
-If an LTM file is missing or empty, it can be seeded with some initial nodes if an initializer has been
-registered. Such an initializer is a function that populates an LTM.
+  LTMManager.RegisterInitializer(kLTMName, InitializeBongardLTM)
 
-GetLTM(name)
-^^^^^^^^^^^^^^
+Let's add some nodes to that graph, and a few edges. We will add nodes corresponding to the integers
+0 through 9, a node for the category "Square", and edges between four of those nodes and this
+category node. That edge will be marked as connecting instance to category::
 
-This method returns an LTM if it has already been loaded. If it has not yet been loaded, it attempts
-to read the appropriate file from disk. If that too fails, but an initializer has been specified,
-that is now run. In the absence of an initializer, an empty graph is returned.
+  def InitializeBongardLTM(ltm):
+    """Called if ltm was empty (had no nodes)."""
+    for i in range(10):
+      ltm.GetNodeForContent(PlatonicInteger(i))
+    for i in (0, 4, 9):
+      ltm.AddEdgeBetweenContent(PlatonicInteger(i), Square(),
+                                LTMEdge.LTM_EDGE_TYPE_ISA)
 
-SaveAllOpenLTMs()
-^^^^^^^^^^^^^^^^^^
+When the app is run
+^^^^^^^^^^^^^^^^^^^^
 
-As the name suggests, this saves all the open LTMS.
+When the app is run (via the "farg run bongard" command), a file will show up in the persistent
+directory (which, by default, is the directory .pyseqsee in your home directory but can be changed
+via the persistent_directory flag---see farg_flags.py). By default, then, you should expect to see
+a file at ~/.pyseqsee/bongard/ltm/bongard.main.
+
+To see the content of this LTM, use this::
+
+  farg ltm bongard bongard.main
