@@ -107,7 +107,11 @@ def main():
   parser_update.set_defaults(func=update)
 
   args = parser.parse_args()
+  if not hasattr(args, 'func'):
+    parser.print_help()
+    sys.exit()
   args.func(args)
+
 
 if __name__ == "__main__":
   main()
