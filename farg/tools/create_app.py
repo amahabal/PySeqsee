@@ -83,4 +83,4 @@ class FARGApp(Skeleton):
 if __name__ == '__main__':
   print("\n============= ERROR ==============")
   print("This file should no longer be executed directly. Instead, use "
-        "pyseqsee_create_app.py in this directory.")
+        "'farg create' in this directory.")
