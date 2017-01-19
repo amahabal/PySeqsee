@@ -99,7 +99,7 @@ class LTMGraph2(object):
         self._Unmangle(node.content.__dict__)
   
   # TODO: rename to GetNode(self, *, content)
-  def GetNodeForContent(self, content):
+  def GetNode(self, *, content):
     """Returns node for content; creates one if it does not exist."""
     storable_content = content.GetLTMStorableContent()
     if storable_content in self._content_to_node:
@@ -110,7 +110,7 @@ class LTMGraph2(object):
     self._content_to_node[storable_content] = new_node
     # Also ensure presence of any dependent nodes.
     for dependent_content in storable_content.LTMDependentContent():
-      self.GetNodeForContent(dependent_content)
+      self.GetNode(content=dependent_content)
     return new_node
 
 
@@ -238,7 +238,7 @@ class LTMGraph(object):
       self.nodes.append(node)
       kLogger.info("Added LTM node %s", node.content)
 
-  def GetNodeForContent(self, content):
+  def GetNode(self, *, content):
     """Returns node for content; creates one if it does not exist."""
     storable_content = content.GetLTMStorableContent()
     if storable_content in self._content_to_node:
@@ -249,24 +249,24 @@ class LTMGraph(object):
     self._content_to_node[storable_content] = new_node
     # Also ensure presence of any dependent nodes.
     for dependent_content in storable_content.LTMDependentContent():
-      self.GetNodeForContent(dependent_content)
+      self.GetNode(content=dependent_content)
     return new_node
 
   def IncreaseActivationForContent(self, content, amount):
     """IncreaseActivation node indicated by content by amount."""
     storable_content = content.GetLTMStorableContent()
-    self.GetNodeForContent(storable_content).IncreaseActivation(amount,
+    self.GetNode(content=storable_content).IncreaseActivation(amount,
                                                                 current_time=self._timesteps)
 
   def GetActivationForContent(self, content):
     """Get activation for content."""
     storable_content = content.GetLTMStorableContent()
-    return self.GetNodeForContent(storable_content).GetActivation(self._timesteps)
+    return self.GetNode(content=storable_content).GetActivation(self._timesteps)
 
   def AddEdgeBetweenContent(self, from_content, to_content,
                             edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
-    node = self.GetNodeForContent(from_content.GetLTMStorableContent())
-    to_node = self.GetNodeForContent(to_content.GetLTMStorableContent())
+    node = self.GetNode(content=from_content.GetLTMStorableContent())
+    to_node = self.GetNode(content=to_content.GetLTMStorableContent())
     for edge in node.outgoing_edges:
       if edge.to_node == to_node:
         if edge_type != edge.edge_type:
@@ -276,5 +276,5 @@ class LTMGraph(object):
     node.outgoing_edges.append(LTMEdge(to_node, edge_type))
 
   def IsContentSufficientlyActive(self, content, *, threshold=0.8):
-    activation = self.GetNodeForContent(content).GetActivation(current_time=self._timesteps)
+    activation = self.GetNode(content=content).GetActivation(current_time=self._timesteps)
     return activation >= threshold

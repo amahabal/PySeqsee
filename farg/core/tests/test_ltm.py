@@ -63,7 +63,7 @@ class TestLTM(LTMTestBase):
     m2 = MockMapping(category=c2)
 
     for content in (c1, m1, c2, m2):
-      myltm.GetNodeForContent(content)
+      myltm.GetNode(content=content)
 
     myltm.Dump()
 
@@ -100,7 +100,7 @@ class TestLTM(LTMTestBase):
 
     # Add in a strange order...
     for content in (m1, m2, c1, c2):
-      myltm.GetNodeForContent(content)
+      myltm.GetNode(content=content)
 
     myltm.Dump()
 
@@ -132,10 +132,10 @@ class TestLTM(LTMTestBase):
     m2 = MockMapping(category=c2)
 
     for content in (m1, m2, c1, c2):
-      myltm.GetNodeForContent(content)
+      myltm.GetNode(content=content)
 
     myltm.AddEdgeBetweenContent(m1, c1)
-    edges = myltm.GetNodeForContent(m1).GetOutgoingEdges()
+    edges = myltm.GetNode(content=m1).GetOutgoingEdges()
     self.assertEqual(c1, edges[0].to_node.content)
     self.assertEqual(LTMEdge.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
 
@@ -147,7 +147,7 @@ class TestLTM(LTMTestBase):
     myltm2 = LTMGraph(self.filename)
     self.assertEqual(4, len(myltm2.nodes))
     m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
-    edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
+    edges = myltm2.GetNode(content=m1p).GetOutgoingEdges()
     self.assertEqual(c1p, edges[0].to_node.content)
     self.assertEqual(LTMEdge.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
 
@@ -161,11 +161,11 @@ class TestLTM2(LTMTestBase):
     c1 = MockCategory(foo=7)
     m1 = MockMapping(category=c1)
     for content in (m1, c1):
-      myltm.GetNodeForContent(content)
+      myltm.GetNode(content=content)
     myltm.AddEdgeBetweenContent(m1, c1)
 
-    node_m1 = myltm.GetNodeForContent(m1)
-    node_c1 = myltm.GetNodeForContent(c1)
+    node_m1 = myltm.GetNode(content=m1)
+    node_c1 = myltm.GetNode(content=c1)
     self.assertEqual(0, node_m1.GetRawActivation(current_time=0))
     self.assertEqual(0, node_c1.GetRawActivation(current_time=0))
 
@@ -190,7 +190,7 @@ class TestLTM2(LTMTestBase):
     myltm2 = LTMGraph(self.filename)
     node_m1p, node_c1p = myltm2.nodes
     m1p, c1p = (x.content for x in myltm2.nodes)
-    edges = myltm2.GetNodeForContent(m1p).GetOutgoingEdges()
+    edges = myltm2.GetNode(content=m1p).GetOutgoingEdges()
     self.assertEqual(c1p, edges[0].to_node.content)
 
     #: Activations reset on loading...

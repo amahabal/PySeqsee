@@ -31,7 +31,7 @@ def InitializeSeqseeLTM(ltm):
   # Creates nodes for elements corresponding to the integers 1 through 10.
   elements = [SElement(magnitude) for magnitude in range(1, 11)]
   for element in elements:
-    ltm.GetNodeForContent(element)
+    ltm.GetNode(content=element)
   for idx, element in enumerate(elements[:-1]):
     ltm.AddEdgeBetweenContent(element, elements[idx + 1],
                               LTMEdge.LTM_EDGE_TYPE_RELATED)

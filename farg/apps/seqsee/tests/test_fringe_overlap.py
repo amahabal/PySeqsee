@@ -8,7 +8,7 @@ class FringeOverlapTestForAnchored(FringeOverlapTest):
     controller = MockSeqseeController(list(range(0, 10)))
     workspace = controller.workspace
     item_at_pos_1 = workspace.GetItemAt(1, 1)
-    item_1_node = controller.ltm.GetNodeForContent(item_at_pos_1.object)
+    item_1_node = controller.ltm.GetNode(content=item_at_pos_1.object)
     self.AssertFringeContains(controller, item_at_pos_1, {'pos:1': 0.5,
                                                           'pos:2': 0.3,
                                                           item_1_node: 0.4,

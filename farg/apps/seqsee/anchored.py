@@ -163,7 +163,7 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
       # QUALITY TODO(Feb 10, 2012): Whether to add a relation-focusing codelet should depend
       # on its confidence, whether it is internal (part of a group), and other considerations.
       codelets.append(Codelet(CF_FocusOn, controller, 25, dict(focusable=relation)))
-    my_node = controller.ltm.GetNodeForContent(self)
+    my_node = controller.ltm.GetNode(content=self)
     outgoing_isa_edges = my_node.GetOutgoingEdgesOfTypeIsa()
     for edge in outgoing_isa_edges:
       # QUALITY TODO(Feb 10, 2012): Category activation and edge strength relevant here.

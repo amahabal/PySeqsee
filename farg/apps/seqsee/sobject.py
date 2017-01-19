@@ -92,7 +92,7 @@ class SObject(CategorizableMixin, LTMStorableMixin):
   def GetFringeFromLTM(self, controller):
     """Fringe for the element (now based off the LTM)."""
     # TODO(# --- Dec 30, 2011): Need codelets to add LTM edges where they are missing.
-    my_node = controller.ltm.GetNodeForContent(self)
+    my_node = controller.ltm.GetNode(content=self)
     controller.ltm.IncreaseActivationForContent(self, 10)
     fringe = dict()
     fringe[my_node] = 1.0

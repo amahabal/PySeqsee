@@ -53,7 +53,7 @@ class Relation(FocusableMixin):
     return self.first.end_pos + 1 == self.second.start_pos
 
   def GetFringe(self, controller):
-    return dict((controller.ltm.GetNodeForContent(x), 1.0) for x in self.mapping_set)
+    return dict((controller.ltm.GetNode(content=x), 1.0) for x in self.mapping_set)
 
   def ChooseDistanceObject(self, controller):
     """Chooses a distance object. If a group is present between the edges, either of group

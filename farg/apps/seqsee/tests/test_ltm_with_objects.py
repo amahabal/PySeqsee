@@ -29,21 +29,21 @@ class TestLTMWithObjects(LTMTestBase):
 
     self.assertNotEqual(o1, o1b)
     self.assertEqual(o1.GetLTMStorableContent(), o1b.GetLTMStorableContent())
-    self.assertEqual(myltm.GetNodeForContent(o1), myltm.GetNodeForContent(o1b))
+    self.assertEqual(myltm.GetNode(content=o1), myltm.GetNode(content=o1b))
 
     for content in (o1, o1b, o2, o12, o123, o1_23):
-      myltm.GetNodeForContent(content)
+      myltm.GetNode(content=content)
 
-    self.assertEqual(myltm.GetNodeForContent(o1),
-                     myltm.GetNodeForContent(SAnchored(o1, None, 5, 5)))
+    self.assertEqual(myltm.GetNode(content=o1),
+                     myltm.GetNode(content=SAnchored(o1, None, 5, 5)))
 
-    self.assertEqual(myltm.GetNodeForContent(SAnchored(o1b, None, 6, 6)),
-                     myltm.GetNodeForContent(SAnchored(o1, None, 5, 5)))
+    self.assertEqual(myltm.GetNode(content=SAnchored(o1b, None, 6, 6)),
+                     myltm.GetNode(content=SAnchored(o1, None, 5, 5)))
 
-    self.assertNotEqual(myltm.GetNodeForContent(SAnchored(o1b, None, 6, 6)),
-                        myltm.GetNodeForContent(SAnchored(o1_23, None, 5, 7)))
+    self.assertNotEqual(myltm.GetNode(content=SAnchored(o1b, None, 6, 6)),
+                        myltm.GetNode(content=SAnchored(o1_23, None, 5, 7)))
 
-    node = myltm.GetNodeForContent(SAnchored(o1_23, None, 5, 7))
+    node = myltm.GetNode(content=SAnchored(o1_23, None, 5, 7))
     self.assertEqual(LTMStorableSObject, node.content.__class__)
     self.assertEqual((1, (2, 3)), node.content.structure)
 

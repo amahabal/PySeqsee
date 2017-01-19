@@ -29,7 +29,7 @@ class TestLTMWithMappings(LTMTestBase):
 
     # Also test this with parametrized categories.
     for content in (m1, m2, m3, m4):
-      myltm.GetNodeForContent(content)
+      myltm.GetNode(content=content)
     myltm.Dump()
 
     # Let's clear the memos for NumericMapping.
@@ -40,5 +40,5 @@ class TestLTMWithMappings(LTMTestBase):
     m1_like_node = NumericMapping(name='succ', category=Prime())
     self.assertNotEqual(m1_like_node, m1)
     self.assertNotEqual(m1_like_node.GetLTMStorableContent(), m1.GetLTMStorableContent())
-    myltm2.GetNodeForContent(m1_like_node)
+    myltm2.GetNode(content=m1_like_node)
     self.assertEqual(5, len(myltm2.nodes))

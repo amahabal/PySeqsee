@@ -22,7 +22,7 @@ class LTMTest(unittest.TestCase):
 
     i7 = IntegerObject(7)
     # Let's add nodes to this.
-    node = myltm.GetNodeForContent(i7)
+    node = myltm.GetNode(content=i7)
     self.assertEqual(PlatonicInteger, node.content.__class__)
     self.assertEqual(7, node.content.magnitude)
     
