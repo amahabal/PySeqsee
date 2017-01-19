@@ -96,5 +96,5 @@ class Relation(FocusableMixin):
     """
     if not self.AreEndsContiguous():
       distance_object = self.ChooseDistanceObject(controller)
-      controller.ltm.IncreaseActivationForContent(distance_object, 5)
+      controller.ltm.GetNode(content=distance_object).IncreaseActivation(5, current_time=controller.steps_taken)
 

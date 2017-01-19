@@ -252,17 +252,6 @@ class LTMGraph(object):
       self.GetNode(content=dependent_content)
     return new_node
 
-  def IncreaseActivationForContent(self, content, amount):
-    """IncreaseActivation node indicated by content by amount."""
-    storable_content = content.GetLTMStorableContent()
-    self.GetNode(content=storable_content).IncreaseActivation(amount,
-                                                                current_time=self._timesteps)
-
-  def GetActivationForContent(self, content):
-    """Get activation for content."""
-    storable_content = content.GetLTMStorableContent()
-    return self.GetNode(content=storable_content).GetActivation(self._timesteps)
-
   def AddEdgeBetweenContent(self, from_content, to_content,
                             edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
     node = self.GetNode(content=from_content.GetLTMStorableContent())

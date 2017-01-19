@@ -69,7 +69,7 @@ def WeightedChoice(choices):
 
 def SelectWeightedByActivation(ltm, choices):
   """Given an ltm and nodes in ltm, chooses one biased by activation."""
-  choices = ((x, ltm.GetActivationForContent(x)) for x in choices)
+  choices = ((x, ltm.GetNode(content=x).GetActivation(current_time=0)) for x in choices)
   return WeightedChoice(choices)
 
 
