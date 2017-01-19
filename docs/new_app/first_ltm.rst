@@ -4,6 +4,21 @@ Long-term memory
 We continue our foray into the mechanics of doing things in PySeqsee while temporarily setting aside
 cognitive considerations. We will take a look at the long-term memory.
 
+Remembering between runs
+--------------------------
+
+When an app runs on some input, it may figure something out in the process of solving it. It can
+store this information in its long-term memory, which is written out to disk. On a different run,
+this piece of information may come in handy.
+
+Here is an example of what may happen. Suppose that the Bongard app knows the category Square, and
+can answer the question "Is this a square", and knows a few squares such as 1, 4, and 9, but that
+it does not know 121 to be a square. It sees a problem where the left-hand side contains 1, 9, and
+121, and it asks itself the question "Is 121 a square?" and then remembers the fact that it is.
+Later, when it encounters another problem with a "121", it may "remember" that that is a square.
+
+The memory is stored as a graph, as described below.
+
 The graph
 -----------
 
