@@ -16,9 +16,9 @@ class LTMTest(unittest.TestCase):
     myltm = LTMGraph(self.filename)
     
     # Create nodes that we may want to add.
-    pi7 = PlatonicInteger(7)
+    pi7 = PlatonicInteger(magnitude=7)
     # Repeated constructor calls return the same thing.
-    self.assertEqual(pi7, PlatonicInteger(7))
+    self.assertEqual(pi7, PlatonicInteger(magnitude=7))
 
     i7 = IntegerObject(7)
     # Let's add nodes to this.

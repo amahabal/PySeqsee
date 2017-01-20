@@ -27,7 +27,7 @@ class XModN(Category):
   X should be a number between 0 and N-1, inclusive.
   """
 
-  def __init__(self, x, n):
+  def __init__(self, *, x, n):
     self.x = x
     self.n = n
     if n == 0:

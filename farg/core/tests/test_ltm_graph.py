@@ -10,12 +10,12 @@ from farg.core.ltm.graph import LTMGraph2
 # not passed in via the constructor must begin with a _.
 
 class PlatonicInt(LTMStorableMixin, metaclass=MemoizedConstructor):
-  def __init__(self, me):
+  def __init__(self, *, me):
     """me is a positive int; if it is bigger than 1, PlatonicInt(half of me) is the parent."""
     print("PlatonicInt constructor called: me=", me)
     self.me = me
     if me > 1:
-      self._parent = PlatonicInt(int(me / 2))
+      self._parent = PlatonicInt(me=int(me / 2))
     else:
       self._parent = None
 

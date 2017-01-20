@@ -21,7 +21,7 @@ class Mapping(LTMStorableMixin, metaclass=MemoizedConstructor):
   pass
 
 class NumericMapping(Mapping):
-  def __init__(self, name, category):
+  def __init__(self, *, name, category):
     #: A string such as "succ" or "same". There are only 5 distinct values used in the Perl
     #: version: *succ*, *pred*, *same*, *flip*, and *noflip*.
     self.name = name
@@ -39,7 +39,7 @@ class NumericMapping(Mapping):
 
 
   def FlippedVersion(self):
-    return NumericMapping(NumericMapping._flipmap_[self.name], self.category)
+    return NumericMapping(name=NumericMapping._flipmap_[self.name], category=self.category)
 
   def Apply(self, item):
     return self.category.ApplyMapping(self, item)
@@ -63,7 +63,7 @@ class NumericMapping(Mapping):
     return (self.category,)
 
 class StructuralMapping(Mapping):
-  def __init__(self, category, bindings_mapping, slippages=None,
+  def __init__(self, *, category, bindings_mapping, slippages=None,
                no_flipped_version=None,
                flipped_version=None):
     #: A category, such as ascending, on which mapping is based.
@@ -135,7 +135,8 @@ class StructuralMapping(Mapping):
         return None
       new_bindings_mappings[attribute] = flipped
     if not self.slippages:
-      return StructuralMapping(self.category, frozenset(list(new_bindings_mappings.items())))
+      return StructuralMapping(category=self.category,
+                               bindings_mapping=frozenset(list(new_bindings_mappings.items())))
     # TODO(# --- Feb 16, 2012): Flip items with slippages when possible.
     return None
 

@@ -143,7 +143,7 @@ class Number(NumericCategory):
     magnitude_1, magnitude_2 = item1.magnitude, item2.magnitude
     diff_string = NumericMapping.DifferenceString(magnitude_1, magnitude_2)
     if diff_string:
-      return NumericMapping(diff_string, Number())
+      return NumericMapping(name=diff_string, category=Number())
     else:
       return None
 
@@ -151,7 +151,7 @@ class Number(NumericCategory):
     index1, index2 = item1.magnitude, item2.magnitude
     diff_string = NumericMapping.DifferenceString(index1, index2)
     if diff_string:
-      return NumericMapping(diff_string, Number())
+      return NumericMapping(name=diff_string, category=Number())
     else:
       return None
 
@@ -185,7 +185,7 @@ class PrecomputedNumberList(NumericCategory):
                       binding2.GetBindingsForAttribute('index'))
     diff_string = NumericMapping.DifferenceString(index1, index2)
     if diff_string:
-      return NumericMapping(diff_string, self)
+      return NumericMapping(name=diff_string, category=self)
     else:
       return None
 
@@ -232,7 +232,7 @@ class PrecomputedNumberList(NumericCategory):
                       binding2.GetBindingsForAttribute('index'))
     diff_string = NumericMapping.DifferenceString(index1, index2)
     if diff_string:
-      return NumericMapping(diff_string, self)
+      return NumericMapping(name=diff_string, category=self)
     else:
       return None
 
@@ -314,7 +314,7 @@ class Ascending(StructuralCategory):
 
 class SizeNCategory(StructuralCategory):
 
-  def __init__(self, size):
+  def __init__(self, *, size):
     if size == 1:
       raise FargError("Attempt to create a SizeN category with size=1")
     self.size = size
@@ -346,7 +346,7 @@ class SizeNCategory(StructuralCategory):
     return SObject.Create(structure)
 
 class MappingBasedCategory(StructuralCategory):
-  def __init__(self, mapping):
+  def __init__(self, *, mapping):
     self.mapping = mapping
 
   def BriefLabel(self):

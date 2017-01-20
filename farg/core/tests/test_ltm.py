@@ -9,7 +9,7 @@ import unittest
 
 
 class MockCategory(LTMStorableMixin, metaclass=MemoizedConstructor):
-  def __init__(self, foo):
+  def __init__(self, *, foo):
     print("Initializing MockCategory instance ", self)
     self.foo = foo
 
@@ -17,7 +17,7 @@ class MockCategory(LTMStorableMixin, metaclass=MemoizedConstructor):
     return "foo=%s" % self.foo
 
 class MockCategory2(LTMStorableMixin, metaclass=MemoizedConstructor):
-  def __init__(self, foo):
+  def __init__(self, *, foo):
     print("Initializing MockCategory2 instance ", self)
     self.foo = foo
 
@@ -25,7 +25,7 @@ class MockCategory2(LTMStorableMixin, metaclass=MemoizedConstructor):
     return "foo=%s" % self.foo
 
 class MockMapping(LTMStorableMixin, metaclass=MemoizedConstructor):
-  def __init__(self, category):
+  def __init__(self, *, category):
     self.category = category
 
   def BriefLabel(self):

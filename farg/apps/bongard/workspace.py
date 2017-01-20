@@ -11,7 +11,7 @@ class PlatonicInteger(LTMStorableMixin, metaclass=MemoizedConstructor):
   Holds an integer that can be stored in LTM (and about which we can store information such as
   remembered categories."""
 
-  def __init__(self, magnitude):
+  def __init__(self, *, magnitude):
     self.magnitude = magnitude
 
   def BriefLabel(self):
@@ -24,7 +24,7 @@ class IntegerObject(CategorizableMixin, LTMStorableMixin):
     self.magnitude = magnitude
 
   def GetLTMStorableContent(self):
-    return PlatonicInteger(self.magnitude)
+    return PlatonicInteger(magnitude=self.magnitude)
 
 class BongardWorkspace:
   """The top-level workspace for Bongard.

@@ -124,8 +124,8 @@ class TestSeqseeCategories(unittest.TestCase):
 
   def test_mapping_based(self):
     Size2 = SizeNCategory(size=2)
-    numeric_sameness = NumericMapping("same", Number())
-    numeric_successor = NumericMapping("succ", Number())
+    numeric_sameness = NumericMapping(name="same", category=Number())
+    numeric_successor = NumericMapping(name="succ", category=Number())
     mapping_second_succ = StructuralMapping(
         category=Size2,
         bindings_mapping=frozenset((('pos_1', numeric_sameness),

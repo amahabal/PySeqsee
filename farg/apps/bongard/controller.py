@@ -12,9 +12,9 @@ kLTMName = 'bongard.main'
 def InitializeBongardLTM(ltm):
   """Called if ltm was empty (had no nodes)."""
   for i in range(10):
-    ltm.GetNode(content=PlatonicInteger(i))
+    ltm.GetNode(content=PlatonicInteger(magnitude=i))
   for i in (0, 4, 9):
-    ltm.AddEdgeBetweenContent(PlatonicInteger(i), Square(),
+    ltm.AddEdgeBetweenContent(PlatonicInteger(magnitude=i), Square(),
                               LTMEdge.LTM_EDGE_TYPE_ISA)
 
 LTMManager.RegisterInitializer(kLTMName, InitializeBongardLTM)

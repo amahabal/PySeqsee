@@ -138,8 +138,8 @@ class TestWorkspace(unittest.TestCase):
     elt2 = SAnchored(SElement(7), (), 2, 2)
     elt3 = SAnchored(SElement(8), (), 3, 3)
     elt4 = SAnchored(SElement(9), (), 4, 4)
-    numeric_successor = NumericMapping("succ", Number())
-    numeric_sameness = NumericMapping("same", Number())
+    numeric_successor = NumericMapping(name="succ", category=Number())
+    numeric_sameness = NumericMapping(name="same", category=Number())
 
     successor_mapping_based_cat = MappingBasedCategory(mapping=numeric_successor)
 

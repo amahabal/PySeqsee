@@ -34,7 +34,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 class LTMStorableSObject(LTMStorableMixin, metaclass=MemoizedConstructor):
-  def __init__(self, structure):
+  def __init__(self, *, structure):
     self.structure = structure
 
   def BriefLabel(self):
