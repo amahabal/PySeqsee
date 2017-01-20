@@ -18,7 +18,7 @@ class TestSubspace(unittest.TestCase):
 
     _ui = BatchUI(controller_class=Controller)
     controller = _ui.controller
-    controller.ltm = LTMGraph()
+    controller.ltm = LTMGraph(empty_ok_for_test=True)
     mapping = FindMapping(a3, a4, category=Ascending(), controller=controller,
                           seqsee_ltm=controller.ltm)
     self.assertTrue(isinstance(mapping, StructuralMapping))
@@ -35,7 +35,7 @@ class TestSubspace(unittest.TestCase):
 
     _ui = BatchUI(controller_class=Controller)
     controller = _ui.controller
-    controller.ltm = LTMGraph()
+    controller.ltm = LTMGraph(empty_ok_for_test=True)
     mapping = FindMapping(a17_19, a19_21, category=Ascending(), controller=controller,
                           seqsee_ltm=controller.ltm)
     self.assertTrue(isinstance(mapping, StructuralMapping))

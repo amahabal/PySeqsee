@@ -19,7 +19,7 @@ class LTMTestBase(unittest.TestCase):
 
 class TestLTMWithObjects(LTMTestBase):
   def test_sanity(self):
-    myltm = LTMGraph(self.filename)
+    myltm = LTMGraph(filename=self.filename)
     o1 = SObject.Create([1])
     o1b = SObject.Create([1])
     o2 = SObject.Create([2])
@@ -47,7 +47,7 @@ class TestLTMWithObjects(LTMTestBase):
     self.assertEqual(LTMStorableSObject, node.content.__class__)
     self.assertEqual((1, (2, 3)), node.content.structure)
 
-    myltm.Dump()
+    myltm.DumpToFile()
 
-    myltm2 = LTMGraph(self.filename)
+    myltm2 = LTMGraph(filename=self.filename)
     self.assertEqual(5, len(myltm2.nodes))

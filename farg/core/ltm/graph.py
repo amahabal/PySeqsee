@@ -20,7 +20,7 @@ import pickle as pickle
 kLogger = logging.getLogger("LTM_topology")
 
 
-class LTMGraph2(object):
+class LTMGraph(object):
   """Represents a graph to be stored in the long-term memory.
 
   Keyword Args:
@@ -61,7 +61,7 @@ class LTMGraph2(object):
   The class LTM Manager handles this workflow. 
   """
 
-  def __init__(self, *, filename=None, master_graph=None):
+  def __init__(self, *, filename=None, master_graph=None, empty_ok_for_test=False):
     self.nodes = []
     self._content_to_node = {}
 
@@ -75,10 +75,11 @@ class LTMGraph2(object):
       self.is_working_copy = True
       self.master_graph = master_graph
       self._CopyFromMaster()
+    elif empty_ok_for_test:
+      pass
     else:
       raise FargError("One of filename or master_graph needs to be passed in")
 
-      
   def GetNodes(self):
     """Returns list of nodes. Don't modify this list."""
     return self.nodes
@@ -161,99 +162,8 @@ class LTMGraph2(object):
       if isinstance(value, LTMNode):
         content_dict[k] = value.content
 
-class LTMGraph(object):
-  """Represents a full LTM graph (consisting of nodes and edges)."""
-  def __init__(self, filename=None):
-    """Initialization loads up the nodes and edges of the graph."""
-    #: Nodes in the graph. Each is a LTMNode.
-    self.nodes = []
-    #: A utility data-structure mapping content to nodes. A particular piece of content
-    #: should have at most one node.
-    self._content_to_node = {}
-    #: The filename for reading the graph from and for dumping the graph to.
-    #: Must exist if we want to persist the LTM, but may be empty for testing.
-    #: .. todo:: we need to be able to create this if missing.
-    self._filename = filename
-    #: Elapsed time-steps. Activation is time dependent since it decays at each time step. A
-    #: notion of time is therefore relevant.
-    self._timesteps = 0
-    if filename:
-      with open(filename, "rb") as ltmfile:
-        up = pickle.Unpickler(ltmfile)
-        self._LoadNodes(up)
-    logging.info('Loaded LTM in %s: %d nodes read', filename, len(self.nodes))
-
-  def _LoadNodes(self, unpickler):
-    """Load all nodes from the unpickler.
-
-    Each thing unpickled is a LTMNode. Because that class defines a __setstate__, it is used
-    to setup the state of the created node.
-
-    While pickling, the content of that node (in a mangled state, see below) and its class is
-    stored. When unpickling (this method), __setstate__ of LTMNode calls Create on this class
-    (defined in LTMStorableMixin), and it ensures a proper non-duplicate initialization.
-    """
-    while True:
-      try:
-        node = unpickler.load()
-        self.AddNode(node)
-      except EOFError:
-        break
-      except ValueError:
-        # Hit in Py3 for empty input file...
-        break
-
-  def IsEmpty(self):
-    """True if there are zero-nodes."""
-    return not self.nodes
-
-  def Dump(self):
-    """Writes out content to file if file attribute is set."""
-    if not self._filename:
-      return
-    with open(self._filename, "wb") as ltm_file:
-      pickler = pickle.Pickler(ltm_file, 2)
-      for node in self.nodes:
-        self._Mangle(node.content.__dict__)
-        pickler.dump(node)
-        self._Unmangle(node.content.__dict__)
-
-  def _Mangle(self, content_dict):
-    """Replaces references to nodes with the nodes themselves."""
-    for k, value in content_dict.items():
-      if value in self._content_to_node:
-        content_dict[k] = self._content_to_node[value]
-
-  def _Unmangle(self, content_dict):
-    """Replaces values that are nodes with contents of those nodes."""
-    for k, value in content_dict.items():
-      if isinstance(value, LTMNode):
-        content_dict[k] = value.content
-
-
-  def AddNode(self, node):
-    assert(isinstance(node, LTMNode))
-    if not node.content in self._content_to_node:
-      self._content_to_node[node.content] = node
-      self.nodes.append(node)
-      kLogger.info("Added LTM node %s", node.content)
-
-  def GetNode(self, *, content):
-    """Returns node for content; creates one if it does not exist."""
-    storable_content = content.GetLTMStorableContent()
-    if storable_content in self._content_to_node:
-      return self._content_to_node[storable_content]
-    logging.debug("Created new LTM node [%s]", storable_content)
-    new_node = LTMNode(storable_content)
-    self.nodes.append(new_node)
-    self._content_to_node[storable_content] = new_node
-    # Also ensure presence of any dependent nodes.
-    for dependent_content in storable_content.LTMDependentContent():
-      self.GetNode(content=dependent_content)
-    return new_node
-
-  def AddEdgeBetweenContent(self, from_content, to_content,
-                            edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
+  def AddEdge(self, from_content, to_content,
+              edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
     node = self.GetNode(content=from_content.GetLTMStorableContent())
     to_node = self.GetNode(content=to_content.GetLTMStorableContent())
     for edge in node.outgoing_edges:
@@ -263,7 +173,3 @@ class LTMGraph(object):
         # Already exists, bail out.
         return
     node.outgoing_edges.append(LTMEdge(to_node, edge_type))
-
-  def IsContentSufficientlyActive(self, content, *, threshold=0.8):
-    activation = self.GetNode(content=content).GetActivation(current_time=self._timesteps)
-    return activation >= threshold

@@ -14,8 +14,8 @@ def InitializeBongardLTM(ltm):
   for i in range(10):
     ltm.GetNode(content=PlatonicInteger(magnitude=i))
   for i in (0, 4, 9):
-    ltm.AddEdgeBetweenContent(PlatonicInteger(magnitude=i), Square(),
-                              LTMEdge.LTM_EDGE_TYPE_ISA)
+    ltm.AddEdge(PlatonicInteger(magnitude=i), Square(),
+                LTMEdge.LTM_EDGE_TYPE_ISA)
 
 LTMManager.RegisterInitializer(kLTMName, InitializeBongardLTM)
 

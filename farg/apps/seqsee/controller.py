@@ -33,18 +33,18 @@ def InitializeSeqseeLTM(ltm):
   for element in elements:
     ltm.GetNode(content=element)
   for idx, element in enumerate(elements[:-1]):
-    ltm.AddEdgeBetweenContent(element, elements[idx + 1],
-                              LTMEdge.LTM_EDGE_TYPE_RELATED)
-    ltm.AddEdgeBetweenContent(elements[idx + 1], element,
-                              LTMEdge.LTM_EDGE_TYPE_RELATED)
+    ltm.AddEdge(element, elements[idx + 1],
+                LTMEdge.LTM_EDGE_TYPE_RELATED)
+    ltm.AddEdge(elements[idx + 1], element,
+                LTMEdge.LTM_EDGE_TYPE_RELATED)
   from farg.apps.seqsee.categories import Prime, Squares, TriangularNumbers
   for prime_number in Prime.number_list[:10]:
-    ltm.AddEdgeBetweenContent(SElement(prime_number), Prime(),
-                              LTMEdge.LTM_EDGE_TYPE_ISA)
+    ltm.AddEdge(SElement(prime_number), Prime(),
+                LTMEdge.LTM_EDGE_TYPE_ISA)
   for square in Squares.number_list[:10]:
-    ltm.AddEdgeBetweenContent(SElement(square), Squares(), LTMEdge.LTM_EDGE_TYPE_ISA)
+    ltm.AddEdge(SElement(square), Squares(), LTMEdge.LTM_EDGE_TYPE_ISA)
   for triangular in TriangularNumbers.number_list[:10]:
-    ltm.AddEdgeBetweenContent(SElement(triangular), TriangularNumbers(),
+    ltm.AddEdge(SElement(triangular), TriangularNumbers(),
                               LTMEdge.LTM_EDGE_TYPE_ISA)
 
 

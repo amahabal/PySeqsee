@@ -124,8 +124,8 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
         relation = Relation(left, right, mapping_set={mapping})
         right.AddRelation(relation)
         left.AddRelation(relation)
-      controller.ltm.AddEdgeBetweenContent(left.object, right.object, 'related')
-      controller.ltm.AddEdgeBetweenContent(right.object, left.object, 'related')
+      controller.ltm.AddEdge(left.object, right.object, 'related')
+      controller.ltm.AddEdge(right.object, left.object, 'related')
       from farg.apps.seqsee.codelet_families.all import CF_FocusOn
       controller.AddCodelet(family=CF_FocusOn, urgency=100,
                             arguments_dict=dict(focusable=relation))

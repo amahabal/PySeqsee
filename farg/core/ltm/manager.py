@@ -40,14 +40,14 @@ class LTMManager(object):
         # We need to create the LTM. I'd need to figure out how and where it should get
         # populated. For now, I will create an empty LTM.
         open(filename, 'w').close()
-      ltm = LTMGraph(filename)
+      ltm = LTMGraph(filename=filename)
     else:
-      ltm = LTMGraph()
+      ltm = LTMGraph(empty_ok_for_test=True)
     if ltm.IsEmpty():
       if ltm_name in cls._registered_initializers:
         cls._registered_initializers[ltm_name](ltm)
         # Also save the LTM immediately.
-        ltm.Dump()
+        ltm.DumpToFile()
         kLogger.info("LTM %s was empty, initialized.", ltm_name)
       else:
         kLogger.warn("LTM %s was empty, and no initalizer registered.", ltm_name)
@@ -64,4 +64,4 @@ class LTMManager(object):
   @classmethod
   def SaveAllOpenLTMS(cls):
     for _ltm_name, ltm in LTMManager.loaded_ltms.items():
-      ltm.Dump()
+      ltm.DumpToFile()

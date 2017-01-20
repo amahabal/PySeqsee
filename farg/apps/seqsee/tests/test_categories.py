@@ -71,7 +71,7 @@ class TestSeqseeCategories(unittest.TestCase):
     element7 = SObject.Create([13, 14, 15, 16])
     _ui = BatchUI(controller_class=Controller)
     controller = _ui.controller
-    controller.ltm = LTMGraph()
+    controller.ltm = LTMGraph(empty_ok_for_test=True)
     mapping = Ascending().FindMapping(element5, element7, controller=controller,
                                       seqsee_ltm=controller.ltm)
     self.assertTrue(isinstance(mapping, StructuralMapping))
@@ -113,7 +113,7 @@ class TestSeqseeCategories(unittest.TestCase):
     element6 = SObject.Create([3, 6])
     _ui = BatchUI(controller_class=Controller)
     controller = _ui.controller
-    controller.ltm = LTMGraph()
+    controller.ltm = LTMGraph(empty_ok_for_test=True)
     mapping = Size2.FindMapping(element5, element6,
                                 controller=controller,
                                 seqsee_ltm=controller.ltm)

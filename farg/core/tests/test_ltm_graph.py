@@ -2,7 +2,7 @@ import os
 import tempfile
 import unittest
 from farg.core.ltm.storable import LTMStorableMixin, LTMNodeContent
-from farg.core.ltm.graph import LTMGraph2
+from farg.core.ltm.graph import LTMGraph
 
 # TODO: I need a class called LTMNodeContent, which can actually be content, and this can have
 # MemoizedConstructor as a metaclass. This class should have a kw-only constructor, and any attribute
@@ -45,7 +45,7 @@ class LTMTestBase(unittest.TestCase):
     os.remove(self.filename)
 
   def test_sanity(self):
-    graph = LTMGraph2(filename=self.filename)
+    graph = LTMGraph(filename=self.filename)
     self.assertFalse(graph.is_working_copy)
     self.assertTrue(graph.IsEmpty())
 
@@ -60,12 +60,18 @@ class LTMTestBase(unittest.TestCase):
     self.assertEqual(node, graph.GetNode(content=fi6_2))
     self.assertEqual(3, len(graph.GetNodes()))
 
+    # Add an edge.
+    graph.AddEdge(FullInt(3), FullInt(6))
+
     # Dump to file.
     graph.DumpToFile()
-    graph2 = LTMGraph2(filename=self.filename)
+    graph2 = LTMGraph(filename=self.filename)
     self.assertEqual(3, len(graph2.GetNodes()))
     node2 = graph2.GetNode(content=fi6)
     self.assertEqual(3, len(graph2.GetNodes()))
     self.assertEqual(node2, graph2.GetNode(content=fi6_2))
     self.assertNotEqual(node, node2)
     self.assertEqual(3, len(graph2.GetNodes()))
+
+    self.assertEqual(6,
+                     graph2.GetNode(content=PlatonicInt(me=3)).GetOutgoingEdges()[0].to_node.content.me)

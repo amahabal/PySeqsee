@@ -13,7 +13,7 @@ class LTMTest(unittest.TestCase):
 
   def test_storing_integers(self):
     # Create the graph.
-    myltm = LTMGraph(self.filename)
+    myltm = LTMGraph(filename=self.filename)
     
     # Create nodes that we may want to add.
     pi7 = PlatonicInteger(magnitude=7)
@@ -26,9 +26,9 @@ class LTMTest(unittest.TestCase):
     self.assertEqual(PlatonicInteger, node.content.__class__)
     self.assertEqual(7, node.content.magnitude)
     
-    myltm.Dump()
+    myltm.DumpToFile()
 
-    myltm2 = LTMGraph(self.filename)
+    myltm2 = LTMGraph(filename=self.filename)
     self.assertEqual(1, len(myltm2.nodes))
     node = myltm2.nodes[0]
     self.assertEqual(PlatonicInteger, node.content.__class__)

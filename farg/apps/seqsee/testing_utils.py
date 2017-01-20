@@ -22,7 +22,7 @@ class MockSeqseeController(Controller):
   def __init__(self, items=None):
     Controller.__init__(self, ui=BatchUI(controller_class=Controller))
     workspace = self.workspace = Workspace()
-    self.ltm = LTMGraph()
+    self.ltm = LTMGraph(empty_ok_for_test=True)
     if items:
       workspace.InsertElements(items)
 

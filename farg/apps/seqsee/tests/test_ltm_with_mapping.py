@@ -17,7 +17,7 @@ class LTMTestBase(unittest.TestCase):
 
 class TestLTMWithMappings(LTMTestBase):
   def test_sanity(self):
-    myltm = LTMGraph(self.filename)
+    myltm = LTMGraph(filename=self.filename)
     m1 = NumericMapping(name='succ', category=Prime())
     m2 = NumericMapping(name='succ', category=Prime())
     m3 = NumericMapping(name='pred', category=Prime())
@@ -30,12 +30,12 @@ class TestLTMWithMappings(LTMTestBase):
     # Also test this with parametrized categories.
     for content in (m1, m2, m3, m4):
       myltm.GetNode(content=content)
-    myltm.Dump()
+    myltm.DumpToFile()
 
     # Let's clear the memos for NumericMapping.
     NumericMapping.__memo__.clear()
 
-    myltm2 = LTMGraph(self.filename)
+    myltm2 = LTMGraph(filename=self.filename)
     self.assertEqual(5, len(myltm2.nodes))
     m1_like_node = NumericMapping(name='succ', category=Prime())
     self.assertNotEqual(m1_like_node, m1)

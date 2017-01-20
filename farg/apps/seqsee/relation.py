@@ -81,7 +81,7 @@ class Relation(FocusableMixin):
       return (Codelet(CF_GroupFromRelation, controller, 50, dict(relation=self)),)
     else:
       distance_object = self.ChooseDistanceObject(controller)
-      if controller.ltm.IsContentSufficientlyActive(distance_object):
+      if controller.ltm.GetNode(content=distance_object).GetActivation(controller.steps_taken) > 0.8:
         return (Codelet(CF_IsThisInterlaced, controller, 50,
                         dict(distance=distance_object)),)
       else:
