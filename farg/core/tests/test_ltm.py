@@ -1,14 +1,13 @@
 from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.graph import LTMGraph
 from farg.core.ltm.node import LTMNode
-from farg.core.ltm.storable import LTMStorableMixin
-from farg.core.meta import MemoizedConstructor
+from farg.core.ltm.storable import LTMNodeContent
 import os
 import tempfile
 import unittest
 
 
-class MockCategory(LTMStorableMixin, metaclass=MemoizedConstructor):
+class MockCategory(LTMNodeContent):
   def __init__(self, *, foo):
     print("Initializing MockCategory instance ", self)
     self.foo = foo
@@ -16,7 +15,7 @@ class MockCategory(LTMStorableMixin, metaclass=MemoizedConstructor):
   def BriefLabel(self):
     return "foo=%s" % self.foo
 
-class MockCategory2(LTMStorableMixin, metaclass=MemoizedConstructor):
+class MockCategory2(LTMNodeContent):
   def __init__(self, *, foo):
     print("Initializing MockCategory2 instance ", self)
     self.foo = foo
@@ -24,7 +23,7 @@ class MockCategory2(LTMStorableMixin, metaclass=MemoizedConstructor):
   def BriefLabel(self):
     return "foo=%s" % self.foo
 
-class MockMapping(LTMStorableMixin, metaclass=MemoizedConstructor):
+class MockMapping(LTMNodeContent):
   def __init__(self, *, category):
     self.category = category
 

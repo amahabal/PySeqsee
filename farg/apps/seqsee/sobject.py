@@ -26,14 +26,13 @@
 
 from farg.core.categorization.categorizable import CategorizableMixin
 from farg.core.exceptions import FargError
-from farg.core.ltm.storable import LTMStorableMixin
-from farg.core.meta import MemoizedConstructor
+from farg.core.ltm.storable import LTMStorableMixin, LTMNodeContent
 from farg.core.util import Squash
 import logging
 
 logger = logging.getLogger(__name__)
 
-class LTMStorableSObject(LTMStorableMixin, metaclass=MemoizedConstructor):
+class LTMStorableSObject(LTMNodeContent):
   def __init__(self, *, structure):
     self.structure = structure
 

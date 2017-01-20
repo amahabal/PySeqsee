@@ -14,10 +14,9 @@ from farg.core.util import SelectWeightedByActivation
 
 """A way to specify how two entities are related."""
 
-from farg.core.ltm.storable import LTMStorableMixin
-from farg.core.meta import MemoizedConstructor
+from farg.core.ltm.storable import LTMNodeContent
 
-class Mapping(LTMStorableMixin, metaclass=MemoizedConstructor):
+class Mapping(LTMNodeContent):
   pass
 
 class NumericMapping(Mapping):

@@ -29,6 +29,9 @@ class LTMNodeContent(object, metaclass=MemoizedConstructor):
     """Returns nodes whose existence is necessary for fully defining this node."""
     return ()
 
+  def GetLTMStorableContent(self):
+    return self
+
 class LTMStorableMixin(object):
   """Base class for items that may be stored in the long-term memory.
 

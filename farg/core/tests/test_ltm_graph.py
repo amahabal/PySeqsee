@@ -1,15 +1,14 @@
 import os
 import tempfile
 import unittest
-from farg.core.ltm.storable import LTMStorableMixin
-from farg.core.meta import MemoizedConstructor
+from farg.core.ltm.storable import LTMStorableMixin, LTMNodeContent
 from farg.core.ltm.graph import LTMGraph2
 
 # TODO: I need a class called LTMNodeContent, which can actually be content, and this can have
 # MemoizedConstructor as a metaclass. This class should have a kw-only constructor, and any attribute
 # not passed in via the constructor must begin with a _.
 
-class PlatonicInt(LTMStorableMixin, metaclass=MemoizedConstructor):
+class PlatonicInt(LTMNodeContent):
   def __init__(self, *, me):
     """me is a positive int; if it is bigger than 1, PlatonicInt(half of me) is the parent."""
     print("PlatonicInt constructor called: me=", me)

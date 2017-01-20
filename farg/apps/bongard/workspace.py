@@ -2,10 +2,9 @@
 """
 
 from farg.core.categorization.categorizable import CategorizableMixin
-from farg.core.ltm.storable import LTMStorableMixin
-from farg.core.meta import MemoizedConstructor
+from farg.core.ltm.storable import LTMStorableMixin, LTMNodeContent
 
-class PlatonicInteger(LTMStorableMixin, metaclass=MemoizedConstructor):
+class PlatonicInteger(LTMNodeContent):
   """Integer in long-term memory.
 
   Holds an integer that can be stored in LTM (and about which we can store information such as
