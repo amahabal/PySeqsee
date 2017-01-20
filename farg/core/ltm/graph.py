@@ -29,7 +29,7 @@ class LTMGraph2(object):
     
   Attributes:
     nodes: A list of :py:class:`~farg.core.ltm.node.LTMNode` objects.
-    content_to_nodes: A dictionary mapping content (each an instance of :py:class:`~farg.core.ltm.storable.LTMStorableMixin`)
+    _content_to_node: A dictionary mapping content (each an instance of :py:class:`~farg.core.ltm.storable.LTMStorableMixin`)
       to nodes.
     is_working_copy: Boolean. When true, this is a working copy. Else a master copy to be saved to disk.
     filename: When not a working copy, contains filename where file is stored on disk.
@@ -63,7 +63,7 @@ class LTMGraph2(object):
 
   def __init__(self, *, filename=None, master_graph=None):
     self.nodes = []
-    self.content_to_nodes = {}
+    self._content_to_node = {}
 
     if filename:
       assert(not master_graph)
