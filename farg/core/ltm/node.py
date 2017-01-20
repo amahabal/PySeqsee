@@ -96,11 +96,17 @@ class LTMNode(object):
     complexity to this class (rather than spreading to many), hence modifying how other
     classes get pickled is not an option.
 
+    .. Note::
+
+      Attributes whose name starts with an underscore are not dumped, and hence not passed to the
+      cnstructor when vivifying later.
+
     Returns:
       4-tuple: class of content, dict of content, the outgoing edges, and depth reciprocal.
     """
     content = self.content
-    return (content.__class__, content.__dict__, self.outgoing_edges, self.depth_reciprocal)
+    attrib_dict = dict(kv for kv in content.__dict__.items() if not kv[0].startswith('_'))
+    return (content.__class__, attrib_dict, self.outgoing_edges, self.depth_reciprocal)
 
   def __setstate__(self, state):
     """This vivifies the object, using Create() and unmangling any values.

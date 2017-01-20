@@ -10,6 +10,24 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+from farg.core.meta import MemoizedConstructor
+
+class LTMNodeContent(object, metaclass=MemoizedConstructor):
+  """Base class for things that can be the actual contents of nodes.
+
+  This class has to satisfy extra constraints since it needs to be vivifiable: that is, we need the
+  ability to dump this out into a file, and in a later run, construct an object from it again.
+
+  To achieve this, the __dict__ of this object is pickled, and in the later run, unpickled and
+  passed to the constructor.
+  """
+
+  def BriefLabel(self):
+    raise Exception("BriefLabel should have been implemented by subclass %s" % self.__class__)
+
+  def LTMDependentContent(self):
+    """Returns nodes whose existence is necessary for fully defining this node."""
+    return ()
 
 class LTMStorableMixin(object):
   """Base class for items that may be stored in the long-term memory.
@@ -20,9 +38,6 @@ class LTMStorableMixin(object):
   """
   def GetLTMStorableContent(self):
     return self
-
-  def LTMDisplayLabel(self):
-    return self.BriefLabel()
 
   def BriefLabel(self):
     raise Exception("BriefLabel should have been implemented by subclass %s" % self.__class__)

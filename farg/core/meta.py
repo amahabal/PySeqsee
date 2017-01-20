@@ -31,7 +31,7 @@ class MemoizedConstructor(ABCMeta):
     mcs.__memo__ = dict()
 
   def __call__(mcs, *args, **kw):
-    """Called when the constructor of the class is called."""
+    """Called when the constructor of that class is called."""
     memo_key = (tuple(args), frozenset(list(kw.items())))
     if memo_key not in mcs.__memo__:
       mcs.__memo__[memo_key] = super(MemoizedConstructor, mcs).__call__(*args, **kw)
