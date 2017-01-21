@@ -74,7 +74,7 @@ class LTMGraph(object):
       assert(not filename)
       self.is_working_copy = True
       self.master_graph = master_graph
-      self._CopyFromMaster()
+      self._LoadFromFile()
     elif empty_ok_for_test:
       pass
     else:
@@ -138,7 +138,11 @@ class LTMGraph(object):
     
     The file contains pickled nodes, and dependent data has been replaced with nodes. All this
     needs to be undone to load from file."""
-    with open(self.filename, "rb") as ltmfile:
+    if hasattr(self, 'filename'):
+      filename = self.filename
+    else:
+      filename = self.master_graph.filename 
+    with open(filename, "rb") as ltmfile:
       unpickler = pickle.Unpickler(ltmfile)
       while True:
         try:
@@ -149,11 +153,6 @@ class LTMGraph(object):
         except ValueError:
           # Hit in Py3 for empty input file...
           break
-
-  def _CopyFromMaster(self):
-    """Copies nodes from master."""
-    for node in self.master_graph.GetNodes():
-      self._AddNodeCopy(node)
   
   def _AddNode(self, node):
     """Adds node to graph."""
@@ -161,12 +160,6 @@ class LTMGraph(object):
     if not node.content in self._content_to_node:
       self._content_to_node[node.content] = node
       self.nodes.append(node)
-
-  def _AddNodeCopy(self, node):
-    """Adds a copy of node to graph."""
-    assert(isinstance(node, LTMNode))
-    node_copy = LTMNode(content=node.content)
-    self._AddNode(node_copy)
 
   def _Mangle(self, content_dict):
     """Replaces references to node contents with the nodes themselves."""
