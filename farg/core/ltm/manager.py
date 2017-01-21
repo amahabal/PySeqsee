@@ -26,14 +26,15 @@ kLogger = logging.getLogger("LTM")
 class LTMManager(object):
   #: What LTMs have been loaded.
   loaded_ltms = {}
+  loaded_ltms_copy = {}
   #: Registered LTM initalizers (registered via RegisterInitializer).
   _registered_initializers = {}
 
   @classmethod
   def GetLTM(cls, ltm_name):
     kLogger.info("GetLTM called with %s", ltm_name)
-    if ltm_name in LTMManager.loaded_ltms:
-      return LTMManager.loaded_ltms[ltm_name]
+    if ltm_name in LTMManager.loaded_ltms_copy:
+      return LTMManager.loaded_ltms_copy[ltm_name]
     if farg_flags.FargFlags.use_stored_ltm:
       filename = os.path.join(farg_flags.FargFlags.ltm_directory, ltm_name)
       if not os.path.isfile(filename):
@@ -51,8 +52,10 @@ class LTMManager(object):
         kLogger.info("LTM %s was empty, initialized.", ltm_name)
       else:
         kLogger.warn("LTM %s was empty, and no initalizer registered.", ltm_name)
+    ltm_copy = LTMGraph(master_graph=ltm)
     LTMManager.loaded_ltms[ltm_name] = ltm
-    return ltm
+    LTMManager.loaded_ltms_copy[ltm_name] = ltm_copy
+    return ltm_copy
 
   @classmethod
   def RegisterInitializer(cls, ltm_name, initializer_function):
@@ -63,5 +66,9 @@ class LTMManager(object):
 
   @classmethod
   def SaveAllOpenLTMS(cls):
-    for _ltm_name, ltm in LTMManager.loaded_ltms.items():
-      ltm.DumpToFile()
+    for _ltm_name, ltm_copy in LTMManager.loaded_ltms_copy.items():
+      orig_ltm = ltm_copy.master_graph
+      if not hasattr(orig_ltm, 'filename') or not orig_ltm.filename:
+        continue
+      ltm_copy.UploadToMaster()
+      orig_ltm.DumpToFile()

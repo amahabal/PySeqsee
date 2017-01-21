@@ -61,7 +61,7 @@ class LTMTestBase(unittest.TestCase):
     self.assertEqual(3, len(graph.GetNodes()))
 
     # Add an edge.
-    graph.AddEdge(FullInt(3), FullInt(6))
+    graph.AddEdge(FullInt(3), FullInt(6), utility=5)
 
     # Dump to file.
     graph.DumpToFile()
@@ -75,3 +75,11 @@ class LTMTestBase(unittest.TestCase):
 
     self.assertEqual(6,
                      graph2.GetNode(content=PlatonicInt(me=3)).GetOutgoingEdges()[0].to_node.content.me)
+    self.assertEqual(5, graph2.GetNode(content=PlatonicInt(me=3)).GetOutgoingEdges()[0].utility)
+
+    # Test COPYING
+    graph3 = LTMGraph(master_graph=graph2)
+    self.assertTrue(graph3.is_working_copy)
+    self.assertEqual(3, len(graph3.GetNodes()))
+    # The nodes are different
+    self.assertNotEqual(graph2.GetNode(content=fi6), graph3.GetNode(content=fi6))

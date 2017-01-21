@@ -23,9 +23,11 @@ class LTMEdge(object):  # Has no public methods pylint:disable=R0903
   LTM_EDGE_TYPE_ISA = "is_a"
   LTM_EDGE_CAN_BE_SEEN_AS = "can_be_seen_as"
 
-  def __init__(self, to_node, edge_type):
+  def __init__(self, to_node, *, edge_type, utility=1):
     #: Other end of the node.
     self.to_node = to_node
     #: Type of the edge.
     self.edge_type = edge_type
+    #: Utility (an integer representing commonality.This will change).
+    self.utility = utility
 

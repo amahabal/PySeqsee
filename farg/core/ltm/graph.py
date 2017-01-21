@@ -114,6 +114,24 @@ class LTMGraph(object):
       self.GetNode(content=dependent_content)
     return new_node
 
+  def UploadToMaster(self, *, threshold=0.05):
+    assert(self.master_graph)
+    mg = self.master_graph
+    print("I would have loved to upload to master.")
+    kept_nodes = set()
+    for n in self.nodes:
+      if n.GetActivation(0) > threshold:
+        kept_nodes.add(n)
+        print('Keeping: %5.3f %s' % (n.GetActivation(0), n.content.BriefLabel()))
+    for n in self.nodes:
+      if not n in kept_nodes:
+        continue
+      for e in n.GetOutgoingEdges():
+        target = e.to_node
+        if not target in kept_nodes:
+          continue
+        mg.StrengthenEdge(n.content, target.content, edge_type=e.edge_type)
+        print("Strengthening %s --> %s" % (n.content.BriefLabel(), target.content.BriefLabel()))
 
   def _LoadFromFile(self):
     """Loads graph nodes from file.
@@ -162,7 +180,7 @@ class LTMGraph(object):
       if isinstance(value, LTMNode):
         content_dict[k] = value.content
 
-  def AddEdge(self, from_content, to_content,
+  def AddEdge(self, from_content, to_content, utility=1,
               edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
     node = self.GetNode(content=from_content.GetLTMStorableContent())
     to_node = self.GetNode(content=to_content.GetLTMStorableContent())
@@ -170,6 +188,18 @@ class LTMGraph(object):
       if edge.to_node == to_node:
         if edge_type != edge.edge_type:
           raise FargError("Edge already exists, but with diff type!")
-        # Already exists, bail out.
+        # Already exists.
         return
-    node.outgoing_edges.append(LTMEdge(to_node, edge_type))
+    node.outgoing_edges.append(LTMEdge(to_node, edge_type=edge_type, utility=utility))
+
+  def StrengthenEdge(self, from_content, to_content, *,
+                     edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
+    node = self.GetNode(content=from_content.GetLTMStorableContent())
+    to_node = self.GetNode(content=to_content.GetLTMStorableContent())
+    for edge in node.outgoing_edges:
+      if edge.to_node == to_node:
+        print("edge.utility=", edge.utility)
+        edge.utility += 1
+        return
+    node.outgoing_edges.append(LTMEdge(to_node, edge_type=edge_type, utility=1))
+    
