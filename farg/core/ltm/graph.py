@@ -26,7 +26,7 @@ class LTMGraph(object):
   Keyword Args:
     filename: If present, loads data from file. master_graph must not be present.
     master_graph: If present, copies data from master graph. filename must not be present.
-    
+
   Attributes:
     nodes: A list of :py:class:`~farg.core.ltm.node.LTMNode` objects.
     _content_to_node: A dictionary mapping content (each an instance of :py:class:`~farg.core.ltm.storable.LTMStorableMixin`)
@@ -38,7 +38,7 @@ class LTMGraph(object):
   This contains nodes and edges.
 
   **Nodes**
-  
+
   Nodes are instances of :py:class:`~farg.core.ltm.node.LTMNode`. A node has the attribute .content,
   (which is the concept being stored in the node, the very reason for the existence of the node), as
   well as other metadata such as activation level.
@@ -47,18 +47,18 @@ class LTMGraph(object):
   A particular instance may depend for its definition on content of other graph nodes.
 
   **Storing to and retrieving from disk**
-  
+
   Graphs can be stored on disk and retrieved. Given arbitrary dependencies between nodes, we rely on
   :py:mod:`pickle` to do the heavy-duty lifting of serialization and deserialization.
-  
+
   There are two main ways to construct this graph: it can be loaded from a file, or it can be copied
   from another graph.
-  
+
   In a given run, a graph is loaded from disk (let's call this graph O), and a copy made from it
   (Graph W). Graph W is the working copy which the app can update, and at the end, some salient
   items will make their way back to O, and it will be written to disk.
-  
-  The class LTM Manager handles this workflow. 
+
+  The class LTM Manager handles this workflow.
   """
 
   def __init__(self, *, filename=None, master_graph=None, empty_ok_for_test=False):
@@ -98,7 +98,7 @@ class LTMGraph(object):
         self._Mangle(node.content.__dict__)
         pickler.dump(node)
         self._Unmangle(node.content.__dict__)
-  
+
   # TODO: rename to GetNode(self, *, content)
   def GetNode(self, *, content):
     """Returns node for content; creates one if it does not exist."""
@@ -135,13 +135,13 @@ class LTMGraph(object):
 
   def _LoadFromFile(self):
     """Loads graph nodes from file.
-    
+
     The file contains pickled nodes, and dependent data has been replaced with nodes. All this
     needs to be undone to load from file."""
     if hasattr(self, 'filename'):
       filename = self.filename
     else:
-      filename = self.master_graph.filename 
+      filename = self.master_graph.filename
     with open(filename, "rb") as ltmfile:
       unpickler = pickle.Unpickler(ltmfile)
       while True:
@@ -153,7 +153,7 @@ class LTMGraph(object):
         except ValueError:
           # Hit in Py3 for empty input file...
           break
-  
+
   def _AddNode(self, node):
     """Adds node to graph."""
     assert(isinstance(node, LTMNode))
@@ -195,4 +195,3 @@ class LTMGraph(object):
         edge.utility += 1
         return
     node.outgoing_edges.append(LTMEdge(to_node, edge_type=edge_type, utility=1))
-    

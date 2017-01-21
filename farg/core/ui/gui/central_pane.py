@@ -25,22 +25,22 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
   """The central area of the UI based display.
 
   **ViewPorts** and **Views**
-  
+
   A Viewport is a small window through which to look at some aspects the activity of the app.
   Examples of viewports that come packaged with PySeqsee include :py:class:`~farg.core.ui.gui.views.coderack_view.CoderackView`,
   which displays the current codelets waiting to run. Other already supplied views can be found in
   the :py:mod:`~farg.core.ui.gui.views` module.
-  
+
   A View, on the other hand, is a tiling of a few such views into a display. A View may consist of
   just a single viewport, or two or more viewports. This class provides methods to create views and
   to maintain a set of named views.
-  
+
   **Setting up views**
-  
+
   A view may be set up by calling one of the following methods of this class. SetFullView, which
   takes a viewport class as argument, creates a view with that single, full-sized viewport. The
   names SetVerticallySplitView and SetThreeWaySplit should be self-explanatory.
-  
+
   **Example Usage**
 
   For an example of how a subclass may set up the views, take a look at the code for

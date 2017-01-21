@@ -29,11 +29,11 @@ class Main:
 
   Based on flags, it sets up the appropriate run mode (which start GUIs if needed).
   It also does a sanity check on flags and creates certain directories if needed.
-  
+
   Arguments:
     unprocessed_flags: These are the flags returned by argparse that are yet to be sanity checked
       and processed. That work is done here, and the processed flags are put in self.flags.
-  
+
   Notes:
     * Many attributes here are classes that do the actual work. Subclasses will override several of
       these. These include the following.
@@ -196,12 +196,12 @@ class Main:
 
   def ProcessFlags(self):
     """Sanity checks and does some flag-related and flag-triggered house-keeping.
-    
+
     This includes creating directories, starting logging, and so forth.
     """
     if self.flags.debug_config:
       logging.config.fileConfig(self.flags.debug_config)
-      
+
     if self.flags.debug:
       numeric_level = getattr(logging, self.flags.debug.upper(), None)
       if not isinstance(numeric_level, int):
@@ -233,7 +233,7 @@ class Main:
 
   def ProcessCustomFlags(self):
     """Process custom flags defined by the app.
-    
+
     If an app needs post-processing of some flags it defines, it can be put here. The current flags
     (including any changes made to the core flags is available as self.flags.
     """

@@ -28,9 +28,9 @@ def PrintLTM(args):
   filename = GetLTMPath(args.app_name, args.ltm_name)
   ltm = LTMGraph(filename=filename)
   print("LTM contains %d nodes" % len(ltm.nodes))
-  for idx, node in enumerate(ltm.nodes):
-    print('-- %d [dep=%5.3f] --' % (idx, 1.0 / node.depth_reciprocal), node.content.BriefLabel())
+  for node in ltm.nodes:
+    print('%s\t\t[dep=%5.3f]' % (node.content.BriefLabel(), 1.0 / node.depth_reciprocal))
     for edge in node.GetOutgoingEdges():
       other_node = edge.to_node
-      print('\tEdge:%s to %s [Utility=%d]' % (edge.edge_type, other_node.content.BriefLabel(),
-                                              edge.utility))
+      print('\t--> %s [%s, Utility=%d]' % (other_node.content.BriefLabel(), edge.edge_type,
+                                           edge.utility))

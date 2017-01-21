@@ -38,7 +38,7 @@ intersphinx_mapping = {'python': ('https://docs.python.org/3.4', None)}
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ['_templates']
 
-# The suffix of source filenames.git 
+# The suffix of source filenames.git
 source_suffix = '.rst'
 
 # The encoding of source files.
