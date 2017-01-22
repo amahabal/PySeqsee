@@ -130,7 +130,7 @@ class LTMGraph(object):
         target = e.to_node
         if not target in kept_nodes:
           continue
-        mg.StrengthenEdge(n.content, target.content, edge_type=e.edge_type)
+        mg.StrengthenEdge(n.content, target.content, edge_type_set=e.edge_type_set)
         print("Strengthening %s --> %s" % (n.content.BriefLabel(), target.content.BriefLabel()))
 
   def _LoadFromFile(self):
@@ -173,25 +173,24 @@ class LTMGraph(object):
       if isinstance(value, LTMNode):
         content_dict[k] = value.content
 
-  def AddEdge(self, from_content, to_content, utility=1,
-              edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
+  def AddEdge(self, from_content, to_content, *, utility=1, edge_type_set=set()):
     node = self.GetNode(content=from_content.GetLTMStorableContent())
     to_node = self.GetNode(content=to_content.GetLTMStorableContent())
     for edge in node.outgoing_edges:
       if edge.to_node == to_node:
-        if edge_type != edge.edge_type:
-          raise FargError("Edge already exists, but with diff type!")
+        edge.edge_type_set.update(edge_type_set)
         # Already exists.
         return
-    node.outgoing_edges.append(LTMEdge(to_node, edge_type=edge_type, utility=utility))
+    node.outgoing_edges.append(LTMEdge(to_node, edge_type_set=edge_type_set.copy(), utility=utility))
 
   def StrengthenEdge(self, from_content, to_content, *,
-                     edge_type=LTMEdge.LTM_EDGE_TYPE_RELATED):
+                     edge_type_set=set()):
     node = self.GetNode(content=from_content.GetLTMStorableContent())
     to_node = self.GetNode(content=to_content.GetLTMStorableContent())
     for edge in node.outgoing_edges:
       if edge.to_node == to_node:
-        print("edge.utility=", edge.utility)
         edge.utility += 1
+        if edge_type_set:
+          edge.edge_type_set.update(edge_type_set)
         return
-    node.outgoing_edges.append(LTMEdge(to_node, edge_type=edge_type, utility=1))
+    node.outgoing_edges.append(LTMEdge(to_node, edge_type_set=edge_type_set.copy(), utility=1))

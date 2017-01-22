@@ -133,10 +133,10 @@ class TestLTM(LTMTestBase):
     for content in (m1, m2, c1, c2):
       myltm.GetNode(content=content)
 
-    myltm.AddEdge(m1, c1)
+    myltm.AddEdge(m1, c1, edge_type_set={LTMEdge.LTM_EDGE_TYPE_ISA})
     edges = myltm.GetNode(content=m1).GetOutgoingEdges()
     self.assertEqual(c1, edges[0].to_node.content)
-    self.assertEqual(LTMEdge.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
+    self.assertEqual(LTMEdge.LTM_EDGE_TYPE_ISA, list(edges[0].edge_type_set)[0])
 
     myltm.DumpToFile()
 
@@ -148,7 +148,7 @@ class TestLTM(LTMTestBase):
     m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
     edges = myltm2.GetNode(content=m1p).GetOutgoingEdges()
     self.assertEqual(c1p, edges[0].to_node.content)
-    self.assertEqual(LTMEdge.LTM_EDGE_TYPE_RELATED, edges[0].edge_type)
+    self.assertEqual(LTMEdge.LTM_EDGE_TYPE_ISA, list(edges[0].edge_type_set)[0])
 
 class TestLTM2(LTMTestBase):
   def test_activation(self):

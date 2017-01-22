@@ -32,5 +32,5 @@ def PrintLTM(args):
     print('%s\t\t[dep=%5.3f]' % (node.content.BriefLabel(), 1.0 / node.depth_reciprocal))
     for edge in node.GetOutgoingEdges():
       other_node = edge.to_node
-      print('\t--> %s [%s, Utility=%d]' % (other_node.content.BriefLabel(), edge.edge_type,
+      print('\t--> %s [%s, Utility=%d]' % (other_node.content.BriefLabel(), edge.edge_type_set,
                                            edge.utility))

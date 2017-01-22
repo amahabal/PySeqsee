@@ -15,19 +15,22 @@ class LTMEdge(object):  # Has no public methods pylint:disable=R0903
   """Represents the connection between a pair of concepts.
 
      An edge is directed, and it is stored in the node for which this is an outgoing edge.
+
+     We store a number representing the utility of the edge, roughly implying how frequently that
+     connection has been noted. We will also store a distribution of particular types of
+     relationships seen (such as LTM_EDGE_TYPE_ISA).
   """
 
   #: Some predefined types of edges.
-  LTM_EDGE_TYPE_RELATED = "related"
-  LTM_EDGE_TYPE_FOLLOWS = "follows"
   LTM_EDGE_TYPE_ISA = "is_a"
-  LTM_EDGE_CAN_BE_SEEN_AS = "can_be_seen_as"
 
-  def __init__(self, to_node, *, edge_type, utility=1):
+  def __init__(self, to_node, *, edge_type_set, utility=1):
     #: Other end of the node.
     self.to_node = to_node
-    #: Type of the edge.
-    self.edge_type = edge_type
     #: Utility (an integer representing commonality.This will change).
     self.utility = utility
+    #: Distribution of types.
+    self.edge_type_set = set()
+    if edge_type_set:
+      self.edge_type_set = edge_type_set.copy()
 

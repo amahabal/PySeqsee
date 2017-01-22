@@ -205,12 +205,7 @@ class LTMNode(object):
 
   def GetOutgoingEdgesOfType(self, edge_type):
     """Get outgoing edges of particular type."""
-    return (edge for edge in self.outgoing_edges if edge.edge_type == edge_type)
-
-  def GetOutgoingEdgesOfTypeRelated(self):
-    """Get outgoing edges of type 'related'."""
-    from farg.core.ltm.edge import LTMEdge
-    return self.GetOutgoingEdgesOfType(LTMEdge.LTM_EDGE_TYPE_RELATED)
+    return (edge for edge in self.outgoing_edges if edge_type in edge.edge_type_set)
 
   def GetOutgoingEdgesOfTypeIsa(self):
     """Get outgoing edges of type 'isa'."""

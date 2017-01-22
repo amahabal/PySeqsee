@@ -95,7 +95,7 @@ class SObject(CategorizableMixin, LTMStorableMixin):
     controller.ltm.GetNode(content=self).IncreaseActivation(10, current_time=controller.steps_taken)
     fringe = dict()
     fringe[my_node] = 1.0
-    outgoing_related_edges = my_node.GetOutgoingEdgesOfTypeRelated()
+    outgoing_related_edges = my_node.GetOutgoingEdges()
     for edge in outgoing_related_edges:
       # TODO(# --- Dec 30, 2011): Edges should have strength, and it should influence this.
       fringe[edge.to_node] = 0.8
