@@ -34,12 +34,12 @@ class LTMView(ListBasedView):
     """
     ltm = controller.ltm
     items_with_activations = []
-    epoch = ltm._timesteps
+    epoch = controller.steps_taken
     for node in ltm.nodes:
       items_with_activations.append((node, node.GetActivation(epoch)))
     items = sorted(items_with_activations, reverse=True, key=lambda x: x[1])
     message = ''
-    return (items, message, dict(epoch=ltm._timesteps))
+    return (items, message, dict(epoch=epoch))
 
   def DrawItem(self, widget_x, widget_y, item, extra_dict, controller):
     """Given x, y within the current widget and an item, draws it."""

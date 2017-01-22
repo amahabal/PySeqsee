@@ -103,8 +103,6 @@ class Stream(object):
     focusable.OnFocus(self.controller)
     self._PrepareForFocusing(focusable)
     hit_map = self.StoreFringeAndCalculateOverlap(focusable)
-    if not hit_map:
-      return
 
     # Possibly add codelets based on the fringe hit.
     potential_codelets = []
