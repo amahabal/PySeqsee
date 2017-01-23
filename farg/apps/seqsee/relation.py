@@ -81,7 +81,7 @@ class Relation(FocusableMixin):
       return (Codelet(CF_GroupFromRelation, controller, 50, dict(relation=self)),)
     else:
       distance_object = self.ChooseDistanceObject(controller)
-      if controller.ltm.GetNode(content=distance_object).GetActivation(controller.steps_taken) > 0.8:
+      if controller.GetActivation(content=distance_object) > 0.8:
         return (Codelet(CF_IsThisInterlaced, controller, 50,
                         dict(distance=distance_object)),)
       else:
@@ -96,5 +96,5 @@ class Relation(FocusableMixin):
     """
     if not self.AreEndsContiguous():
       distance_object = self.ChooseDistanceObject(controller)
-      controller.ltm.GetNode(content=distance_object).IncreaseActivation(5, current_time=controller.steps_taken)
+      controller.SendActivation(content=distance_object, amount=5)
 

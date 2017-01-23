@@ -243,3 +243,7 @@ class Controller:
   def SendActivation(self, *, content, amount):
     """Sends activation to content in LTM."""
     self.ltm.GetNode(content=content).IncreaseActivation(amount, current_time=self.steps_taken)
+
+  def GetActivation(self, *, content):
+    """Gets the activation from the LTM."""
+    return self.ltm.GetNode(content=content).GetActivation(current_time=self.steps_taken)
