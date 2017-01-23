@@ -181,9 +181,12 @@ class SElement(SObject):
     from farg.apps.seqsee.categories import Number
     self.DescribeAs(Number())
 
+  def BriefLabel(self):
+    return "SElement(%d)" % self.magnitude
+
   def DeepCopy(self):
     """Makes a copy."""
-    # .. ToDo:: The copying business is likely indequate.
+    # .. ToDo:: The copying business is likely inadequate.
     new_element = SElement(self.magnitude)
     new_element.AddCategoriesFrom(self)
     return new_element

@@ -23,6 +23,7 @@ class LTMEdge(object):  # Has no public methods pylint:disable=R0903
 
   #: Some predefined types of edges.
   LTM_EDGE_TYPE_ISA = "is_a"
+  LTM_EDGE_TYPE_DEP_ON = "dep_on"
 
   def __init__(self, to_node, *, edge_type_set, utility=1):
     #: Other end of the node.

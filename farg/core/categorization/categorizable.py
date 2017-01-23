@@ -12,7 +12,7 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 """Mixin class for entities that we want to put in categories."""
 
-import logging 
+import logging
 
 class CategorizableMixin(object):
   """Base class for things that can belong to categories."""
@@ -35,6 +35,9 @@ class CategorizableMixin(object):
   def IsKnownAsInstanceOf(self, category):
     """True if known to be an instance of category."""
     return category in self.categories
+
+  def GetKnownCategories(self):
+    return self.categories.keys()
 
   def DescribeAs(self, category):
     """Describes item as instance of category, and remembers the binding if one is found.

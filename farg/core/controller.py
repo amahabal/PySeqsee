@@ -224,7 +224,7 @@ class Controller:
 
   def AddCodelet(self, *, family, urgency, arguments_dict=None):
     """Adds a codelet to the coderack.
-    
+
     Keyword-only Args:
       family:
         Family of codelet. Subclass of :py:class:`~farg.core.codelet.CodeletFamily`.
@@ -239,3 +239,7 @@ class Controller:
     codelet = Codelet(family=family, controller=self,
                       urgency=urgency, arguments_dict=arguments_dict)
     self.coderack.AddCodelet(codelet)
+
+  def SendActivation(self, *, content, amount):
+    """Sends activation to content in LTM."""
+    self.ltm.GetNode(content=content).IncreaseActivation(amount, current_time=self.steps_taken)

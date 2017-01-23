@@ -112,6 +112,8 @@ class LTMGraph(object):
     # Also ensure presence of any dependent nodes.
     for dependent_content in storable_content.LTMDependentContent():
       self.GetNode(content=dependent_content)
+      # Add an edge indicating dependence.
+      self.AddEdge(content, dependent_content, edge_type_set={LTMEdge.LTM_EDGE_TYPE_DEP_ON})
     return new_node
 
   def UploadToMaster(self, *, threshold=0.05):
