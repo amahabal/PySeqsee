@@ -169,18 +169,14 @@ class TestLTM2(LTMTestBase):
     self.assertEqual(0, node_c1.GetRawActivation(current_time=0))
 
     # Spiking c1 does not send activation back to m1 (edge is unidirectional).
-    node_c1.IncreaseActivation(10, current_time=0)
+    node_c1.IncreaseActivation(2, current_time=0)
     self.assertEqual(0, node_m1.GetRawActivation(current_time=0))
     self.assertEqual(2, node_c1.GetRawActivation(current_time=0))
 
     # Spiking m1, though, sends activation to c1 as well.
-    node_m1.IncreaseActivation(10, current_time=0)
+    node_m1.IncreaseActivation(2, current_time=0)
     self.assertEqual(2, node_m1.GetRawActivation(current_time=0))
     self.assertTrue(2 < node_c1.GetRawActivation(current_time=0))
-
-    self.assertAlmostEqual(0.2, node_c1.depth_reciprocal)
-    node_c1.IncrementDepth()
-    self.assertAlmostEqual(0.16666666666, node_c1.depth_reciprocal)
 
     myltm.DumpToFile()
     MockCategory.__memo__ = dict()
@@ -195,7 +191,3 @@ class TestLTM2(LTMTestBase):
     #: Activations reset on loading...
     self.assertEqual(0, node_m1p.GetRawActivation(current_time=0))
     self.assertEqual(0, node_c1p.GetRawActivation(current_time=0))
-
-    #: But depths are maintained.
-    self.assertAlmostEqual(0.2, node_m1p.depth_reciprocal)
-    self.assertAlmostEqual(0.166666666, node_c1p.depth_reciprocal)

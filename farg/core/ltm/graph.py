@@ -125,6 +125,7 @@ class LTMGraph(object):
       if n.GetActivation(0) > threshold:
         kept_nodes.add(n)
         print('Keeping: %5.3f %s' % (n.GetActivation(0), n.content.BriefLabel()))
+        mg._IncrementAbundance(content=n.content)
     for n in self.nodes:
       if not n in kept_nodes:
         continue
@@ -134,6 +135,10 @@ class LTMGraph(object):
           continue
         mg.StrengthenEdge(n.content, target.content, edge_type_set=e.edge_type_set)
         print("Strengthening %s --> %s" % (n.content.BriefLabel(), target.content.BriefLabel()))
+
+  def _IncrementAbundance(self, *, content):
+    """Increments abundance by 1."""
+    self.GetNode(content=content).abundance += 1
 
   def _LoadFromFile(self):
     """Loads graph nodes from file.

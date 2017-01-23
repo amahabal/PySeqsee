@@ -29,7 +29,7 @@ def PrintLTM(args):
   ltm = LTMGraph(filename=filename)
   print("LTM contains %d nodes" % len(ltm.nodes))
   for node in ltm.nodes:
-    print('%s\t\t[dep=%5.3f]' % (node.content.BriefLabel(), 1.0 / node.depth_reciprocal))
+    print('%s\t\t[Abundance: %d]' % (node.content.BriefLabel(), node.abundance))
     for edge in node.GetOutgoingEdges():
       other_node = edge.to_node
       print('\t--> %s [%s, Utility=%d]' % (other_node.content.BriefLabel(), edge.edge_type_set,

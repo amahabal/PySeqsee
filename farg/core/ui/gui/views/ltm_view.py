@@ -46,7 +46,6 @@ class LTMView(ListBasedView):
     node, activation = item
     x, y = self.CanvasCoordinates(widget_x, widget_y)
     self.canvas.create_text(20 + x, y,
-                            text='%1.3f %d %s' % (activation,
-                                                  int(0.1 + 1.0 / node.depth_reciprocal),
-                                                  node.content.BriefLabel()),
+                            text='%1.3f [Ab: %05d] %s' % (activation, node.abundance,
+                                                          node.content.BriefLabel()),
                             anchor=NW)

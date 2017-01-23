@@ -36,20 +36,16 @@ class LTMNode(object):
   constructor,. or by vivification during unpickling (that is, by the __init__ method or by
   __setstate__ method.
 
-  There are two important numbers associated with a node. These are the activation (a number
-  between 0 and 1 that represents how important that concept currently appears for the
-  current problem), and its depth (an integer typically greater than 5 that represents the
-  difficulty of raising or lowering activation --- deep concept's activation rises slowly and
-  falls slowly.)
+  An important number associated with a node is its activation (a number between 0 and 1 that
+  represents how important that concept currently appears for the current problem).
 
-  In practice, two substitutes for these are stored: "raw activation" (which is a number
-  between 0 and 100 which is converted by a sigmoid to a real activation), and the reciprocal
-  of the depth (since that eases computation a bit). Raw activation makes things easier to
-  calculate.
+  In practice, a substitute for this is stored: "raw activation" (which is a number
+  between 0 and 100 which is converted by a sigmoid to a real activation). Raw activation makes
+  things easier to calculate.
 
   The calculation of activation is lazy --- it is calculated when needed. Although the
   activation decays at every timestep, we do not bother updating it everytime, relying on a
-  just in time calculation.
+  just-in-time calculation.
   """
 
   def __init__(self, content):
@@ -68,14 +64,11 @@ class LTMNode(object):
     #: An easy-to-update measure of activation. The real activation is a continuous function
     #: of this. Starts out at (and never falls below) 0.
     self._raw_activation = 0
-    #: Depth of a node controls how quickly it accumulates or decays activation. The greater
-    #: the depth, the slower this happens. Starts out at 5 and can go up from there.
-    #: What is stored here is the reciprocal of depth, as that is what is needed in
-    #: calculations.
-    self.depth_reciprocal = 1.0 / 5
     #: When was activation last updated? This is used so that activation can be calculated
     #: only when needed (not whenever decays happen, for instance!)
     self._time_of_activation_update = 0
+    #: How many times has this node been seen as highly activated in problems?
+    self.abundance = 1
 
   def __str__(self):
     return 'Node(%s)' % self.content.BriefLabel()
@@ -102,11 +95,11 @@ class LTMNode(object):
       cnstructor when vivifying later.
 
     Returns:
-      4-tuple: class of content, dict of content, the outgoing edges, and depth reciprocal.
+      4-tuple: class of content, dict of content, the outgoing edges, and abundance.
     """
     content = self.content
     attrib_dict = dict(kv for kv in content.__dict__.items() if not kv[0].startswith('_'))
-    return (content.__class__, attrib_dict, self.outgoing_edges, self.depth_reciprocal)
+    return (content.__class__, attrib_dict, self.outgoing_edges, self.abundance)
 
   def __setstate__(self, state):
     """This vivifies the object, using Create() and unmangling any values.
@@ -114,16 +107,16 @@ class LTMNode(object):
     That is, values that are nodes are replaced by their contents.
 
     Args:
-      state: A 4-tuple (classname, arguments to pass to constructor of classname,
-                        outgoing edges, reciprocal of depth).
+      state: A 4-tuple (classname, arguments to pass to constructor of classname, outgoing edges,
+                        abundance).
     """
-    clsname, instance_dict, outgoing_edges, depth_reciprocal = state
+    clsname, instance_dict, outgoing_edges, abundance = state
     LTMNode._Unmangle(instance_dict)
     self.content = clsname(**instance_dict)  # Fair use of ** magic. pylint: disable=W0142
     self.outgoing_edges = outgoing_edges
     self._raw_activation = 0
     self._time_of_activation_update = 0
-    self.depth_reciprocal = depth_reciprocal
+    self.abundance = abundance
 
   @staticmethod
   def _Unmangle(content_dict):
@@ -132,16 +125,11 @@ class LTMNode(object):
       if isinstance(value, LTMNode):
         content_dict[k] = value.content
 
-  def IncrementDepth(self):
-    """Increment depth of node by 1."""
-    depth = 1.0 / self.depth_reciprocal
-    self.depth_reciprocal = 1.0 / (depth + 1)
-
   def _ProcessDecays(self, current_time):
     """Process any pending decays. This helps keep activation calculation lazy."""
     timesteps_passed = current_time - self._time_of_activation_update
     if timesteps_passed > 0:
-      self._raw_activation -= 0.1 * timesteps_passed * self.depth_reciprocal
+      self._raw_activation -= 0.1 * timesteps_passed
       if self._raw_activation < 0:
         self._raw_activation = 0
     self._time_of_activation_update = current_time
@@ -149,10 +137,9 @@ class LTMNode(object):
   def IncreaseActivationButDontSpread(self, amount, *, current_time):
     """Update activation by this amount (after processing any decays). No spreadings."""
     self._ProcessDecays(current_time)
-    self._raw_activation += amount * self.depth_reciprocal
+    self._raw_activation += amount
     if self._raw_activation > 100:
-      self.IncrementDepth()
-      self._raw_activation = 90
+      self._raw_activation = 100
     kLogger.debug("Raw activation of %s now %5.3f", self, self._raw_activation)
 
   def IncreaseActivation(self, amount, *, current_time):
