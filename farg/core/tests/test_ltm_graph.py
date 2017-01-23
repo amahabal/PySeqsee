@@ -73,9 +73,11 @@ class LTMTestBase(unittest.TestCase):
     self.assertNotEqual(node, node2)
     self.assertEqual(3, len(graph2.GetNodes()))
 
-    self.assertEqual(6,
-                     graph2.GetNode(content=PlatonicInt(me=3)).GetOutgoingEdges()[0].to_node.content.me)
-    self.assertEqual(5, graph2.GetNode(content=PlatonicInt(me=3)).GetOutgoingEdges()[0].utility)
+    outgoing_edges_from_pi3 = graph2.GetNode(content=PlatonicInt(me=3)).GetOutgoingEdges()
+    # That contains two (to 6, and to 1, on which it depends)
+    for i in range(2):
+      self.assertTrue(outgoing_edges_from_pi3[i].to_node.content.me in {1, 6})
+      self.assertTrue(outgoing_edges_from_pi3[i].utility in {1, 5})
 
     # Test COPYING
     graph3 = LTMGraph(master_graph=graph2)
