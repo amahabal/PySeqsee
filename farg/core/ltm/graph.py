@@ -68,15 +68,17 @@ class LTMGraph(object):
     if filename:
       assert(not master_graph)
       self.is_working_copy = False
+      self.transient_ltm = False
       self.filename = filename
       self._LoadFromFile()
     elif master_graph:
       assert(not filename)
       self.is_working_copy = True
       self.master_graph = master_graph
+      self.transient_ltm = False
       self._LoadFromFile()
     elif empty_ok_for_test:
-      pass
+      self.transient_ltm = True
     else:
       raise FargError("One of filename or master_graph needs to be passed in")
 
@@ -90,6 +92,8 @@ class LTMGraph(object):
 
   def DumpToFile(self):
     """Writes out content to file (if not working copy)."""
+    if self.transient_ltm:
+      return
     assert(not self.is_working_copy)
 
     with open(self.filename, "wb") as ltm_file:
@@ -117,7 +121,8 @@ class LTMGraph(object):
     return new_node
 
   def UploadToMaster(self, *, threshold=0.05):
-    assert(self.master_graph)
+    if self.transient_ltm:
+      return
     mg = self.master_graph
     print("I would have loved to upload to master.")
     kept_nodes = set()

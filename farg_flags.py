@@ -37,13 +37,18 @@ core_parser.add_argument('--stopping_condition',
                          help='Stopping condition, if any. Only allowed in non-gui modes. If the '
                               'condition is met, the program returns with a StoppingConditionMet '
                               'exception')
-core_parser.add_argument('--use_stored_ltm', default=True, type=bool,
+core_parser.add_argument('--use_stored_ltm', dest='use_stored_ltm', action='store_true',
                          help="If true, load LTMs from disk. If not, a brand new one is created.")
+core_parser.add_argument('--nouse_stored_ltm', dest='use_stored_ltm', action='store_false',
+                         help="If true, load LTMs from disk. If not, a brand new one is created.")
+core_parser.set_defaults(use_stored_ltm=True)
 
 core_parser.add_argument('--base_flags', help='Extra flags for base')
 core_parser.add_argument('--exp_flags', help='Extra flags for exp')
-core_parser.add_argument('--eat_output', default=True, type=bool,
+core_parser.add_argument('--eat_output', dest='eat_output', action='store_true',
                          help='If true, eat up most output.')
+core_parser.add_argument('--noeat_output', dest='eat_output', action='store_false')
+core_parser.set_defaults(eat_output=True)
 
 core_parser.add_argument('--gui_canvas_height', default=850, type=int,
                          help='Height of the central canvas')

@@ -52,7 +52,10 @@ class LTMManager(object):
         kLogger.info("LTM %s was empty, initialized.", ltm_name)
       else:
         kLogger.warn("LTM %s was empty, and no initalizer registered.", ltm_name)
-    ltm_copy = LTMGraph(master_graph=ltm)
+    if ltm.transient_ltm:
+      ltm_copy = ltm
+    else:
+      ltm_copy = LTMGraph(master_graph=ltm)
     LTMManager.loaded_ltms[ltm_name] = ltm
     LTMManager.loaded_ltms_copy[ltm_name] = ltm_copy
     return ltm_copy
@@ -67,6 +70,8 @@ class LTMManager(object):
   @classmethod
   def SaveAllOpenLTMS(cls):
     for _ltm_name, ltm_copy in LTMManager.loaded_ltms_copy.items():
+      if ltm_copy.transient_ltm:
+        continue
       orig_ltm = ltm_copy.master_graph
       if not hasattr(orig_ltm, 'filename') or not orig_ltm.filename:
         continue
