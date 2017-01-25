@@ -20,33 +20,21 @@ import os.path
 class BatchRunMultipleTimes(RunMultipleTimes):
   """Multiple-runner specialized for batch."""
 
-  def GetSubprocessArguments(self, one_input_spec_arguments):
-    arguments = []
-    arguments.append('--stopping_condition=%s' % farg_flags.FargFlags.stopping_condition)
-    arguments.append('--stopping_condition_granularity=%s' % farg_flags.FargFlags.stopping_condition_granularity)
-    arguments.append('--run_mode=single')
-    arguments.append('--max_steps=%s' % farg_flags.FargFlags.max_steps)
-    if farg_flags.FargFlags.use_stored_ltm:
-      arguments.append('--use_stored_ltm')
-    else:
-      arguments.append('--nouse_stored_ltm')
-    arguments.append('--double_mapping_resistance=%s' % farg_flags.FargFlags.double_mapping_resistance)
-    arguments.extend(one_input_spec_arguments.arguments_list)
-    return arguments
-
   def RunAll(self):
+    print("Running in batch.")
+    print("EXTRA ARGS=", farg_flags.FargFlags.base_flags)
+
     self.gui.stats.left_stats = self.LoadPreviousStats()
     for one_input_spec in self.input_spec:
       name = one_input_spec.name
       arguments = self.GetSubprocessArguments(one_input_spec)
-      print("arguments=", arguments)
 
       stats = self.gui.stats.GetRightStatsFor(name)
 
       for _idx in range(farg_flags.FargFlags.num_iterations):
         if self.gui.quitting:
           return
-        result = RunModeNonInteractive.DoSingleRun(arguments)
+        result = RunModeNonInteractive.DoSingleRun(arguments, farg_flags.FargFlags.base_flags)
         stats.AddData(result)
     self.SaveCurrent()
 

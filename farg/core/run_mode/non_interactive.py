@@ -28,6 +28,7 @@ from tkinter.constants import BOTH, END, LEFT, N, NW, RIGHT, SINGLE, TOP, VERTIC
 import subprocess
 import sys
 import threading
+import farg_flags
 
 class RunMultipleTimes(threading.Thread, metaclass=ABCMeta):
   """Class to run the application several times on a set of inputs.
@@ -48,6 +49,17 @@ class RunMultipleTimes(threading.Thread, metaclass=ABCMeta):
     #: Points to the GUI controlling the run. The GUI maintains the statistics that this
     #: class's actions update.
     self.gui = gui
+
+  def GetSubprocessArguments(self, one_input_spec_arguments):
+    arguments = []
+    arguments.append('--run_mode=single')
+    arguments.append('--max_steps=%s' % farg_flags.FargFlags.max_steps)
+    if farg_flags.FargFlags.use_stored_ltm:
+      arguments.append('--use_stored_ltm')
+    else:
+      arguments.append('--nouse_stored_ltm')
+    arguments.extend(one_input_spec_arguments.arguments_list)
+    return arguments
 
   @abstractmethod
   def RunAll(self):

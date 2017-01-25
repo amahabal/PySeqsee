@@ -50,7 +50,7 @@ core_parser.add_argument('--nouse_stored_ltm', dest='use_stored_ltm', action='st
 core_parser.set_defaults(use_stored_ltm=True)
 
 core_parser.add_argument('--base_flags', action=SplitOnSpacesAction, default=[],
-                         help='Extra flags for base')
+                         help='Extra flags for base/extra args for batch')
 core_parser.add_argument('--exp_flags', action=SplitOnSpacesAction, default=[],
                          help='Extra flags for exp')
 
