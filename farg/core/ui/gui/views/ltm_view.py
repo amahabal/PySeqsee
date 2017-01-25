@@ -14,8 +14,18 @@
 """View for displaying nodes in an ltm."""
 
 from farg.core.ui.gui.views.list_based_view import ListBasedView
-from tkinter import NW
+from tkinter import END, NW, Text, Toplevel
 
+def ShowNodeDetails(controller, node):
+  top = Toplevel()
+  tb = Text(top, height=50, width=50)
+  tb.pack()
+  tb.insert(END, '%s\n\n' % node.content.BriefLabel())
+  for edge in node.outgoing_edges:
+    tb.insert(END,
+              '{%s} -- %5.3f \t %s\n' % (', '.join(edge.edge_type_set),
+                                         edge.utility,
+                                         edge.to_node.content.BriefLabel()))
 
 class LTMView(ListBasedView):
   """View for displaying nodes in an ltm."""
@@ -45,7 +55,8 @@ class LTMView(ListBasedView):
     """Given x, y within the current widget and an item, draws it."""
     node, activation = item
     x, y = self.CanvasCoordinates(widget_x, widget_y)
-    self.canvas.create_text(20 + x, y,
-                            text='%1.3f [Ab: %05d] %s' % (activation, node.abundance,
-                                                          node.content.BriefLabel()),
-                            anchor=NW)
+    text_id = self.canvas.create_text(20 + x, y,
+                                      text='%1.3f [Ab: %05d] %s' % (activation, node.abundance,
+                                                                    node.content.BriefLabel()),
+                                      anchor=NW)
+    self.canvas.tag_bind(text_id, '<1>', lambda e: ShowNodeDetails(controller, node))

@@ -26,6 +26,7 @@ def ShowCodeletFamilyDetails(controller, family):
   textbox = Text(top, height=50, width=50)
   textbox.pack()
   for codelet in codelets:
+    textbox.insert(END, '-------\n')
     textbox.insert(END, '%.1f\n' % codelet.urgency)
     for arg, val in codelet.args.items():
       textbox.insert(END, '\t%s\t%s\n' % (arg, val))
