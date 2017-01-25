@@ -26,7 +26,6 @@ class BatchRunMultipleTimes(RunMultipleTimes):
     arguments.append('--stopping_condition_granularity=%s' % farg_flags.FargFlags.stopping_condition_granularity)
     arguments.append('--run_mode=single')
     arguments.append('--max_steps=%s' % farg_flags.FargFlags.max_steps)
-    arguments.append('--eat_output')
     if farg_flags.FargFlags.use_stored_ltm:
       arguments.append('--use_stored_ltm')
     else:

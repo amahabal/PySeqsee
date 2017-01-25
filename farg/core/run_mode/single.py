@@ -31,8 +31,7 @@ class RunModeSingle(RunModeNonInteractive):
 
   def Run(self):
     saved_stdout = sys.stdout
-    if farg_flags.FargFlags.eat_output:
-      sys.stdout = StringIO()
+    sys.stdout = StringIO()
     output_status = ''
     try:
       self.ui.Run()
