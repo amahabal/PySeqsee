@@ -371,8 +371,8 @@ class RunModeNonInteractive(RunMode):  # No init. pylint: disable=W0232
     arguments = []  # Collect arguments to pass to subprocess
     arguments.append(sys.executable)  # Python executable
     arguments.append(sys.argv[0])  # The script used to run this mode (e.g., run_seqsee.py)
-    
+
     arguments.extend(cmdline_arguments_list)
     if extra_arguments:
-      arguments.append(extra_arguments)
+      arguments.extend(extra_arguments)
     return subprocess.check_output(arguments)
