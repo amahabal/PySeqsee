@@ -32,6 +32,7 @@ directions Seqsee will pursue in the near future.
 """
 import random
 from farg.core.exceptions import FargError, FargException
+from farg.core.history import History, EventType
 
 import logging
 kLogger = logging.getLogger(__name__)
@@ -95,7 +96,7 @@ class Coderack(object):
       else:
         random_urgency -= codelet.urgency
 
-  def AddCodelet(self, codelet):
+  def AddCodelet(self, codelet, *, msg="", parents=[]):
     """Adds codelet to coderack. Removes some existing codelet if needed."""
     kLogger.debug('Codelet added: %s', str(codelet.family))
     if self._codelet_count == self._max_capacity:
@@ -103,8 +104,11 @@ class Coderack(object):
     self._codelets.add(codelet)
     self._codelet_count += 1
     self._urgency_sum += codelet.urgency
+    History.AddArtefact(codelet, "CODELET",
+                        "Codelet %s %s" % (codelet.family.__name__, msg),
+                        parents)
 
-  def ForceNextCodelet(self, codelet):
+  def ForceNextCodelet(self, codelet, *, forcer=None):
     """Force codelet to be the next one retrieved by GetCodelet.
 
     Args:
@@ -125,6 +129,11 @@ class Coderack(object):
     if codelet not in self._codelets:
       raise FargError('Cannot mark a non-existant codelet as the next to retrieve.')
     self._forced_next_codelet = codelet
+    if forcer:
+      History.AddEvent(EventType.CODELET_FORCED, "Codelet forced to be next", [[codelet, ""],
+                                                                               [forcer, "forcer"]])
+    else:
+      History.AddEvent(EventType.CODELET_FORCED, "Codelet forced to be next", [[codelet, ""]])
 
   def _RemoveCodelet(self, codelet):
     """Removes named codelet from coderack."""
@@ -138,3 +147,4 @@ class Coderack(object):
     kLogger.info('Coderack over capacity: expunged codelet of family %s.' %
                  codelet.family.__name__)
     self._RemoveCodelet(codelet)
+    History.AddEvent(EventType.CODELET_FORCED, "Codelet expunged", [[codelet, ""]])

@@ -13,7 +13,7 @@
 
 from farg.core.controller import Controller
 from farg.core.exceptions import AnswerFoundException, NoAnswerException
-
+from farg.core.history import History
 
 class QuickReconnResults:
   """Result of quick reconnaisance before starting a subspace.
@@ -54,6 +54,7 @@ class Subspace:
     self.parent_controller = parent_controller
     self.nsteps = nsteps
     self.workspace_arguments = workspace_arguments
+    History.AddArtefact(self, "Subspace", "Created subspace", parents=[parent_controller])
 
   def Run(self):
     """Runs the subspace by first trying to quickly estimate need for deeper exploration.

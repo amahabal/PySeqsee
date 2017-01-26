@@ -124,12 +124,11 @@ class LTMGraph(object):
     if self.transient_ltm:
       return
     mg = self.master_graph
-    print("I would have loved to upload to master.")
     kept_nodes = set()
     for n in self.nodes:
       if n.GetActivation(0) > threshold:
         kept_nodes.add(n)
-        print('Keeping: %5.3f %s' % (n.GetActivation(0), n.content.BriefLabel()))
+        # print('Keeping: %5.3f %s' % (n.GetActivation(0), n.content.BriefLabel()))
         mg._IncrementAbundance(content=n.content)
     for n in self.nodes:
       if not n in kept_nodes:
@@ -139,7 +138,7 @@ class LTMGraph(object):
         if not target in kept_nodes:
           continue
         mg.StrengthenEdge(n.content, target.content, edge_type_set=e.edge_type_set)
-        print("Strengthening %s --> %s" % (n.content.BriefLabel(), target.content.BriefLabel()))
+        # print("Strengthening %s --> %s" % (n.content.BriefLabel(), target.content.BriefLabel()))
 
   def _IncrementAbundance(self, *, content):
     """Increments abundance by 1."""

@@ -18,7 +18,7 @@ from farg.core.subspace import Subspace
 
 class CF_InitialEvaluation(CodeletFamily):
   @classmethod
-  def Run(cls, controller):
+  def Run(cls, controller, *, me):
     # For now, I'll require the basis of extension to be flush left.
     # QUALITY TODO(Feb 20, 2012): This can be improved vastly.
     if controller.workspace.basis_of_extension.start_pos != 0:
@@ -30,11 +30,11 @@ class CF_InitialEvaluation(CodeletFamily):
     number_of_terms_already_known = (len(seqsee_ws.elements) -
                                      my_ws.basis_of_extension.end_pos - 1)
     my_ws.unknown_terms = my_ws.suggested_terms[number_of_terms_already_known:]
-    controller.AddCodelet(family=CF_AskQuestion, urgency=100)
+    controller.AddCodelet(family=CF_AskQuestion, urgency=100, parents=[me])
 
 class CF_AskQuestion(CodeletFamily):
   @classmethod
-  def Run(cls, controller):
+  def Run(cls, controller, *, me):
     workspace = controller.workspace
     question = AreTheseTheNextTermsQuestion(workspace.unknown_terms)
     if controller.ui.AskQuestion(question):
@@ -42,7 +42,8 @@ class CF_AskQuestion(CodeletFamily):
       workspace.seqsee_ws.InsertElements(unknown_terms)
       from farg.apps.seqsee.codelet_families.all import CF_AreWeDone
       controller.parent_controller.AddCodelet(family=CF_AreWeDone,
-                                              urgency=50)
+                                              urgency=50,
+                                              parents=[me])
       raise AnswerFoundException(True, codelet_count=controller.steps_taken)
 
 class SubspaceGoBeyondKnown(Subspace):
@@ -54,5 +55,6 @@ class SubspaceGoBeyondKnown(Subspace):
         self.suggested_terms = suggested_terms
 
   def InitializeCoderack(self):
-    self.controller.AddCodelet(family=CF_InitialEvaluation, urgency=100)
+    self.controller.AddCodelet(family=CF_InitialEvaluation, urgency=100,
+                               parents=[self], msg="Added during coderack init")
 

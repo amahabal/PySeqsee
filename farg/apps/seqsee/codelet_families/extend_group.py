@@ -20,7 +20,7 @@ from farg.apps.seqsee.subspaces.go_beyond_known import SubspaceGoBeyondKnown
 
 class CF_ExtendGroup(CodeletFamily):
   @classmethod
-  def Run(cls, controller, item):
+  def Run(cls, controller, item, *, me):
     logging.debug("RUNNING CF_ExtendGroup %s", item)
     if item not in controller.workspace.groups:
       # item deleted?

@@ -24,14 +24,14 @@ from farg.apps.seqsee.subspaces.is_this_interlaced import SubspaceIsThisInterlac
 class CF_FocusOn(CodeletFamily):
   """Causes the required focusable to be added to the stream."""
   @classmethod
-  def Run(cls, controller, focusable):
+  def Run(cls, controller, focusable, *, me):
     logging.debug("RUNNING CF_FocusOn with %s", str(focusable))
     controller.stream.FocusOn(focusable)
 
 class CF_GroupFromRelation(CodeletFamily):
   """Causes the required relations' ends to create a group."""
   @classmethod
-  def Run(cls, controller, relation):
+  def Run(cls, controller, relation, *, me):
     logging.debug("RUNNING CF_GroupFromrelation with %s", str(relation))
     # If there is a group spanning the proposed group, perish the thought.
     left, right = relation.first.start_pos, relation.second.end_pos
@@ -51,7 +51,7 @@ class CF_GroupFromRelation(CodeletFamily):
 class CF_DescribeAs(CodeletFamily):
   """Attempt to describe item as belonging to category."""
   @classmethod
-  def Run(cls, controller, item, category):
+  def Run(cls, controller, item, category, *, me):
     logging.debug("RUNNING CF_DescribeAs with %s and %s", str(item), str(category))
     if not item.IsKnownAsInstanceOf(category):
       item.DescribeAs(category)
@@ -59,7 +59,7 @@ class CF_DescribeAs(CodeletFamily):
 class CF_AreWeDone(CodeletFamily):
   """Check using a subspace if we are done. If yes, quit."""
   @classmethod
-  def Run(cls, controller):
+  def Run(cls, controller, *, me):
     logging.debug("RUNNING CF_AreweDone")
     answer = SubspaceAreWeDone(controller).Run()
     if answer:
@@ -72,7 +72,7 @@ class CF_AreWeDone(CodeletFamily):
 class CF_IsThisInterlaced(CodeletFamily):
   """Check using a subspace if we may be looking at an interlaced sequence."""
   @classmethod
-  def Run(cls, controller, distance):
+  def Run(cls, controller, distance, *, me):
     logging.debug("RUNNING CF_AreweDone with distance=%s", str(distance))
     SubspaceIsThisInterlaced(controller,
                              nsteps=20,
@@ -84,7 +84,7 @@ class CF_RemoveSpuriousRelations(CodeletFamily):
      supergroups don't overlap.
   """
   @classmethod
-  def Run(cls, controller):
+  def Run(cls, controller, *, me):
     logging.debug("RUNNING CF_RemoveSpuriousRelations")
     workspace = controller.workspace
     supergroups_map = workspace.CalculateSupergroupMap()

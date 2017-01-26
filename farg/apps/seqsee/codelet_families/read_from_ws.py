@@ -20,7 +20,7 @@ class CF_ReadFromWS(CodeletFamily):
   """Read an item from the WS and focus on it.
   """
   @classmethod
-  def Run(cls, controller):
+  def Run(cls, controller, *, me):
     logging.debug("RUNNING CF_ReadFromWS")
     choice = SubspaceSelectObjectToFocusOn(controller).Run()
     if choice:

@@ -14,6 +14,7 @@
 """Base class for entry point of each application."""
 
 from farg.core.controller import Controller
+from farg.core.history import History, EventType
 from farg.core.run_mode import batch, gui, single, sxs
 from farg.core.stopping_conditions import StoppingConditions
 from farg.core.ui.batch_ui import BatchUI
@@ -199,6 +200,8 @@ class Main:
 
     This includes creating directories, starting logging, and so forth.
     """
+    if self.flags.history:
+      History.TurnOn()
     if self.flags.debug_config:
       logging.config.fileConfig(self.flags.debug_config)
 
@@ -246,3 +249,4 @@ class Main:
     this means launching a UI.
     """
     self.run_mode.Run()
+    History.Print()

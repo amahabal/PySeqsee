@@ -22,7 +22,7 @@ from farg.apps.seqsee.categories import SizeNCategory
 
 class CF_FindMappingAtModulus(CodeletFamily):
   @classmethod
-  def Run(cls, controller, modulus):
+  def Run(cls, controller, modulus, *, me):
     # As a first iteration (improve this), we'll look at successive items at positions a + kd
     # trying to make sense of *known* relations between them.
     # a is the moduli, d is the "jump" and k is a variable.
@@ -72,7 +72,7 @@ class CF_FindMappingAtModulus(CodeletFamily):
 
 class CF_IsThisAnInterlacedSequence(CodeletFamily):
   @classmethod
-  def Run(cls, controller):
+  def Run(cls, controller, *, me):
     # We reach here when all moduli have been looked at.
     # If all of them are mappings, we will try to impose this view of the sequence on it.
     if not cls.AllAreMapping(controller):
@@ -111,14 +111,16 @@ class CF_IsThisAnInterlacedSequence(CodeletFamily):
 class CF_LookForUndiscoveredMappings(CodeletFamily):
   """Looks for mappings for things for which we don't have mappings yet."""
   @classmethod
-  def Run(cls, controller):
+  def Run(cls, controller, *, me):
     missing_positions = CF_LookForUndiscoveredMappings.FindMissingMapping(controller)
     if not missing_positions:  # All have been found!
-      controller.AddCodelet(family=CF_IsThisAnInterlacedSequence, urgency=100)
+      controller.AddCodelet(family=CF_IsThisAnInterlacedSequence, urgency=100,
+                            parents=[me])
     else:
       modulus = UnweightedChoice(missing_positions)
       controller.AddCodelet(family=CF_FindMappingAtModulus, urgency=50,
-                            arguments_dict=dict(modulus=modulus))
+                            arguments_dict=dict(modulus=modulus),
+                            parents=[me])
 
   @classmethod
   def FindMissingMapping(cls, controller):
@@ -150,6 +152,7 @@ class SubspaceIsThisInterlaced(Subspace):
       return QuickReconnResults.DeeperExplorationNeeded()
 
   def InitializeCoderack(self):
-    self.controller.AddCodelet(family=CF_LookForUndiscoveredMappings, urgency=100)
+    self.controller.AddCodelet(family=CF_LookForUndiscoveredMappings, urgency=100,
+                               parents=[self], msg="Added during Subspace init")
 
 

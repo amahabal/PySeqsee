@@ -6,7 +6,7 @@ class CF_HorribleHack(CodeletFamily):
      This is here merely for demonstration purposes. See :doc:`new_app/first_codelet` for details.
   '''
   @classmethod
-  def Run(cls, controller):
+  def Run(cls, controller, *, me):
     '''Check if solution is even/odd.'''
     workspace = controller.workspace
     if (all(x.magnitude % 2 == 1 for x in workspace.left_items) and

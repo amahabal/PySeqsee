@@ -9,7 +9,7 @@ class MyController(Controller):
 
 class Foo(CodeletFamily):
   @classmethod
-  def Run(cls, controller, x):
+  def Run(cls, controller, x, *, me):
     controller.x *= 3
     return x + controller.x
 

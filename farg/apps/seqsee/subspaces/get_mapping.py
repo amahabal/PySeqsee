@@ -44,7 +44,7 @@ class CF_ExplainValues(CodeletFamily):
                              slippages=frozenset(list(slippages.items())))
 
   @classmethod
-  def Run(cls, controller):
+  def Run(cls, controller, *, me):
     ws = controller.workspace
     attribute_explanations = ws.attribute_explanations
     b2 = ws.binding2
@@ -71,7 +71,7 @@ class CF_ExplainValues(CodeletFamily):
           full_mapping = CF_ExplainValues.CreateStructuralMappingFromExplanation(
               ws.category, attribute_explanations)
           raise AnswerFoundException(full_mapping, codelet_count=controller.steps_taken)
-    controller.AddCodelet(family=CF_ExplainValues, urgency=100)
+    controller.AddCodelet(family=CF_ExplainValues, urgency=100, parents=[me])
 
 
 class SubspaceFindBindingMapping(Subspace):
@@ -100,11 +100,12 @@ class SubspaceFindBindingMapping(Subspace):
         self.attribute_explanations = dict()
 
   def InitializeCoderack(self):
-    self.controller.AddCodelet(family=CF_ExplainValues, urgency=100)
+    self.controller.AddCodelet(family=CF_ExplainValues, urgency=100, parents=[self],
+                               msg="Added during subspace init")
 
 class CF_FindAnchoredSimilarity(CodeletFamily):
   @classmethod
-  def Run(cls, controller, left, right, seqsee_ltm):
+  def Run(cls, controller, left, right, seqsee_ltm, *, me):
     if left.GetRelationTo(right):
       # Relation exists, possibly bail out.
       if Toss(farg_flags.FargFlags.double_mapping_resistance):
@@ -128,4 +129,5 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
       controller.ltm.AddEdge(right.object, left.object)
       from farg.apps.seqsee.codelet_families.all import CF_FocusOn
       controller.AddCodelet(family=CF_FocusOn, urgency=100,
-                            arguments_dict=dict(focusable=relation))
+                            arguments_dict=dict(focusable=relation),
+                            parents=[me])

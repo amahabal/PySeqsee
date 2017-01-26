@@ -25,7 +25,7 @@ class CF_FightIncumbents(CodeletFamily):
     return 0.6 * (challenger_strength / (incumbent_strength + challenger_strength))
 
   @classmethod
-  def Run(cls, controller):
+  def Run(cls, controller, *, me):
     # QUALITY TODO(Feb 12, 2012): Strengths of groups are important. Need to work those in.
     workspace = controller.workspace
     parent_ws = controller.parent_controller.workspace
@@ -49,4 +49,5 @@ class SubspaceDealWithConflictingGroups(Subspace):
         self.incumbents = incumbents
 
   def InitializeCoderack(self):
-    self.controller.AddCodelet(family=CF_FightIncumbents, urgency=100)
+    self.controller.AddCodelet(family=CF_FightIncumbents, urgency=100, parents=[self],
+                               msg="Initialized during subspace creation")

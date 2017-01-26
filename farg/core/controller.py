@@ -18,6 +18,7 @@ import logging
 from farg.core.codelet import Codelet
 from farg.core.coderack import Coderack
 from farg.core.exceptions import StoppingConditionMet
+from farg.core.history import History, EventType
 from farg.core.ltm.manager import LTMManager
 from farg.core.stream import Stream
 from farg.core.util import Toss
@@ -140,6 +141,7 @@ class Controller:
   def __init__(self, *, ui, controller_depth=0,
                parent_controller=None, workspace_arguments=None,
                stopping_condition=None):
+    History.AddArtefact(self, "Controller", "Created controller")
     #: How deeply in the stack this controller is. The top-level controller has a depth
     #: of 0, Subspaces it spawns 1, and so forth.
     self.controller_depth = controller_depth
@@ -190,7 +192,8 @@ class Controller:
     if self.routine_codelets_to_add:
       for family, urgency, probability in self.routine_codelets_to_add:
         if force or Toss(probability):
-          self.coderack.AddCodelet(Codelet(family, self, urgency))
+          cl = Codelet(family, self, urgency)
+          self.coderack.AddCodelet(cl, msg="Routine codelet")
 
   def Step(self):
     """Executes the next (stochastically chosen) step in the model."""
@@ -200,7 +203,8 @@ class Controller:
     self._AddRoutineCodelets()
     if not self.coderack.IsEmpty():
       codelet = self.coderack.GetCodelet()
-      logging.debug("========================== CODELET =======================")
+      History.AddEvent(EventType.CODELET_RUN_START,
+                       "Codelet run started", [[codelet, ""]])
       codelet.Run()
     if self.stopping_condition:
       if self.steps_taken % farg_flags.FargFlags.stopping_condition_granularity == 0:
@@ -222,7 +226,7 @@ class Controller:
         return
       self.Step()
 
-  def AddCodelet(self, *, family, urgency, arguments_dict=None):
+  def AddCodelet(self, *, family, urgency, arguments_dict=None, parents=None, msg=""):
     """Adds a codelet to the coderack.
 
     Keyword-only Args:
@@ -238,7 +242,7 @@ class Controller:
       arguments_dict = {}
     codelet = Codelet(family=family, controller=self,
                       urgency=urgency, arguments_dict=arguments_dict)
-    self.coderack.AddCodelet(codelet)
+    self.coderack.AddCodelet(codelet, parents=parents, msg=msg)
 
   def SendActivation(self, *, content, amount):
     """Sends activation to content in LTM."""

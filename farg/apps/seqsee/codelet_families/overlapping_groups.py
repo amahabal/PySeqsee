@@ -19,7 +19,7 @@ import logging
 
 class CF_ActOnOverlappingGroups(CodeletFamily):
   @classmethod
-  def Run(cls, controller, left, right):
+  def Run(cls, controller, left, right, *, me):
     logging.debug("RUNNING CF_ActOnOverlappingGroups: left=%s, right=%s", str(left), str(right))
     if left not in controller.workspace.groups or right not in controller.workspace.groups:
       # Groups gone, fizzle.

@@ -119,7 +119,8 @@ class Stream(object):
     if potential_codelets:
       selected_codelets = ChooseAboutN(2, [(x, x.urgency) for x in potential_codelets])
       for codelet in selected_codelets:
-        self.controller.coderack.AddCodelet(codelet)
+        self.controller.coderack.AddCodelet(codelet, msg="During FocusOn",
+                                            parents=[])
 
   def StoreFringeAndCalculateOverlap(self, focusable):
     """Calculates a hit map: from prior focusable to strength."""

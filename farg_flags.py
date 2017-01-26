@@ -49,6 +49,10 @@ core_parser.add_argument('--nouse_stored_ltm', dest='use_stored_ltm', action='st
                          help="If true, load LTMs from disk. If not, a brand new one is created.")
 core_parser.set_defaults(use_stored_ltm=True)
 
+core_parser.add_argument('--history', action='store_true', dest='history',
+                         help='Save a trace of what happened during run')
+core_parser.set_defaults(history=False)
+
 core_parser.add_argument('--base_flags', action=SplitOnSpacesAction, default=[],
                          help='Extra flags for base/extra args for batch')
 core_parser.add_argument('--exp_flags', action=SplitOnSpacesAction, default=[],

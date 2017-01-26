@@ -101,4 +101,4 @@ class Codelet(object):
   def Run(self):
     """Runs the codelet."""
     self.controller.most_recent_codelet = self
-    return self.family.Run(self.controller, **self.args)
+    return self.family.Run(self.controller, me=self, **self.args)
