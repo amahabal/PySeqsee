@@ -18,7 +18,7 @@ import logging
 from farg.core.codelet import Codelet
 from farg.core.coderack import Coderack
 from farg.core.exceptions import StoppingConditionMet
-from farg.core.history import History, EventType
+from farg.core.history import History, EventType, ObjectType
 from farg.core.ltm.manager import LTMManager
 from farg.core.stream import Stream
 from farg.core.util import Toss
@@ -141,7 +141,7 @@ class Controller:
   def __init__(self, *, ui, controller_depth=0,
                parent_controller=None, workspace_arguments=None,
                stopping_condition=None):
-    History.AddArtefact(self, "Controller", "Created controller")
+    History.AddArtefact(self, ObjectType.CONTROLLER, "Created controller")
     #: How deeply in the stack this controller is. The top-level controller has a depth
     #: of 0, Subspaces it spawns 1, and so forth.
     self.controller_depth = controller_depth

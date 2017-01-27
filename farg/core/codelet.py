@@ -102,3 +102,9 @@ class Codelet(object):
     """Runs the codelet."""
     self.controller.most_recent_codelet = self
     return self.family.Run(self.controller, me=self, **self.args)
+
+  def ClassName(self):
+    """Method used by history to get an effective name for king of object.
+
+    If an item does not define this, it defaults to using __class__.__name__"""
+    return "CF:" + self.family.__name__

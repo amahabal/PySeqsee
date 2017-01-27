@@ -10,6 +10,13 @@ class EventType(Enum):
   LTM_SPIKE = 6
   SUBSPACE_ENTER = 7
   SUBSPACE_EXIT = 8
+  SUBSPACE_DEEPER_EX = 9
+
+class ObjectType(Enum):
+  CONTROLLER = 1
+  CODELET = 2
+  SUBSPACE = 3
+  WS_GROUP = 4
 
 class History(object):
   """Maintains history of what happened during a run. Useful for learning weights and such.
@@ -56,14 +63,17 @@ class History(object):
     eid = cls._GetNewEID()
     assert(not hasattr(item, '_hid'))
     item._hid = hid
-    event_details = (eid, EventType.CREATE, hid)
+    event_details = dict(eid=eid, t=EventType.CREATE, hid=hid, ot=artefact_type)
     cls._event_log.append(event_details)
     cls._object_events[hid].append(event_details)
 
-    details_dict = dict(l=log_msg)
+    class_name = item.__class__.__name__
+    if hasattr(item, 'ClassName'):
+      class_name = item.ClassName()
+    details_dict = dict(l=log_msg, t=artefact_type, cls=class_name)
     if parents:
       details_dict['p'] = [x._hid for x in parents]
-      for x in parents:
+      for x in parents: 
         cls._object_events[x._hid].append(event_details)
     cls._object_details.append(details_dict)
 
@@ -73,7 +83,7 @@ class History(object):
       return
     eid = cls._GetNewEID()
     item_msg_list_with_id = [(x[0]._hid, x[1]) for x in item_msg_list]
-    event_details = [eid, event_type, log_msg, item_msg_list_with_id]
+    event_details = dict(eid=eid, t=event_type, l=log_msg, objects=item_msg_list_with_id)
     cls._event_log.append(event_details)
     for item, msg in item_msg_list:
       cls._object_events[item._hid].append(event_details)

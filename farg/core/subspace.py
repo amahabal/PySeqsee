@@ -13,7 +13,7 @@
 
 from farg.core.controller import Controller
 from farg.core.exceptions import AnswerFoundException, NoAnswerException
-from farg.core.history import History
+from farg.core.history import History, ObjectType, EventType
 
 class QuickReconnResults:
   """Result of quick reconnaisance before starting a subspace.
@@ -54,7 +54,9 @@ class Subspace:
     self.parent_controller = parent_controller
     self.nsteps = nsteps
     self.workspace_arguments = workspace_arguments
-    History.AddArtefact(self, "Subspace", "Created subspace", parents=[parent_controller])
+    History.AddArtefact(self, ObjectType.SUBSPACE,
+                        "",
+                        parents=[parent_controller])
 
   def Run(self):
     """Runs the subspace by first trying to quickly estimate need for deeper exploration.
@@ -62,12 +64,16 @@ class Subspace:
        If deeper exploration is called for, sets up the controller, workspace, and so forth,
        and runs the controller for upto the specified number of steps.
     """
+    History.AddEvent(EventType.SUBSPACE_ENTER, "", [(self, '')])
     quick_reconn_result = self.QuickReconn()
     if quick_reconn_result.state == QuickReconnResults.kAnswerFound:
+      History.AddEvent(EventType.SUBSPACE_EXIT, "Answer found", [(self, '')])
       return quick_reconn_result.answer
     elif quick_reconn_result.state == QuickReconnResults.kAnswerCannotBeFound:
+      History.AddEvent(EventType.SUBSPACE_EXIT, "Answer cannot be found", [(self, '')])
       return None
 
+    History.AddEvent(EventType.SUBSPACE_DEEPER_EX, "", [(self, '')])
     # So we need deeper exploration.
     parent_controller = self.parent_controller
     self.controller = self.controller_class(
@@ -79,9 +85,12 @@ class Subspace:
     try:
       self.controller.RunUptoNSteps(self.nsteps)
     except AnswerFoundException as e:
+      History.AddEvent(EventType.SUBSPACE_EXIT, "Found answer", [(self, '')])
       return e.answer
     except NoAnswerException:
+      History.AddEvent(EventType.SUBSPACE_EXIT, "No answer", [(self, '')])
       return None
+    History.AddEvent(EventType.SUBSPACE_EXIT, "No answer", [(self, '')])
     return None
 
   def QuickReconn(self):

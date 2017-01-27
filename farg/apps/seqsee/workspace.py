@@ -43,8 +43,9 @@ from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.distance import DistanceInGroups
 from farg.apps.seqsee.sobject import SElement
 from farg.apps.seqsee.util import Exactly, LessThan
-from farg.core.exceptions import FargError
 from farg.apps.seqsee.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
+from farg.core.exceptions import FargError
+from farg.core.history import History
 import logging
 
 logger = logging.getLogger(__name__)

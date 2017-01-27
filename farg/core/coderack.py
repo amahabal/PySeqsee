@@ -32,7 +32,7 @@ directions Seqsee will pursue in the near future.
 """
 import random
 from farg.core.exceptions import FargError, FargException
-from farg.core.history import History, EventType
+from farg.core.history import History, EventType, ObjectType
 
 import logging
 kLogger = logging.getLogger(__name__)
@@ -104,7 +104,7 @@ class Coderack(object):
     self._codelets.add(codelet)
     self._codelet_count += 1
     self._urgency_sum += codelet.urgency
-    History.AddArtefact(codelet, "CODELET",
+    History.AddArtefact(codelet, ObjectType.CODELET,
                         "Codelet %s %s" % (codelet.family.__name__, msg),
                         parents)
 
