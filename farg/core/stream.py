@@ -15,6 +15,7 @@
 from collections import defaultdict
 from farg.core.focusable_mixin import FocusableMixin
 from farg.core.util import ChooseAboutN
+from farg.core.history import History, EventType
 
 class Stream(object):
   """Implements the Stream of Thought.
@@ -99,6 +100,7 @@ class Stream(object):
 
   def FocusOn(self, focusable):
     """Focus on focusable, and act on a fringe-hit."""
+    History.AddEvent(EventType.OBJECT_FOCUS, "", [(focusable, "")])
     assert(isinstance(focusable, FocusableMixin))
     focusable.OnFocus(self.controller)
     self._PrepareForFocusing(focusable)
@@ -120,7 +122,7 @@ class Stream(object):
       selected_codelets = ChooseAboutN(2, [(x, x.urgency) for x in potential_codelets])
       for codelet in selected_codelets:
         self.controller.coderack.AddCodelet(codelet, msg="During FocusOn",
-                                            parents=[])
+                                            parents=[focusable])
 
   def StoreFringeAndCalculateOverlap(self, focusable):
     """Calculates a hit map: from prior focusable to strength."""

@@ -77,7 +77,7 @@ class CF_IsThisAnInterlacedSequence(CodeletFamily):
     # If all of them are mappings, we will try to impose this view of the sequence on it.
     if not cls.AllAreMapping(controller):
       raise NoAnswerException(codelet_count=controller.steps_taken)
-    cls.CreateGroupings(controller)
+    cls.CreateGroupings(controller, me=me)
     raise NoAnswerException(codelet_count=controller.steps_taken)
 
   @classmethod
@@ -88,7 +88,7 @@ class CF_IsThisAnInterlacedSequence(CodeletFamily):
     return True
 
   @classmethod
-  def CreateGroupings(cls, controller):
+  def CreateGroupings(cls, controller, *, me):
     from farg.apps.seqsee.anchored import SAnchored
     from farg.apps.seqsee.sobject import SGroup
     from farg.apps.seqsee.exceptions import ConflictingGroupException
@@ -103,7 +103,7 @@ class CF_IsThisAnInterlacedSequence(CodeletFamily):
       group = SAnchored(sobj, items, k * d, (k + 1) * d - 1)
       group.object.DescribeAs(size_n_category)
       try:
-        parent_workspace.InsertGroup(group)
+        parent_workspace.InsertGroup(group, parents=[me])
       except ConflictingGroupException:
         # TODO(# --- Apr 22, 2012): add an appropriate codelet in top workspace.
         pass

@@ -17,6 +17,7 @@ class ObjectType(Enum):
   CODELET = 2
   SUBSPACE = 3
   WS_GROUP = 4
+  WS_RELN = 5
 
 class History(object):
   """Maintains history of what happened during a run. Useful for learning weights and such.

@@ -45,7 +45,7 @@ from farg.apps.seqsee.sobject import SElement
 from farg.apps.seqsee.util import Exactly, LessThan
 from farg.apps.seqsee.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
 from farg.core.exceptions import FargError
-from farg.core.history import History
+from farg.core.history import History, ObjectType
 import logging
 
 logger = logging.getLogger(__name__)
@@ -69,6 +69,7 @@ class Workspace(object):
                          end_pos=self.num_elements,
                          is_sequence_element=True)
     self.num_elements += 1
+    History.AddArtefact(anchored, ObjectType.WS_GROUP, "Initial creation")
     self.elements.append(anchored)
 
   def InsertElements(self, integers):
@@ -89,7 +90,7 @@ class Workspace(object):
         return False
     return True
 
-  def InsertGroup(self, group):
+  def InsertGroup(self, group, *, parent=None):
     """Inserts a group into the workspace. It must not conflict with an existing group, else
        a ConflictingGroupException is raised.
 
@@ -120,7 +121,7 @@ class Workspace(object):
       for rel in relations_to_discard:
         other_gp.relations.discard(rel)
 
-  def _PlonkIntoPlace(self, group):
+  def _PlonkIntoPlace(self, group, *, parents=None):
     """Anchors the group into the workspace. Assumes that conflicts have already been checked
        for.
     """
@@ -148,6 +149,10 @@ class Workspace(object):
                                       group.object.underlying_mapping_set))
     new_object.object.AddCategoriesFrom(group.object)
     self.groups.add(new_object)
+    History.AddArtefact(new_object,
+                        ObjectType.WS_GROUP, "Initial creation: [%d, %d]" % (new_object.start_pos,
+                                                                             new_object.end_pos),
+                        parents=parents)
     return new_object
 
   def GetGroupsWithSpan(self, left_fn, right_fn):

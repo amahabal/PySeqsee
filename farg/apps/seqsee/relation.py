@@ -16,6 +16,7 @@ from farg.core.util import SelectWeightedByActivation
 from farg.core.codelet import Codelet
 from farg.core.focusable_mixin import FocusableMixin
 import farg_flags
+from farg.core.history import History, ObjectType
 
 """A relation is a specific instance of a mapping."""
 
@@ -28,6 +29,7 @@ class Relation(FocusableMixin):
     self.second = second
     #: The set of mappings any of which transform the left object to the right object.
     self.mapping_set = mapping_set
+    History.AddArtefact(self, ObjectType.WS_RELN, "", parents=(self.first, self.second))
 
   def __str__(self):
     return '%s-->%s (%s)' % (self.first, self.second, self.mapping_set)

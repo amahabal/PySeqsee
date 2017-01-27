@@ -41,7 +41,7 @@ class CF_GroupFromRelation(CodeletFamily):
     anchored = SAnchored.Create((relation.first, relation.second),
                                 underlying_mapping_set=relation.mapping_set)
     try:
-      controller.workspace.InsertGroup(anchored)
+      controller.workspace.InsertGroup(anchored, parent=[me])
     except ConflictingGroupException as e:
       SubspaceDealWithConflictingGroups(
           controller,
