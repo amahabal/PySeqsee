@@ -123,7 +123,7 @@ class InteractionHistoryMethods(object):
 
   @classmethod
   def Summary(cls):
-    print("Should print out some stats of what happened.")
-    obj_by_cls = cls.GroupObjectsByClass()
-    for k, v in obj_by_cls.items():
-      print("Object class: ", k, "\tobjects: ", len(v))
+    print("==== What kinds of objects were created? ==========")
+    obj_by_cls = sorted(cls.GroupObjectsByClass().items(), reverse=True, key=lambda x: len(x[1]))
+    for k, v in obj_by_cls:
+      print("\t%5d\t%s" % (len(v), k))
