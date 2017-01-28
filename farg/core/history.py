@@ -26,7 +26,7 @@ class History(object):
   """
 
   _is_history_on = False
-  
+
   @classmethod
   def TurnOn(cls):
     cls._is_history_on = True
@@ -74,7 +74,7 @@ class History(object):
     details_dict = dict(l=log_msg, t=artefact_type, cls=class_name)
     if parents:
       details_dict['p'] = [x._hid for x in parents]
-      for x in parents: 
+      for x in parents:
         cls._object_events[x._hid].append(event_details)
     cls._object_details.append(details_dict)
 
@@ -99,3 +99,31 @@ class History(object):
       for l in events:
         print('\t', l)
 
+class InteractionHistoryMethods(object):
+  """Interactive methods for exploring the contents stored in history.
+
+  We drop into the interactive shell if --history_interactive is passed in."""
+
+  @classmethod
+  def help(cls):
+    print("i.Summary(): Prints summary of what happened during the run.")
+    print("dir(h) for what is present in the history class.")
+
+  @classmethod
+  def GroupObjectsByClass(cls):
+    """Groups objects by class.
+
+    Returns:
+      A dictionary with cls as key and list of object indices as value.
+    """
+    ret = defaultdict(list)
+    for idx, obj in enumerate(History._object_details):
+      ret[obj['cls']].append(idx)
+    return ret
+
+  @classmethod
+  def Summary(cls):
+    print("Should print out some stats of what happened.")
+    obj_by_cls = cls.GroupObjectsByClass()
+    for k, v in obj_by_cls.items():
+      print("Object class: ", k, "\tobjects: ", len(v))
