@@ -45,7 +45,7 @@ from farg.apps.seqsee.sobject import SElement
 from farg.apps.seqsee.util import Exactly, LessThan
 from farg.apps.seqsee.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
 from farg.core.exceptions import FargError
-from farg.core.history import History, ObjectType
+from farg.core.history import History, ObjectType, NoteCallsInHistory
 import logging
 
 logger = logging.getLogger(__name__)
@@ -60,6 +60,7 @@ class Workspace(object):
     #: Each is a :class:`~farg.apps.seqsee.sobject.SAnchored` object.
     self.groups = set()
 
+  @NoteCallsInHistory
   def InsertElement(self, element):
     """Insert an element beyond the last element."""
     assert isinstance(element, SElement)
@@ -70,13 +71,16 @@ class Workspace(object):
                          is_sequence_element=True)
     self.num_elements += 1
     History.AddArtefact(anchored, ObjectType.WS_GROUP, "Initial creation")
+    History.Note("Element Inserted")
     self.elements.append(anchored)
+    
 
   def InsertElements(self, integers):
     """Utility for adding lots of integers as elements."""
     for item in integers:
       self.InsertElement(SElement(item))
 
+  @NoteCallsInHistory
   def CheckForPresence(self, start_pos, element_magnitudes):
     """Checks for presence of elements starting at 'start_pos'.
 
@@ -90,6 +94,7 @@ class Workspace(object):
         return False
     return True
 
+  @NoteCallsInHistory
   def InsertGroup(self, group, *, parent=None):
     """Inserts a group into the workspace. It must not conflict with an existing group, else
        a ConflictingGroupException is raised.
@@ -100,10 +105,13 @@ class Workspace(object):
     if conflicting_groups:
       logger.info('Conflicts while adding %s: %s', group,
                   '; '.join(str(x) for x in conflicting_groups))
+      History.Note("Group insert: conflict")
       raise ConflictingGroupException(conflicting_groups=conflicting_groups)
     else:
+      History.Note("Group insert: no conflict")
       return self._PlonkIntoPlace(group)
 
+  @NoteCallsInHistory
   def DeleteGroup(self, gp):
     """Deletes group gp and any relations that it is a part of.
 
@@ -121,6 +129,7 @@ class Workspace(object):
       for rel in relations_to_discard:
         other_gp.relations.discard(rel)
 
+  @NoteCallsInHistory
   def _PlonkIntoPlace(self, group, *, parents=None):
     """Anchors the group into the workspace. Assumes that conflicts have already been checked
        for.
@@ -155,6 +164,7 @@ class Workspace(object):
                         parents=parents)
     return new_object
 
+  @NoteCallsInHistory
   def GetGroupsWithSpan(self, left_fn, right_fn):
     """Get all groups which match the constraints set by the predicate functions for each
        end.
@@ -167,12 +177,14 @@ class Workspace(object):
       if left_fn(gp.start_pos) and right_fn(gp.end_pos):
         yield gp
 
+  @NoteCallsInHistory
   def GetGroupDistance(self, left, right):
     """Get group-based distance between two points. If right = left + 1, this is 0.
        Otherwise it is greedily calculated using the largest groups that fit.
     """
     return DistanceInGroups(value=self.GetGroupDistanceMagnitude(left, right))
 
+  @NoteCallsInHistory
   def GetGroupDistanceMagnitude(self, left, right):
     """Helper for the function above."""
     if right == left + 1:
@@ -184,6 +196,7 @@ class Workspace(object):
       new_left = max(x.end_pos for x in rightward_groups)
       return 1 + self.GetGroupDistanceMagnitude(new_left, right)
 
+  @NoteCallsInHistory
   def GetConflictingGroups(self, gp):
     """Get a list of groups conflicting with given group.
 
@@ -246,6 +259,7 @@ class Workspace(object):
     # We reach here if no supergroup exists.
     return gp
 
+  @NoteCallsInHistory
   def Replace(self, original_gps, new_group):
     """Replace original group with new group unless the new group is going to cause conflicts.
 
@@ -272,6 +286,7 @@ class Workspace(object):
         self.groups.add(original_gp)
       raise e
 
+  @NoteCallsInHistory
   def GetItemAt(self, start_pos, end_pos):
     """Returns the sole object with this span. Throws FargError if not found."""
     for group in self.groups:
@@ -283,6 +298,7 @@ class Workspace(object):
           return element
     raise FargError("GetItemAt has no item to return.")
 
+  @NoteCallsInHistory
   def CalculateSupergroupMap(self):
     """Calculates a map from anchored elements to their supergroups.
 
@@ -294,6 +310,7 @@ class Workspace(object):
         supergroup_map[part].add(group)
     return supergroup_map
 
+  @NoteCallsInHistory
   def DebugRelations(self):
     """Print debugging information to Stderr."""
     counter = 0

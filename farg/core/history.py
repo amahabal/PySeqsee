@@ -56,6 +56,13 @@ class History(object):
   #: Object events: lists events involving the object. Each entry is thus a list.
   _object_events = defaultdict(list)
 
+  #: Grab-bag for arbitrary counts.
+  _counts = defaultdict(int)
+
+  @classmethod
+  def Note(cls, note_string, *, times=1):
+    cls._counts[note_string] += times
+
   @classmethod
   def AddArtefact(cls, item, artefact_type, log_msg, parents=None):
     if (not cls._is_history_on):
@@ -98,6 +105,16 @@ class History(object):
       print("\n-------- Object #", idx, ' ----------- ', cls._object_details[idx])
       for l in events:
         print('\t', l)
+
+def NoteCallsInHistory(func):
+  """Function decorator that increments history counter for wrapped function whenever it is called.
+
+  The key used is the functions name."""
+  def Wrapped(*args, **kwargs):
+    History.Note(func.__name__)
+    return func(*args, **kwargs)
+  return Wrapped
+
 
 class InteractionHistoryMethods(object):
   """Interactive methods for exploring the contents stored in history.
@@ -154,3 +171,8 @@ class InteractionHistoryMethods(object):
     for k, v in obj_by_cls:
       print("\t%5d\t%s" % (len(v), k))
       print("\t\t", '; '.join(str(x) for x in v[:10]))
+
+  @classmethod
+  def PrintCounts(cls):
+    for k, v in sorted(History._counts.items(), reverse=True, key=lambda x: x[1]):
+      print('\t%5d\t%s' % (v, k))

@@ -256,6 +256,7 @@ class Main:
                                  i=InteractionHistoryMethods,
                                  h=History,
                                  s=InteractionHistoryMethods.Summary,
-                                 e=InteractionHistoryMethods.EventsForItem))
+                                 e=InteractionHistoryMethods.EventsForItem,
+                                 c=InteractionHistoryMethods.PrintCounts))
       else:
         History.Print()
