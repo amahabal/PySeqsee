@@ -107,6 +107,7 @@ class InteractionHistoryMethods(object):
   @classmethod
   def help(cls):
     print("i.Summary(): Prints summary of what happened during the run.")
+    print("i.EventsForItem(hid): Prints events that happened to given hid.")
     print("dir(h) for what is present in the history class.")
 
   @classmethod
@@ -122,8 +123,34 @@ class InteractionHistoryMethods(object):
     return ret
 
   @classmethod
+  def GroupObjectEventsByClass(cls, hid):
+    ret = defaultdict(list)
+    try:
+      events = History._object_events[hid]
+    except:
+      return ret
+    for e in events:
+      if e['t'] is EventType.OBJECT_FOCUS:
+        ret['FOCUS'].append(e['eid'])
+      elif e['t'] is EventType.CREATE:
+        hid_here = e['hid']
+        ret['CREATE ' + History._object_details[hid_here]['cls']].append(e['eid'])
+      else:
+        ret['UNCLASSIFIED'].append(e['eid'])
+    return ret
+
+
+  @classmethod
   def Summary(cls):
     print("==== What kinds of objects were created? ==========")
     obj_by_cls = sorted(cls.GroupObjectsByClass().items(), reverse=True, key=lambda x: len(x[1]))
     for k, v in obj_by_cls:
       print("\t%5d\t%s" % (len(v), k))
+      print("\t\t", '; '.join(str(x) for x in v[:10]))
+
+  @classmethod
+  def EventsForItem(cls, hid):
+    obj_by_cls = sorted(cls.GroupObjectEventsByClass(hid).items(), reverse=True, key=lambda x: len(x[1]))
+    for k, v in obj_by_cls:
+      print("\t%5d\t%s" % (len(v), k))
+      print("\t\t", '; '.join(str(x) for x in v[:10]))

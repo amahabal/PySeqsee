@@ -103,7 +103,7 @@ class CF_IsThisAnInterlacedSequence(CodeletFamily):
       group = SAnchored(sobj, items, k * d, (k + 1) * d - 1)
       group.object.DescribeAs(size_n_category)
       try:
-        parent_workspace.InsertGroup(group, parents=[me])
+        parent_workspace.InsertGroup(group, parent=[me])
       except ConflictingGroupException:
         # TODO(# --- Apr 22, 2012): add an appropriate codelet in top workspace.
         pass
