@@ -254,9 +254,10 @@ class Main:
         import code
         code.interact(local=dict(help='Type i.help() for help',
                                  i=InteractionHistoryMethods,
-                                 h=History,
+                                 H=History,
                                  s=InteractionHistoryMethods.Summary,
                                  e=InteractionHistoryMethods.EventsForItem,
-                                 c=InteractionHistoryMethods.PrintCounts))
+                                 c=InteractionHistoryMethods.PrintCounts,
+                                 h=InteractionHistoryMethods.ObjectHistory))
       else:
         History.Print()

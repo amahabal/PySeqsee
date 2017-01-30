@@ -125,8 +125,10 @@ class InteractionHistoryMethods(object):
 
   @classmethod
   def help(cls):
-    print("i.Summary(): Prints summary of what happened during the run.")
-    print("i.EventsForItem(hid): Prints events that happened to given hid.")
+    print("i.Summary() or s(): Prints summary of what happened during the run.")
+    print("i.EventsForItem(hid) or e(hid): Prints events that happened to given hid.")
+    print("i.PrintCounts() or c(): Prints counters.")
+    print("i.ObjectHistory(hid) or h(hid): Prints the ancestry of objects: what caused them to exist.")
     print("dir(h) for what is present in the history class.")
 
   @classmethod
@@ -178,3 +180,17 @@ class InteractionHistoryMethods(object):
   def PrintCounts(cls):
     for k, v in sorted(History._counts.items(), reverse=True, key=lambda x: x[1]):
       print('\t%5d\t%s' % (v, k))
+
+  @classmethod
+  def ObjectHistory(cls, hid, print_depth=0, max_depth=5):
+    try:
+      details = History._object_details[hid]
+    except:
+      return
+
+    print('*    ' * print_depth, '[%d]\t%s\t%s' % (hid, details['cls'], details['l']))
+    if print_depth >= max_depth:
+      return
+    if 'p' in details:
+      for parent in details['p']:
+        cls.ObjectHistory(parent, print_depth=print_depth+1, max_depth=max_depth)
