@@ -1,5 +1,6 @@
 from enum import Enum
 from _collections import defaultdict
+from functools import wraps
 
 class EventType(Enum):
   CREATE = 1  # Used for object creation
@@ -110,6 +111,7 @@ def NoteCallsInHistory(func):
   """Function decorator that increments history counter for wrapped function whenever it is called.
 
   The key used is the functions name."""
+  @wraps(func)
   def Wrapped(*args, **kwargs):
     History.Note(func.__name__)
     return func(*args, **kwargs)
