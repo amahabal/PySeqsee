@@ -66,6 +66,9 @@ class SAnchored(LTMStorableMixin, FocusableMixin):
   def __str__(self):
     return 'Anchored (%d, %d): %s' % (self.start_pos, self.end_pos, self.Structure())
 
+  def BriefLabel(self):
+    return self.__str__()
+
   def SetPosition(self, start_pos, end_pos):
     """Sets the end-point of the anchored object."""
     self.start_pos = start_pos

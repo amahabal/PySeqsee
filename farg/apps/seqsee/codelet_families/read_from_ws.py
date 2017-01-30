@@ -11,8 +11,6 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-import logging
-
 from farg.core.codelet import CodeletFamily
 from farg.apps.seqsee.subspaces.choose_item_to_focus_on import SubspaceSelectObjectToFocusOn
 
@@ -21,8 +19,6 @@ class CF_ReadFromWS(CodeletFamily):
   """
   @classmethod
   def Run(cls, controller, *, me):
-    logging.debug("RUNNING CF_ReadFromWS")
     choice = SubspaceSelectObjectToFocusOn(controller).Run()
     if choice:
-      logging.debug("Focusing on: %s", str(choice))
-      controller.stream.FocusOn(choice)
+      controller.stream.FocusOn(choice, parents=[me])

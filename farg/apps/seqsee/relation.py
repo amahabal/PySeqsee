@@ -33,7 +33,10 @@ class Relation(FocusableMixin):
 
   def __str__(self):
     return '%s-->%s (%s)' % (self.first, self.second, self.mapping_set)
-  
+
+  def BriefLabel(self):
+    return self.__str__()
+
   def InsertSelf(self):
     """Inserts itself into the two ends."""
     self.first.relations.add(self)

@@ -98,7 +98,7 @@ class Stream(object):
     if self.FociCount() == self.kMaxFocusableCount:
       self._RemoveMostAncientFocus()
 
-  def FocusOn(self, focusable):
+  def FocusOn(self, focusable, *, parents=None):
     """Focus on focusable, and act on a fringe-hit."""
     History.AddEvent(EventType.OBJECT_FOCUS, "", [(focusable, "")])
     assert(isinstance(focusable, FocusableMixin))
@@ -120,9 +120,16 @@ class Stream(object):
     potential_codelets.extend(focusable.GetAffordances(controller=self.controller))
     if potential_codelets:
       selected_codelets = ChooseAboutN(2, [(x, x.urgency) for x in potential_codelets])
+      History.Note("Chose to keep codelet during FocusOn", times=len(selected_codelets))
+      History.Note("Chose not to keep codelet during FocusOn",
+                   times=len(potential_codelets)-len(selected_codelets))
+      effective_parents = [focusable]
+      if parents:
+        effective_parents.extend(parents)
       for codelet in selected_codelets:
-        self.controller.coderack.AddCodelet(codelet, msg="During FocusOn",
-                                            parents=[focusable])
+        self.controller.coderack.AddCodelet(codelet,
+                                            msg="While focusing on %s" % focusable.BriefLabel(),
+                                            parents=effective_parents)
 
   def StoreFringeAndCalculateOverlap(self, focusable):
     """Calculates a hit map: from prior focusable to strength."""

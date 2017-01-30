@@ -26,7 +26,7 @@ class CF_FocusOn(CodeletFamily):
   @classmethod
   def Run(cls, controller, focusable, *, me):
     logging.debug("RUNNING CF_FocusOn with %s", str(focusable))
-    controller.stream.FocusOn(focusable)
+    controller.stream.FocusOn(focusable, parents=[me])
 
 class CF_GroupFromRelation(CodeletFamily):
   """Causes the required relations' ends to create a group."""
