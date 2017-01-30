@@ -20,23 +20,23 @@ from farg.core.codelet import CodeletFamily
 from farg.core.exceptions import AnswerFoundException
 from farg.apps.seqsee.subspaces.are_we_done import SubspaceAreWeDone
 from farg.apps.seqsee.subspaces.is_this_interlaced import SubspaceIsThisInterlaced
+from farg.core.history import History
 
 class CF_FocusOn(CodeletFamily):
   """Causes the required focusable to be added to the stream."""
   @classmethod
   def Run(cls, controller, focusable, *, me):
-    logging.debug("RUNNING CF_FocusOn with %s", str(focusable))
     controller.stream.FocusOn(focusable, parents=[me])
 
 class CF_GroupFromRelation(CodeletFamily):
   """Causes the required relations' ends to create a group."""
   @classmethod
   def Run(cls, controller, relation, *, me):
-    logging.debug("RUNNING CF_GroupFromrelation with %s", str(relation))
     # If there is a group spanning the proposed group, perish the thought.
     left, right = relation.first.start_pos, relation.second.end_pos
     from farg.apps.seqsee.util import GreaterThanEq, LessThanEq
     if tuple(controller.workspace.GetGroupsWithSpan(LessThanEq(left), GreaterThanEq(right))):
+      History.Note("CF_GroupFromRelation: a spanning group exists")
       return
     anchored = SAnchored.Create((relation.first, relation.second),
                                 underlying_mapping_set=relation.mapping_set)
@@ -46,7 +46,9 @@ class CF_GroupFromRelation(CodeletFamily):
       SubspaceDealWithConflictingGroups(
           controller,
           workspace_arguments=dict(new_group=anchored,
-                                   incumbents=e.conflicting_groups)).Run()
+                                   incumbents=e.conflicting_groups),
+          parents=[me, relation],
+          msg="Conflict while inserting %s" % anchored.BriefLabel()).Run()
 
 class CF_DescribeAs(CodeletFamily):
   """Attempt to describe item as belonging to category."""
@@ -60,8 +62,7 @@ class CF_AreWeDone(CodeletFamily):
   """Check using a subspace if we are done. If yes, quit."""
   @classmethod
   def Run(cls, controller, *, me):
-    logging.debug("RUNNING CF_AreweDone")
-    answer = SubspaceAreWeDone(controller).Run()
+    answer = SubspaceAreWeDone(controller, parents=[me]).Run()
     if answer:
       controller.ui.DisplayMessage("In its current nascent stage, Seqsee decides that it "
                                    "has found the solution as soon as it has added 10 new "

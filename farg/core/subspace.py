@@ -49,14 +49,17 @@ class QuickReconnResults:
 class Subspace:
   controller_class = Controller
 
-  def __init__(self, parent_controller, *, nsteps=5, workspace_arguments=None):
+  def __init__(self, parent_controller, *, nsteps=5, workspace_arguments=None, parents=None, msg=""):
     """Initializes the subspace by just storing the arguments."""
     self.parent_controller = parent_controller
     self.nsteps = nsteps
     self.workspace_arguments = workspace_arguments
+    effective_parents = [parent_controller]
+    if parents:
+      effective_parents.extend(parents)
     History.AddArtefact(self, ObjectType.SUBSPACE,
-                        "",
-                        parents=[parent_controller])
+                        msg,
+                        parents=effective_parents)
 
   def Run(self):
     """Runs the subspace by first trying to quickly estimate need for deeper exploration.
