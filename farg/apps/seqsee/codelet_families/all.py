@@ -54,7 +54,6 @@ class CF_DescribeAs(CodeletFamily):
   """Attempt to describe item as belonging to category."""
   @classmethod
   def Run(cls, controller, item, category, *, me):
-    logging.debug("RUNNING CF_DescribeAs with %s and %s", str(item), str(category))
     if not item.IsKnownAsInstanceOf(category):
       item.DescribeAs(category)
 
@@ -77,7 +76,8 @@ class CF_IsThisInterlaced(CodeletFamily):
     logging.debug("RUNNING CF_AreweDone with distance=%s", str(distance))
     SubspaceIsThisInterlaced(controller,
                              nsteps=20,
-                             workspace_arguments=dict(distance=distance)).Run()
+                             workspace_arguments=dict(distance=distance),
+                             parents=[me]).Run()
 
 
 class CF_RemoveSpuriousRelations(CodeletFamily):
@@ -86,9 +86,9 @@ class CF_RemoveSpuriousRelations(CodeletFamily):
   """
   @classmethod
   def Run(cls, controller, *, me):
-    logging.debug("RUNNING CF_RemoveSpuriousRelations")
     workspace = controller.workspace
     supergroups_map = workspace.CalculateSupergroupMap()
+    History.Note("CF_RemoveSpuriousRelations: called")
     for element in workspace.elements:
       supergps = supergroups_map[element]
       if not supergps:
@@ -106,5 +106,6 @@ class CF_RemoveSpuriousRelations(CodeletFamily):
           continue
         other_end.relations.discard(relation)
         relations_to_remove.append(relation)
+      History.Note("CF_RemoveSpuriousRelations: removed", times=len(relations_to_remove))
       for relation in relations_to_remove:
         element.relations.discard(relation)

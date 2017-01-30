@@ -17,12 +17,13 @@ from farg.core.codelet import CodeletFamily
 from farg.core.util import Toss, SelectWeightedByActivation
 from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.subspaces.go_beyond_known import SubspaceGoBeyondKnown
+from farg.core.history import History
 
 class CF_ExtendGroup(CodeletFamily):
   @classmethod
   def Run(cls, controller, item, *, me):
-    logging.debug("RUNNING CF_ExtendGroup %s", item)
     if item not in controller.workspace.groups:
+      History.Note("CF_ExtendGroup: item not in workspace")
       # item deleted?
       return
     # QUALITY TODO(Feb 14, 2012): Direction to extend choice can be improved.
@@ -33,11 +34,13 @@ class CF_ExtendGroup(CodeletFamily):
     parts = item.items
     underlying_mapping_set = item.object.underlying_mapping_set
     if not underlying_mapping_set:
+      History.Note("CF_ExtendGroup: no underlying relations")
       return
     mapping = SelectWeightedByActivation(controller.ltm, underlying_mapping_set)
     if extend_right:
       next_part = mapping.Apply(parts[-1].object)
       if not next_part:
+        History.Note("CF_ExtendGroup: could not apply mapping to last part")
         return
       magnitudes = next_part.FlattenedMagnitudes()
       number_of_known_elements = len(controller.workspace.elements) - item.end_pos - 1
@@ -54,7 +57,8 @@ class CF_ExtendGroup(CodeletFamily):
         should_continue = SubspaceGoBeyondKnown(
             controller,
             workspace_arguments=dict(basis_of_extension=item,
-                                     suggested_terms=magnitudes)).Run()
+                                     suggested_terms=magnitudes),
+            parents=[me, item]).Run()
         if not should_continue:
           return
       else:
@@ -92,9 +96,13 @@ class CF_ExtendGroup(CodeletFamily):
       SubspaceDealWithConflictingGroups(
           controller,
           workspace_arguments=dict(new_group=new_group,
-                                   incumbents=e.conflicting_groups)).Run()
+                                   incumbents=e.conflicting_groups),
+          parents=[me, item],
+          msg="Conflict when replacing item with enlarged group").Run()
     except CannotReplaceSubgroupException as e:
       SubspaceDealWithConflictingGroups(
           controller,
           workspace_arguments=dict(new_group=new_group,
-                                   incumbents=e.supergroups)).Run()
+                                   incumbents=e.supergroups),
+          parents=[me, item],
+          msg="Cannot replace subgp when extending item").Run()

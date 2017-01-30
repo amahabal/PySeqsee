@@ -16,13 +16,14 @@ from farg.apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDeal
 from farg.core.codelet import CodeletFamily
 from farg.apps.seqsee.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
 import logging
+from farg.core.history import History
 
 class CF_ActOnOverlappingGroups(CodeletFamily):
   @classmethod
   def Run(cls, controller, left, right, *, me):
-    logging.debug("RUNNING CF_ActOnOverlappingGroups: left=%s, right=%s", str(left), str(right))
     if left not in controller.workspace.groups or right not in controller.workspace.groups:
       # Groups gone, fizzle.
+      History.Note("CF_ActOnOverlappingGroups: left group now dead")
       return
     if set(left.items).intersection(set(right.items)):
       # So overlap, and share elements.
@@ -45,9 +46,13 @@ class CF_ActOnOverlappingGroups(CodeletFamily):
           SubspaceDealWithConflictingGroups(
               controller,
               workspace_arguments=dict(new_group=new_group,
-                                       incumbents=e.conflicting_groups)).Run()
+                                       incumbents=e.conflicting_groups),
+              parents=[me, left, right],
+              msg="Conflict when merging overlapping groups").Run()
         except CannotReplaceSubgroupException as e:
           SubspaceDealWithConflictingGroups(
               controller,
               workspace_arguments=dict(new_group=new_group,
-                                       incumbents=e.supergroups)).Run()
+                                       incumbents=e.supergroups),
+              parents=[me, left, right],
+              msg="Cannot replace subgp when merging overlapping groups").Run()
