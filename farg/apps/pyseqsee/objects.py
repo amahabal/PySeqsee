@@ -1,6 +1,5 @@
 from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
 from farg.core.categorization.categorizable import CategorizableMixin
-from farg.core.focusable_mixin import FocusableMixin
 
 
 class PlatonicObject(LTMNodeContent):
