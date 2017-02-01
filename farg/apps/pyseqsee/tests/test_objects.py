@@ -52,7 +52,7 @@ class TestPSObject(unittest.TestCase):
     self.assertNotEqual(e1, e2)
 
     # It is not anchored.
-    self.assertFalse(e1.is_anchored)
+    self.assertIsNone(e1.Span())
 
     g1 = PSGroup(items=(e1, e2))
     self.assertIsInstance(g1, PSGroup)
@@ -60,3 +60,69 @@ class TestPSObject(unittest.TestCase):
 
     self.assertEqual((3,3), g1.Structure())
     self.assertEqual("(3, 3)", g1.GetStorable().rep)
+
+    g_empty = PSGroup(items=())
+    self.assertIsInstance(g_empty, PSGroup)
+    self.assertEqual("()", g_empty.GetStorable().rep)
+
+    g_deeply_empty = PSGroup(items=(g_empty, ))
+    self.assertIsInstance(g_deeply_empty, PSGroup)
+    self.assertEqual("(())", g_deeply_empty.GetStorable().rep)
+
+
+  def test_offsets(self):
+    elements = [PSElement(magnitude=x) for x in range(10)]
+
+    g36 = PSGroup(items=elements[3:7])
+    g12 = PSGroup(items=elements[1:3])
+    g_12_36 = PSGroup(items=(g12, g36))
+
+    # We will attach a start offset to this large group. It will cause its pieces to get offsets,
+    # too.
+    g_12_36.SetSpanStart(1)
+    self.assertEqual((1, 6), g_12_36.Span())
+    self.assertEqual((1, 2), g12.Span())
+    self.assertEqual((3, 6), g36.Span())
+    self.assertEqual((6, 6), elements[6].Span())
+    self.assertIsNone(elements[0].Span())
+
+    # What if we try to set existing span? It is okay if the new value is the same as the old, else
+    # it is an assert error.
+    g36.SetSpanStart(3)  # Not a problem.
+    elements[5].SetSpanStart(5) # Not a problem.
+    self.assertRaises(AssertionError, elements[5].SetSpanStart, 2)
+    self.assertRaises(AssertionError, g36.SetSpanStart, 2)
+
+    g_0_16 = PSGroup(items=[elements[0], g_12_36])
+    # We cannot set the start value to be from 7...
+    self.assertRaises(AssertionError, g_0_16.SetSpanStart, 7)
+    # Note that setting spans is all or nothings: we don't want to have set the span of 0 in the
+    # process.
+    self.assertIsNone(elements[0].Span())
+
+    # We should also be able to infer spans if some piece has the span set...
+    self.assertTrue(g_0_16.InferSpans())
+    self.assertEqual((0, 0), elements[0].Span())
+
+    # Of course, it is possible that no consistent assignment is possible. In that case, we should
+    # bail, without setting *any* offsets.
+    elements[9].SetSpanStart(9)
+    # This group will have a bogus span...
+    g_06_89 = PSGroup(items=(g_0_16, elements[8], elements[9]))
+    self.assertFalse(g_06_89.InferSpans())
+    self.assertIsNone(elements[8].Span())
+
+  def test_offsets_with_empty(self):
+    elements = [PSElement(magnitude=x) for x in range(10)]
+
+    g_empty = PSGroup(items=())
+    g36 = PSGroup(items=elements[3:7])
+    g12 = PSGroup(items=elements[1:3])
+    g_12_36 = PSGroup(items=(g12, g_empty, g36))
+    g_12_36.SetSpanStart(1)
+
+    self.assertEqual((1, 6), g_12_36.Span())
+    self.assertEqual((1, 2), g12.Span())
+    self.assertEqual((3, 6), g36.Span())
+    self.assertEqual((6, 6), elements[6].Span())
+    self.assertEqual((3, 2), g_empty.Span())
