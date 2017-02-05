@@ -1,5 +1,5 @@
 from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
-from farg.core.categorization.categorizable import CategorizableMixin
+from farg.apps.pyseqsee.categorizable import Categorizable
 
 
 class PlatonicObject(LTMNodeContent):
@@ -28,7 +28,7 @@ class PlatonicObject(LTMNodeContent):
     return '(' + ', '.join(cls._StructureToString(x) for x in structure) + ')'
 
 
-class PSObject(LTMStorableMixin, CategorizableMixin):
+class PSObject(LTMStorableMixin, Categorizable):
   """Represents an element or group in the workspace.
 
   This may be anchored or not. When anchored, it has a start and end offset.
@@ -39,6 +39,7 @@ class PSObject(LTMStorableMixin, CategorizableMixin):
   """
 
   def __init__(self):
+    Categorizable.__init__(self)
     self._span = None
 
   def Span(self):
