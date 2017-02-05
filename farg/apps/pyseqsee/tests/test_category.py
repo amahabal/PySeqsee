@@ -72,41 +72,29 @@ class TestMultipartCategory(unittest.TestCase):
     # interesting.
     # Plus, this would be a prime case for multiple logics for instancehood...
 
-##################### EXPLORATORY BELOW THIS POINT. ALL TESTS BELOW ARE MARKED SKIPPED
-
-
-class TestSamenessCategory(unittest.TestCase):
-
-  @unittest.skip("Not yet implemented")
+class TestRepeatedIntegerCategory(unittest.TestCase):
   def test_creation(self):
-    c1 = CategorySameness()
-    c2 = CategorySameness()
-    self.assertEqual(c1, c2, "CategorySameness is memoized")
+    c1 = C.RepeatedIntegerCategory()
+    arena = PSArena(magnitudes=(1, 1, 1, 2, 2, 2, 2, 3))
+    just_int = arena.element[0]
+    singleton_gp = PSGroup(items=(arena.element[0], ))
+    longer_gp = PSGroup(items=arena.element[0:3])
+    mixed_gp = PSGroup(items=arena.element[0:4])
 
-    arena = PSArena(magnitudes=(7, 7, 7, 7, 7, 7, 7, 7, 7, 7))
-    gp = PSGroup(items=arena.element[2:5]) # 7 7 7
-    logic = gp.DescribeAs(c1)
+    self.assertFalse(just_int.DescribeAs(c1))
+    self.assertFalse(mixed_gp.DescribeAs(c1))
+
+    logic = singleton_gp.DescribeAs(c1)
     self.assertTrue(logic)
-
-    self.assertTrue(logic.GroupCanBeExtended(), "This group can be extended")
-    self.assertFalse(logic.IsDegenerate(), "7 7 7 is not degenerate")
-
-    gp2 = PSGroup(items=(arena.element[2], )) # 7 7 7
-    logic2 = gp2.DescribeAs(c1)
+    logic2 = longer_gp.DescribeAs(c1)
     self.assertTrue(logic2)
-    self.assertTrue(logic2.GroupCanBeExtended(), "This group can be extended")
-    self.assertTrue(logic2.IsDegenerate(), "7, by itself, *is* degenerate")
 
-  @unittest.skip("Not yet implemented")
-  def test_abstract_version(self):
-    """Sameness can be based on the abstract notion of equivalence of some category.
+    attributes = logic.Attributes()
+    self.assertEqual(1, attributes['magnitude'])
+    self.assertEqual(1, attributes['length'])
 
-    Looked at this way, the case above is a very special, literal, equivalence. Less literal are
-    categories where instances are made of three groups, each a sameness group, and all are the
-    same length. Thus, ((1 1)(7 7)(9 9)) is an instance, but these two are not ((5 5)(6 6)(7 7 7))
-    or ((5 6)(5 6)(5 6)).
-    """
-    pass
+    attributes = logic2.Attributes()
+    self.assertEqual(1, attributes['magnitude'])
+    self.assertEqual(3, attributes['length'])
 
-
-
+    # This group *can* be extended... the affordance should indicate that.

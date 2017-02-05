@@ -12,8 +12,11 @@ class InstanceLogic(object):
     not use the stored logic; it will then look at the two logics and perhaps merge.
   """
 
-  def __init__(self):
-    pass
+  def __init__(self, *, attributes=dict()):
+    self.attributes = attributes
+
+  def Attributes(self):
+    return self.attributes
 
 class BadCategorySpec(Exception):
   pass
@@ -58,3 +61,21 @@ class MultiPartCategory(PyCategory):
       if not item.items[idx].DescribeAs(cat):
         return None
     return InstanceLogic()
+
+class RepeatedIntegerCategory(PyCategory):
+  """Category of items such as (3, 3, 3, 3)."""
+
+  def IsInstance(self, item):
+    if not isinstance(item, PSGroup):
+      return None
+    if not all(isinstance(x, PSElement) for x in item.items):
+      return None
+    if not item.items:
+      # So empty. Attribute for magnitude can be anything...
+      # TODO(amahabal): Deal with this better.
+      return InstanceLogic(attributes=dict(length=0))
+    magnitude = item.items[0].magnitude
+    if not all(x.magnitude == magnitude for x in item.items):
+      return None
+    return InstanceLogic(attributes=dict(length=len(item.items),
+                                         magnitude=magnitude))
