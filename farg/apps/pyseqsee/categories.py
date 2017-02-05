@@ -1,6 +1,6 @@
 """Defines the categories for objects."""
 from farg.core.meta import MemoizedConstructor
-from farg.apps.pyseqsee.objects import PSElement
+from farg.apps.pyseqsee.objects import PSElement, PSGroup
 
 class InstanceLogic(object):
   """Describes how an item is an instance of a category.
@@ -15,6 +15,9 @@ class InstanceLogic(object):
   def __init__(self):
     pass
 
+class BadCategorySpec(Exception):
+  pass
+
 class PyCategory(metaclass=MemoizedConstructor):
   pass
 
@@ -28,7 +31,7 @@ class CategoryEvenInteger(PyCategory):
       return None
     if item.magnitude % 2 != 0:
       return None
-    return InstanceLogic() 
+    return InstanceLogic()
 
 class MultiPartCategory(PyCategory):
   """Category whose instances are made up of N different parts.
@@ -37,4 +40,21 @@ class MultiPartCategory(PyCategory):
   """
 
   def __init__(self, *, parts_count, part_categories):
-    pass
+    if not isinstance(parts_count, int) or parts_count <= 0:
+      raise BadCategorySpec()
+    if not isinstance(part_categories, tuple) or len(part_categories) != parts_count:
+      raise BadCategorySpec()
+    if not all(isinstance(x, PyCategory) for x in part_categories):
+      raise BadCategorySpec()
+    self.parts_count = parts_count
+    self.part_categories = part_categories
+
+  def IsInstance(self, item):
+    if not isinstance(item, PSGroup):
+      return None
+    if not len(item.items) == self.parts_count:
+      return None
+    for idx, cat in enumerate(self.part_categories):
+      if not item.items[idx].DescribeAs(cat):
+        return None
+    return InstanceLogic()

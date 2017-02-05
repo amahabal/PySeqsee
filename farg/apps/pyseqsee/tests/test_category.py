@@ -41,28 +41,38 @@ class TestCategoryEvenInteger(unittest.TestCase):
     # or to create a derivative sequence containg halves. I have no idea as yet where the pressure
     # should come from.
 
-##################### EXPLORATORY BELOW THIS POINT. ALL TESTS BELOW ARE MARKED SKIPPED
-class CategoryAdHocForTest(C.PyCategory):
-  def __init__(self):
-    pass
-
-class TestCompoundCategory(unittest.TestCase):
+class TestMultipartCategory(unittest.TestCase):
   """Here we test the 2-part category where the first part is 3, the other part is a number."""
 
-  @unittest.skip("Not yet implemented")
   def test_creation(self):
-    c1 = CategoryAdHocForTest()  # Need a better name, and this should be defined here.
+    self.assertRaises(C.BadCategorySpec,
+                      C.MultiPartCategory,
+                      parts_count=0, part_categories=None)
+    self.assertRaises(C.BadCategorySpec,
+                      C.MultiPartCategory,
+                      parts_count=2,  part_categories=(C.CategoryAnyObject()))
+    c1 = C.MultiPartCategory(parts_count = 2, part_categories=(C.CategoryEvenInteger(),
+                                                               C.CategoryAnyObject()))
 
     arena = PSArena(magnitudes=(2, 7, 2, 8, 2, 9, 2, 10))
-    gp1 = PSGroup(items=arena.element[1, 2])
-    logic = gp1.DescribeAs(c1)
-    self.assertIsNone(logic, "[7, 2] is not an instance")
+    elt_even = arena.element[4]  # This is 2
+    elt_odd = arena.element[5]  # This is 9
+    gp1 = PSGroup(items=arena.element[2:4])  # This is (2, 8): Is an instance
+    gp2 = PSGroup(items=arena.element[1:3])  # This is (7, 2): Not an instance
 
-    gp2 = PSGroup(items=arena.element[2, 3])
-    logic = gp1.DescribeAs(c1)
-    self.assertTrue(logic, "[2, 8] is an instance")
+    self.assertFalse(elt_odd.DescribeAs(c1), "Not an instance: odd number")
+    self.assertFalse(elt_even.DescribeAs(c1), "Not an instance: even number")
+    self.assertFalse(gp2.DescribeAs(c1), "Not an instance: first part not even")
 
-    self.assertFalse(logic.GroupCanBeExtended(), "This group cannot be extended")
+    logic = gp1.DescribeAs(c1)
+    self.assertTrue(logic)
+
+    # Not tested yet: affordances here would not include attempting to expand the group. But wait:
+    # If the last element is an expandible group, then instances can be extended. This is getting
+    # interesting.
+    # Plus, this would be a prime case for multiple logics for instancehood...
+
+##################### EXPLORATORY BELOW THIS POINT. ALL TESTS BELOW ARE MARKED SKIPPED
 
 
 class TestSamenessCategory(unittest.TestCase):
