@@ -2,7 +2,7 @@ import unittest
 from farg.apps.pyseqsee.arena import PSArena
 from farg.apps.pyseqsee.categorization import categories as C
 from farg.apps.pyseqsee.objects import PSGroup
-from farg.apps.pyseqsee.categorization.numeric import CategoryEvenInteger
+from farg.apps.pyseqsee.categorization.numeric import CategoryEvenInteger, CategoryPrime
 
 class TestCategoryAnyObject(unittest.TestCase):
   """Test the simplest category of all: any group or element whatsoever is an instance."""
@@ -41,6 +41,30 @@ class TestCategoryEvenInteger(unittest.TestCase):
     # Not tested yet: one of the affordance of this category may be to "think of" what its half is,
     # or to create a derivative sequence containg halves. I have no idea as yet where the pressure
     # should come from.
+
+class TestCategoryPrime(unittest.TestCase):
+  def test_creation(self):
+    c1 = CategoryPrime()
+    arena = PSArena(magnitudes=(2, 7, 2, 8, 2, 9, 2, 10))
+    elt_prime = arena.element[1]  # This is 7
+    elt_comp = arena.element[5]  # This is 9
+    gp1 = PSGroup(items=arena.element[1:3])
+    gp2 = PSGroup(items=(arena.element[4], ))
+
+    self.assertFalse(elt_comp.DescribeAs(c1), "Not an instance: composite number")
+    self.assertFalse(gp1.DescribeAs(c1), "Not an instance: multipart gp")
+    self.assertFalse(gp2.DescribeAs(c1), "Not an instance: singleton group containing even")
+
+    logic = elt_prime.DescribeAs(c1)
+    self.assertTrue(logic)
+    attributes = logic.Attributes()
+    self.assertEqual(3, attributes['index'])
+
+    # It seems wrong to always return an index. Most times, when we recognize that something is a
+    # prime, we do not know what its index is. We need a way to add those things on demand later,
+    # instead of always finding the index. Plus, for things such as Fibonacci, where elements are
+    # repeated, what "index" means becomes confusing.
+
 
 class TestMultipartCategory(unittest.TestCase):
   """Here we test the 2-part category where the first part is 3, the other part is a number."""
