@@ -1,5 +1,5 @@
 from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
-from farg.apps.pyseqsee.categorizable import Categorizable
+from farg.apps.pyseqsee.categorization.categorizable import Categorizable
 
 
 class PlatonicObject(LTMNodeContent):

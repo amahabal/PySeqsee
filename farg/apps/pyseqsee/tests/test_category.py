@@ -1,7 +1,8 @@
 import unittest
 from farg.apps.pyseqsee.arena import PSArena
-from farg.apps.pyseqsee import categories as C
+from farg.apps.pyseqsee.categorization import categories as C
 from farg.apps.pyseqsee.objects import PSGroup
+from farg.apps.pyseqsee.categorization.numeric import CategoryEvenInteger
 
 class TestCategoryAnyObject(unittest.TestCase):
   """Test the simplest category of all: any group or element whatsoever is an instance."""
@@ -23,7 +24,7 @@ class TestCategoryAnyObject(unittest.TestCase):
 
 class TestCategoryEvenInteger(unittest.TestCase):
   def test_creation(self):
-    c1 = C.CategoryEvenInteger()
+    c1 = CategoryEvenInteger()
     arena = PSArena(magnitudes=(2, 7, 2, 8, 2, 9, 2, 10))
     elt_even = arena.element[4]  # This is 2
     elt_odd = arena.element[5]  # This is 9
@@ -51,7 +52,7 @@ class TestMultipartCategory(unittest.TestCase):
     self.assertRaises(C.BadCategorySpec,
                       C.MultiPartCategory,
                       parts_count=2,  part_categories=(C.CategoryAnyObject()))
-    c1 = C.MultiPartCategory(parts_count = 2, part_categories=(C.CategoryEvenInteger(),
+    c1 = C.MultiPartCategory(parts_count = 2, part_categories=(CategoryEvenInteger(),
                                                                C.CategoryAnyObject()))
 
     arena = PSArena(magnitudes=(2, 7, 2, 8, 2, 9, 2, 10))
