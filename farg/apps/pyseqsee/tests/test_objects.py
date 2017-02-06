@@ -128,6 +128,20 @@ class TestPSObject(unittest.TestCase):
     self.assertEqual((6, 6), elements[6].Span())
     self.assertEqual((3, 2), g_empty.Span())
 
+  def test_insert(self):
+    arena = PSArena(magnitudes=range(10), start=5)
+    gp = PSGroup(items=arena.element[2:5])
+    self.assertTrue(gp.InferSpans())
+    self.assertEqual((7, 9), gp.Span())
+
+    gp.AddComponentBefore(arena.element[1])
+    self.assertEqual((6, 9), gp.Span())
+    self.assertEqual((1, 2, 3, 4), gp.Structure())
+
+    gp.AddComponentAfter(arena.element[5])
+    self.assertEqual((6, 10), gp.Span())
+    self.assertEqual((1, 2, 3, 4, 5), gp.Structure())
+
 class TestPSArena(unittest.TestCase):
 
   def test_basic(self):

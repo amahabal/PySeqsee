@@ -83,6 +83,21 @@ class PSGroup(PSObject):
   def Structure(self):
     return tuple(x.Structure() for x in self.items)
 
+  # TODO: For both these structure-modifying methods, a bunch of effects have not been updated;
+  # Category memberships may no longer hold; Super groups may have their spans offset, and so forth.
+  # All these things should be gracefully handled...
+  def AddComponentBefore(self, component):
+    """Adds a component to the left, recalculating spans."""
+    self.items.insert(0, component)
+    self._span = None
+    self.InferSpans()
+
+  def AddComponentAfter(self, component):
+    """Adds a component to the left, recalculating spans."""
+    self.items.append(component)
+    self._span = None
+    self.InferSpans()
+
   def _CalculateSpanGivenStart(self, start):
     spans = []
     right_end = start - 1
