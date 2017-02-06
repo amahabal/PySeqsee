@@ -58,7 +58,7 @@ class TestCategoryPrime(unittest.TestCase):
     logic = elt_prime.DescribeAs(c1)
     self.assertTrue(logic)
     attributes = logic.Attributes()
-    self.assertEqual(3, attributes['index'])
+    self.assertEqual(3, attributes['index'].magnitude)
 
     # It seems wrong to always return an index. Most times, when we recognize that something is a
     # prime, we do not know what its index is. We need a way to add those things on demand later,
@@ -115,12 +115,12 @@ class TestRepeatedIntegerCategory(unittest.TestCase):
     self.assertTrue(logic2)
 
     attributes = logic.Attributes()
-    self.assertEqual(1, attributes['magnitude'])
-    self.assertEqual(1, attributes['length'])
+    self.assertEqual(1, attributes['magnitude'].magnitude)
+    self.assertEqual(1, attributes['length'].magnitude)
 
     attributes = logic2.Attributes()
-    self.assertEqual(1, attributes['magnitude'])
-    self.assertEqual(3, attributes['length'])
+    self.assertEqual(1, attributes['magnitude'].magnitude)
+    self.assertEqual(3, attributes['length'].magnitude)
 
     # This group *can* be extended... the affordance should indicate that.
 
@@ -145,17 +145,17 @@ class TestBasicSuccessorCategory(unittest.TestCase):
     self.assertTrue(logic3)
 
     attributes = logic.Attributes()
-    self.assertEqual(1, attributes['start'])
-    self.assertEqual(1, attributes['end'])
-    self.assertEqual(1, attributes['length'])
+    self.assertEqual(1, attributes['start'].magnitude)
+    self.assertEqual(1, attributes['end'].magnitude)
+    self.assertEqual(1, attributes['length'].magnitude)
 
     attributes = logic2.Attributes()
-    self.assertEqual(1, attributes['start'])
-    self.assertEqual(3, attributes['end'])
-    self.assertEqual(3, attributes['length'])
+    self.assertEqual(1, attributes['start'].magnitude)
+    self.assertEqual(3, attributes['end'].magnitude)
+    self.assertEqual(3, attributes['length'].magnitude)
 
     attributes = logic3.Attributes()
-    self.assertEqual(0, attributes['length'])
+    self.assertEqual(0, attributes['length'].magnitude)
 
 class TestBasicPredecessorCategory(unittest.TestCase):
   def test_creation(self):
@@ -178,14 +178,73 @@ class TestBasicPredecessorCategory(unittest.TestCase):
     self.assertTrue(logic3)
 
     attributes = logic.Attributes()
-    self.assertEqual(5, attributes['start'])
-    self.assertEqual(5, attributes['end'])
-    self.assertEqual(1, attributes['length'])
+    self.assertEqual(5, attributes['start'].magnitude)
+    self.assertEqual(5, attributes['end'].magnitude)
+    self.assertEqual(1, attributes['length'].magnitude)
 
     attributes = logic2.Attributes()
-    self.assertEqual(5, attributes['start'])
-    self.assertEqual(3, attributes['end'])
-    self.assertEqual(3, attributes['length'])
+    self.assertEqual(5, attributes['start'].magnitude)
+    self.assertEqual(3, attributes['end'].magnitude)
+    self.assertEqual(3, attributes['length'].magnitude)
 
     attributes = logic3.Attributes()
-    self.assertEqual(0, attributes['length'])
+    self.assertEqual(0, attributes['length'].magnitude)
+
+class TestCompoundCategory(unittest.TestCase):
+  """Tests the category defined in terms of another category's logic."""
+  def test_creation(self):
+    c1 = C.CompoundCategory(base_category=C.BasicSuccessorCategory(),
+                            attribute_categories=(('end', C.BasicSuccessorCategory()),
+                                                  ('length', C.BasicSuccessorCategory()),
+                                                  ('start', C.RepeatedIntegerCategory())))
+    c2 = C.CompoundCategory(base_category=C.BasicSuccessorCategory(),
+                            attribute_categories=(('end', C.BasicSuccessorCategory()),
+                                                  ('length', C.BasicSuccessorCategory()),
+                                                  ('start', C.RepeatedIntegerCategory())))
+    self.assertEqual(c1, c2, "Cached properly")
+
+    # In creation, attribute_categories must be sorted and contain categories.
+    self.assertRaises(C.BadCategorySpec,
+                      C.CompoundCategory,
+                      base_category=C.BasicSuccessorCategory(),
+                      attribute_categories=(('length', C.BasicSuccessorCategory()),
+                                            ('end', C.BasicSuccessorCategory()),
+                                            ('start', C.RepeatedIntegerCategory())))
+
+    c3 = C.CompoundCategory(base_category=C.BasicSuccessorCategory(),
+                            attribute_categories=(('end', C.BasicSuccessorCategory()),
+                                                  ('length', C.RepeatedIntegerCategory()),
+                                                  ('start', C.BasicSuccessorCategory())))
+    self.assertNotEqual(c1, c3, "Different categories")
+
+    arena1 = PSArena(magnitudes=(7, 7, 8, 7, 8, 9, 7, 8, 9, 10))
+    arena2 = PSArena(magnitudes=(7, 8, 9, 8, 9, 10, 9, 10, 11))
+
+    # Set up the group ((7), (7, 8), (7, 8, 9))
+    gp_1_1 = PSGroup(items=arena1.element[0:1])
+    gp_1_2 = PSGroup(items=arena1.element[1:3])
+    gp_1_3 = PSGroup(items=arena1.element[3:6])
+    gp_1 = PSGroup(items=(gp_1_1, gp_1_2, gp_1_3))
+
+    # Set up the group ((7, 8, 9), (8, 9, 10), (9, 10, 11))
+    gp_2_1 = PSGroup(items=arena2.element[0:3])
+    gp_2_2 = PSGroup(items=arena2.element[3:6])
+    gp_2_3 = PSGroup(items=arena2.element[6:9])
+    gp_2 = PSGroup(items=(gp_2_1, gp_2_2, gp_2_3))
+
+    self.assertFalse(gp_1.DescribeAs(c3), "gp1 is not a c3")
+    self.assertFalse(gp_2.DescribeAs(c1), "gp2 is not a c1")
+
+    logic1 = gp_1.DescribeAs(c1)
+    self.assertTrue(logic1)
+    attributes = logic1.Attributes()
+    self.assertEqual(3, attributes['length'].magnitude)
+    self.assertEqual((7,), attributes['start'].Structure())
+    self.assertEqual((7, 8, 9), attributes['end'].Structure())
+
+    logic2 = gp_2.DescribeAs(c3)
+    self.assertTrue(logic2)
+    attributes = logic2.Attributes()
+    self.assertEqual(3, attributes['length'].magnitude)
+    self.assertEqual((7, 8, 9), attributes['start'].Structure())
+    self.assertEqual((9, 10, 11), attributes['end'].Structure())

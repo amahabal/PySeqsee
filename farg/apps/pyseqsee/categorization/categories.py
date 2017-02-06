@@ -50,12 +50,12 @@ class RepeatedIntegerCategory(PyCategory):
     if not item.items:
       # So empty. Attribute for magnitude can be anything...
       # TODO(amahabal): Deal with this better.
-      return InstanceLogic(attributes=dict(length=0))
+      return InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
     magnitude = item.items[0].magnitude
     if not all(x.magnitude == magnitude for x in item.items):
       return None
-    return InstanceLogic(attributes=dict(length=len(item.items),
-                                         magnitude=magnitude))
+    return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
+                                         magnitude=PSElement(magnitude=magnitude)))
 
 class BasicSuccessorCategory(PyCategory):
   """Category of items such as (2, 3, 4)"""
@@ -68,14 +68,14 @@ class BasicSuccessorCategory(PyCategory):
     if not item.items:
       # So empty. Attribute for magnitude can be anything...
       # TODO(amahabal): Deal with this better.
-      return InstanceLogic(attributes=dict(length=0))
+      return InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
     start = item.items[0].magnitude
     for offset, elt in enumerate(item.items):
       if elt.magnitude != start + offset:
         return None
-    return InstanceLogic(attributes=dict(length=len(item.items),
-                                         start=start,
-                                         end=start+len(item.items)-1))
+    return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
+                                         start=PSElement(magnitude=start),
+                                         end=PSElement(magnitude=start+len(item.items)-1)))
 
 class BasicPredecessorCategory(PyCategory):
   """Category of items such as (4, 3, 2)"""
@@ -88,11 +88,56 @@ class BasicPredecessorCategory(PyCategory):
     if not item.items:
       # So empty. Attribute for magnitude can be anything...
       # TODO(amahabal): Deal with this better.
-      return InstanceLogic(attributes=dict(length=0))
+      return InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
     start = item.items[0].magnitude
     for offset, elt in enumerate(item.items):
       if elt.magnitude != start - offset:
         return None
-    return InstanceLogic(attributes=dict(length=len(item.items),
-                                         start=start,
-                                         end=start-len(item.items)+1))
+    return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
+                                         start=PSElement(magnitude=start),
+                                         end=PSElement(magnitude=start-len(item.items)+1)))
+
+class CompoundCategory(PyCategory):
+  """Category for things such as ((7), (7, 8), (7, 8, 9)), where components are based on another category."""
+
+  def __init__(self, *, base_category, attribute_categories):
+    if not isinstance(base_category, PyCategory):
+      raise BadCategorySpec("base_category must be a category")
+    if not isinstance(attribute_categories, tuple):
+      raise BadCategorySpec("attribute_categories must be a tuple, with each item a (name, cat) pair")
+    if not all(isinstance(x, tuple) and len(x) == 2 and isinstance(x[1], PyCategory)
+               for x in attribute_categories):
+      raise BadCategorySpec("attribute_categories must be a tuple, with each item a (name, cat) pair")
+    attributes = tuple(x[0] for x in attribute_categories)
+    if attributes != tuple(sorted(attributes)):
+      raise BadCategorySpec("Attributes must be sorted")
+    self.base_category = base_category
+    self.attribute_categories = attribute_categories
+    self._attribues = attributes
+
+  def IsInstance(self, item):
+    if not isinstance(item, PSGroup):
+      return None
+    if not item.items:
+      # So empty. Attribute for magnitude can be anything...
+      # TODO(amahabal): Deal with this better.
+      return InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
+    logics = []
+    for component in item.items:
+      logic = component.DescribeAs(self.base_category)
+      if not logic:
+        return None
+      logics.append(logic)
+    for attr, attr_cat in self.attribute_categories:
+      values_for_attr = tuple(x.GetAttributeOrNone(attribute=attr) for x in logics)
+      if not all(values_for_attr):
+        return None
+      attr_gp = PSGroup(items=values_for_attr)
+      attr_logic = attr_gp.DescribeAs(attr_cat)
+      if not attr_logic:
+        return None
+      # TODO: also store the attr logic somewhere; should be accessible from the logic of the bigger
+      # group.
+    return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
+                                         start=item.items[0],
+                                         end=item.items[-1]))

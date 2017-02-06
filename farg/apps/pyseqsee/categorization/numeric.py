@@ -23,7 +23,7 @@ class PrecomputedNumberList(NumericCategory):
   def IsNumericInstance(self, *, magnitude):
     try:
       index = self.number_list.index(magnitude)
-      return InstanceLogic(attributes=dict(index=index))
+      return InstanceLogic(attributes=dict(index=PSElement(magnitude=index)))
     except ValueError:
       return None
 

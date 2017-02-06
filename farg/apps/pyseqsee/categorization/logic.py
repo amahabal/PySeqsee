@@ -13,3 +13,11 @@ class InstanceLogic(object):
 
   def Attributes(self):
     return self.attributes
+
+  def HasAttribute(self, *, attribute):
+    return attribute in self.attributes
+
+  def GetAttributeOrNone(self, *, attribute):
+    if attribute in self.attributes:
+      return self.attributes[attribute]
+    return None
