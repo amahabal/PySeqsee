@@ -56,3 +56,43 @@ class RepeatedIntegerCategory(PyCategory):
       return None
     return InstanceLogic(attributes=dict(length=len(item.items),
                                          magnitude=magnitude))
+
+class BasicSuccessorCategory(PyCategory):
+  """Category of items such as (2, 3, 4)"""
+
+  def IsInstance(self, item):
+    if not isinstance(item, PSGroup):
+      return None
+    if not all(isinstance(x, PSElement) for x in item.items):
+      return None
+    if not item.items:
+      # So empty. Attribute for magnitude can be anything...
+      # TODO(amahabal): Deal with this better.
+      return InstanceLogic(attributes=dict(length=0))
+    start = item.items[0].magnitude
+    for offset, elt in enumerate(item.items):
+      if elt.magnitude != start + offset:
+        return None
+    return InstanceLogic(attributes=dict(length=len(item.items),
+                                         start=start,
+                                         end=start+len(item.items)-1))
+
+class BasicPredecessorCategory(PyCategory):
+  """Category of items such as (4, 3, 2)"""
+
+  def IsInstance(self, item):
+    if not isinstance(item, PSGroup):
+      return None
+    if not all(isinstance(x, PSElement) for x in item.items):
+      return None
+    if not item.items:
+      # So empty. Attribute for magnitude can be anything...
+      # TODO(amahabal): Deal with this better.
+      return InstanceLogic(attributes=dict(length=0))
+    start = item.items[0].magnitude
+    for offset, elt in enumerate(item.items):
+      if elt.magnitude != start - offset:
+        return None
+    return InstanceLogic(attributes=dict(length=len(item.items),
+                                         start=start,
+                                         end=start-len(item.items)+1))

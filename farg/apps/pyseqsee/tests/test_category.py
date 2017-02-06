@@ -123,3 +123,69 @@ class TestRepeatedIntegerCategory(unittest.TestCase):
     self.assertEqual(3, attributes['length'])
 
     # This group *can* be extended... the affordance should indicate that.
+
+class TestBasicSuccessorCategory(unittest.TestCase):
+  def test_creation(self):
+    c1 = C.BasicSuccessorCategory()
+    arena = PSArena(magnitudes=(1, 2, 3, 5))
+    just_int = arena.element[0]
+    empty_gp = PSGroup(items=())
+    singleton_gp = PSGroup(items=(arena.element[0], ))
+    longer_gp = PSGroup(items=arena.element[0:3])
+    mixed_gp = PSGroup(items=arena.element[0:4])
+
+    self.assertFalse(just_int.DescribeAs(c1))
+    self.assertFalse(mixed_gp.DescribeAs(c1))
+
+    logic = singleton_gp.DescribeAs(c1)
+    self.assertTrue(logic)
+    logic2 = longer_gp.DescribeAs(c1)
+    self.assertTrue(logic2)
+    logic3 = empty_gp.DescribeAs(c1)
+    self.assertTrue(logic3)
+
+    attributes = logic.Attributes()
+    self.assertEqual(1, attributes['start'])
+    self.assertEqual(1, attributes['end'])
+    self.assertEqual(1, attributes['length'])
+
+    attributes = logic2.Attributes()
+    self.assertEqual(1, attributes['start'])
+    self.assertEqual(3, attributes['end'])
+    self.assertEqual(3, attributes['length'])
+
+    attributes = logic3.Attributes()
+    self.assertEqual(0, attributes['length'])
+
+class TestBasicPredecessorCategory(unittest.TestCase):
+  def test_creation(self):
+    c1 = C.BasicPredecessorCategory()
+    arena = PSArena(magnitudes=(5, 4, 3, 1))
+    just_int = arena.element[0]
+    empty_gp = PSGroup(items=())
+    singleton_gp = PSGroup(items=(arena.element[0], ))
+    longer_gp = PSGroup(items=arena.element[0:3])
+    mixed_gp = PSGroup(items=arena.element[0:4])
+
+    self.assertFalse(just_int.DescribeAs(c1))
+    self.assertFalse(mixed_gp.DescribeAs(c1))
+
+    logic = singleton_gp.DescribeAs(c1)
+    self.assertTrue(logic)
+    logic2 = longer_gp.DescribeAs(c1)
+    self.assertTrue(logic2)
+    logic3 = empty_gp.DescribeAs(c1)
+    self.assertTrue(logic3)
+
+    attributes = logic.Attributes()
+    self.assertEqual(5, attributes['start'])
+    self.assertEqual(5, attributes['end'])
+    self.assertEqual(1, attributes['length'])
+
+    attributes = logic2.Attributes()
+    self.assertEqual(5, attributes['start'])
+    self.assertEqual(3, attributes['end'])
+    self.assertEqual(3, attributes['length'])
+
+    attributes = logic3.Attributes()
+    self.assertEqual(0, attributes['length'])
