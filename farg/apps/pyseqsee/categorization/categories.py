@@ -1,12 +1,12 @@
 """Defines the categories for objects."""
-from farg.core.meta import MemoizedConstructor
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from farg.apps.pyseqsee.categorization.logic import InstanceLogic
+from farg.core.ltm.storable import LTMNodeContent
 
 class BadCategorySpec(Exception):
   pass
 
-class PyCategory(metaclass=MemoizedConstructor):
+class PyCategory(LTMNodeContent):
   pass
 
 class CategoryAnyObject(PyCategory):
