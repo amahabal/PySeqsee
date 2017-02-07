@@ -44,11 +44,7 @@ class LTMTestBase(unittest.TestCase):
     kwargs = dict()
     if arguments_creator:
       kwargs = arguments_creator()
-    for n in graph2.GetNodes():
-      print("Before: ", n)
     graph2.GetNode(content=class_name(**kwargs))
-    for n in graph2.GetNodes():
-      print("After: ", n)
     self.assertEqual(len(graph2.GetNodes()), node_count_before, "Node existed")
 
 
