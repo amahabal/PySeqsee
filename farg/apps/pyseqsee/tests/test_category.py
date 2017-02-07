@@ -78,7 +78,9 @@ class TestMultipartCategory(unittest.TestCase):
                       parts_count=2,  part_categories=(C.CategoryAnyObject()))
     c1 = C.MultiPartCategory(parts_count = 2, part_categories=(CategoryEvenInteger(),
                                                                C.CategoryAnyObject()))
-
+    c2 = C.MultiPartCategory(parts_count = 2, part_categories=(CategoryEvenInteger(),
+                                                               C.CategoryAnyObject()))
+    self.assertEqual(c1, c2, "Memoized")
     arena = PSArena(magnitudes=(2, 7, 2, 8, 2, 9, 2, 10))
     elt_even = arena.element[4]  # This is 2
     elt_odd = arena.element[5]  # This is 9

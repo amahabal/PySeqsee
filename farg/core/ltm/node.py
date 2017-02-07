@@ -111,18 +111,30 @@ class LTMNode(object):
                         abundance).
     """
     clsname, instance_dict, outgoing_edges, abundance = state
-    LTMNode._Unmangle(instance_dict)
+    self._Unmangle(instance_dict)
     self.content = clsname(**instance_dict)  # Fair use of ** magic. pylint: disable=W0142
     self.outgoing_edges = outgoing_edges
     self._raw_activation = 0
     self._time_of_activation_update = 0
     self.abundance = abundance
 
-  @staticmethod
-  def _Unmangle(content_dict):
+  def _UnmangleTuple(self, value):
+    out = []
+    for k in value:
+      if isinstance(k, tuple):
+        out.append(self._UnmangleTuple(k))
+      elif isinstance(k, LTMNode):
+        out.append(k.content)
+      else:
+        out.append(k)
+    return tuple(out)
+
+  def _Unmangle(self, content_dict):
     """Replaces values that are nodes with contents of those nodes."""
     for k, value in content_dict.items():
-      if isinstance(value, LTMNode):
+      if isinstance(value, tuple):
+        content_dict[k] = self._UnmangleTuple(value)
+      elif isinstance(value, LTMNode):
         content_dict[k] = value.content
 
   def _ProcessDecays(self, current_time):

@@ -11,7 +11,10 @@ class PyCategory(LTMNodeContent):
 
 class CategoryAnyObject(PyCategory):
   def IsInstance(self, item):
-    return InstanceLogic
+    return InstanceLogic()
+
+  def BriefLabel(self):
+    return "CategoryAnyObject"
 
 class MultiPartCategory(PyCategory):
   """Category whose instances are made up of N different parts.
@@ -21,13 +24,17 @@ class MultiPartCategory(PyCategory):
 
   def __init__(self, *, parts_count, part_categories):
     if not isinstance(parts_count, int) or parts_count <= 0:
-      raise BadCategorySpec()
+      raise BadCategorySpec("Strange parts_count")
     if not isinstance(part_categories, tuple) or len(part_categories) != parts_count:
-      raise BadCategorySpec()
+      raise BadCategorySpec("parts_count does not match part_categories")
     if not all(isinstance(x, PyCategory) for x in part_categories):
-      raise BadCategorySpec()
+      print("part cat=", part_categories)
+      raise BadCategorySpec("Saw a non-PyCategory as a category for a part")
     self.parts_count = parts_count
     self.part_categories = part_categories
+
+  def BriefLabel(self):
+    return "MultiPartCategory(" + ', '.join(x.BriefLabel() for x in self.part_categories) + ")"
 
   def IsInstance(self, item):
     if not isinstance(item, PSGroup):
@@ -38,6 +45,9 @@ class MultiPartCategory(PyCategory):
       if not item.items[idx].DescribeAs(cat):
         return None
     return InstanceLogic()
+
+  def LTMDependentContent(self):
+    return set(self.part_categories)
 
 class RepeatedIntegerCategory(PyCategory):
   """Category of items such as (3, 3, 3, 3)."""
@@ -56,6 +66,10 @@ class RepeatedIntegerCategory(PyCategory):
       return None
     return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
                                          magnitude=PSElement(magnitude=magnitude)))
+
+  def BriefLabel(self):
+    return "RepeatedIntegerCategory"
+
 
 class BasicSuccessorCategory(PyCategory):
   """Category of items such as (2, 3, 4)"""
@@ -76,6 +90,8 @@ class BasicSuccessorCategory(PyCategory):
     return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
                                          start=PSElement(magnitude=start),
                                          end=PSElement(magnitude=start+len(item.items)-1)))
+  def BriefLabel(self):
+    return "BasicSuccessorCategory"
 
 class BasicPredecessorCategory(PyCategory):
   """Category of items such as (4, 3, 2)"""
@@ -96,6 +112,10 @@ class BasicPredecessorCategory(PyCategory):
     return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
                                          start=PSElement(magnitude=start),
                                          end=PSElement(magnitude=start-len(item.items)+1)))
+
+  def BriefLabel(self):
+    return "BasicPredecessorCategory"
+
 
 class CompoundCategory(PyCategory):
   """Category for things such as ((7), (7, 8), (7, 8, 9)), where components are based on another category."""
@@ -141,3 +161,13 @@ class CompoundCategory(PyCategory):
     return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
                                          start=item.items[0],
                                          end=item.items[-1]))
+
+  def BriefLabel(self):
+    return "CompoundCategory(%s: %s)" % (self.base_category.BriefLabel(),
+                                         ', '.join("%s=%s" % (k, v.BriefLabel())
+                                                   for k, v in self.attribute_categories))
+
+  def LTMDependentContent(self):
+    out = set(x[1] for x in self.attribute_categories)
+    out.add(self.base_category)
+    return out

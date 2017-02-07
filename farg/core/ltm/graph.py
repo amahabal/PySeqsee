@@ -175,14 +175,40 @@ class LTMGraph(object):
   def _Mangle(self, content_dict):
     """Replaces references to node contents with the nodes themselves."""
     for k, value in content_dict.items():
-      if value in self._content_to_node:
+      if isinstance(value, tuple):
+        content_dict[k] = self._MangleTuple(value)
+      elif value in self._content_to_node:
         content_dict[k] = self._content_to_node[value]
+
+  def _MangleTuple(self, value):
+    out = []
+    for k in value:
+      if isinstance(k, tuple):
+        out.append(self._MangleTuple(k))
+      elif k in self._content_to_node:
+        out.append(self._content_to_node[k])
+      else:
+        out.append(k)
+    return tuple(out)
 
   def _Unmangle(self, content_dict):
     """Replaces values that are nodes with contents of those nodes."""
     for k, value in content_dict.items():
-      if isinstance(value, LTMNode):
+      if isinstance(value, tuple):
+        content_dict[k] = self._UnmangleTuple(value)
+      elif isinstance(value, LTMNode):
         content_dict[k] = value.content
+
+  def _UnmangleTuple(self, value):
+    out = []
+    for k in value:
+      if isinstance(k, tuple):
+        out.append(self._UnmangleTuple(k))
+      elif isinstance(k, LTMNode):
+        out.append(k.content)
+      else:
+        out.append(k)
+    return tuple(out)
 
   def AddEdge(self, from_content, to_content, *, utility=1, edge_type_set=set()):
     node = self.GetNode(content=from_content.GetLTMStorableContent())
