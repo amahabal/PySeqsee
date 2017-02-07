@@ -143,6 +143,23 @@ class TestPSObject(unittest.TestCase):
     self.assertEqual((6, 10), gp.Span())
     self.assertEqual((1, 2, 3, 4, 5), gp.Structure())
 
+  def test_hypothetical_insert(self):
+    arena = PSArena(magnitudes=range(10), start=5)
+    gp = PSGroup(items=arena.element[2:5])
+    self.assertTrue(gp.InferSpans())
+    self.assertEqual((7, 9), gp.Span())
+
+    gp2 = gp.HypotheticallyAddComponentBefore(arena.element[1])
+    self.assertEqual((7, 9), gp.Span())
+    self.assertEqual((2, 3, 4), gp.Structure())
+    self.assertEqual((6, 9), gp2.Span())
+    self.assertEqual((1, 2, 3, 4), gp2.Structure())
+
+    gp3 = gp2.HypotheticallyAddComponentAfter(arena.element[5])
+    self.assertEqual((6, 10), gp3.Span())
+    self.assertEqual((1, 2, 3, 4, 5), gp3.Structure())
+
+
 class TestPSArena(unittest.TestCase):
 
   def test_basic(self):

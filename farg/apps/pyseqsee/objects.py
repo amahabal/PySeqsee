@@ -105,6 +105,16 @@ class PSGroup(PSObject):
     self.InferSpans()
     raise(GroupChangedException("Added item at end"))
 
+  def HypotheticallyAddComponentBefore(self, component):
+    new_gp = PSGroup(items=(component,)+tuple(self.items))
+    new_gp.InferSpans()
+    return new_gp
+
+  def HypotheticallyAddComponentAfter(self, component):
+    new_gp = PSGroup(items=tuple(self.items) + (component,))
+    new_gp.InferSpans()
+    return new_gp
+
   def _CalculateSpanGivenStart(self, start):
     spans = []
     right_end = start - 1
