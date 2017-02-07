@@ -27,6 +27,11 @@ class PlatonicObject(LTMNodeContent):
     assert(isinstance(structure, tuple))
     return '(' + ', '.join(cls._StructureToString(x) for x in structure) + ')'
 
+class GroupChangedException(Exception):
+  """Raised when a group changes in big ways that may impact other groups.
+
+  The caller of the relevant method must trap this, and take any follow up actions needed."""
+  pass
 
 class PSObject(LTMStorableMixin, Categorizable):
   """Represents an element or group in the workspace.
@@ -91,12 +96,14 @@ class PSGroup(PSObject):
     self.items.insert(0, component)
     self._span = None
     self.InferSpans()
+    raise(GroupChangedException("Added item at start"))
 
   def AddComponentAfter(self, component):
     """Adds a component to the left, recalculating spans."""
     self.items.append(component)
     self._span = None
     self.InferSpans()
+    raise(GroupChangedException("Added item at end"))
 
   def _CalculateSpanGivenStart(self, start):
     spans = []
