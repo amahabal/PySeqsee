@@ -3,6 +3,8 @@ from farg.apps.pyseqsee.arena import PSArena
 from farg.apps.pyseqsee.categorization import categories as C
 from farg.apps.pyseqsee.objects import PSGroup
 from farg.apps.pyseqsee.categorization.numeric import CategoryEvenInteger, CategoryPrime
+from farg.apps.pyseqsee.tests.utils import CategoryTester, CategoryLogicTester
+from farg.apps.pyseqsee.utils import PSObjectFromStructure
 
 class TestCategoryAnyObject(unittest.TestCase):
   """Test the simplest category of all: any group or element whatsoever is an instance."""
@@ -12,10 +14,14 @@ class TestCategoryAnyObject(unittest.TestCase):
     c2 = C.CategoryAnyObject()
     self.assertEqual(c1, c2, "CategoryAnyObject is memoized")
 
-    arena = PSArena(magnitudes=(2, 7, 2, 8, 2, 9, 2, 10))
-    gp1 = PSGroup(items=arena.element[1:3])
-    logic = gp1.DescribeAs(c1)
-    self.assertTrue(logic, "Description was successful")
+    tester = CategoryTester(
+      positive=(),
+      negative=())
+
+    tester = CategoryTester(
+      positive=( (2, 7), ),
+      negative=())
+    tester(self, c1)
 
     # Not much can be done with this category. But some things that we should be able to do is get
     # examples---a diverse set of examples---when needed. This category would not have any
@@ -25,18 +31,12 @@ class TestCategoryAnyObject(unittest.TestCase):
 class TestCategoryEvenInteger(unittest.TestCase):
   def test_creation(self):
     c1 = CategoryEvenInteger()
-    arena = PSArena(magnitudes=(2, 7, 2, 8, 2, 9, 2, 10))
-    elt_even = arena.element[4]  # This is 2
-    elt_odd = arena.element[5]  # This is 9
-    gp1 = PSGroup(items=arena.element[1:3])
-    gp2 = PSGroup(items=(arena.element[4], ))
-
-    self.assertFalse(elt_odd.DescribeAs(c1), "Not an instance: odd number")
-    self.assertFalse(gp1.DescribeAs(c1), "Not an instance: multipart gp")
-    self.assertFalse(gp2.DescribeAs(c1), "Not an instance: singleton group containing even")
-
-    logic = elt_even.DescribeAs(c1)
-    self.assertTrue(logic)
+    tester = CategoryTester(
+      positive=( 2, ),
+      negative=( 9,
+                 (2, ),
+                 ()))
+    tester(self, c1)
 
     # Not tested yet: one of the affordance of this category may be to "think of" what its half is,
     # or to create a derivative sequence containg halves. I have no idea as yet where the pressure
@@ -45,20 +45,22 @@ class TestCategoryEvenInteger(unittest.TestCase):
 class TestCategoryPrime(unittest.TestCase):
   def test_creation(self):
     c1 = CategoryPrime()
-    arena = PSArena(magnitudes=(2, 7, 2, 8, 2, 9, 2, 10))
-    elt_prime = arena.element[1]  # This is 7
-    elt_comp = arena.element[5]  # This is 9
-    gp1 = PSGroup(items=arena.element[1:3])
-    gp2 = PSGroup(items=(arena.element[4], ))
+    tester = CategoryTester(
+      positive=( 2, ),
+      negative=( 9,
+                 (2, ),
+                 ()))
+    tester(self, c1)
 
-    self.assertFalse(elt_comp.DescribeAs(c1), "Not an instance: composite number")
-    self.assertFalse(gp1.DescribeAs(c1), "Not an instance: multipart gp")
-    self.assertFalse(gp2.DescribeAs(c1), "Not an instance: singleton group containing even")
+    def logic_tester(test, logic):
+      test.assertTrue(logic)
+      attributes = logic.Attributes()
+      test.assertEqual(3, attributes['index'].magnitude)
 
-    logic = elt_prime.DescribeAs(c1)
-    self.assertTrue(logic)
-    attributes = logic.Attributes()
-    self.assertEqual(3, attributes['index'].magnitude)
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure(7),
+                       cat=c1,
+                       tester=logic_tester)
 
     # It seems wrong to always return an index. Most times, when we recognize that something is a
     # prime, we do not know what its index is. We need a way to add those things on demand later,
@@ -81,18 +83,15 @@ class TestMultipartCategory(unittest.TestCase):
     c2 = C.MultiPartCategory(parts_count = 2, part_categories=(CategoryEvenInteger(),
                                                                C.CategoryAnyObject()))
     self.assertEqual(c1, c2, "Memoized")
-    arena = PSArena(magnitudes=(2, 7, 2, 8, 2, 9, 2, 10))
-    elt_even = arena.element[4]  # This is 2
-    elt_odd = arena.element[5]  # This is 9
-    gp1 = PSGroup(items=arena.element[2:4])  # This is (2, 8): Is an instance
-    gp2 = PSGroup(items=arena.element[1:3])  # This is (7, 2): Not an instance
 
-    self.assertFalse(elt_odd.DescribeAs(c1), "Not an instance: odd number")
-    self.assertFalse(elt_even.DescribeAs(c1), "Not an instance: even number")
-    self.assertFalse(gp2.DescribeAs(c1), "Not an instance: first part not even")
-
-    logic = gp1.DescribeAs(c1)
-    self.assertTrue(logic)
+    tester = CategoryTester(
+      positive=( (2, 8),
+                 (8, (7, 8)) ),
+      negative=( 9,
+                 2,
+                 (2, ),
+                 ()))
+    tester(self, c1)
 
     # Not tested yet: affordances here would not include attempting to expand the group. But wait:
     # If the last element is an expandible group, then instances can be extended. This is getting
@@ -102,62 +101,72 @@ class TestMultipartCategory(unittest.TestCase):
 class TestRepeatedIntegerCategory(unittest.TestCase):
   def test_creation(self):
     c1 = C.RepeatedIntegerCategory()
-    arena = PSArena(magnitudes=(1, 1, 1, 2, 2, 2, 2, 3))
-    just_int = arena.element[0]
-    singleton_gp = PSGroup(items=(arena.element[0], ))
-    longer_gp = PSGroup(items=arena.element[0:3])
-    mixed_gp = PSGroup(items=arena.element[0:4])
 
-    self.assertFalse(just_int.DescribeAs(c1))
-    self.assertFalse(mixed_gp.DescribeAs(c1))
+    tester = CategoryTester(
+      positive=( (2, 2),
+                 (2, ),
+                 () ),
+      negative=( 9,
+                 2,
+                 (2, 3)))
+    tester(self, c1)
 
-    logic = singleton_gp.DescribeAs(c1)
-    self.assertTrue(logic)
-    logic2 = longer_gp.DescribeAs(c1)
-    self.assertTrue(logic2)
+    def logic_tester(mag, length):
+      def impl(test, logic):
+        test.assertTrue(logic)
+        attributes = logic.Attributes()
+        test.assertEqual(mag, attributes['magnitude'].magnitude)
+        test.assertEqual(length, attributes['length'].magnitude)
+      return impl
 
-    attributes = logic.Attributes()
-    self.assertEqual(1, attributes['magnitude'].magnitude)
-    self.assertEqual(1, attributes['length'].magnitude)
-
-    attributes = logic2.Attributes()
-    self.assertEqual(1, attributes['magnitude'].magnitude)
-    self.assertEqual(3, attributes['length'].magnitude)
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure((7, )),
+                       cat=c1,
+                       tester=logic_tester(7, 1))
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure((8, 8, 8)),
+                       cat=c1,
+                       tester=logic_tester(8, 3))
 
     # This group *can* be extended... the affordance should indicate that.
 
 class TestBasicSuccessorCategory(unittest.TestCase):
   def test_creation(self):
     c1 = C.BasicSuccessorCategory()
-    arena = PSArena(magnitudes=(1, 2, 3, 5))
-    just_int = arena.element[0]
-    empty_gp = PSGroup(items=())
-    singleton_gp = PSGroup(items=(arena.element[0], ))
-    longer_gp = PSGroup(items=arena.element[0:3])
-    mixed_gp = PSGroup(items=arena.element[0:4])
 
-    self.assertFalse(just_int.DescribeAs(c1))
-    self.assertFalse(mixed_gp.DescribeAs(c1))
+    tester = CategoryTester(
+      positive=( (2, 3),
+                 (2, ),
+                 () ),
+      negative=( 9,
+                 2,
+                 (2, 2),
+                 (2, 3, 4, 6)))
+    tester(self, c1)
 
-    logic = singleton_gp.DescribeAs(c1)
-    self.assertTrue(logic)
-    logic2 = longer_gp.DescribeAs(c1)
-    self.assertTrue(logic2)
-    logic3 = empty_gp.DescribeAs(c1)
-    self.assertTrue(logic3)
+    def logic_tester(start, end, length):
+      def impl(test, logic):
+        test.assertTrue(logic)
+        attributes = logic.Attributes()
+        if start is not None:
+          test.assertEqual(start, attributes['start'].magnitude)
+        if end is not None:
+          test.assertEqual(end, attributes['end'].magnitude)
+        test.assertEqual(length, attributes['length'].magnitude)
+      return impl
 
-    attributes = logic.Attributes()
-    self.assertEqual(1, attributes['start'].magnitude)
-    self.assertEqual(1, attributes['end'].magnitude)
-    self.assertEqual(1, attributes['length'].magnitude)
-
-    attributes = logic2.Attributes()
-    self.assertEqual(1, attributes['start'].magnitude)
-    self.assertEqual(3, attributes['end'].magnitude)
-    self.assertEqual(3, attributes['length'].magnitude)
-
-    attributes = logic3.Attributes()
-    self.assertEqual(0, attributes['length'].magnitude)
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure((7, )),
+                       cat=c1,
+                       tester=logic_tester(7, 7, 1))
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure((8, 9, 10)),
+                       cat=c1,
+                       tester=logic_tester(8, 10, 3))
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure(()),
+                       cat=c1,
+                       tester=logic_tester(None, None, 0))
 
 class TestBasicPredecessorCategory(unittest.TestCase):
   def test_creation(self):

@@ -15,3 +15,7 @@ def CategoryTester(*, positive, negative):
       test.assertFalse(obj.DescribeAs(category), "Describing %s as %s" % (obj.Structure(),
                                                                           category.BriefLabel()))
   return Tester
+
+def CategoryLogicTester(*, test, item, cat, tester):
+  logic = item.DescribeAs(cat)
+  tester(test, logic)
