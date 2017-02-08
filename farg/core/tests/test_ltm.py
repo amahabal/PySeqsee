@@ -87,69 +87,6 @@ class TestLTM(LTMTestBase):
     m3 = MockMapping(category=c3)
     self.assertEqual(m3, m2p)
 
-  def test_dependencies_are_after_nodes(self):
-    MockMapping.__memo__ = dict()
-    MockCategory.__memo__ = dict()
-
-    myltm = LTMGraph(filename=self.filename)
-    c1 = MockCategory(foo=7)
-    m1 = MockMapping(category=c1)
-    c2 = MockCategory(foo=9)
-    m2 = MockMapping(category=c2)
-
-    # Add in a strange order...
-    for content in (m1, m2, c1, c2):
-      myltm.GetNode(content=content)
-
-    myltm.DumpToFile()
-
-    MockMapping.memos = {}
-
-    myltm2 = LTMGraph(filename=self.filename)
-    self.assertEqual(4, len(myltm2.nodes))
-    m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
-
-    self.assertEqual(7, c1p.foo)
-    self.assertEqual(9, c2p.foo)
-    self.assertEqual(c1p, m1p.category)
-    self.assertEqual(c2p, m2p.category)
-
-    c3 = MockCategory(foo=9)
-    self.assertEqual(c3, c2p)
-
-    m3 = MockMapping(category=c3)
-    self.assertEqual(m3, m2p)
-
-  def test_store_edges(self):
-    MockMapping.memos = {}
-    MockCategory.memos = {}
-
-    myltm = LTMGraph(filename=self.filename)
-    c1 = MockCategory(foo=7)
-    m1 = MockMapping(category=c1)
-    c2 = MockCategory(foo=9)
-    m2 = MockMapping(category=c2)
-
-    for content in (m1, m2, c1, c2):
-      myltm.GetNode(content=content)
-
-    myltm.AddEdge(m1, c1, edge_type_set={LTMEdge.LTM_EDGE_TYPE_ISA})
-    edges = myltm.GetNode(content=m1).GetOutgoingEdges()
-    self.assertEqual(c1, edges[0].to_node.content)
-    self.assertEqual(LTMEdge.LTM_EDGE_TYPE_ISA, list(edges[0].edge_type_set)[0])
-
-    myltm.DumpToFile()
-
-    MockMapping.memos = {}
-    MockCategory.memos = {}
-
-    myltm2 = LTMGraph(filename=self.filename)
-    self.assertEqual(4, len(myltm2.nodes))
-    m1p, m2p, c1p, c2p = (x.content for x in myltm2.nodes)
-    edges = myltm2.GetNode(content=m1p).GetOutgoingEdges()
-    self.assertEqual(c1p, edges[0].to_node.content)
-    self.assertEqual(LTMEdge.LTM_EDGE_TYPE_ISA, list(edges[0].edge_type_set)[0])
-
 class TestLTM2(LTMTestBase):
   def test_activation(self):
     MockCategory.__memo__ = dict()

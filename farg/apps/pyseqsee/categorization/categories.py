@@ -46,8 +46,6 @@ class MultiPartCategory(PyCategory):
         return None
     return InstanceLogic()
 
-  def LTMDependentContent(self):
-    return set(self.part_categories)
 
 class RepeatedIntegerCategory(PyCategory):
   """Category of items such as (3, 3, 3, 3)."""
@@ -166,8 +164,3 @@ class CompoundCategory(PyCategory):
     return "CompoundCategory(%s: %s)" % (self.base_category.BriefLabel(),
                                          ', '.join("%s=%s" % (k, v.BriefLabel())
                                                    for k, v in self.attribute_categories))
-
-  def LTMDependentContent(self):
-    out = set(x[1] for x in self.attribute_categories)
-    out.add(self.base_category)
-    return out

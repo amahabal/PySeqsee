@@ -12,6 +12,24 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 from farg.core.meta import MemoizedConstructor
 
+def GetStorablesInTuple(t):
+  dependants = set()
+  for v in t:
+    if isinstance(v, tuple):
+      dependants.update(GetStorablesInTuple(v))
+    elif isinstance(v, (LTMNodeContent, LTMStorableMixin)):
+      dependants.add(v)
+  return dependants
+
+def GetStorablesInObject(o):
+  dependants = set()
+  for k, v in o.__dict__.items():
+    if isinstance(v, tuple):
+      dependants.update(GetStorablesInTuple(v))
+    elif isinstance(v, (LTMNodeContent, LTMStorableMixin)):
+      dependants.add(v)
+  return tuple(dependants)
+
 class LTMNodeContent(object, metaclass=MemoizedConstructor):
   """Base class for things that can be the actual contents of nodes.
 
@@ -27,7 +45,7 @@ class LTMNodeContent(object, metaclass=MemoizedConstructor):
 
   def LTMDependentContent(self):
     """Returns nodes whose existence is necessary for fully defining this node."""
-    return ()
+    return GetStorablesInObject(self)
 
   def GetLTMStorableContent(self):
     return self
@@ -47,4 +65,4 @@ class LTMStorableMixin(object):
 
   def LTMDependentContent(self):
     """Returns nodes whose existence is necessary for fully defining this node."""
-    return ()
+    return GetStorablesInObject(self)
