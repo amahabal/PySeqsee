@@ -13,7 +13,7 @@
 
 from farg.core.exceptions import FargError
 from farg.core.ltm.edge import LTMEdge
-from farg.core.ltm.node import LTMNode
+from farg.core.ltm.node import LTMNode, Unmangle
 import logging
 import pickle as pickle
 
@@ -101,7 +101,7 @@ class LTMGraph(object):
       for node in self.nodes:
         self._Mangle(node.content.__dict__)
         pickler.dump(node)
-        self._Unmangle(node.content.__dict__)
+        Unmangle(node.content.__dict__)
 
   # TODO: rename to GetNode(self, *, content)
   def GetNode(self, *, content):
@@ -187,25 +187,6 @@ class LTMGraph(object):
         out.append(self._MangleTuple(k))
       elif k in self._content_to_node:
         out.append(self._content_to_node[k])
-      else:
-        out.append(k)
-    return tuple(out)
-
-  def _Unmangle(self, content_dict):
-    """Replaces values that are nodes with contents of those nodes."""
-    for k, value in content_dict.items():
-      if isinstance(value, tuple):
-        content_dict[k] = self._UnmangleTuple(value)
-      elif isinstance(value, LTMNode):
-        content_dict[k] = value.content
-
-  def _UnmangleTuple(self, value):
-    out = []
-    for k in value:
-      if isinstance(k, tuple):
-        out.append(self._UnmangleTuple(k))
-      elif isinstance(k, LTMNode):
-        out.append(k.content)
       else:
         out.append(k)
     return tuple(out)

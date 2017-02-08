@@ -11,6 +11,7 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 """Defines class for "Node" of an LTM."""
+
 import math
 import logging
 
@@ -24,6 +25,25 @@ kLogger = logging.getLogger("LTM_activations")
 _RAW_ACTIVATION_TO_REAL_ACTIVATION = [
   0.4815 + 0.342 * math.atan2(12 * (0.01 * x - 0.5), 1)
   for x in range(2, 203)]
+
+def _UnmangleTuple(value):
+  out = []
+  for k in value:
+    if isinstance(k, tuple):
+      out.append(_UnmangleTuple(k))
+    elif isinstance(k, LTMNode):
+      out.append(k.content)
+    else:
+      out.append(k)
+  return tuple(out)
+
+def Unmangle(content_dict):
+  """Replaces values that are nodes with contents of those nodes."""
+  for k, value in content_dict.items():
+    if isinstance(value, tuple):
+      content_dict[k] = _UnmangleTuple(value)
+    elif isinstance(value, LTMNode):
+      content_dict[k] = value.content
 
 
 class LTMNode(object):
@@ -111,31 +131,12 @@ class LTMNode(object):
                         abundance).
     """
     clsname, instance_dict, outgoing_edges, abundance = state
-    self._Unmangle(instance_dict)
+    Unmangle(instance_dict)
     self.content = clsname(**instance_dict)  # Fair use of ** magic. pylint: disable=W0142
     self.outgoing_edges = outgoing_edges
     self._raw_activation = 0
     self._time_of_activation_update = 0
     self.abundance = abundance
-
-  def _UnmangleTuple(self, value):
-    out = []
-    for k in value:
-      if isinstance(k, tuple):
-        out.append(self._UnmangleTuple(k))
-      elif isinstance(k, LTMNode):
-        out.append(k.content)
-      else:
-        out.append(k)
-    return tuple(out)
-
-  def _Unmangle(self, content_dict):
-    """Replaces values that are nodes with contents of those nodes."""
-    for k, value in content_dict.items():
-      if isinstance(value, tuple):
-        content_dict[k] = self._UnmangleTuple(value)
-      elif isinstance(value, LTMNode):
-        content_dict[k] = value.content
 
   def _ProcessDecays(self, current_time):
     """Process any pending decays. This helps keep activation calculation lazy."""
