@@ -1,6 +1,7 @@
 from enum import Enum
 from _collections import defaultdict
 from functools import wraps
+from tkinter import Tk, ttk, LEFT, NW, BOTH, Button
 
 class EventType(Enum):
   CREATE = 1  # Used for object creation
@@ -27,11 +28,11 @@ class History(object):
   """
 
   _is_history_on = False
-
+  
   @classmethod
   def TurnOn(cls):
     cls._is_history_on = True
-
+  
   #: Next available hid (history id). Each "registered" object stores its h_id in the ._hid field.
   _next_hid = 0
   #: Next available event-id.
@@ -117,6 +118,145 @@ def NoteCallsInHistory(func):
     return func(*args, **kwargs)
   return Wrapped
 
+class GUIHistoryMethods(object):
+  """GUI version of InteractionHistoryMethods.  Enabled using --history_interactive"""
+
+  @classmethod
+  def gui(cls):
+    root = Tk()
+    root.title("History")
+    root.minsize(width=640, height=490)
+
+    historyNB = ttk.Notebook(root)
+
+    summaryFrame = ttk.Frame(root, name="summary")
+    summaryLbl = ttk.Label(summaryFrame, wraplength='4i', justify=LEFT, anchor=NW,
+    text=cls.Summary())
+    summaryLbl.pack()
+    historyNB.add(summaryFrame, text='Summary', underline=0, padding=2)
+
+    countsFrame = ttk.Frame(root, name="counts")
+    countsLbl = ttk.Label(countsFrame, wraplength='4i', justify=LEFT, anchor=NW,
+    text=cls.PrintCounts())
+    countsLbl.pack()
+    historyNB.add(countsFrame, text='Counters', underline=0, padding=2)
+
+    cls.AddEventsPane(root, historyNB)
+    cls.AddObjHistoryPane(root, historyNB)
+
+    historyNB.pack(fill=BOTH)
+    root.mainloop()
+  
+  @classmethod
+  def AddEventsPane(cls, root, historyNB):
+    eventsFrame = ttk.Frame(root, name="events")
+
+    HID = ttk.Label(eventsFrame, text="HID: ")
+    HID.pack()
+
+    HIDInput = ttk.Entry(eventsFrame)
+    HIDInput.focus_set()
+    HIDInput.pack()
+
+    eventsLbl = ttk.Label(eventsFrame, wraplength='4i', justify=LEFT, anchor=NW,
+    text="")
+
+    submit = Button(eventsFrame, text="Get Events", width=10, command=lambda: eventsLbl.config(text=cls.EventsForItem(HIDInput.get())))
+
+    submit.pack()
+    eventsLbl.pack()
+
+    historyNB.add(eventsFrame, text="Events For HID", underline=0, padding=2)
+
+  @classmethod
+  def AddObjHistoryPane(cls, root, historyNB):
+    objHistFrame = ttk.Frame(root, name="events")
+
+    HID = ttk.Label(objHistFrame, text="HID: ")
+    HID.pack()
+
+    HIDInput = ttk.Entry(objHistFrame)
+    HIDInput.focus_set()
+    HIDInput.pack()
+
+    objHistoryLbl = ttk.Label(objHistFrame, wraplength='4i', justify=LEFT, anchor=NW,
+    text="")
+
+    submit = Button(objHistFrame, text="Get Ancestry", width=10, command=lambda: objHistoryLblLbl.config(text=cls.EventsForItem(HIDInput.get())))
+
+    submit.pack()
+    objHistoryLbl.pack()
+
+    historyNB.add(objHistFrame, text="Ancestry For HID", underline=0, padding=2)
+    
+  @classmethod
+  def GroupObjectsByClass(cls):
+    """Groups objects by class.
+
+    Returns:
+      A dictionary with cls as key and list of object indices as value.
+    """
+    ret = defaultdict(list)
+    for idx, obj in enumerate(History._object_details):
+      ret[obj['cls']].append(idx)
+    return ret
+
+  @classmethod
+  def GroupObjectEventsByClass(cls, hid):
+    ret = defaultdict(list)
+    try:
+      events = History._object_events[hid]
+    except:
+      return ret
+    for e in events:
+      if e['t'] is EventType.OBJECT_FOCUS:
+        ret['FOCUS'].append(e['eid'])
+      elif e['t'] is EventType.CREATE:
+        hid_here = e['hid']
+        ret['CREATE ' + History._object_details[hid_here]['cls']].append(e['eid'])
+      else:
+        ret['UNCLASSIFIED'].append(e['eid'])
+    return ret
+
+  @classmethod
+  def Summary(cls):
+    summaryStr = ""
+    obj_by_cls = sorted(cls.GroupObjectsByClass().items(), reverse=True, key=lambda x: len(x[1]))
+    for k, v in obj_by_cls:
+      summaryStr += "\t%5d\t%s" % (len(v), k) + "\n"
+      summaryStr += "\t\t" + '; '.join(str(x) for x in v[:10]) + "\n"
+    return summaryStr
+
+  @classmethod
+  def EventsForItem(cls, hid):
+    eventsStr = ""
+    obj_by_cls = sorted(cls.GroupObjectEventsByClass(hid).items(), reverse=True, key=lambda x: len(x[1]))
+    for k, v in obj_by_cls:
+      eventsStr += "\t%5d\t%s" % (len(v), k) + "\n"
+      eventsStr += str("\t\t", '; '.join(str(x) for x in v[:10])) + "\n"
+    return eventsStr
+
+  @classmethod
+  def PrintCounts(cls):
+    countsStr = ""
+    for k, v in sorted(History._counts.items(), reverse=True, key=lambda x: x[1]):
+      countsStr += '\t%5d\t%s' % (v, k) + "\n"
+    return countsStr
+
+  @classmethod
+  def ObjectHistory(cls, hid, print_depth=0, max_depth=5):
+    objHistoryStr = ""
+    try:
+      details = History._object_details[hid]
+    except:
+      return
+
+    objHistoryStr += '*    ' * print_depth, '[%d]\t%s\t%s' % (hid, details['cls'], details['l']) + "\n"
+    if print_depth >= max_depth:
+      return
+    if 'p' in details:
+      for parent in details['p']:
+        cls.ObjectHistory(parent, print_depth=print_depth+1, max_depth=max_depth)
 
 class InteractionHistoryMethods(object):
   """Interactive methods for exploring the contents stored in history.

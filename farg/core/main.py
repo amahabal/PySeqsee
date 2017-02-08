@@ -14,7 +14,7 @@
 """Base class for entry point of each application."""
 
 from farg.core.controller import Controller
-from farg.core.history import History, EventType, InteractionHistoryMethods
+from farg.core.history import History, EventType, InteractionHistoryMethods, GUIHistoryMethods
 from farg.core.run_mode import batch, gui, single, sxs
 from farg.core.stopping_conditions import StoppingConditions
 from farg.core.ui.batch_ui import BatchUI
@@ -251,6 +251,7 @@ class Main:
     self.run_mode.Run()
     if farg_flags.FargFlags.history:
       if farg_flags.FargFlags.history_interactive:
+        GUIHistoryMethods.gui()
         import code
         code.interact(local=dict(help='Type i.help() for help',
                                  i=InteractionHistoryMethods,
