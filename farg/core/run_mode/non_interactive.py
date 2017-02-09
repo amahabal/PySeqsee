@@ -28,7 +28,7 @@ from tkinter.constants import BOTH, END, LEFT, N, NW, RIGHT, SINGLE, TOP, VERTIC
 import subprocess
 import sys
 import threading
-import farg_flags
+import farg.flags as farg_flags
 
 class RunMultipleTimes(threading.Thread, metaclass=ABCMeta):
   """Class to run the application several times on a set of inputs.

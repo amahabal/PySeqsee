@@ -15,7 +15,7 @@ from farg.apps.seqsee.util import GreaterThan, LessThan
 from farg.core.util import SelectWeightedByActivation
 from farg.core.codelet import Codelet
 from farg.core.focusable_mixin import FocusableMixin
-import farg_flags
+import farg.flags as farg_flags
 from farg.core.history import History, ObjectType
 
 """A relation is a specific instance of a mapping."""

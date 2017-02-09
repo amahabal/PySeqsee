@@ -51,7 +51,7 @@ This is how the BongardController class currently looks::
       
 We will make a couple of changes for now. First, we will make the flags accessible from this file::
 
-  import farg_flags
+  import farg.flags as farg_flags
   
 And we will update the workspace with the relevant inputs::
 

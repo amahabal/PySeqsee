@@ -12,7 +12,7 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.core.ltm.manager import LTMManager
-import farg_flags
+import farg.flags as farg_flags
 
 class BatchUI:
   def __init__(self, *, controller_class, stopping_condition_fn=None):

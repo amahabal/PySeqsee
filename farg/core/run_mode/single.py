@@ -15,7 +15,7 @@ from farg.core.exceptions import BatchModeStopException, FargError, FargExceptio
 from farg.core.run_mode.non_interactive import RunModeNonInteractive
 from io import StringIO
 import sys
-import farg_flags
+import farg.flags as farg_flags
 
 
 class RunModeSingle(RunModeNonInteractive):

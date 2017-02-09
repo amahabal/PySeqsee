@@ -17,7 +17,7 @@ This is a canvas that can hold multiple views (such as Coderack view, Workspace 
 
 Each view is an instance of a subclass of :py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.
 """
-import farg_flags
+import farg.flags as farg_flags
 import sys
 from tkinter import ALL, Canvas, Menu
 

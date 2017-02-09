@@ -14,12 +14,10 @@
 """Manages the set of LTMs."""
 
 import logging
+import os.path
 
 from farg.core.ltm.graph import LTMGraph
-import os.path
-import sys
-
-import farg_flags
+import farg.flags as farg_flags
 
 kLogger = logging.getLogger("LTM")
 

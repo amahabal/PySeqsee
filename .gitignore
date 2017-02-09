@@ -14,3 +14,4 @@ seqsee.main
 *~
 build
 *.egg-info
+.vscode/

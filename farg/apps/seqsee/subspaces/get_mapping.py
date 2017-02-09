@@ -23,7 +23,7 @@ import random
 
 from farg.apps.seqsee.sobject import SGroup
 import sys
-import farg_flags
+import farg.flags as farg_flags
 
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
 

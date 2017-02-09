@@ -23,7 +23,7 @@ import logging
 import logging.config
 import os.path
 import sys
-import farg_flags
+import farg.flags as farg_flags
 
 class Main:
   """The Base class for the Main class of an application.

@@ -5,7 +5,7 @@ from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.manager import LTMManager
 import sys
 
-import farg_flags
+import farg.flags as farg_flags
 
 kLTMName = 'bongard.main'
 

@@ -14,7 +14,7 @@
 from farg.core.run_mode.non_interactive import (RunModeNonInteractive, RunMultipleTimes,
                                                 MultipleRunGUI)
 import sys
-import farg_flags
+import farg.flags as farg_flags
 
 class SxSRunMultipleTimes(RunMultipleTimes):
   """Multiple-runner specialized for SxS."""

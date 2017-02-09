@@ -7,7 +7,7 @@ from farg.apps.bongard.read_input_spec import BongardReadInputSpec
 from farg.apps.bongard.stopping_conditions import BongardStoppingConditions
 from farg.core.main import Main
 import sys
-import farg_flags
+import farg.flags as farg_flags
 
 bongard_parser = argparse.ArgumentParser(parents=[farg_flags.core_parser])
 # Flags for specifying the input and, for use in testing, expected output.

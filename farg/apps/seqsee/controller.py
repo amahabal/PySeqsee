@@ -20,7 +20,7 @@ from farg.core.ltm.manager import LTMManager
 import logging
 import sys
 
-import farg_flags
+import farg.flags as farg_flags
 
 kLTMName = 'seqsee.main'
 

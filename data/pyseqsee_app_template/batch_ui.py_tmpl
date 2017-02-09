@@ -13,7 +13,7 @@ order to automatically answer questions such as the one above.).
 from farg.core.ui.batch_ui import BatchUI
 
 # If you need access to flags, you need:
-# import farg_flags
+# import farg.flags as farg_flags
 # # The flag --foo is available at farg_flags.FargFlags.foo
 
 class {application_class}BatchUI(BatchUI):

@@ -19,7 +19,7 @@ from farg.apps.seqsee.gui.gui import SeqseeGUI
 from farg.apps.seqsee.read_input_spec import SeqseeReadInputSpec
 from farg.apps.seqsee.stopping_conditions import SeqseeStoppingConditions
 from farg.core.main import Main
-import farg_flags
+import farg.flags as farg_flags
 import sys
 
 seqsee_parser = argparse.ArgumentParser(parents=[farg_flags.core_parser])

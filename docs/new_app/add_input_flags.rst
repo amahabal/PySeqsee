@@ -46,7 +46,7 @@ Accessing flags from other files
 These flags will be needed in other parts of the app. In any file needing them, add the following
 lines::
 
-  import farg_flags
+  import farg.flags as farg_flags
 
   # later...
   farg_flags.FargFlags.left

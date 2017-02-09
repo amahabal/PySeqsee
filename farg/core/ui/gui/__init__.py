@@ -22,7 +22,7 @@ from tkinter.constants import LEFT
 from tkinter.messagebox import askyesno, showinfo
 import logging
 import threading
-import farg_flags
+import farg.flags as farg_flags
 
 class RunForNSteps(threading.Thread):
   """Runs controller for up to n steps.

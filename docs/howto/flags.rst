@@ -11,7 +11,7 @@ Where the flags are defined
 Core flags are defined in 'farg_flags.py', which defines the flags parser called 'core_parser'. The
 entry point for each app extends this. Currently, in Seqsee (run_seqsee.py), we see::
 
-  import farg_flags
+  import farg.flags as farg_flags
   seqsee_parser = argparse.ArgumentParser(parents=[farg_flags.core_parser])
   seqsee_parser.add_argument('--sequence', type=int, nargs='*')
 
@@ -39,7 +39,7 @@ The entry point of apps
 To summerize, here are the relevant bits of the Seqsee app's entry point::
 
   import argparse
-  import farg_flags
+  import farg.flags as farg_flags
   from farg.core.main import Main
   
   seqsee_parser = argparse.ArgumentParser(parents=[farg_flags.core_parser])
@@ -64,7 +64,7 @@ Where the flags get stored
 Flags, after processing, end up both in Main.flags and farg_flags.FargFlags. Other modules will use
 this latter route for accessing. A module may say::
 
-  import farg_flags
+  import farg.flags as farg_flags
   if farg_flags.FargFlags.use_stored_ltm:
     Do something
 
