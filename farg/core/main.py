@@ -251,7 +251,7 @@ class Main:
     self.run_mode.Run()
     if farg_flags.FargFlags.history:
       if farg_flags.FargFlags.history_interactive:
-        GUIHistoryMethods.gui()
+        print(farg_flags.FargFlags.history_gui)
         import code
         code.interact(local=dict(help='Type i.help() for help',
                                  i=InteractionHistoryMethods,
@@ -260,5 +260,7 @@ class Main:
                                  e=InteractionHistoryMethods.EventsForItem,
                                  c=InteractionHistoryMethods.PrintCounts,
                                  h=InteractionHistoryMethods.ObjectHistory))
+      if farg_flags.FargFlags.history_gui:
+        GUIHistoryMethods.gui()
       else:
         History.Print()

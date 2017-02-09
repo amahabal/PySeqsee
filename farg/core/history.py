@@ -129,65 +129,62 @@ class GUIHistoryMethods(object):
 
     historyNB = ttk.Notebook(root)
 
+    #####CREATE SUMMARY FRAME#####
     summaryFrame = ttk.Frame(root, name="summary")
     summaryLbl = ttk.Label(summaryFrame, wraplength='4i', justify=LEFT, anchor=NW,
     text=cls.Summary())
     summaryLbl.pack()
-    historyNB.add(summaryFrame, text='Summary', underline=0, padding=2)
 
+    #####CREATE OBJECT COUNTS FRAME#####
     countsFrame = ttk.Frame(root, name="counts")
     countsLbl = ttk.Label(countsFrame, wraplength='4i', justify=LEFT, anchor=NW,
     text=cls.PrintCounts())
     countsLbl.pack()
-    historyNB.add(countsFrame, text='Counters', underline=0, padding=2)
+   
+    #####CREATE OBJECT HISTORY FRAME#####
+    objHistFrame = ttk.Frame(root, name="history")
 
-    cls.AddEventsPane(root, historyNB)
-    cls.AddObjHistoryPane(root, historyNB)
+    HID = ttk.Label(objHistFrame, text="HID: ")
+    HID.pack()
 
-    historyNB.pack(fill=BOTH)
-    root.mainloop()
-  
-  @classmethod
-  def AddEventsPane(cls, root, historyNB):
+    histHIDInput = ttk.Entry(objHistFrame)
+    histHIDInput.focus_set()
+    histHIDInput.pack()
+
+    objHistoryLbl = ttk.Label(objHistFrame, wraplength='4i', justify=LEFT, anchor=NW,
+    text="")
+
+    submit = Button(objHistFrame, text="Get Ancestry", width=10, command=lambda: objHistoryLbl.config(text=cls.EventsForItem(histHIDInput.get())))
+
+    submit.pack()
+    objHistoryLbl.pack()
+
+    #####CREATE EVENTS NOTEBOOK TAB#####
     eventsFrame = ttk.Frame(root, name="events")
 
     HID = ttk.Label(eventsFrame, text="HID: ")
     HID.pack()
 
-    HIDInput = ttk.Entry(eventsFrame)
-    HIDInput.focus_set()
-    HIDInput.pack()
+    eventsHIDInput = ttk.Entry(eventsFrame)
+    eventsHIDInput.focus_set()
+    eventsHIDInput.pack()
 
     eventsLbl = ttk.Label(eventsFrame, wraplength='4i', justify=LEFT, anchor=NW,
     text="")
-
-    submit = Button(eventsFrame, text="Get Events", width=10, command=lambda: eventsLbl.config(text=cls.EventsForItem(HIDInput.get())))
+ 
+    submit = Button(eventsFrame, text="Get Events", width=10, command=lambda: eventsLbl.config(text=cls.EventsForItem(eventsHIDInput.get())))
 
     submit.pack()
     eventsLbl.pack()
 
-    historyNB.add(eventsFrame, text="Events For HID", underline=0, padding=2)
-
-  @classmethod
-  def AddObjHistoryPane(cls, root, historyNB):
-    objHistFrame = ttk.Frame(root, name="events")
-
-    HID = ttk.Label(objHistFrame, text="HID: ")
-    HID.pack()
-
-    HIDInput = ttk.Entry(objHistFrame)
-    HIDInput.focus_set()
-    HIDInput.pack()
-
-    objHistoryLbl = ttk.Label(objHistFrame, wraplength='4i', justify=LEFT, anchor=NW,
-    text="")
-
-    submit = Button(objHistFrame, text="Get Ancestry", width=10, command=lambda: objHistoryLblLbl.config(text=cls.EventsForItem(HIDInput.get())))
-
-    submit.pack()
-    objHistoryLbl.pack()
-
-    historyNB.add(objHistFrame, text="Ancestry For HID", underline=0, padding=2)
+    #####ADD FRAMES TO NOTEBOOK#####
+    historyNB.add(summaryFrame, text='Summary', underline=0, padding=2)
+    historyNB.add(countsFrame, text='Counters', underline=0, padding=2)
+    historyNB.add(eventsFrame, text="Object Events", underline=0, padding=2)
+    historyNB.add(objHistFrame, text="Object History", underline=0, padding=2)
+    
+    historyNB.pack(fill=BOTH)
+    root.mainloop()
     
   @classmethod
   def GroupObjectsByClass(cls):
@@ -230,10 +227,11 @@ class GUIHistoryMethods(object):
   @classmethod
   def EventsForItem(cls, hid):
     eventsStr = ""
+    hid=int(hid)
     obj_by_cls = sorted(cls.GroupObjectEventsByClass(hid).items(), reverse=True, key=lambda x: len(x[1]))
     for k, v in obj_by_cls:
       eventsStr += "\t%5d\t%s" % (len(v), k) + "\n"
-      eventsStr += str("\t\t", '; '.join(str(x) for x in v[:10])) + "\n"
+      eventsStr += "\t\t" + '; '.join(str(x) for x in v[:10]) + "\n"
     return eventsStr
 
   @classmethod
@@ -245,6 +243,7 @@ class GUIHistoryMethods(object):
 
   @classmethod
   def ObjectHistory(cls, hid, print_depth=0, max_depth=5):
+    hid=int(hid)
     objHistoryStr = ""
     try:
       details = History._object_details[hid]
