@@ -125,6 +125,16 @@ class TestRepeatedIntegerCategory(unittest.TestCase):
     logic = o1.DescribeAs(c1)
     self.assertTrue(logic.Attributes()['magnitude'].IsKnownAsInstanceOf(CategoryPrime()))
 
+  def test_affordance(self):
+    """What codelets does this suggest? It can own the relevant codelet families...
+
+    This test is currently very speculative, as I try to firm up the interface a bit."""
+    c1 = C.RepeatedIntegerCategory()
+    o1 = PSObjectFromStructure((7, 7))
+    self.assertTrue(o1.DescribeAs(c1))
+
+    affordances = c1.GetAffordanceForInstance(o1)
+    self.assertTrue(affordances)  # This is currently fake...
 
   # This group *can* be extended... the affordance should indicate that.
 
