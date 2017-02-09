@@ -17,5 +17,8 @@ def CategoryTester(*, positive, negative):
   return Tester
 
 def CategoryLogicTester(*, test, item, cat, tester):
+  """Describes item as cat, and checks that logic passes the checks posed by tester.
+  
+  tester is a function that takes the test and logic as the arguments."""
   logic = item.DescribeAs(cat)
   tester(test, logic)

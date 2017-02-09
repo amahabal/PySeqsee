@@ -6,6 +6,14 @@ from farg.apps.pyseqsee.categorization.numeric import CategoryEvenInteger, Categ
 from farg.apps.pyseqsee.tests.utils import CategoryTester, CategoryLogicTester
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
 
+def StructureTester(**structure_dict):
+  """Checks that the structure of attributes in logic matches those in structure_dict."""
+  def tester(test, logic):
+    attributes = logic.Attributes()
+    for k, v in structure_dict.items():
+      test.assertEqual(v, attributes[k].Structure())
+  return tester
+
 class TestCategoryAnyObject(unittest.TestCase):
   """Test the simplest category of all: any group or element whatsoever is an instance."""
 
@@ -13,10 +21,6 @@ class TestCategoryAnyObject(unittest.TestCase):
     c1 = C.CategoryAnyObject()
     c2 = C.CategoryAnyObject()
     self.assertEqual(c1, c2, "CategoryAnyObject is memoized")
-
-    tester = CategoryTester(
-      positive=(),
-      negative=())
 
     tester = CategoryTester(
       positive=( (2, 7), ),
@@ -52,15 +56,10 @@ class TestCategoryPrime(unittest.TestCase):
                  ()))
     tester(self, c1)
 
-    def logic_tester(test, logic):
-      test.assertTrue(logic)
-      attributes = logic.Attributes()
-      test.assertEqual(3, attributes['index'].magnitude)
-
     CategoryLogicTester(test=self,
                        item=PSObjectFromStructure(7),
                        cat=c1,
-                       tester=logic_tester)
+                       tester=StructureTester(index=3))
 
     # It seems wrong to always return an index. Most times, when we recognize that something is a
     # prime, we do not know what its index is. We need a way to add those things on demand later,
@@ -111,22 +110,14 @@ class TestRepeatedIntegerCategory(unittest.TestCase):
                  (2, 3)))
     tester(self, c1)
 
-    def logic_tester(mag, length):
-      def impl(test, logic):
-        test.assertTrue(logic)
-        attributes = logic.Attributes()
-        test.assertEqual(mag, attributes['magnitude'].magnitude)
-        test.assertEqual(length, attributes['length'].magnitude)
-      return impl
-
     CategoryLogicTester(test=self,
                        item=PSObjectFromStructure((7, )),
                        cat=c1,
-                       tester=logic_tester(7, 1))
+                       tester=StructureTester(magnitude=7, length=1))
     CategoryLogicTester(test=self,
                        item=PSObjectFromStructure((8, 8, 8)),
                        cat=c1,
-                       tester=logic_tester(8, 3))
+                       tester=StructureTester(magnitude=8, length=3))
 
     # This group *can* be extended... the affordance should indicate that.
 
@@ -144,62 +135,44 @@ class TestBasicSuccessorCategory(unittest.TestCase):
                  (2, 3, 4, 6)))
     tester(self, c1)
 
-    def logic_tester(start, end, length):
-      def impl(test, logic):
-        test.assertTrue(logic)
-        attributes = logic.Attributes()
-        if start is not None:
-          test.assertEqual(start, attributes['start'].magnitude)
-        if end is not None:
-          test.assertEqual(end, attributes['end'].magnitude)
-        test.assertEqual(length, attributes['length'].magnitude)
-      return impl
-
     CategoryLogicTester(test=self,
                        item=PSObjectFromStructure((7, )),
                        cat=c1,
-                       tester=logic_tester(7, 7, 1))
+                       tester=StructureTester(start=7, end=7, length=1))
     CategoryLogicTester(test=self,
                        item=PSObjectFromStructure((8, 9, 10)),
                        cat=c1,
-                       tester=logic_tester(8, 10, 3))
+                       tester=StructureTester(start=8, end=10, length=3))
     CategoryLogicTester(test=self,
                        item=PSObjectFromStructure(()),
                        cat=c1,
-                       tester=logic_tester(None, None, 0))
+                       tester=StructureTester(length=0))
 
 class TestBasicPredecessorCategory(unittest.TestCase):
   def test_creation(self):
     c1 = C.BasicPredecessorCategory()
-    arena = PSArena(magnitudes=(5, 4, 3, 1))
-    just_int = arena.element[0]
-    empty_gp = PSGroup(items=())
-    singleton_gp = PSGroup(items=(arena.element[0], ))
-    longer_gp = PSGroup(items=arena.element[0:3])
-    mixed_gp = PSGroup(items=arena.element[0:4])
+    tester = CategoryTester(
+      positive=( (3, 2),
+                 (2, ),
+                 () ),
+      negative=( 9,
+                 2,
+                 (2, 2),
+                 (6, 5, 4, 2)))
+    tester(self, c1)
 
-    self.assertFalse(just_int.DescribeAs(c1))
-    self.assertFalse(mixed_gp.DescribeAs(c1))
-
-    logic = singleton_gp.DescribeAs(c1)
-    self.assertTrue(logic)
-    logic2 = longer_gp.DescribeAs(c1)
-    self.assertTrue(logic2)
-    logic3 = empty_gp.DescribeAs(c1)
-    self.assertTrue(logic3)
-
-    attributes = logic.Attributes()
-    self.assertEqual(5, attributes['start'].magnitude)
-    self.assertEqual(5, attributes['end'].magnitude)
-    self.assertEqual(1, attributes['length'].magnitude)
-
-    attributes = logic2.Attributes()
-    self.assertEqual(5, attributes['start'].magnitude)
-    self.assertEqual(3, attributes['end'].magnitude)
-    self.assertEqual(3, attributes['length'].magnitude)
-
-    attributes = logic3.Attributes()
-    self.assertEqual(0, attributes['length'].magnitude)
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure((7, )),
+                       cat=c1,
+                       tester=StructureTester(start=7, end=7, length=1))
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure((8, 7, 6)),
+                       cat=c1,
+                       tester=StructureTester(start=8, end=6, length=3))
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure(()),
+                       cat=c1,
+                       tester=StructureTester(length=0))
 
 class TestCompoundCategory(unittest.TestCase):
   """Tests the category defined in terms of another category's logic."""
@@ -228,34 +201,40 @@ class TestCompoundCategory(unittest.TestCase):
                                                   ('start', C.BasicSuccessorCategory())))
     self.assertNotEqual(c1, c3, "Different categories")
 
-    arena1 = PSArena(magnitudes=(7, 7, 8, 7, 8, 9, 7, 8, 9, 10))
-    arena2 = PSArena(magnitudes=(7, 8, 9, 8, 9, 10, 9, 10, 11))
 
-    # Set up the group ((7), (7, 8), (7, 8, 9))
-    gp_1_1 = PSGroup(items=arena1.element[0:1])
-    gp_1_2 = PSGroup(items=arena1.element[1:3])
-    gp_1_3 = PSGroup(items=arena1.element[3:6])
-    gp_1 = PSGroup(items=(gp_1_1, gp_1_2, gp_1_3))
+    tester = CategoryTester(
+      positive=( ((2, 3), (2, 3, 4), (2, 3, 4, 5)),
+                 ((2, 3),),
+                 ((2, ),),
+                 () ),
+      negative=( 9,
+                 2,
+                 (2, 3),
+                 ((2, 3), (3, 4)),
+                 ((2, 3), (2, 3, 4), (2, 3, 4, 5, 6))))
+    tester(self, c1)
 
-    # Set up the group ((7, 8, 9), (8, 9, 10), (9, 10, 11))
-    gp_2_1 = PSGroup(items=arena2.element[0:3])
-    gp_2_2 = PSGroup(items=arena2.element[3:6])
-    gp_2_3 = PSGroup(items=arena2.element[6:9])
-    gp_2 = PSGroup(items=(gp_2_1, gp_2_2, gp_2_3))
+    tester = CategoryTester(
+      positive=( ((2, 3), (3, 4), (4, 5)),
+                 ((2, 3),),
+                 ((2, ),),
+                 () ),
+      negative=( 9,
+                 2,
+                 (2, 3),
+                 ((2, 3), (2, 3, 4)),
+                 ((2, 3), (2, 3, 4), (2, 3, 4, 5, 6))))
+    tester(self, c3)
 
-    self.assertFalse(gp_1.DescribeAs(c3), "gp1 is not a c3")
-    self.assertFalse(gp_2.DescribeAs(c1), "gp2 is not a c1")
-
-    logic1 = gp_1.DescribeAs(c1)
-    self.assertTrue(logic1)
-    attributes = logic1.Attributes()
-    self.assertEqual(3, attributes['length'].magnitude)
-    self.assertEqual((7,), attributes['start'].Structure())
-    self.assertEqual((7, 8, 9), attributes['end'].Structure())
-
-    logic2 = gp_2.DescribeAs(c3)
-    self.assertTrue(logic2)
-    attributes = logic2.Attributes()
-    self.assertEqual(3, attributes['length'].magnitude)
-    self.assertEqual((7, 8, 9), attributes['start'].Structure())
-    self.assertEqual((9, 10, 11), attributes['end'].Structure())
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure(((7, ), )),
+                       cat=c1,
+                       tester=StructureTester(start=(7, ), end=(7, ), length=1))
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure(((7, 8), (7, 8, 9), (7, 8, 9, 10))),
+                       cat=c1,
+                       tester=StructureTester(start=(7, 8), end=(7, 8, 9, 10), length=3))
+    CategoryLogicTester(test=self,
+                       item=PSObjectFromStructure(()),
+                       cat=c1,
+                       tester=StructureTester(length=0))
