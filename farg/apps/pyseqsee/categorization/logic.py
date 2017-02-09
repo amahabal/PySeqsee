@@ -9,15 +9,15 @@ class InstanceLogic(object):
   """
 
   def __init__(self, *, attributes=dict()):
-    self.attributes = attributes
+    self._attributes = attributes
 
   def Attributes(self):
-    return self.attributes
+    return self._attributes
 
   def HasAttribute(self, *, attribute):
-    return attribute in self.attributes
+    return attribute in self._attributes
 
   def GetAttributeOrNone(self, *, attribute):
-    if attribute in self.attributes:
-      return self.attributes[attribute]
+    if attribute in self._attributes:
+      return self._attributes[attribute]
     return None

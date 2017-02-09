@@ -50,6 +50,9 @@ class MultiPartCategory(PyCategory):
 class RepeatedIntegerCategory(PyCategory):
   """Category of items such as (3, 3, 3, 3)."""
 
+  def BriefLabel(self):
+    return "RepeatedIntegerCategory"
+
   def IsInstance(self, item):
     if not isinstance(item, PSGroup):
       return None
@@ -65,9 +68,8 @@ class RepeatedIntegerCategory(PyCategory):
     return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
                                          magnitude=PSElement(magnitude=magnitude)))
 
-  def BriefLabel(self):
-    return "RepeatedIntegerCategory"
-
+  def GetAffordanceForInstance(self, instance):
+    return 1  # Fake, replace with something realer...
 
 class BasicSuccessorCategory(PyCategory):
   """Category of items such as (2, 3, 4)"""

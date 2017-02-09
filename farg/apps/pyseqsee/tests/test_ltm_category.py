@@ -8,28 +8,7 @@ from farg.core.ltm.graph import LTMGraph
 from farg.apps.pyseqsee.categorization.numeric import CategoryEvenInteger, CategoryPrime
 from farg.apps.pyseqsee.categorization import categories as C
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
-
-def PSObjectFromStructure(structure):
-  if isinstance(structure, int):
-    return PSElement(magnitude=structure)
-  assert(isinstance(structure, tuple))
-  parts = [PSObjectFromStructure(x) for x in structure]
-  return PSGroup(items=parts)
-
-def CategoryTester(*, positive, negative):
-  """Given two lists of structures, returns a 2-argument function (with a category as the second arg)
-     that tests each of these structures for the category.
-  """
-  def Tester(test, category):
-    for p in positive:
-      obj = PSObjectFromStructure(p)
-      test.assertTrue(obj.DescribeAs(category), "Describing %s as %s" % (obj.Structure(),
-                                                                         category.BriefLabel()))
-    for n in negative:
-      obj = PSObjectFromStructure(n)
-      test.assertFalse(obj.DescribeAs(category), "Describing %s as %s" % (obj.Structure(),
-                                                                          category.BriefLabel()))
-  return Tester
+from farg.apps.pyseqsee.tests.utils import CategoryTester
 
 class LTMTestBase(unittest.TestCase):
 
