@@ -22,3 +22,11 @@ def CategoryLogicTester(*, test, item, cat, tester):
   tester is a function that takes the test and logic as the arguments."""
   logic = item.DescribeAs(cat)
   tester(test, logic)
+
+def StructureTester(**structure_dict):
+  """Creates a logic tester that checks that the structure of attributes in logic."""
+  def tester(test, logic):
+    attributes = logic.Attributes()
+    for k, v in structure_dict.items():
+      test.assertEqual(v, attributes[k].Structure())
+  return tester

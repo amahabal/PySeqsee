@@ -3,21 +3,13 @@ from farg.apps.pyseqsee.arena import PSArena
 from farg.apps.pyseqsee.categorization import categories as C
 from farg.apps.pyseqsee.objects import PSGroup
 from farg.apps.pyseqsee.categorization.numeric import CategoryEvenInteger, CategoryPrime
-from farg.apps.pyseqsee.tests.utils import CategoryTester, CategoryLogicTester
+from farg.apps.pyseqsee.tests.utils import CategoryTester, CategoryLogicTester, StructureTester
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
-
-def StructureTester(**structure_dict):
-  """Checks that the structure of attributes in logic matches those in structure_dict."""
-  def tester(test, logic):
-    attributes = logic.Attributes()
-    for k, v in structure_dict.items():
-      test.assertEqual(v, attributes[k].Structure())
-  return tester
 
 class TestCategoryAnyObject(unittest.TestCase):
   """Test the simplest category of all: any group or element whatsoever is an instance."""
 
-  def test_creation(self):
+  def test_instancehood(self):
     c1 = C.CategoryAnyObject()
     c2 = C.CategoryAnyObject()
     self.assertEqual(c1, c2, "CategoryAnyObject is memoized")
@@ -33,7 +25,7 @@ class TestCategoryAnyObject(unittest.TestCase):
     # category would do no such thing.
 
 class TestCategoryEvenInteger(unittest.TestCase):
-  def test_creation(self):
+  def test_instancehood(self):
     c1 = CategoryEvenInteger()
     tester = CategoryTester(
       positive=( 2, ),
@@ -47,7 +39,7 @@ class TestCategoryEvenInteger(unittest.TestCase):
     # should come from.
 
 class TestCategoryPrime(unittest.TestCase):
-  def test_creation(self):
+  def test_instancehood(self):
     c1 = CategoryPrime()
     tester = CategoryTester(
       positive=( 2, ),
@@ -70,7 +62,7 @@ class TestCategoryPrime(unittest.TestCase):
 class TestMultipartCategory(unittest.TestCase):
   """Here we test the 2-part category where the first part is 3, the other part is a number."""
 
-  def test_creation(self):
+  def test_instancehood(self):
     self.assertRaises(C.BadCategorySpec,
                       C.MultiPartCategory,
                       parts_count=0, part_categories=None)
@@ -98,7 +90,7 @@ class TestMultipartCategory(unittest.TestCase):
     # Plus, this would be a prime case for multiple logics for instancehood...
 
 class TestRepeatedIntegerCategory(unittest.TestCase):
-  def test_creation(self):
+  def test_instancehood(self):
     c1 = C.RepeatedIntegerCategory()
 
     tester = CategoryTester(
@@ -119,10 +111,25 @@ class TestRepeatedIntegerCategory(unittest.TestCase):
                        cat=c1,
                        tester=StructureTester(magnitude=8, length=3))
 
-    # This group *can* be extended... the affordance should indicate that.
+  def test_categories_on_logic(self):
+    c1 = C.RepeatedIntegerCategory()
+    o1 = PSObjectFromStructure((7, 7))
+    self.assertTrue(o1.DescribeAs(c1))
+    self.assertTrue(o1.IsKnownAsInstanceOf(c1))
+
+    logic = o1.DescribeAs(c1)
+    logic.Attributes()['magnitude'].DescribeAs(CategoryPrime())
+    self.assertTrue(logic.Attributes()['magnitude'].IsKnownAsInstanceOf(CategoryPrime()))
+
+    # Get it again, see that the inner categorization has "stuck".
+    logic = o1.DescribeAs(c1)
+    self.assertTrue(logic.Attributes()['magnitude'].IsKnownAsInstanceOf(CategoryPrime()))
+
+
+  # This group *can* be extended... the affordance should indicate that.
 
 class TestBasicSuccessorCategory(unittest.TestCase):
-  def test_creation(self):
+  def test_instancehood(self):
     c1 = C.BasicSuccessorCategory()
 
     tester = CategoryTester(
@@ -149,7 +156,7 @@ class TestBasicSuccessorCategory(unittest.TestCase):
                        tester=StructureTester(length=0))
 
 class TestBasicPredecessorCategory(unittest.TestCase):
-  def test_creation(self):
+  def test_instancehood(self):
     c1 = C.BasicPredecessorCategory()
     tester = CategoryTester(
       positive=( (3, 2),
@@ -176,7 +183,7 @@ class TestBasicPredecessorCategory(unittest.TestCase):
 
 class TestCompoundCategory(unittest.TestCase):
   """Tests the category defined in terms of another category's logic."""
-  def test_creation(self):
+  def test_instancehood(self):
     c1 = C.CompoundCategory(base_category=C.BasicSuccessorCategory(),
                             attribute_categories=(('end', C.BasicSuccessorCategory()),
                                                   ('length', C.BasicSuccessorCategory()),
