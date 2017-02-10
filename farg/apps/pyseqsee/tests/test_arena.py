@@ -1,6 +1,6 @@
 import unittest
 from farg.apps.pyseqsee.arena import PSArena, ElementBeyondKnownSoughtException,\
-  CannotInsertGroupWithoutSpans
+  CannotInsertGroupWithoutSpans, UnmergableObjectException, ElementWayBeyondKnownSoughtException
 from farg.apps.pyseqsee.objects import PSGroup, PSElement
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.apps.pyseqsee.categorization.numeric import CategoryPrime
@@ -68,6 +68,19 @@ class TestPSArena(unittest.TestCase):
     self.assertEqual(inserted_gp.items[0], arena.GetObjectsWithSpan((5,6))[(5, 6)])
     self.assertEqual(inserted_gp.items[1], arena.GetObjectsWithSpan((7, 8))[(7, 8)])
     self.assertTrue(arena.element[5].IsKnownAsInstanceOf(CategoryPrime()))
+
+    gp_10_11 = PSObjectFromStructure( (10, 11) )
+    gp_10_11.SetSpanStart(2)
+    self.assertRaises(UnmergableObjectException, arena.MergeObject, gp_10_11)
+
+    gp_11_12 = PSObjectFromStructure( (11, 12) )
+    gp_11_12.SetSpanStart(11)
+    self.assertRaises(ElementWayBeyondKnownSoughtException, arena.MergeObject, gp_11_12)
+
+    gp_9_10_11 = PSObjectFromStructure( (9, (10, 11)) )
+    gp_9_10_11.SetSpanStart(9)
+    arena.MergeObject(gp_9_10_11)
+    self.assertEqual(12, arena.Size())
 
   def test_group_insertion_deeper(self):
     """Make sure deeper features of the logic get copied."""

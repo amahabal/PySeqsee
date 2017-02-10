@@ -5,9 +5,34 @@ from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from _collections import defaultdict
 
 class ElementBeyondKnownSoughtException(Exception):
+  """Raised when checking for elements beyond the known range.
+
+  Caller of the relevant code (i.e., of CheckTerms) can ask a question of the user at this point,
+  if appropriate.
+  """
+  pass
+
+class ElementWayBeyondKnownSoughtException(Exception):
+  """Raised when checking for elements way beyond the known range.
+
+  If we know the first 10 elements, but are checking what the 70th is, that is probably a bug
+  somewhere.
+  """
   pass
 
 class CannotInsertGroupWithoutSpans(Exception):
+  """To insert (i.e., merge) an object, we need to know where to merge it.
+
+  The object must have spans.
+  """
+  pass
+
+class UnmergableObjectException(Exception):
+  """Raised when attempting to merge an object that cannot be merged here.
+
+  This happens when the items present where merge is attempted are different. If you try to merge
+  the group (2, 3, 4), for instance, at a location that contains (5, 6, 7), this is raised.
+  """
   pass
 
 class PSArena(object):
@@ -40,8 +65,14 @@ class PSArena(object):
     self._next_index += len(magnitudes)
 
   def CheckTerms(self, *, start, magnitudes):
+    """Checks whether the terms present starting at 'start' are the magnitudes.
+
+    If asked about terms beyond the known range, raises ElementBeyondKnownSoughtException.
+    """
     for offset, mag in enumerate(magnitudes, start):
-      if offset >= self._next_index or offset < self._start:
+      if offset > self._next_index:
+        raise ElementWayBeyondKnownSoughtException()
+      if offset == self._next_index or offset < self._start:
         raise ElementBeyondKnownSoughtException()
       idx = offset - self._start
       if self.element[idx].magnitude != mag:
@@ -59,7 +90,15 @@ class PSArena(object):
     span = obj.Span()
     if not span:
       raise CannotInsertGroupWithoutSpans()
-    # TODO(amahabal): Check CheckTerms() returns true...
+    obj_flattened_mags = obj.FlattenedMagnitudes()
+    try:
+      if not self.CheckTerms(start=span[0], magnitudes=obj_flattened_mags):
+        raise UnmergableObjectException()
+    except ElementBeyondKnownSoughtException:
+      # If we get here, we are looking at elements just beyond the known. Let's insert these...
+      # How many known elements matched? _next_index - span[0]
+      self.Append(magnitudes=obj_flattened_mags[self._next_index - span[0]: ])
+
     if isinstance(obj, PSElement):
       element_here = self.element[span[0] - self._start]
       self._MergeObjectDetails(obj, element_here)

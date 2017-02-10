@@ -1,3 +1,5 @@
+from functools import reduce
+
 from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
 from farg.apps.pyseqsee.categorization.categorizable import Categorizable
 
@@ -26,12 +28,6 @@ class PlatonicObject(LTMNodeContent):
       return str(structure)
     assert(isinstance(structure, tuple))
     return '(' + ', '.join(cls._StructureToString(x) for x in structure) + ')'
-
-class GroupChangedException(Exception):
-  """Raised when a group changes in big ways that may impact other groups.
-
-  The caller of the relevant method must trap this, and take any follow up actions needed."""
-  pass
 
 class PSObject(LTMStorableMixin, Categorizable):
   """Represents an element or group in the workspace.
@@ -73,6 +69,9 @@ class PSElement(PSObject):
   def _CalculateSpanGivenStart(self, start):
     return ((self, (start, start)), )
 
+  def FlattenedMagnitudes(self):
+    return (self.magnitude, )
+
 class PSGroup(PSObject):
   """Represents a group, including the degenerate case of singleton or empty group.
 
@@ -88,22 +87,9 @@ class PSGroup(PSObject):
   def Structure(self):
     return tuple(x.Structure() for x in self.items)
 
-  # TODO: For both these structure-modifying methods, a bunch of effects have not been updated;
-  # Category memberships may no longer hold; Super groups may have their spans offset, and so forth.
-  # All these things should be gracefully handled...
-  def AddComponentBefore(self, component):
-    """Adds a component to the left, recalculating spans."""
-    self.items.insert(0, component)
-    self._span = None
-    self.InferSpans()
-    raise(GroupChangedException("Added item at start"))
+  def FlattenedMagnitudes(self):
+    return reduce(lambda x, y: x + y, (i.FlattenedMagnitudes() for i in self.items))
 
-  def AddComponentAfter(self, component):
-    """Adds a component to the left, recalculating spans."""
-    self.items.append(component)
-    self._span = None
-    self.InferSpans()
-    raise(GroupChangedException("Added item at end"))
 
   def HypotheticallyAddComponentBefore(self, component):
     new_gp = PSGroup(items=(component,)+tuple(self.items))
