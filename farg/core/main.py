@@ -14,7 +14,7 @@
 """Base class for entry point of each application."""
 
 from farg.core.controller import Controller
-from farg.core.history import History, EventType, InteractionHistoryMethods, GUIHistoryMethods
+from farg.core.history import History, EventType, InteractionHistoryMethods
 from farg.core.run_mode import batch, gui, single, sxs
 from farg.core.stopping_conditions import StoppingConditions
 from farg.core.ui.batch_ui import BatchUI
@@ -260,7 +260,5 @@ class Main:
                                  e=InteractionHistoryMethods.EventsForItem,
                                  c=InteractionHistoryMethods.PrintCounts,
                                  h=InteractionHistoryMethods.ObjectHistory))
-      if farg_flags.FargFlags.history_gui:
-        GUIHistoryMethods.gui()
       else:
         History.Print()
