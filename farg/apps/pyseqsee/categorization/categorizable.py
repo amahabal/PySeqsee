@@ -24,3 +24,10 @@ class Categorizable(object):
       self.categories[category] = logic
       return logic
     return None
+
+  def MergeCategoriesFrom(self, other):
+    for cat, logic in other.categories.items():
+      if cat in self.categories:
+        self.categories[cat].MergeLogic(logic)
+      else:
+        self.categories[cat] = logic

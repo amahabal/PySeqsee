@@ -21,3 +21,18 @@ class InstanceLogic(object):
     if attribute in self._attributes:
       return self._attributes[attribute]
     return None
+
+  def MergeLogic(self, other_logic):
+    # Check that the structures of attributes are equal where both present, and merge categories
+    # in.
+    other_attribues = other_logic._attributes
+    for k, v in self._attributes.items():
+      if k in other_attribues:
+        if v.Structure() != other_attribues[k].Structure():
+          return
+
+    for k, v in other_attribues.items():
+      if k in self._attributes:
+        self._attributes[k].MergeCategoriesFrom(v)
+      else:
+        self._attributes[k] = v

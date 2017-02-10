@@ -1,6 +1,9 @@
 import unittest
-from farg.apps.pyseqsee.arena import PSArena, ElementBeyondKnownSoughtException
+from farg.apps.pyseqsee.arena import PSArena, ElementBeyondKnownSoughtException,\
+  CannotInsertGroupWithoutSpans
 from farg.apps.pyseqsee.objects import PSGroup, PSElement
+from farg.apps.pyseqsee.utils import PSObjectFromStructure
+from farg.apps.pyseqsee.categorization.numeric import CategoryPrime
 
 
 class TestPSArena(unittest.TestCase):
@@ -41,3 +44,46 @@ class TestPSArena(unittest.TestCase):
     self.assertFalse(arena.CheckTerms(start=16, magnitudes=(1600, 1601)))
     self.assertRaises(ElementBeyondKnownSoughtException,
                       arena.CheckTerms, start=16, magnitudes=(160, 161))
+
+  def test_group_insertion(self):
+    arena = PSArena(magnitudes=range(10))
+
+    # Create a group with structure ((5, 6), (7, 8)), and add it to arena.
+    gp_56_78 = PSObjectFromStructure( ((5, 6), (7, 8)) )
+    gp_56_78.items[0].items[0].DescribeAs(CategoryPrime())
+    self.assertFalse(arena.element[5].IsKnownAsInstanceOf(CategoryPrime()))
+    # Cannot insert this without spans added... we won't know where it should go.
+    self.assertRaises(CannotInsertGroupWithoutSpans, arena.MergeObject, gp_56_78)
+
+    self.assertFalse(arena.GetObjectsWithSpan((5, 8)))
+
+    gp_56_78.SetSpanStart(5)
+    inserted_gp = arena.MergeObject(gp_56_78)
+    self.assertEqual((5, 8), inserted_gp.Span())
+
+    self.assertEqual(arena.element[5], inserted_gp.items[0].items[0])
+    self.assertEqual(arena.element[8], inserted_gp.items[1].items[1])
+
+    self.assertEqual(inserted_gp, arena.GetObjectsWithSpan((5,8))[((5, 6), (7, 8))])
+    self.assertEqual(inserted_gp.items[0], arena.GetObjectsWithSpan((5,6))[(5, 6)])
+    self.assertEqual(inserted_gp.items[1], arena.GetObjectsWithSpan((7, 8))[(7, 8)])
+    self.assertTrue(arena.element[5].IsKnownAsInstanceOf(CategoryPrime()))
+
+  def test_group_insertion_deeper(self):
+    """Make sure deeper features of the logic get copied."""
+
+    arena = PSArena(magnitudes=(7, ))
+    arena.element[0].DescribeAs(CategoryPrime())
+
+    elt = PSElement(magnitude=7)
+    logic = elt.DescribeAs(CategoryPrime())
+    inner_logic = logic.Attributes()['index'].DescribeAs(CategoryPrime())
+    self.assertEqual(1, inner_logic.Attributes()['index'].magnitude)
+
+    elt.SetSpanStart(0)
+    arena.MergeObject(elt)
+
+    self.assertTrue(arena.element[0].IsKnownAsInstanceOf(CategoryPrime()))
+    logic = arena.element[0].categories[CategoryPrime()]
+    self.assertTrue(logic.Attributes()['index'].IsKnownAsInstanceOf(CategoryPrime()))
+
