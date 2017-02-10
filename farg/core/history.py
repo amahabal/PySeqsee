@@ -28,11 +28,11 @@ class History(object):
   """
 
   _is_history_on = False
-  
+
   @classmethod
   def TurnOn(cls):
     cls._is_history_on = True
-  
+
   #: Next available hid (history id). Each "registered" object stores its h_id in the ._hid field.
   _next_hid = 0
   #: Next available event-id.
@@ -140,7 +140,7 @@ class GUIHistoryMethods(object):
     countsLbl = ttk.Label(countsFrame, wraplength='4i', justify=LEFT, anchor=NW,
     text=cls.PrintCounts())
     countsLbl.pack()
-   
+
     #####CREATE OBJECT HISTORY FRAME#####
     objHistFrame = ttk.Frame(root, name="history")
 
@@ -171,7 +171,7 @@ class GUIHistoryMethods(object):
 
     eventsLbl = ttk.Label(eventsFrame, wraplength='4i', justify=LEFT, anchor=NW,
     text="")
- 
+
     submit = Button(eventsFrame, text="Get Events", width=10, command=lambda: eventsLbl.config(text=cls.EventsForItem(eventsHIDInput.get())))
 
     submit.pack()
@@ -182,10 +182,10 @@ class GUIHistoryMethods(object):
     historyNB.add(countsFrame, text='Counters', underline=0, padding=2)
     historyNB.add(eventsFrame, text="Object Events", underline=0, padding=2)
     historyNB.add(objHistFrame, text="Object History", underline=0, padding=2)
-    
+
     historyNB.pack(fill=BOTH)
     root.mainloop()
-    
+
   @classmethod
   def GroupObjectsByClass(cls):
     """Groups objects by class.
