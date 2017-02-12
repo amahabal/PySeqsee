@@ -2,13 +2,16 @@ from functools import reduce
 
 from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
 from farg.apps.pyseqsee.categorization.categorizable import Categorizable
+from farg.apps.pyseqsee.utils import StructureToString
 
 
 class PlatonicObject(LTMNodeContent):
   """A stringified representation of a structure---i.e., of possibly nested tuples of integers.
 
-  PlatonicObject are cached, meaning that with the same constructor argument, we always get the same
-  object back.
+  We need PlatonicObjects mainly for storing in the LTM.
+
+  PlatonicObjects are cached, meaning that with the same constructor argument, we always get the
+  same object back.
   """
 
   def __init__(self, *, rep):
@@ -20,14 +23,8 @@ class PlatonicObject(LTMNodeContent):
     """Create a PlatonicObject. Structure can be an integer, or a tuple of structures.
 
     Note that (4,) is NOT the same as (((4,),),)."""
-    return cls(rep=cls._StructureToString(structure))
+    return cls(rep=StructureToString(structure))
 
-  @classmethod
-  def _StructureToString(cls, structure):
-    if isinstance(structure, int):
-      return str(structure)
-    assert(isinstance(structure, tuple))
-    return '(' + ', '.join(cls._StructureToString(x) for x in structure) + ')'
 
 class PSObject(LTMStorableMixin, Categorizable):
   """Represents an element or group in the workspace.
