@@ -2,8 +2,30 @@
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from farg.apps.pyseqsee.categorization.logic import InstanceLogic
 from farg.core.ltm.storable import LTMNodeContent
+from farg.apps.pyseqsee.utils import PSObjectFromStructure
+from farg.apps.pyseqsee.categorization.logic import AttributeInference as Inference
 
 class BadCategorySpec(Exception):
+  """Raised when the specification for creating a category is somehow wrong.
+
+  Note that this is different from the exception raised when creating instances of categories.
+  """
+  pass
+
+class InsufficientAttributesException(Exception):
+  """Raised when instance creation is attempted with insufficient attributes.
+
+  This could happen if we try to create an instance of BasicSuccessorCategory, but we only specify
+  the length.
+  """
+  pass
+
+class InconsistentAttributesException(Exception):
+  """Raised when instance creation is attempted with attributes that don't line up.
+
+  This could happen if we try to create an instance of BasicSuccessorCategory, but we specify that
+  it starts at 7, ands at 9, and has length 17.
+  """
   pass
 
 class PyCategory(LTMNodeContent):
@@ -90,6 +112,23 @@ class BasicSuccessorCategory(PyCategory):
     return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
                                          start=PSElement(magnitude=start),
                                          end=PSElement(magnitude=start+len(item.items)-1)))
+
+  def CreateInstance(self, **kwargs):
+    """TODO: this needs to be cleanly refactored, perhaps pulling out a CategoryLogic class..."""
+
+    rules = [Inference.Rule(target="end", expression="start.magnitude + length.magnitude - 1"),
+             Inference.Rule(target="start", expression="end.magnitude - length.magnitude + 1"),
+             Inference.Rule(target="length", expression="end.magnitude - start.magnitude + 1")]
+    inference = Inference(rules)
+    inference.RunInference(kwargs)
+    if not inference.CheckConsistency(kwargs):
+      raise InconsistentAttributesException()
+    if 'start' not in kwargs or 'end' not in kwargs or kwargs['start'] is None or kwargs['end'] is None:
+      raise InsufficientAttributesException()
+    return PSObjectFromStructure(tuple(range(kwargs['start'].magnitude,
+                                             kwargs['end'].magnitude + 1)))
+
+
   def BriefLabel(self):
     return "BasicSuccessorCategory"
 
