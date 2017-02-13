@@ -1,9 +1,8 @@
 """Defines the categories for objects."""
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
-from farg.apps.pyseqsee.categorization.logic import InstanceLogic
+from farg.apps.pyseqsee.categorization import logic
 from farg.core.ltm.storable import LTMNodeContent
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
-from farg.apps.pyseqsee.categorization.logic import AttributeInference as Inference
 
 class BadCategorySpec(Exception):
   """Raised when the specification for creating a category is somehow wrong.
@@ -12,28 +11,12 @@ class BadCategorySpec(Exception):
   """
   pass
 
-class InsufficientAttributesException(Exception):
-  """Raised when instance creation is attempted with insufficient attributes.
-
-  This could happen if we try to create an instance of BasicSuccessorCategory, but we only specify
-  the length.
-  """
-  pass
-
-class InconsistentAttributesException(Exception):
-  """Raised when instance creation is attempted with attributes that don't line up.
-
-  This could happen if we try to create an instance of BasicSuccessorCategory, but we specify that
-  it starts at 7, ands at 9, and has length 17.
-  """
-  pass
-
 class PyCategory(LTMNodeContent):
   pass
 
 class CategoryAnyObject(PyCategory):
   def IsInstance(self, item):
-    return InstanceLogic()
+    return logic.InstanceLogic()
 
   def BriefLabel(self):
     return "CategoryAnyObject"
@@ -66,7 +49,7 @@ class MultiPartCategory(PyCategory):
     for idx, cat in enumerate(self.part_categories):
       if not item.items[idx].DescribeAs(cat):
         return None
-    return InstanceLogic()
+    return logic.InstanceLogic()
 
 
 class RepeatedIntegerCategory(PyCategory):
@@ -83,12 +66,12 @@ class RepeatedIntegerCategory(PyCategory):
     if not item.items:
       # So empty. Attribute for magnitude can be anything...
       # TODO(amahabal): Deal with this better.
-      return InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
+      return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
     magnitude = item.items[0].magnitude
     if not all(x.magnitude == magnitude for x in item.items):
       return None
-    return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
-                                         magnitude=PSElement(magnitude=magnitude)))
+    return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
+                                               magnitude=PSElement(magnitude=magnitude)))
 
   def GetAffordanceForInstance(self, instance):
     return 1  # Fake, replace with something realer...
@@ -104,27 +87,27 @@ class BasicSuccessorCategory(PyCategory):
     if not item.items:
       # So empty. Attribute for magnitude can be anything...
       # TODO(amahabal): Deal with this better.
-      return InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
+      return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
     start = item.items[0].magnitude
     for offset, elt in enumerate(item.items):
       if elt.magnitude != start + offset:
         return None
-    return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
-                                         start=PSElement(magnitude=start),
-                                         end=PSElement(magnitude=start+len(item.items)-1)))
+    return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
+                                               start=PSElement(magnitude=start),
+                                               end=PSElement(magnitude=start+len(item.items)-1)))
 
   def CreateInstance(self, **kwargs):
     """TODO: this needs to be cleanly refactored, perhaps pulling out a CategoryLogic class..."""
 
-    rules = [Inference.Rule(target="end", expression="start.magnitude + length.magnitude - 1"),
-             Inference.Rule(target="start", expression="end.magnitude - length.magnitude + 1"),
-             Inference.Rule(target="length", expression="end.magnitude - start.magnitude + 1")]
-    inference = Inference(rules)
+    rules = [logic.AttributeInference.Rule(target="end", expression="start.magnitude + length.magnitude - 1"),
+             logic.AttributeInference.Rule(target="start", expression="end.magnitude - length.magnitude + 1"),
+             logic.AttributeInference.Rule(target="length", expression="end.magnitude - start.magnitude + 1")]
+    inference = logic.AttributeInference(rules)
     inference.RunInference(kwargs)
     if not inference.CheckConsistency(kwargs):
-      raise InconsistentAttributesException()
+      raise logic.InconsistentAttributesException()
     if 'start' not in kwargs or 'end' not in kwargs or kwargs['start'] is None or kwargs['end'] is None:
-      raise InsufficientAttributesException()
+      raise logic.InsufficientAttributesException()
     return PSObjectFromStructure(tuple(range(kwargs['start'].magnitude,
                                              kwargs['end'].magnitude + 1)))
 
@@ -143,14 +126,14 @@ class BasicPredecessorCategory(PyCategory):
     if not item.items:
       # So empty. Attribute for magnitude can be anything...
       # TODO(amahabal): Deal with this better.
-      return InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
+      return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
     start = item.items[0].magnitude
     for offset, elt in enumerate(item.items):
       if elt.magnitude != start - offset:
         return None
-    return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
-                                         start=PSElement(magnitude=start),
-                                         end=PSElement(magnitude=start-len(item.items)+1)))
+    return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
+                                               start=PSElement(magnitude=start),
+                                               end=PSElement(magnitude=start-len(item.items)+1)))
 
   def BriefLabel(self):
     return "BasicPredecessorCategory"
@@ -180,13 +163,13 @@ class CompoundCategory(PyCategory):
     if not item.items:
       # So empty. Attribute for magnitude can be anything...
       # TODO(amahabal): Deal with this better.
-      return InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
+      return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
     logics = []
     for component in item.items:
-      logic = component.DescribeAs(self.base_category)
-      if not logic:
+      inst_logic = component.DescribeAs(self.base_category)
+      if not inst_logic:
         return None
-      logics.append(logic)
+      logics.append(inst_logic)
     for attr, attr_cat in self.attribute_categories:
       values_for_attr = tuple(x.GetAttributeOrNone(attribute=attr) for x in logics)
       if not all(values_for_attr):
@@ -197,9 +180,9 @@ class CompoundCategory(PyCategory):
         return None
       # TODO: also store the attr logic somewhere; should be accessible from the logic of the bigger
       # group.
-    return InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
-                                         start=item.items[0],
-                                         end=item.items[-1]))
+    return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
+                                               start=item.items[0],
+                                               end=item.items[-1]))
 
   def BriefLabel(self):
     return "CompoundCategory(%s: %s)" % (self.base_category.BriefLabel(),

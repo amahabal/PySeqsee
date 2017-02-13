@@ -1,9 +1,7 @@
 import unittest
 from farg.apps.pyseqsee.categorization import categories as C
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
-from farg.apps.pyseqsee.categorization.categories import InconsistentAttributesException,\
-  InsufficientAttributesException
-from farg.apps.pyseqsee.categorization.logic import AttributeInference as Inference
+from farg.apps.pyseqsee.categorization import logic
 
 def assert_creation(test, cat, expected, **kwargs):
   """Given a category and kwargs, tries to create an instance. Evaluates against expected."""
@@ -14,11 +12,44 @@ def assert_creation_failure(test, cat, exception_type, **kwargs):
   """Given a category and kwargs, tries to create an instance. Evaluates against expected."""
   test.assertRaises(exception_type, cat.CreateInstance, **kwargs)
 
+class TestCategoryLogic(unittest.TestCase):
+  def test_inference(self):
+    def ConstructFromFooAndStart(foo, start):
+      return PSObjectFromStructure((start.magnitude, foo.Structure()))
+
+    category_logic = logic.CategoryLogic(
+      rules=("end: PSObjectFromStructure(start.magnitude + length.magnitude - 1)",
+             "foo: PSObjectFromStructure((start.magnitude, end.magnitude))"),
+      external_vals=dict(PSObjectFromStructure=PSObjectFromStructure),
+      object_constructors={ ('foo', 'start'): ConstructFromFooAndStart })
+    self.assertEqual(set(['end', 'start', 'length', 'foo']), category_logic.attributes)
+
+    self.assertEqual( (7, (7, 11)),
+                      category_logic.Construct(start=PSObjectFromStructure(7),
+                                               length=PSObjectFromStructure(5)).Structure() )
+    self.assertRaises(logic.InsufficientAttributesException,
+                      category_logic.Construct,
+                      start=PSObjectFromStructure(7))
+
+    self.assertEqual( (7, (7, 13)),
+                      category_logic.Construct(start=PSObjectFromStructure(7),
+                                               end=PSObjectFromStructure(13)).Structure() )
+    self.assertEqual( (7, (8, 11)),
+                      category_logic.Construct(start=PSObjectFromStructure(7),
+                                               foo=PSObjectFromStructure((8, 11))).Structure() )
+
+    self.assertRaises(logic.InconsistentAttributesException,
+                      category_logic.Construct,
+                      start=PSObjectFromStructure(7),
+                      end=PSObjectFromStructure(9),
+                      foo=PSObjectFromStructure((7, 10)))
+
+
 class TestBasicSuccesorLogic(unittest.TestCase):
 
   def test_inference(self):
-    rules = [Inference.Rule(target="end", expression="start.magnitude + length.magnitude - 1")]
-    inference = Inference(rules)
+    rules = [logic.AttributeInference.Rule(target="end", expression="start.magnitude + length.magnitude - 1")]
+    inference = logic.AttributeInference(rules)
     vals = dict(start=PSObjectFromStructure(7), length=PSObjectFromStructure(3), end=None)
     inference.RunInference(vals)
     self.assertEqual(vals["end"].magnitude, 9)
@@ -57,10 +88,10 @@ class TestBasicSuccesorLogic(unittest.TestCase):
                     length=PSObjectFromStructure(7),
                     start=PSObjectFromStructure(2))
 
-    assert_creation_failure(self, c1, InconsistentAttributesException,
+    assert_creation_failure(self, c1, logic.InconsistentAttributesException,
                             end=PSObjectFromStructure(8),
                             length=PSObjectFromStructure(7),
                             start=PSObjectFromStructure(4))
 
-    assert_creation_failure(self, c1, InsufficientAttributesException,
+    assert_creation_failure(self, c1, logic.InsufficientAttributesException,
                             end=PSObjectFromStructure(8))

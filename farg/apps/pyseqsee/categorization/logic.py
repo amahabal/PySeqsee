@@ -1,6 +1,93 @@
 import ast
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
 
+class InsufficientAttributesException(Exception):
+  """Raised when instance creation is attempted with insufficient attributes.
+
+  This could happen if we try to create an instance of BasicSuccessorCategory, but we only specify
+  the length.
+  """
+  pass
+
+class InconsistentAttributesException(Exception):
+  """Raised when instance creation is attempted with attributes that don't line up.
+
+  This could happen if we try to create an instance of BasicSuccessorCategory, but we specify that
+  it starts at 7, ands at 9, and has length 17.
+  """
+  pass
+
+class CategoryLogic(object):
+
+  class Rule(object):
+    def __init__(self, *, target, expression):
+      self.target = target
+      self.expression = expression
+      self.vars = set(self.GetVars())
+
+    def GetVars(self):
+      tree = ast.parse(self.expression, mode='eval')
+      for node in ast.walk(tree):
+        if isinstance(node, ast.Name):
+          yield(node.id)
+
+  def __init__(self, *, rules, external_vals, object_constructors):
+    self.external_vals = external_vals
+    self.object_constructors = object_constructors
+    self.attributes = set()
+    self.rules = []
+    for rule in rules:
+      target, rest = rule.split(sep=':', maxsplit=1)
+      rule_obj = self.Rule(target=target.strip(), expression=rest.lstrip())
+      self.attributes.add(target.strip())
+      self.attributes.update(x for x in rule_obj.GetVars() if x not in external_vals)
+      self.rules.append(rule_obj)
+
+  def Construct(self, **kwargs):
+    # Set values of missing  attributes to None.
+    for attr in self.attributes:
+      if attr not in kwargs:
+        kwargs[attr] = None
+    # Add all external vals
+    for k, v in self.external_vals.items():
+      kwargs[k] = v
+    self._RunInference(kwargs)
+    if not self._CheckConsistency(kwargs):
+      raise InconsistentAttributesException()
+    # Now we go through constructors, checking if we have all the necessary bits for any constructor
+    for args, constructor in self.object_constructors.items():
+      any_missing = False
+      dict_to_pass_constructor = dict()
+      for arg in args:
+        if kwargs[arg] is None:
+          any_missing = True
+          break
+        dict_to_pass_constructor[arg] = kwargs[arg]
+      if any_missing:
+        continue
+      return constructor(**dict_to_pass_constructor)
+    raise InsufficientAttributesException()
+
+  def _RunInference(self, values_dict):
+    any_new_known = False
+    for rule in self.rules:
+      if values_dict[rule.target] is None:
+        if not any(values_dict[v] is None for v in rule.vars):
+          values_dict[rule.target] = eval(rule.expression, values_dict)
+          any_new_known = True
+    if any_new_known:
+      self._RunInference(values_dict)
+
+  def _CheckConsistency(self, values_dict):
+    for rule in self.rules:
+      if rule.target in values_dict and values_dict[rule.target] is not None:
+        if not any(values_dict[v] is None for v in rule.vars):
+          calculated_val =  eval(rule.expression, values_dict)
+          if calculated_val.Structure() != values_dict[rule.target].Structure():
+            return False
+    return True
+
+
 class AttributeInference(object):
   """A way to specify relationships between attributes.
 
@@ -15,11 +102,10 @@ class AttributeInference(object):
     def __init__(self, *, target, expression):
       self.target = target
       self.expression = expression
-      self.vars = set(self.GetVars(expression))
-      print(self.vars)
+      self.vars = set(self.GetVars())
 
-    def GetVars(self, expression):
-      tree = ast.parse(expression)
+    def GetVars(self):
+      tree = ast.parse(self.expression)
       for node in ast.walk(tree):
         if isinstance(node, ast.Name):
           yield(node.id)
