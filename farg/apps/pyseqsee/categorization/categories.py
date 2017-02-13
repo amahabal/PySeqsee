@@ -16,6 +16,9 @@ class PyCategory(LTMNodeContent):
   def CreateInstance(self, **kwargs):
     return self.Logic.Construct(**kwargs)
 
+  def IsInstance(self, item):
+    return self.Logic.IsInstance(item)
+
 class CategoryAnyObject(PyCategory):
   def IsInstance(self, item):
     return logic.InstanceLogic()
@@ -65,22 +68,10 @@ class RepeatedIntegerCategory(PyCategory):
   class Logic(logic.CategoryLogic):
     rules = ('magnitude: NONE', 'length: NONE')
     object_constructors = {('magnitude', 'length'): CreateRepeatedIntegerFromMagAndLength  }
-
-
-  def IsInstance(self, item):
-    if not isinstance(item, PSGroup):
-      return None
-    if not all(isinstance(x, PSElement) for x in item.items):
-      return None
-    if not item.items:
-      # So empty. Attribute for magnitude can be anything...
-      # TODO(amahabal): Deal with this better.
-      return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
-    magnitude = item.items[0].magnitude
-    if not all(x.magnitude == magnitude for x in item.items):
-      return None
-    return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
-                                               magnitude=PSElement(magnitude=magnitude)))
+    external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
+    guessers = ('magnitude: instance.items[0]',
+                'magnitude: PSObjectFromStructure(1)',
+                'length: PSObjectFromStructure(len(instance.items))')
 
   def GetAffordanceForInstance(self, instance):
     return 1  # Fake, replace with something realer...
@@ -97,24 +88,12 @@ class BasicSuccessorCategory(PyCategory):
              "length: PSObjectFromStructure(end.magnitude - start.magnitude + 1)")
     external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
     object_constructors = {('start', 'end'): CreateSuccessorFromStartAndEnd  }
+    guessers = ('start: instance.items[0]',
+                'end: instance.items[-1]',
+                # Handles the case where we have an empty list
+                'length: PSObjectFromStructure(len(instance.items))',
+                'start: PSObjectFromStructure(1)')
 
-
-  def IsInstance(self, item):
-    if not isinstance(item, PSGroup):
-      return None
-    if not all(isinstance(x, PSElement) for x in item.items):
-      return None
-    if not item.items:
-      # So empty. Attribute for magnitude can be anything...
-      # TODO(amahabal): Deal with this better.
-      return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
-    start = item.items[0].magnitude
-    for offset, elt in enumerate(item.items):
-      if elt.magnitude != start + offset:
-        return None
-    return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
-                                               start=PSElement(magnitude=start),
-                                               end=PSElement(magnitude=start+len(item.items)-1)))
   def BriefLabel(self):
     return "BasicSuccessorCategory"
 
@@ -130,23 +109,11 @@ class BasicPredecessorCategory(PyCategory):
              "length: PSObjectFromStructure(start.magnitude - end.magnitude + 1)")
     external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
     object_constructors = {('start', 'end'): CreatePredecessorFromStartAndEnd  }
-
-  def IsInstance(self, item):
-    if not isinstance(item, PSGroup):
-      return None
-    if not all(isinstance(x, PSElement) for x in item.items):
-      return None
-    if not item.items:
-      # So empty. Attribute for magnitude can be anything...
-      # TODO(amahabal): Deal with this better.
-      return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
-    start = item.items[0].magnitude
-    for offset, elt in enumerate(item.items):
-      if elt.magnitude != start - offset:
-        return None
-    return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
-                                               start=PSElement(magnitude=start),
-                                               end=PSElement(magnitude=start-len(item.items)+1)))
+    guessers = ('start: instance.items[0]',
+                'end: instance.items[-1]',
+                # Handles the case where we have an empty list
+                'length: PSObjectFromStructure(len(instance.items))',
+                'start: PSObjectFromStructure(1)')
 
   def BriefLabel(self):
     return "BasicPredecessorCategory"

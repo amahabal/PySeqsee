@@ -1,5 +1,6 @@
 import ast
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
+from _collections import defaultdict
 
 class InsufficientAttributesException(Exception):
   """Raised when instance creation is attempted with insufficient attributes.
@@ -20,6 +21,7 @@ class InconsistentAttributesException(Exception):
 class CategoryLogic(object):
   _initialized = False
   external_vals = dict()
+  guessers = []
 
   class Rule(object):
     def __init__(self, *, target, expression):
@@ -45,12 +47,53 @@ class CategoryLogic(object):
       cls.attributes.add(target.strip())
       cls.attributes.update(x for x in rule_obj.GetVars() if x not in cls.external_vals)
       cls.compiled_rules.append(rule_obj)
+
+    cls.compiled_guessers = defaultdict(list)
+    for rule in cls.guessers:
+      target, rest = rule.split(sep=':', maxsplit=1)
+      cls.compiled_guessers[target.strip()].append(rest.lstrip())
+
     cls._initialized = True
 
   @classmethod
   def Attributes(cls):
     cls.Initialize()
     return cls.attributes
+
+  @classmethod
+  def IsInstance(cls, item):
+    cls.Initialize()
+    eval_dict = dict()
+    # Set values of all attributes to None.
+    for attr in cls.attributes:
+      eval_dict[attr] = None
+    for k, v in cls.external_vals.items():
+      eval_dict[k] = v
+    eval_dict['instance'] = item
+
+    for target, expr_list in cls.compiled_guessers.items():
+      for expr in expr_list:
+        try:
+          val = eval(expr, eval_dict)
+        except Exception as e:
+          pass
+        else:
+          eval_dict[target] = val
+          break
+    cls._RunInference(eval_dict)
+
+    try:
+      constructed = cls.Construct(**eval_dict)
+    except Exception as e:
+      return None
+    else:
+      if constructed.Structure() != item.Structure():
+        return None
+      guessed_vals = dict()
+      for attr in cls.attributes:
+        if eval_dict[attr] is not None:
+          guessed_vals[attr] = eval_dict[attr]
+      return InstanceLogic(attributes=guessed_vals)
 
   @classmethod
   def Construct(cls, **kwargs):

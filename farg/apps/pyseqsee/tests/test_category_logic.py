@@ -2,6 +2,8 @@ import unittest
 from farg.apps.pyseqsee.categorization import categories as C
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.apps.pyseqsee.categorization import logic
+from farg.apps.pyseqsee.categorization.categories import PyCategory
+from farg.apps.pyseqsee.tests.utils import CategoryLogicTester, StructureTester
 
 def assert_creation(test, cat, expected, **kwargs):
   """Given a category and kwargs, tries to create an instance. Evaluates against expected."""
@@ -23,6 +25,7 @@ class TestCategoryLogic(unittest.TestCase):
       object_constructors = { ('foo', 'start'): ConstructFromFooAndStart }
       rules = ("end: PSObjectFromStructure(start.magnitude + length.magnitude - 1)",
                "foo: PSObjectFromStructure((start.magnitude, end.magnitude))")
+      guessers = ("start: instance.items[0]", "end: instance.items[1].items[1]")
 
     class MyLogic2(logic.CategoryLogic):
       external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
@@ -58,6 +61,13 @@ class TestCategoryLogic(unittest.TestCase):
                       end=PSObjectFromStructure(9),
                       foo=PSObjectFromStructure((7, 10)))
 
+    class MyCat(PyCategory):
+      Logic = MyLogic
+
+    CategoryLogicTester(test=self,
+                        item=PSObjectFromStructure( (7, (7, 11))),
+                        cat=MyCat(),
+                        tester=StructureTester(start=7, end=11, foo=(7, 11)))
 
 class TestBasicSuccesorLogic(unittest.TestCase):
 
