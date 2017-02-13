@@ -18,6 +18,7 @@ class InconsistentAttributesException(Exception):
   pass
 
 class CategoryLogic(object):
+  _initialized = False
 
   class Rule(object):
     def __init__(self, *, target, expression):
@@ -31,31 +32,40 @@ class CategoryLogic(object):
         if isinstance(node, ast.Name):
           yield(node.id)
 
-  def __init__(self, *, rules, external_vals, object_constructors):
-    self.external_vals = external_vals
-    self.object_constructors = object_constructors
-    self.attributes = set()
-    self.rules = []
-    for rule in rules:
+  @classmethod
+  def Initialize(cls):
+    if cls._initialized:
+      return
+    cls.attributes = set()
+    cls.compiled_rules = []
+    for rule in cls.rules:
       target, rest = rule.split(sep=':', maxsplit=1)
-      rule_obj = self.Rule(target=target.strip(), expression=rest.lstrip())
-      self.attributes.add(target.strip())
-      self.attributes.update(x for x in rule_obj.GetVars() if x not in external_vals)
-      self.rules.append(rule_obj)
+      rule_obj = cls.Rule(target=target.strip(), expression=rest.lstrip())
+      cls.attributes.add(target.strip())
+      cls.attributes.update(x for x in rule_obj.GetVars() if x not in cls.external_vals)
+      cls.compiled_rules.append(rule_obj)
+    cls._initialized = True
 
-  def Construct(self, **kwargs):
+  @classmethod
+  def Attributes(cls):
+    cls.Initialize()
+    return cls.attributes
+
+  @classmethod
+  def Construct(cls, **kwargs):
+    cls.Initialize()
     # Set values of missing  attributes to None.
-    for attr in self.attributes:
+    for attr in cls.attributes:
       if attr not in kwargs:
         kwargs[attr] = None
     # Add all external vals
-    for k, v in self.external_vals.items():
+    for k, v in cls.external_vals.items():
       kwargs[k] = v
-    self._RunInference(kwargs)
-    if not self._CheckConsistency(kwargs):
+    cls._RunInference(kwargs)
+    if not cls._CheckConsistency(kwargs):
       raise InconsistentAttributesException()
     # Now we go through constructors, checking if we have all the necessary bits for any constructor
-    for args, constructor in self.object_constructors.items():
+    for args, constructor in cls.object_constructors.items():
       any_missing = False
       dict_to_pass_constructor = dict()
       for arg in args:
@@ -68,64 +78,24 @@ class CategoryLogic(object):
       return constructor(**dict_to_pass_constructor)
     raise InsufficientAttributesException()
 
-  def _RunInference(self, values_dict):
+  @classmethod
+  def _RunInference(cls, values_dict):
     any_new_known = False
-    for rule in self.rules:
+    for rule in cls.compiled_rules:
       if values_dict[rule.target] is None:
         if not any(values_dict[v] is None for v in rule.vars):
           values_dict[rule.target] = eval(rule.expression, values_dict)
           any_new_known = True
     if any_new_known:
-      self._RunInference(values_dict)
+      cls._RunInference(values_dict)
 
-  def _CheckConsistency(self, values_dict):
-    for rule in self.rules:
+  @classmethod
+  def _CheckConsistency(cls, values_dict):
+    for rule in cls.compiled_rules:
       if rule.target in values_dict and values_dict[rule.target] is not None:
         if not any(values_dict[v] is None for v in rule.vars):
           calculated_val =  eval(rule.expression, values_dict)
           if calculated_val.Structure() != values_dict[rule.target].Structure():
-            return False
-    return True
-
-
-class AttributeInference(object):
-  """A way to specify relationships between attributes.
-
-  This can be used to infer values for missing attributes and to check consistency.
-  """
-
-  def __init__(self, rules_dict):
-    """TODO: make it easier to pass this in, as a simple dict rather than list as here."""
-    self.rules = rules_dict
-
-  class Rule(object):
-    def __init__(self, *, target, expression):
-      self.target = target
-      self.expression = expression
-      self.vars = set(self.GetVars())
-
-    def GetVars(self):
-      tree = ast.parse(self.expression)
-      for node in ast.walk(tree):
-        if isinstance(node, ast.Name):
-          yield(node.id)
-
-  def RunInference(self, values_dict):
-    any_new_known = False
-    for rule in self.rules:
-      if rule.target not in values_dict or values_dict[rule.target] is None:
-        if not any(v not in values_dict or values_dict[v] is None for v in rule.vars):
-          values_dict[rule.target] = PSObjectFromStructure(eval(rule.expression, values_dict))
-          any_new_known = True
-    if any_new_known:
-      self.RunInference(values_dict)
-
-  def CheckConsistency(self, values_dict):
-    for rule in self.rules:
-      if rule.target in values_dict and values_dict[rule.target] is not None:
-        if not any(v not in values_dict or values_dict[v] is None for v in rule.vars):
-          calculated_val =  eval(rule.expression, values_dict)
-          if calculated_val != values_dict[rule.target].Structure():
             return False
     return True
 

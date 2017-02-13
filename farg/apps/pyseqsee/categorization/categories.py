@@ -12,7 +12,9 @@ class BadCategorySpec(Exception):
   pass
 
 class PyCategory(LTMNodeContent):
-  pass
+
+  def CreateInstance(self, **kwargs):
+    return self.Logic.Construct(**kwargs)
 
 class CategoryAnyObject(PyCategory):
   def IsInstance(self, item):
@@ -76,8 +78,19 @@ class RepeatedIntegerCategory(PyCategory):
   def GetAffordanceForInstance(self, instance):
     return 1  # Fake, replace with something realer...
 
+def CreateSuccessorFromStartAndEnd(start, end):
+  return PSObjectFromStructure(tuple(range(start.magnitude, end.magnitude + 1)))
+
 class BasicSuccessorCategory(PyCategory):
   """Category of items such as (2, 3, 4)"""
+
+  class Logic(logic.CategoryLogic):
+    rules = ("end: PSObjectFromStructure(start.magnitude + length.magnitude - 1)",
+             "start: PSObjectFromStructure(end.magnitude - length.magnitude + 1)",
+             "length: PSObjectFromStructure(end.magnitude - start.magnitude + 1)")
+    external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
+    object_constructors = {('start', 'end'): CreateSuccessorFromStartAndEnd  }
+
 
   def IsInstance(self, item):
     if not isinstance(item, PSGroup):
@@ -95,28 +108,21 @@ class BasicSuccessorCategory(PyCategory):
     return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
                                                start=PSElement(magnitude=start),
                                                end=PSElement(magnitude=start+len(item.items)-1)))
-
-  def CreateInstance(self, **kwargs):
-    """TODO: this needs to be cleanly refactored, perhaps pulling out a CategoryLogic class..."""
-
-    rules = [logic.AttributeInference.Rule(target="end", expression="start.magnitude + length.magnitude - 1"),
-             logic.AttributeInference.Rule(target="start", expression="end.magnitude - length.magnitude + 1"),
-             logic.AttributeInference.Rule(target="length", expression="end.magnitude - start.magnitude + 1")]
-    inference = logic.AttributeInference(rules)
-    inference.RunInference(kwargs)
-    if not inference.CheckConsistency(kwargs):
-      raise logic.InconsistentAttributesException()
-    if 'start' not in kwargs or 'end' not in kwargs or kwargs['start'] is None or kwargs['end'] is None:
-      raise logic.InsufficientAttributesException()
-    return PSObjectFromStructure(tuple(range(kwargs['start'].magnitude,
-                                             kwargs['end'].magnitude + 1)))
-
-
   def BriefLabel(self):
     return "BasicSuccessorCategory"
 
+def CreatePredecessorFromStartAndEnd(start, end):
+  return PSObjectFromStructure(tuple(range(start.magnitude, end.magnitude - 1, -1)))
+
 class BasicPredecessorCategory(PyCategory):
   """Category of items such as (4, 3, 2)"""
+
+  class Logic(logic.CategoryLogic):
+    rules = ("end: PSObjectFromStructure(start.magnitude - length.magnitude + 1)",
+             "start: PSObjectFromStructure(end.magnitude + length.magnitude - 1)",
+             "length: PSObjectFromStructure(start.magnitude - end.magnitude + 1)")
+    external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
+    object_constructors = {('start', 'end'): CreatePredecessorFromStartAndEnd  }
 
   def IsInstance(self, item):
     if not isinstance(item, PSGroup):
