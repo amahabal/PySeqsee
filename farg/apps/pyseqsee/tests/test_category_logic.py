@@ -92,7 +92,6 @@ class TestBasicSuccesorLogic(unittest.TestCase):
                             end=PSObjectFromStructure(8))
 
 class TestBasicPredecesorLogic(unittest.TestCase):
-
   def test_creation(self):
     """Test creation given attributes."""
 
@@ -122,3 +121,16 @@ class TestBasicPredecesorLogic(unittest.TestCase):
 
     assert_creation_failure(self, c1, logic.InsufficientAttributesException,
                             end=PSObjectFromStructure(8))
+
+class TestRepeatedIntegerLogic(unittest.TestCase):
+  def test_creation(self):
+    """Test creation given attributes."""
+
+    c1 = C.RepeatedIntegerCategory()
+
+    assert_creation(self, c1, (6, 6, 6, 6),
+                    magnitude=PSObjectFromStructure(6),
+                    length=PSObjectFromStructure(4))
+
+    assert_creation_failure(self, c1, logic.InsufficientAttributesException,
+                            length=PSObjectFromStructure(8))

@@ -19,6 +19,7 @@ class InconsistentAttributesException(Exception):
 
 class CategoryLogic(object):
   _initialized = False
+  external_vals = dict()
 
   class Rule(object):
     def __init__(self, *, target, expression):

@@ -53,12 +53,19 @@ class MultiPartCategory(PyCategory):
         return None
     return logic.InstanceLogic()
 
+def CreateRepeatedIntegerFromMagAndLength(magnitude, length):
+  return PSObjectFromStructure( (magnitude.magnitude, ) * length.magnitude)
 
 class RepeatedIntegerCategory(PyCategory):
   """Category of items such as (3, 3, 3, 3)."""
 
   def BriefLabel(self):
     return "RepeatedIntegerCategory"
+
+  class Logic(logic.CategoryLogic):
+    rules = ('magnitude: NONE', 'length: NONE')
+    object_constructors = {('magnitude', 'length'): CreateRepeatedIntegerFromMagAndLength  }
+
 
   def IsInstance(self, item):
     if not isinstance(item, PSGroup):
