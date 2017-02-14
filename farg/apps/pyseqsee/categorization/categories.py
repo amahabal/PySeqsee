@@ -50,27 +50,27 @@ class MultiPartCategory(PyCategory):
         return None
     return logic.InstanceLogic()
 
-def CreateRepeatedIntegerFromMagAndLength(magnitude, length):
-  return PSObjectFromStructure( (magnitude.magnitude, ) * length.magnitude)
-
 class RepeatedIntegerCategory(PyCategory):
   """Category of items such as (3, 3, 3, 3)."""
 
   _rules = ('magnitude: NONE', 'length: NONE')
-  _object_constructors = {('magnitude', 'length'): CreateRepeatedIntegerFromMagAndLength  }
   _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
   _guessers = ('magnitude: instance.items[0]',
                'magnitude: PSObjectFromStructure(1)',
                'length: PSObjectFromStructure(len(instance.items))')
+
+  def __init__(self):
+    self._object_constructors = {('magnitude', 'length'): self.CreateFromMagAndLength  }
+    PyCategory.__init__(self)
+
+  def CreateFromMagAndLength(self, magnitude, length):
+    return PSObjectFromStructure( (magnitude.magnitude, ) * length.magnitude)
 
   def BriefLabel(self):
     return "RepeatedIntegerCategory"
 
   def GetAffordanceForInstance(self, instance):
     return 1  # Fake, replace with something realer...
-
-def CreateSuccessorFromStartAndEnd(start, end):
-  return PSObjectFromStructure(tuple(range(start.magnitude, end.magnitude + 1)))
 
 class BasicSuccessorCategory(PyCategory):
   """Category of items such as (2, 3, 4)"""
@@ -79,18 +79,22 @@ class BasicSuccessorCategory(PyCategory):
             "start: PSObjectFromStructure(end.magnitude - length.magnitude + 1)",
             "length: PSObjectFromStructure(end.magnitude - start.magnitude + 1)")
   _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
-  _object_constructors = {('start', 'end'): CreateSuccessorFromStartAndEnd  }
   _guessers = ('start: instance.items[0]',
                'end: instance.items[-1]',
                # Handles the case where we have an empty list
                'length: PSObjectFromStructure(len(instance.items))',
                'start: PSObjectFromStructure(1)')
 
+  def __init__(self):
+    self._object_constructors = {('start', 'end'): self.CreateFromStartAndEnd  }
+    PyCategory.__init__(self)
+
+  def CreateFromStartAndEnd(self, start, end):
+    return PSObjectFromStructure(tuple(range(start.magnitude, end.magnitude + 1)))
+
   def BriefLabel(self):
     return "BasicSuccessorCategory"
 
-def CreatePredecessorFromStartAndEnd(start, end):
-  return PSObjectFromStructure(tuple(range(start.magnitude, end.magnitude - 1, -1)))
 
 class BasicPredecessorCategory(PyCategory):
   """Category of items such as (4, 3, 2)"""
@@ -99,12 +103,18 @@ class BasicPredecessorCategory(PyCategory):
             "start: PSObjectFromStructure(end.magnitude + length.magnitude - 1)",
             "length: PSObjectFromStructure(start.magnitude - end.magnitude + 1)")
   _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
-  _object_constructors = {('start', 'end'): CreatePredecessorFromStartAndEnd  }
   _guessers = ('start: instance.items[0]',
                'end: instance.items[-1]',
                # Handles the case where we have an empty list
                'length: PSObjectFromStructure(len(instance.items))',
                'start: PSObjectFromStructure(1)')
+
+  def __init__(self):
+    self._object_constructors = {('start', 'end'): self.CreateFromStartAndEnd  }
+    PyCategory.__init__(self)
+
+  def CreateFromStartAndEnd(self, start, end):
+    return PSObjectFromStructure(tuple(range(start.magnitude, end.magnitude - 1, -1)))
 
   def BriefLabel(self):
     return "BasicPredecessorCategory"
