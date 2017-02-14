@@ -99,7 +99,12 @@ class LTMGraph(object):
     with open(self.filename, "wb") as ltm_file:
       pickler = pickle.Pickler(ltm_file, 2)
       for node in self.nodes:
-        self._Mangle(node.content.__dict__)
+        try:
+          self._Mangle(node.content.__dict__)
+        except Exception as e:
+          print("Problem in mangling: node=", node)
+          print("dict=", node.content.__dict__)
+          raise(e)
         pickler.dump(node)
         Unmangle(node.content.__dict__)
 
@@ -175,6 +180,8 @@ class LTMGraph(object):
   def _Mangle(self, content_dict):
     """Replaces references to node contents with the nodes themselves."""
     for k, value in content_dict.items():
+      if k.startswith('_'):
+        continue
       if isinstance(value, tuple):
         content_dict[k] = self._MangleTuple(value)
       elif value in self._content_to_node:

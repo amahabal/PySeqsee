@@ -1,6 +1,7 @@
 import ast
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from _collections import defaultdict
+from farg.core.ltm.storable import LTMNodeContent
 
 class InsufficientAttributesException(Exception):
   """Raised when instance creation is attempted with insufficient attributes.
@@ -18,98 +19,52 @@ class InconsistentAttributesException(Exception):
   """
   pass
 
-class CategoryLogic(object):
-  _initialized = False
-  external_vals = dict()
-  guessers = []
+class Rule(object):
+  def __init__(self, *, target, expression):
+    self.target = target
+    self.expression = expression
+    self.vars = set(self.GetVars())
 
-  class Rule(object):
-    def __init__(self, *, target, expression):
-      self.target = target
-      self.expression = expression
-      self.vars = set(self.GetVars())
+  def GetVars(self):
+    tree = ast.parse(self.expression, mode='eval')
+    for node in ast.walk(tree):
+      if isinstance(node, ast.Name):
+        yield(node.id)
 
-    def GetVars(self):
-      tree = ast.parse(self.expression, mode='eval')
-      for node in ast.walk(tree):
-        if isinstance(node, ast.Name):
-          yield(node.id)
+class PyCategory(LTMNodeContent):
 
-  @classmethod
-  def Initialize(cls):
-    if cls._initialized:
-      return
-    cls.attributes = set()
-    cls.compiled_rules = []
-    for rule in cls.rules:
+  _external_vals = dict()
+  _guessers = []
+  _rules = []
+
+  def __init__(self):
+    self._attributes = set()
+    self._compiled_rules = []
+    for rule in self._rules:
       target, rest = rule.split(sep=':', maxsplit=1)
-      rule_obj = cls.Rule(target=target.strip(), expression=rest.lstrip())
-      cls.attributes.add(target.strip())
-      cls.attributes.update(x for x in rule_obj.GetVars() if x not in cls.external_vals)
-      cls.compiled_rules.append(rule_obj)
+      rule_obj = Rule(target=target.strip(), expression=rest.lstrip())
+      self._attributes.add(target.strip())
+      self._attributes.update(x for x in rule_obj.GetVars() if x not in self._external_vals)
+      self._compiled_rules.append(rule_obj)
 
-    cls.compiled_guessers = defaultdict(list)
-    for rule in cls.guessers:
+    self._compiled_guessers = defaultdict(list)
+    for rule in self._guessers:
       target, rest = rule.split(sep=':', maxsplit=1)
-      cls.compiled_guessers[target.strip()].append(rest.lstrip())
+      self._compiled_guessers[target.strip()].append(rest.lstrip())
 
-    cls._initialized = True
-
-  @classmethod
-  def Attributes(cls):
-    cls.Initialize()
-    return cls.attributes
-
-  @classmethod
-  def IsInstance(cls, item):
-    cls.Initialize()
-    eval_dict = dict()
-    # Set values of all attributes to None.
-    for attr in cls.attributes:
-      eval_dict[attr] = None
-    for k, v in cls.external_vals.items():
-      eval_dict[k] = v
-    eval_dict['instance'] = item
-
-    for target, expr_list in cls.compiled_guessers.items():
-      for expr in expr_list:
-        try:
-          val = eval(expr, eval_dict)
-        except Exception as e:
-          pass
-        else:
-          eval_dict[target] = val
-          break
-    cls._RunInference(eval_dict)
-
-    try:
-      constructed = cls.Construct(**eval_dict)
-    except Exception as e:
-      return None
-    else:
-      if constructed.Structure() != item.Structure():
-        return None
-      guessed_vals = dict()
-      for attr in cls.attributes:
-        if eval_dict[attr] is not None:
-          guessed_vals[attr] = eval_dict[attr]
-      return InstanceLogic(attributes=guessed_vals)
-
-  @classmethod
-  def Construct(cls, **kwargs):
-    cls.Initialize()
+  def CreateInstance(self, **kwargs):
     # Set values of missing  attributes to None.
-    for attr in cls.attributes:
+    for attr in self._attributes:
       if attr not in kwargs:
         kwargs[attr] = None
     # Add all external vals
-    for k, v in cls.external_vals.items():
+    for k, v in self._external_vals.items():
       kwargs[k] = v
-    cls._RunInference(kwargs)
-    if not cls._CheckConsistency(kwargs):
+    self._RunInference(kwargs)
+    if not self._CheckConsistency(kwargs):
       raise InconsistentAttributesException()
     # Now we go through constructors, checking if we have all the necessary bits for any constructor
-    for args, constructor in cls.object_constructors.items():
+    for args, constructor in self._object_constructors.items():
       any_missing = False
       dict_to_pass_constructor = dict()
       for arg in args:
@@ -122,20 +77,54 @@ class CategoryLogic(object):
       return constructor(**dict_to_pass_constructor)
     raise InsufficientAttributesException()
 
-  @classmethod
-  def _RunInference(cls, values_dict):
+  def Attributes(self):
+    return self._attributes
+
+  def IsInstance(self, item):
+    eval_dict = dict()
+    # Set values of all attributes to None.
+    for attr in self._attributes:
+      eval_dict[attr] = None
+    for k, v in self._external_vals.items():
+      eval_dict[k] = v
+    eval_dict['instance'] = item
+
+    for target, expr_list in self._compiled_guessers.items():
+      for expr in expr_list:
+        try:
+          val = eval(expr, eval_dict)
+        except Exception as e:
+          pass
+        else:
+          eval_dict[target] = val
+          break
+    self._RunInference(eval_dict)
+
+    try:
+      constructed = self.CreateInstance(**eval_dict)
+    except Exception as e:
+      return None
+    else:
+      if constructed.Structure() != item.Structure():
+        return None
+      guessed_vals = dict()
+      for attr in self._attributes:
+        if eval_dict[attr] is not None:
+          guessed_vals[attr] = eval_dict[attr]
+      return InstanceLogic(attributes=guessed_vals)
+
+  def _RunInference(self, values_dict):
     any_new_known = False
-    for rule in cls.compiled_rules:
+    for rule in self._compiled_rules:
       if values_dict[rule.target] is None:
         if not any(values_dict[v] is None for v in rule.vars):
           values_dict[rule.target] = eval(rule.expression, values_dict)
           any_new_known = True
     if any_new_known:
-      cls._RunInference(values_dict)
+      self._RunInference(values_dict)
 
-  @classmethod
-  def _CheckConsistency(cls, values_dict):
-    for rule in cls.compiled_rules:
+  def _CheckConsistency(self, values_dict):
+    for rule in self._compiled_rules:
       if rule.target in values_dict and values_dict[rule.target] is not None:
         if not any(values_dict[v] is None for v in rule.vars):
           calculated_val =  eval(rule.expression, values_dict)

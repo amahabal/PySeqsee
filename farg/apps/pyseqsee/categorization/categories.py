@@ -1,8 +1,9 @@
 """Defines the categories for objects."""
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from farg.apps.pyseqsee.categorization import logic
-from farg.core.ltm.storable import LTMNodeContent
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
+
+PyCategory = logic.PyCategory
 
 class BadCategorySpec(Exception):
   """Raised when the specification for creating a category is somehow wrong.
@@ -11,13 +12,6 @@ class BadCategorySpec(Exception):
   """
   pass
 
-class PyCategory(LTMNodeContent):
-
-  def CreateInstance(self, **kwargs):
-    return self.Logic.Construct(**kwargs)
-
-  def IsInstance(self, item):
-    return self.Logic.IsInstance(item)
 
 class CategoryAnyObject(PyCategory):
   def IsInstance(self, item):
@@ -62,16 +56,15 @@ def CreateRepeatedIntegerFromMagAndLength(magnitude, length):
 class RepeatedIntegerCategory(PyCategory):
   """Category of items such as (3, 3, 3, 3)."""
 
+  _rules = ('magnitude: NONE', 'length: NONE')
+  _object_constructors = {('magnitude', 'length'): CreateRepeatedIntegerFromMagAndLength  }
+  _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
+  _guessers = ('magnitude: instance.items[0]',
+               'magnitude: PSObjectFromStructure(1)',
+               'length: PSObjectFromStructure(len(instance.items))')
+
   def BriefLabel(self):
     return "RepeatedIntegerCategory"
-
-  class Logic(logic.CategoryLogic):
-    rules = ('magnitude: NONE', 'length: NONE')
-    object_constructors = {('magnitude', 'length'): CreateRepeatedIntegerFromMagAndLength  }
-    external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
-    guessers = ('magnitude: instance.items[0]',
-                'magnitude: PSObjectFromStructure(1)',
-                'length: PSObjectFromStructure(len(instance.items))')
 
   def GetAffordanceForInstance(self, instance):
     return 1  # Fake, replace with something realer...
@@ -82,17 +75,16 @@ def CreateSuccessorFromStartAndEnd(start, end):
 class BasicSuccessorCategory(PyCategory):
   """Category of items such as (2, 3, 4)"""
 
-  class Logic(logic.CategoryLogic):
-    rules = ("end: PSObjectFromStructure(start.magnitude + length.magnitude - 1)",
-             "start: PSObjectFromStructure(end.magnitude - length.magnitude + 1)",
-             "length: PSObjectFromStructure(end.magnitude - start.magnitude + 1)")
-    external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
-    object_constructors = {('start', 'end'): CreateSuccessorFromStartAndEnd  }
-    guessers = ('start: instance.items[0]',
-                'end: instance.items[-1]',
-                # Handles the case where we have an empty list
-                'length: PSObjectFromStructure(len(instance.items))',
-                'start: PSObjectFromStructure(1)')
+  _rules = ("end: PSObjectFromStructure(start.magnitude + length.magnitude - 1)",
+            "start: PSObjectFromStructure(end.magnitude - length.magnitude + 1)",
+            "length: PSObjectFromStructure(end.magnitude - start.magnitude + 1)")
+  _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
+  _object_constructors = {('start', 'end'): CreateSuccessorFromStartAndEnd  }
+  _guessers = ('start: instance.items[0]',
+               'end: instance.items[-1]',
+               # Handles the case where we have an empty list
+               'length: PSObjectFromStructure(len(instance.items))',
+               'start: PSObjectFromStructure(1)')
 
   def BriefLabel(self):
     return "BasicSuccessorCategory"
@@ -103,17 +95,16 @@ def CreatePredecessorFromStartAndEnd(start, end):
 class BasicPredecessorCategory(PyCategory):
   """Category of items such as (4, 3, 2)"""
 
-  class Logic(logic.CategoryLogic):
-    rules = ("end: PSObjectFromStructure(start.magnitude - length.magnitude + 1)",
-             "start: PSObjectFromStructure(end.magnitude + length.magnitude - 1)",
-             "length: PSObjectFromStructure(start.magnitude - end.magnitude + 1)")
-    external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
-    object_constructors = {('start', 'end'): CreatePredecessorFromStartAndEnd  }
-    guessers = ('start: instance.items[0]',
-                'end: instance.items[-1]',
-                # Handles the case where we have an empty list
-                'length: PSObjectFromStructure(len(instance.items))',
-                'start: PSObjectFromStructure(1)')
+  _rules = ("end: PSObjectFromStructure(start.magnitude - length.magnitude + 1)",
+            "start: PSObjectFromStructure(end.magnitude + length.magnitude - 1)",
+            "length: PSObjectFromStructure(start.magnitude - end.magnitude + 1)")
+  _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
+  _object_constructors = {('start', 'end'): CreatePredecessorFromStartAndEnd  }
+  _guessers = ('start: instance.items[0]',
+               'end: instance.items[-1]',
+               # Handles the case where we have an empty list
+               'length: PSObjectFromStructure(len(instance.items))',
+               'start: PSObjectFromStructure(1)')
 
   def BriefLabel(self):
     return "BasicPredecessorCategory"
