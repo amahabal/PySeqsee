@@ -51,6 +51,7 @@ class PyCategory(LTMNodeContent):
     for rule in self._guessers:
       target, rest = rule.split(sep=':', maxsplit=1)
       self._compiled_guessers[target.strip()].append(rest.lstrip())
+    # print("Compiled guessers=", self._compiled_guessers)
 
   def CreateInstance(self, **kwargs):
     # Set values of missing  attributes to None.
@@ -103,8 +104,10 @@ class PyCategory(LTMNodeContent):
     try:
       constructed = self.CreateInstance(**eval_dict)
     except Exception as e:
+      # print("Exception during construction: ", e)
       return None
     else:
+      # print("constructed=", constructed.Structure())
       if constructed.Structure() != item.Structure():
         return None
       guessed_vals = dict()

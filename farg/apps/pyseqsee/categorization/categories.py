@@ -14,8 +14,15 @@ class BadCategorySpec(Exception):
 
 
 class CategoryAnyObject(PyCategory):
-  def IsInstance(self, item):
-    return logic.InstanceLogic()
+  _rules = ('it: NONE', )
+  _guessers = ('it: instance', )
+
+  def __init__(self):
+    self._object_constructors = {('it',): self.CreateFromIt  }
+    PyCategory.__init__(self)
+
+  def CreateFromIt(self, it):
+    return it
 
   def BriefLabel(self):
     return "CategoryAnyObject"
@@ -32,23 +39,32 @@ class MultiPartCategory(PyCategory):
     if not isinstance(part_categories, tuple) or len(part_categories) != parts_count:
       raise BadCategorySpec("parts_count does not match part_categories")
     if not all(isinstance(x, PyCategory) for x in part_categories):
-      print("part cat=", part_categories)
       raise BadCategorySpec("Saw a non-PyCategory as a category for a part")
     self.parts_count = parts_count
     self.part_categories = part_categories
 
+    rules = []
+    self._external_vals = dict(PSGroup=PSGroup)
+    for x in range(parts_count):
+      var = 'part_%d' % (x + 1)
+      cat_name = 'cat_%d' % (x + 1)
+      rule = '%s: %s is not None and %s.DescribeAs(%s) and %s' % (var, var, var, cat_name, var)
+      rules.append(rule)
+      self._external_vals[cat_name] = part_categories[x]
+    self._rules = tuple(rules)
+    self._guessers = tuple('part_%d: instance.items[%d]' % (x+1, x) for x in range(parts_count))
+ 
+    def CreateGivenParts(**parts_def):
+      parts = []
+      for x in range(parts_count):
+        parts.append(parts_def['part_%d' % (x + 1)])
+      return PSGroup(items=parts)
+
+    self._object_constructors = {tuple('part_%d' % (x + 1) for x in range(parts_count)): CreateGivenParts}
+    PyCategory.__init__(self)
+
   def BriefLabel(self):
     return "MultiPartCategory(" + ', '.join(x.BriefLabel() for x in self.part_categories) + ")"
-
-  def IsInstance(self, item):
-    if not isinstance(item, PSGroup):
-      return None
-    if not len(item.items) == self.parts_count:
-      return None
-    for idx, cat in enumerate(self.part_categories):
-      if not item.items[idx].DescribeAs(cat):
-        return None
-    return logic.InstanceLogic()
 
 class RepeatedIntegerCategory(PyCategory):
   """Category of items such as (3, 3, 3, 3)."""
