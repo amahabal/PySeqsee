@@ -19,6 +19,14 @@ class InconsistentAttributesException(Exception):
   """
   pass
 
+def Verify(item, prop):
+  """Returns item if prop is true, None otherwise."""
+  if item is None:
+    return None
+  if prop:
+    return item
+  return None
+
 class Rule(object):
   def __init__(self, *, target, expression):
     self.target = target

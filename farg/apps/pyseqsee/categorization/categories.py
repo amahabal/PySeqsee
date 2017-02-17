@@ -44,11 +44,11 @@ class MultiPartCategory(PyCategory):
     self.part_categories = part_categories
 
     rules = []
-    self._external_vals = dict(PSGroup=PSGroup)
+    self._external_vals = dict(PSGroup=PSGroup, Verify=logic.Verify)
     for x in range(parts_count):
       var = 'part_%d' % (x + 1)
       cat_name = 'cat_%d' % (x + 1)
-      rule = '%s: %s is not None and %s.DescribeAs(%s) and %s' % (var, var, var, cat_name, var)
+      rule = '%s: Verify(%s, %s.DescribeAs(%s))' % (var, var, var, cat_name)
       rules.append(rule)
       self._external_vals[cat_name] = part_categories[x]
     self._rules = tuple(rules)
