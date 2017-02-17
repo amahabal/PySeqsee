@@ -154,32 +154,25 @@ class CompoundCategory(PyCategory):
     self.attribute_categories = attribute_categories
     self._attribues = attributes
 
-  def IsInstance(self, item):
-    if not isinstance(item, PSGroup):
-      return None
-    if not item.items:
-      # So empty. Attribute for magnitude can be anything...
-      # TODO(amahabal): Deal with this better.
-      return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=0)))
-    logics = []
-    for component in item.items:
-      inst_logic = component.DescribeAs(self.base_category)
-      if not inst_logic:
-        return None
-      logics.append(inst_logic)
-    for attr, attr_cat in self.attribute_categories:
-      values_for_attr = tuple(x.GetAttributeOrNone(attribute=attr) for x in logics)
-      if not all(values_for_attr):
-        return None
-      attr_gp = PSGroup(items=values_for_attr)
-      attr_logic = attr_gp.DescribeAs(attr_cat)
-      if not attr_logic:
-        return None
-      # TODO: also store the attr logic somewhere; should be accessible from the logic of the bigger
-      # group.
-    return logic.InstanceLogic(attributes=dict(length=PSElement(magnitude=len(item.items)),
-                                               start=item.items[0],
-                                               end=item.items[-1]))
+    self._guessers = ('whole: instance', )
+    self._external_vals = dict(PSGroup=PSGroup, Verify=logic.Verify,
+                               len=len, all=all, tuple=tuple, x=0, base_cat=base_category,
+                               PSObjectFromStructure=PSObjectFromStructure)
+    rules = []
+    rules.append('length: PSObjectFromStructure(len(whole.items))')
+    rules.append('start: whole.items[0]')
+    rules.append('end: whole.items[-1]')
+    rules.append('whole: Verify(whole, all(x.DescribeAs(base_cat) for x in whole.items))')
+    for att, att_cat in attribute_categories:
+      att_var = 'att_%s' % att
+      att_cat_var = 'att_cat__%s' % att
+      self._external_vals[att_cat_var] = att_cat
+      new_rule = '%s: PSGroup(items=tuple(x.DescribeAs(base_cat).GetAttributeOrNone(attribute="%s") for x in whole.items))' % (att_var, att)
+      rules.append(new_rule)
+      rules.append('%s: Verify(%s, %s.DescribeAs(%s))' % (att_var, att_var, att_var, att_cat_var))
+    self._rules = tuple(rules)
+    self._object_constructors = { ('whole', ): (lambda whole: whole)}
+    PyCategory.__init__(self)
 
   def BriefLabel(self):
     return "CompoundCategory(%s: %s)" % (self.base_category.BriefLabel(),

@@ -113,9 +113,9 @@ class PyCategory(LTMNodeContent):
       constructed = self.CreateInstance(**eval_dict)
     except Exception as e:
       # print("Exception during construction: ", e)
+      # raise(e)
       return None
     else:
-      # print("constructed=", constructed.Structure())
       if constructed.Structure() != item.Structure():
         return None
       guessed_vals = dict()
@@ -129,8 +129,13 @@ class PyCategory(LTMNodeContent):
     for rule in self._compiled_rules:
       if values_dict[rule.target] is None:
         if not any(values_dict[v] is None for v in rule.vars):
-          values_dict[rule.target] = eval(rule.expression, values_dict)
-          any_new_known = True
+          try:
+            evaled = eval(rule.expression, values_dict)
+          except:
+            pass
+          else:
+            values_dict[rule.target] = evaled
+            any_new_known = True
     if any_new_known:
       self._RunInference(values_dict)
 
