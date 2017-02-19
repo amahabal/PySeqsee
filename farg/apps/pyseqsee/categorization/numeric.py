@@ -5,7 +5,7 @@ from farg.apps.pyseqsee.objects import PSElement
 class CategoryEvenInteger(PyCategory):
   _rules = ('inst: Verify(inst, inst.magnitude % 2 == 0)',)
   _guessers = ('inst: instance.CopyByStructure()', )
-  _external_vals = dict(Verify=Verify)
+  _external_vals = dict(Verify=Verify, PSElement=PSElement)
   _object_constructors =  {('inst', ): (lambda inst: inst)}
 
   def BriefLabel(self):

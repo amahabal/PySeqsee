@@ -34,6 +34,22 @@ class TestCategoryEvenInteger(unittest.TestCase):
                  ()))
     tester(self, c1)
 
+  def test_extra_attribs(self):
+    c1 = CategoryEvenInteger()
+    o1 = PSObjectFromStructure(4)
+    l = o1.DescribeAs(c1)
+    self.assertTrue(l)
+    self.assertIn('inst', l.Attributes(), "Attribute 'inst' is present.")
+    self.assertNotIn('half', l.Attributes(), "No attribute 'half' yet")
+    c1.AddGuesser('half: PSElement(magnitude=inst.magnitude / 2)')
+
+    o2 = PSObjectFromStructure(6)
+    l2 = o2.DescribeAs(c1)
+    self.assertTrue(l2)
+    self.assertIn('inst', l2.Attributes(), "Attribute 'inst' is present.")
+    self.assertIn('half', l2.Attributes(), "Attribute 'half' now present")
+    self.assertEqual(3, l2.GetAttributeOrNone(attribute='half').magnitude)
+
     # Not tested yet: one of the affordance of this category may be to "think of" what its half is,
     # or to create a derivative sequence containg halves. I have no idea as yet where the pressure
     # should come from.

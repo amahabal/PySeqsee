@@ -61,6 +61,11 @@ class PyCategory(LTMNodeContent):
       self._compiled_guessers[target.strip()].append(rest.lstrip())
     # print("Compiled guessers=", self._compiled_guessers)
 
+  def AddGuesser(self, rule):
+    target, rest = rule.split(sep=':', maxsplit=1)
+    self._compiled_guessers[target.strip()].append(rest.lstrip())
+    self._attributes.add(target.strip())
+
   def CreateInstance(self, **kwargs):
     # Set values of missing  attributes to None.
     for attr in self._attributes:
