@@ -18,14 +18,17 @@ class TestCategoryLogic(unittest.TestCase):
 
   def test_argumentless_cat(self):
     class MyCat(PyCategory):
-
-      _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
-      _rules = ("end: PSObjectFromStructure(start.magnitude + length.magnitude - 1)",
-                "foo: PSObjectFromStructure((start.magnitude, end.magnitude))")
-      _guessers = ("start: instance.items[0]", "end: instance.items[1].items[1]")
+      _Context = dict(PSObjectFromStructure=PSObjectFromStructure)
+      _Attributes = set(('end', 'foo', 'start', 'length'))
+      _Rules = ("end: PSObjectFromStructure(start.magnitude + length.magnitude - 1)",
+                "foo: PSObjectFromStructure((start.magnitude, end.magnitude))",
+                "start: _INSTANCE.items[0]",
+                "end: _INSTANCE.items[1].items[1]")
+      _Checks = ("foo.items[0].magnitude == start.magnitude",
+                 "foo.items[1].magnitude == end.magnitude")
 
       def __init__(self):
-        self._object_constructors = { ('foo', 'start'): self.ConstructFromFooAndStart }
+        self._Constructors = { ('foo', 'start'): self.ConstructFromFooAndStart }
         PyCategory.__init__(self)
 
       def ConstructFromFooAndStart(self, foo, start):
@@ -48,10 +51,6 @@ class TestCategoryLogic(unittest.TestCase):
     self.assertEqual( (7, (7, 13)),
                       MyCat().CreateInstance(start=PSObjectFromStructure(7),
                                              end=PSObjectFromStructure(13)).Structure() )
-    self.assertEqual( (7, (8, 11)),
-                      MyCat().CreateInstance(start=PSObjectFromStructure(7),
-                                             foo=PSObjectFromStructure((8, 11))).Structure() )
-
     self.assertRaises(logic.InconsistentAttributesException,
                       MyCat().CreateInstance,
                       start=PSObjectFromStructure(7),
@@ -61,14 +60,14 @@ class TestCategoryLogic(unittest.TestCase):
   def test_cat_with_arg(self):
     class MyCat(PyCategory):
 
-      _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
-      _rules = ("length: NONE",
-                "each: NONE")
-      _guessers = ("length: PSObjectFromStructure(len(instance.items))", "each: instance.items[0]")
+      _Context = dict(PSObjectFromStructure=PSObjectFromStructure, len=len)
+      _Attributes = set(('length', 'each'))
+      _Rules = ("length: PSObjectFromStructure(len(_INSTANCE.items))",
+                "each: _INSTANCE.items[0]")
 
       def __init__(self, *, index_with_one):
         self.index_with_one = index_with_one
-        self._object_constructors = { ('length', 'each'): self.ConstructFromLengthAndEach }
+        self._Constructors = { ('length', 'each'): self.ConstructFromLengthAndEach }
         PyCategory.__init__(self)
 
       def ConstructFromLengthAndEach(self, length, each):
@@ -114,7 +113,6 @@ class TestBasicSuccesorLogic(unittest.TestCase):
                             end=PSObjectFromStructure(8),
                             length=PSObjectFromStructure(7),
                             start=PSObjectFromStructure(4))
-
     assert_creation_failure(self, c1, logic.InsufficientAttributesException,
                             end=PSObjectFromStructure(8))
 
@@ -127,7 +125,6 @@ class TestBasicPredecesorLogic(unittest.TestCase):
     assert_creation(self, c1, (6, 5, 4, 3),
                     start=PSObjectFromStructure(6),
                     length=PSObjectFromStructure(4))
-
     assert_creation(self, c1, (7, 6, 5, 4, 3),
                     start=PSObjectFromStructure(7),
                     end=PSObjectFromStructure(3))

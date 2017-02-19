@@ -2,6 +2,7 @@
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from farg.apps.pyseqsee.categorization import logic
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
+from farg.apps.pyseqsee.categorization.logic import ConditionalValue
 
 PyCategory = logic.PyCategory
 
@@ -14,15 +15,8 @@ class BadCategorySpec(Exception):
 
 
 class CategoryAnyObject(PyCategory):
-  _rules = ('it: NONE', )
-  _guessers = ('it: instance', )
-
-  def __init__(self):
-    self._object_constructors = {('it',): self.CreateFromIt  }
-    PyCategory.__init__(self)
-
-  def CreateFromIt(self, it):
-    return it
+  _Rules = ('_it: _INSTANCE',)
+  _Constructors = {('_it', ): (lambda _it: _it)}
 
   def BriefLabel(self):
     return "CategoryAnyObject"
@@ -43,24 +37,26 @@ class MultiPartCategory(PyCategory):
     self.parts_count = parts_count
     self.part_categories = part_categories
 
+    self._Attributes = tuple('part_%d' % (x + 1) for x in range(parts_count))
+    self._Context = dict(PSGroup=PSGroup)
     rules = []
-    self._external_vals = dict(PSGroup=PSGroup, Verify=logic.Verify)
+    checks = []
     for x in range(parts_count):
       var = 'part_%d' % (x + 1)
       cat_name = 'cat_%d' % (x + 1)
-      rule = '%s: Verify(%s, %s.DescribeAs(%s))' % (var, var, var, cat_name)
-      rules.append(rule)
-      self._external_vals[cat_name] = part_categories[x]
-    self._rules = tuple(rules)
-    self._guessers = tuple('part_%d: instance.items[%d]' % (x+1, x) for x in range(parts_count))
- 
+      checks.append('%s.DescribeAs(%s)' % (var, cat_name))
+      rules.append('%s: _INSTANCE.items[%d]' % (var, x))
+      self._Context[cat_name] = part_categories[x]
+    self._Rules = tuple(rules)
+    self._Checks = tuple(checks)
+
     def CreateGivenParts(**parts_def):
       parts = []
       for x in range(parts_count):
         parts.append(parts_def['part_%d' % (x + 1)])
       return PSGroup(items=parts)
 
-    self._object_constructors = {tuple('part_%d' % (x + 1) for x in range(parts_count)): CreateGivenParts}
+    self._Constructors = {self._Attributes: CreateGivenParts}
     PyCategory.__init__(self)
 
   def BriefLabel(self):
@@ -69,18 +65,26 @@ class MultiPartCategory(PyCategory):
 class RepeatedIntegerCategory(PyCategory):
   """Category of items such as (3, 3, 3, 3)."""
 
-  _rules = ('magnitude: NONE', 'length: NONE')
-  _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
-  _guessers = ('magnitude: instance.items[0]',
-               'magnitude: PSObjectFromStructure(1)',
-               'length: PSObjectFromStructure(len(instance.items))')
+  _Attributes = ('magnitude', 'length')
+
+  _Rules = ('_mag: _INSTANCE.items[0].magnitude',
+            '_mag: ConditionalValue(_length == 0, 1)',
+            '_mag: magnitude.magnitude',
+            '_length: len(_INSTANCE.items)',
+            '_length: length.magnitude',
+            'magnitude: PSElement(magnitude=_mag)',
+            'length: PSElement(magnitude=_length)')
+  _Context = dict(PSObjectFromStructure=PSObjectFromStructure,
+                  PSElement=PSElement,
+                  len=len,
+                  ConditionalValue=logic.ConditionalValue)
 
   def __init__(self):
-    self._object_constructors = {('magnitude', 'length'): self.CreateFromMagAndLength  }
+    self._Constructors = {('_mag', '_length'): self.CreateFromMagAndLength  }
     PyCategory.__init__(self)
 
-  def CreateFromMagAndLength(self, magnitude, length):
-    return PSObjectFromStructure( (magnitude.magnitude, ) * length.magnitude)
+  def CreateFromMagAndLength(self, _mag, _length):
+    return PSObjectFromStructure( (_mag, ) * _length)
 
   def BriefLabel(self):
     return "RepeatedIntegerCategory"
@@ -91,22 +95,27 @@ class RepeatedIntegerCategory(PyCategory):
 class BasicSuccessorCategory(PyCategory):
   """Category of items such as (2, 3, 4)"""
 
-  _rules = ("end: PSObjectFromStructure(start.magnitude + length.magnitude - 1)",
-            "start: PSObjectFromStructure(end.magnitude - length.magnitude + 1)",
-            "length: PSObjectFromStructure(end.magnitude - start.magnitude + 1)")
-  _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
-  _guessers = ('start: instance.items[0]',
-               'end: instance.items[-1]',
-               # Handles the case where we have an empty list
-               'length: PSObjectFromStructure(len(instance.items))',
-               'start: PSObjectFromStructure(1)')
+  _Attributes = ('end', 'start', 'length')
+  _Rules = ('_end: end.magnitude', 'end: PSElement(magnitude=_end)',
+            '_start: start.magnitude', 'start: PSElement(magnitude=_start)',
+            '_length: length.magnitude', 'length: PSElement(magnitude=_length)',
+            '_end: _start + _length - 1',
+            '_start: _end - _length + 1',
+            '_length: _end - _start + 1',
+            '_end: _INSTANCE.items[-1].magnitude',
+            '_start: _INSTANCE.items[0].magnitude',
+            '_start: ConditionalValue(_length == 0, 1)',
+            '_length: len(_INSTANCE.items)')
+  _Checks = ('_end == _start + _length - 1', )
+  _Context = dict(PSElement=PSElement, PSObjectFromStructure=PSObjectFromStructure, len=len,
+                  ConditionalValue=logic.ConditionalValue)
 
   def __init__(self):
-    self._object_constructors = {('start', 'end'): self.CreateFromStartAndEnd  }
+    self._Constructors = {('_start', '_end'): self.CreateFromStartAndEnd  }
     PyCategory.__init__(self)
 
-  def CreateFromStartAndEnd(self, start, end):
-    return PSObjectFromStructure(tuple(range(start.magnitude, end.magnitude + 1)))
+  def CreateFromStartAndEnd(self, _start, _end):
+    return PSObjectFromStructure(tuple(range(_start, _end + 1)))
 
   def BriefLabel(self):
     return "BasicSuccessorCategory"
@@ -115,22 +124,27 @@ class BasicSuccessorCategory(PyCategory):
 class BasicPredecessorCategory(PyCategory):
   """Category of items such as (4, 3, 2)"""
 
-  _rules = ("end: PSObjectFromStructure(start.magnitude - length.magnitude + 1)",
-            "start: PSObjectFromStructure(end.magnitude + length.magnitude - 1)",
-            "length: PSObjectFromStructure(start.magnitude - end.magnitude + 1)")
-  _external_vals = dict(PSObjectFromStructure=PSObjectFromStructure)
-  _guessers = ('start: instance.items[0]',
-               'end: instance.items[-1]',
-               # Handles the case where we have an empty list
-               'length: PSObjectFromStructure(len(instance.items))',
-               'start: PSObjectFromStructure(1)')
+  _Attributes = ('end', 'start', 'length')
+  _Rules = ('_end: end.magnitude', 'end: PSElement(magnitude=_end)',
+            '_start: start.magnitude', 'start: PSElement(magnitude=_start)',
+            '_length: length.magnitude', 'length: PSElement(magnitude=_length)',
+            '_end: _start - _length + 1',
+            '_start: _end + _length - 1',
+            '_length: _start - _end + 1',
+            '_end: _INSTANCE.items[-1].magnitude',
+            '_start: _INSTANCE.items[0].magnitude',
+            '_start: ConditionalValue(_length == 0, 1)',
+            '_length: len(_INSTANCE.items)')
+  _Checks = ('_end == _start - _length + 1', )
+  _Context = dict(PSElement=PSElement, PSObjectFromStructure=PSObjectFromStructure, len=len,
+                  ConditionalValue=logic.ConditionalValue)
 
   def __init__(self):
-    self._object_constructors = {('start', 'end'): self.CreateFromStartAndEnd  }
+    self._Constructors = {('_start', '_end'): self.CreateFromStartAndEnd  }
     PyCategory.__init__(self)
 
-  def CreateFromStartAndEnd(self, start, end):
-    return PSObjectFromStructure(tuple(range(start.magnitude, end.magnitude - 1, -1)))
+  def CreateFromStartAndEnd(self, _start, _end):
+    return PSObjectFromStructure(tuple(range(_start, _end - 1, -1)))
 
   def BriefLabel(self):
     return "BasicPredecessorCategory"
@@ -152,26 +166,37 @@ class CompoundCategory(PyCategory):
       raise BadCategorySpec("Attributes must be sorted")
     self.base_category = base_category
     self.attribute_categories = attribute_categories
-    self._attribues = attributes
 
-    self._guessers = ('whole: instance', )
-    self._external_vals = dict(PSGroup=PSGroup, Verify=logic.Verify,
-                               len=len, all=all, tuple=tuple, x=0, base_cat=base_category,
-                               PSObjectFromStructure=PSObjectFromStructure)
-    rules = []
-    rules.append('length: PSObjectFromStructure(len(whole.items))')
-    rules.append('start: whole.items[0]')
-    rules.append('end: whole.items[-1]')
-    rules.append('whole: Verify(whole, all(x.DescribeAs(base_cat) for x in whole.items))')
+    cat_attributes = ['att_%s' % x for x in attributes]
+    cat_attributes.append('length')
+    cat_attributes.append('start')
+    cat_attributes.append('end')
+
+    self._Context = dict(PSGroup=PSGroup, base_cat=base_category,
+                         PSObjectFromStructure=PSObjectFromStructure,
+                         x=0, len=len, all=all, tuple=tuple)
+    self._RequiredAttributes = set()
+    rules = ['_length: len(_INSTANCE.items)',
+             '_length: length.magnitude',
+             'length: PSObjectFromStructure(_length)',
+             'start: _INSTANCE.items[0]',
+             'end: _INSTANCE.items[-1]']
+    checks = ['all(x.DescribeAs(base_cat) for x in _INSTANCE.items)' ]
+
     for att, att_cat in attribute_categories:
       att_var = 'att_%s' % att
       att_cat_var = 'att_cat__%s' % att
-      self._external_vals[att_cat_var] = att_cat
-      new_rule = '%s: PSGroup(items=tuple(x.DescribeAs(base_cat).GetAttributeOrNone(attribute="%s") for x in whole.items))' % (att_var, att)
+      self._Context[att_cat_var] = att_cat
+      new_rule = '%s: PSGroup(items=tuple(x.DescribeAs(base_cat).GetAttributeOrNone(attribute="%s") for x in _INSTANCE.items))' % (att_var, att)
       rules.append(new_rule)
-      rules.append('%s: Verify(%s, %s.DescribeAs(%s))' % (att_var, att_var, att_var, att_cat_var))
-    self._rules = tuple(rules)
-    self._object_constructors = { ('whole', ): (lambda whole: whole)}
+      self._RequiredAttributes.add(att_var)
+      checks.append('%s.DescribeAs(%s)' % (att_var, att_cat_var))
+    self._Rules = tuple(rules)
+    self._Checks = tuple(checks)
+
+    self._Constructors = { ('_INSTANCE', ): (lambda _INSTANCE: _INSTANCE)}
+
+    self._Attributes = tuple(cat_attributes)
     PyCategory.__init__(self)
 
   def BriefLabel(self):

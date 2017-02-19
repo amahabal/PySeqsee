@@ -3,21 +3,23 @@ from farg.apps.pyseqsee.categorization.logic import InstanceLogic, Verify
 from farg.apps.pyseqsee.objects import PSElement
 
 class CategoryEvenInteger(PyCategory):
-  _rules = ('inst: Verify(inst, inst.magnitude % 2 == 0)',)
-  _guessers = ('inst: instance.CopyByStructure()', )
-  _external_vals = dict(Verify=Verify, PSElement=PSElement)
-  _object_constructors =  {('inst', ): (lambda inst: inst)}
+  _Rules = ('_mag: _INSTANCE.magnitude', '_half: _mag / 2', 'half: PSElement(magnitude=_half)')
+  _Checks = ('_mag % 2 == 0', )
+  _Constructors =  {('_mag', ): (lambda _mag: PSElement(magnitude=_mag))}
+  _Attributes = set(('half', ))
+  _Context = dict(PSElement=PSElement)
+  _TurnedOffAttributes = set(('half', ))
 
   def BriefLabel(self):
     return "CategoryEvenInteger"
 
 class PrecomputedListNumericCategory(PyCategory):
-  _guessers = ('inst: instance.CopyByStructure()', )
-  _object_constructors =  {('inst', ): (lambda inst: inst)}
+  _Constructors =  {('_mag', ): (lambda _mag: PSElement(magnitude=_mag))}
+  _Rules = ('_mag: _INSTANCE.magnitude', )
+  _Checks = ('_mag in number_list', )
 
   def __init__(self):
-    self._rules = ('inst: Verify(inst, inst.magnitude in number_list)', )
-    self._external_vals = dict(Verify=Verify, number_list=self._number_list)
+    self._Context = dict(number_list=self._number_list)
     PyCategory.__init__(self)
 
 class CategoryPrime(PrecomputedListNumericCategory):

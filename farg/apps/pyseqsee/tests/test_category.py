@@ -39,14 +39,12 @@ class TestCategoryEvenInteger(unittest.TestCase):
     o1 = PSObjectFromStructure(4)
     l = o1.DescribeAs(c1)
     self.assertTrue(l)
-    self.assertIn('inst', l.Attributes(), "Attribute 'inst' is present.")
     self.assertNotIn('half', l.Attributes(), "No attribute 'half' yet")
-    c1.AddGuesser('half: PSElement(magnitude=inst.magnitude / 2)')
 
+    c1.TurnOnAttribute('half')
     o2 = PSObjectFromStructure(6)
     l2 = o2.DescribeAs(c1)
     self.assertTrue(l2)
-    self.assertIn('inst', l2.Attributes(), "Attribute 'inst' is present.")
     self.assertIn('half', l2.Attributes(), "Attribute 'half' now present")
     self.assertEqual(3, l2.GetAttributeOrNone(attribute='half').magnitude)
 
@@ -234,7 +232,7 @@ class TestCompoundCategory(unittest.TestCase):
       positive=( ((2, 3), (2, 3, 4), (2, 3, 4, 5)),
                  ((2, 3),),
                  ((2, ),),
-                 () ),
+                 ()),
       negative=( 9,
                  2,
                  (2, 3),
