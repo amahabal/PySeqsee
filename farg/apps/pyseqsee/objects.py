@@ -46,6 +46,10 @@ class PSObject(LTMStorableMixin, Categorizable):
   def GetStorable(self):
     return PlatonicObject.CreateFromStructure(self.Structure())
 
+  def CopyByStructure(self):
+    from farg.apps.pyseqsee.utils import PSObjectFromStructure
+    return PSObjectFromStructure(self.Structure())
+
 
 class PSElement(PSObject):
   """Represents a single element in the sequence."""

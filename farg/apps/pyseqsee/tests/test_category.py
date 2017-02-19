@@ -48,11 +48,6 @@ class TestCategoryPrime(unittest.TestCase):
                  ()))
     tester(self, c1)
 
-    CategoryLogicTester(test=self,
-                       item=PSObjectFromStructure(7),
-                       cat=c1,
-                       tester=StructureTester(index=3))
-
     # It seems wrong to always return an index. Most times, when we recognize that something is a
     # prime, we do not know what its index is. We need a way to add those things on demand later,
     # instead of always finding the index. Plus, for things such as Fibonacci, where elements are
