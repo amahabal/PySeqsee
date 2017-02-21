@@ -3,6 +3,7 @@ from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.apps.pyseqsee.relation import PSRelation
 from farg.apps.pyseqsee.categorization.categories import PSCategory
 from farg.apps.pyseqsee.objects import PSElement
+from farg.apps.pyseqsee.arena import PSArena
 
 class TestRelations(unittest.TestCase):
 
@@ -57,3 +58,24 @@ class TestRelations(unittest.TestCase):
     self.assertTrue(l_13)
     self.assertEqual(4, l_12.Attributes()['delta'].magnitude)
     self.assertEqual(0, l_13.Attributes()['delta'].magnitude)
+
+  def test_arena_merge(self):
+
+    class SameStructureReln(PSCategory):
+      _Checks = ('_INSTANCE.first.Structure() == _INSTANCE.second.Structure()', )
+
+    gp = PSObjectFromStructure((5, 5))
+    r = gp.items[0].GetRelationTo(gp.items[1])
+    self.assertTrue(r.DescribeAs(SameStructureReln()))
+    gp.SetSpanStart(0)
+    a = PSArena(magnitudes=(5, 5, 5))
+    r2 = gp.items[1].GetRelationTo(a.element[2])
+    self.assertTrue(r2.DescribeAs(SameStructureReln()))
+
+    self.assertFalse(a.element[0].GetRelationTo(a.element[1]).IsKnownAsInstanceOf(SameStructureReln()))
+    self.assertFalse(a.element[1].GetRelationTo(a.element[2]).IsKnownAsInstanceOf(SameStructureReln()))
+
+    a.MergeObject(gp)
+    self.assertTrue(a.element[0].GetRelationTo(a.element[1]).IsKnownAsInstanceOf(SameStructureReln()))
+    self.assertTrue(a.element[1].GetRelationTo(a.element[2]).IsKnownAsInstanceOf(SameStructureReln()))
+

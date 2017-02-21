@@ -86,7 +86,7 @@ class PSArena(object):
   def _MergeObjectDetails(self, other_obj, obj_in_arena):
     obj_in_arena.MergeCategoriesFrom(other_obj)
 
-  def MergeObject(self, obj):
+  def _MergeObject(self, obj, merge_map):
     span = obj.Span()
     if not span:
       raise CannotInsertGroupWithoutSpans()
@@ -102,8 +102,9 @@ class PSArena(object):
     if isinstance(obj, PSElement):
       element_here = self.element[span[0] - self._start]
       self._MergeObjectDetails(obj, element_here)
+      merge_map[obj] = element_here
       return element_here
-    parts = [self.MergeObject(x) for x in obj.items]
+    parts = [self._MergeObject(x, merge_map) for x in obj.items]
     obj_structure = obj.Structure()
     objects_at_location = self.GetObjectsWithSpan(span)
 
@@ -115,5 +116,17 @@ class PSArena(object):
       self._objects_with_span[span][obj_structure] = obj_in_arena
       obj_in_arena.InferSpans()
     self._MergeObjectDetails(obj, obj_in_arena)
+    merge_map[obj] = obj_in_arena
     return obj_in_arena
 
+  def MergeObject(self, obj):
+    merge_map = dict()
+    merged = self._MergeObject(obj, merge_map)
+    for old, new in merge_map.items():
+      for tgt, rel in old.relations.items():
+        effective_tgt = tgt
+        if tgt in merge_map:
+          effective_tgt = merge_map[tgt]
+        rel_in_arena = new.GetRelationTo(effective_tgt)
+        rel_in_arena.MergeCategoriesFrom(rel)
+    return merged
