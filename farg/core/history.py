@@ -52,7 +52,7 @@ class History(object):
   _event_log = []
 
   #: Object details. There is an entry for each object, and each entry is a dict, with these keys:
-  #: p: parents; l: log message for what it was when created.
+  #: parents: parents of the object; log: log message for what it was when created.
   _object_details = []
 
   #: Object events: lists events involving the object. Each entry is thus a list.
@@ -73,18 +73,18 @@ class History(object):
     eid = cls._GetNewEID()
     assert(not hasattr(item, '_hid'))
     item._hid = hid
-    event_details = dict(eid=eid, t=EventType.CREATE, hid=hid, ot=artefact_type)
+    event_details = dict(eid=eid, type=EventType.CREATE, hid=hid, artefact_type=artefact_type)
     cls._event_log.append(event_details)
     cls._object_events[hid].append(event_details)
 
     class_name = item.__class__.__name__
     if hasattr(item, 'ClassName'):
       class_name = item.ClassName()
-    details_dict = dict(l=log_msg, t=artefact_type, cls=class_name)
+    details_dict = dict(log=log_msg, artefact_type=artefact_type, class_name=class_name)
     if parents:
-      details_dict['p'] = [x._hid for x in parents]
-      for x in parents:
-        cls._object_events[x._hid].append(event_details)
+      details_dict['parents'] = [parent._hid for parent in parents]
+      for parent in parents:
+        cls._object_events[parent._hid].append(event_details)
     cls._object_details.append(details_dict)
 
   @classmethod
@@ -93,7 +93,7 @@ class History(object):
       return
     eid = cls._GetNewEID()
     item_msg_list_with_id = [(x[0]._hid, x[1]) for x in item_msg_list]
-    event_details = dict(eid=eid, t=event_type, l=log_msg, objects=item_msg_list_with_id)
+    event_details = dict(eid=eid, type=event_type, log=log_msg, objects=item_msg_list_with_id)
     cls._event_log.append(event_details)
     for item, msg in item_msg_list:
       cls._object_events[item._hid].append(event_details)
@@ -105,8 +105,8 @@ class History(object):
     print("=================== HISTORY ====================")
     for idx, events in cls._object_events.items():
       print("\n-------- Object #", idx, ' ----------- ', cls._object_details[idx])
-      for l in events:
-        print('\t', l)
+      for event in events:
+        print('\t', event)
 
 def NoteCallsInHistory(func):
   """Function decorator that increments history counter for wrapped function whenever it is called.
@@ -193,70 +193,80 @@ class GUIHistoryMethods(object):
     Returns:
       A dictionary with cls as key and list of object indices as value.
     """
-    ret = defaultdict(list)
+    groupedObjects = defaultdict(list)
     for idx, obj in enumerate(History._object_details):
-      ret[obj['cls']].append(idx)
-    return ret
+      groupedObjects[obj['class_name']].append(idx)
+    return groupedObjects
 
   @classmethod
   def GroupObjectEventsByClass(cls, hid):
-    ret = defaultdict(list)
+    groupedObjects = defaultdict(list)
     try:
       events = History._object_events[hid]
     except:
-      return ret
-    for e in events:
-      if e['t'] is EventType.OBJECT_FOCUS:
-        ret['FOCUS'].append(e['eid'])
-      elif e['t'] is EventType.CREATE:
-        hid_here = e['hid']
-        ret['CREATE ' + History._object_details[hid_here]['cls']].append(e['eid'])
+      return groupedObjects
+    for event in events:
+      if event['type'] is EventType.OBJECT_FOCUS:
+        groupedObjects['FOCUS'].append(event['eid'])
+      elif event['type'] is EventType.CREATE:
+        hid_here = event['hid']
+        groupedObjects['CREATE ' + History._object_details[hid_here]['class_name']].append(event['eid'])
       else:
-        ret['UNCLASSIFIED'].append(e['eid'])
-    return ret
+        groupedObjects['UNCLASSIFIED'].append(event['eid'])
+    return groupedObjects
+
+  @classmethod
+  def GetObjectsWithClass(cls, objClass):
+    """Get objects with class objClass
+
+    Returns:
+      A list of the ids of all objects with the specified class
+    """
+    return [obj[0]['id'] for idx, obj in History._object_events if obj[0]['type'] is objClass]
 
   @classmethod
   def Summary(cls):
     summaryStr = ""
     obj_by_cls = sorted(cls.GroupObjectsByClass().items(), reverse=True, key=lambda x: len(x[1]))
-    for k, v in obj_by_cls:
-      summaryStr += "\t%5d\t%s" % (len(v), k) + "\n"
-      summaryStr += "\t\t" + '; '.join(str(x) for x in v[:10]) + "\n"
+    for objClass, eventIds in obj_by_cls:
+      summaryStr += "\t%5d\t%s" % (len(eventIds), objClass) + "\n"
+      summaryStr += "\t\t" + '; '.join(str(eid) for eid in eventIds[:10]) + "\n"
     return summaryStr
 
   @classmethod
   def EventsForItem(cls, hid):
     eventsStr = ""
-    hid=int(hid)
+    hid = int(hid)
     obj_by_cls = sorted(cls.GroupObjectEventsByClass(hid).items(), reverse=True, key=lambda x: len(x[1]))
-    for k, v in obj_by_cls:
-      eventsStr += "\t%5d\t%s" % (len(v), k) + "\n"
-      eventsStr += "\t\t" + '; '.join(str(x) for x in v[:10]) + "\n"
+    for objClass, eventIds in obj_by_cls:
+      eventsStr += "\t%5d\t%s" % (len(eventIds), objClass) + "\n"
+      eventsStr += "\t\t" + '; '.join(str(eid) for eid in eventIds[:10]) + "\n"
     return eventsStr
 
   @classmethod
   def PrintCounts(cls):
     countsStr = ""
-    for k, v in sorted(History._counts.items(), reverse=True, key=lambda x: x[1]):
-      countsStr += '\t%5d\t%s' % (v, k) + "\n"
+    for objClass, counts in sorted(History._counts.items(), reverse=True, key=lambda x: x[1]):
+      countsStr += '\t%5d\t%s' % (counts, objClass) + "\n"
     return countsStr
 
   @classmethod
   def ObjectHistory(cls, hid, print_depth=0, max_depth=5):
-    hid=int(hid)
+    hid = int(hid)
     objHistoryStr = ""
     try:
       details = History._object_details[hid]
     except:
       return
 
-    objHistoryStr += '*    ' * print_depth, '[%d]\t%s\t%s' % (hid, details['cls'], details['l']) + "\n"
+    objHistoryStr += '*    ' * print_depth, '[%d]\t%s\t%s' % (hid, details['class_name'], details['log']) + "\n"
     if print_depth >= max_depth:
       return
-    if 'p' in details:
-      for parent in details['p']:
+    if 'parents' in details:
+      for parent in details['parents']:
         cls.ObjectHistory(parent, print_depth=print_depth+1, max_depth=max_depth)
 
+'''DEPRECATED: This has been replaced by the GUIHistoryMethods class.'''
 class InteractionHistoryMethods(object):
   """Interactive methods for exploring the contents stored in history.
 
@@ -289,14 +299,14 @@ class InteractionHistoryMethods(object):
       events = History._object_events[hid]
     except:
       return ret
-    for e in events:
-      if e['t'] is EventType.OBJECT_FOCUS:
-        ret['FOCUS'].append(e['eid'])
-      elif e['t'] is EventType.CREATE:
-        hid_here = e['hid']
-        ret['CREATE ' + History._object_details[hid_here]['cls']].append(e['eid'])
+    for event in events:
+      if event['type'] is EventType.OBJECT_FOCUS:
+        ret['FOCUS'].append(event['eid'])
+      elif event['type'] is EventType.CREATE:
+        hid_here = event['hid']
+        ret['CREATE ' + History._object_details[hid_here]['cls']].append(event['eid'])
       else:
-        ret['UNCLASSIFIED'].append(e['eid'])
+        ret['UNCLASSIFIED'].append(event['eid'])
     return ret
 
 
@@ -327,9 +337,9 @@ class InteractionHistoryMethods(object):
     except:
       return
 
-    print('*    ' * print_depth, '[%d]\t%s\t%s' % (hid, details['cls'], details['l']))
+    print('*    ' * print_depth, '[%d]\t%s\t%s' % (hid, details['cls'], details['log']))
     if print_depth >= max_depth:
       return
-    if 'p' in details:
-      for parent in details['p']:
+    if 'parents' in details:
+      for parent in details['parents']:
         cls.ObjectHistory(parent, print_depth=print_depth+1, max_depth=max_depth)
