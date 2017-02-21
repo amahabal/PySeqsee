@@ -152,7 +152,7 @@ class PyCategory(LTMNodeContent):
 
   #: Constructors take a subset of variables and can create an instance of the class using these.
   #: Constructors are tried in the order of their definition.
-  _Constructors = dict()
+  _Constructors = {('_INSTANCE', ): (lambda _INSTANCE: _INSTANCE)}
 
   #: Context refers to external variables that we need to pass in for evaluating the RHS of rules
   #: or evaluating checks.
@@ -249,7 +249,7 @@ class PyCategory(LTMNodeContent):
       # print(traceback.format_tb(e.__traceback__))
       return None
     else:
-      if constructed.Structure() != item.Structure():
+      if (constructed != item) and (constructed.Structure() != item.Structure()):
         return None
       guessed_vals = dict()
       for attr in self._Attributes:

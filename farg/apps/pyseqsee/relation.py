@@ -4,3 +4,4 @@ class PSRelation(Categorizable):
   def __init__(self, *, first, second):
     self.first = first
     self.second = second
+    Categorizable.__init__(self)
