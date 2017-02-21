@@ -3,6 +3,7 @@ from functools import reduce
 from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
 from farg.apps.pyseqsee.categorization.categorizable import Categorizable
 from farg.apps.pyseqsee.utils import StructureToString
+from farg.apps.pyseqsee.relation import PSRelation
 
 
 class PlatonicObject(LTMNodeContent):
@@ -38,6 +39,7 @@ class PSObject(LTMStorableMixin, Categorizable):
 
   def __init__(self):
     Categorizable.__init__(self)
+    self.relations = dict()
     self._span = None
 
   def Span(self):
@@ -49,6 +51,13 @@ class PSObject(LTMStorableMixin, Categorizable):
   def CopyByStructure(self):
     from farg.apps.pyseqsee.utils import PSObjectFromStructure
     return PSObjectFromStructure(self.Structure())
+
+  def GetRelationTo(self, other):
+    if other in self.relations:
+      return self.relations[other]
+    new_rel = PSRelation(first=self, second=other)
+    self.relations[other] = new_rel
+    return new_rel
 
 
 class PSElement(PSObject):
