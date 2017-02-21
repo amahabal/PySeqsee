@@ -34,6 +34,20 @@ class TestCategoryEvenInteger(unittest.TestCase):
                  ()))
     tester(self, c1)
 
+  def test_extra_attribs(self):
+    c1 = CategoryEvenInteger()
+    o1 = PSObjectFromStructure(4)
+    l = o1.DescribeAs(c1)
+    self.assertTrue(l)
+    self.assertNotIn('half', l.Attributes(), "No attribute 'half' yet")
+
+    c1.TurnOnAttribute('half')
+    o2 = PSObjectFromStructure(6)
+    l2 = o2.DescribeAs(c1)
+    self.assertTrue(l2)
+    self.assertIn('half', l2.Attributes(), "Attribute 'half' now present")
+    self.assertEqual(3, l2.GetAttributeOrNone(attribute='half').magnitude)
+
     # Not tested yet: one of the affordance of this category may be to "think of" what its half is,
     # or to create a derivative sequence containg halves. I have no idea as yet where the pressure
     # should come from.
@@ -47,11 +61,6 @@ class TestCategoryPrime(unittest.TestCase):
                  (2, ),
                  ()))
     tester(self, c1)
-
-    CategoryLogicTester(test=self,
-                       item=PSObjectFromStructure(7),
-                       cat=c1,
-                       tester=StructureTester(index=3))
 
     # It seems wrong to always return an index. Most times, when we recognize that something is a
     # prime, we do not know what its index is. We need a way to add those things on demand later,
@@ -223,7 +232,7 @@ class TestCompoundCategory(unittest.TestCase):
       positive=( ((2, 3), (2, 3, 4), (2, 3, 4, 5)),
                  ((2, 3),),
                  ((2, ),),
-                 () ),
+                 ()),
       negative=( 9,
                  2,
                  (2, 3),

@@ -3,7 +3,8 @@ from farg.apps.pyseqsee.arena import PSArena, ElementBeyondKnownSoughtException,
   CannotInsertGroupWithoutSpans, UnmergableObjectException, ElementWayBeyondKnownSoughtException
 from farg.apps.pyseqsee.objects import PSGroup, PSElement
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
-from farg.apps.pyseqsee.categorization.numeric import CategoryPrime
+from farg.apps.pyseqsee.categorization.numeric import CategoryPrime, CategoryEvenInteger
+from farg.apps.pyseqsee.categorization.categories import BasicSuccessorCategory
 
 
 class TestPSArena(unittest.TestCase):
@@ -85,18 +86,27 @@ class TestPSArena(unittest.TestCase):
   def test_group_insertion_deeper(self):
     """Make sure deeper features of the logic get copied."""
 
-    arena = PSArena(magnitudes=(7, ))
-    arena.element[0].DescribeAs(CategoryPrime())
+    arena = PSArena(magnitudes=(7, 8))
 
-    elt = PSElement(magnitude=7)
-    logic = elt.DescribeAs(CategoryPrime())
-    inner_logic = logic.Attributes()['index'].DescribeAs(CategoryPrime())
-    self.assertEqual(1, inner_logic.Attributes()['index'].magnitude)
+    gp = PSObjectFromStructure((7, 8))
+    logic = gp.DescribeAs(BasicSuccessorCategory())
 
-    elt.SetSpanStart(0)
-    arena.MergeObject(elt)
+    CategoryEvenInteger().TurnOnAttribute('half')
+    gp.items[1].DescribeAs(CategoryEvenInteger()).Attributes()['half'].DescribeAs(CategoryEvenInteger())
 
-    self.assertTrue(arena.element[0].IsKnownAsInstanceOf(CategoryPrime()))
-    logic = arena.element[0].categories[CategoryPrime()]
-    self.assertTrue(logic.Attributes()['index'].IsKnownAsInstanceOf(CategoryPrime()))
+    inner_logic = logic.Attributes()['end'].DescribeAs(CategoryEvenInteger())
+    self.assertEqual(4, inner_logic.Attributes()['half'].magnitude)
+    inner_logic.Attributes()['half'].DescribeAs(CategoryEvenInteger())
 
+    CategoryEvenInteger().TurnOffAttribute('half')
+
+    gp.SetSpanStart(0)
+    merged = arena.MergeObject(gp)
+    self.assertEqual((7, 8), merged.Structure())
+    self.assertEqual(arena.element[1], merged.items[1])
+
+    self.assertTrue(arena.element[1].IsKnownAsInstanceOf(CategoryEvenInteger()))
+    logic = arena.element[1].categories[CategoryEvenInteger()]
+    self.assertTrue(logic.Attributes()['half'].IsKnownAsInstanceOf(CategoryEvenInteger()))
+
+    self.assertTrue(merged.DescribeAs(BasicSuccessorCategory()).Attributes()['end'].IsKnownAsInstanceOf(CategoryEvenInteger()))
