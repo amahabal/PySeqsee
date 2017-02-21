@@ -66,6 +66,8 @@ class PSElement(PSObject):
   def __init__(self, *, magnitude):
     PSObject.__init__(self)
     self.magnitude = magnitude
+    from farg.apps.pyseqsee.categorization.numeric import CategoryInteger
+    self.DescribeAs(CategoryInteger())
 
   def Structure(self):
     return self.magnitude

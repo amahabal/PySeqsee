@@ -2,6 +2,10 @@ from farg.apps.pyseqsee.categorization.categories import PSCategory
 from farg.apps.pyseqsee.categorization.logic import InstanceLogic, Verify
 from farg.apps.pyseqsee.objects import PSElement
 
+class CategoryInteger(PSCategory):
+  _Checks = ('isinstance(_INSTANCE, PSElement)', )
+  _Context = dict(PSElement=PSElement, isinstance=isinstance)
+
 class CategoryEvenInteger(PSCategory):
   _Rules = ('_mag: _INSTANCE.magnitude', '_half: _mag / 2', 'half: PSElement(magnitude=_half)')
   _Checks = ('_mag % 2 == 0', )
