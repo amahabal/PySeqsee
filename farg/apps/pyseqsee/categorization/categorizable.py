@@ -31,3 +31,6 @@ class Categorizable(object):
         self.categories[cat].MergeLogic(logic)
       else:
         self.categories[cat] = logic
+
+  def CategoriesSharedWith(self, other):
+    return set(self.categories.keys()).intersection(other.categories.keys())

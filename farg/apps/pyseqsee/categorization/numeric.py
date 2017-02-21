@@ -6,6 +6,24 @@ class CategoryInteger(PSCategory):
   _Checks = ('isinstance(_INSTANCE, PSElement)', )
   _Context = dict(PSElement=PSElement, isinstance=isinstance)
 
+  class DeltaReln(PSCategory):
+    _Attributes = ('delta',)
+    _RequiredAttributes = ('delta', )
+    _Rules = ('delta: PSElement(magnitude=(_INSTANCE.second.magnitude - _INSTANCE.first.magnitude))',)
+    _Checks = ('delta.magnitude == _INSTANCE.second.magnitude - _INSTANCE.first.magnitude', )
+    _Context = dict(PSElement=PSElement)
+
+  class RatioReln(PSCategory):
+    _Attributes = ('ratio',)
+    _RequiredAttributes = ('ratio', )
+    _Rules = ('ratio: PSElement(magnitude=(_INSTANCE.second.magnitude / _INSTANCE.first.magnitude))',)
+    _Checks = ('ratio.magnitude == _INSTANCE.second.magnitude / _INSTANCE.first.magnitude',
+               'ratio.magnitude == int(ratio.magnitude)')
+    _Context = dict(PSElement=PSElement, int=int)
+
+  _RelationCategories = (DeltaReln(), RatioReln())
+
+
 class CategoryEvenInteger(PSCategory):
   _Rules = ('_mag: _INSTANCE.magnitude', '_half: _mag / 2', 'half: PSElement(magnitude=_half)')
   _Checks = ('_mag % 2 == 0', )

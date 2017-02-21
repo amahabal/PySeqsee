@@ -161,6 +161,8 @@ class PSCategory(LTMNodeContent):
   #: or evaluating checks.
   _Context = dict()
 
+  _RelationCategories = ()
+
   def __init__(self):
     #: Variables are a superset of Attributes: they additionally contain internal, attribute-like
     #: things, that don't need to be made public. There are no constraints on the values for

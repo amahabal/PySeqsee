@@ -4,6 +4,7 @@ from farg.apps.pyseqsee.relation import PSRelation
 from farg.apps.pyseqsee.categorization.categories import PSCategory
 from farg.apps.pyseqsee.objects import PSElement
 from farg.apps.pyseqsee.arena import PSArena
+from farg.apps.pyseqsee.categorization.numeric import CategoryInteger
 
 class TestRelations(unittest.TestCase):
 
@@ -41,10 +42,8 @@ class TestRelations(unittest.TestCase):
     class DeltaReln(PSCategory):
       _Attributes = ('delta',)
       _RequiredAttributes = ('delta', )
-      _Rules = ('_delta: delta.magnitude', 'delta: PSElement(magnitude=_delta)',
-                '_delta: _INSTANCE.second.magnitude - _INSTANCE.first.magnitude')
-      _Checks = ('_delta == delta.magnitude',
-                 '_delta == _INSTANCE.second.magnitude - _INSTANCE.first.magnitude' )
+      _Rules = ('delta: PSElement(magnitude=(_INSTANCE.second.magnitude - _INSTANCE.first.magnitude))',)
+      _Checks = ('delta.magnitude == _INSTANCE.second.magnitude - _INSTANCE.first.magnitude', )
       _Context = dict(PSElement=PSElement)
 
     o1 = PSObjectFromStructure(4)
@@ -79,3 +78,22 @@ class TestRelations(unittest.TestCase):
     self.assertTrue(a.element[0].GetRelationTo(a.element[1]).IsKnownAsInstanceOf(SameStructureReln()))
     self.assertTrue(a.element[1].GetRelationTo(a.element[2]).IsKnownAsInstanceOf(SameStructureReln()))
 
+  def test_find_reln(self):
+    o1 = PSObjectFromStructure(4)
+    o2 = PSObjectFromStructure(8)
+    self.assertTrue(o1.IsKnownAsInstanceOf(CategoryInteger()))
+
+    self.assertIn(CategoryInteger(), o1.CategoriesSharedWith(o2))
+    r = o1.GetRelationTo(o2)
+    r.FindCategories(end_category=CategoryInteger())
+    self.assertTrue(r.IsKnownAsInstanceOf(CategoryInteger.DeltaReln()))
+    self.assertEqual(4, r.DescribeAs(CategoryInteger.DeltaReln()).Attributes()['delta'].magnitude)
+    self.assertTrue(r.IsKnownAsInstanceOf(CategoryInteger.RatioReln()))
+    self.assertEqual(2, r.DescribeAs(CategoryInteger.RatioReln()).Attributes()['ratio'].magnitude)
+
+    o3 = PSObjectFromStructure(3)
+    o4 = PSObjectFromStructure(12)
+    r2 = o3.GetRelationTo(o4)
+    r2.FindCategoriesUsingEndCategories()
+    self.assertEqual(9, r2.DescribeAs(CategoryInteger.DeltaReln()).Attributes()['delta'].magnitude)
+    self.assertEqual(4, r2.DescribeAs(CategoryInteger.RatioReln()).Attributes()['ratio'].magnitude)
