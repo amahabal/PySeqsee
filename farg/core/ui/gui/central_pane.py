@@ -18,6 +18,7 @@ This is a canvas that can hold multiple views (such as Coderack view, Workspace 
 Each view is an instance of a subclass of :py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.
 """
 import farg.flags as farg_flags
+from farg.core.history import GUIHistoryMethods
 import sys
 from tkinter import ALL, Canvas, Menu
 
@@ -125,6 +126,8 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
     for name in self.named_views:
       view_menu.add_command(label=name,
                             command=self.NamedViewCmd(name))
+    view_menu.add_command(label='History',
+                          command=GUIHistoryMethods.gui)
     menubar.add_cascade(label='View', menu=view_menu)
 
     try:

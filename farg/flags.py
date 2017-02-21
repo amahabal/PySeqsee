@@ -55,9 +55,6 @@ core_parser.set_defaults(history=False)
 core_parser.add_argument('--history_interactive', action='store_true', dest='history_interactive',
                          help='Drop into an interaction shell with history loaded')
 core_parser.set_defaults(history_interactive=False)
-core_parser.add_argument('--nohistory_gui', action='store_false', dest='history_gui',
-                         help='Graphically interact with the history')
-core_parser.set_defaults(history_gui=True)
 
 core_parser.add_argument('--base_flags', action=SplitOnSpacesAction, default=[],
                          help='Extra flags for base/extra args for batch')
