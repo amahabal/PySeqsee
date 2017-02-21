@@ -2,6 +2,7 @@ import unittest
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.apps.pyseqsee.relation import PSRelation
 from farg.apps.pyseqsee.categorization.categories import PSCategory
+from farg.apps.pyseqsee.objects import PSElement
 
 class TestRelations(unittest.TestCase):
 
@@ -33,3 +34,26 @@ class TestRelations(unittest.TestCase):
     r_13 = o1.GetRelationTo(o3)
     self.assertTrue(r_13.DescribeAs(SameStructureReln()))
     self.assertFalse(r_12.DescribeAs(SameStructureReln()))
+
+  def test_reln_cat_with_arg(self):
+
+    class DeltaReln(PSCategory):
+      _Attributes = ('delta',)
+      _RequiredAttributes = ('delta', )
+      _Rules = ('_delta: delta.magnitude', 'delta: PSElement(magnitude=_delta)',
+                '_delta: _INSTANCE.second.magnitude - _INSTANCE.first.magnitude')
+      _Checks = ('_delta == delta.magnitude',
+                 '_delta == _INSTANCE.second.magnitude - _INSTANCE.first.magnitude' )
+      _Context = dict(PSElement=PSElement)
+
+    o1 = PSObjectFromStructure(4)
+    o2 = PSObjectFromStructure(8)
+    o3 = PSObjectFromStructure(4)
+    r_12 = o1.GetRelationTo(o2)
+    r_13 = o1.GetRelationTo(o3)
+    l_12 = r_12.DescribeAs(DeltaReln())
+    self.assertTrue(l_12)
+    l_13 = r_13.DescribeAs(DeltaReln())
+    self.assertTrue(l_13)
+    self.assertEqual(4, l_12.Attributes()['delta'].magnitude)
+    self.assertEqual(0, l_13.Attributes()['delta'].magnitude)

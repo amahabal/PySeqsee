@@ -80,6 +80,7 @@ class Rule(object):
     return True
 
   def ApplyRule(self, vars_dict):
+    # print("Applying: %s <-- %s" % (self.target, self.expression))
     if self.IsTargetKnown(vars_dict):
       # print("Target known, nothing to do.")
       # Nothing to do.
@@ -90,9 +91,11 @@ class Rule(object):
       return False
     try:
       new_val = eval(self.expression, vars_dict)
-    except:
+    except Exception as e:
+      # print("Exception! ", e)
       pass
     else:
+      # print("Got new val: ", new_val)
       vars_dict[self.target] = new_val
       return not(isinstance(new_val, UnknownValue))
 
