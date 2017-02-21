@@ -2,7 +2,7 @@ import unittest
 from farg.apps.pyseqsee.categorization import categories as C
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.apps.pyseqsee.categorization import logic
-from farg.apps.pyseqsee.categorization.categories import PyCategory
+from farg.apps.pyseqsee.categorization.categories import PSCategory
 from farg.apps.pyseqsee.tests.utils import CategoryLogicTester, StructureTester
 
 def assert_creation(test, cat, expected, **kwargs):
@@ -17,7 +17,7 @@ def assert_creation_failure(test, cat, exception_type, **kwargs):
 class TestCategoryLogic(unittest.TestCase):
 
   def test_argumentless_cat(self):
-    class MyCat(PyCategory):
+    class MyCat(PSCategory):
       _Context = dict(PSObjectFromStructure=PSObjectFromStructure)
       _Attributes = set(('end', 'foo', 'start', 'length'))
       _Rules = ("end: PSObjectFromStructure(start.magnitude + length.magnitude - 1)",
@@ -29,7 +29,7 @@ class TestCategoryLogic(unittest.TestCase):
 
       def __init__(self):
         self._Constructors = { ('foo', 'start'): self.ConstructFromFooAndStart }
-        PyCategory.__init__(self)
+        PSCategory.__init__(self)
 
       def ConstructFromFooAndStart(self, foo, start):
         return PSObjectFromStructure((start.magnitude, foo.Structure()))
@@ -58,7 +58,7 @@ class TestCategoryLogic(unittest.TestCase):
                       foo=PSObjectFromStructure((7, 10)))
 
   def test_cat_with_arg(self):
-    class MyCat(PyCategory):
+    class MyCat(PSCategory):
 
       _Context = dict(PSObjectFromStructure=PSObjectFromStructure, len=len)
       _Attributes = set(('length', 'each'))
@@ -68,7 +68,7 @@ class TestCategoryLogic(unittest.TestCase):
       def __init__(self, *, index_with_one):
         self.index_with_one = index_with_one
         self._Constructors = { ('length', 'each'): self.ConstructFromLengthAndEach }
-        PyCategory.__init__(self)
+        PSCategory.__init__(self)
 
       def ConstructFromLengthAndEach(self, length, each):
         args = []

@@ -4,7 +4,7 @@ from farg.apps.pyseqsee.categorization import logic
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.apps.pyseqsee.categorization.logic import ConditionalValue
 
-PyCategory = logic.PyCategory
+PSCategory = logic.PSCategory
 
 class BadCategorySpec(Exception):
   """Raised when the specification for creating a category is somehow wrong.
@@ -14,14 +14,14 @@ class BadCategorySpec(Exception):
   pass
 
 
-class CategoryAnyObject(PyCategory):
+class CategoryAnyObject(PSCategory):
   _Rules = ('_it: _INSTANCE',)
   _Constructors = {('_it', ): (lambda _it: _it)}
 
   def BriefLabel(self):
     return "CategoryAnyObject"
 
-class MultiPartCategory(PyCategory):
+class MultiPartCategory(PSCategory):
   """Category whose instances are made up of N different parts.
 
   Each part can specify its own category.
@@ -32,8 +32,8 @@ class MultiPartCategory(PyCategory):
       raise BadCategorySpec("Strange parts_count")
     if not isinstance(part_categories, tuple) or len(part_categories) != parts_count:
       raise BadCategorySpec("parts_count does not match part_categories")
-    if not all(isinstance(x, PyCategory) for x in part_categories):
-      raise BadCategorySpec("Saw a non-PyCategory as a category for a part")
+    if not all(isinstance(x, PSCategory) for x in part_categories):
+      raise BadCategorySpec("Saw a non-PSCategory as a category for a part")
     self.parts_count = parts_count
     self.part_categories = part_categories
 
@@ -57,12 +57,12 @@ class MultiPartCategory(PyCategory):
       return PSGroup(items=parts)
 
     self._Constructors = {self._Attributes: CreateGivenParts}
-    PyCategory.__init__(self)
+    PSCategory.__init__(self)
 
   def BriefLabel(self):
     return "MultiPartCategory(" + ', '.join(x.BriefLabel() for x in self.part_categories) + ")"
 
-class RepeatedIntegerCategory(PyCategory):
+class RepeatedIntegerCategory(PSCategory):
   """Category of items such as (3, 3, 3, 3)."""
 
   _Attributes = ('magnitude', 'length')
@@ -81,7 +81,7 @@ class RepeatedIntegerCategory(PyCategory):
 
   def __init__(self):
     self._Constructors = {('_mag', '_length'): self.CreateFromMagAndLength  }
-    PyCategory.__init__(self)
+    PSCategory.__init__(self)
 
   def CreateFromMagAndLength(self, _mag, _length):
     return PSObjectFromStructure( (_mag, ) * _length)
@@ -92,7 +92,7 @@ class RepeatedIntegerCategory(PyCategory):
   def GetAffordanceForInstance(self, instance):
     return 1  # Fake, replace with something realer...
 
-class BasicSuccessorCategory(PyCategory):
+class BasicSuccessorCategory(PSCategory):
   """Category of items such as (2, 3, 4)"""
 
   _Attributes = ('end', 'start', 'length')
@@ -112,7 +112,7 @@ class BasicSuccessorCategory(PyCategory):
 
   def __init__(self):
     self._Constructors = {('_start', '_end'): self.CreateFromStartAndEnd  }
-    PyCategory.__init__(self)
+    PSCategory.__init__(self)
 
   def CreateFromStartAndEnd(self, _start, _end):
     return PSObjectFromStructure(tuple(range(_start, _end + 1)))
@@ -121,7 +121,7 @@ class BasicSuccessorCategory(PyCategory):
     return "BasicSuccessorCategory"
 
 
-class BasicPredecessorCategory(PyCategory):
+class BasicPredecessorCategory(PSCategory):
   """Category of items such as (4, 3, 2)"""
 
   _Attributes = ('end', 'start', 'length')
@@ -141,7 +141,7 @@ class BasicPredecessorCategory(PyCategory):
 
   def __init__(self):
     self._Constructors = {('_start', '_end'): self.CreateFromStartAndEnd  }
-    PyCategory.__init__(self)
+    PSCategory.__init__(self)
 
   def CreateFromStartAndEnd(self, _start, _end):
     return PSObjectFromStructure(tuple(range(_start, _end - 1, -1)))
@@ -150,15 +150,15 @@ class BasicPredecessorCategory(PyCategory):
     return "BasicPredecessorCategory"
 
 
-class CompoundCategory(PyCategory):
+class CompoundCategory(PSCategory):
   """Category for things such as ((7), (7, 8), (7, 8, 9)), where components are based on another category."""
 
   def __init__(self, *, base_category, attribute_categories):
-    if not isinstance(base_category, PyCategory):
+    if not isinstance(base_category, PSCategory):
       raise BadCategorySpec("base_category must be a category")
     if not isinstance(attribute_categories, tuple):
       raise BadCategorySpec("attribute_categories must be a tuple, with each item a (name, cat) pair")
-    if not all(isinstance(x, tuple) and len(x) == 2 and isinstance(x[1], PyCategory)
+    if not all(isinstance(x, tuple) and len(x) == 2 and isinstance(x[1], PSCategory)
                for x in attribute_categories):
       raise BadCategorySpec("attribute_categories must be a tuple, with each item a (name, cat) pair")
     attributes = tuple(x[0] for x in attribute_categories)
@@ -197,7 +197,7 @@ class CompoundCategory(PyCategory):
     self._Constructors = { ('_INSTANCE', ): (lambda _INSTANCE: _INSTANCE)}
 
     self._Attributes = tuple(cat_attributes)
-    PyCategory.__init__(self)
+    PSCategory.__init__(self)
 
   def BriefLabel(self):
     return "CompoundCategory(%s: %s)" % (self.base_category.BriefLabel(),

@@ -110,7 +110,7 @@ class Rule(object):
     return validity
 
 
-class PyCategory(LTMNodeContent):
+class PSCategory(LTMNodeContent):
   """Base category for defining categories.
 
   Categories are defined "declaratively", meaning that we define the characteristics (such as

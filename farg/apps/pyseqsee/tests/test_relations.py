@@ -1,7 +1,7 @@
 import unittest
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.apps.pyseqsee.relation import PSRelation
-from farg.apps.pyseqsee.categorization.categories import PyCategory
+from farg.apps.pyseqsee.categorization.categories import PSCategory
 
 class TestRelations(unittest.TestCase):
 
@@ -23,7 +23,7 @@ class TestRelations(unittest.TestCase):
 
   def test_reln_cat(self):
 
-    class SameStructureReln(PyCategory):
+    class SameStructureReln(PSCategory):
       _Checks = ('_INSTANCE.first.Structure() == _INSTANCE.second.Structure()', )
 
     o1 = PSObjectFromStructure(4)
