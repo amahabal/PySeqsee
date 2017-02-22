@@ -18,7 +18,7 @@ def CategoryTester(*, positive, negative):
 
 def CategoryLogicTester(*, test, item, cat, tester):
   """Describes item as cat, and checks that logic passes the checks posed by tester.
-  
+
   tester is a function that takes the test and logic as the arguments."""
   logic = item.DescribeAs(cat)
   tester(test, logic)
@@ -30,3 +30,8 @@ def StructureTester(**structure_dict):
     for k, v in structure_dict.items():
       test.assertEqual(v, attributes[k].Structure())
   return tester
+
+def FringeTest(*, test, item, expected_fringe_parts):
+  """What parts to expect in item.GetFringe()?"""
+  test.assertEqual(sorted(repr(x) for x in expected_fringe_parts),
+                   sorted(repr(x) for x in item.GetFringe().keys()))
