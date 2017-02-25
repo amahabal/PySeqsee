@@ -138,7 +138,7 @@ class Controller:
   #: Name of LTM used by the controller. If None, no LTM is created.
   ltm_name = None   # pylint: disable=C6409
 
-  def __init__(self, *, ui, controller_depth=0,
+  def __init__(self, *, ui=None, controller_depth=0,
                parent_controller=None, workspace_arguments=None,
                stopping_condition=None):
     History.AddArtefact(self, ObjectType.CONTROLLER, "Created controller")

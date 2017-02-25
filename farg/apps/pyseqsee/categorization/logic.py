@@ -210,10 +210,10 @@ class PSCategory(LTMNodeContent):
       kwargs[k] = v
     self._RunInference(kwargs)
     if not self._CheckConsistency(kwargs):
-      PrintEvalDict(kwargs)
+      # PrintEvalDict(kwargs)
       raise InconsistentAttributesException()
     # Now we go through constructors, checking if we have all the necessary bits for any constructor
-    PrintEvalDict(kwargs)
+    # PrintEvalDict(kwargs)
     for args, constructor in self._Constructors.items():
       # print("Checking args: ", args)
       any_missing = False
