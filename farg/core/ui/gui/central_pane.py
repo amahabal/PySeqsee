@@ -18,7 +18,7 @@ This is a canvas that can hold multiple views (such as Coderack view, Workspace 
 Each view is an instance of a subclass of :py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.
 """
 import farg.flags as farg_flags
-from farg.core.history import GUIHistoryMethods
+from farg.core.history import HistoryGUI
 import sys
 from tkinter import ALL, Canvas, Menu
 
@@ -57,6 +57,7 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
   #: Name of initial view.
   default_initial_view = ''  # Not a constant. pylint: disable=C6409
   def __init__(self, master, controller, *, height, width, background):
+    self.is_history_displayed = False
     self.height = height
     self.width = width
     self.controller = controller
@@ -64,12 +65,16 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
     Canvas.__init__(self, master, height=height, width=width, background=background)
     self.SetupMenu(master)
     self.SetNamedView(farg_flags.FargFlags.gui_initial_view or self.default_initial_view)
+    if farg_flags.FargFlags.history:
+      self.TurnOnHistoryGUI()
 
   def ReDraw(self):
     """Redraw all active views on pane."""
     self.delete(ALL)
     for viewport in self.viewports:
       viewport.ReDraw(self.controller)
+    if self.is_history_displayed:
+      self.history_gui.Refresh()
 
   def SetFullView(self, view_class):
     """Set central pane to contain a single view.
@@ -118,6 +123,10 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
   def NamedViewCmd(self, name):
     return (lambda: self.SetNamedView(name))
 
+  def TurnOnHistoryGUI(self):
+    self.is_history_displayed = True
+    self.history_gui = HistoryGUI()
+
   def SetupMenu(self, parent):
     """Create menu for the central pane."""
     menubar = Menu(self)
@@ -127,7 +136,7 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
       view_menu.add_command(label=name,
                             command=self.NamedViewCmd(name))
     view_menu.add_command(label='History',
-                          command=GUIHistoryMethods.gui)
+                          command=self.TurnOnHistoryGUI)
     menubar.add_cascade(label='View', menu=view_menu)
 
     try:

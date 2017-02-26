@@ -52,9 +52,6 @@ core_parser.set_defaults(use_stored_ltm=True)
 core_parser.add_argument('--history', action='store_true', dest='history',
                          help='Save a trace of what happened during run')
 core_parser.set_defaults(history=False)
-core_parser.add_argument('--history_interactive', action='store_true', dest='history_interactive',
-                         help='Drop into an interaction shell with history loaded')
-core_parser.set_defaults(history_interactive=False)
 
 core_parser.add_argument('--base_flags', action=SplitOnSpacesAction, default=[],
                          help='Extra flags for base/extra args for batch')

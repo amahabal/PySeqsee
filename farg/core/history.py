@@ -1,7 +1,7 @@
 from enum import Enum
 from _collections import defaultdict
 from functools import wraps
-from tkinter import Tk, ttk, LEFT, NW, BOTH, Button
+from tkinter import Tk, ttk, LEFT, NW, BOTH, Button, Text, END
 
 class EventType(Enum):
   CREATE = 1  # Used for object creation
@@ -118,31 +118,44 @@ def NoteCallsInHistory(func):
     return func(*args, **kwargs)
   return Wrapped
 
-class GUIHistoryMethods(object):
-  """GUI version of InteractionHistoryMethods.  Enabled using --history_interactive"""
+class HistoryGUI(object):
+  """GUI for displaying history."""
 
-  @classmethod
-  def gui(cls):
-    root = Tk()
+  def __init__(self):
+    self.root = Tk()
+    root = self.root
     root.title("History")
     root.minsize(width=640, height=490)
 
-    historyNB = ttk.Notebook(root)
+    self.historyNB = ttk.Notebook(root)
+    self._AddCountsFrame()
+    self._AddSummaryFrame()
+    self._AddObjectHistoryFrame()
+    self._AddEventsFrame()
+    self.historyNB.pack(fill=BOTH)
+    self.Refresh()
 
+  def Refresh(self):
+    self.countsText.delete(1.0, END)
+    self.countsText.insert(END, self.PrintCounts())
+    self.summaryText.delete(1.0, END)
+    self.summaryText.insert(END, self.Summary())
+
+  def _AddSummaryFrame(self):
     #####CREATE SUMMARY FRAME#####
-    summaryFrame = ttk.Frame(root, name="summary")
-    summaryLbl = ttk.Label(summaryFrame, wraplength='4i', justify=LEFT, anchor=NW,
-    text=cls.Summary())
-    summaryLbl.pack()
+    summaryFrame = ttk.Frame(self.root, name="summary")
+    self.summaryText = Text(summaryFrame)
+    self.summaryText.pack()
+    self.historyNB.add(summaryFrame, text='Summary', underline=0, padding=2)
 
-    #####CREATE OBJECT COUNTS FRAME#####
-    countsFrame = ttk.Frame(root, name="counts")
-    countsLbl = ttk.Label(countsFrame, wraplength='4i', justify=LEFT, anchor=NW,
-    text=cls.PrintCounts())
-    countsLbl.pack()
+  def _AddCountsFrame(self):
+    countsFrame = ttk.Frame(self.root, name="counts")
+    self.countsText = Text(countsFrame)
+    self.countsText.pack()
+    self.historyNB.add(countsFrame, text='Counters', underline=0, padding=2)
 
-    #####CREATE OBJECT HISTORY FRAME#####
-    objHistFrame = ttk.Frame(root, name="history")
+  def _AddObjectHistoryFrame(self):
+    objHistFrame = ttk.Frame(self.root, name="history")
 
     HID = ttk.Label(objHistFrame, text="HID: ")
     HID.pack()
@@ -152,15 +165,18 @@ class GUIHistoryMethods(object):
     histHIDInput.pack()
 
     objHistoryLbl = ttk.Label(objHistFrame, wraplength='4i', justify=LEFT, anchor=NW,
-    text="")
+                              text="")
 
-    submit = Button(objHistFrame, text="Get Ancestry", width=10, command=lambda: objHistoryLbl.config(text=cls.EventsForItem(histHIDInput.get())))
+    submit = Button(objHistFrame, text="Get Ancestry",
+                    width=10,
+                    command=lambda: objHistoryLbl.config(text=self.EventsForItem(histHIDInput.get())))
 
     submit.pack()
     objHistoryLbl.pack()
+    self.historyNB.add(objHistFrame, text="Object History", underline=0, padding=2)
 
-    #####CREATE EVENTS NOTEBOOK TAB#####
-    eventsFrame = ttk.Frame(root, name="events")
+  def _AddEventsFrame(self):
+    eventsFrame = ttk.Frame(self.root, name="events")
 
     HID = ttk.Label(eventsFrame, text="HID: ")
     HID.pack()
@@ -170,21 +186,16 @@ class GUIHistoryMethods(object):
     eventsHIDInput.pack()
 
     eventsLbl = ttk.Label(eventsFrame, wraplength='4i', justify=LEFT, anchor=NW,
-    text="")
+                          text="")
 
-    submit = Button(eventsFrame, text="Get Events", width=10, command=lambda: eventsLbl.config(text=cls.EventsForItem(eventsHIDInput.get())))
+    submit = Button(eventsFrame, text="Get Events",
+                    width=10,
+                    command=lambda: eventsLbl.config(text=self.EventsForItem(eventsHIDInput.get())))
 
     submit.pack()
     eventsLbl.pack()
+    self.historyNB.add(eventsFrame, text="Object Events", underline=0, padding=2)
 
-    #####ADD FRAMES TO NOTEBOOK#####
-    historyNB.add(summaryFrame, text='Summary', underline=0, padding=2)
-    historyNB.add(countsFrame, text='Counters', underline=0, padding=2)
-    historyNB.add(eventsFrame, text="Object Events", underline=0, padding=2)
-    historyNB.add(objHistFrame, text="Object History", underline=0, padding=2)
-
-    historyNB.pack(fill=BOTH)
-    root.mainloop()
 
   @classmethod
   def GroupObjectsByClass(cls):
@@ -260,84 +271,6 @@ class GUIHistoryMethods(object):
       return
 
     objHistoryStr += '*    ' * print_depth, '[%d]\t%s\t%s' % (hid, details['class_name'], details['log']) + "\n"
-    if print_depth >= max_depth:
-      return
-    if 'parents' in details:
-      for parent in details['parents']:
-        cls.ObjectHistory(parent, print_depth=print_depth+1, max_depth=max_depth)
-
-'''DEPRECATED: This has been replaced by the GUIHistoryMethods class.'''
-class InteractionHistoryMethods(object):
-  """Interactive methods for exploring the contents stored in history.
-
-  We drop into the interactive shell if --history_interactive is passed in."""
-
-  @classmethod
-  def help(cls):
-    print("i.Summary() or s(): Prints summary of what happened during the run.")
-    print("i.EventsForItem(hid) or e(hid): Prints events that happened to given hid.")
-    print("i.PrintCounts() or c(): Prints counters.")
-    print("i.ObjectHistory(hid) or h(hid): Prints the ancestry of objects: what caused them to exist.")
-    print("dir(h) for what is present in the history class.")
-
-  @classmethod
-  def GroupObjectsByClass(cls):
-    """Groups objects by class.
-
-    Returns:
-      A dictionary with cls as key and list of object indices as value.
-    """
-    ret = defaultdict(list)
-    for idx, obj in enumerate(History._object_details):
-      ret[obj['cls']].append(idx)
-    return ret
-
-  @classmethod
-  def GroupObjectEventsByClass(cls, hid):
-    ret = defaultdict(list)
-    try:
-      events = History._object_events[hid]
-    except:
-      return ret
-    for event in events:
-      if event['type'] is EventType.OBJECT_FOCUS:
-        ret['FOCUS'].append(event['eid'])
-      elif event['type'] is EventType.CREATE:
-        hid_here = event['hid']
-        ret['CREATE ' + History._object_details[hid_here]['cls']].append(event['eid'])
-      else:
-        ret['UNCLASSIFIED'].append(event['eid'])
-    return ret
-
-
-  @classmethod
-  def Summary(cls):
-    print("==== What kinds of objects were created? ==========")
-    obj_by_cls = sorted(cls.GroupObjectsByClass().items(), reverse=True, key=lambda x: len(x[1]))
-    for k, v in obj_by_cls:
-      print("\t%5d\t%s" % (len(v), k))
-      print("\t\t", '; '.join(str(x) for x in v[:10]))
-
-  @classmethod
-  def EventsForItem(cls, hid):
-    obj_by_cls = sorted(cls.GroupObjectEventsByClass(hid).items(), reverse=True, key=lambda x: len(x[1]))
-    for k, v in obj_by_cls:
-      print("\t%5d\t%s" % (len(v), k))
-      print("\t\t", '; '.join(str(x) for x in v[:10]))
-
-  @classmethod
-  def PrintCounts(cls):
-    for k, v in sorted(History._counts.items(), reverse=True, key=lambda x: x[1]):
-      print('\t%5d\t%s' % (v, k))
-
-  @classmethod
-  def ObjectHistory(cls, hid, print_depth=0, max_depth=5):
-    try:
-      details = History._object_details[hid]
-    except:
-      return
-
-    print('*    ' * print_depth, '[%d]\t%s\t%s' % (hid, details['cls'], details['log']))
     if print_depth >= max_depth:
       return
     if 'parents' in details:
