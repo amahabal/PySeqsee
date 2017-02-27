@@ -29,7 +29,7 @@ class PSStream(object):
       self.fringe_element_to_item_to_wt[fe][focusable] = wt
     timestamp = controller.steps_taken
     self.last_focus_time[focusable] = timestamp
-    actions = focusable.GetActions()
+    actions = focusable.GetActions(controller)
     prior_overlapping_foci = self.PriorFociWithSimilarFringe(
         current_focus=focusable, timestamp=timestamp)
     if prior_overlapping_foci:

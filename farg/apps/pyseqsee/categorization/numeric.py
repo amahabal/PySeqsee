@@ -1,6 +1,8 @@
 from farg.apps.pyseqsee.categorization.categories import PSCategory
 from farg.apps.pyseqsee.categorization.logic import InstanceLogic, Verify
+from farg.apps.pyseqsee.codelets import CF_DescribeRelationWithObject
 from farg.apps.pyseqsee.objects import PSElement
+from farg.core.codelet import Codelet
 
 
 class CategoryInteger(PSCategory):
@@ -30,6 +32,22 @@ class CategoryInteger(PSCategory):
 
   def BriefLabel(self):
     return 'CategoryInteger'
+
+  def SuggestActions(self, *, instance, logic, controller):
+    """What actions could we take with things that are integers?"""
+    # Are these categories? "I have tried extending right", "I should try extending right..."
+    # I want to suggest the following only when it has not recently been tried. Perhaps the logic
+    # can store some of this bookkeepinginfo?
+    object_to_right = controller.workspace.GetObjectToRight(instance)
+    if not object_to_right:
+      return []
+    return [
+        Codelet(
+            family=CF_DescribeRelationWithObject,
+            controller=controller,
+            urgency=100,
+            arguments_dict=dict(first=instance, second=object_to_right))
+    ]
 
 
 class CategoryEvenInteger(PSCategory):

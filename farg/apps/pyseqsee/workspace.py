@@ -1,5 +1,4 @@
 from farg.apps.pyseqsee.arena import PSArena
-from farg.core.util import UnweightedChoice
 
 
 class PSWorkspace(object):
@@ -7,14 +6,17 @@ class PSWorkspace(object):
   def __init__(self):
     self.arena = PSArena(magnitudes=())
 
-  def KnownElementCount(self):
-    return len(self.arena.element)
-
   def InsertElements(self, magnitudes):
     self.arena.Append(magnitudes=magnitudes)
 
+  def KnownElementCount(self):
+    return self.arena.KnownElementCount()
+
   def GetFirstElement(self):
-    return self.arena.element[0]
+    return self.arena.GetFirstElement()
 
   def SelectRandomElement(self):
-    return UnweightedChoice(self.arena.element)
+    return self.arena.SelectRandomElement()
+
+  def GetObjectToRight(self, item):
+    return self.arena.GetObjectToRight(item)

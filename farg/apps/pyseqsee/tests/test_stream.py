@@ -78,10 +78,9 @@ class TestStream(unittest.TestCase):
         """This fringe will be appended with a fringe coming from category membership."""
         return {self.x: 1.0, (self.x + 1): 0.5, (self.x - 1): 0.5}
 
-      def GetActions(self):
+      def CalculateActions(self, ctrl):
         return [
-            Codelet(
-                family=CF_PrintIWasFocused, controller=controller, urgency=100)
+            Codelet(family=CF_PrintIWasFocused, controller=ctrl, urgency=100)
         ]
 
       def GetRemindingBasedActions(self, prior_overlapping):

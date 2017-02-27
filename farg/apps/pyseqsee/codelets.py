@@ -16,3 +16,12 @@ class CF_FocusOnObject(CodeletFamily):
   @classmethod
   def Run(cls, controller, focus, *, me):
     controller.stream.FocusOn(focusable=focus, controller=controller)
+
+
+class CF_DescribeRelationWithObject(CodeletFamily):
+  """Look for and add category labels to the relationship between two objects."""
+
+  @classmethod
+  def Run(cls, controller, first, second, *, me):
+    reln = first.GetRelationTo(second)
+    reln.FindCategoriesUsingEndCategories()

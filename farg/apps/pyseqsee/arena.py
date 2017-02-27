@@ -5,6 +5,7 @@ from _collections import defaultdict
 
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from farg.core.history import History
+from farg.core.util import UnweightedChoice
 
 
 class ElementBeyondKnownSoughtException(Exception):
@@ -140,3 +141,23 @@ class PSArena(object):
         rel_in_arena = new.GetRelationTo(effective_tgt)
         rel_in_arena.MergeCategoriesFrom(rel)
     return merged
+
+  def KnownElementCount(self):
+    return len(self.element)
+
+  def GetFirstElement(self):
+    return self.element[0]
+
+  def SelectRandomElement(self):
+    return UnweightedChoice(self.element)
+
+  def GetObjectToRight(self, item):
+    left_end_of_sought_object = item.Span()[1] + 1
+    matching_objects = []
+    for span, objects_by_structure in self._objects_with_span.items():
+      if span[0] != left_end_of_sought_object:
+        continue
+      matching_objects.extend(objects_by_structure.values())
+    if not matching_objects:
+      return None
+    return UnweightedChoice(matching_objects)

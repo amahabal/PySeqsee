@@ -71,6 +71,10 @@ class PSObject(LTMStorableMixin, PSFocusable):
     """
     return {self.Structure(): 1.0}
 
+  def CalculateActions(self, controller):
+    """All actions will be suggested by the categories. This is thus empty."""
+    return []
+
 
 class PSElement(PSObject):
   """Represents a single element in the sequence."""

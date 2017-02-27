@@ -19,8 +19,13 @@ class PSFocusable(Categorizable):
     History.Note("GetFringe called")
     return fringe
 
-  def GetActions(self):
-    return []
+  def GetActions(self, controller):
+    actions = self.CalculateActions(controller)
+    for cat, instance_logic in self.categories.items():
+      actions.extend(
+          cat.SuggestActions(
+              instance=self, logic=instance_logic, controller=controller))
+    return actions
 
   def GetRemindingBasedActions(self, prior_overlapping):
     return []

@@ -1,4 +1,5 @@
 from farg.apps.pyseqsee.categorization.categorizable import Categorizable
+from farg.core.history import History
 
 
 class PSRelation(Categorizable):
@@ -7,6 +8,7 @@ class PSRelation(Categorizable):
     self.first = first
     self.second = second
     Categorizable.__init__(self)
+    History.Note("Created relation")
 
   def FindCategories(self, *, end_category):
     new_cats = []
@@ -14,6 +16,7 @@ class PSRelation(Categorizable):
       if self.IsKnownAsInstanceOf(reln_cat):
         continue
       if (self.DescribeAs(reln_cat)):
+        History.Note("Category added to reln")
         new_cats.append(reln_cat)
     return new_cats
 
