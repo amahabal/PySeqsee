@@ -5,24 +5,29 @@ from farg.apps.pyseqsee.focusable import PSFocusable
 from farg.apps.pyseqsee.relation import PSRelation
 from farg.apps.pyseqsee.utils import StructureToString
 from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
+
+
 class PlatonicObject(LTMNodeContent):
   """A stringified representation of a structure---i.e., of possibly nested tuples of integers.
 
   We need PlatonicObjects mainly for storing in the LTM.
 
-  PlatonicObjects are cached, meaning that with the same constructor argument, we always get the
-  same object back.
+  PlatonicObjects are cached, meaning that with the same constructor argument,
+  we always get the same object back.
   """
 
   def __init__(self, *, rep):
-    assert(isinstance(rep, str))
+    assert (isinstance(rep, str))
     self.rep = rep
 
   @classmethod
   def CreateFromStructure(cls, structure):
-    """Create a PlatonicObject. Structure can be an integer, or a tuple of structures.
+    """Create a PlatonicObject.
 
-    Note that (4,) is NOT the same as (((4,),),)."""
+    Structure can be an integer, or a tuple of structures.
+
+    Note that (4,) is NOT the same as (((4,),),).
+    """
     return cls(rep=StructureToString(structure))
 
 
@@ -31,7 +36,8 @@ class PSObject(LTMStorableMixin, PSFocusable):
 
   This may be anchored or not. When anchored, it has a start and end offset.
 
-  TODO(amahabal): Have not yet ported over the code for getting the fringe and strength.
+  TODO(amahabal): Have not yet ported over the code for getting the fringe and
+  strength.
 
   TODO(amahabal): Also not present yet is the storage of relations.
   """
@@ -73,22 +79,24 @@ class PSElement(PSObject):
 
   def SetSpanStart(self, start):
     if self._span:
-      assert(self._span == (start, start))
+      assert (self._span == (start, start))
       return
     self._span = (start, start)
 
   def _CalculateSpanGivenStart(self, start):
-    return ((self, (start, start)), )
+    return ((self, (start, start)),)
 
   def FlattenedMagnitudes(self):
-    return (self.magnitude, )
+    return (self.magnitude,)
+
 
 class PSGroup(PSObject):
   """Represents a group, including the degenerate case of singleton or empty group.
 
-  TODO(amahabal): Not ported over the notion of underlying relations, yet. But maybe what I need is
-  slightly different anyway, since a mountain cannot be cleanly represented just by a single kind
-  of underlying relationship among items.
+  TODO(amahabal): Not ported over the notion of underlying relations, yet. But
+  maybe what I need is slightly different anyway, since a mountain cannot be
+  cleanly represented just by a single kind of underlying relationship among
+  items.
   """
 
   def __init__(self, *, items):
@@ -99,11 +107,11 @@ class PSGroup(PSObject):
     return tuple(x.Structure() for x in self.items)
 
   def FlattenedMagnitudes(self):
-    return reduce(lambda x, y: x + y, (i.FlattenedMagnitudes() for i in self.items))
-
+    return reduce(lambda x, y: x + y, (i.FlattenedMagnitudes()
+                                       for i in self.items))
 
   def HypotheticallyAddComponentBefore(self, component):
-    new_gp = PSGroup(items=(component,)+tuple(self.items))
+    new_gp = PSGroup(items=(component,) + tuple(self.items))
     new_gp.InferSpans()
     return new_gp
 
@@ -118,7 +126,7 @@ class PSGroup(PSObject):
     for i in self.items:
       spans.extend(i._CalculateSpanGivenStart(right_end + 1))
       right_end = spans[-1][1][1]
-    spans.append( (self, (start, right_end) ))
+    spans.append((self, (start, right_end)))
     return spans
 
   def SetSpanStart(self, start):
@@ -127,7 +135,7 @@ class PSGroup(PSObject):
     # Let's check that these make sense...
     for item, span in projected_spans:
       if item._span:
-        assert(item._span == span)
+        assert (item._span == span)
 
     # So all is good...
     for item, span in projected_spans:

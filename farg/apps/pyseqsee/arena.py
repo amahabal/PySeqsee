@@ -5,21 +5,25 @@ from _collections import defaultdict
 
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from farg.core.history import History
+
+
 class ElementBeyondKnownSoughtException(Exception):
   """Raised when checking for elements beyond the known range.
 
-  Caller of the relevant code (i.e., of CheckTerms) can ask a question of the user at this point,
-  if appropriate.
+  Caller of the relevant code (i.e., of CheckTerms) can ask a question of the
+  user at this point, if appropriate.
   """
   pass
+
 
 class ElementWayBeyondKnownSoughtException(Exception):
   """Raised when checking for elements way beyond the known range.
 
-  If we know the first 10 elements, but are checking what the 70th is, that is probably a bug
-  somewhere.
+  If we know the first 10 elements, but are checking what the 70th is, that is
+  probably a bug somewhere.
   """
   pass
+
 
 class CannotInsertGroupWithoutSpans(Exception):
   """To insert (i.e., merge) an object, we need to know where to merge it.
@@ -28,13 +32,16 @@ class CannotInsertGroupWithoutSpans(Exception):
   """
   pass
 
+
 class UnmergableObjectException(Exception):
   """Raised when attempting to merge an object that cannot be merged here.
 
-  This happens when the items present where merge is attempted are different. If you try to merge
-  the group (2, 3, 4), for instance, at a location that contains (5, 6, 7), this is raised.
+  This happens when the items present where merge is attempted are different. If
+  you try to merge the group (2, 3, 4), for instance, at a location that
+  contains (5, 6, 7), this is raised.
   """
   pass
+
 
 class PSArena(object):
 
@@ -69,7 +76,8 @@ class PSArena(object):
   def CheckTerms(self, *, start, magnitudes):
     """Checks whether the terms present starting at 'start' are the magnitudes.
 
-    If asked about terms beyond the known range, raises ElementBeyondKnownSoughtException.
+    If asked about terms beyond the known range, raises
+    ElementBeyondKnownSoughtException.
     """
     for offset, mag in enumerate(magnitudes, start):
       if offset > self._next_index:
@@ -99,7 +107,7 @@ class PSArena(object):
     except ElementBeyondKnownSoughtException:
       # If we get here, we are looking at elements just beyond the known. Let's insert these...
       # How many known elements matched? _next_index - span[0]
-      self.Append(magnitudes=obj_flattened_mags[self._next_index - span[0]: ])
+      self.Append(magnitudes=obj_flattened_mags[self._next_index - span[0]:])
 
     if isinstance(obj, PSElement):
       element_here = self.element[span[0] - self._start]

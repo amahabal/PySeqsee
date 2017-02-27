@@ -15,7 +15,8 @@ class Categorizable(object):
       category: Describe as instance of this category.
 
     Returns:
-      Returns the logic for instancehood if `self` is instance of `category`, None otherwise.
+      Returns the logic for instancehood if `self` is instance of `category`,
+      None otherwise.
     """
     if category in self.categories:
       return self.categories[category]

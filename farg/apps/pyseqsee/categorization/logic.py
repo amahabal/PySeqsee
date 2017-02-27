@@ -5,21 +5,25 @@ import traceback
 from farg.apps.pyseqsee.objects import PSObject
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.core.ltm.storable import LTMNodeContent
+
+
 class InsufficientAttributesException(Exception):
   """Raised when instance creation is attempted with insufficient attributes.
 
-  This could happen if we try to create an instance of BasicSuccessorCategory, but we only specify
-  the length.
+  This could happen if we try to create an instance of BasicSuccessorCategory,
+  but we only specify the length.
   """
   pass
+
 
 class InconsistentAttributesException(Exception):
   """Raised when instance creation is attempted with attributes that don't line up.
 
-  This could happen if we try to create an instance of BasicSuccessorCategory, but we specify that
-  it starts at 7, ands at 9, and has length 17.
+  This could happen if we try to create an instance of BasicSuccessorCategory,
+  but we specify that it starts at 7, ands at 9, and has length 17.
   """
   pass
+
 
 class UnknownValue(object):
   """Represents a currently unknown value for a variable."""
@@ -34,21 +38,25 @@ def Verify(item, prop):
     return item
   return None
 
+
 def ConditionalValue(cond, val):
   if cond:
     return val
   return UnknownValue()
+
 
 def PrintEvalDict(eval_dict):
   for k, v in eval_dict.items():
     if k == '__builtins__':
       continue
     if isinstance(v, PSObject):
-      print ('\t%s = PSObject %s' % (k, v.Structure()))
+      print('\t%s = PSObject %s' % (k, v.Structure()))
     else:
       print('\t%s = %s' % (k, v))
 
+
 class Rule(object):
+
   def __init__(self, *, target, expression, ctx):
     self.target = target
     self.expression = expression
@@ -59,7 +67,7 @@ class Rule(object):
     for node in ast.walk(tree):
       if isinstance(node, ast.Name):
         if node.id not in ctx:
-          yield(node.id)
+          yield (node.id)
 
   def GetVars(self):
     return self.expression_vars
@@ -97,12 +105,16 @@ class Rule(object):
     else:
       # print("Got new val: ", new_val)
       vars_dict[self.target] = new_val
-      return not(isinstance(new_val, UnknownValue))
+      return not (isinstance(new_val, UnknownValue))
 
   def ApplyCheck(self, vars_dict):
-    """Checks don't have targets. If all variables have values, the expression is evaluated.
+    """Checks don't have targets.
 
-    If all values are present, it is not acceptable to have an exception raised in the check."""
+    If all variables have values, the expression is evaluated.
+
+    If all values are present, it is not acceptable to have an exception raised
+    in the check.
+    """
     if not self.AreAllExpressionVarsKnown(vars_dict):
       # The check does not appl.
       return True
@@ -116,9 +128,10 @@ class Rule(object):
 class PSCategory(LTMNodeContent):
   """Base category for defining categories.
 
-  Categories are defined "declaratively", meaning that we define the characteristics (such as
-  attributes, relationships between parts, etc) as python code, in a way that allows easy reuse for
-  both creating instances, checking membership, introspecting, and for creating relations.
+  Categories are defined "declaratively", meaning that we define the
+  characteristics (such as attributes, relationships between parts, etc) as
+  python code, in a way that allows easy reuse for both creating instances,
+  checking membership, introspecting, and for creating relations.
   """
 
   #: Attributes are the "public" attributes. These are exposed in instance logic (which describes
@@ -155,7 +168,7 @@ class PSCategory(LTMNodeContent):
 
   #: Constructors take a subset of variables and can create an instance of the class using these.
   #: Constructors are tried in the order of their definition.
-  _Constructors = {('_INSTANCE', ): (lambda _INSTANCE: _INSTANCE)}
+  _Constructors = {('_INSTANCE',): (lambda _INSTANCE: _INSTANCE)}
 
   #: Context refers to external variables that we need to pass in for evaluating the RHS of rules
   #: or evaluating checks.
@@ -173,7 +186,8 @@ class PSCategory(LTMNodeContent):
     self._CompiledRules = []
     for rule in self._Rules:
       target, rest = rule.split(sep=':', maxsplit=1)
-      rule_obj = Rule(target=target.strip(), expression=rest.lstrip(), ctx=self._Context)
+      rule_obj = Rule(
+          target=target.strip(), expression=rest.lstrip(), ctx=self._Context)
       self._Variables.add(target.strip())
       self._Variables.update(x for x in rule_obj.GetVars())
       self._CompiledRules.append(rule_obj)
@@ -190,15 +204,17 @@ class PSCategory(LTMNodeContent):
   def SanityCheck(self):
     # Make sure that every variable is either in attributes or context or starts with _.
     if not self._Constructors:
-      raise Exception("No constructors defined.")
+      raise Exception('No constructors defined.')
     for v in self._Variables:
       if v in self._Attributes:
         if v.startswith('_'):
-          raise Exception("Attributes should not start with _")
+          raise Exception('Attributes should not start with _')
       else:
         if v not in self._Context:
           if not v.startswith('_'):
-            raise Exception("Attribute %s neither in attributes nor in context, and does not start with _" % v)
+            raise Exception(
+                'Attribute %s neither in attributes nor in context, and does '
+                'not start with _' % v)
 
   def CreateInstance(self, **kwargs):
     # Set values of missing  attributes to UnknownValue.
@@ -254,13 +270,14 @@ class PSCategory(LTMNodeContent):
       # print(traceback.format_tb(e.__traceback__))
       return None
     else:
-      if (constructed != item) and (constructed.Structure() != item.Structure()):
+      if (constructed != item) and (constructed.Structure() != item.Structure()
+                                   ):
         return None
       guessed_vals = dict()
       for attr in self._Attributes:
         if attr in self._TurnedOffAttributes:
           continue
-        if not(isinstance(eval_dict[attr], UnknownValue)):
+        if not (isinstance(eval_dict[attr], UnknownValue)):
           guessed_vals[attr] = eval_dict[attr]
       return InstanceLogic(attributes=guessed_vals)
 
@@ -274,7 +291,8 @@ class PSCategory(LTMNodeContent):
 
   def _CheckConsistency(self, values_dict):
     for attr in self._RequiredAttributes:
-      if attr not in values_dict or values_dict[attr] is None or isinstance(values_dict[attr], UnknownValue):
+      if attr not in values_dict or values_dict[attr] is None or isinstance(
+          values_dict[attr], UnknownValue):
         return False
     for rule in self._CompiledChecks:
       if not rule.ApplyCheck(values_dict):
@@ -285,11 +303,15 @@ class PSCategory(LTMNodeContent):
 class InstanceLogic(object):
   """Describes how an item is an instance of a category.
 
-    TODO(amahabal): What about cases where an item can be seen as an instance of a category in a
-    number of ways? When that happens, there are rich possibilities for creation of novel categories
+    TODO(amahabal): What about cases where an item can be seen as an instance of
+    a category in a
+    number of ways? When that happens, there are rich possibilities for creation
+    of novel categories
     that we should not miss out on. Punting on this issue at the moment.
-    One way to achieve this would be to add the method ReDescribeAs to categorizable, which will
-    not use the stored logic; it will then look at the two logics and perhaps merge.
+    One way to achieve this would be to add the method ReDescribeAs to
+    categorizable, which will
+    not use the stored logic; it will then look at the two logics and perhaps
+    merge.
   """
 
   def __init__(self, *, attributes=dict()):
@@ -309,8 +331,10 @@ class InstanceLogic(object):
   def MergeLogic(self, other_logic):
     """Add attributes and annotation of attributes from other_logic.
 
-    That is, if other_logic has extra attributes, they are added here. If, for an existing attribute
-    there are extra category annotations in other_logic, they are added on the annotation here, and
+    That is, if other_logic has extra attributes, they are added here. If, for
+    an existing attribute
+    there are extra category annotations in other_logic, they are added on the
+    annotation here, and
     this is done recursively.
     """
     # Check that the structures of attributes are equal where both present, and merge categories

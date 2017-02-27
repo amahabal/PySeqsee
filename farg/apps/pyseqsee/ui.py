@@ -8,7 +8,10 @@ from farg.core.ui.gui.central_pane import CentralPane
 from farg.core.ui.gui.views.coderack_view import CoderackView
 from farg.core.ui.gui.views.viewport import ViewPort
 import farg.flags as farg_flags
+
+
 class WorkspaceView(ViewPort):
+
   def __init__(self, canvas, left, bottom, width, height):
     ViewPort.__init__(self, canvas, left, bottom, width, height)
     self.elements_y = height * 0.5
@@ -24,40 +27,55 @@ class WorkspaceView(ViewPort):
 
     for idx, element in enumerate(workspace.arena.element):
       x, y = self.CanvasCoordinates((idx + 0.5) * space_per_element,
-                                     self.elements_y)
+                                    self.elements_y)
       self.canvas.create_text(
-          x, y, text='%d' % element.magnitude,
+          x,
+          y,
+          text='%d' % element.magnitude,
           font='-adobe-helvetica-bold-r-normal--28-140-100-100-p-105-iso8859-4',
           fill='#0000FF')
+
 
 class PySeqseeCentralPane(CentralPane):
   default_initial_view = 'ws'
   named_views = {
-      'ws': lambda pane: pane.SetFullView(WorkspaceView),
-      'cr': lambda pane: pane.SetFullView(CoderackView),
-      'ws_cr': lambda pane: pane.SetVerticallySplitView(WorkspaceView, CoderackView),
-       }
+      'ws':
+          lambda pane: pane.SetFullView(WorkspaceView),
+      'cr':
+          lambda pane: pane.SetFullView(CoderackView),
+      'ws_cr':
+          lambda pane: pane.SetVerticallySplitView(WorkspaceView, CoderackView),
+  }
+
 
 class PySeqseeGUI(GUI):
 
   central_pane_class = PySeqseeCentralPane
 
   def __init__(self, *, controller_class, stopping_condition_fn=None):
-    GUI.__init__(self, controller_class=controller_class,
-                 stopping_condition_fn=stopping_condition_fn)
+    GUI.__init__(
+        self,
+        controller_class=controller_class,
+        stopping_condition_fn=stopping_condition_fn)
 
-    self.mw.title("PySeqsee") #Sets the title of the window
+    self.mw.title('PySeqsee')  #Sets the title of the window
+
 
 def HasAsPrefix(longer_list, shorter_list):
   return longer_list[:len(shorter_list)] == shorter_list
 
+
 class AreTheseTheNextTermsQuestion(BooleanQuestion):
+
   def __init__(self, terms):
     self.terms = terms
     BooleanQuestion.__init__(self, 'Are these the next few terms: %s?' % terms)
 
+
 class PySeqseeBatchUI(BatchUI):
+
   def RegisterQuestionHandlers(self):
+
     def HandleNextTermsQuestion(question, ui):
       workspace = ui.controller.workspace
       current_known_terms = list(x.magnitude for x in workspace.arena.element)
@@ -70,4 +88,5 @@ class PySeqseeBatchUI(BatchUI):
           return False
       else:
         return HasAsPrefix(total_known_terms, expected_total_terms)
+
     AreTheseTheNextTermsQuestion.Ask = HandleNextTermsQuestion
