@@ -16,10 +16,11 @@ class PSController(Controller):
       self.SetInput(farg_flags.FargFlags.sequence,
                     farg_flags.FargFlags.unrevealed_terms)
     # Add the codelet to focus on the first object.
-    self.AddCodelet(
-        family=CF_FocusOnObject,
-        urgency=100,
-        arguments_dict=dict(focus=self.workspace.GetFirstElement()))
+    if self.workspace.KnownElementCount() > 0:
+      self.AddCodelet(
+          family=CF_FocusOnObject,
+          urgency=100,
+          arguments_dict=dict(focus=self.workspace.GetFirstElement()))
 
   def SetInput(self, sequence, unrevealed_terms):
     self.workspace.InsertElements(sequence)
