@@ -4,26 +4,7 @@ from farg.core.util import ChooseAboutN
 from farg.core.controller import Controller
 import farg.flags as farg_flags
 from farg.apps.pyseqsee.workspace import PSWorkspace
-
-class PSFocusable(Categorizable):
-  def __init__(self):
-    self.stored_fringe = None
-    Categorizable.__init__(self)
-
-  def GetFringe(self):
-    fringe = self.CalculateFringe()
-    for cat, instance_logic in self.categories.items():
-      fringe[cat] = 1
-      for att, val in instance_logic._attributes.items():
-        fringe[(cat, att, val.Structure())] = 0.5
-    self.stored_fringe = fringe
-    return fringe
-
-  def GetActions(self):
-    return []
-
-  def GetRemindingBasedActions(self, prior_overlapping):
-    return []
+from farg.core.history import History
 
 class PSStream(object):
   def __init__(self, controller):
@@ -46,9 +27,12 @@ class PSStream(object):
                                                              timestamp=timestamp)
     if prior_overlapping_foci:
       actions.extend(focusable.GetRemindingBasedActions(prior_overlapping_foci))
+      History.Note("In FocusOn: Prior overlapping foci seen")
 
     if actions:
       selected_actions = ChooseAboutN(2, [(x, x.urgency) for x in actions])
+      History.Note("In FocusOn: Total of suggested actions", times=len(actions))
+      History.Note("In FocusOn: Total of selected actions", times=len(selected_actions))
       for action in selected_actions:
         controller.coderack.AddCodelet(action,
                                        msg="While focusing on %s" % focusable.BriefLabel(),

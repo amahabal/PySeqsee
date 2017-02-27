@@ -4,6 +4,7 @@ from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
 from farg.apps.pyseqsee.categorization.categorizable import Categorizable
 from farg.apps.pyseqsee.utils import StructureToString
 from farg.apps.pyseqsee.relation import PSRelation
+from farg.apps.pyseqsee.focusable import PSFocusable
 
 
 class PlatonicObject(LTMNodeContent):
@@ -27,7 +28,7 @@ class PlatonicObject(LTMNodeContent):
     return cls(rep=StructureToString(structure))
 
 
-class PSObject(LTMStorableMixin, Categorizable):
+class PSObject(LTMStorableMixin, PSFocusable):
   """Represents an element or group in the workspace.
 
   This may be anchored or not. When anchored, it has a start and end offset.
@@ -38,7 +39,7 @@ class PSObject(LTMStorableMixin, Categorizable):
   """
 
   def __init__(self):
-    Categorizable.__init__(self)
+    PSFocusable.__init__(self)
     self.relations = dict()
     self._span = None
 

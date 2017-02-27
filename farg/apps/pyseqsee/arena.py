@@ -3,6 +3,7 @@
 It is one of the core pieces of the workspace, but may be used elsewhere."""
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from _collections import defaultdict
+from farg.core.history import History
 
 class ElementBeyondKnownSoughtException(Exception):
   """Raised when checking for elements beyond the known range.
@@ -63,6 +64,7 @@ class PSArena(object):
       self._objects_with_span[(idx, idx)][el.Structure()] = el
     self.element.extend(to_add)
     self._next_index += len(magnitudes)
+    History.Note("Arena: elements added", times=len(magnitudes))
 
   def CheckTerms(self, *, start, magnitudes):
     """Checks whether the terms present starting at 'start' are the magnitudes.
