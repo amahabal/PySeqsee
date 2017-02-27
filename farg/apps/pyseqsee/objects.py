@@ -64,6 +64,13 @@ class PSObject(LTMStorableMixin, PSFocusable):
     self.relations[other] = new_rel
     return new_rel
 
+  def CalculateFringe(self):
+    """The fringe is just the structure.
+
+    Note that the fringe also includes things added by categories.
+    """
+    return {self.Structure(): 1.0}
+
 
 class PSElement(PSObject):
   """Represents a single element in the sequence."""
