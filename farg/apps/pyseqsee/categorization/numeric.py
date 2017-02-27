@@ -10,30 +10,26 @@ class CategoryInteger(PSCategory):
   class DeltaReln(PSCategory):
     _Attributes = ('delta',)
     _RequiredAttributes = ('delta',)
-    _Rules = (
-        'delta: PSElement(magnitude=(_INSTANCE.second.magnitude - '
-        '_INSTANCE.first.magnitude))',
-    )
-    _Checks = (
-        'delta.magnitude == _INSTANCE.second.magnitude - '
-        '_INSTANCE.first.magnitude',
-    )
+    _Rules = ('delta: PSElement(magnitude=(_INSTANCE.second.magnitude - '
+              '_INSTANCE.first.magnitude))',)
+    _Checks = ('delta.magnitude == _INSTANCE.second.magnitude - '
+               '_INSTANCE.first.magnitude',)
     _Context = dict(PSElement=PSElement)
 
   class RatioReln(PSCategory):
     _Attributes = ('ratio',)
     _RequiredAttributes = ('ratio',)
-    _Rules = (
-        'ratio: PSElement(magnitude=(_INSTANCE.second.magnitude / '
-        '_INSTANCE.first.magnitude))',
-    )
-    _Checks = (
-        'ratio.magnitude == _INSTANCE.second.magnitude / '
-        '_INSTANCE.first.magnitude',
-        'ratio.magnitude == int(ratio.magnitude)')
+    _Rules = ('ratio: PSElement(magnitude=(_INSTANCE.second.magnitude / '
+              '_INSTANCE.first.magnitude))',)
+    _Checks = ('ratio.magnitude == _INSTANCE.second.magnitude / '
+               '_INSTANCE.first.magnitude',
+               'ratio.magnitude == int(ratio.magnitude)')
     _Context = dict(PSElement=PSElement, int=int)
 
   _RelationCategories = (DeltaReln(), RatioReln())
+
+  def BriefLabel(self):
+    return 'CategoryInteger'
 
 
 class CategoryEvenInteger(PSCategory):

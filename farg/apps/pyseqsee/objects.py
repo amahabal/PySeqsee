@@ -96,6 +96,11 @@ class PSElement(PSObject):
   def FlattenedMagnitudes(self):
     return (self.magnitude,)
 
+  def BriefLabel(self):
+    if self.Span():
+      return 'Element %d@%d' % (self.magnitude, self.Span()[0])
+    return 'Element %d' % self.magnitude
+
 
 class PSGroup(PSObject):
   """Represents a group, including the degenerate case of singleton or empty group.
@@ -112,6 +117,12 @@ class PSGroup(PSObject):
 
   def Structure(self):
     return tuple(x.Structure() for x in self.items)
+
+  def BriefLabel(self):
+    if self._span:
+      return 'Group %s@(%d, %d)' % (self.Structure(), self._span[0],
+                                    self._span[1])
+    return 'Group %s' % self.Structure()
 
   def FlattenedMagnitudes(self):
     return reduce(lambda x, y: x + y, (i.FlattenedMagnitudes()

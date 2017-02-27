@@ -15,6 +15,11 @@ class PSStream(object):
     self.fringe_element_to_item_to_wt = defaultdict(lambda: defaultdict(float))
     self.last_focus_time = dict()
 
+  def GetRecentFoci(self):
+    sorted_by_time = sorted(
+        self.last_focus_time.items(), reverse=True, key=(lambda x: x[1]))
+    return sorted_by_time[:10]
+
   def FocusOn(self, focusable, controller):
     fringe = focusable.GetFringe()
     # TODO(amahabal) This way, anything that was ever a fringe element of an item stays that way.

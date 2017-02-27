@@ -1,4 +1,4 @@
-from tkinter import LAST
+from tkinter import LAST, NW, Toplevel, Text, END
 
 from farg.core.exceptions import SuccessfulCompletion
 from farg.core.question.question import BooleanQuestion
@@ -6,6 +6,7 @@ from farg.core.ui.batch_ui import BatchUI
 from farg.core.ui.gui import GUI
 from farg.core.ui.gui.central_pane import CentralPane
 from farg.core.ui.gui.views.coderack_view import CoderackView
+from farg.core.ui.gui.views.list_based_view import ListBasedView
 from farg.core.ui.gui.views.viewport import ViewPort
 import farg.flags as farg_flags
 
@@ -36,6 +37,44 @@ class WorkspaceView(ViewPort):
           fill='#0000FF')
 
 
+class StreamView(ListBasedView):
+  items_per_page = 5
+
+  def GetAllItemsToDisplay(self, controller):
+    """Returns a 2-tuple: A top message, and a list of items."""
+    stream = controller.stream
+    items_and_focus_time = stream.GetRecentFoci()
+    return ([x[0] for x in items_and_focus_time], 'Stream', dict())
+
+  def DrawItem(self, widget_x, widget_y, item, extra_dict, controller):
+    """Given x, y within the current widget and an item, draws it."""
+    x, y = self.CanvasCoordinates(widget_x, widget_y)
+    text_id = self.canvas.create_text(x, y, text=item.BriefLabel(), anchor=NW)
+    self.canvas.tag_bind(text_id, '<1>',
+                         lambda e: self.ShowFocusableDetails(controller, item))
+    fringe_strings = []
+    for fringe_el, v in item.stored_fringe.items():
+      if hasattr(fringe_el, 'BriefLabel'):
+        fringe_strings.append((fringe_el.BriefLabel(), v))
+      else:
+        fringe_strings.append((str(fringe_el), v))
+    fringe_string_for_item = '; '.join('%3.2f---%s' % (v, fringe_el)
+                                       for fringe_el, v in fringe_strings)
+    self.canvas.create_text(
+        x + 5,
+        y + 15,
+        anchor=NW,
+        text=fringe_string_for_item,
+        width=self.width - widget_x - 5)
+
+  def ShowFocusableDetails(self, controller, item):
+    top = Toplevel()
+    tb = Text(top, height=50, width=50)
+    tb.pack()
+    tb.insert(END, '%s\n\n' % item.BriefLabel())
+    tb.insert(END, 'Show details...')
+
+
 class PySeqseeCentralPane(CentralPane):
   default_initial_view = 'ws'
   named_views = {
@@ -45,6 +84,8 @@ class PySeqseeCentralPane(CentralPane):
           lambda pane: pane.SetFullView(CoderackView),
       'ws_cr':
           lambda pane: pane.SetVerticallySplitView(WorkspaceView, CoderackView),
+      'ws_cr_st':
+          lambda pane: pane.SetThreeWaySplit(WorkspaceView, CoderackView, StreamView),
   }
 
 
