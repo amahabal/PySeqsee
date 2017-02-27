@@ -1,7 +1,7 @@
 import argparse
 import sys
 
-from farg.apps.pyseqsee.stream import PSController
+from farg.apps.pyseqsee.controller import PSController
 from farg.apps.pyseqsee.ui import PySeqseeGUI, PySeqseeBatchUI
 from farg.apps.seqsee.read_input_spec import SeqseeReadInputSpec
 from farg.core.main import Main

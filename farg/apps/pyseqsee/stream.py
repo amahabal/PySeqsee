@@ -62,18 +62,3 @@ class PSStream(object):
       if scores[other_focusable] >= threshold:
         out.append((other_focusable, scores[other_focusable]))
     return sorted(out, reverse=True, key=lambda x: x[1])
-
-
-class PSController(Controller):
-  stream_class = PSStream
-  workspace_class = PSWorkspace
-
-  def __init__(self, get_input_from_flags=True, **args):
-    Controller.__init__(self, **args)
-    if get_input_from_flags:
-      self.SetInput(farg_flags.FargFlags.sequence,
-                    farg_flags.FargFlags.unrevealed_terms)
-
-  def SetInput(self, sequence, unrevealed_terms):
-    self.workspace.InsertElements(sequence)
-    self.unrevealed_terms = unrevealed_terms
