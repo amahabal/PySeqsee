@@ -1,12 +1,11 @@
+import sys
+
 from farg.apps.bongard.categories import Square
 from farg.apps.bongard.workspace import BongardWorkspace, PlatonicInteger
 from farg.core.controller import Controller
 from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.manager import LTMManager
-import sys
-
 import farg.flags as farg_flags
-
 kLTMName = 'bongard.main'
 
 def InitializeBongardLTM(ltm):

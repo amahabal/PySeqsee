@@ -13,7 +13,6 @@
 
 from farg.core.subspace import QuickReconnResults, Subspace
 from farg.core.util import WeightedChoice
-
 def ThingsToChooseFrom(ws):
   """Yields two-tuples of things to choose from, the second being weight."""
   # QUALITY TODO(Feb 14, 2012): This should be a subspace. What do we choose from, what

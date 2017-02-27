@@ -1,7 +1,6 @@
 from farg.apps.seqsee.categories import Number, MappingBasedCategory
 from farg.apps.seqsee.mapping import NumericMapping
 from farg.apps.seqsee.testing_utils import FringeOverlapTest, MockSeqseeController, CodeletPresenceSpec
-
 # Too many public methods because of unittest. pylint: disable=R0904
 class FringeOverlapTestForAnchored(FringeOverlapTest):
   def TestSanity(self):

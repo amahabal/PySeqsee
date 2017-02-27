@@ -3,7 +3,6 @@
 
 from farg.core.categorization.categorizable import CategorizableMixin
 from farg.core.ltm.storable import LTMStorableMixin, LTMNodeContent
-
 class PlatonicInteger(LTMNodeContent):
   """Integer in long-term memory.
 

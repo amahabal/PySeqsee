@@ -11,13 +11,13 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+import logging
+
 from farg.apps.seqsee.sobject import SObject, LTMStorableSObject, SElement
 from farg.core.codelet import Codelet
 from farg.core.exceptions import FargError, FargException
 from farg.core.focusable_mixin import FocusableMixin
 from farg.core.ltm.storable import LTMStorableMixin
-import logging
-
 logger = logging.getLogger(__name__)
 
 class NonAdjacentGroupElementsException(FargException):

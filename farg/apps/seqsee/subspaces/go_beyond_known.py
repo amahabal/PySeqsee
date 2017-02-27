@@ -15,7 +15,6 @@ from farg.apps.seqsee.question import AreTheseTheNextTermsQuestion
 from farg.core.codelet import CodeletFamily
 from farg.core.exceptions import NoAnswerException, AnswerFoundException
 from farg.core.subspace import Subspace
-
 class CF_InitialEvaluation(CodeletFamily):
   @classmethod
   def Run(cls, controller, *, me):

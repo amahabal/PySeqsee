@@ -1,12 +1,11 @@
+import unittest
+
 from farg.apps.seqsee.categories import Ascending
 from farg.apps.seqsee.mapping import StructuralMapping, FindMapping
 from farg.apps.seqsee.sobject import SObject
 from farg.core.controller import Controller
-from farg.core.ui.batch_ui import BatchUI
-import unittest
 from farg.core.ltm.graph import LTMGraph
-
-
+from farg.core.ui.batch_ui import BatchUI
 class TestSubspace(unittest.TestCase):
   def test_sanity(self):
     # This test refers to things in the Seqsee app. Maybe the test should move there.

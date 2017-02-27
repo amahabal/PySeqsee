@@ -18,7 +18,6 @@ import os.path
 
 from farg.core.ltm.graph import LTMGraph
 import farg.flags as farg_flags
-
 kLogger = logging.getLogger("LTM")
 
 class LTMManager(object):

@@ -1,15 +1,13 @@
-import unittest
 import os
 import tempfile
+import unittest
 
+from farg.apps.seqsee.anchored import SAnchored
+from farg.apps.seqsee.sobject import SObject, SElement, SGroup, LTMStorableSObject
 from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.graph import LTMGraph
 from farg.core.ltm.node import LTMNode
 from farg.core.ltm.storable import LTMStorableMixin
-
-from farg.apps.seqsee.sobject import SObject, SElement, SGroup, LTMStorableSObject
-from farg.apps.seqsee.anchored import SAnchored
-
 class LTMTestBase(unittest.TestCase):
   def setUp(self):
     unused_filehandle, self.filename = tempfile.mkstemp()

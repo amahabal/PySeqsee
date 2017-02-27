@@ -10,17 +10,14 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
+"""A relation is a specific instance of a mapping."""
 from farg.apps.seqsee.distance import DistanceInElements
 from farg.apps.seqsee.util import GreaterThan, LessThan
-from farg.core.util import SelectWeightedByActivation
 from farg.core.codelet import Codelet
 from farg.core.focusable_mixin import FocusableMixin
-import farg.flags as farg_flags
 from farg.core.history import History, ObjectType
-
-"""A relation is a specific instance of a mapping."""
-
-
+from farg.core.util import SelectWeightedByActivation
+import farg.flags as farg_flags
 class Relation(FocusableMixin):
   def __init__(self, first, second, *, mapping_set):
     #: Typically, the object on the left.

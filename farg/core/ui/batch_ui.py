@@ -13,7 +13,6 @@
 
 from farg.core.ltm.manager import LTMManager
 import farg.flags as farg_flags
-
 class BatchUI:
   def __init__(self, *, controller_class, stopping_condition_fn=None):
     self.pause_stepping = False

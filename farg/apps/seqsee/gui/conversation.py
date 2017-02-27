@@ -12,7 +12,6 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from tkinter import *
-
 class Conversation(Frame):
   def __init__(self, master, controller, *args, **kwargs):
     Frame.__init__(self, master)

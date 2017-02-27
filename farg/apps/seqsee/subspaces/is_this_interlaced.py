@@ -10,16 +10,15 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-from collections import defaultdict
-from farg.core.subspace import Subspace, QuickReconnResults
-from farg.core.codelet import CodeletFamily
-from farg.core.util import UnweightedChoice, SelectWeightedByActivation
-from farg.core.exceptions import NoAnswerException
-from farg.apps.seqsee.mapping import Mapping
-from farg.apps.seqsee.categories import SizeNCategory
-
 """Subspace to explore whether the group may be interlaced."""
+from collections import defaultdict
 
+from farg.apps.seqsee.categories import SizeNCategory
+from farg.apps.seqsee.mapping import Mapping
+from farg.core.codelet import CodeletFamily
+from farg.core.exceptions import NoAnswerException
+from farg.core.subspace import Subspace, QuickReconnResults
+from farg.core.util import UnweightedChoice, SelectWeightedByActivation
 class CF_FindMappingAtModulus(CodeletFamily):
   @classmethod
   def Run(cls, controller, modulus, *, me):

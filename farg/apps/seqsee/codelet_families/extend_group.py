@@ -13,12 +13,11 @@
 
 import logging
 
-from farg.core.codelet import CodeletFamily
-from farg.core.util import Toss, SelectWeightedByActivation
 from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.subspaces.go_beyond_known import SubspaceGoBeyondKnown
+from farg.core.codelet import CodeletFamily
 from farg.core.history import History
-
+from farg.core.util import Toss, SelectWeightedByActivation
 class CF_ExtendGroup(CodeletFamily):
   @classmethod
   def Run(cls, controller, item, *, me):

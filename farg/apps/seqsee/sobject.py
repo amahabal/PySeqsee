@@ -24,12 +24,12 @@
      categories), and not positional or specific use information (such as metonyms).
 """
 
+import logging
+
 from farg.core.categorization.categorizable import CategorizableMixin
 from farg.core.exceptions import FargError
 from farg.core.ltm.storable import LTMStorableMixin, LTMNodeContent
 from farg.core.util import Squash
-import logging
-
 logger = logging.getLogger(__name__)
 
 class LTMStorableSObject(LTMNodeContent):

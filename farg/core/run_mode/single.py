@@ -11,13 +11,12 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-from farg.core.exceptions import BatchModeStopException, FargError, FargException
-from farg.core.run_mode.non_interactive import RunModeNonInteractive
 from io import StringIO
 import sys
+
+from farg.core.exceptions import BatchModeStopException, FargError, FargException
+from farg.core.run_mode.non_interactive import RunModeNonInteractive
 import farg.flags as farg_flags
-
-
 class RunModeSingle(RunModeNonInteractive):
   """Run mode for a single run as part of a batch run or a SxS run.
 

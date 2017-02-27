@@ -13,18 +13,18 @@
 
 """Base class for entry point of each application."""
 
+import logging
+import logging.config
+import os.path
+import sys
+
 from farg.core.controller import Controller
 from farg.core.history import History, EventType
 from farg.core.run_mode import batch, gui, single, sxs
 from farg.core.stopping_conditions import StoppingConditions
 from farg.core.ui.batch_ui import BatchUI
 from farg.core.ui.gui import GUI
-import logging
-import logging.config
-import os.path
-import sys
 import farg.flags as farg_flags
-
 class Main:
   """The Base class for the Main class of an application.
 

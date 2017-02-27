@@ -1,11 +1,11 @@
 import unittest
+
 from farg.apps.pyseqsee.arena import PSArena
 from farg.apps.pyseqsee.categorization import categories as C
-from farg.apps.pyseqsee.objects import PSGroup
 from farg.apps.pyseqsee.categorization.numeric import CategoryEvenInteger, CategoryPrime
+from farg.apps.pyseqsee.objects import PSGroup
 from farg.apps.pyseqsee.tests.utils import CategoryTester, CategoryLogicTester, StructureTester
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
-
 class TestCategoryAnyObject(unittest.TestCase):
   """Test the simplest category of all: any group or element whatsoever is an instance."""
 

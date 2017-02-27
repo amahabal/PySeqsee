@@ -11,17 +11,16 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+import logging
+import sys
+
 from farg.apps.seqsee.codelet_families.all import CF_RemoveSpuriousRelations
 from farg.apps.seqsee.codelet_families.read_from_ws import CF_ReadFromWS
 from farg.apps.seqsee.workspace import Workspace
 from farg.core.controller import Controller
 from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.manager import LTMManager
-import logging
-import sys
-
 import farg.flags as farg_flags
-
 kLTMName = 'seqsee.main'
 
 def InitializeSeqseeLTM(ltm):

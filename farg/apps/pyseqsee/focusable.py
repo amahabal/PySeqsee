@@ -1,6 +1,5 @@
-from farg.core.history import History
 from farg.apps.pyseqsee.categorization.categorizable import Categorizable
-
+from farg.core.history import History
 class PSFocusable(Categorizable):
   def __init__(self):
     self.stored_fringe = None

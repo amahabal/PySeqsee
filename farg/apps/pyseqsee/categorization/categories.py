@@ -1,9 +1,8 @@
 """Defines the categories for objects."""
-from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from farg.apps.pyseqsee.categorization import logic
-from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.apps.pyseqsee.categorization.logic import ConditionalValue
-
+from farg.apps.pyseqsee.objects import PSElement, PSGroup
+from farg.apps.pyseqsee.utils import PSObjectFromStructure
 PSCategory = logic.PSCategory
 
 class BadCategorySpec(Exception):

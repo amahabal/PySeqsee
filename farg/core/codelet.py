@@ -14,8 +14,6 @@
 """Classes defining a Codelet and the base class for all Codelet families."""
 
 from abc import ABCMeta, abstractmethod  # Metaclass confuses pylint: disable=W0611
-
-
 class CodeletFamily(metaclass=ABCMeta):
   """A codelet family is a class that defines what a codelet of that family does when run.
 

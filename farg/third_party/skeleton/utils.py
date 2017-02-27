@@ -3,16 +3,14 @@ Skeleton Helpers
 """
 
 
-from contextlib import closing
 import codecs
+from contextlib import closing
 import logging
 import optparse
 import os
 import re
 import stat
 import sys
-
-
 VALID_OPTION_NAME = re.compile("[a-z]([\w\d]*[a-z0-9])?", re.IGNORECASE)
 
 

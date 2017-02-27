@@ -1,14 +1,14 @@
 """Test workspace more thoroughly."""
 
 import unittest
+
 from farg.apps.seqsee.anchored import SAnchored
-from farg.apps.seqsee.sobject import SObject, SElement, LTMStorableSObject
-from farg.apps.seqsee.workspace import Workspace
-from farg.core.ltm.storable import LTMStorableMixin
-from farg.core.categorization.categorizable import CategorizableMixin
 from farg.apps.seqsee.categories import Prime
 from farg.apps.seqsee.relation import Relation
-
+from farg.apps.seqsee.sobject import SObject, SElement, LTMStorableSObject
+from farg.apps.seqsee.workspace import Workspace
+from farg.core.categorization.categorizable import CategorizableMixin
+from farg.core.ltm.storable import LTMStorableMixin
 class TestWorkspace(unittest.TestCase):
 
   def setUp(self):

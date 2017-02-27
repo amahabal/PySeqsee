@@ -14,7 +14,6 @@
 from farg.core.controller import Controller
 from farg.core.exceptions import AnswerFoundException, NoAnswerException
 from farg.core.history import History, ObjectType, EventType
-
 class QuickReconnResults:
   """Result of quick reconnaisance before starting a subspace.
 

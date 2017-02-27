@@ -1,7 +1,7 @@
 import os.path
 import sys
-from farg.core.ltm.graph import LTMGraph
 
+from farg.core.ltm.graph import LTMGraph
 def GetLTMPath(app_name, ltm_name):
   homedir = os.path.expanduser('~')
   if not os.path.exists(homedir):

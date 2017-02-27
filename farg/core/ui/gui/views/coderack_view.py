@@ -13,11 +13,10 @@
 """View for displaying codelets in a coderack."""
 
 from collections import defaultdict
-from farg.core.ui.gui.views.list_based_view import ListBasedView
 from tkinter import NW, Text, Toplevel
 from tkinter.constants import END
 
-
+from farg.core.ui.gui.views.list_based_view import ListBasedView
 def ShowCodeletFamilyDetails(controller, family):
   """A toplevel for showing codelets in one family."""
   coderack = controller.coderack

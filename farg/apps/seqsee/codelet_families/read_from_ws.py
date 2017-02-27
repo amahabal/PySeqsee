@@ -11,9 +11,8 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-from farg.core.codelet import CodeletFamily
 from farg.apps.seqsee.subspaces.choose_item_to_focus_on import SubspaceSelectObjectToFocusOn
-
+from farg.core.codelet import CodeletFamily
 class CF_ReadFromWS(CodeletFamily):
   """Read an item from the WS and focus on it.
   """

@@ -1,12 +1,10 @@
 from functools import reduce
 
-from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
 from farg.apps.pyseqsee.categorization.categorizable import Categorizable
-from farg.apps.pyseqsee.utils import StructureToString
-from farg.apps.pyseqsee.relation import PSRelation
 from farg.apps.pyseqsee.focusable import PSFocusable
-
-
+from farg.apps.pyseqsee.relation import PSRelation
+from farg.apps.pyseqsee.utils import StructureToString
+from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
 class PlatonicObject(LTMNodeContent):
   """A stringified representation of a structure---i.e., of possibly nested tuples of integers.
 

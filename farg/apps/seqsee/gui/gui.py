@@ -18,9 +18,8 @@ from farg.apps.seqsee.gui.workspace_view import WorkspaceView
 from farg.core.ui.gui import GUI
 from farg.core.ui.gui.central_pane import CentralPane
 from farg.core.ui.gui.views.coderack_view import CoderackView
-from farg.core.ui.gui.views.stream_view import StreamView
 from farg.core.ui.gui.views.ltm_view import LTMView
-
+from farg.core.ui.gui.views.stream_view import StreamView
 class SeqseeCentralPane(CentralPane):
   default_initial_view = 'ws'
   named_views = {

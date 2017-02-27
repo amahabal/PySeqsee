@@ -1,4 +1,5 @@
 import argparse
+import sys
 
 from farg.apps.bongard.batch_ui import BongardBatchUI
 from farg.apps.bongard.controller import BongardController
@@ -6,9 +7,7 @@ from farg.apps.bongard.gui.gui import BongardGUI
 from farg.apps.bongard.read_input_spec import BongardReadInputSpec
 from farg.apps.bongard.stopping_conditions import BongardStoppingConditions
 from farg.core.main import Main
-import sys
 import farg.flags as farg_flags
-
 bongard_parser = argparse.ArgumentParser(parents=[farg_flags.core_parser])
 # Flags for specifying the input and, for use in testing, expected output.
 bongard_parser.add_argument('--left', type=int, nargs='*')

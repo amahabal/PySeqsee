@@ -10,15 +10,14 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-from farg.core.exceptions import FargError
 """Metaclass that makes the constructor memoized.
 
 That is, if the constructor is called twice with identical arguments, the same instance is
 returned in both cases.
 """
-
 from abc import ABCMeta
 
+from farg.core.exceptions import FargError
 class MemoizedConstructor(ABCMeta):
   """Metaclass that makes the constructor memoized.
 

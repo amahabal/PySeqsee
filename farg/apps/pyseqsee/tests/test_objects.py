@@ -1,8 +1,8 @@
 import unittest
+
+from farg.apps.pyseqsee.arena import PSArena
 from farg.apps.pyseqsee.objects import PlatonicObject, PSElement, PSGroup, PSObject
 from farg.core.ltm.storable import LTMNodeContent
-from farg.apps.pyseqsee.arena import PSArena
-
 class TestPlatonicObject(unittest.TestCase):
   """Tests creation and uniqueness of platonic objects."""
 

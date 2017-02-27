@@ -1,9 +1,9 @@
-import unittest
 import os
 import tempfile
+import unittest
+
 from farg.apps.bongard.workspace import PlatonicInteger, IntegerObject
 from farg.core.ltm.graph import LTMGraph
-
 class LTMTest(unittest.TestCase):
   def setUp(self):
     unused_filehandle, self.filename = tempfile.mkstemp()

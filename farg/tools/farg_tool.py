@@ -1,7 +1,8 @@
-from farg.tools import create_app, print_ltm
+import argparse
 import os.path
 import sys, os, shutil, runpy
-import argparse
+
+from farg.tools import create_app, print_ltm
 
 def create(args):
   """Basic command line bootstrap for the BasicModule Skeleton"""

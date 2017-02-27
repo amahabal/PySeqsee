@@ -13,17 +13,17 @@
 
 """Defines the base GUI for the GUI run-mode."""
 
+import logging
+import threading
+from tkinter import Button, Frame, Label, StringVar, Tk
+from tkinter.constants import LEFT
+from tkinter.messagebox import askyesno, showinfo
+
 from farg.core.exceptions import AnswerFoundException
 from farg.core.ltm.manager import LTMManager
 from farg.core.question.question import BooleanQuestion
 from farg.core.ui.gui.central_pane import CentralPane
-from tkinter import Button, Frame, Label, StringVar, Tk
-from tkinter.constants import LEFT
-from tkinter.messagebox import askyesno, showinfo
-import logging
-import threading
 import farg.flags as farg_flags
-
 class RunForNSteps(threading.Thread):
   """Runs controller for up to n steps.
 

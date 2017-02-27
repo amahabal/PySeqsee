@@ -12,11 +12,10 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from collections import defaultdict
-from farg.core.ui.gui.views.list_based_view import ListBasedView
 from tkinter import NW, Text, Toplevel
 from tkinter.constants import END
 
-
+from farg.core.ui.gui.views.list_based_view import ListBasedView
 def ShowFocusableDetails(controller, focusable):
   stream = controller.stream
   stored_fringes = stream.stored_fringes

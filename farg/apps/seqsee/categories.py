@@ -10,8 +10,6 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-from farg.apps.seqsee.subspaces.get_mapping import SubspaceFindBindingMapping
-
 """Seqsee-specific categories.
 
 These will include (not all implemented yet):
@@ -60,14 +58,13 @@ If FooCategory is a subclass of ParametrizedCategory, we could say::
   cat2 = FooCategory.Create(x=3)  # Returns the same cached class.
 
 """
-
 from farg.apps.seqsee.mapping import NumericMapping, StructuralMapping
 from farg.apps.seqsee.sobject import SElement, SObject
 from farg.apps.seqsee.structure_utils import StructureDepth
+from farg.apps.seqsee.subspaces.get_mapping import SubspaceFindBindingMapping
 from farg.core.categorization.binding import Binding
 from farg.core.categorization.category import Category
 from farg.core.exceptions import FargError, FargException
-
 class SeqseeObjectCategory(Category):
   """Base for categories whose instances are groups in Seqsee.
 

@@ -1,8 +1,8 @@
+import unittest
+
 from farg.apps.seqsee.anchored import SAnchored, NonAdjacentGroupElementsException
 from farg.apps.seqsee.sobject import SObject
 from farg.core.exceptions import FargError
-import unittest
-
 class TestSObject(unittest.TestCase):
   def test_object_creation(self):
     o1 = SObject.Create([3])

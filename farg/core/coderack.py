@@ -30,11 +30,11 @@ Just as the contents of a person's to do list can strongly suggest their
 actions over the next few hours, the Coderack's contents indicate the
 directions Seqsee will pursue in the near future.
 """
+import logging
 import random
+
 from farg.core.exceptions import FargError, FargException
 from farg.core.history import History, EventType, ObjectType
-
-import logging
 kLogger = logging.getLogger(__name__)
 
 

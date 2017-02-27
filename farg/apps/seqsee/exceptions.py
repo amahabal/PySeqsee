@@ -10,10 +10,8 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-from farg.core.exceptions import FargException
-
 """Seqsee-specific exceptions."""
-
+from farg.core.exceptions import FargException
 class SeqseeException(FargException):
   """Base class of all Seqsee exceptions."""
   pass

@@ -12,7 +12,6 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.core.run_mode.run_mode import RunMode
-
 class RunModeGUI(RunMode):
   def __init__(self, *, controller_class, ui_class, stopping_condition_fn=None):
     print("Initialized a GUI run mode")

@@ -1,13 +1,13 @@
 import unittest
+
 from farg.apps.pyseqsee.categorization.categorizable import Categorizable
 from farg.apps.pyseqsee.categorization.logic import PSCategory
 from farg.apps.pyseqsee.focusable import PSFocusable
-from farg.apps.pyseqsee.stream import PSStream, PSController
 from farg.apps.pyseqsee.objects import PSElement
+from farg.apps.pyseqsee.stream import PSStream, PSController
 from farg.apps.pyseqsee.tests.utils import FringeTest
 from farg.apps.pyseqsee.ui import PySeqseeBatchUI
 from farg.core.codelet import CodeletFamily, Codelet
-
 class TestFocusable(unittest.TestCase):
   def test_sanity(self):
     class F1(PSFocusable):

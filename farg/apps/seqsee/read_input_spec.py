@@ -12,7 +12,6 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.core.read_input_spec import ReadInputSpec, SpecificationForOneRun
-
 class SeqseeReadInputSpec(ReadInputSpec):
   def ReadLine(self, line):
     if not '|' in line:

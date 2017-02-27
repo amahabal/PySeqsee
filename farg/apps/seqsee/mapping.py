@@ -10,12 +10,9 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-from farg.core.util import SelectWeightedByActivation
-
 """A way to specify how two entities are related."""
-
 from farg.core.ltm.storable import LTMNodeContent
-
+from farg.core.util import SelectWeightedByActivation
 class Mapping(LTMNodeContent):
   pass
 

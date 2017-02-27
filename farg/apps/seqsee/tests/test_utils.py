@@ -1,6 +1,6 @@
 import unittest
-from farg.apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 
+from farg.apps.seqsee.util import LessThan, LessThanEq, GreaterThan, GreaterThanEq, Exactly
 class TestUtils(unittest.TestCase):
   def test_utility_functions(self):
     self.assertTrue(LessThan(3)(2), "2 is acceptable for the function LessThan(3)")

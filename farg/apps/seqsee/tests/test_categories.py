@@ -1,13 +1,13 @@
+import unittest
+
 from farg.apps.seqsee.categories import Ascending, MappingBasedCategory, Number, Prime, SizeNCategory
 from farg.apps.seqsee.mapping import NumericMapping, StructuralMapping
 from farg.apps.seqsee.sobject import SObject
-from farg.core.categorization.categorizable import CategorizableMixin
-import unittest
-from farg.core.ltm.graph import LTMGraph
-from farg.core.controller import Controller
-from farg.core.ui.batch_ui import BatchUI
 from farg.apps.seqsee.testing_utils import MockSeqseeController
-
+from farg.core.categorization.categorizable import CategorizableMixin
+from farg.core.controller import Controller
+from farg.core.ltm.graph import LTMGraph
+from farg.core.ui.batch_ui import BatchUI
 class TestSeqseeCategories(unittest.TestCase):
   def test_sanity(self):
     self.assertTrue(issubclass(SObject, CategorizableMixin))

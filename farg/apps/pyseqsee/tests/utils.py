@@ -1,6 +1,5 @@
 """Utilities for testing."""
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
-
 def CategoryTester(*, positive, negative):
   """Given two lists of structures, returns a 2-argument function (with a category as the second arg)
      that tests each of these structures for the category.

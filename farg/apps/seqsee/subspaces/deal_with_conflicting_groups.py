@@ -16,7 +16,6 @@ from farg.core.controller import Controller
 from farg.core.exceptions import NoAnswerException
 from farg.core.subspace import Subspace
 from farg.core.util import Toss
-
 class CF_FightIncumbents(CodeletFamily):
   @staticmethod
   def ProbabilityOfOverturningIncumbent(incumbent_strength, challenger_strength):

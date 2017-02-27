@@ -1,12 +1,11 @@
 import unittest
+
 from farg.apps.pyseqsee.arena import PSArena, ElementBeyondKnownSoughtException,\
   CannotInsertGroupWithoutSpans, UnmergableObjectException, ElementWayBeyondKnownSoughtException
+from farg.apps.pyseqsee.categorization.categories import BasicSuccessorCategory
+from farg.apps.pyseqsee.categorization.numeric import CategoryPrime, CategoryEvenInteger
 from farg.apps.pyseqsee.objects import PSGroup, PSElement
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
-from farg.apps.pyseqsee.categorization.numeric import CategoryPrime, CategoryEvenInteger
-from farg.apps.pyseqsee.categorization.categories import BasicSuccessorCategory
-
-
 class TestPSArena(unittest.TestCase):
 
   def test_basic(self):

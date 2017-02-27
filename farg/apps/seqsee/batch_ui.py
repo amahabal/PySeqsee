@@ -11,12 +11,12 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+import sys
+
 from farg.apps.seqsee.question import AreTheseTheNextTermsQuestion
 from farg.core.exceptions import SuccessfulCompletion
 from farg.core.ui.batch_ui import BatchUI
-import sys
 import farg.flags as farg_flags
-
 def HasAsPrefix(longer_list, shorter_list):
   return longer_list[:len(shorter_list)] == shorter_list
 

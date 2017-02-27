@@ -1,8 +1,7 @@
-from enum import Enum
 from _collections import defaultdict
+from enum import Enum
 from functools import wraps
 from tkinter import Tk, ttk, LEFT, NW, BOTH, Button, Text, END
-
 class EventType(Enum):
   CREATE = 1  # Used for object creation
   CODELET_RUN_START = 2

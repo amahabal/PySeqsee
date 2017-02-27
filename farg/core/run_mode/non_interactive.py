@@ -21,15 +21,15 @@ whereas in the batch mode it is the last time the batch mode was run.
 """
 
 from abc import ABCMeta, abstractmethod  # Metaclass confuses pylint: disable=W0611
-from farg.core.run_mode.run_mode import RunMode
-from farg.core.run_stats import AllStats, Mean, Median
-from tkinter import Canvas, Frame, Label, Listbox, Scrollbar, Tk
-from tkinter.constants import BOTH, END, LEFT, N, NW, RIGHT, SINGLE, TOP, VERTICAL, X, Y
 import subprocess
 import sys
 import threading
-import farg.flags as farg_flags
+from tkinter import Canvas, Frame, Label, Listbox, Scrollbar, Tk
+from tkinter.constants import BOTH, END, LEFT, N, NW, RIGHT, SINGLE, TOP, VERTICAL, X, Y
 
+from farg.core.run_mode.run_mode import RunMode
+from farg.core.run_stats import AllStats, Mean, Median
+import farg.flags as farg_flags
 class RunMultipleTimes(threading.Thread, metaclass=ABCMeta):
   """Class to run the application several times on a set of inputs.
 

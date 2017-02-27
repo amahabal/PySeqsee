@@ -1,12 +1,12 @@
 import argparse
-import farg.flags as farg_flags
-from farg.apps.pyseqsee.stream import PSController
 import sys
-from farg.core.main import Main
+
+from farg.apps.pyseqsee.stream import PSController
 from farg.apps.pyseqsee.ui import PySeqseeGUI, PySeqseeBatchUI
 from farg.apps.seqsee.read_input_spec import SeqseeReadInputSpec
+from farg.core.main import Main
 from farg.core.stopping_conditions import StoppingConditions
-
+import farg.flags as farg_flags
 pyseqsee_parser = argparse.ArgumentParser(parents=[farg_flags.core_parser])
 pyseqsee_parser.add_argument('--sequence', type=int, nargs='*')
 pyseqsee_parser.add_argument('--unrevealed_terms', type=int, nargs='*')

@@ -11,11 +11,11 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-from farg.core.run_mode.non_interactive import (RunModeNonInteractive, RunMultipleTimes,
-                                                MultipleRunGUI)
 import sys
-import farg.flags as farg_flags
 
+from farg.core.run_mode.non_interactive import (
+    RunModeNonInteractive, RunMultipleTimes, MultipleRunGUI)
+import farg.flags as farg_flags
 class SxSRunMultipleTimes(RunMultipleTimes):
   """Multiple-runner specialized for SxS."""
 

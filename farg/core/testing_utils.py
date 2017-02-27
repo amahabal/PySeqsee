@@ -12,8 +12,6 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 import unittest
-
-
 class CodeletPresenceSpec(object):
   def __init__(self, family, arguments=None):
     self.family = family

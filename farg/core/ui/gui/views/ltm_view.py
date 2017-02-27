@@ -13,9 +13,9 @@
 
 """View for displaying nodes in an ltm."""
 
-from farg.core.ui.gui.views.list_based_view import ListBasedView
 from tkinter import END, NW, Text, Toplevel
 
+from farg.core.ui.gui.views.list_based_view import ListBasedView
 def ShowNodeDetails(controller, node):
   top = Toplevel()
   tb = Text(top, height=50, width=50)

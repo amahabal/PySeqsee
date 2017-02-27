@@ -22,9 +22,7 @@ from farg.core.history import History, EventType, ObjectType
 from farg.core.ltm.manager import LTMManager
 from farg.core.stream import Stream
 from farg.core.util import Toss
-
 import farg.flags as farg_flags
-
 class Controller:
   """Purely mechanical (read "dumb") loop to control entire app or individual subspaces.
 

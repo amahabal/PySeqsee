@@ -15,12 +15,11 @@
 
 Examples of such things include codelets in a coderack and recent foci in the stream.
 """
-from abc import ABCMeta, abstractmethod    # Metaclass confuses pylint: disable=W0611
-from farg.core.ui.gui.views.viewport import ViewPort
+from abc import ABCMeta, abstractmethod  # Metaclass confuses pylint: disable=W0611
 from math import ceil
 from tkinter import NE, NW
 
-
+from farg.core.ui.gui.views.viewport import ViewPort
 class ListBasedView(ViewPort, metaclass=ABCMeta):
   """A base class for views that show a bunch of objects and which require pagination."""
 

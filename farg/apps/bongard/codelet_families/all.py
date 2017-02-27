@@ -1,5 +1,4 @@
 from farg.core.codelet import CodeletFamily
-
 class CF_HorribleHack(CodeletFamily):
   '''Checks if the solution is odd/even.
 

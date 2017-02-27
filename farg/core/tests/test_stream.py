@@ -1,9 +1,9 @@
+import unittest
+
 from farg.core.controller import Controller
 from farg.core.focusable_mixin import FocusableMixin
 from farg.core.stream import Stream
 from farg.core.ui.batch_ui import BatchUI
-import unittest
-
 class MyFocusable(FocusableMixin):
   def __init__(self, x):
     self.x = x

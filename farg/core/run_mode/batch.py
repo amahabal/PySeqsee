@@ -12,11 +12,11 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from collections import defaultdict
-import farg.flags as farg_flags
-from farg.core.run_mode.non_interactive import RunModeNonInteractive, RunMultipleTimes, MultipleRunGUI
-from farg.core.run_stats import RunStats
 import os.path
 
+from farg.core.run_mode.non_interactive import RunModeNonInteractive, RunMultipleTimes, MultipleRunGUI
+from farg.core.run_stats import RunStats
+import farg.flags as farg_flags
 class BatchRunMultipleTimes(RunMultipleTimes):
   """Multiple-runner specialized for batch."""
 

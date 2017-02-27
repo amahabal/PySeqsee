@@ -1,13 +1,13 @@
-from farg.core.ui.gui.views.viewport import ViewPort
 from tkinter import LAST
-from farg.core.ui.gui.central_pane import CentralPane
-from farg.core.ui.gui.views.coderack_view import CoderackView
-from farg.core.ui.gui import GUI
-from farg.core.ui.batch_ui import BatchUI
-import farg.flags as farg_flags
+
 from farg.core.exceptions import SuccessfulCompletion
 from farg.core.question.question import BooleanQuestion
-
+from farg.core.ui.batch_ui import BatchUI
+from farg.core.ui.gui import GUI
+from farg.core.ui.gui.central_pane import CentralPane
+from farg.core.ui.gui.views.coderack_view import CoderackView
+from farg.core.ui.gui.views.viewport import ViewPort
+import farg.flags as farg_flags
 class WorkspaceView(ViewPort):
   def __init__(self, canvas, left, bottom, width, height):
     ViewPort.__init__(self, canvas, left, bottom, width, height)

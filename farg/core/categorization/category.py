@@ -32,9 +32,8 @@ The following also returns a binding, but does not store the membership informat
 """
 
 from abc import abstractmethod
+
 from farg.core.ltm.storable import LTMNodeContent
-
-
 class Category(LTMNodeContent):
   """The base class of any category in the FARG system.
 

@@ -15,8 +15,6 @@
 
 from collections import defaultdict
 from math import sqrt
-
-
 def Mean(numbers):
   """Returns the average of the input, 0 if empty."""
   if not numbers:

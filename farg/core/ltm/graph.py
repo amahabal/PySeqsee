@@ -11,12 +11,12 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+import logging
+
 from farg.core.exceptions import FargError
 from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.node import LTMNode, Unmangle
-import logging
 import pickle as pickle
-
 kLogger = logging.getLogger("LTM_topology")
 
 

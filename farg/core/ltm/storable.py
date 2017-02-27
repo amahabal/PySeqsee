@@ -11,7 +11,6 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 from farg.core.meta import MemoizedConstructor
-
 def GetStorablesInTuple(t):
   dependants = set()
   for v in t:

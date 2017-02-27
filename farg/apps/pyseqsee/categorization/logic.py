@@ -1,10 +1,10 @@
+from _collections import defaultdict
 import ast
 import traceback
-from farg.apps.pyseqsee.utils import PSObjectFromStructure
-from farg.apps.pyseqsee.objects import PSObject
-from _collections import defaultdict
-from farg.core.ltm.storable import LTMNodeContent
 
+from farg.apps.pyseqsee.objects import PSObject
+from farg.apps.pyseqsee.utils import PSObjectFromStructure
+from farg.core.ltm.storable import LTMNodeContent
 class InsufficientAttributesException(Exception):
   """Raised when instance creation is attempted with insufficient attributes.
 

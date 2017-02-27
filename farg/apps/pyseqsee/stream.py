@@ -1,11 +1,11 @@
-from farg.apps.pyseqsee.categorization.categorizable import Categorizable
 from _collections import defaultdict
-from farg.core.util import ChooseAboutN
-from farg.core.controller import Controller
-import farg.flags as farg_flags
-from farg.apps.pyseqsee.workspace import PSWorkspace
-from farg.core.history import History
 
+from farg.apps.pyseqsee.categorization.categorizable import Categorizable
+from farg.apps.pyseqsee.workspace import PSWorkspace
+from farg.core.controller import Controller
+from farg.core.history import History
+from farg.core.util import ChooseAboutN
+import farg.flags as farg_flags
 class PSStream(object):
   def __init__(self, controller):
     self.controller = controller

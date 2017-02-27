@@ -11,9 +11,9 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
-from farg.core.ui.gui.views.viewport import ViewPort
 from tkinter import LAST
 
+from farg.core.ui.gui.views.viewport import ViewPort
 class WorkspaceView(ViewPort):
   def __init__(self, canvas, left, bottom, width, height):
     ViewPort.__init__(self, canvas, left, bottom, width, height)

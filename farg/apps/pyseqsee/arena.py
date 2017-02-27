@@ -1,10 +1,10 @@
 """An arena is a sequence of elements with possibly overlapping groups.
 
 It is one of the core pieces of the workspace, but may be used elsewhere."""
-from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from _collections import defaultdict
-from farg.core.history import History
 
+from farg.apps.pyseqsee.objects import PSElement, PSGroup
+from farg.core.history import History
 class ElementBeyondKnownSoughtException(Exception):
   """Raised when checking for elements beyond the known range.
 

@@ -17,11 +17,11 @@ This is a canvas that can hold multiple views (such as Coderack view, Workspace 
 
 Each view is an instance of a subclass of :py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.
 """
-import farg.flags as farg_flags
-from farg.core.history import HistoryGUI
 import sys
 from tkinter import ALL, Canvas, Menu
 
+from farg.core.history import HistoryGUI
+import farg.flags as farg_flags
 class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disable=R0901,R0904
   """The central area of the UI based display.
 

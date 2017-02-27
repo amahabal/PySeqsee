@@ -1,10 +1,9 @@
+import unittest
+
 from farg.core.codelet import Codelet, CodeletFamily
 from farg.core.coderack import Coderack, CoderackEmptyException
 from farg.core.controller import Controller
 from farg.core.exceptions import FargError
-import unittest
-
-
 class MyController(Controller):
   def __init__(self):
     self.x = 5

@@ -11,13 +11,13 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+import logging
+
 from farg.apps.seqsee.anchored import SAnchored
+from farg.apps.seqsee.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
 from farg.apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
 from farg.core.codelet import CodeletFamily
-from farg.apps.seqsee.exceptions import ConflictingGroupException, CannotReplaceSubgroupException
-import logging
 from farg.core.history import History
-
 class CF_ActOnOverlappingGroups(CodeletFamily):
   @classmethod
   def Run(cls, controller, left, right, *, me):

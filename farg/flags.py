@@ -1,8 +1,6 @@
 """Defines the flags shared by all apps."""
 
 import argparse
-
-
 class SplitOnSpacesAction(argparse.Action):
   def __call__(self, parser, namespace, values, option_string=None):
     print('%r %r %r' % (namespace, values, option_string))

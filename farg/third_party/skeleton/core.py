@@ -12,10 +12,8 @@ import shutil
 import sys
 import weakref
 
-from farg.third_party.skeleton.utils import (
-    get_loggger, get_file_mode, vars_to_optparser, prompt)
-
-
+from farg.third_party.skeleton.utils import (get_loggger, get_file_mode,
+                                             vars_to_optparser, prompt)
 _LOG = get_loggger(__name__)
 
 

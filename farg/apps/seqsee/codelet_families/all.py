@@ -15,13 +15,12 @@ import logging
 
 from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.exceptions import ConflictingGroupException
+from farg.apps.seqsee.subspaces.are_we_done import SubspaceAreWeDone
 from farg.apps.seqsee.subspaces.deal_with_conflicting_groups import SubspaceDealWithConflictingGroups
+from farg.apps.seqsee.subspaces.is_this_interlaced import SubspaceIsThisInterlaced
 from farg.core.codelet import CodeletFamily
 from farg.core.exceptions import AnswerFoundException
-from farg.apps.seqsee.subspaces.are_we_done import SubspaceAreWeDone
-from farg.apps.seqsee.subspaces.is_this_interlaced import SubspaceIsThisInterlaced
 from farg.core.history import History
-
 class CF_FocusOn(CodeletFamily):
   """Causes the required focusable to be added to the stream."""
   @classmethod

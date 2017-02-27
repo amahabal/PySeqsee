@@ -1,5 +1,4 @@
 from farg.core.stopping_conditions import StoppingConditions, RegisterStoppingCondition
-
 class BongardStoppingConditions(StoppingConditions):
   pass
 

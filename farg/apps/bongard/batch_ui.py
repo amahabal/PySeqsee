@@ -11,11 +11,9 @@ order to automatically answer questions such as the one above.).
 """
 
 from farg.core.ui.batch_ui import BatchUI
-
 # If you need access to flags, you need:
 # import farg.flags as farg_flags
 # # The flag --foo is available at farg_flags.FargFlags.foo
-
 class BongardBatchUI(BatchUI):
   """Simulated user to answer questions that a user would in GUI."""
 

@@ -17,9 +17,7 @@ The coordinates (left, top) and (bottom, right) define a rectangular section of 
 This is an abstract class where a few methods need to be plugged in.
 """
 
-from abc import ABCMeta, abstractmethod    # Metaclass confuses pylint: disable=W0611
-
-
+from abc import ABCMeta, abstractmethod  # Metaclass confuses pylint: disable=W0611
 class ViewPort(metaclass=ABCMeta):
   """Viewport defines a section of a canvas for displaying some information."""
 

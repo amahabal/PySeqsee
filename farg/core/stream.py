@@ -13,10 +13,10 @@
 
 # TODO(#4 --- Dec 28, 2011): Move to src/farg.
 from collections import defaultdict
-from farg.core.focusable_mixin import FocusableMixin
-from farg.core.util import ChooseAboutN
-from farg.core.history import History, EventType
 
+from farg.core.focusable_mixin import FocusableMixin
+from farg.core.history import History, EventType
+from farg.core.util import ChooseAboutN
 class Stream(object):
   """Implements the Stream of Thought.
 

@@ -13,8 +13,6 @@
 """Mixin class to be added to anything that can be the focus in the stream."""
 
 from abc import ABCMeta, abstractmethod  # Metaclass confuses pylint: disable=W0611
-
-
 class FocusableMixin(metaclass=ABCMeta):
   """A mixin for things that want to be part of the stream.
 

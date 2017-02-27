@@ -12,6 +12,7 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 import argparse
+import sys
 
 from farg.apps.seqsee.batch_ui import SeqseeBatchUI
 from farg.apps.seqsee.controller import SeqseeController
@@ -20,8 +21,6 @@ from farg.apps.seqsee.read_input_spec import SeqseeReadInputSpec
 from farg.apps.seqsee.stopping_conditions import SeqseeStoppingConditions
 from farg.core.main import Main
 import farg.flags as farg_flags
-import sys
-
 seqsee_parser = argparse.ArgumentParser(parents=[farg_flags.core_parser])
 seqsee_parser.add_argument('--sequence', type=int, nargs='*')
 seqsee_parser.add_argument('--unrevealed_terms', type=int, nargs='*')

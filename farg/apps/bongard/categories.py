@@ -2,10 +2,9 @@
 
 import math
 
-from farg.core.categorization.category import Category
 from farg.core.categorization.binding import Binding
+from farg.core.categorization.category import Category
 from farg.core.exceptions import FargError
-
 class Square(Category):
   """Category whose instances are IntegerObject that are square numbers."""
 

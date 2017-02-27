@@ -2,11 +2,11 @@
 Script to create an empty application.
 """
 from argparse import ArgumentError
-from farg.third_party.skeleton import Skeleton, Var
-from farg.third_party.skeleton.core import ValidateError
 import os.path
 import sys
 
+from farg.third_party.skeleton import Skeleton, Var
+from farg.third_party.skeleton.core import ValidateError
 class VarWithConstraints(Var):
   def __init__(self, name, *, constraint, **kwargs):
     Var.__init__(self, name, **kwargs)

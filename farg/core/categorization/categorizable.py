@@ -13,7 +13,6 @@
 """Mixin class for entities that we want to put in categories."""
 
 import logging
-
 class CategorizableMixin(object):
   """Base class for things that can belong to categories."""
 

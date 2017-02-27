@@ -4,12 +4,11 @@ import os
 import tempfile
 import unittest
 
-from farg.core.ltm.graph import LTMGraph
-from farg.apps.pyseqsee.categorization.numeric import CategoryEvenInteger, CategoryPrime
 from farg.apps.pyseqsee.categorization import categories as C
+from farg.apps.pyseqsee.categorization.numeric import CategoryEvenInteger, CategoryPrime
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from farg.apps.pyseqsee.tests.utils import CategoryTester
-
+from farg.core.ltm.graph import LTMGraph
 class LTMTestBase(unittest.TestCase):
 
   def tearDown(self):

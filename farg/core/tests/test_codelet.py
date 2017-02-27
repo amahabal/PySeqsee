@@ -1,8 +1,7 @@
 import unittest
 
-from farg.core.controller import Controller
 from farg.core.codelet import Codelet, CodeletFamily
-
+from farg.core.controller import Controller
 class MyController(Controller):
   def __init__(self):
     self.x = 5

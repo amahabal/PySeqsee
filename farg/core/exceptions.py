@@ -18,10 +18,8 @@
   Exceptions specific to an individual application should live in that application's
   directory.
 """
-import traceback
 from itertools import takewhile
-
-
+import traceback
 class FargError(Exception):
   """Base class for untrappable errors (indicating bugs)."""
 

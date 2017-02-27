@@ -12,7 +12,6 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 from farg.core.subspace import Subspace, QuickReconnResults
 import farg.flags as farg_flags
-
 class SubspaceAreWeDone(Subspace):
   """Checks if we should stop because we have found or explained the answer.
 

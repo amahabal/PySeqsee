@@ -12,9 +12,8 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 """Defines class for "Node" of an LTM."""
 
-import math
 import logging
-
+import math
 kLogger = logging.getLogger("LTM_activations")
 
 #: Maps raw activation (an integer) to real activation.

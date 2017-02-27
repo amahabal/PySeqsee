@@ -1,11 +1,11 @@
 import unittest
-from farg.apps.pyseqsee.utils import PSObjectFromStructure
-from farg.apps.pyseqsee.relation import PSRelation
-from farg.apps.pyseqsee.categorization.categories import PSCategory
-from farg.apps.pyseqsee.objects import PSElement
-from farg.apps.pyseqsee.arena import PSArena
-from farg.apps.pyseqsee.categorization.numeric import CategoryInteger
 
+from farg.apps.pyseqsee.arena import PSArena
+from farg.apps.pyseqsee.categorization.categories import PSCategory
+from farg.apps.pyseqsee.categorization.numeric import CategoryInteger
+from farg.apps.pyseqsee.objects import PSElement
+from farg.apps.pyseqsee.relation import PSRelation
+from farg.apps.pyseqsee.utils import PSObjectFromStructure
 class TestRelations(unittest.TestCase):
 
   def test_sanity(self):

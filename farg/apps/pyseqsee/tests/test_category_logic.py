@@ -1,10 +1,10 @@
 import unittest
+
 from farg.apps.pyseqsee.categorization import categories as C
-from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.apps.pyseqsee.categorization import logic
 from farg.apps.pyseqsee.categorization.categories import PSCategory
 from farg.apps.pyseqsee.tests.utils import CategoryLogicTester, StructureTester
-
+from farg.apps.pyseqsee.utils import PSObjectFromStructure
 def assert_creation(test, cat, expected, **kwargs):
   """Given a category and kwargs, tries to create an instance. Evaluates against expected."""
   instance = cat.CreateInstance(**kwargs)

@@ -10,16 +10,14 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-from farg.core.meta import MemoizedConstructor
-from farg.core.ltm.storable import LTMStorableMixin
-
 """Code for keeping track of distances between items in the workspace.
 
 Distance can be in either of two units: numbers or groups. That is, the distance between
 1 and 2 in "1 (7 8) 2" is either 2 numbers or 1 group. Adjacent elements have distance 0
 in either units.
 """
-
+from farg.core.ltm.storable import LTMStorableMixin
+from farg.core.meta import MemoizedConstructor
 class Distance(LTMStorableMixin):
   def __init__(self, *, value, unit):
     self.value = value

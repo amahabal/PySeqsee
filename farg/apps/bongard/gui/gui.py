@@ -5,7 +5,6 @@ from farg.core.ui.gui import GUI
 from farg.core.ui.gui.central_pane import CentralPane
 from farg.core.ui.gui.views.coderack_view import CoderackView
 from farg.core.ui.gui.views.stream_view import StreamView
-
 class BongardCentralPane(CentralPane):
   default_initial_view = 'ws'
   named_views = {

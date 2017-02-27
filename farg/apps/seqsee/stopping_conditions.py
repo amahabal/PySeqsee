@@ -12,7 +12,6 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.core.stopping_conditions import StoppingConditions, RegisterStoppingCondition
-
 class SeqseeStoppingConditions(StoppingConditions):
   pass
 

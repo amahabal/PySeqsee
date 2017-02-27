@@ -11,22 +11,20 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+import logging
+import random
+import sys
+
 from farg.apps.seqsee.mapping import NumericMapping, StructuralMapping, FindMapping
 from farg.apps.seqsee.relation import Relation
+from farg.apps.seqsee.sobject import SGroup
 from farg.core.codelet import CodeletFamily
 from farg.core.controller import Controller
 from farg.core.exceptions import AnswerFoundException, NoAnswerException
 from farg.core.subspace import QuickReconnResults, Subspace
 from farg.core.util import WeightedShuffle, WeightedChoice, Toss
-import logging
-import random
-
-from farg.apps.seqsee.sobject import SGroup
-import sys
 import farg.flags as farg_flags
-
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
-
 logger = logging.getLogger(__name__)
 
 class CF_ExplainValues(CodeletFamily):

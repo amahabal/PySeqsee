@@ -1,13 +1,13 @@
+import os
+import tempfile
+import unittest
+
 from farg.apps.seqsee.categories import Number, Prime
 from farg.apps.seqsee.mapping import NumericMapping, StructuralMapping
 from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.graph import LTMGraph
 from farg.core.ltm.node import LTMNode
 from farg.core.ltm.storable import LTMStorableMixin
-import os
-import tempfile
-import unittest
-
 class LTMTestBase(unittest.TestCase):
   def setUp(self):
     filehandle, self.filename = tempfile.mkstemp()
