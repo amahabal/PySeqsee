@@ -4,7 +4,7 @@ from farg.apps.pyseqsee.categorization.categorizable import Categorizable
 from farg.apps.pyseqsee.categorization.logic import PSCategory
 from farg.apps.pyseqsee.controller import PSController
 from farg.apps.pyseqsee.focusable import PSFocusable
-from farg.apps.pyseqsee.objects import PSElement
+from farg.apps.pyseqsee.objects import PSElement, PlatonicObject
 from farg.apps.pyseqsee.stream import PSStream
 from farg.apps.pyseqsee.tests.utils import FringeTest
 from farg.apps.pyseqsee.ui import PySeqseeBatchUI
@@ -24,6 +24,9 @@ class TestFocusable(unittest.TestCase):
       def CalculateFringe(self):
         """This fringe will be appended with a fringe coming from category membership."""
         return {self.x: 1.0, (self.x + 1): 0.5, (self.x - 1): 0.5}
+
+      def GetLTMStorableContent(self):
+        return PlatonicObject(rep=str(self.x))
 
     class FakeAttributeRichCategory(PSCategory):
       _Attributes = ('att_1', 'att_2', 'att_3')
@@ -73,6 +76,9 @@ class TestStream(unittest.TestCase):
 
       def BriefLabel(self):
         return 'F1'
+
+      def GetLTMStorableContent(self):
+        return PlatonicObject(rep=str(self.x))
 
       def CalculateFringe(self):
         """This fringe will be appended with a fringe coming from category membership."""
