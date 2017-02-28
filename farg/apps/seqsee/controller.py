@@ -21,7 +21,8 @@ from farg.core.controller import Controller
 from farg.core.ltm.edge import LTMEdge
 from farg.core.ltm.manager import LTMManager
 import farg.flags as farg_flags
-kLTMName = 'seqsee.main'
+kLTMName = "seqsee.main"
+
 
 def InitializeSeqseeLTM(ltm):
   """Called if ltm was empty (had no nodes)."""
@@ -36,16 +37,22 @@ def InitializeSeqseeLTM(ltm):
     ltm.AddEdge(elements[idx + 1], element)
   from farg.apps.seqsee.categories import Prime, Squares, TriangularNumbers
   for prime_number in Prime.number_list[:10]:
-    ltm.AddEdge(SElement(prime_number), Prime(),
-                edge_type_set={LTMEdge.LTM_EDGE_TYPE_ISA})
+    ltm.AddEdge(
+        SElement(prime_number),
+        Prime(),
+        edge_type_set={LTMEdge.LTM_EDGE_TYPE_ISA})
   for square in Squares.number_list[:10]:
-    ltm.AddEdge(SElement(square), Squares(), edge_type_set={LTMEdge.LTM_EDGE_TYPE_ISA})
+    ltm.AddEdge(
+        SElement(square), Squares(), edge_type_set={LTMEdge.LTM_EDGE_TYPE_ISA})
   for triangular in TriangularNumbers.number_list[:10]:
-    ltm.AddEdge(SElement(triangular), TriangularNumbers(),
-                edge_type_set={LTMEdge.LTM_EDGE_TYPE_ISA})
+    ltm.AddEdge(
+        SElement(triangular),
+        TriangularNumbers(),
+        edge_type_set={LTMEdge.LTM_EDGE_TYPE_ISA})
 
 
 LTMManager.RegisterInitializer(kLTMName, InitializeSeqseeLTM)
+
 
 class SeqseeController(Controller):
   routine_codelets_to_add = ((CF_ReadFromWS, 30, 0.3),

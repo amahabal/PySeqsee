@@ -10,15 +10,15 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-
 """Manages the set of LTMs."""
 
 import logging
 import os.path
-
+import sys
 from farg.core.ltm.graph import LTMGraph
 import farg.flags as farg_flags
 kLogger = logging.getLogger("LTM")
+
 
 class LTMManager(object):
   #: What LTMs have been loaded.
@@ -37,7 +37,7 @@ class LTMManager(object):
       if not os.path.isfile(filename):
         # We need to create the LTM. I'd need to figure out how and where it should get
         # populated. For now, I will create an empty LTM.
-        open(filename, 'w').close()
+        open(filename, "w").close()
       ltm = LTMGraph(filename=filename)
     else:
       ltm = LTMGraph(empty_ok_for_test=True)
@@ -48,7 +48,8 @@ class LTMManager(object):
         ltm.DumpToFile()
         kLogger.info("LTM %s was empty, initialized.", ltm_name)
       else:
-        kLogger.warn("LTM %s was empty, and no initalizer registered.", ltm_name)
+        kLogger.warn("LTM %s was empty, and no initalizer registered.",
+                     ltm_name)
     if ltm.transient_ltm:
       ltm_copy = ltm
     else:
@@ -59,8 +60,9 @@ class LTMManager(object):
 
   @classmethod
   def RegisterInitializer(cls, ltm_name, initializer_function):
-    """Registers an initializer to call if a loaded LTM is empty. The function takes a
-       single argument, the LTM.
+    """Registers an initializer to call if a loaded LTM is empty.
+
+    The function takes a single argument, the LTM.
     """
     LTMManager._registered_initializers[ltm_name] = initializer_function
 
@@ -70,7 +72,7 @@ class LTMManager(object):
       if ltm_copy.transient_ltm:
         continue
       orig_ltm = ltm_copy.master_graph
-      if not hasattr(orig_ltm, 'filename') or not orig_ltm.filename:
+      if not hasattr(orig_ltm, "filename") or not orig_ltm.filename:
         continue
       ltm_copy.UploadToMaster()
       orig_ltm.DumpToFile()

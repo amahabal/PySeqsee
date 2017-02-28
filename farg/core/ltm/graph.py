@@ -12,6 +12,7 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 import logging
+import sys
 
 from farg.core.exceptions import FargError
 from farg.core.ltm.edge import LTMEdge
@@ -103,6 +104,7 @@ class LTMGraph(object):
           self._Mangle(node.content.__dict__)
         except Exception as e:
           print("Problem in mangling: node=", node)
+          print("Content=", node.content)
           print("dict=", node.content.__dict__)
           raise(e)
         pickler.dump(node)
@@ -128,6 +130,7 @@ class LTMGraph(object):
   def UploadToMaster(self, *, threshold=0.05):
     if self.transient_ltm:
       return
+    print("Upload to master called", file=sys.stderr)
     mg = self.master_graph
     kept_nodes = set()
     for n in self.nodes:
@@ -183,7 +186,14 @@ class LTMGraph(object):
       if k.startswith('_'):
         continue
       if isinstance(value, tuple):
-        content_dict[k] = self._MangleTuple(value)
+        try:
+          content_dict[k] = self._MangleTuple(value)
+        except Exception as e:
+          print("##############################")
+          print("Could not mangle value ", value, " for ", k, " in ", content_dict)
+          print(e)
+          print("^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^")
+          raise(e)
       elif value in self._content_to_node:
         content_dict[k] = self._content_to_node[value]
 

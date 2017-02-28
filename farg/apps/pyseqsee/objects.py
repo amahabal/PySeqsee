@@ -50,7 +50,7 @@ class PSObject(LTMStorableMixin, PSFocusable):
   def Span(self):
     return self._span
 
-  def GetStorable(self):
+  def GetLTMStorableContent(self):
     return PlatonicObject.CreateFromStructure(self.Structure())
 
   def CopyByStructure(self):

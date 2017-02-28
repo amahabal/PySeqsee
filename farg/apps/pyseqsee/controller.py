@@ -1,13 +1,28 @@
+import sys
 from farg.apps.pyseqsee.codelets import CF_FocusOnObject, CF_FocusOnRandomElement
 from farg.apps.pyseqsee.stream import PSStream
+from farg.apps.pyseqsee.utils import PSObjectFromStructure
 from farg.apps.pyseqsee.workspace import PSWorkspace
 from farg.core.controller import Controller
+from farg.core.ltm.manager import LTMManager
 import farg.flags as farg_flags
+
+kLTMName = "pyseqsee.main"
+
+
+def _InitializePySeqseeLTM(ltm):
+  print("_InitializePySeqseeLTM called", file=sys.stderr)
+  for magnitude in range(10):
+    ltm.GetNode(content=PSObjectFromStructure(magnitude))
+
+
+LTMManager.RegisterInitializer(kLTMName, _InitializePySeqseeLTM)
 
 
 class PSController(Controller):
   stream_class = PSStream
   workspace_class = PSWorkspace
+  ltm_name = kLTMName
   routine_codelets_to_add = ((CF_FocusOnRandomElement, 30, 0.2),)
 
   def __init__(self, get_input_from_flags=True, **args):
