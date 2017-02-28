@@ -20,6 +20,9 @@ class PlatonicObject(LTMNodeContent):
     assert (isinstance(rep, str))
     self.rep = rep
 
+  def BriefLabel(self):
+    return 'Platonic %s' % self.rep
+
   @classmethod
   def CreateFromStructure(cls, structure):
     """Create a PlatonicObject.

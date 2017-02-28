@@ -16,7 +16,6 @@ import logging
 import os.path
 import sys
 from farg.core.ltm.graph import LTMGraph
-import farg.flags as farg_flags
 kLogger = logging.getLogger("LTM")
 
 
@@ -29,6 +28,7 @@ class LTMManager(object):
 
   @classmethod
   def GetLTM(cls, ltm_name):
+    import farg.flags as farg_flags
     kLogger.info("GetLTM called with %s", ltm_name)
     if ltm_name in LTMManager.loaded_ltms_copy:
       return LTMManager.loaded_ltms_copy[ltm_name]

@@ -3,6 +3,8 @@ import unittest
 from farg.apps.pyseqsee.arena import PSArena
 from farg.apps.pyseqsee.objects import PlatonicObject, PSElement, PSGroup, PSObject
 from farg.core.ltm.storable import LTMNodeContent
+
+
 class TestPlatonicObject(unittest.TestCase):
   """Tests creation and uniqueness of platonic objects."""
 
@@ -39,6 +41,7 @@ class TestPlatonicObject(unittest.TestCase):
     p6 = PlatonicObject.CreateFromStructure((3, ((4, 5),)))
     self.assertEqual("(3, ((4, 5)))", p6.rep)
 
+
 class TestPSObject(unittest.TestCase):
 
   def test_creation(self):
@@ -59,17 +62,16 @@ class TestPSObject(unittest.TestCase):
     self.assertIsInstance(g1, PSGroup)
     self.assertIsInstance(g1, PSObject)
 
-    self.assertEqual((3,3), g1.Structure())
-    self.assertEqual("(3, 3)", g1.GetStorable().rep)
+    self.assertEqual((3, 3), g1.Structure())
+    self.assertEqual("(3, 3)", g1.GetLTMStorableContent().rep)
 
     g_empty = PSGroup(items=())
     self.assertIsInstance(g_empty, PSGroup)
-    self.assertEqual("()", g_empty.GetStorable().rep)
+    self.assertEqual("()", g_empty.GetLTMStorableContent().rep)
 
-    g_deeply_empty = PSGroup(items=(g_empty, ))
+    g_deeply_empty = PSGroup(items=(g_empty,))
     self.assertIsInstance(g_deeply_empty, PSGroup)
-    self.assertEqual("(())", g_deeply_empty.GetStorable().rep)
-
+    self.assertEqual("(())", g_deeply_empty.GetLTMStorableContent().rep)
 
   def test_offsets(self):
     elements = [PSElement(magnitude=x) for x in range(10)]
@@ -90,7 +92,7 @@ class TestPSObject(unittest.TestCase):
     # What if we try to set existing span? It is okay if the new value is the same as the old, else
     # it is an assert error.
     g36.SetSpanStart(3)  # Not a problem.
-    elements[5].SetSpanStart(5) # Not a problem.
+    elements[5].SetSpanStart(5)  # Not a problem.
     self.assertRaises(AssertionError, elements[5].SetSpanStart, 2)
     self.assertRaises(AssertionError, g36.SetSpanStart, 2)
 

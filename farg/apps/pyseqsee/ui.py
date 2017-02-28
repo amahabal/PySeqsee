@@ -7,10 +7,9 @@ from farg.core.ui.gui import GUI
 from farg.core.ui.gui.central_pane import CentralPane
 from farg.core.ui.gui.views.coderack_view import CoderackView
 from farg.core.ui.gui.views.list_based_view import ListBasedView
+from farg.core.ui.gui.views.ltm_view import LTMView
 from farg.core.ui.gui.views.viewport import ViewPort
 import farg.flags as farg_flags
-
-
 class WorkspaceView(ViewPort):
 
   def __init__(self, canvas, left, bottom, width, height):
@@ -86,6 +85,8 @@ class PySeqseeCentralPane(CentralPane):
           lambda pane: pane.SetVerticallySplitView(WorkspaceView, CoderackView),
       'ws_cr_st':
           lambda pane: pane.SetThreeWaySplit(WorkspaceView, CoderackView, StreamView),
+      'ws_cr_st_ltm':
+          lambda pane: pane.SetFourWaySplit(WorkspaceView, CoderackView, StreamView, LTMView),
   }
 
 

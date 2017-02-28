@@ -11,7 +11,6 @@ kLTMName = "pyseqsee.main"
 
 
 def _InitializePySeqseeLTM(ltm):
-  print("_InitializePySeqseeLTM called", file=sys.stderr)
   for magnitude in range(10):
     ltm.GetNode(content=PSObjectFromStructure(magnitude))
 
