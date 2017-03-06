@@ -105,7 +105,8 @@ kDisplayColorDict = dict(((('', ''), '#FFFFFF'), (
                            '#FFFF00'), (('Slower', 'Less Success'), '#FF0000')))
 
 kStateToColor = dict(((b'SuccessfulCompletion', '#00FF00'),
-                      (b'MaxCodeletsReached', '#FF0000')))
+                      (b'MaxCodeletsReached', '#FF5555'),
+                      ('ERROR', '#FF0000')))
 
 
 def StateToColor(state):
@@ -436,5 +437,5 @@ class RunModeNonInteractive(RunMode):  # No init. pylint: disable=W0232
       result = subprocess.check_output(arguments)
     except CalledProcessError as e:
       print(e)
-      return 'ERROR'
+      return b'ERROR'
     return result
