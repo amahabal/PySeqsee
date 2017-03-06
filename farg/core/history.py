@@ -223,7 +223,6 @@ class HistoryGUI(object):
 
   def _SwitchToDetailPane(self, hid):
     """Focus on details pane."""
-    print('HID=', hid)
     self._id_for_details = hid
     self._RefreshDetails()
     self.historyNB.select(2)
