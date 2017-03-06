@@ -4,6 +4,7 @@ from farg.apps.pyseqsee.categorization.categorizable import Categorizable
 from farg.apps.pyseqsee.focusable import PSFocusable
 from farg.apps.pyseqsee.relation import PSRelation
 from farg.apps.pyseqsee.utils import StructureToString
+from farg.core.history import History, EventType, ObjectType
 from farg.core.ltm.storable import LTMNodeContent, LTMStorableMixin
 
 
@@ -45,10 +46,13 @@ class PSObject(LTMStorableMixin, PSFocusable):
   TODO(amahabal): Also not present yet is the storage of relations.
   """
 
-  def __init__(self):
+  def __init__(self, *, msg='', parents=[]):
     PSFocusable.__init__(self)
     self.relations = dict()
     self._span = None
+    History.AddArtefact(self, ObjectType.WS_GROUP,
+                        "EltOrGp %s" % msg,
+                        parents)
 
   def Span(self):
     return self._span
@@ -82,8 +86,8 @@ class PSObject(LTMStorableMixin, PSFocusable):
 class PSElement(PSObject):
   """Represents a single element in the sequence."""
 
-  def __init__(self, *, magnitude):
-    PSObject.__init__(self)
+  def __init__(self, *, magnitude, msg='', parents=[]):
+    PSObject.__init__(self, msg=msg, parents=parents)
     self.magnitude = magnitude
     from farg.apps.pyseqsee.categorization.numeric import CategoryInteger
     self.DescribeAs(CategoryInteger())
@@ -118,8 +122,8 @@ class PSGroup(PSObject):
   items.
   """
 
-  def __init__(self, *, items):
-    PSObject.__init__(self)
+  def __init__(self, *, items, msg='', parents=[]):
+    PSObject.__init__(self, msg=msg, parents=parents)
     self.items = items
 
   def Structure(self):
