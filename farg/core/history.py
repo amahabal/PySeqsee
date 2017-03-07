@@ -134,12 +134,8 @@ def NoteCallsInHistory(func):
 class HistoryGUI(object):
   """GUI for displaying history."""
 
-  def __init__(self):
-    self.root = Tk()
-    root = self.root
-    root.title('History')
-    root.minsize(width=640, height=490)
-
+  def __init__(self, root):
+    self.root = root
     #: When this is not -1, the details for the object with the eid will be shown in the details
     #: pane.
     self._id_for_details = -1
@@ -216,7 +212,7 @@ class HistoryGUI(object):
 
   def _AddObjectDetailsFrame(self):
     detailsFrame = ttk.Frame(self.root, name='details')
-    self.detailsText = Text(detailsFrame)
+    self.detailsText = Text(detailsFrame, height=50)
     self.detailsText.pack()
     self.historyNB.add(
         detailsFrame, text='Object Details', underline=0, padding=2)

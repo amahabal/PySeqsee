@@ -101,7 +101,7 @@ class GUI:
                                        controller_depth=0,
                                        stopping_condition=stopping_condition_fn)
     self.mw = mw = Tk()
-    mw.geometry(self.geometry)
+    # mw.geometry(self.geometry)
     
     self.mw.bind('<KeyPress-q>', lambda e: self.Quit())
     self.mw.bind('<KeyPress-s>', lambda e: self.StepsInAnotherThread(1))
@@ -131,7 +131,7 @@ class GUI:
     """Sets up frames in the GUI."""
     self.buttons_pane = Frame(self.mw)
     self.PopulateButtonPane(self.buttons_pane)
-    self.buttons_pane.grid()
+    self.buttons_pane.grid(row=0, column=0, columnspan=2)
 
     self.PopulateCentralPane()
 
@@ -188,7 +188,7 @@ class GUI:
     canvas = self.central_pane_class(self.mw, self.controller,
                                      height=int(height), width=int(width),
                                      background='#EEFFFF')
-    canvas.grid()
+    canvas.grid(row=1, column=0)
     self.central_pane = canvas
     self.items_to_refresh.append(canvas)
     canvas.ReDraw()

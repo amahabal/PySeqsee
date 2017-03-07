@@ -19,7 +19,7 @@ Each view is an instance of a subclass of
 :py:class:`~farg.core.ui.gui.views.viewport.ViewPort`.
 """
 import sys
-from tkinter import ALL, Canvas, Menu
+from tkinter import ALL, Canvas, Menu, Tk, Frame
 
 from farg.core.history import HistoryGUI
 import farg.flags as farg_flags
@@ -80,7 +80,7 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
     self.SetNamedView(farg_flags.FargFlags.gui_initial_view or
                       self.default_initial_view)
     if farg_flags.FargFlags.history:
-      self.TurnOnHistoryGUI()
+      self.TurnOnHistoryGUI(master)
 
   def ReDraw(self):
     """Redraw all active views on pane."""
@@ -171,9 +171,11 @@ class CentralPane(Canvas):  # Pylint thinks this has 9 ancestrors. pylint:disabl
   def NamedViewCmd(self, name):
     return (lambda: self.SetNamedView(name))
 
-  def TurnOnHistoryGUI(self):
+  def TurnOnHistoryGUI(self, master):
     self.is_history_displayed = True
-    self.history_gui = HistoryGUI()
+    root = Frame(master)
+    root.grid(row=1, column=1)
+    self.history_gui = HistoryGUI(root)
 
   def SetupMenu(self, parent):
     """Create menu for the central pane."""
