@@ -64,9 +64,9 @@ class PSArena(object):
     """Number of elements in the arena."""
     return len(self.element)
 
-  def Append(self, *, magnitudes):
+  def Append(self, *, magnitudes, log_msg=""):
     """Adds elements with these magnitudes at the end."""
-    to_add = [PSElement(magnitude=x) for x in magnitudes]
+    to_add = [PSElement(magnitude=x, log_msg=log_msg) for x in magnitudes]
     for idx, el in enumerate(to_add, self._next_index):
       el._span = (idx, idx)
       self._objects_with_span[(idx, idx)][el.Structure()] = el
