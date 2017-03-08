@@ -196,7 +196,7 @@ class HistoryGUI(object):
   def _AddSummaryFrame(self):
     #####CREATE SUMMARY FRAME#####
     summaryFrame = ttk.Frame(self.root, name='summary')
-    self.summaryText = Text(summaryFrame)
+    self.summaryText = Text(summaryFrame, height=55)
     self.summaryText.tag_configure(
         'obj_type',
         foreground='blue',
@@ -206,13 +206,13 @@ class HistoryGUI(object):
 
   def _AddCountsFrame(self):
     countsFrame = ttk.Frame(self.root, name='counts')
-    self.countsText = Text(countsFrame)
+    self.countsText = Text(countsFrame, height=55)
     self.countsText.pack()
     self.historyNB.add(countsFrame, text='Counters', underline=0, padding=2)
 
   def _AddObjectDetailsFrame(self):
     detailsFrame = ttk.Frame(self.root, name='details')
-    self.detailsText = Text(detailsFrame, height=50)
+    self.detailsText = Text(detailsFrame, height=55)
     self.detailsText.pack()
     self.historyNB.add(
         detailsFrame, text='Object Details', underline=0, padding=2)
