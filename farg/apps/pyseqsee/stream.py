@@ -47,7 +47,7 @@ class PSStream(object):
         controller.coderack.AddCodelet(
             action,
             msg="While focusing on %s" % focusable.BriefLabel(),
-            parents=(focusable, ))
+            parents=(focusable,))
 
   def PriorFociWithSimilarFringe(self,
                                  *,

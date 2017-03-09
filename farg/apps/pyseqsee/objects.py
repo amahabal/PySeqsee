@@ -50,9 +50,11 @@ class PSObject(LTMStorableMixin, PSFocusable):
     PSFocusable.__init__(self)
     self.relations = dict()
     self._span = None
-    History.AddArtefact(item=self, artefact_type=ObjectType.WS_GROUP,
-                        log_msg="EltOrGp(%s) %s" % (str(self.Structure()), log_msg),
-                        parents=parents)
+    History.AddArtefact(
+        item=self,
+        artefact_type=ObjectType.WS_GROUP,
+        log_msg='EltOrGp(%s) %s' % (str(self.Structure()), log_msg),
+        parents=parents)
 
   def Span(self):
     return self._span
@@ -140,12 +142,14 @@ class PSGroup(PSObject):
                                        for i in self.items))
 
   def HypotheticallyAddComponentBefore(self, component):
-    new_gp = PSGroup(items=(component,) + tuple(self.items), log_msg="Group extended left")
+    new_gp = PSGroup(
+        items=(component,) + tuple(self.items), log_msg='Group extended left')
     new_gp.InferSpans()
     return new_gp
 
   def HypotheticallyAddComponentAfter(self, component):
-    new_gp = PSGroup(items=tuple(self.items) + (component,), log_msg="Group extended right")
+    new_gp = PSGroup(
+        items=tuple(self.items) + (component,), log_msg='Group extended right')
     new_gp.InferSpans()
     return new_gp
 

@@ -10,7 +10,6 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-
 """Defines the base GUI for the GUI run-mode."""
 
 import logging
@@ -24,11 +23,15 @@ from farg.core.ltm.manager import LTMManager
 from farg.core.question.question import BooleanQuestion
 from farg.core.ui.gui.central_pane import CentralPane
 import farg.flags as farg_flags
+
+
 class RunForNSteps(threading.Thread):
   """Runs controller for up to n steps.
 
-  This does not update the GUI directly; It however results in changing the state of the
-  attribute "controller" that it holds. This is shared by the GUI and used to update itself.
+  This does not update the GUI directly; It however results in changing the
+  state of the
+  attribute "controller" that it holds. This is shared by the GUI and used to
+  update itself.
 
   Before each step, checks that we have not been asked to pause.
   """
@@ -55,18 +58,23 @@ class RunForNSteps(threading.Thread):
 class GUI:
   """Base-class of GUI for an application.
 
-  Provides a :py:mod:`tkinter` based interface to display various components such as the workspace,
+  Provides a :py:mod:`tkinter` based interface to display various components
+  such as the workspace,
   and for interacting with the user (such as asking questions).
 
   **Supported Views**
 
-  The central part of the window---everything except the row of buttons at the top---is controlled by
-  an instance of the class :py:class:`~farg.core.ui.gui.central_pane.CentralPane` (see which for
-  further details).The top-left corner of the window allows switching between different views.
+  The central part of the window---everything except the row of buttons at the
+  top---is controlled by
+  an instance of the class
+  :py:class:`~farg.core.ui.gui.central_pane.CentralPane` (see which for
+  further details).The top-left corner of the window allows switching between
+  different views.
 
   **Key Bindings**
 
-  The UI allows running the app at various speeds---full steam ahead, step-by-step, or with long
+  The UI allows running the app at various speeds---full steam ahead,
+  step-by-step, or with long
   strides. These keyboard bindings are provided:
 
   * 'q' for Quit
@@ -97,12 +105,11 @@ class GUI:
     #: A Tk variable tracking codelet count.
     self.codelet_count_var = None  # Set up later.
 
-    self.controller = controller_class(ui=self,
-                                       controller_depth=0,
-                                       stopping_condition=stopping_condition_fn)
+    self.controller = controller_class(
+        ui=self, controller_depth=0, stopping_condition=stopping_condition_fn)
     self.mw = mw = Tk()
     # mw.geometry(self.geometry)
-    
+
     self.mw.bind('<KeyPress-q>', lambda e: self.Quit())
     self.mw.bind('<KeyPress-s>', lambda e: self.StepsInAnotherThread(1))
     self.mw.bind('<KeyPress-l>', lambda e: self.StepsInAnotherThread(10))
@@ -144,8 +151,8 @@ class GUI:
           return
         else:
           self.stepping_thread = None
-      self.stepping_thread = RunForNSteps(controller=self.controller, num_steps=num_steps,
-                                          gui=self)
+      self.stepping_thread = RunForNSteps(
+          controller=self.controller, num_steps=num_steps, gui=self)
       self.pause_stepping = False
       self.stepping_thread.start()
 
@@ -160,7 +167,10 @@ class GUI:
         self.stepping_thread = None
 
   def Quit(self):
-    """Called when quitting. Ensures that all threads have exited, and LTMs saved."""
+    """Called when quitting.
+
+    Ensures that all threads have exited, and LTMs saved.
+    """
     with self.run_state_lock:
       self.quitting = True
       self.pause_stepping = True
@@ -175,8 +185,10 @@ class GUI:
     Button(frame, text='Quit', command=self.Quit).pack(side=LEFT)
     self.codelet_count_var = StringVar()
     self.codelet_count_var.set('0')
-    Label(frame, textvariable=self.codelet_count_var,
-          font=('Helvetica', 28, 'bold')).pack(side=LEFT)
+    Label(
+        frame,
+        textvariable=self.codelet_count_var,
+        font=('Helvetica', 28, 'bold')).pack(side=LEFT)
 
   def PopulateCentralPane(self):
     """Sets up the display in the central part.
@@ -185,9 +197,12 @@ class GUI:
     """
     height = farg_flags.FargFlags.gui_canvas_height
     width = farg_flags.FargFlags.gui_canvas_width
-    canvas = self.central_pane_class(self.mw, self.controller,
-                                     height=int(height), width=int(width),
-                                     background='#EEFFFF')
+    canvas = self.central_pane_class(
+        self.mw,
+        self.controller,
+        height=int(height),
+        width=int(width),
+        background='#EEFFFF')
     canvas.grid(row=1, column=0)
     self.central_pane = canvas
     self.items_to_refresh.append(canvas)
@@ -206,6 +221,7 @@ class GUI:
 
     def BooleanQuestionHandler(question, ui):  # pylint: disable=W0613
       return askyesno('', question.question_string)
+
     BooleanQuestion.Ask = BooleanQuestionHandler
 
   def DisplayMessage(self, message):  # Needs to be a method. pylint: disable=R0201
