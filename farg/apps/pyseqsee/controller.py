@@ -37,5 +37,5 @@ class PSController(Controller):
           arguments_dict=dict(focus=self.workspace.GetFirstElement()))
 
   def SetInput(self, sequence, unrevealed_terms):
-    self.workspace.InsertElements(sequence)
+    self.workspace.InsertElements(sequence, log_msg="Initial input")
     self.unrevealed_terms = unrevealed_terms

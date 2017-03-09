@@ -6,8 +6,8 @@ class PSWorkspace(object):
   def __init__(self):
     self.arena = PSArena(magnitudes=())
 
-  def InsertElements(self, magnitudes):
-    self.arena.Append(magnitudes=magnitudes)
+  def InsertElements(self, magnitudes, log_msg=""):
+    self.arena.Append(magnitudes=magnitudes, log_msg=log_msg)
 
   def KnownElementCount(self):
     return self.arena.KnownElementCount()

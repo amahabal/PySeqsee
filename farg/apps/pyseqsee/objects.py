@@ -46,13 +46,13 @@ class PSObject(LTMStorableMixin, PSFocusable):
   TODO(amahabal): Also not present yet is the storage of relations.
   """
 
-  def __init__(self, *, msg='', parents=[]):
+  def __init__(self, *, log_msg='', parents=[]):
     PSFocusable.__init__(self)
     self.relations = dict()
     self._span = None
-    History.AddArtefact(self, ObjectType.WS_GROUP,
-                        "EltOrGp %s" % msg,
-                        parents)
+    History.AddArtefact(item=self, artefact_type=ObjectType.WS_GROUP,
+                        log_msg="EltOrGp(%s) %s" % (str(self.Structure()), log_msg),
+                        parents=parents)
 
   def Span(self):
     return self._span
@@ -86,9 +86,9 @@ class PSObject(LTMStorableMixin, PSFocusable):
 class PSElement(PSObject):
   """Represents a single element in the sequence."""
 
-  def __init__(self, *, magnitude, msg='', parents=[]):
-    PSObject.__init__(self, msg=msg, parents=parents)
+  def __init__(self, *, magnitude, log_msg='', parents=[]):
     self.magnitude = magnitude
+    PSObject.__init__(self, log_msg=log_msg, parents=parents)
     from farg.apps.pyseqsee.categorization.numeric import CategoryInteger
     self.DescribeAs(CategoryInteger())
 
@@ -122,9 +122,9 @@ class PSGroup(PSObject):
   items.
   """
 
-  def __init__(self, *, items, msg='', parents=[]):
-    PSObject.__init__(self, msg=msg, parents=parents)
+  def __init__(self, *, items, log_msg='', parents=[]):
     self.items = items
+    PSObject.__init__(self, log_msg=log_msg, parents=parents)
 
   def Structure(self):
     return tuple(x.Structure() for x in self.items)
@@ -140,12 +140,12 @@ class PSGroup(PSObject):
                                        for i in self.items))
 
   def HypotheticallyAddComponentBefore(self, component):
-    new_gp = PSGroup(items=(component,) + tuple(self.items))
+    new_gp = PSGroup(items=(component,) + tuple(self.items), log_msg="Group extended left")
     new_gp.InferSpans()
     return new_gp
 
   def HypotheticallyAddComponentAfter(self, component):
-    new_gp = PSGroup(items=tuple(self.items) + (component,))
+    new_gp = PSGroup(items=tuple(self.items) + (component,), log_msg="Group extended right")
     new_gp.InferSpans()
     return new_gp
 
