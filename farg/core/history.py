@@ -4,26 +4,53 @@ from functools import wraps
 from tkinter import Tk, ttk, LEFT, NW, BOTH, Button, Text, END, NORMAL, DISABLED
 
 
-class EventType(Enum):
-  CREATE = 1  # Used for object creation
-  CODELET_RUN_START = 2
-  CODELET_FORCED = 3
-  CODELET_EXPUNGED = 4
-  OBJECT_FOCUS = 5
-  LTM_SPIKE = 6
-  SUBSPACE_ENTER = 7
-  SUBSPACE_EXIT = 8
-  SUBSPACE_DEEPER_EX = 9
-  OBJ_MERGED = 10
+class EventType(object):
+  CREATE = "Create"  # Used for object creation
+  CODELET_RUN_START = "Start Codelet Run"
+  CODELET_FORCED = "Force Codelet Run"
+  CODELET_EXPUNGED = "Expunge Codelet"
+  OBJECT_FOCUS = "Focus on Object"
+  LTM_SPIKE = "Spike LTM Node"
+  SUBSPACE_ENTER = "Enter Subspace"
+  SUBSPACE_EXIT = "Exit Subspace"
+  SUBSPACE_DEEPER_EX = "Subspace Go Deeper"
+  OBJ_MERGED = "Merge Object Into Arena"
 
 
-class ObjectType(Enum):
-  CONTROLLER = 1
-  CODELET = 2
-  SUBSPACE = 3
-  WS_GROUP = 4
-  WS_RELN = 5
+class ObjectType(object):
+  CONTROLLER = "Controller"
+  CODELET = "Codelet"
+  SUBSPACE = "Subspace"
+  WS_GROUP = "Element or Group"
+  WS_RELN = "Relation"
 
+class _HistoryEvent(object):
+  def __init__(self, event_id, event_type, *, objects={},
+               log_msg='', artefact_type='', **rest):
+    self.event_id = event_id
+    self.event_type = event_type
+    self.log_msg = log_msg
+    self.artefact_type = artefact_type
+    self.objects = objects
+    self.rest = rest
+
+  def PrintIntoTextbox(self, history_gui, tb, indentation=0, vspace=0):
+    ind_string = '    ' * indentation
+    tb.insert(END, '%s Event# %d: %s %s --- %s\n' % (
+       ind_string, self.event_id, self.event_type, self.artefact_type,
+       self.log_msg))
+    if self.objects:
+      tb.insert(END, '%s   Participants\n%s   --------------\n' % (ind_string, ind_string))
+      for hid, role in self.objects.items():
+        tb.insert(END, '%s\t' % ind_string)
+        object_details = History._object_details[hid]
+        history_gui._insertHIDLinkIntoTextbox(hid, tb)
+        tb.insert(END, ' -- %s %s\n' % (object_details['artefact_type'], object_details['class_name']))
+        if role:
+          tb.insert(END, '%s\t\tRole: %s\n' % (ind_string, role))
+    if self.rest:
+      tb.insert(END, '%s Extra: %s\n' % (ind_string, repr(self.rest))) 
+    tb.insert(END, '\n' * vspace)
 
 class History(object):
   """Maintains history of what happened during a run.
@@ -53,7 +80,7 @@ class History(object):
     cls._next_eid += 1
     return cls._next_eid - 1
 
-  #: One entry per event. Each entry is a list (h_id, event_type, possibly-other-info)
+  #: One entry per event. Each entry is a _HistoryEvent
   _event_log = []
 
   #: Object details. There is an entry for each object, and each entry is a dict, with these keys:
@@ -79,8 +106,9 @@ class History(object):
     eid = cls._GetNewEID()
     assert (not hasattr(item, '_hid'))
     item._hid = hid
-    event_details = dict(
-        eid=eid, type=EventType.CREATE, hid=hid, artefact_type=artefact_type)
+    event_details = _HistoryEvent(eid, EventType.CREATE,
+                                  objects={hid: "created"},
+                                  artefact_type=artefact_type)
     cls._event_log.append(event_details)
     cls._object_events[hid].append(event_details)
 
@@ -108,12 +136,11 @@ class History(object):
     if (not cls._is_history_on):
       return
     eid = cls._GetNewEID()
-    item_msg_list_with_id = [(x[0]._hid, x[1]) for x in item_msg_list]
-    event_details = dict(
-        eid=eid, type=event_type, log=log_msg, objects=item_msg_list_with_id)
-    cls._event_log.append(event_details)
+    item_msg_list_with_id = dict([(x[0]._hid, x[1]) for x in item_msg_list])
+    history_event = _HistoryEvent(eid, event_type, log_msg=log_msg, objects=item_msg_list_with_id)
+    cls._event_log.append(history_event)
     for item, msg in item_msg_list:
-      cls._object_events[item._hid].append(event_details)
+      cls._object_events[item._hid].append(history_event)
 
   @classmethod
   def Print(cls):
@@ -179,7 +206,10 @@ class HistoryGUI(object):
                               % self._id_for_details)
       self._insertAncestry(self.detailsText, self._id_for_details)
       self.detailsText.insert(END, '\n\nEvents:\n==========\n')
-      self.detailsText.insert(END, self.EventsForItem(self._id_for_details))
+      events_to_show = History._object_events[self._id_for_details][-10:] 
+      events_to_show.reverse()
+      for e in events_to_show:
+        e.PrintIntoTextbox(self, self.detailsText, indentation=1, vspace=1)
     self.detailsText.config(state=DISABLED)
 
   def _RefreshRecent(self):
@@ -189,8 +219,22 @@ class HistoryGUI(object):
     recent = History._event_log[-10:]
     recent.reverse()
     for idx, r in enumerate(recent):
-      rt.insert(END, 'Event #%d\n' % (event_count - idx - 1))
-      rt.insert(END, repr(r) + '\n\n')
+      r.PrintIntoTextbox(self, rt, indentation=0, vspace=2)
+
+  def _insertHIDLinkIntoTextbox(self, hid, tb):
+    tag_name = 'id_%d' % hid
+    tb.tag_configure(
+      tag_name,
+      underline=True,
+      font=
+      '-adobe-helvetica-bold-r-normal--20-140-100-100-p-105-iso8859-4',)
+
+    def ClickAction(me, my_hid):
+      return lambda x: me._SwitchToDetailPane(my_hid)
+
+    tb.tag_bind(tag_name, '<Button-1>', ClickAction(self, hid))
+    tb.insert(END, str(hid), tag_name)
+    
 
   def _RefreshSummary(self, summaryText):
     summaryText.delete(1.0, END)
@@ -203,18 +247,7 @@ class HistoryGUI(object):
       summaryText.insert(END, objClass, 'obj_type')
       summaryText.insert(END, '\t')
       for hid in eventIds[:10]:
-        tag_name = 'id_%d' % hid
-        summaryText.tag_configure(
-            tag_name,
-            underline=True,
-            font=
-            '-adobe-helvetica-bold-r-normal--20-140-100-100-p-105-iso8859-4',)
-
-        def ClickAction(me, my_hid):
-          return lambda x: me._SwitchToDetailPane(my_hid)
-
-        summaryText.tag_bind(tag_name, '<Button-1>', ClickAction(self, hid))
-        summaryText.insert(END, str(hid), tag_name)
+        self._insertHIDLinkIntoTextbox(hid, summaryText)
         summaryText.insert(END, '\t')
 
   def _AddSummaryFrame(self):
@@ -273,16 +306,18 @@ class HistoryGUI(object):
     except:
       return groupedObjects
     for event in events:
-      if event['type'] is EventType.OBJECT_FOCUS:
-        groupedObjects['FOCUS'].append(event['eid'])
-      elif event['type'] is EventType.CREATE:
-        hid_here = event['hid']
+      event_type = event.event_type
+      if event_type is EventType.OBJECT_FOCUS:
+        groupedObjects['FOCUS'].append(event.event_id)
+      elif event_type is EventType.CREATE:
+        hid_here = list(event.rest["objects"].items())[0][0]
         groupedObjects['CREATE ' + History._object_details[hid_here][
-            'class_name']].append(event['eid'])
+            'class_name']].append(event.event_id)
       else:
-        groupedObjects['UNCLASSIFIED'].append(event['eid'])
+        groupedObjects['UNCLASSIFIED'].append(event.event_id)
     return groupedObjects
 
+  #TODO(amahabal): THIS MAY BE UNNEEDED AND BROKEN. CHECK AND REMOVE.
   @classmethod
   def GetObjectsWithClass(cls, objClass):
     """Get objects with class objClass
@@ -295,6 +330,7 @@ class HistoryGUI(object):
         if obj[0]['type'] is objClass
     ]
 
+  #TODO(amahabal): THIS MAY BE UNNEEDED AND BROKEN. CHECK AND REMOVE.
   @classmethod
   def EventsForItem(cls, hid):
     eventsStr = ''
