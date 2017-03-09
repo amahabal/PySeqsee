@@ -4,7 +4,7 @@ It is one of the core pieces of the workspace, but may be used elsewhere."""
 from _collections import defaultdict
 
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
-from farg.core.history import History
+from farg.core.history import History, EventType
 from farg.core.util import UnweightedChoice
 
 
@@ -123,7 +123,7 @@ class PSArena(object):
     if obj_structure in objects_at_location:
       obj_in_arena = objects_at_location[obj_structure]
     else:
-      obj_in_arena = PSGroup(items=parts)
+      obj_in_arena = PSGroup(items=parts, log_msg="Created when merging", parents=[obj])
       self._objects_with_span[span][obj_structure] = obj_in_arena
       obj_in_arena.InferSpans()
     self._MergeObjectDetails(obj, obj_in_arena)
@@ -140,6 +140,9 @@ class PSArena(object):
           effective_tgt = merge_map[tgt]
         rel_in_arena = new.GetRelationTo(effective_tgt)
         rel_in_arena.MergeCategoriesFrom(rel)
+    History.AddEvent(event_type=EventType.OBJ_MERGED,
+                     log_msg="Merged",
+                     item_msg_list=dict(obj="outside arena", merged="Inside arena"))
     return merged
 
   def KnownElementCount(self):

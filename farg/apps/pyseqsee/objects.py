@@ -140,12 +140,12 @@ class PSGroup(PSObject):
                                        for i in self.items))
 
   def HypotheticallyAddComponentBefore(self, component):
-    new_gp = PSGroup(items=(component,) + tuple(self.items))
+    new_gp = PSGroup(items=(component,) + tuple(self.items), log_msg="Group extended left")
     new_gp.InferSpans()
     return new_gp
 
   def HypotheticallyAddComponentAfter(self, component):
-    new_gp = PSGroup(items=tuple(self.items) + (component,))
+    new_gp = PSGroup(items=tuple(self.items) + (component,), log_msg="Group extended right")
     new_gp.InferSpans()
     return new_gp
 

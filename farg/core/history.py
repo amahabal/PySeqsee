@@ -14,6 +14,7 @@ class EventType(Enum):
   SUBSPACE_ENTER = 7
   SUBSPACE_EXIT = 8
   SUBSPACE_DEEPER_EX = 9
+  OBJ_MERGED = 10
 
 
 class ObjectType(Enum):
@@ -71,6 +72,7 @@ class History(object):
 
   @classmethod
   def AddArtefact(cls, item, artefact_type, log_msg, parents=None):
+    """Adds to history an artefact we wish to track."""
     if (not cls._is_history_on):
       return
     hid = cls._GetNewHID()
@@ -95,6 +97,14 @@ class History(object):
 
   @classmethod
   def AddEvent(cls, event_type, log_msg, item_msg_list):
+    """Add an event to the history.
+
+    The event may touch multiple objects (as an example, if the event is that
+    an object was merged into another, both are impacted.
+
+    The item_msg_list is a dictionary, and should mention each impacted item,
+    along with a msg.
+    """
     if (not cls._is_history_on):
       return
     eid = cls._GetNewEID()
@@ -144,17 +154,21 @@ class HistoryGUI(object):
     self._AddSummaryFrame()
     self._AddCountsFrame()
     self._AddObjectDetailsFrame()
+    self._AddRecentEventsFrame()
     self.historyNB.pack(fill=BOTH)
     self.Refresh()
 
   def Refresh(self):
-    for t in (self.countsText, self.summaryText, self.detailsText):
+    for t in (self.countsText, self.summaryText, self.detailsText,
+              self.recentText):
       t.config(state=NORMAL)
     self.countsText.delete(1.0, END)
     self.countsText.insert(END, self.PrintCounts())
     self._RefreshSummary(self.summaryText)
     self._RefreshDetails()
-    for t in (self.countsText, self.summaryText, self.detailsText):
+    self._RefreshRecent()
+    for t in (self.countsText, self.summaryText, self.detailsText,
+              self.recentText):
       t.config(state=DISABLED)
 
   def _RefreshDetails(self):
@@ -167,6 +181,16 @@ class HistoryGUI(object):
       self.detailsText.insert(END, '\n\nEvents:\n==========\n')
       self.detailsText.insert(END, self.EventsForItem(self._id_for_details))
     self.detailsText.config(state=DISABLED)
+
+  def _RefreshRecent(self):
+    rt = self.recentText
+    rt.delete(1.0, END)
+    event_count = len(History._event_log)
+    recent = History._event_log[-10:]
+    recent.reverse()
+    for idx, r in enumerate(recent):
+      rt.insert(END, 'Event #%d\n' % (event_count - idx - 1))
+      rt.insert(END, repr(r) + '\n\n')
 
   def _RefreshSummary(self, summaryText):
     summaryText.delete(1.0, END)
@@ -216,6 +240,12 @@ class HistoryGUI(object):
     self.detailsText.pack()
     self.historyNB.add(
         detailsFrame, text='Object Details', underline=0, padding=2)
+
+  def _AddRecentEventsFrame(self):
+    recentEventsFrame = ttk.Frame(self.root, name='recent')
+    self.recentText = Text(recentEventsFrame, height=55)
+    self.recentText.pack()
+    self.historyNB.add(recentEventsFrame, text='Recent Events', underline=0, padding=2)
 
   def _SwitchToDetailPane(self, hid):
     """Focus on details pane."""
