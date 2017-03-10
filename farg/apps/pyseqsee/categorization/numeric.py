@@ -13,7 +13,7 @@ class CategoryInteger(PSCategory):
     _Attributes = ('delta',)
     _RequiredAttributes = ('delta',)
     _Rules = ('delta: PSElement(magnitude=(_INSTANCE.second.magnitude - '
-              '_INSTANCE.first.magnitude))',)
+              '_INSTANCE.first.magnitude), log_msg="DeltaReln delta")',)
     _Checks = ('delta.magnitude == _INSTANCE.second.magnitude - '
                '_INSTANCE.first.magnitude',)
     _Context = dict(PSElement=PSElement)
@@ -22,7 +22,7 @@ class CategoryInteger(PSCategory):
     _Attributes = ('ratio',)
     _RequiredAttributes = ('ratio',)
     _Rules = ('ratio: PSElement(magnitude=(_INSTANCE.second.magnitude / '
-              '_INSTANCE.first.magnitude))',)
+              '_INSTANCE.first.magnitude), log_msg="RatioReln ratio")',)
     _Checks = ('ratio.magnitude == _INSTANCE.second.magnitude / '
                '_INSTANCE.first.magnitude',
                'ratio.magnitude == int(ratio.magnitude)')
@@ -52,7 +52,7 @@ class CategoryInteger(PSCategory):
 
 class CategoryEvenInteger(PSCategory):
   _Rules = ('_mag: _INSTANCE.magnitude', '_half: _mag / 2',
-            'half: PSElement(magnitude=_half)')
+            'half: PSElement(magnitude=_half, log_msg="Evens half")')
   _Checks = ('_mag % 2 == 0',)
   _Constructors = {('_mag',): (lambda _mag: PSElement(magnitude=_mag))}
   _Attributes = set(('half',))

@@ -54,8 +54,7 @@ class _HistoryEvent(object):
         tb.insert(END, '%s\t' % ind_string)
         object_details = History._object_details[hid]
         history_gui._insertHIDLinkIntoTextbox(hid, tb)
-        tb.insert(END, ' -- %s %s\n' % (object_details['artefact_type'],
-                                        object_details['class_name']))
+        tb.insert(END, ' -- %s\n' % object_details['brief_label'])
         if role:
           tb.insert(END, '%s\t\tRole: %s\n' % (ind_string, role))
     if self.rest:
@@ -109,7 +108,7 @@ class History(object):
     cls._counts[note_string] += times
 
   @classmethod
-  def AddArtefact(cls, item, artefact_type, log_msg, parents=None):
+  def AddArtefact(cls, item, artefact_type, log_msg='', parents=None):
     """Adds to history an artefact we wish to track."""
     if (not cls._is_history_on):
       return
@@ -120,16 +119,23 @@ class History(object):
     event_details = _HistoryEvent(
         eid,
         EventType.CREATE,
-        objects={hid: 'created'},
-        artefact_type=artefact_type)
+        objects={hid: 'created %s' % log_msg},
+        artefact_type=artefact_type,)
     cls._event_log.append(event_details)
     cls._object_events[hid].append(event_details)
 
     class_name = item.__class__.__name__
     if hasattr(item, 'ClassName'):
       class_name = item.ClassName()
+    try:
+      brief_label = item.BriefLabel()
+    except:
+      brief_label = '%s instance' % class_name
     details_dict = dict(
-        log=log_msg, artefact_type=artefact_type, class_name=class_name)
+        log=log_msg,
+        artefact_type=artefact_type,
+        brief_label=brief_label,
+        class_name=class_name)
     if parents:
       details_dict['parents'] = [parent._hid for parent in parents]
       for parent in parents:

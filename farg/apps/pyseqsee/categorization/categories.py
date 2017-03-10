@@ -88,7 +88,8 @@ class RepeatedIntegerCategory(PSCategory):
     PSCategory.__init__(self)
 
   def CreateFromMagAndLength(self, _mag, _length):
-    return PSObjectFromStructure((_mag,) * _length)
+    return PSObjectFromStructure(
+        (_mag,) * _length, log_msg='RepeatedIntegerCategory constructor')
 
   def BriefLabel(self):
     return 'RepeatedIntegerCategory'
@@ -166,15 +167,13 @@ class CompoundCategory(PSCategory):
     if not isinstance(attribute_categories, tuple):
       raise BadCategorySpec(
           'attribute_categories must be a tuple, with each item a (name, cat) '
-          'pair'
-      )
+          'pair')
     if not all(
         isinstance(x, tuple) and len(x) == 2 and isinstance(x[1], PSCategory)
         for x in attribute_categories):
       raise BadCategorySpec(
           'attribute_categories must be a tuple, with each item a (name, cat) '
-          'pair'
-      )
+          'pair')
     attributes = tuple(x[0] for x in attribute_categories)
     if attributes != tuple(sorted(attributes)):
       raise BadCategorySpec('Attributes must be sorted')
@@ -206,10 +205,10 @@ class CompoundCategory(PSCategory):
       att_var = 'att_%s' % att
       att_cat_var = 'att_cat__%s' % att
       self._Context[att_cat_var] = att_cat
-      new_rule = ('%s: '
-                  'PSGroup(items=tuple(x.DescribeAs(base_cat).GetAttributeOrNone(attribute="%s")'
-                  ' for x in _INSTANCE.items))') % (
-          att_var, att)
+      new_rule = (
+          '%s: '
+          'PSGroup(items=tuple(x.DescribeAs(base_cat).GetAttributeOrNone(attribute="%s")'
+          ' for x in _INSTANCE.items))') % (att_var, att)
       rules.append(new_rule)
       self._RequiredAttributes.add(att_var)
       checks.append('%s.DescribeAs(%s)' % (att_var, att_cat_var))

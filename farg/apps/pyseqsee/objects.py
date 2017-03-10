@@ -53,7 +53,7 @@ class PSObject(LTMStorableMixin, PSFocusable):
     History.AddArtefact(
         item=self,
         artefact_type=ObjectType.WS_GROUP,
-        log_msg='EltOrGp(%s) %s' % (str(self.Structure()), log_msg),
+        log_msg=log_msg,
         parents=parents)
 
   def Span(self):

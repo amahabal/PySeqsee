@@ -1,4 +1,4 @@
-def PSObjectFromStructure(structure):
+def PSObjectFromStructure(structure, log_msg=''):
   """Creates an object given the structure.
 
   Structure can be an integer (and this results is a PSElement), or a tuple of
@@ -10,10 +10,10 @@ def PSObjectFromStructure(structure):
   from farg.apps.pyseqsee.objects import PSElement, PSGroup
 
   if isinstance(structure, int):
-    return PSElement(magnitude=structure)
+    return PSElement(magnitude=structure, log_msg=log_msg)
   assert (isinstance(structure, tuple))
   parts = [PSObjectFromStructure(x) for x in structure]
-  return PSGroup(items=parts)
+  return PSGroup(items=parts, log_msg=log_msg)
 
 
 def StructureToString(structure):

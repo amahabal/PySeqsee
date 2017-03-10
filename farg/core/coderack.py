@@ -46,7 +46,8 @@ class CoderackEmptyException(FargException):
 class Coderack(object):
   """Implements the coderack --- the collection of codelets waiting to run.
 
-  .. todo:: Choose the codelet to expunge based on a better criteria than uniformly randomly.
+  .. todo:: Choose the codelet to expunge based on a better criteria than
+  uniformly randomly.
   """
 
   def __init__(self, max_capacity=10):
@@ -98,15 +99,13 @@ class Coderack(object):
 
   def AddCodelet(self, codelet, *, msg="", parents=[]):
     """Adds codelet to coderack. Removes some existing codelet if needed."""
-    kLogger.debug('Codelet added: %s', str(codelet.family))
+    kLogger.debug("Codelet added: %s", str(codelet.family))
     if self._codelet_count == self._max_capacity:
       self._ExpungeSomeCodelet()
     self._codelets.add(codelet)
     self._codelet_count += 1
     self._urgency_sum += codelet.urgency
-    History.AddArtefact(codelet, ObjectType.CODELET,
-                        "Codelet %s %s" % (codelet.family.__name__, msg),
-                        parents)
+    History.AddArtefact(codelet, ObjectType.CODELET, msg, parents)
 
   def ForceNextCodelet(self, codelet, *, forcer=None):
     """Force codelet to be the next one retrieved by GetCodelet.
@@ -121,19 +120,21 @@ class Coderack(object):
 
     .. Note::
 
-      This mechanism should only be used during testing. It is unsafe in that if the
-      codelet is expunged (because of new codelets being added), the program can crash.
-      This will never happen if the next codelet is marked and GetCodelet called soon
-      thereafter.
+      This mechanism should only be used during testing. It is unsafe in that if
+      the codelet is expunged (because of new codelets being added), the program
+      can crash. This will never happen if the next codelet is marked and
+      GetCodelet called soon thereafter.
     """
     if codelet not in self._codelets:
-      raise FargError('Cannot mark a non-existant codelet as the next to retrieve.')
+      raise FargError(
+          "Cannot mark a non-existant codelet as the next to retrieve.")
     self._forced_next_codelet = codelet
     if forcer:
-      History.AddEvent(EventType.CODELET_FORCED, "Codelet forced to be next", [[codelet, ""],
-                                                                               [forcer, "forcer"]])
+      History.AddEvent(EventType.CODELET_FORCED, "Codelet forced to be next",
+                       [[codelet, ""], [forcer, "forcer"]])
     else:
-      History.AddEvent(EventType.CODELET_FORCED, "Codelet forced to be next", [[codelet, ""]])
+      History.AddEvent(EventType.CODELET_FORCED, "Codelet forced to be next",
+                       [[codelet, ""]])
 
   def _RemoveCodelet(self, codelet):
     """Removes named codelet from coderack."""
@@ -144,7 +145,8 @@ class Coderack(object):
   def _ExpungeSomeCodelet(self):
     """Removes a codelet, chosen uniformly randomly."""
     codelet = random.choice(list(self._codelets))
-    kLogger.info('Coderack over capacity: expunged codelet of family %s.' %
+    kLogger.info("Coderack over capacity: expunged codelet of family %s." %
                  codelet.family.__name__)
     self._RemoveCodelet(codelet)
-    History.AddEvent(EventType.CODELET_FORCED, "Codelet expunged", [[codelet, ""]])
+    History.AddEvent(EventType.CODELET_FORCED, "Codelet expunged",
+                     [[codelet, ""]])
