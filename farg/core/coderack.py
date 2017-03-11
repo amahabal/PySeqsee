@@ -105,7 +105,11 @@ class Coderack(object):
     self._codelets.add(codelet)
     self._codelet_count += 1
     self._urgency_sum += codelet.urgency
-    History.AddArtefact(codelet, ObjectType.CODELET, msg, parents)
+    roles = {}
+    for k, v in codelet.args.items():
+      if hasattr(v, "_hid"):
+        roles[v._hid] = "Argument %s" % k
+    History.AddArtefact(codelet, ObjectType.CODELET, msg, parents, roles=roles)
 
   def ForceNextCodelet(self, codelet, *, forcer=None):
     """Force codelet to be the next one retrieved by GetCodelet.

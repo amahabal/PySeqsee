@@ -24,6 +24,7 @@ class ObjectType(object):
   SUBSPACE = 'Subspace'
   WS_GROUP = 'Element or Group'
   WS_RELN = 'Relation'
+  CATEGORY = 'Category'
 
 
 class _HistoryEvent(object):
@@ -113,7 +114,7 @@ class History(object):
     cls._counts[note_string] += times
 
   @classmethod
-  def AddArtefact(cls, item, artefact_type, log_msg='', parents=None):
+  def AddArtefact(cls, item, artefact_type, log_msg='', parents=None, roles={}):
     """Adds to history an artefact we wish to track."""
     if (not cls._is_history_on):
       return
@@ -121,10 +122,17 @@ class History(object):
     eid = cls._GetNewEID()
     assert (not hasattr(item, '_hid'))
     item._hid = hid
+    objects_dict_for_event = {hid: 'created %s' % log_msg}
+    if parents:
+      for x in parents:
+        objects_dict_for_event[x._hid] = 'parent'
+    if roles:
+      for x, y in roles.items():
+        objects_dict_for_event[x] = y
     event_details = _HistoryEvent(
         eid,
         EventType.CREATE,
-        objects={hid: 'created %s' % log_msg},
+        objects=objects_dict_for_event,
         artefact_type=artefact_type,)
     cls._event_log.append(event_details)
     cls._object_events[hid].append(event_details)
@@ -145,6 +153,9 @@ class History(object):
       details_dict['parents'] = [parent._hid for parent in parents]
       for parent in parents:
         cls._object_events[parent._hid].append(event_details)
+    if roles:
+      for hid, msg in roles.items():
+        cls._object_events[hid].append(event_details)
     cls._object_details.append(details_dict)
 
   @classmethod

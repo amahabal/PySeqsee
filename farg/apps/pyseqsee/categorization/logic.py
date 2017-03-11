@@ -4,9 +4,8 @@ import traceback
 
 from farg.apps.pyseqsee.objects import PSObject
 from farg.apps.pyseqsee.utils import PSObjectFromStructure
+from farg.core.history import History, ObjectType
 from farg.core.ltm.storable import LTMNodeContent
-
-
 class InsufficientAttributesException(Exception):
   """Raised when instance creation is attempted with insufficient attributes.
 
@@ -200,6 +199,7 @@ class PSCategory(LTMNodeContent):
       self._CompiledChecks.append(rule_obj)
 
     self.SanityCheck()
+    History.AddArtefact(self, artefact_type=ObjectType.CATEGORY)
 
   def SanityCheck(self):
     # Make sure that every variable is either in attributes or context or starts with _.

@@ -10,10 +10,11 @@
 #
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
-
 """Classes defining a Codelet and the base class for all Codelet families."""
 
 from abc import ABCMeta, abstractmethod  # Metaclass confuses pylint: disable=W0611
+
+
 class CodeletFamily(metaclass=ABCMeta):
   """A codelet family is a class that defines what a codelet of that family does when run.
 
@@ -25,16 +26,17 @@ class CodeletFamily(metaclass=ABCMeta):
     class CF_Foo(CodeletFamily):
       '''One line documentation of what codelets of this family do.
 
-      Documentation describes what it does, what codelets it may create, what things
-      it may cause to focus on, and any subspace it may be a part of.
+      Documentation describes what it does, what codelets it may create, what
+      things it may cause to focus on, and any subspace it may be a part of.
       '''
 
       @classmethod
       def Run(self, controller, *, other_arg1, other_arg2):
         '''One line documentation of what codelets of this family do.
 
-        Run may take extra arguments (such as other_arg1 above). The extra arguments
-        will be passed by name only. These are set in the constructor of the codelet.
+        Run may take extra arguments (such as other_arg1 above). The extra
+        arguments will be passed by name only. These are set in the constructor
+        of the codelet.
         '''
        DoSomething()
 
@@ -50,8 +52,9 @@ class CodeletFamily(metaclass=ABCMeta):
   def Run(self, controller):
     """Runs the codelet.
 
-    Subclasses should overrride this, and arrange to handle any specific arguments it needs.
-    These arguments are guaranteed to be passed in as keyword arguments.
+    Subclasses should overrride this, and arrange to handle any specific
+    arguments it needs. These arguments are guaranteed to be passed in as
+    keyword arguments.
 
     Args:
       controller:
@@ -64,17 +67,17 @@ class CodeletFamily(metaclass=ABCMeta):
 class Codelet(object):
   """A codelet is a unit of action in Seqsee.
 
-  A codelet belongs to a codelet family whose **Run** method defines what it does. The
-  codelet has an urgency that controls how likely the codelet is to run (based on the urgency
-  of other codelets waiting to run), and it has a dictionary of arguments that will be used
-  when running the codelet (if ever).
+  A codelet belongs to a codelet family whose **Run** method defines what it
+  does. The codelet has an urgency that controls how likely the codelet is to
+  run (based on the urgency of other codelets waiting to run), and it has a
+  dictionary of arguments that will be used when running the codelet (if ever).
 
-  If extra arguments are passed while constructing the codelet, the Run() method of the
-  codelet family must be capable of handling these. See example in documentation of
-  :py:class:`CodeletFamily`.
+  If extra arguments are passed while constructing the codelet, the Run() method
+  of the codelet family must be capable of handling these. See example in
+  documentation of :py:class:`CodeletFamily`.
 
-  There are two ways of constructing a codelet. The first creates the codelet but does not
-  yet place it on the coderack::
+  There are two ways of constructing a codelet. The first creates the codelet
+  but does not yet place it on the coderack::
 
     c = Codelet(family, controller, urgency, dict(other_arg=10, other_arg2=15))
 
@@ -102,7 +105,7 @@ class Codelet(object):
     return self.family.Run(self.controller, me=self, **self.args)
 
   def ClassName(self):
-    """Method used by history to get an effective name for king of object.
+    """Method used by history to get an effective name for kind of object.
 
     If an item does not define this, it defaults to using __class__.__name__"""
     return "CF:" + self.family.__name__
