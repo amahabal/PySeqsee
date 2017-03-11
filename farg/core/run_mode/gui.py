@@ -11,15 +11,21 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 
+from farg.core.history import History, EventType
 from farg.core.run_mode.run_mode import RunMode
+
+
 class RunModeGUI(RunMode):
+
   def __init__(self, *, controller_class, ui_class, stopping_condition_fn=None):
     print("Initialized a GUI run mode")
-    self.ui = ui_class(controller_class=controller_class,
-                       stopping_condition_fn=stopping_condition_fn)
+    self.ui = ui_class(
+        controller_class=controller_class,
+        stopping_condition_fn=stopping_condition_fn)
 
   def Run(self):
     self.Refresher()
+    History.AddEvent(EventType.SETUP_FINISHED)
     self.ui.mw.mainloop()
 
   def Refresher(self):

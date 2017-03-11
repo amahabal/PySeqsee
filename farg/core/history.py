@@ -5,6 +5,7 @@ from tkinter import Tk, ttk, LEFT, NW, BOTH, Button, Text, END, NORMAL, DISABLED
 
 
 class EventType(object):
+  SETUP_FINISHED = 'Setup finished'
   CREATE = 'Create'  # Used for object creation
   CODELET_RUN_START = 'Start Codelet Run'
   CODELET_FORCED = 'Force Codelet Run'
@@ -43,22 +44,26 @@ class _HistoryEvent(object):
     self.rest = rest
 
   def PrintIntoTextbox(self, history_gui, tb, indentation=0, vspace=0):
+    is_new = self.event_id > history_gui._last_event_already_displayed
+    tags = ['old']
+    if is_new:
+      tags = ['new']
     ind_string = '    ' * indentation
     tb.insert(END, '%s Event# %d: %s %s --- %s\n' %
               (ind_string, self.event_id, self.event_type, self.artefact_type,
-               self.log_msg))
+               self.log_msg), *tags)
     if self.objects:
-      tb.insert(END, '%s   Participants\n%s   --------------\n' % (ind_string,
-                                                                   ind_string))
+      tb.insert(END, '%s   Participants\n%s   --------------\n' %
+                (ind_string, ind_string), *tags)
       for hid, role in self.objects.items():
         tb.insert(END, '%s\t' % ind_string)
         object_details = History._object_details[hid]
         history_gui._insertHIDLinkIntoTextbox(hid, tb)
-        tb.insert(END, ' -- %s\n' % object_details['brief_label'])
+        tb.insert(END, ' -- %s\n' % object_details['brief_label'], *tags)
         if role:
-          tb.insert(END, '%s\t\tRole: %s\n' % (ind_string, role))
+          tb.insert(END, '%s\t\tRole: %s\n' % (ind_string, role), *tags)
     if self.rest:
-      tb.insert(END, '%s Extra: %s\n' % (ind_string, repr(self.rest)))
+      tb.insert(END, '%s Extra: %s\n' % (ind_string, repr(self.rest)), *tags)
     tb.insert(END, '\n' * vspace)
 
 
@@ -143,7 +148,7 @@ class History(object):
     cls._object_details.append(details_dict)
 
   @classmethod
-  def AddEvent(cls, event_type, log_msg, item_msg_list):
+  def AddEvent(cls, event_type, log_msg='', item_msg_list=[]):
     """Add an event to the history.
 
     The event may touch multiple objects (as an example, if the event is that
@@ -203,6 +208,8 @@ class HistoryGUI(object):
     self._AddObjectDetailsFrame()
     self._AddRecentEventsFrame()
     self.historyNB.pack(fill=BOTH)
+    self._last_event_already_displayed = -1
+    self.historyNB.select(3)
     self.Refresh()
 
   def Refresh(self):
@@ -233,13 +240,16 @@ class HistoryGUI(object):
     self.detailsText.config(state=DISABLED)
 
   def _RefreshRecent(self):
+    event_count = len(History._event_log)
+    if self._last_event_already_displayed == event_count - 1:
+      return
     rt = self.recentText
     rt.delete(1.0, END)
-    event_count = len(History._event_log)
     recent = History._event_log[-10:]
     recent.reverse()
     for idx, r in enumerate(recent):
       r.PrintIntoTextbox(self, rt, indentation=0, vspace=2)
+    self._last_event_already_displayed = event_count - 1
 
   def _insertHIDLinkIntoTextbox(self, hid, tb):
     tag_name = 'id_%d' % hid
@@ -296,6 +306,11 @@ class HistoryGUI(object):
     recentEventsFrame = ttk.Frame(self.root, name='recent')
     self.recentText = Text(recentEventsFrame, height=55)
     self.recentText.pack()
+    self.recentText.tag_configure(
+        'new',
+        foreground='blue',
+        font='-adobe-helvetica-bold-r-normal--14-140-100-100-p-105-iso8859-4')
+    self.recentText.tag_configure('old', foreground='gray')
     self.historyNB.add(
         recentEventsFrame, text='Recent Events', underline=0, padding=2)
 
