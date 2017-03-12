@@ -8,9 +8,10 @@ class PSRelation(Categorizable):
     self.first = first
     self.second = second
     Categorizable.__init__(self)
-    roles = {first._hid: "first end", second._hid: "second end"}
-    History.AddArtefact(self, ObjectType.WS_RELN, "", parents, roles)
-    History.Note("Created relation")
+    if History._is_history_on:
+      roles = {first._hid: "first end", second._hid: "second end"}
+      History.AddArtefact(self, ObjectType.WS_RELN, "", parents, roles)
+      History.Note("Created relation")
 
   def FindCategories(self, *, end_category):
     new_cats = []
