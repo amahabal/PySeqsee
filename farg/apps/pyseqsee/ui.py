@@ -10,6 +10,8 @@ from farg.core.ui.gui.views.list_based_view import ListBasedView
 from farg.core.ui.gui.views.ltm_view import LTMView
 from farg.core.ui.gui.views.viewport import ViewPort
 import farg.flags as farg_flags
+
+
 class WorkspaceView(ViewPort):
 
   def __init__(self, canvas, left, bottom, width, height):
@@ -74,6 +76,38 @@ class StreamView(ListBasedView):
     tb.insert(END, 'Show details...')
 
 
+class GroupsView(ListBasedView):
+  items_per_page = 5
+
+  def GetAllItemsToDisplay(self, controller):
+    arena = controller.workspace.arena
+    all_objects = []
+    for span, objects_dict in arena._objects_with_span.items():
+      for structure, obj in objects_dict.items():
+        all_objects.append(obj)
+    return (all_objects, 'Elements and Groups', dict())
+
+  def DrawItem(self, widget_x, widget_y, item, extra_dict, controller):
+    x, y = self.CanvasCoordinates(widget_x, widget_y)
+    text_id = self.canvas.create_text(x, y, text=item.BriefLabel(), anchor=NW)
+    span_and_struct = 'Span: %s -- Structure: %s' % (item.Span(),
+                                                     item.Structure())
+    self.canvas.create_text(x + 10, y + 12, text=span_and_struct, anchor=NW)
+
+    categories = [cat.BriefLabel() for cat, logic in item.categories.items()]
+    categories_str = 'Categories: ' + '; '.join(categories)
+    self.canvas.create_text(x + 10, y + 24, text=categories_str, anchor=NW)
+
+    relations = [
+        'to %s/%s' % (target.Span(), target.Structure())
+        for target, rel in item.relations.items()
+    ]
+    relations_str = ''
+    if relations:
+      relations_str = 'Relations: ' + '; '.join(relations)
+    self.canvas.create_text(x + 10, y + 36, text=relations_str, anchor=NW)
+
+
 class PySeqseeCentralPane(CentralPane):
   default_initial_view = 'ws'
   named_views = {
@@ -87,6 +121,8 @@ class PySeqseeCentralPane(CentralPane):
           lambda pane: pane.SetThreeWaySplit(WorkspaceView, CoderackView, StreamView),
       'ws_cr_st_ltm':
           lambda pane: pane.SetFourWaySplit(WorkspaceView, CoderackView, StreamView, LTMView),
+      'gr_cr_st_ltm':
+          lambda pane: pane.SetFourWaySplit(GroupsView, CoderackView, StreamView, LTMView),
   }
 
 
