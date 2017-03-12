@@ -218,8 +218,11 @@ class Controller:
     self._AddRoutineCodelets()
     if not self.coderack.IsEmpty():
       codelet = self.coderack.GetCodelet()
-      History.AddEvent(EventType.CODELET_RUN_START, "Codelet run started",
-                       [[codelet, ""]])
+      roles = [[codelet, "codelet"]]
+      for k, v in codelet.args.items():
+        if hasattr(v, "_hid"):
+          roles.append([v, "Argument %s" % k])
+      History.AddEvent(EventType.CODELET_RUN_START, "", roles)
       codelet.Run()
     if self.stopping_condition:
       if self.steps_taken % farg_flags.FargFlags.stopping_condition_granularity == 0:

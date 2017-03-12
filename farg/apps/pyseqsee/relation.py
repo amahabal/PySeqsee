@@ -1,13 +1,15 @@
 from farg.apps.pyseqsee.categorization.categorizable import Categorizable
-from farg.core.history import History
+from farg.core.history import History, ObjectType
 
 
 class PSRelation(Categorizable):
 
-  def __init__(self, *, first, second):
+  def __init__(self, *, first, second, parents=[]):
     self.first = first
     self.second = second
     Categorizable.__init__(self)
+    roles = {first._hid: "first end", second._hid: "second end"}
+    History.AddArtefact(self, ObjectType.WS_RELN, "", parents, roles)
     History.Note("Created relation")
 
   def FindCategories(self, *, end_category):
