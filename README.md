@@ -27,8 +27,8 @@ implementations was used by subsequent implementations, although ideas
 and the basic approach survived.
 
 Not just were the implementations different, they were typically in
-different languages.  Franz Lisp, Chez Scheme, C++, and even Perl have
-been used by various projects, and there was also talk of using Delphi.  A Java
+different languages.  Franz Lisp, Chez Scheme, C++, Perl have
+been used by various projects, and even Delphi was used in Capyblanca.  A Java
 port of Copycat exists.
 
 This project aims to create a framework in which to implement various
