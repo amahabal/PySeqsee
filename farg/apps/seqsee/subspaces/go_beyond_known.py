@@ -53,7 +53,7 @@ class SubspaceGoBeyondKnown(Subspace):
         self.basis_of_extension = basis_of_extension
         self.suggested_terms = suggested_terms
 
-  def InitializeCoderack(self):
+  def initialize_coderack(self):
     self.controller.AddCodelet(family=CF_InitialEvaluation, urgency=100,
                                parents=[self], msg="Added during coderack init")
 

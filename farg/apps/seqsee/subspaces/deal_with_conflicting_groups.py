@@ -47,6 +47,6 @@ class SubspaceDealWithConflictingGroups(Subspace):
         self.new_group = new_group
         self.incumbents = incumbents
 
-  def InitializeCoderack(self):
+  def initialize_coderack(self):
     self.controller.AddCodelet(family=CF_FightIncumbents, urgency=100, parents=[self],
                                msg="Initialized during subspace creation")

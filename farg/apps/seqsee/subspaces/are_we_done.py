@@ -20,11 +20,11 @@ class SubspaceAreWeDone(Subspace):
   from farg.core.controller import Controller
   controller_class = Controller
 
-  def QuickReconn(self):
+  def quick_reconn(self):
     parent_ws = self.parent_controller.workspace
     current_known_elements = parent_ws.num_elements
     initial_known_elements = len(farg_flags.FargFlags.sequence)
     if current_known_elements >= initial_known_elements + 10:
-      return QuickReconnResults.AnswerFound(True)
+      return QuickReconnResults.answer_found(True)
     else:
-      return QuickReconnResults.AnswerFound(False)
+      return QuickReconnResults.answer_found(False)

@@ -30,10 +30,10 @@ class SubspaceSelectObjectToFocusOn(Subspace):
   # a codelet and all work is done by QuickReconn.
 
 
-  def QuickReconn(self):
+  def quick_reconn(self):
     parent_ws = self.parent_controller.workspace
     choice = weighted_choice(ThingsToChooseFrom(parent_ws))
     if choice:
-      return QuickReconnResults.AnswerFound(choice)
+      return QuickReconnResults.answer_found(choice)
     else:
-      return QuickReconnResults.NoAnswerCanBeFound()
+      return QuickReconnResults.no_answer_can_be_found()

@@ -143,14 +143,14 @@ class SubspaceIsThisInterlaced(Subspace):
         # upto three mappings, with keys 0, 1 and 2.
         self.mappings_found = dict()
 
-  def QuickReconn(self):
+  def quick_reconn(self):
     if self.workspace_arguments['distance'].unit == 'Groups':
       # This has not yet been done.
-      return QuickReconnResults.NoAnswerCanBeFound()
+      return QuickReconnResults.no_answer_can_be_found()
     else:
-      return QuickReconnResults.DeeperExplorationNeeded()
+      return QuickReconnResults.deeper_exploration_needed()
 
-  def InitializeCoderack(self):
+  def initialize_coderack(self):
     self.controller.AddCodelet(family=CF_LookForUndiscoveredMappings, urgency=100,
                                parents=[self], msg="Added during Subspace init")
 

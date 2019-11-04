@@ -97,7 +97,7 @@ class SubspaceFindBindingMapping(Subspace):
         self.seqsee_ltm = seqsee_ltm
         self.attribute_explanations = dict()
 
-  def InitializeCoderack(self):
+  def initialize_coderack(self):
     self.controller.AddCodelet(family=CF_ExplainValues, urgency=100, parents=[self],
                                msg="Added during subspace init")
 

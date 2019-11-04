@@ -14,91 +14,93 @@
 from farg.core.controller import Controller
 from farg.core.exceptions import AnswerFoundException, NoAnswerException
 from farg.core.history import History, ObjectType, EventType
-class QuickReconnResults:
-  """Result of quick reconnaisance before starting a subspace.
-
-  This can be one of three things:
-
-  * Deepeer exploration is needed.
-  * Exploration not needed. An answer has been found.
-  * Exploration not needed. No answer is likely to be found.
-  """
-
-  kDeeperExplorationNeeded = 1
-  kAnswerFound = 2
-  kAnswerCannotBeFound = 3
-
-  def __init__(self, state, *, answer=None):
-    self.state = state
-    self.answer = answer
-
-  @staticmethod
-  def DeeperExplorationNeeded():
-    return QuickReconnResults(QuickReconnResults.kDeeperExplorationNeeded)
-
-  @staticmethod
-  def AnswerFound(answer):
-    return QuickReconnResults(QuickReconnResults.kAnswerFound, answer=answer)
-
-  @staticmethod
-  def NoAnswerCanBeFound():
-    return QuickReconnResults(QuickReconnResults.kAnswerCannotBeFound)
 
 
-class Subspace:
-  controller_class = Controller
+class QuickReconnResults(object):
+    """Result of quick reconnaisance before starting a subspace.
 
-  def __init__(self, parent_controller, *, nsteps=5, workspace_arguments=None, parents=None, msg=""):
-    """Initializes the subspace by just storing the arguments."""
-    self.parent_controller = parent_controller
-    self.nsteps = nsteps
-    self.workspace_arguments = workspace_arguments
-    effective_parents = [parent_controller]
-    if parents:
-      effective_parents.extend(parents)
-    History.AddArtefact(self, ObjectType.SUBSPACE,
-                        msg,
-                        parents=effective_parents)
+    This can be one of three things:
 
-  def Run(self):
-    """Runs the subspace by first trying to quickly estimate need for deeper exploration.
-
-       If deeper exploration is called for, sets up the controller, workspace, and so forth,
-       and runs the controller for upto the specified number of steps.
+    * Deepeer exploration is needed.
+    * Exploration not needed. An answer has been found.
+    * Exploration not needed. No answer is likely to be found.
     """
-    History.AddEvent(EventType.SUBSPACE_ENTER, "", [(self, '')])
-    quick_reconn_result = self.QuickReconn()
-    if quick_reconn_result.state == QuickReconnResults.kAnswerFound:
-      History.AddEvent(EventType.SUBSPACE_EXIT, "Answer found", [(self, '')])
-      return quick_reconn_result.answer
-    elif quick_reconn_result.state == QuickReconnResults.kAnswerCannotBeFound:
-      History.AddEvent(EventType.SUBSPACE_EXIT, "Answer cannot be found", [(self, '')])
-      return None
 
-    History.AddEvent(EventType.SUBSPACE_DEEPER_EX, "", [(self, '')])
-    # So we need deeper exploration.
-    parent_controller = self.parent_controller
-    self.controller = self.controller_class(
-      ui=parent_controller.ui,
-      controller_depth=(parent_controller.controller_depth + 1),
-      workspace_arguments=self.workspace_arguments,
-      parent_controller=parent_controller)
-    self.InitializeCoderack()
-    try:
-      self.controller.RunUptoNSteps(self.nsteps)
-    except AnswerFoundException as e:
-      History.AddEvent(EventType.SUBSPACE_EXIT, "Found answer", [(self, '')])
-      return e.answer
-    except NoAnswerException:
-      History.AddEvent(EventType.SUBSPACE_EXIT, "No answer", [(self, '')])
-      return None
-    History.AddEvent(EventType.SUBSPACE_EXIT, "No answer", [(self, '')])
-    return None
+    kDeeperExplorationNeeded = 1
+    kAnswerFound = 2
+    kAnswerCannotBeFound = 3
 
-  def QuickReconn(self):
-    return QuickReconnResults(QuickReconnResults.kDeeperExplorationNeeded)
+    def __init__(self, state, *, answer=None):
+        self.state = state
+        self.answer = answer
 
-  def InitializeCoderack(self):
-    raise Exception(
-      'InitializeCoderack from class Subspace called. This is surely a bug: this method'
-      'should have been overridden in a derived class to set up the initial codelet.')
+    @staticmethod
+    def deeper_exploration_needed():
+        return QuickReconnResults(QuickReconnResults.kDeeperExplorationNeeded)
+
+    @staticmethod
+    def answer_found(answer):
+        return QuickReconnResults(QuickReconnResults.kAnswerFound, answer=answer)
+
+    @staticmethod
+    def no_answer_can_be_found():
+        return QuickReconnResults(QuickReconnResults.kAnswerCannotBeFound)
+
+
+class Subspace(object):
+    controller_class = Controller
+
+    def __init__(self, parent_controller, *, nsteps=5, workspace_arguments=None, parents=None, msg=""):
+        """Initializes the subspace by just storing the arguments."""
+        self.parent_controller = parent_controller
+        self.nsteps = nsteps
+        self.workspace_arguments = workspace_arguments
+        effective_parents = [parent_controller]
+        if parents:
+            effective_parents.extend(parents)
+        History.AddArtefact(self, ObjectType.SUBSPACE,
+                            msg,
+                            parents=effective_parents)
+
+    def Run(self):
+        """Runs the subspace by first trying to quickly estimate need for deeper exploration.
+
+           If deeper exploration is called for, sets up the controller, workspace, and so forth,
+           and runs the controller for upto the specified number of steps.
+        """
+        History.AddEvent(EventType.SUBSPACE_ENTER, "", [(self, '')])
+        quick_reconn_result = self.quick_reconn()
+        if quick_reconn_result.state == QuickReconnResults.kAnswerFound:
+            History.AddEvent(EventType.SUBSPACE_EXIT, "Answer found", [(self, '')])
+            return quick_reconn_result.answer
+        elif quick_reconn_result.state == QuickReconnResults.kAnswerCannotBeFound:
+            History.AddEvent(EventType.SUBSPACE_EXIT, "Answer cannot be found", [(self, '')])
+            return None
+
+        History.AddEvent(EventType.SUBSPACE_DEEPER_EX, "", [(self, '')])
+        # So we need deeper exploration.
+        parent_controller = self.parent_controller
+        self.controller = self.controller_class(
+            ui=parent_controller.ui,
+            controller_depth=(parent_controller.controller_depth + 1),
+            workspace_arguments=self.workspace_arguments,
+            parent_controller=parent_controller)
+        self.initialize_coderack()
+        try:
+            self.controller.RunUptoNSteps(self.nsteps)
+        except AnswerFoundException as e:
+            History.AddEvent(EventType.SUBSPACE_EXIT, "Found answer", [(self, '')])
+            return e.answer
+        except NoAnswerException:
+            History.AddEvent(EventType.SUBSPACE_EXIT, "No answer", [(self, '')])
+            return None
+        History.AddEvent(EventType.SUBSPACE_EXIT, "No answer", [(self, '')])
+        return None
+
+    def quick_reconn(self):
+        return QuickReconnResults(QuickReconnResults.kDeeperExplorationNeeded)
+
+    def initialize_coderack(self):
+        raise Exception(
+            'InitializeCoderack from class Subspace called. This is surely a bug: this method'
+            'should have been overridden in a derived class to set up the initial codelet.')
