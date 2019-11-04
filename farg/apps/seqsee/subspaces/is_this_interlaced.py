@@ -18,7 +18,7 @@ from farg.apps.seqsee.mapping import Mapping
 from farg.core.codelet import CodeletFamily
 from farg.core.exceptions import NoAnswerException
 from farg.core.subspace import Subspace, QuickReconnResults
-from farg.core.util import UnweightedChoice, SelectWeightedByActivation
+from farg.core.util import unweighted_choice, select_weighted_by_activation
 class CF_FindMappingAtModulus(CodeletFamily):
   @classmethod
   def Run(cls, controller, modulus, *, me):
@@ -51,7 +51,7 @@ class CF_FindMappingAtModulus(CodeletFamily):
     mapping_intersection = set([x for x in mapping_counts.keys()
                                 if mapping_counts[x] == len(mapping_sets)])
     if mapping_intersection:
-      workspace.mappings_found[modulus] = SelectWeightedByActivation(
+      workspace.mappings_found[modulus] = select_weighted_by_activation(
           controller.parent_controller.ltm,
           mapping_intersection)
     else:
@@ -116,7 +116,7 @@ class CF_LookForUndiscoveredMappings(CodeletFamily):
       controller.AddCodelet(family=CF_IsThisAnInterlacedSequence, urgency=100,
                             parents=[me])
     else:
-      modulus = UnweightedChoice(missing_positions)
+      modulus = unweighted_choice(missing_positions)
       controller.AddCodelet(family=CF_FindMappingAtModulus, urgency=50,
                             arguments_dict=dict(modulus=modulus),
                             parents=[me])

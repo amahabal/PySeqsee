@@ -22,7 +22,7 @@ from farg.core.codelet import CodeletFamily
 from farg.core.controller import Controller
 from farg.core.exceptions import AnswerFoundException, NoAnswerException
 from farg.core.subspace import QuickReconnResults, Subspace
-from farg.core.util import WeightedShuffle, WeightedChoice, Toss
+from farg.core.util import weighted_shuffle, weighted_choice, toss
 import farg.flags as farg_flags
 # TODO(#53 --- Dec 29, 2011): Needs big fat documentation.
 logger = logging.getLogger(__name__)
@@ -59,7 +59,7 @@ class CF_ExplainValues(CodeletFamily):
     b1_dict = b1.bindings
     attributes_to_use = dict([(a, 1) for a in list(b1_dict.keys())])
     attributes_to_use[one_attribute] += 3
-    for attribute_to_use in WeightedShuffle(list(attributes_to_use.items())):
+    for attribute_to_use in weighted_shuffle(list(attributes_to_use.items())):
       mapping = FindMapping(b1_dict[attribute_to_use], b2_dict[one_attribute],
                             controller=controller, seqsee_ltm=ws.seqsee_ltm)
       if mapping:
@@ -106,7 +106,7 @@ class CF_FindAnchoredSimilarity(CodeletFamily):
   def Run(cls, controller, left, right, seqsee_ltm, *, me):
     if left.GetRelationTo(right):
       # Relation exists, possibly bail out.
-      if Toss(farg_flags.FargFlags.double_mapping_resistance):
+      if toss(farg_flags.FargFlags.double_mapping_resistance):
         return
     mapping = FindMapping(left.object, right.object, controller=controller,
                           seqsee_ltm=seqsee_ltm)

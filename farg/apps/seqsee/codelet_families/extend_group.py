@@ -17,7 +17,7 @@ from farg.apps.seqsee.anchored import SAnchored
 from farg.apps.seqsee.subspaces.go_beyond_known import SubspaceGoBeyondKnown
 from farg.core.codelet import CodeletFamily
 from farg.core.history import History
-from farg.core.util import Toss, SelectWeightedByActivation
+from farg.core.util import toss, select_weighted_by_activation
 class CF_ExtendGroup(CodeletFamily):
   @classmethod
   def Run(cls, controller, item, *, me):
@@ -27,7 +27,7 @@ class CF_ExtendGroup(CodeletFamily):
       return
     # QUALITY TODO(Feb 14, 2012): Direction to extend choice can be improved.
     extend_right = True
-    if (item.start_pos > 0 and Toss(0.5)):
+    if (item.start_pos > 0 and toss(0.5)):
       extend_right = False
 
     parts = item.items
@@ -35,7 +35,7 @@ class CF_ExtendGroup(CodeletFamily):
     if not underlying_mapping_set:
       History.Note("CF_ExtendGroup: no underlying relations")
       return
-    mapping = SelectWeightedByActivation(controller.ltm, underlying_mapping_set)
+    mapping = select_weighted_by_activation(controller.ltm, underlying_mapping_set)
     if extend_right:
       next_part = mapping.Apply(parts[-1].object)
       if not next_part:

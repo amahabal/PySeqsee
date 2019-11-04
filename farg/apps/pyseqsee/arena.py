@@ -5,7 +5,7 @@ from _collections import defaultdict
 
 from farg.apps.pyseqsee.objects import PSElement, PSGroup
 from farg.core.history import History, EventType
-from farg.core.util import UnweightedChoice
+from farg.core.util import unweighted_choice
 
 
 class ElementBeyondKnownSoughtException(Exception):
@@ -154,7 +154,7 @@ class PSArena(object):
     return self.element[0]
 
   def SelectRandomElement(self):
-    return UnweightedChoice(self.element)
+    return unweighted_choice(self.element)
 
   def GetObjectToRight(self, item):
     left_end_of_sought_object = item.Span()[1] + 1
@@ -165,4 +165,4 @@ class PSArena(object):
       matching_objects.extend(objects_by_structure.values())
     if not matching_objects:
       return None
-    return UnweightedChoice(matching_objects)
+    return unweighted_choice(matching_objects)

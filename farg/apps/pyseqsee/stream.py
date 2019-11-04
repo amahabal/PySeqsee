@@ -4,7 +4,7 @@ from farg.apps.pyseqsee.categorization.categorizable import Categorizable
 from farg.apps.pyseqsee.workspace import PSWorkspace
 from farg.core.controller import Controller
 from farg.core.history import History
-from farg.core.util import ChooseAboutN
+from farg.core.util import choose_about_n
 import farg.flags as farg_flags
 
 
@@ -39,7 +39,7 @@ class PSStream(object):
       History.Note("In FocusOn: Prior overlapping foci seen")
 
     if actions:
-      selected_actions = ChooseAboutN(2, [(x, x.urgency) for x in actions])
+      selected_actions = choose_about_n(2, [(x, x.urgency) for x in actions])
       History.Note("In FocusOn: Total of suggested actions", times=len(actions))
       History.Note(
           "In FocusOn: Total of selected actions", times=len(selected_actions))

@@ -29,7 +29,7 @@ import logging
 from farg.core.categorization.categorizable import CategorizableMixin
 from farg.core.exceptions import FargError
 from farg.core.ltm.storable import LTMStorableMixin, LTMNodeContent
-from farg.core.util import Squash
+from farg.core.util import squash
 logger = logging.getLogger(__name__)
 
 class LTMStorableSObject(LTMNodeContent):
@@ -167,7 +167,7 @@ class SGroup(SObject):
       if self.underlying_mapping_set:
         for mapping in self.underlying_mapping_set:
           strength += 30 * controller.GetActivation(content=mapping)
-    return Squash(strength, 100)
+    return squash(strength, 100)
 
 class SElement(SObject):
   """A subclass of SObject, where there is a single element, which is a number."""

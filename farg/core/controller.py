@@ -20,7 +20,7 @@ from farg.core.exceptions import StoppingConditionMet
 from farg.core.history import History, EventType, ObjectType
 from farg.core.ltm.manager import LTMManager
 from farg.core.stream import Stream
-from farg.core.util import Toss
+from farg.core.util import toss
 import farg.flags as farg_flags
 
 
@@ -206,7 +206,7 @@ class Controller:
       force = True
     if self.routine_codelets_to_add:
       for family, urgency, probability in self.routine_codelets_to_add:
-        if force or Toss(probability):
+        if force or toss(probability):
           cl = Codelet(family, self, urgency)
           self.coderack.AddCodelet(cl, msg="Routine codelet")
 

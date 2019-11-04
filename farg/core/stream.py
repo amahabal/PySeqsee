@@ -16,7 +16,7 @@ from collections import defaultdict
 
 from farg.core.focusable_mixin import FocusableMixin
 from farg.core.history import History, EventType
-from farg.core.util import ChooseAboutN
+from farg.core.util import choose_about_n
 class Stream(object):
   """Implements the Stream of Thought.
 
@@ -119,7 +119,7 @@ class Stream(object):
 
     potential_codelets.extend(focusable.GetAffordances(controller=self.controller))
     if potential_codelets:
-      selected_codelets = ChooseAboutN(2, [(x, x.urgency) for x in potential_codelets])
+      selected_codelets = choose_about_n(2, [(x, x.urgency) for x in potential_codelets])
       History.Note("Chose to keep codelet during FocusOn", times=len(selected_codelets))
       History.Note("Chose not to keep codelet during FocusOn",
                    times=len(potential_codelets)-len(selected_codelets))

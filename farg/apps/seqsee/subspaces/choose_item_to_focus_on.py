@@ -12,7 +12,7 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 
 from farg.core.subspace import QuickReconnResults, Subspace
-from farg.core.util import WeightedChoice
+from farg.core.util import weighted_choice
 def ThingsToChooseFrom(ws):
   """Yields two-tuples of things to choose from, the second being weight."""
   # QUALITY TODO(Feb 14, 2012): This should be a subspace. What do we choose from, what
@@ -32,7 +32,7 @@ class SubspaceSelectObjectToFocusOn(Subspace):
 
   def QuickReconn(self):
     parent_ws = self.parent_controller.workspace
-    choice = WeightedChoice(ThingsToChooseFrom(parent_ws))
+    choice = weighted_choice(ThingsToChooseFrom(parent_ws))
     if choice:
       return QuickReconnResults.AnswerFound(choice)
     else:

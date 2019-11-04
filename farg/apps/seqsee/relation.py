@@ -16,7 +16,7 @@ from farg.apps.seqsee.util import GreaterThan, LessThan
 from farg.core.codelet import Codelet
 from farg.core.focusable_mixin import FocusableMixin
 from farg.core.history import History, ObjectType
-from farg.core.util import SelectWeightedByActivation
+from farg.core.util import select_weighted_by_activation
 import farg.flags as farg_flags
 class Relation(FocusableMixin):
   def __init__(self, first, second, *, mapping_set):
@@ -71,8 +71,8 @@ class Relation(FocusableMixin):
       if groups_between_two:
         group_distance = workspace.GetGroupDistance(self.first.end_pos,
                                                     self.second.start_pos)
-        distance_object = SelectWeightedByActivation(controller.ltm, (distance_object,
-                                                                      group_distance))
+        distance_object = select_weighted_by_activation(controller.ltm, (distance_object,
+                                                                         group_distance))
     return distance_object
 
   def GetAffordances(self, controller):

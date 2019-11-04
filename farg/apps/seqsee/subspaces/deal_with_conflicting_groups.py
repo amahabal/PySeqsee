@@ -15,7 +15,7 @@ from farg.core.codelet import CodeletFamily
 from farg.core.controller import Controller
 from farg.core.exceptions import NoAnswerException
 from farg.core.subspace import Subspace
-from farg.core.util import Toss
+from farg.core.util import toss
 class CF_FightIncumbents(CodeletFamily):
   @staticmethod
   def ProbabilityOfOverturningIncumbent(incumbent_strength, challenger_strength):
@@ -33,7 +33,7 @@ class CF_FightIncumbents(CodeletFamily):
       probability_of_deletion = CF_FightIncumbents.ProbabilityOfOverturningIncumbent(
           incumbent.strength,
           challenger_strength)
-      if Toss(probability_of_deletion):
+      if toss(probability_of_deletion):
         parent_ws.DeleteGroup(incumbent)
       else:
         raise NoAnswerException(codelet_count=controller.steps_taken)

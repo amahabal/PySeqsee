@@ -12,7 +12,7 @@
 # program.  If not, see <http://www.gnu.org/licenses/>
 """A way to specify how two entities are related."""
 from farg.core.ltm.storable import LTMNodeContent
-from farg.core.util import SelectWeightedByActivation
+from farg.core.util import select_weighted_by_activation
 class Mapping(LTMNodeContent):
   pass
 
@@ -157,7 +157,7 @@ def FindMapping(o1, o2, *, controller, seqsee_ltm, category=None):
     # Choose the category first.
     common_categories = o1.GetCommonCategoriesSet(o2)
     if common_categories:
-      category = SelectWeightedByActivation(seqsee_ltm, common_categories)
+      category = select_weighted_by_activation(seqsee_ltm, common_categories)
       return category.FindMapping(o1, o2, controller=controller, seqsee_ltm=seqsee_ltm)
     else:
       return None
