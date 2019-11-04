@@ -19,3 +19,4 @@ farg/apps/* #Following lines exclude all projects except for 'official' ones
 !farg/apps/seqsee
 !farg/apps/pyseqsee
 !farg/apps/bongard
+.idea
