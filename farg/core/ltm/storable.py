@@ -11,57 +11,63 @@
 # You should have received a copy of the GNU General Public License along with this
 # program.  If not, see <http://www.gnu.org/licenses/>
 from farg.core.meta import MemoizedConstructor
+
+
 def GetStorablesInTuple(t):
-  dependants = set()
-  for v in t:
-    if isinstance(v, tuple):
-      dependants.update(GetStorablesInTuple(v))
-    elif isinstance(v, (LTMNodeContent, LTMStorableMixin)):
-      dependants.add(v)
-  return dependants
+    dependants = set()
+    for v in t:
+        if isinstance(v, tuple):
+            dependants.update(GetStorablesInTuple(v))
+        elif isinstance(v, (LTMNodeContent, LTMStorableMixin)):
+            dependants.add(v)
+    return dependants
+
 
 def GetStorablesInObject(o):
-  dependants = set()
-  for k, v in o.__dict__.items():
-    if isinstance(v, tuple):
-      dependants.update(GetStorablesInTuple(v))
-    elif isinstance(v, (LTMNodeContent, LTMStorableMixin)):
-      dependants.add(v)
-  return tuple(dependants)
+    dependants = set()
+    for k, v in o.__dict__.items():
+        if isinstance(v, tuple):
+            dependants.update(GetStorablesInTuple(v))
+        elif isinstance(v, (LTMNodeContent, LTMStorableMixin)):
+            dependants.add(v)
+    return tuple(dependants)
+
 
 class LTMNodeContent(object, metaclass=MemoizedConstructor):
-  """Base class for things that can be the actual contents of nodes.
+    """Base class for things that can be the actual contents of nodes.
 
-  This class has to satisfy extra constraints since it needs to be vivifiable: that is, we need the
-  ability to dump this out into a file, and in a later run, construct an object from it again.
+    This class has to satisfy extra constraints since it needs to be vivifiable: that is, we need the
+    ability to dump this out into a file, and in a later run, construct an object from it again.
 
-  To achieve this, the __dict__ of this object is pickled, and in the later run, unpickled and
-  passed to the constructor.
-  """
+    To achieve this, the __dict__ of this object is pickled, and in the later run, unpickled and
+    passed to the constructor.
+    """
 
-  def BriefLabel(self):
-    raise Exception("BriefLabel should have been implemented by subclass %s" % self.__class__)
+    def BriefLabel(self):
+        raise Exception("BriefLabel should have been implemented by subclass %s" % self.__class__)
 
-  def LTMDependentContent(self):
-    """Returns nodes whose existence is necessary for fully defining this node."""
-    return GetStorablesInObject(self)
+    def LTMDependentContent(self):
+        """Returns nodes whose existence is necessary for fully defining this node."""
+        return GetStorablesInObject(self)
 
-  def GetLTMStorableContent(self):
-    return self
+    def GetLTMStorableContent(self):
+        return self
+
 
 class LTMStorableMixin(object):
-  """Base class for items that may be stored in the long-term memory.
+    """Base class for items that may be stored in the long-term memory.
 
-  Any class whose instances should be stored in LTM must adhere to certain semantics,
-  and subclass from this class. Typically, it would also use MemoizedConstructor as a
-  metaclass.
-  """
-  def GetLTMStorableContent(self):
-    return self
+    Any class whose instances should be stored in LTM must adhere to certain semantics,
+    and subclass from this class. Typically, it would also use MemoizedConstructor as a
+    metaclass.
+    """
 
-  def BriefLabel(self):
-    raise Exception("BriefLabel should have been implemented by subclass %s" % self.__class__)
+    def GetLTMStorableContent(self):
+        return self
 
-  def LTMDependentContent(self):
-    """Returns nodes whose existence is necessary for fully defining this node."""
-    return GetStorablesInObject(self)
+    def BriefLabel(self):
+        raise Exception("BriefLabel should have been implemented by subclass %s" % self.__class__)
+
+    def LTMDependentContent(self):
+        """Returns nodes whose existence is necessary for fully defining this node."""
+        return GetStorablesInObject(self)

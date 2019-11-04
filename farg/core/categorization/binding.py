@@ -14,15 +14,15 @@
 
 
 class Binding:
-  """Specification of how an instance is a member of some category."""
+    """Specification of how an instance is a member of some category."""
 
-  def __init__(self, **bindings):
-    self.bindings = dict(bindings)
+    def __init__(self, **bindings):
+        self.bindings = dict(bindings)
 
-  def GetBindingsForAttribute(self, attribute_name):
-    """Get the binding of a single attribute."""
-    return self.bindings[attribute_name]
+    def GetBindingsForAttribute(self, attribute_name):
+        """Get the binding of a single attribute."""
+        return self.bindings[attribute_name]
 
-  def __str__(self):
-    serialided_dict = dict((k, str(v)) for k, v in self.bindings.items())
-    return 'Bindings: %s' % serialided_dict
+    def __str__(self):
+        serialided_dict = dict((k, str(v)) for k, v in self.bindings.items())
+        return 'Bindings: %s' % serialided_dict

@@ -34,23 +34,25 @@ The following also returns a binding, but does not store the membership informat
 from abc import abstractmethod
 
 from farg.core.ltm.storable import LTMNodeContent
+
+
 class Category(LTMNodeContent):
-  """The base class of any category in the FARG system.
+    """The base class of any category in the FARG system.
 
-  Any derivative class must define the following class methods:
+    Any derivative class must define the following class methods:
 
-  * IsInstance (which would return a binding),
-  """
-
-  @abstractmethod
-  def IsInstance(self, entity):
-    """Is object an instance of this category?
-
-    Args:
-      entity: The entity whose membership in self is being tested.
-
-    Returns:
-      If it is not an instance, None is returned. Otherwise, a
-      :py:class:`~farg.core.categorization.binding.Binding` object is returned.
+    * IsInstance (which would return a binding),
     """
-    pass
+
+    @abstractmethod
+    def IsInstance(self, entity):
+        """Is object an instance of this category?
+
+        Args:
+          entity: The entity whose membership in self is being tested.
+
+        Returns:
+          If it is not an instance, None is returned. Otherwise, a
+          :py:class:`~farg.core.categorization.binding.Binding` object is returned.
+        """
+        pass

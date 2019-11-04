@@ -13,56 +13,58 @@
 """Mixin class for entities that we want to put in categories."""
 
 import logging
+
+
 class CategorizableMixin(object):
-  """Base class for things that can belong to categories."""
+    """Base class for things that can belong to categories."""
 
-  def __init__(self):
-    self.categories = {}
+    def __init__(self):
+        self.categories = {}
 
-  def AddCategory(self, category, binding):
-    """Add a category (with the specified binding) to the object."""
-    self.categories[category] = binding
+    def AddCategory(self, category, binding):
+        """Add a category (with the specified binding) to the object."""
+        self.categories[category] = binding
 
-  def RemoveCategory(self, category):
-    """Removes the category. Item will currently not be thought a member of that category."""
-    self.categories.pop(category)
+    def RemoveCategory(self, category):
+        """Removes the category. Item will currently not be thought a member of that category."""
+        self.categories.pop(category)
 
-  def GetBindingsForCategory(self, category):
-    """Gets bindings. If not an instance of category, raises an exception."""
-    return self.categories[category]
+    def GetBindingsForCategory(self, category):
+        """Gets bindings. If not an instance of category, raises an exception."""
+        return self.categories[category]
 
-  def IsKnownAsInstanceOf(self, category):
-    """True if known to be an instance of category."""
-    return category in self.categories
+    def IsKnownAsInstanceOf(self, category):
+        """True if known to be an instance of category."""
+        return category in self.categories
 
-  def GetKnownCategories(self):
-    return self.categories.keys()
+    def GetKnownCategories(self):
+        return self.categories.keys()
 
-  def DescribeAs(self, category):
-    """Describes item as instance of category, and remembers the binding if one is found.
+    def DescribeAs(self, category):
+        """Describes item as instance of category, and remembers the binding if one is found.
 
-    Args:
-      category:
+        Args:
+          category:
 
-    Returns:
-      Returns the binding if `self` is instance of `category`, None otherwise.
-    """
-    logging.debug("$$$ DescribeAs called on [%s] for category [%s]", self, category)
-    if category in self.categories:
-      return self.categories[category]
-    binding = category.IsInstance(self)
-    if binding:
-      self.categories[category] = binding
-      return binding
-    return None
+        Returns:
+          Returns the binding if `self` is instance of `category`, None otherwise.
+        """
+        logging.debug("$$$ DescribeAs called on [%s] for category [%s]", self, category)
+        if category in self.categories:
+            return self.categories[category]
+        binding = category.IsInstance(self)
+        if binding:
+            self.categories[category] = binding
+            return binding
+        return None
 
-  def GetCommonCategoriesSet(self, other):
-    """Returns a list of discovered categories common to this and the other categorizable."""
-    return set(self.categories.keys()).intersection(list(other.categories.keys()))
+    def GetCommonCategoriesSet(self, other):
+        """Returns a list of discovered categories common to this and the other categorizable."""
+        return set(self.categories.keys()).intersection(list(other.categories.keys()))
 
-  def AddCategoriesFrom(self, other):
-    """Copy categories in 'other' to 'self'."""
-    my_categories = self.categories
-    for cat, binding in other.categories.items():
-      if not cat in my_categories:
-        my_categories[cat] = binding
+    def AddCategoriesFrom(self, other):
+        """Copy categories in 'other' to 'self'."""
+        my_categories = self.categories
+        for cat, binding in other.categories.items():
+            if not cat in my_categories:
+                my_categories[cat] = binding
