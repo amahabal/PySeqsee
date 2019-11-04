@@ -40,7 +40,7 @@ class FringeOverlapTestForAnchored(FringeOverlapTest):
             CodeletPresenceSpec(CF_FindAnchoredSimilarity, {'left': group1,
                                                             'right': group2 }),))
 
-    controller.stream.FocusOn(group2)
+    controller.stream.focus_on(group2)
     controller.Step()
     from farg.apps.seqsee.codelet_families.all import CF_FocusOn
     self.AssertCodeletPresent(CodeletPresenceSpec(CF_FocusOn),

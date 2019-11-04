@@ -99,7 +99,7 @@ class TestStream(unittest.TestCase):
 
     coderack = controller.coderack
     self.assertEqual(1, coderack.CodeletCount())
-    stream.FocusOn(F1(3), controller=controller)
+    stream.focus_on(F1(3), controller=controller)
     self.assertEqual(2, coderack.CodeletCount())
-    stream.FocusOn(F1(4), controller=controller)
+    stream.focus_on(F1(4), controller=controller)
     self.assertEqual(4, coderack.CodeletCount())

@@ -25,7 +25,7 @@ class CF_FocusOn(CodeletFamily):
   """Causes the required focusable to be added to the stream."""
   @classmethod
   def Run(cls, controller, focusable, *, me):
-    controller.stream.FocusOn(focusable, parents=[me])
+    controller.stream.focus_on(focusable, parents=[me])
 
 class CF_GroupFromRelation(CodeletFamily):
   """Causes the required relations' ends to create a group."""

@@ -20,4 +20,4 @@ class CF_ReadFromWS(CodeletFamily):
   def Run(cls, controller, *, me):
     choice = SubspaceSelectObjectToFocusOn(controller).Run()
     if choice:
-      controller.stream.FocusOn(choice, parents=[me])
+      controller.stream.focus_on(choice, parents=[me])

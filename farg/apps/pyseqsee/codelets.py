@@ -7,7 +7,7 @@ class CF_FocusOnRandomElement(CodeletFamily):
   @classmethod
   def Run(cls, controller, *, me):
     focus = controller.workspace.SelectRandomElement()
-    controller.stream.FocusOn(focusable=focus, controller=controller)
+    controller.stream.focus_on(focusable=focus, controller=controller)
 
 
 class CF_FocusOnObject(CodeletFamily):
@@ -15,7 +15,7 @@ class CF_FocusOnObject(CodeletFamily):
 
   @classmethod
   def Run(cls, controller, focus, *, me):
-    controller.stream.FocusOn(focusable=focus, controller=controller)
+    controller.stream.focus_on(focusable=focus, controller=controller)
 
 
 class CF_DescribeRelationWithObject(CodeletFamily):

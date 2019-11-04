@@ -63,9 +63,9 @@ class FringeAndCodeletsTest(unittest.TestCase):
         subset thereof).
     """
     stream = controller.stream
-    stream.Clear()
-    stream.StoreFringeAndCalculateOverlap(prior_focus)
-    hits_map = stream.StoreFringeAndCalculateOverlap(current_focus)
+    stream.clear()
+    stream.store_fringe_and_calculate_overlap(prior_focus)
+    hits_map = stream.store_fringe_and_calculate_overlap(current_focus)
     self.assertTrue(prior_focus in hits_map,
                     'Expected overlap of fringes of %s and %s' % (prior_focus,
                                                                   current_focus))
